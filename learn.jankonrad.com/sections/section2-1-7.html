@@ -1,0 +1,352 @@
+<section id="section2-1-7" class="container my-5">
+  <h3 class="mb-4">2.1.7 Automatické vytvoření obsahu a práce s osnovou</h3>
+
+  <!-- Cíl lekce -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Co se naučíš?</h4>
+    <p>Stručný přehled dovedností, které si osvojíš – jak vytvořit a aktualizovat obsah, a jak pracovat s osnovou pro přeskupování kapitol.</p>
+
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Vytvoření obsahu</strong> – naučíš se vložit automaticky generovaný obsah do dokumentu.</li>
+      <li class="list-group-item"><strong>Aktualizace obsahu</strong> – budeš umět obsah aktualizovat po úpravách textu a kapitol.</li>
+      <li class="list-group-item"><strong>Práce s osnovou</strong> – naučíš se používat zobrazení osnovy pro snadné přehazování kapitol pomocí drag & drop.</li>
+      <li class="list-group-item"><strong>Vložení titulní strany</strong> – vložíš do dokumentu připravenou titulní stránku a změníš nadpis a rok.</li>
+    </ul>
+
+    <div class="alert alert-info" role="alert">
+      <i class="bi bi-lightbulb"></i>
+      <strong>Tip:</strong> Pro rychlou aktualizaci obsahu použij kliknutí pravým tlačítkem na obsah a vyber „Aktualizovat pole“ nebo v MS Word klikni na „Aktualizovat tabulku“. V osnově zkontroluj, že všechny nadpisy jsou správně naformátované stylem Nadpis.
+    </div>
+  </div>
+
+  <!-- Teorie -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <h4 class="mb-3">Teorie: Automatický obsah a osnova</h4>
+    <p>Obsah dokumentu je automaticky generované pole, které se tvoří na základě použití stylů <strong>Nadpis 1</strong>, <strong>Nadpis 2</strong> atd. Tyto styly určují strukturu kapitol a podkapitol v dokumentu.</p>
+    <p><i class="bi bi-eye"></i> Pomocí zobrazení osnovy lze dokument strukturovaně upravovat – prohazovat kapitoly či přesouvat jednotlivé bloky textu jednoduše přetažením myši (drag & drop).</p>
+    <ul>
+      <li>Automatický obsah se vkládá na vybranou stránku, obvykle na začátek dokumentu nebo na samostatnou stránku.</li>
+      <li>Změny pořadí kapitol v osnově se projeví po aktualizaci obsahu.</li>
+      <li>Titulní strana je samostatný prvek, který lze vložit z přednastavených šablon (např. Ion tmavý v MS Word).</li>
+      <li>Pro správnou funkci obsahu je nutné správné používání stylů nadpisů v textu.</li>
+    </ul>
+  </div>
+
+  <!-- Ukázkový text -->
+  <h5 class="mt-5">Ukázkový text k formátování</h5>
+  <p>Pracujeme s dokumentem 2.1.6 z minulé lekce. Tento text zkopíruj, a vlož na místo titulní stránky.</p>
+
+  <pre class="bg-light p-3 rounded border" id="copy-text2-1-7">
+[Název školy]
+[Adresa školy]
+[Předmět]
+
+REFERÁT
+Umělá inteligence v každodenním životě
+
+Autor: [Vaše jméno, třída]  
+Učitel: Jan Konrád
+[Měsíc Rok]</pre>
+
+  <button class="btn btn-outline-primary mb-2" onclick="copyToClipboard217()">📋 Kopírovat text do schránky</button>
+  <div id="copiedMsg2-1-7" class="text-success small" style="display: none;">✅ Text byl zkopírován do schránky</div>
+  <!-- Akordeon -->
+
+      <div class="accordion mb-5" id="accordion2-1-7">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingThree2-1-7">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree2-1-7">
+         1. Vložení titulní stránky a její úprava
+        </button>
+      </h2>
+      <div id="collapseThree2-1-7" class="accordion-collapse collapse show" data-bs-parent="#accordion2-1-7">
+        <div class="accordion-body">
+            <ol>
+                <li>Vlož titulní stránku na začátek dokumentu
+                    <ul>
+                        <li>Karta <kbd>Formát</kbd> -> <strong>Titulní strana</strong></li>
+                        <li>V sekci <strong>Vytvořit titulní stránky</strong>, vyber možnost <strong>Vložit nové titulní stránky</strong>, v seznamu <strong>VLožit nové titulní stránky</strong>, vyber <strong>Začátek dokumentu</strong></li>
+                        <li>Ostatní nastavení ponech v základním nastavení, a potvrď tlačítkem <kbd>OK</kbd></li>
+                    </ul>
+                    <li>Zobraz styly na kartě <kbd>Zobrazit</kbd> -> Styly, nebo klávesou <kbd>F11</kbd>
+                    <ul>
+                        <li>Na horní liště stylů, vyber kartu <strong>Styly stránky</strong> (4 možnost zleva)</li>
+                        <li>Klikni pravým tlačítkem do pole stylů, a z nabídky vyber nový</li>
+                        <ul>
+                            <li>Název stylů zadej: <strong>Titulní stránka</strong></li>
+                            <li>V záložce <kbd>Stránka</kbd> -> nastav okraje vlevo i vpravo na 2,50 cm</li>
+                            <li>Potvrď klávesou <kbd>OK</kbd></li>
+                            <li>Přesuň kurzor myši na titulní stránku, a na nabídce stylů, v záložce Styly stránky vyber nový styl <strong>Titulní stránka</strong>. </li>
+                        </ul>
+                       
+                    </ul>
+                    </li>
+                </li>
+                <li>Nyní vlož zkopírovaný text do titulní stránky.</li>
+                <li>V místech prázdných odstavců, vytvoř pomocí <strong>tabulátorů</strong>, vodící znak čáry.
+                <ul>
+                    <li>Podle pravítka přibližně 8 centimetrů.</li>
+                </ul>
+                </li>
+                <li>Uprav typografii, podle tabulky níže:</li>
+         
+           <div class="accordion-body">
+             
+        <li class="list-group-item">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5>Formát písma</h5>
+              <table class="table table-bordered">
+                <thead class="table-light">
+                  <tr>
+                    <th>Část textu</th>
+                    <th>Velikost</th>
+                    <th>Řez</th>
+                    <th>Zarovnání</th>
+                   
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>REFERÁT</td>
+                    <td>14 pt</td>
+                    <td>Tučný</td>
+                    <td>Na střed</td>
+                 
+                  </tr>
+                  <tr>
+                    <td>Umělá inteligence v každodenním životě</td>
+                    <td>18 pt</td>
+                    <td>Tučný</td>
+                    <td>Střed</td>
+                 
+                  </tr>
+                  <tr>
+                    <td>Zbytek textů</td>
+                    <td>12 pt</td>
+                    <td>Normální</td>
+                    <td>Střed</td>
+          
+                  </tr>
+                
+                 
+              
+                
+                </tbody>
+              </table>
+            </div>
+           
+          </div>
+        
+        </li>
+      </ul>
+    </li>
+       
+        </div>
+          <li>Uprav nastavení odstavce:
+            <ul>
+                <li>Odsazení a rozestupy:
+                    <ul>
+                        <li><strong>Rozestupy nad i pod odstavcem - 0,90 cm.</strong></li>
+                        <li><strong>Řádkování</strong> - 1,5 řádku.</li>
+                    </ul>
+                </li>
+            </ul>
+          </li>
+      </div>
+    
+    </div>
+ 
+
+  <div class="accordion mb-5" id="accordion2-1-7">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingOne2-1-7">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne2-1-7">
+          2. Vložení prázdné stránky a automatického obsahu
+        </button>
+      </h2>
+      <div id="collapseOne2-1-7" class="accordion-collapse collapse" data-bs-parent="#accordion2-1-7">
+        <div class="accordion-body">
+          <p><strong>Postup v LibreOffice Writer:</strong></p>
+          <ol>
+            <li>Umísti kurzor pod titulní stránku</li>
+            <li>Na kartě <kbd>Vložit</kbd> klikni na <strong>Zalomení stránky</strong>, nebo <kbd>Ctrl + Enter</kbd> – vloží se nová prázdná stránka.</li>
+            <li>Na nové stránce, otevři styly <kbd>F11</kbd>, a vyber dvojkikem levého tlačítka <strong>Výchozí styl odstavce</strong></li>
+            <li>Na nové stránce zvol <kbd>Vložit</kbd> → <kbd>Obsah a rejstříky</kbd> → <kbd>Obsah, rejstřík, nebo seznam citované literatury</kbd>.</li>
+            <li>Vyber typ <strong>Obsah</strong> a potvrď – obsah se vloží automaticky.</li>
+          </ol>
+          <hr>
+          <p><strong>Postup v Microsoft Word:</strong></p>
+          <ol>
+            <li>Umísti kurzor na začátek dokumentu.</li>
+            <li>Na kartě <kbd>Vložení</kbd> klikni na <kbd>Prázdná stránka</kbd>.</li>
+            <li>Na kartě <kbd>Reference</kbd> klikni na <kbd>Obsah</kbd> a vyber styl automatického obsahu.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingTwo2-1-7">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo2-1-7">
+          3. Práce se zobrazením osnovy, přehazování kapitol a aktualizace obsahu
+        </button>
+      </h2>
+      <div id="collapseTwo2-1-7" class="accordion-collapse collapse" data-bs-parent="#accordion2-1-7">
+        <div class="accordion-body">
+          <p><strong>Postup v LibreOffice Writer:</strong></p>
+          <ol>
+            <li>Přejdi na kartu <kbd>Zobrazit</kbd> → <kbd>NAvigátor</kbd> - <kbd>F5</kbd>.</li>
+            <li>V osnově uvidíš strukturu dokumentu podle stylů nadpisů.</li>
+            <li>Vyber kapitoly „AI nástroje pro skladatele“ a „AI a hudební produkce“. Na horní liště, vyber tlačítko <kbd>Přesunout o nadpis výše</kbd>, nebo <kbd>Přesunout o nadpis níže</kbd>tak, aby jejich pořadí bylo opačné.</li>
+               <li>Vrať se zpět na stránku s obsahem, a klikni pravým tlačítkem myši na pole s obsahem. Vyber možnost <strong>Aktualizovat rejstřík</strong>. </li>
+          </ol>
+          <hr>
+          <p><strong>Postup v Microsoft Word:</strong></p>
+          <ol>
+            <li>Na kartě <kbd>Zobrazení</kbd> klikni na <kbd>Osnova</kbd>.</li>
+            <li>V osnově pomocí drag & drop prohoď pořadí kapitol „AI nástroje pro skladatele“ a „AI a hudební produkce“.</li>
+            <li>Vrať se zpět do zobrazení pro čtení nebo úpravy a klikni do obsahu na kartě <kbd>Reference</kbd> → <kbd>Aktualizovat obsah</kbd>, vyber <kbd>Celá tabulka</kbd>.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+    </div>
+      </div>
+
+      <!-- Tlačítko pro otevření modálu -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#imageModalKap-Obsah">
+  Zobrazit vzor
+</button>
+
+<div class="container my-4 p-4 border rounded bg-light">
+  <h4 class="mb-3">Shrnutí</h4>
+  <p>V této lekci ses naučil pracovat s automatickým obsahem a osnovou dokumentu. Umíš vložit titulní stranu, správně nastavit styly nadpisů a aktualizovat obsah. Zvládneš také upravit formátování a pracovat s osnovou pomocí přetažení (drag & drop).</p>
+  <ul>
+    <li>Obsah se generuje automaticky podle použitých stylů nadpisů.</li>
+    <li>Osnova slouží ke snadnému přesouvání částí textu.</li>
+    <li>Titulní stranu lze vložit ze šablon a upravit podle potřeby.</li>
+    <li>Pro správné fungování obsahu musí být nadpisy naformátovány stylem Nadpis 1, Nadpis 2 atd.</li>
+  </ul>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="imageModalKap-X" tabindex="-1" aria-labelledby="imageModalLabelKap-X" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="imageModalLabelKap-X">Vzorový obrázek</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body text-center">
+        <!-- Zde vlož obrázek vzoru -->
+        <img src="[cesta-k-obrazku.jpg]" alt="Vzorový obrázek" class="img-fluid rounded shadow">
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="section2-1-7-test" class="container my-5">
+  <h4>📝 Test: Obsah a osnova (kapitola 2.1.7)</h4>
+
+  <!-- Otázka 1 -->
+  <div class="quiz-question mb-4">
+    <p><strong>1. Jaký styl musíš použít, aby se nadpis zobrazil v automatickém obsahu?</strong></p>
+    <div class="btn-group-vertical">
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Nadpis 1, Nadpis 2, Nadpis 3…</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Normální text</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Zvýraznění</button>
+    </div>
+  </div>
+
+  <!-- Otázka 2 -->
+  <div class="quiz-question mb-4">
+    <p><strong>2. Jak aktualizuješ obsah po změně nadpisů v dokumentu?</strong></p>
+    <div class="btn-group-vertical">
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Změníš barvu nadpisu</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Klikneš pravým tlačítkem na obsah a zvolíš Aktualizovat</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Vložíš nový obsah</button>
+    </div>
+  </div>
+
+  <!-- Otázka 3 -->
+  <div class="quiz-question mb-4">
+    <p><strong>3. K čemu slouží osnova v Google Dokumentech?</strong></p>
+    <div class="btn-group-vertical">
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">K přehlednému členění a přesouvání částí textu</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">K tisku obsahu</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">K úpravě pravopisu</button>
+    </div>
+  </div>
+
+  <!-- Otázka 4 -->
+  <div class="quiz-question mb-4">
+    <p><strong>4. Jak vložíš titulní stranu do dokumentu?</strong></p>
+    <div class="btn-group-vertical">
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Klikneš na Vložit → Zápatí</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Vložit → Titulní strana</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Nastavíš stránkování</button>
+    </div>
+  </div>
+
+  <!-- Otázka 5 -->
+  <div class="quiz-question mb-4">
+    <p><strong>5. Co se stane, když změníš pořadí kapitol v osnově, ale neaktualizuješ obsah?</strong></p>
+    <div class="btn-group-vertical">
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Obsah se aktualizuje automaticky</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Obsah zmizí</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Obsah zůstane neaktuální</button>
+    </div>
+  </div>
+
+  <!-- Odkazy na použité zdroje -->
+<hr>
+<h6>Odkazy na použité zdroje</h6>
+<ol class="small">
+  <li>
+    <a href="https://help.libreoffice.org/latest/cs/text/swriter/guide/using_toc.html" target="_blank">
+      LibreOffice nápověda – Použití obsahu
+    </a>
+  </li>
+  <li>
+    <a href="https://help.libreoffice.org/latest/cs/text/swriter/guide/using_outlines.html" target="_blank">
+      LibreOffice nápověda – Používání osnov
+    </a>
+  </li>
+  <li>
+    <a href="https://cs.libreoffice.org/get-help/documentation/" target="_blank">
+      Oficiální dokumentace LibreOffice (česky)
+    </a>
+  </li>
+  <li>
+    <a href="https://wiki.documentfoundation.org/Documentation/Publications/cs" target="_blank">
+      LibreOffice – české příručky a manuály (wiki)
+    </a>
+  </li>
+</ol>
+
+</section>
+
+<!-- Modal -->
+<div class="modal fade" id="imageModalKap-Obsah" tabindex="-1" aria-labelledby="imageModalLabelKap-obsah" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="imageModalLabelKap-Obsah">Vzorový dokument</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body text-center">
+        <img src="/learn.jankonrad.com/Assets/writter/reseni/2.1.7/Obsah, osnova_Hotovo1.webp" alt="Vzorový obrázek" class="img-fluid rounded shadow">
+       <img src="/learn.jankonrad.com/Assets/writter/reseni/2.1.7/Obsah, osnova_Hotovo2.webp" alt="Vzorový obrázek" class="img-fluid rounded shadow">
+       <img src="/learn.jankonrad.com/Assets/writter/reseni/2.1.7/Obsah, osnova_Hotovo3.webp" alt="Vzorový obrázek" class="img-fluid rounded shadow">
+       <img src="/learn.jankonrad.com/Assets/writter/reseni/2.1.7/Obsah, osnova_Hotovo4.webp" alt="Vzorový obrázek" class="img-fluid rounded shadow">
+       <img src="/learn.jankonrad.com/Assets/writter/reseni/2.1.7/Obsah, osnova_Hotovo5.webp" alt="Vzorový obrázek" class="img-fluid rounded shadow">
+       <img src="/learn.jankonrad.com/Assets/writter/reseni/2.1.7/Obsah, osnova_Hotovo6.webp" alt="Vzorový obrázek" class="img-fluid rounded shadow">
+       <img src="/learn.jankonrad.com/Assets/writter/reseni/2.1.7/Obsah, osnova_Hotovo7.webp" alt="Vzorový obrázek" class="img-fluid rounded shadow">
+      </div>
+    </div>
+  </div>
+</div>
+
+</section>

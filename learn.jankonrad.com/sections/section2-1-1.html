@@ -1,0 +1,351 @@
+<section id="section2-1-1" class="container my-5">
+  <h3 class="mb-4">Základní formátování textu v LibreOffice Writer</h3>
+
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Co se naučíš?</h4>
+    <p>V této lekci si ukážeme, jak správně naformátovat text v LibreOffice Writer – od nastavení fontu a velikosti písma, přes řezy písma, až po úpravu odstupu mezi odstavci a označení citátu.</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Font a velikost písma</strong> (např. 6pt = cca 0,21 cm)</li>
+      <li class="list-group-item"><strong>Řezy písma</strong>: tučné, kurzíva</li>
+      <li class="list-group-item"><strong>Odsazení odstavců</strong> (0,30 cm nahoře i dole)</li>
+      <li class="list-group-item"><strong>Citace</strong>: správné označení a formátování včetně kurzívy</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> V LibreOffice Writer můžeš většinu úprav provádět pomocí horního panelu nástrojů, pravým tlačítkem myši a přes <em>Formát → Odstavec</em> nebo <em>Formát → Znaky...</em>.
+    </div>
+  </div>
+
+  <h5 class="mt-5">Ukázkový text k formátování</h5>
+  <p>Text, který můžeš zkopírovat a vložit do svého dokumentu v LibreOffice Writeru:</p>
+
+  <pre class="bg-light p-3 rounded border" id="copy-text">
+Hudba je univerzální jazyk, kterému rozumí lidé všech kultur a generací. Prochází všemi obdobími našeho života – od radosti až po smutek. Existuje mnoho žánrů, od klasické symfonie přes jazzové improvizace až po moderní elektronické rytmy. Mezi nejznámější hudební nástroje patří kytara, klavír, housle, bicí a saxofon, které dávají hudbě její charakter a energii.
+
+Jak kdysi řekl slavný hudební producent Quincy Jones:
+„Hudba je síla, která dokáže spojit lidi i bez slov.“
+  </pre>
+
+  <button class="btn btn-outline-primary mb-2" onclick="copyToClipboard()">📋 Kopírovat text do schránky</button>
+  <div id="copiedMsg" class="text-success small" style="display: none;">✅ Text byl zkopírován do schránky</div>
+
+  <script>
+    function copyToClipboard() {
+      const text = document.getElementById("copy-text").innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const msg = document.getElementById("copiedMsg");
+        msg.style.display = "block";
+        setTimeout(() => msg.style.display = "none", 2000);
+      }).catch(err => {
+        alert("Nepodařilo se zkopírovat text.");
+        console.error(err);
+      });
+    }
+  </script>
+<div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Úkoly k textu</h5>
+   <ul class="list-group list-group-flush mb-3">
+   
+    <li class="list-group-item">1. Nastav font celého textu na <strong>Times New Roman</strong> a velikost písma na <strong>12 bodů</strong> (v LibreOffice 6pt = cca 0,21 cm).</li>
+    <li class="list-group-item">2. Nastav u odstavců odsazení <strong>0,30 cm zhora i zdola</strong> (tj. mezery mezi odstavci).</li>
+    <li class="list-group-item">3. Textu <strong>„Hudba je univerzální jazyk“</strong> dej řez písma na <strong>tučný</strong> (zdůraznění důležitého sdělení).</li>
+    <li class="list-group-item">4. Slovo <em>„Quincy Jones“</em> dej do <strong>kurzívy</strong> (zdůraznění jména osoby).</li>
+    <li class="list-group-item">5. Citát <strong>„Hudba je síla, která dokáže spojit lidi i bez slov.“</strong> označ jako samostatný citát s odsazením a kurzívou.</li>
+              <li class="list-group-item">6. Převeď všechna písmena v textu na <strong>VELKÁ PÍSMENA</strong>.</li>
+<li class="list-group-item">7. Změň <strong>barvu písma na tmavě modrou</strong> (např. #00008B).</li>
+<li class="list-group-item">8. Ulož dokument a <strong>exportuj jako PDF soubor</strong>.</li>
+
+</ul>
+</div>
+
+
+  <h5 class="mt-5">Podrobný návod: Formátování v LibreOffice Writer</h5>
+
+  <div id="accordionExample" class="accordion mb-4">
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingOne">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+          1. Jak nastavit font a velikost písma
+        </button>
+      </h2>
+      <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <ol>
+            <li>Vyber celý text pomocí klávesové zkratky <kbd>Ctrl + A</kbd>.</li>
+            <li>V horním panelu nástrojů hledej rozbalovací nabídku pro <strong>font</strong> (obvykle vlevo nahoře, vedle ikon pro zarovnání textu).</li>
+            <li>Zvol z nabídky font <strong>Times New Roman</strong> kliknutím.</li>
+            <li>Vedle fontu je pole pro velikost písma – klikni do něj a napiš <strong>12</strong> nebo vyber z rozbalovací nabídky <strong>12 pt</strong>.</li>
+            <li><em>Pro běžné texty se obvykle používá 10–12 bodů.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingTwo">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          2. Jak nastavit odsazení odstavců (mezery zhora i zdola)
+        </button>
+      </h2>
+      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <ol>
+            <li>Vyber celý text nebo jen odstavce, kterým chceš nastavit mezery.</li>
+            <li>Klikni pravým tlačítkem myši na vybraný text a v kontextové nabídce zvol <em>Odstavec...</em>.</li>
+            <li>Otevře se dialogové okno <strong>Odstavec</strong>. Přejdi na záložku <strong>Odsazení a mezery</strong>.</li>
+            <li>Najdi pole <strong>Mezera před</strong> a <strong>Mezera za</strong>.</li>
+            <li>Do obou polí napiš <strong>0,30 cm</strong> a klikni na <strong>OK</strong>.</li>
+            <li><em>Tip:</em> Tímto způsobem vytvoříš přehledný prostor mezi odstavci, který zpřehlední text.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingThree">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          3. Nastavení řezu písma – tučný a kurzíva
+        </button>
+      </h2>
+      <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <ol>
+            <li>Vyber text, který chceš zvýraznit tučným řezem (např. frázi <strong>„Hudba je univerzální jazyk“</strong>).</li>
+            <li>V horním panelu nástrojů klikni na tlačítko <strong>Tučné (B)</strong> nebo stiskni klávesovou zkratku <kbd>Ctrl + B</kbd>.</li>
+            <li>Pro text, který chceš dát do kurzívy (např. <em>„Quincy Jones“</em>), vyber tento text a klikni na tlačítko <strong>Kurzíva (I)</strong> nebo použij <kbd>Ctrl + I</kbd>.</li>
+            <li><em>Tip:</em> Tučný řez používáme pro zvýraznění důležitých slov, kurzívu pro jména, citace nebo cizí výrazy.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingFour">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+          4-5. Jak správně označit citát (včetně kurzívy)
+        </button>
+      </h2>
+      <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <ol>
+            <li>Vyber celý text citátu, např. <em>„Hudba je síla, která dokáže spojit lidi i bez slov.“</em>.</li>
+            <li>V horním panelu klikni na tlačítko <strong>Kurzíva (I)</strong> nebo použij klávesovou zkratku <kbd>Ctrl + I</kbd>, aby se citát zobrazil kurzívou.</li>
+            <li>Klikni pravým tlačítkem na vybraný citát a vyber <em>Odstavec...</em>.</li>
+            <li>V dialogovém okně <strong>Odstavec</strong> nastav v záložce <strong>Odsazení a mezery</strong> větší odsazení zleva, například <strong>1,00 cm</strong>, aby citát byl vizuálně oddělený od ostatního textu.</li>
+            <li>Potvrď tlačítkem <strong>OK</strong>.</li>
+            <li><em>Tip:</em> Citace obvykle mají odsazení a kurzívu, aby byly jasně rozpoznatelné jako samostatný výrok.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+  <h2 class="accordion-header" id="headingFive">
+    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+      6. Převedení textu na velká písmena a změna barvy písma
+    </button>
+  </h2>
+  <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+    <div class="accordion-body">
+      <ol>
+        <li>Označ celý text pomocí klávesové zkratky <kbd>Ctrl + A</kbd>.</li>
+        <li>V horním menu klikni na <strong>Formát</strong> → <strong>Text</strong> → <strong>VELKÁ PÍSMENA</strong>.</li>
+        <li>Text se převede na velká písmena (tzv. kapitálky).</li>
+        <li>Poté klikni v horním panelu na ikonu barvy písma (často má ikonu velkého „A“ s barevným podtržením).</li>
+        <li>Vyber barvu <strong>tmavě modrá</strong> (nebo zadej kód barvy: <code>#00008B</code>).</li>
+      </ol>
+      <p><em>Tip:</em> Velká písmena se hodí pro nadpisy nebo zvýraznění celého odstavce.</p>
+    </div>
+  </div>
+</div>
+
+ <div class="accordion-item">
+  <h2 class="accordion-header" id="headingSix">
+    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+      7. Změna barvy písma
+    </button>
+  </h2>
+  <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#accordionExample">
+    <div class="accordion-body">
+      <ol>
+ 
+        <li>Klikni v horním panelu na ikonu barvy písma (často má ikonu velkého „A“ s barevným podtržením).</li>
+        <li>Vyber barvu <strong>tmavě modrá</strong> (nebo zadej kód barvy: <code>#00008B</code>).</li>
+      </ol>
+ 
+    </div>
+  </div>
+</div>
+
+
+<div class="accordion-item">
+  <h2 class="accordion-header" id="headingSeven">
+    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+      8. Jak uložit dokument a exportovat do PDF
+    </button>
+  </h2>
+  <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#accordionExample">
+    <div class="accordion-body">
+      <ol>
+        <li>V horním menu klikni na <strong>Soubor</strong>.</li>
+        <li>Vyber možnost <strong>Exportovat jako</strong> → <strong>Exportovat do PDF</strong>.</li>
+        <li>V otevřeném dialogu ponech základní nastavení (pokud nepotřebuješ něco změnit).</li>
+        <li>Klikni na <strong>Exportovat</strong>, vyber umístění a název souboru.</li>
+        <li>Dokument bude uložen jako PDF – vhodné pro tisk nebo odeslání e-mailem.</li>
+      </ol>
+      <p><em>Tip:</em> PDF formát zachová přesné formátování, i když příjemce nemá LibreOffice.</p>
+    </div>
+  </div>
+</div>
+  </div>
+
+  <!-- Tlačítko pro otevření modálu -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#imageModal">
+  Zobrazit vzor
+</button>
+
+<!-- Shrnutí -->
+<div class="container my-4 p-4 border rounded bg-light">
+  <h3 class="mb-3">Shrnutí</h3>
+  <p>Formátování písma umožňuje upravit vzhled textu tak, aby byl čitelnější, srozumitelnější a vizuálně atraktivní.</p>
+  <ul class="list-group list-group-flush mb-3">
+    <li class="list-group-item"><strong>Typ písma</strong>: Volba fontu ovlivňuje dojem z dokumentu (např. Calibri, Times New Roman, Arial).</li>
+    <li class="list-group-item"><strong>Řez písma</strong>: Běžně používané jsou tučné, kurzíva nebo podtržené písmo pro zdůraznění.</li>
+    <li class="list-group-item"><strong>Velikost písma</strong>: Zajišťuje čitelnost – nadpisy mají větší velikost než běžný text.</li>
+    <li class="list-group-item"><strong>Barva písma</strong>: Měla by být kontrastní vůči pozadí, pro zvýraznění lze použít barevné efekty.</li>
+  </ul>
+  <div class="alert alert-info" role="alert">
+    <strong>Tip:</strong> Pro profesionální vzhled dokumentu používej jednotný styl písma a vyhýbej se nadměrnému formátování.
+  </div>
+</div>
+
+<!--Test-->
+
+<section id="section2-1-1-test" class="container my-5">
+  <h4>📝 Test: Formát písma a úpravy textu v LibreOffice Writer (kapitola 2.1.1)</h4>
+
+  <div class="quiz-question mb-4">
+    <p><strong>1. Které tlačítko slouží k nastavení tučného písma?</strong></p>
+    <div class="btn-group-vertical">
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Tlačítko s písmenem <strong>B</strong></button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Tlačítko s písmenem <strong>I</strong></button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Tlačítko s písmenem <strong>U</strong></button>
+    </div>
+  </div>
+
+  <div class="quiz-question mb-4">
+    <p><strong>2. Jakou klávesovou zkratkou uděláte text kurzívou?</strong></p>
+    <div class="btn-group-vertical">
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Ctrl + U</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Ctrl + I</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Ctrl + K</button>
+    </div>
+  </div>
+
+  <div class="quiz-question mb-4">
+    <p><strong>3. Kde změníte velikost písma?</strong></p>
+    <div class="btn-group-vertical">
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Na panelu nástrojů – vedle výběru písma</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">V nabídce Vložit</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Na stavovém řádku</button>
+    </div>
+  </div>
+
+  <div class="quiz-question mb-4">
+    <p><strong>4. Jak změním barvu písma?</strong></p>
+    <div class="btn-group-vertical">
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Pomocí ikony písmena „A“ s barevným pruhem</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Změnou barvy pozadí stránky</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Použitím zvýrazňovače</button>
+    </div>
+  </div>
+
+  <div class="quiz-question mb-4">
+    <p><strong>5. Co udělá tlačítko s písmenem <strong>U</strong>?</strong></p>
+    <div class="btn-group-vertical">
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Změní písmo na podtržené i tučné</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Nastaví podtržený text</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Zvětší velikost písma</button>
+    </div>
+  </div>
+
+  <div class="quiz-question mb-4">
+    <p><strong>6. Jak nastavíte řádkování (mezery mezi řádky)?</strong></p>
+    <div class="btn-group-vertical">
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Pomocí nabídky „Formát → Řádkování“</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Pomocí nabídky „Zobrazit → Nástroje“</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Pouze klávesovou zkratkou Ctrl + M</button>
+    </div>
+  </div>
+
+  <div class="quiz-question mb-4">
+    <p><strong>7. K čemu slouží tlačítka s ikonkami odstavců a šipek (odsazení)?</strong></p>
+    <div class="btn-group-vertical">
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Zvětšují velikost písma</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Nastavují odsazení odstavce zleva nebo zprava</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Přesouvají odstavec na jinou stránku</button>
+    </div>
+  </div>
+
+  <div class="quiz-question mb-4">
+    <p><strong>8. Jakou klávesovou zkratkou uložíte dokument?</strong></p>
+    <div class="btn-group-vertical">
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Ctrl + Z</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Ctrl + S</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Ctrl + U</button>
+    </div>
+  </div>
+
+  <div class="quiz-question mb-4">
+    <p><strong>9. Jak exportujete dokument do PDF?</strong></p>
+    <div class="btn-group-vertical">
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Tiskem na barevné tiskárně</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Pomocí tlačítka „Exportovat jako PDF“ nebo nabídky Soubor → Exportovat jako PDF</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Kliknutím pravým tlačítkem a výběrem „Uložit jako PDF“</button>
+    </div>
+  </div>
+
+  <div class="quiz-question mb-4">
+    <p><strong>10. Jak vyberete jiné písmo než výchozí (například Arial nebo Times New Roman)?</strong></p>
+    <div class="btn-group-vertical">
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Použiji rozbalovací seznam písma na panelu nástrojů</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Změním rozlišení monitoru</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Použiji funkci „Najít a nahradit“</button>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- Odkazy -->
+<hr>
+<h6>Odkazy na použité zdroje</h6>
+<ol class="small">
+  <li><a href="https://support.microsoft.com/cs-cz/office/form%C3%A1tov%C3%A1n%C3%AD-textu-ve-wordu-0f1a56b1-0f6c-4ad0-a0c9-5c6be5275b2a" target="_blank">Microsoft Word – Nápověda k formátování textu</a></li>
+  <li><a href="https://cs.libreoffice.org/get-help/documentation/" target="_blank">LibreOffice Writer – Oficiální dokumentace</a></li>
+  <li><a href="https://www.youtube.com/watch?v=_8rH4q8nTfA" target="_blank">YouTube: Základy formátování textu ve Wordu</a></li>
+  <li><a href="https://docs.google.com/" target="_blank">Google Dokumenty – Přístup k online editoru</a></li>
+  <li><a href="https://cs.wikipedia.org/wiki/Form%C3%A1tov%C3%A1n%C3%AD_textu" target="_blank">Wikipedia: Formátování textu</a></li>
+</ol>
+
+
+
+
+<!-- Bootstrap modál -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content" oncontextmenu="return false;">
+      <div class="modal-header">
+        <h5 class="modal-title" id="imageModalLabel">Vzorový dokument</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body text-center">
+        <img src="/learn.jankonrad.com/Assets/writter/reseni/2.1_format_pisma/1.Formát_Písma.webp" alt="Vzor" class="img-fluid" 
+             oncontextmenu="return false;" 
+             draggable="false" 
+             style="user-select: none;" />
+      </div>
+    </div>
+  </div>
+</div>
+</section>
