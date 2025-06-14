@@ -60,3 +60,14 @@
         console.error(err);
       });
     }
+    function copyToClipboard219() {
+      const text = document.getElementById("copy-text2-1-9").innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const msg = document.getElementById("copiedMsg2-1-9");
+        msg.style.display = "block";
+        setTimeout(() => msg.style.display = "none", 2000);
+      }).catch(err => {
+        alert("Nepodařilo se zkopírovat text.");
+        console.error(err);
+      });
+    }
