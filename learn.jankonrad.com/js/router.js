@@ -2,7 +2,7 @@ const sections = ['section1',
                   'section1-1', 'section1-2','section1-3', 'section1-4', 'section1-5', 'section1-6','section1-7','section1-8',
                   'section2',
                   'section2-1',
-                  'section2-1-1a','section2-1-1','section2-1-2', 'section2-1-3','section2-1-4', 'section2-1-5','section2-1-6','section2-1-7','section2-1-8','section2-1-9','section2-1-10',
+                  'section2-1-1a','section2-1-1','section2-1-2', 'section2-1-3','section2-1-4', 'section2-1-5','section2-1-6','section2-1-7','section2-1-8','section2-1-9','section2-1-10','section2-1-11',
                   'section3'];
 let currentSectionIndex = 0;
 const loadedSections = new Set();

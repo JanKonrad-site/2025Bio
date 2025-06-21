@@ -71,3 +71,14 @@
         console.error(err);
       });
     }
+       function copyToClipboard2111() {
+      const text = document.getElementById("copy-text2-1-11").innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const msg = document.getElementById("copiedMsg2-1-11");
+        msg.style.display = "block";
+        setTimeout(() => msg.style.display = "none", 2000);
+      }).catch(err => {
+        alert("Nepodařilo se zkopírovat text.");
+        console.error(err);
+      });
+    }
