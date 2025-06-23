@@ -129,36 +129,25 @@
   </ul>
 
   <p>💡 Hint: I když programování může působit složitě, ve skutečnosti je to trénink logického myšlení a řešení problémů.</p>
-
-<h4 class="mb-4">🧠 Cvičení: Slož Hello World</h4>
-  <p>Přetáhni jednotlivé bloky kódu ve správném pořadí, aby vznikl funkční program v Pythonu, který vypíše <strong>"Hello world"</strong>.</p>
-
-  <!-- Volné bloky -->
-  <div id="codeBlocks" class="border p-3 rounded mb-3">
-    <p class="text-muted">Volné bloky – přetáhni je do sestavy, nebo je vrať zpět.</p>
-    <div class="draggable d-inline-block me-2 mb-2 border p-2 rounded bg-light" draggable="true" data-order="1">
-      <strong>print(</strong><br><small>funkce pro výstup</small>
-    </div>
-    <div class="draggable d-inline-block me-2 mb-2 border p-2 rounded bg-light" draggable="true" data-order="2">
-      <strong>"Hello world"</strong><br><small>řetězec</small>
-    </div>
-    <div class="draggable d-inline-block me-2 mb-2 border p-2 rounded bg-light" draggable="true" data-order="3">
-      <strong>)</strong><br><small>uzavření funkce</small>
-    </div>
+ 
+ <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal4Functions">
+  Jak funguje volání funkcí?
+</button>
+ 
+ 
+ 
+  <!-- Úkoly -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Úkoly:</h4>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">1. Otevři odkaz zde  <button class="btn btn-sm btn-outline-primary" type="button"><a href="/learn.jankonrad.com/sections/progGames/3.html" target="_blank" >Zde</a></button>, který tě přesune do výukové aplikace</li>
+      <li class="list-group-item">2. Vytvoř program, který vypíše do konzole "Hello World".</li>
+      <li class="list-group-item">3. Na další řádce vypíše "Toto je můj první program" "mezera" ":)" </li>
+      <li class="list-group-item">4. Nakonec klikni na tlačítko Spustit v online Python IDE, a nasdílej projekt na e-mail učitele. </li>
+    </ul>
   </div>
 
-  <!-- Sestavení -->
-  <h5 class="mb-2">Sestav svůj kód</h5>
-  <div id="dropZone4" class="border p-3 rounded bg-white mb-4" style="min-height: 130px;">
-    <p class="text-muted">Sem přetáhni bloky ve správném pořadí…</p>
-  </div>
 
-  <!-- Výsledek -->
-  <div id="resultCode" class="alert alert-success d-none">
-    <p><strong>✅ Výborně!</strong> Tady je výsledek:</p>
-    <pre><code id="finalCode">print("Hello world")</code></pre>
-    <button class="btn btn-sm btn-primary" onclick="copyCode()">📋 Kopírovat</button>
-  </div>
 
   <!-- Shrnutí -->
   <div class="container my-4 p-4 border rounded bg-light">
@@ -281,67 +270,72 @@
     </div>
   </div>
 </div>
+<!-- Modal: Volání funkcí a print() -->
+<div class="modal fade" id="modal4Functions" tabindex="-1" aria-labelledby="modal4FunctionsLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal4FunctionsLabel">Jak funguje volání funkcí v Pythonu?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Funkce</strong> je pojmenovaný blok kódu, který něco dělá – například vypisuje text, počítá nebo načítá data.</p>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  let draggedItem = null;
-  let completed = false;
+        <h6>🧩 Co je to <code>print()</code>?</h6>
+        <p><code>print()</code> je vestavěná funkce v Pythonu, která vypisuje text do konzole.</p>
+        <pre><code>print("Ahoj světe!")</code></pre>
 
-  const draggables = document.querySelectorAll('.draggable');
-  const codeBlocks = document.getElementById('codeBlocks');
-  const dropZone = document.getElementById('dropZone4');
-  const result = document.getElementById('resultCode');
-  const codeElement = document.getElementById('finalCode');
+        <ul>
+          <li><strong>print</strong> je název funkce</li>
+          <li><strong>()</strong> jsou závorky, které značí „volání“ funkce</li>
+          <li><strong>"Ahoj světe!"</strong> je argument, který funkce použije</li>
+        </ul>
 
-  // Skryj výsledek při načtení
-  result.classList.add('d-none');
+        <h6>🧠 Proč používáme závorky?</h6>
+        <p>V Pythonu (a většině jazyků) závorky říkají: <em>„spusť tuto funkci právě teď“</em>. Bez závorek funkci jen označíš, ale nespustíš ji.</p>
+        <pre><code>
+print         # odkaz na funkci, ale nic se nestane
+print()       # volání funkce – proběhne výpis
+        </code></pre>
 
-  draggables.forEach(item => {
-    item.addEventListener('dragstart', (e) => {
-      draggedItem = item;
-      item.classList.add('dragging');
-      e.dataTransfer.setData('text/plain', '');
-    });
+        <h6>📚 Co jsou knihovny?</h6>
+        <p>Knihovna (např. <code>math</code>, <code>random</code>) je soubor funkcí, které můžeš používat.</p>
+        <pre><code>import math
+print(math.sqrt(25))  # vypíše 5.0</code></pre>
 
-    item.addEventListener('dragend', () => {
-      item.classList.remove('dragging');
-      draggedItem = null;
-    });
-  });
+        <div class="alert alert-warning mt-4" role="alert">
+          <strong>Tip:</strong> Pokud si nejsi jistý, co funkce dělá, napiš <code>help(nazev_funkce)</code> v Pythonu.
+        </div>
 
-  [codeBlocks, dropZone].forEach(zone => {
-    zone.addEventListener('dragover', (e) => e.preventDefault());
+        <div class="text-center my-4">
+          <svg width="100%" height="120" viewBox="0 0 600 100">
+            <text x="20" y="30" font-size="16">Volání funkce</text>
+            <rect x="10" y="40" width="140" height="40" fill="#e1f5fe" stroke="#039be5" />
+            <text x="25" y="65" font-size="14">print("text")</text>
+            <line x1="150" y1="60" x2="300" y2="60" stroke="#039be5" stroke-width="2" class="svg-line" />
+            <rect x="300" y="40" width="130" height="40" fill="#fff9c4" stroke="#fbc02d" />
+            <text x="315" y="65" font-size="14">Konzole: "text"</text>
+          </svg>
+          <p class="small text-muted">Funkce → výstup</p>
+        </div>
 
-    zone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      if (!draggedItem) return;
+        <h6>💡 Shrnutí</h6>
+        <ul>
+          <li><code>print()</code> je funkce pro výpis</li>
+          <li>Závorky volají funkci s argumenty</li>
+          <li>Můžeš si tvořit i vlastní funkce</li>
+        </ul>
 
-      // Zamezíme duplikaci
-      if (!zone.contains(draggedItem)) {
-        zone.querySelector('p')?.remove(); // odstraníme placeholder
-        zone.appendChild(draggedItem);
-        checkOrder();
-      }
-    });
-  });
+        <h6>📚 Doporučené odkazy</h6>
+        <ul>
+          <li><a href="https://cs.wikipedia.org/wiki/Funkce_(programov%C3%A1n%C3%AD)" target="_blank">Wikipedia – Funkce v programování</a></li>
+          <li><a href="https://docs.python.org/3/library/functions.html#print" target="_blank">Oficiální dokumentace: print()</a></li>
+        </ul>
+        <p class="text-muted text-center"><small><em>Tip:</em> Funkce dělají kód přehlednější a opakovatelný – používej je často!</small></p>
+      </div>
+    </div>
+  </div>
+</div>
 
-  function checkOrder() {
-    const items = Array.from(dropZone.querySelectorAll('.draggable'));
-    const order = items.map(el => el.dataset.order);
 
-    if (order.join(',') === '1,2,3') {
-      completed = true;
-      result.classList.remove('d-none');
-    } else {
-      completed = false;
-      result.classList.add('d-none');
-    }
-  }
-
-  window.copyCode = function () {
-    navigator.clipboard.writeText(codeElement.textContent.trim())
-      .then(() => alert("Kód byl zkopírován do schránky!"));
-  };
-});
-</script>
 
