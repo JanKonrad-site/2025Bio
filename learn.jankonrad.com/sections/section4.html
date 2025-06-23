@@ -1,0 +1,347 @@
+<style>
+    .svg-line {
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+  animation: draw 2s ease forwards;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+
+</style>
+
+<section id="section4" class="container my-5">
+  <h3 class="mb-4">4. Úvod do programování v Pythonu</h3>
+
+  <!-- Co se naučíš ?-->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co se naučíš?</h3>
+    <p>V této kapitole pochopíš, co je to programování, jak funguje, k čemu slouží a proč je důležité. Získáš přehled o vývoji programovacích jazyků a seznámíš se se základy jazyka Python.</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Programování</strong>: Co to je a proč se používá.</li>
+      <li class="list-group-item"><strong>Jak funguje program</strong>: Zápis, překlad a vykonávání.</li>
+      <li class="list-group-item"><strong>Historie programování</strong>: Od prvních programů po Python.</li>
+      <li class="list-group-item"><strong>Úvod do Pythonu</strong>: Co to je a proč ho používat.</li>
+      <li class="list-group-item"><strong>Myšlení v algoritmech</strong>: Základní principy algoritmizace.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Programování není o psaní kódu – je to způsob, jak přemýšlet.
+    </div>
+  </div>
+
+  <div class="row align-items-center mb-4">
+    <div class="col-md-2 text-center">
+      <img class="img-fluid rounded-circle shadow resize-mobile"
+        src="https://upload.wikimedia.org/wikipedia/commons/0/03/Grace_Hopper.jpg" alt="Grace Hopper">
+      <p class="mt-2 text-muted small">Grace Hopper</p>
+    </div>
+    <div class="col-md-10">
+      <blockquote class="blockquote">
+        <p class="mb-0">„Nejlepší způsob, jak získat nápad, je ho zrealizovat.“</p>
+        <footer class="blockquote-footer mt-2">
+          <a href="https://en.wikipedia.org/wiki/Grace_Hopper" target="_blank">(zdroj)</a>
+        </footer>
+      </blockquote>
+    </div>
+  </div>
+
+  <h5 class="mt-5">Co je to programování?</h5>
+  <p>Programování je proces <strong>vytváření instrukcí</strong>, které počítač dokáže vykonat. Pomocí programovacího jazyka sdělujeme počítači, co má dělat a jak má reagovat na různé situace.</p>
+
+  <h5 class="mt-4">Základy fungování</h5>
+  <ul class="list-group mb-4">
+    <li class="list-group-item"><strong>Zdrojový kód</strong>: Lidsky čitelný zápis programu
+      <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal4First">Více</button>
+    </li>
+    <li class="list-group-item">
+      <strong>🧠 Hierarchie témat</strong>: Programování → Kód → Překlad → Vykonání
+      <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#SomeSubmenu" aria-expanded="false" aria-controls="SomeSubmenu">
+        &#9660;
+      </button>
+
+      <ul class="list-group list-group-flush collapse mt-2" id="SomeSubmenu">
+        <li class="list-group-item">
+          <strong>Interpreter vs. kompilátor</strong>: Dva přístupy k překladu kódu
+          <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal4Secound">
+            Více
+          </button>
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul class="list-group mb-4">
+    <li class="list-group-item">
+      <strong>Historie programování</strong>
+      <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#windowsSubmenu" aria-expanded="false" aria-controls="windowsSubmenu">
+        &#9660;
+      </button>
+
+      <ul class="list-group list-group-flush collapse mt-2" id="windowsSubmenu">
+        <li class="list-group-item">
+          <div class="container mt-5">
+            <div class="row justify-content-center">
+              <div class="col-md-8">
+                <div class="card shadow-sm">
+                  <div class="card-header bg-primary text-white">
+                    Od Ada Lovelace po Python
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title">Základní informace</h5>
+                    <ul>
+                      <li><strong>1843:</strong> Ada Lovelace – první algoritmus</li>
+                      <li><strong>1950s:</strong> Fortran, COBOL</li>
+                      <li><strong>1991:</strong> Guido van Rossum vydává Python</li>
+                    </ul>
+
+                    <h5 class="mt-4">Tabulka jazyků</h5>
+                    <table class="table table-bordered">
+                      <thead class="table-light">
+                        <tr>
+                          <th>Jazyk</th>
+                          <th>Rok</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr><td>Python</td><td>1991</td></tr>
+                        <tr><td>JavaScript</td><td>1995</td></tr>
+                      </tbody>
+                    </table>
+
+                    <h5 class="mt-4">Zdroje</h5>
+                    <ul>
+                      <li><a href="https://cs.wikipedia.org/wiki/Programovac%C3%AD_jazyk" target="_blank">Wikipedia – Programovací jazyky</a></li>
+                      <li><a href="https://realpython.com" target="_blank">Real Python</a></li>
+                      <li><a href="https://python.org" target="_blank">Python.org</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+  <p>💡 Hint: I když programování může působit složitě, ve skutečnosti je to trénink logického myšlení a řešení problémů.</p>
+
+<h4 class="mb-4">🧠 Cvičení: Slož Hello World</h4>
+  <p>Přetáhni jednotlivé bloky kódu ve správném pořadí, aby vznikl funkční program v Pythonu, který vypíše <strong>"Hello world"</strong>.</p>
+
+  <!-- Volné bloky -->
+  <div id="codeBlocks" class="border p-3 rounded mb-3">
+    <p class="text-muted">Volné bloky – přetáhni je do sestavy, nebo je vrať zpět.</p>
+    <div class="draggable d-inline-block me-2 mb-2 border p-2 rounded bg-light" draggable="true" data-order="1">
+      <strong>print(</strong><br><small>funkce pro výstup</small>
+    </div>
+    <div class="draggable d-inline-block me-2 mb-2 border p-2 rounded bg-light" draggable="true" data-order="2">
+      <strong>"Hello world"</strong><br><small>řetězec</small>
+    </div>
+    <div class="draggable d-inline-block me-2 mb-2 border p-2 rounded bg-light" draggable="true" data-order="3">
+      <strong>)</strong><br><small>uzavření funkce</small>
+    </div>
+  </div>
+
+  <!-- Sestavení -->
+  <h5 class="mb-2">Sestav svůj kód</h5>
+  <div id="dropZone4" class="border p-3 rounded bg-white mb-4" style="min-height: 130px;">
+    <p class="text-muted">Sem přetáhni bloky ve správném pořadí…</p>
+  </div>
+
+  <!-- Výsledek -->
+  <div id="resultCode" class="alert alert-success d-none">
+    <p><strong>✅ Výborně!</strong> Tady je výsledek:</p>
+    <pre><code id="finalCode">print("Hello world")</code></pre>
+    <button class="btn btn-sm btn-primary" onclick="copyCode()">📋 Kopírovat</button>
+  </div>
+
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Shrnutí kapitoly</h3>
+    <p>V této kapitole jsi poznal, co je programování, jak funguje počítačový kód, a nahlédl do historie vývoje jazyků až k Pythonu.</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Program</strong>: Série instrukcí pro počítač.</li>
+      <li class="list-group-item"><strong>Python</strong>: Moderní, srozumitelný jazyk pro začátečníky i experty.</li>
+      <li class="list-group-item"><strong>Algoritmus</strong>: Logický postup řešení problému.</li>
+      <li class="list-group-item"><strong>Interpreter</strong>: Vykonává kód řádek po řádku.</li>
+      <li class="list-group-item"><strong>Historie</strong>: Kořeny sahají do 19. století.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Každý velký program začíná jednoduchým "Hello, world!"
+    </div>
+  </div>
+
+  <!-- Odkazy -->
+  <hr>
+  <h6>Odkazy na použité zdroje</h6>
+  <ol class="small">
+    <li><a href="https://en.wikipedia.org/wiki/History_of_programming_languages" target="_blank">Wikipedia – Historie programovacích jazyků</a></li>
+    <li><a href="https://python.org" target="_blank">Oficiální web Pythonu</a></li>
+    <li><a href="https://realpython.com" target="_blank">Real Python – tutoriály</a></li>
+  </ol>
+</section>
+
+<!-- MODÁLY -->
+
+<!-- Modal: Zdrojový kód -->
+<div class="modal fade" id="modal4First" tabindex="-1" aria-labelledby="modal4FirstLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal4FirstLabel">Zdrojový kód</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Zdrojový kód</strong> je text napsaný v programovacím jazyce, který určuje, co má počítač dělat.</p>
+        <pre><code>print("Ahoj světe!")</code></pre>
+        <ul>
+          <li>Čitelný pro člověka</li>
+          <li>Zapisuje se do souboru např. <code>.py</code></li>
+          <li>Musí být přeložen nebo interpretován</li>
+        </ul>
+
+        <!-- SVG animace: programovací kód -> CPU -->
+        <div class="text-center my-4">
+          <svg width="100%" height="120" viewBox="0 0 500 100">
+            <text x="20" y="30" font-size="16">Zdrojový kód</text>
+            <rect x="10" y="40" width="100" height="40" fill="#e0f7fa" stroke="#00796b" />
+            <text x="30" y="65" font-size="14">print()</text>
+            <line x1="110" y1="60" x2="250" y2="60" stroke="#00796b" stroke-width="2" class="svg-line" />
+            <rect x="250" y="40" width="100" height="40" fill="#fff9c4" stroke="#fbc02d" />
+            <text x="265" y="65" font-size="14">Počítač</text>
+          </svg>
+          <p class="small text-muted">Vizualizace: kód → zpracování</p>
+        </div>
+
+        <h6>💡 Shrnutí</h6>
+        <p>Zdrojový kód je základ každého programu – to, co skutečně píšeš.</p>
+        <h6>📚 Zdroje a doporučená četba</h6>
+        <ul>
+          <li><a href="https://cs.wikipedia.org/wiki/Zdrojov%C3%BD_k%C3%B3d" target="_blank">Wikipedia – Zdrojový kód</a></li>
+        </ul>
+        <p class="text-muted text-center"><small><em>Tip:</em> V Pythonu se kód často píše ve VS Code nebo Thonny.</small></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Interpreter vs. kompilátor -->
+<div class="modal fade" id="modal4Secound" tabindex="-1" aria-labelledby="modal4SecoundLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal4SecoundLabel">Interpreter vs. Kompilátor</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Interpreter</strong> a <strong>kompilátor</strong> jsou nástroje, které překládají zdrojový kód do instrukcí pro počítač.</p>
+        <ul>
+          <li><strong>Interpreter</strong>: Provádí kód řádek po řádku (např. Python).</li>
+          <li><strong>Kompilátor</strong>: Přeloží celý program před spuštěním (např. C, Java).</li>
+        </ul>
+        <pre><code>print("Ahoj světe!")</code></pre>
+
+        <!-- SVG animace: porovnání interpreter vs kompilátor -->
+        <div class="text-center my-4">
+          <svg width="100%" height="150" viewBox="0 0 600 140">
+            <text x="20" y="20" font-size="16">Interpreter</text>
+            <rect x="10" y="30" width="120" height="40" fill="#e3f2fd" stroke="#2196f3" />
+            <text x="35" y="55" font-size="14">Zdrojový kód</text>
+            <line x1="130" y1="50" x2="270" y2="50" stroke="#2196f3" stroke-width="2" class="svg-line" />
+            <rect x="270" y="30" width="100" height="40" fill="#c8e6c9" stroke="#43a047" />
+            <text x="280" y="55" font-size="14">Výstup</text>
+
+            <text x="20" y="100" font-size="16">Kompilátor</text>
+            <rect x="10" y="110" width="120" height="30" fill="#e3f2fd" stroke="#2196f3" />
+            <text x="35" y="130" font-size="14">Zdrojový kód</text>
+            <line x1="130" y1="125" x2="270" y2="125" stroke="#2196f3" stroke-width="2" class="svg-line" />
+            <rect x="270" y="110" width="100" height="30" fill="#ffe082" stroke="#fbc02d" />
+            <text x="280" y="130" font-size="13">Kompilace</text>
+            <line x1="370" y1="125" x2="500" y2="125" stroke="#43a047" stroke-width="2" class="svg-line" />
+            <rect x="500" y="110" width="90" height="30" fill="#c8e6c9" stroke="#43a047" />
+            <text x="510" y="130" font-size="13">Výstup</text>
+          </svg>
+          <p class="small text-muted">Interpreter: ihned | Kompilátor: nejdřív překlad, pak spuštění</p>
+        </div>
+
+        <h6>💡 Shrnutí</h6>
+        <p>Python používá interpret – kód se spustí okamžitě.</p>
+        <h6>📚 Zdroje a doporučená četba</h6>
+        <ul>
+          <li><a href="https://cs.wikipedia.org/wiki/Interpreter_(programov%C3%A1n%C3%AD)" target="_blank">Wikipedia – Interpreter</a></li>
+          <li><a href="https://cs.wikipedia.org/wiki/Kompil%C3%A1tor" target="_blank">Wikipedia – Kompilátor</a></li>
+        </ul>
+        <p class="text-muted text-center"><small><em>Tip:</em> Interpretry jsou ideální pro učení – můžeš experimentovat v reálném čase.</small></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  let draggedItem = null;
+  let completed = false;
+
+  const draggables = document.querySelectorAll('.draggable');
+  const codeBlocks = document.getElementById('codeBlocks');
+  const dropZone = document.getElementById('dropZone4');
+  const result = document.getElementById('resultCode');
+  const codeElement = document.getElementById('finalCode');
+
+  // Skryj výsledek při načtení
+  result.classList.add('d-none');
+
+  draggables.forEach(item => {
+    item.addEventListener('dragstart', (e) => {
+      draggedItem = item;
+      item.classList.add('dragging');
+      e.dataTransfer.setData('text/plain', '');
+    });
+
+    item.addEventListener('dragend', () => {
+      item.classList.remove('dragging');
+      draggedItem = null;
+    });
+  });
+
+  [codeBlocks, dropZone].forEach(zone => {
+    zone.addEventListener('dragover', (e) => e.preventDefault());
+
+    zone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      if (!draggedItem) return;
+
+      // Zamezíme duplikaci
+      if (!zone.contains(draggedItem)) {
+        zone.querySelector('p')?.remove(); // odstraníme placeholder
+        zone.appendChild(draggedItem);
+        checkOrder();
+      }
+    });
+  });
+
+  function checkOrder() {
+    const items = Array.from(dropZone.querySelectorAll('.draggable'));
+    const order = items.map(el => el.dataset.order);
+
+    if (order.join(',') === '1,2,3') {
+      completed = true;
+      result.classList.remove('d-none');
+    } else {
+      completed = false;
+      result.classList.add('d-none');
+    }
+  }
+
+  window.copyCode = function () {
+    navigator.clipboard.writeText(codeElement.textContent.trim())
+      .then(() => alert("Kód byl zkopírován do schránky!"));
+  };
+});
+</script>
+
