@@ -1,0 +1,110 @@
+<section id="section4-1" class="container my-5">
+  <h3 class="mb-4">4.1 Obecné principy programování v Pythonu</h3>
+
+  <!-- Úvodní přehled -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co se naučíš?</h3>
+    <p>V této kapitole pochopíš základní logiku běhu programu v Pythonu – jak počítač vykonává příkazy, co se stane, když nic neděláme, a jak využít proměnné k ukládání a práci s daty.</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Sekvenční běh programu</strong>: Programy se vykonávají shora dolů.</li>
+      <li class="list-group-item"><strong>Proměnné</strong>: Ukládání a využívání hodnot v programu.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Počítač neudělá nic navíc – vykoná přesně to, co mu řekneš.
+    </div>
+  </div>
+
+  <!-- Citát osobnosti -->
+  <div class="row align-items-center mb-4">
+    <div class="col-md-2 text-center">
+      <img class="img-fluid rounded-circle shadow" src="https://upload.wikimedia.org/wikipedia/commons/8/89/Alan_Turing_Aged_16.jpg" alt="Alan Turing">
+      <p class="mt-2 text-muted small">Alan Turing</p>
+    </div>
+    <div class="col-md-10">
+      <blockquote class="blockquote">
+        <p class="mb-0">„Počítač je pouze stroj, který dělá to, co mu přikážeš.“</p>
+        <footer class="blockquote-footer mt-2">
+          <a href="https://en.wikipedia.org/wiki/Alan_Turing" target="_blank">(zdroj)</a>
+        </footer>
+      </blockquote>
+    </div>
+  </div>
+
+  <!-- Teoretický blok -->
+  <h5 class="mt-5">Jak počítač vykonává program</h5>
+  <p>V Pythonu se příkazy vykonávají postupně – odshora dolů. Každý řádek se provede jeden po druhém. Pokud se v programu nenachází žádné příkazy nebo je vykonán poslední řádek, program se ukončí.</p>
+
+  <!-- Rozbalovací část -->
+<ul class="list-group mb-4">
+  <li class="list-group-item">
+    <strong>První program</strong>
+    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample1">
+      &#9660;
+    </button>
+
+    <ul class="list-group list-group-flush collapse mt-2" id="collapseExample1">
+      <li class="list-group-item">
+        Programy běží odshora dolů. Pokud nespustíš funkci nebo neudáš další příkazy, program skončí.
+        <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal41First">
+          Více
+        </button>
+      </li>
+    </ul>
+  </li>
+
+  <li class="list-group-item">
+    <strong>Proměnné</strong>
+    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseVariables">
+      &#9660;
+    </button>
+
+    <ul class="list-group list-group-flush collapse mt-2" id="collapseVariables">
+      <li class="list-group-item">
+        Proměnné slouží k ukládání dat. Můžeš si do nich uložit text, číslo nebo výsledek výpočtu.
+        <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal41Variables">
+          Více
+        </button>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<!-- Úkoly -->
+<div class="container my-4 p-4 border rounded bg-light">
+  <h4 class="mb-3">Úkoly:</h4>
+  <ul class="list-group list-group-flush mb-3">
+    <li class="list-group-item">1. Vytvoř program, který vypíše do konzole <code>"Hello světe"</code>.</li>
+    <li class="list-group-item">2. Ulož tento text do proměnné např. <code>zprava</code>.</li>
+    <li class="list-group-item">3. Použij <code>print(zprava)</code> k výpisu textu z proměnné.</li>
+    <li class="list-group-item">4. Přidej další příkaz, aby program neskončil hned – např. výpis další zprávy.</li>
+  </ul>
+  <a href="/learn.jankonrad.com/sections/progGames/4.html" target="_blank">
+    <button class="btn btn-sm btn-outline-primary" type="button">Editor</button>
+  </a>
+</div>
+<div class="modal fade" id="modal41First" tabindex="-1" aria-labelledby="modal41FirstLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal41FirstLabel">Tvůj první program</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Každý program v Pythonu se spouští odshora dolů. Pokud nevložíš další příkazy, po prvním řádku skončí.</p>
+        <pre><code>print("Hello světe")</code></pre>
+        <p>Tento příkaz okamžitě vypíše text do konzole a poté se program ukončí.</p>
+
+        <svg width="100%" height="120" viewBox="0 0 500 100">
+          <text x="20" y="30" font-size="16">Start</text>
+          <rect x="10" y="40" width="100" height="40" fill="#e0f7fa" stroke="#00796b" />
+          <text x="25" y="65" font-size="14">print()</text>
+          <line x1="110" y1="60" x2="250" y2="60" stroke="#00796b" stroke-width="2" class="svg-line" />
+          <rect x="250" y="40" width="100" height="40" fill="#fff9c4" stroke="#fbc02d" />
+          <text x="260" y="65" font-size="14">Konec</text>
+        </svg>
+
+        <p class="text-muted text-center"><small><em>Tip:</em> Pokud chceš, aby program pokračoval, přidej další řádky.</small></p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -112,6 +112,12 @@
     border: 1px solid #aaa;
     display: none;
   }
+   #downloadBtn {
+        margin-top: 15px;
+    padding: 8px 15px;
+    font-size: 1em;
+    cursor: pointer;
+  }
 </style>
 </head>
 <body>
@@ -133,6 +139,7 @@
 <pre id="output"></pre>
 <button id="runBtn">Spustit v online Python IDE</button>
 <iframe id="ideFrame" src=""></iframe>
+<button id="downloadBtn">Stáhnout jako .py</button>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -568,6 +575,24 @@ let codeStr = filteredParts.join(' ');
     form.submit();
     form.remove();
   });
+    const downloadBtn = document.getElementById('downloadBtn');
+downloadBtn.addEventListener('click', () => {
+  const code = output.textContent.trim();
+  if (!code) {
+    alert('Nejprve vytvořte nějaký kód.');
+    return;
+  }
+
+  const blob = new Blob([code], { type: 'text/x-python' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'vystup.py';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+});
 });
 </script>
 
