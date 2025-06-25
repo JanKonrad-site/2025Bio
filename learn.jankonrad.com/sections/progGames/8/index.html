@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vizuální programování</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="container-fluid mt-4">
+  <div class="row">
+    <!-- Levý sloupec: Bloky -->
+    <div class="col-auto sidebar">
+      <h4 class="mb-3">Programovací bloky</h4>
+      <div id="blocks">
+        <div class="category-group">
+          <h5 class="text-primary">Proměnné</h5>
+          <div class="block bg-primary-subtle" draggable="true" data-type="var">Vytvoř proměnnou</div>
+        </div>
+        <div class="category-group">
+          <h5 class="text-success">Vstup / Výstup</h5>
+          <div class="block bg-success-subtle" draggable="true" data-type="input">Vstup uživatele</div>
+          <div class="block bg-success-subtle" draggable="true" data-type="print">Vypiš do konzole</div>
+        </div>
+        <div class="category-group">
+          <h5 class="text-warning">Řízení toku</h5>
+          <div class="block bg-warning-subtle" draggable="true" data-type="if">Podmínka (if)</div>
+          <div class="block bg-warning-subtle" draggable="true" data-type="loop">Cyklus (for)</div>
+        </div>
+        <div class="category-group">
+          <h5 class="text-danger">Funkce</h5>
+          <div class="block bg-danger-subtle" draggable="true" data-type="def">Vytvoř funkci</div>
+          <div class="block bg-danger-subtle" draggable="true" data-type="call">Zavolej funkci</div>
+        </div>
+        <div class="category-group">
+          <h5 class="text-secondary">Poznámky</h5>
+          <div class="block bg-secondary-subtle" draggable="true" data-type="note">Poznámka</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Střední sloupec: Canvas + výstup -->
+    <div class="col-md-6">
+      <h2>Vizuální programování</h2>
+      <h5 class="mt-4">Sestavený skript</h5>
+      <div id="canvas" class="border p-3 mb-3">
+        <p style="color:#999; text-align:center;">Sem přetáhni bloky...</p>
+      </div>
+      <h5>Generovaný Python kód</h5>
+      <pre id="output" class="bg-light p-2 border rounded"></pre>
+      <button class="btn btn-primary mb-2" id="runBtn">Spustit v online Python IDE</button>
+      <iframe id="ideFrame" src="" style="width: 100%; height: 300px;"></iframe>
+      <button class="btn btn-success mt-2" id="downloadBtn">Stáhnout jako .py</button>
+    </div>
+
+    <!-- Pravý sloupec: Úkoly -->
+    <div class="col-md-3">
+      <h4 class="mb-3">Úkoly</h4>
+      <div class="accordion" id="ukolyAccordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="ukol1-heading">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#ukol1">
+              Úkol 1: Vytvoř proměnnou
+            </button>
+          </h2>
+          <div id="ukol1" class="accordion-collapse collapse show" data-bs-parent="#ukolyAccordion">
+            <div class="accordion-body">
+              Přetáhni blok <code>Vytvoř proměnnou</code> do skriptovací plochy a nastav její název.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="ukol2-heading">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ukol2">
+              Úkol 2: Získej vstup od uživatele
+            </button>
+          </h2>
+          <div id="ukol2" class="accordion-collapse collapse" data-bs-parent="#ukolyAccordion">
+            <div class="accordion-body">
+              Použij blok <code>Vstup uživatele</code> pro získání hodnoty od uživatele.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Hlavní JS modul -->
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

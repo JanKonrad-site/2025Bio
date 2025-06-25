@@ -8,6 +8,47 @@
 
 
 <style>
+  .type-if {
+  background-color: #fff8e6;
+  border-color: #ffc107;
+}
+
+.condition-editor,
+.if-editor,
+.else-editor {
+  border: 1px solid #ccc;
+  padding: 5px;
+  border-radius: 3px;
+  min-height: 40px;
+  background: white;
+  cursor: text;
+  margin-bottom: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.condition-editor.dragover,
+.if-editor.dragover,
+.else-editor.dragover {
+  background-color: #e6f0ff;
+  border-color: #007bff;
+}
+
+.segment-var {
+  background: #2196f3;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.operator {
+  padding: 0 3px;
+  color: #666;
+}
+
   
   body { font-family: Arial, sans-serif; padding: 20px; background:#fafafa;}
   #blocks, #canvas {
@@ -243,7 +284,11 @@
 
 .type-note {
   background-color: #e2e3e5; /* šedá */
-}  
+} 
+.type-if {
+  background-color: #fff8e6; /* lehce žlutá */
+  border-color: #ffc107;
+} 
 </style>
 </head>
 <body>
@@ -843,6 +888,105 @@ newBlock.className = `canvas-block type-${type}`;
       canvas.appendChild(newBlock);
       generateCode();
     }
+else if (type === 'if') {
+  const newBlock = document.createElement('div');
+  newBlock.className = 'canvas-block type-if';
+  newBlock.draggable = true;
+
+  newBlock.innerHTML = `
+    <label>Podmínka (if):</label>
+    <div class="expression-editor condition-editor" title="Přetáhni sem proměnnou nebo napiš podmínku"></div>
+
+    <label>Kód když platí:</label>
+    <div class="expression-editor if-editor" title="Přetáhni sem proměnnou nebo napiš kód"></div>
+
+    <label>Kód když neplatí (nepovinné):</label>
+    <div class="expression-editor else-editor" title="Přetáhni sem proměnnou nebo napiš kód"></div>
+
+    <span class="btn-remove" title="Odstranit blok">×</span>
+
+    <div class="order-controls">
+      <button class="move-up">▲</button>
+      <button class="move-down">▼</button>
+    </div>
+  `;
+
+  newBlock.addEventListener('dragstart', () => newBlock.classList.add('dragging'));
+  newBlock.addEventListener('dragend', () => {
+    newBlock.classList.remove('dragging');
+    generateCode();
+  });
+
+  const removeBtn = newBlock.querySelector('.btn-remove');
+  const moveUpBtn = newBlock.querySelector('.move-up');
+  const moveDownBtn = newBlock.querySelector('.move-down');
+
+  removeBtn.addEventListener('click', () => {
+    newBlock.remove();
+    generateCode();
+  });
+
+  moveUpBtn.addEventListener('click', () => {
+    const prev = newBlock.previousElementSibling;
+    if (prev) {
+      canvas.insertBefore(newBlock, prev);
+      generateCode();
+    }
+  });
+
+  moveDownBtn.addEventListener('click', () => {
+    const next = newBlock.nextElementSibling;
+    if (next) {
+      canvas.insertBefore(next, newBlock);
+      generateCode();
+    }
+  });
+
+  // inicializace expression editorů
+  ['condition-editor', 'if-editor', 'else-editor'].forEach(className => {
+    const editor = newBlock.querySelector(`.${className}`);
+
+    editor.addEventListener('dragover', e => {
+      e.preventDefault();
+      editor.classList.add('dragover');
+    });
+
+    editor.addEventListener('dragleave', () => {
+      editor.classList.remove('dragover');
+    });
+
+    editor.addEventListener('drop', e => {
+      e.preventDefault();
+      editor.classList.remove('dragover');
+
+      if (dragged && dragged.classList.contains('var-widget')) {
+        const varName = dragged.textContent;
+        if (editor.children.length > 0) {
+          const op = document.createElement('span');
+          op.className = 'operator';
+          op.textContent = ' ';
+          editor.appendChild(op);
+        }
+        const varSeg = document.createElement('span');
+        varSeg.className = 'segment-var';
+        varSeg.textContent = varName;
+        varSeg.draggable = true;
+        varSeg.addEventListener('dblclick', () => varSeg.remove());
+        editor.appendChild(varSeg);
+        generateCode();
+      }
+    });
+
+    // umožní psát přímo do editoru
+    editor.contentEditable = true;
+    editor.spellcheck = false;
+
+    editor.addEventListener('input', generateCode);
+  });
+
+  canvas.appendChild(newBlock);
+  generateCode();
+}
   }
 
   // --- Generování Python kódu z plátna ---
@@ -907,7 +1051,33 @@ newBlock.className = `canvas-block type-${type}`;
           } else {
             valueCode = '0';
           }
+          
         }
+        else if (block.querySelector('.condition-input')) {
+  const condition = block.querySelector('.condition-input').value.trim();
+  const ifCode = block.querySelector('.if-code').value.trim();
+  const elseCode = block.querySelector('.else-code').value.trim();
+
+  if (condition) {
+    codeLines.push(`if ${condition}:`);
+    if (ifCode) {
+      ifCode.split('\n').forEach(line => {
+        codeLines.push(`    ${line}`);
+      });
+    } else {
+      codeLines.push(`    pass`);
+    }
+
+    if (elseCode) {
+      codeLines.push('else:');
+      elseCode.split('\n').forEach(line => {
+        codeLines.push(`    ${line}`);
+      });
+    }
+  } else {
+    codeLines.push('# NEPLATNÁ PODMÍNKA: podmínka chybí');
+  }
+}
 
         // Poznámka
         const noteText = block.querySelector('.note-text').value.trim();
@@ -954,6 +1124,38 @@ newBlock.className = `canvas-block type-${type}`;
         if (txt.length > 0) {
           codeLines.push(`# ${txt}`);
         }
+        else if (block.querySelector('.condition-editor')) {
+  const conditionEditor = block.querySelector('.condition-editor');
+  const ifEditor = block.querySelector('.if-editor');
+  const elseEditor = block.querySelector('.else-editor');
+
+  function parseEditor(editor) {
+    return Array.from(editor.childNodes).map(node => {
+      if (node.nodeType === Node.TEXT_NODE) return node.textContent.trim();
+      if (node.classList.contains('segment-var')) return node.textContent.trim();
+      return '';
+    }).filter(Boolean).join(' ');
+  }
+
+  const conditionCode = parseEditor(conditionEditor);
+  const ifCode = parseEditor(ifEditor);
+  const elseCode = parseEditor(elseEditor);
+
+  if (conditionCode) {
+    codeLines.push(`if ${conditionCode}:`);
+    if (ifCode) {
+      codeLines.push(`    ${ifCode}`);
+    } else {
+      codeLines.push('    pass');
+    }
+    if (elseCode) {
+      codeLines.push('else:');
+      codeLines.push(`    ${elseCode}`);
+    }
+  } else {
+    codeLines.push('# NEPLATNÁ PODMÍNKA: chybí');
+  }
+}
       }
     });
 
