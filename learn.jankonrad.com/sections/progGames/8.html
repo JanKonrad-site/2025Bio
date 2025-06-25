@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Vizuální programování – proměnné, vstup, poznámky, mazání, pořadí</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 
 <style>
   
@@ -186,14 +186,132 @@
   .order-controls button:hover {
     background: #bbb;
   }
+
+.block:hover {
+  opacity: 0.9;
+}
+#blocks {
+  height: 80vh;                     /* 80 % výšky viewportu */
+  overflow-y: auto;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.category-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+  .block {
+    background: #f0f0f0;
+    border: 1px solid #aaa;
+    padding: 10px;
+    cursor: grab;
+    border-radius: 5px;
+    min-width: 160px;
+    text-align: center;
+    user-select: none;
+  }
+  .sidebar {
+  min-width: 220px;   /* minimální pohodlná šířka */
+  max-width: 260px;   /* maximální podle textu */
+  flex: 0 0 auto;     /* neexpanduje */
+}
+.type-var {
+  background-color: #cfe2ff; /* modrá */
+}
+
+.type-input,
+.type-print {
+  background-color: #d1e7dd; /* zelená */
+}
+
+.type-if,
+.type-loop {
+  background-color: #fff3cd; /* žlutá */
+}
+
+.type-def,
+.type-call {
+  background-color: #f8d7da; /* červená */
+}
+
+.type-note {
+  background-color: #e2e3e5; /* šedá */
+}  
 </style>
 </head>
 <body>
-<div class="container mt-4">
+<div class="container-fluid mt-4">
   <div class="row">
-    <!-- Levý sloupec: Úkoly -->
-    <div class="col-md-4">
-      <h4>Úkoly</h4>
+    <!-- Levý sloupec: Bloky -->
+
+<div class="col-auto sidebar">
+  <h4 class="mb-3">Programovací bloky</h4>
+  <div id="blocks">
+
+    <div class="category-group">
+      <h5 class="text-primary">Proměnné</h5>
+      <div class="block bg-primary-subtle" draggable="true" data-type="var">Vytvoř proměnnou</div>
+    </div>
+
+    <div class="category-group">
+      <h5 class="text-success">Vstup / Výstup</h5>
+      <div class="block bg-success-subtle" draggable="true" data-type="input">Vstup uživatele</div>
+      <div class="block bg-success-subtle" draggable="true" data-type="print">Vypiš do konzole</div>
+    </div>
+
+    <div class="category-group">
+      <h5 class="text-warning">Řízení toku</h5>
+      <div class="block bg-warning-subtle" draggable="true" data-type="if">Podmínka (if)</div>
+      <div class="block bg-warning-subtle" draggable="true" data-type="loop">Cyklus (for)</div>
+    </div>
+
+    <div class="category-group">
+      <h5 class="text-danger">Funkce</h5>
+      <div class="block bg-danger-subtle" draggable="true" data-type="def">Vytvoř funkci</div>
+      <div class="block bg-danger-subtle" draggable="true" data-type="call">Zavolej funkci</div>
+        <!-- Doplněná sekce pro vkládání uživatelských funkcí -->
+  <select id="userFunctionsSelect" onchange="insertUserFunction(this.value)">
+    <option value="">↪ Vložit funkci...</option>
+  </select>
+
+  <button onclick="wrapIntoFunction()">🔧 Vytvoř funkci z bloků</button>
+    </div>
+
+    <div class="category-group">
+      <h5 class="text-secondary">Poznámky</h5>
+      <div class="block bg-secondary-subtle" draggable="true" data-type="note">Poznámka</div>
+    </div>
+
+  </div>
+</div>
+     
+
+    <!-- Střední sloupec: Canvas + výstup -->
+    <div class="col-md-6">
+      <h2>Vizuální programování</h2>
+
+      <h5 class="mt-4">Sestavený skript</h5>
+      <div id="canvas" class="border p-3 mb-3">
+        <p style="color:#999; text-align:center;">Sem přetáhni bloky...</p>
+      </div>
+
+      <h5>Generovaný Python kód</h5>
+      <pre id="output" class="bg-light p-2 border rounded"></pre>
+      <button class="btn btn-primary mb-2" id="runBtn">Spustit v online Python IDE</button>
+      <iframe id="ideFrame" src="" style="width: 100%; height: 300px;"></iframe>
+      <button class="btn btn-success mt-2" id="downloadBtn">Stáhnout jako .py</button>
+    </div>
+
+    <!-- Pravý sloupec: Úkoly -->
+    <div class="col-md-3">
+      <h4 class="mb-3">Úkoly</h4>
       <div class="accordion" id="ukolyAccordion">
         <div class="accordion-item">
           <h2 class="accordion-header" id="ukol1-heading">
@@ -221,31 +339,8 @@
           </div>
         </div>
 
-        <!-- Přidej další úkoly podle potřeby -->
+        <!-- Další úkoly sem -->
       </div>
-    </div>
-
-    <!-- Pravý sloupec: Editor -->
-    <div class="col-md-8">
-      <h2>Vizuální programování – proměnné, vstup, poznámky, mazání, pořadí</h2>
-
-      <div id="blocks">
-        <div class="block" draggable="true" data-type="var">Vytvoř proměnnou</div>
-        <div class="block" draggable="true" data-type="input">Vstup uživatele</div>
-        <div class="block" draggable="true" data-type="print">Vypiš do konzole</div>
-        <div class="block" draggable="true" data-type="note">Poznámka</div>
-      </div>
-
-      <h3>Sestavený skript</h3>
-      <div id="canvas" class="border p-3 mb-3" style="min-height: 120px;">
-        <p style="color:#999; text-align:center;">Sem přetáhni bloky...</p>
-      </div>
-
-      <h3>Generovaný Python kód</h3>
-      <pre id="output" class="bg-light p-2 border rounded"></pre>
-      <button id="runBtn" class="btn btn-primary mb-2">Spustit v online Python IDE</button>
-      <iframe id="ideFrame" src="" style="width: 100%; height: 300px;"></iframe>
-      <button id="downloadBtn" class="btn btn-success mt-2">Stáhnout jako .py</button>
     </div>
   </div>
 </div>
@@ -318,6 +413,7 @@ canvas.addEventListener('dragover', e => {
   }
 
   function insertBlock(type) {
+  
     if (!type) return;
 
     // Odstranit placeholder
@@ -326,7 +422,8 @@ canvas.addEventListener('dragover', e => {
 
     if (type === 'var') {
       const newBlock = document.createElement('div');
-      newBlock.className = 'canvas-block';
+
+      newBlock.className = `canvas-block type-${type}`;
       newBlock.draggable = true;
 
       newBlock.innerHTML = `
@@ -467,7 +564,7 @@ canvas.addEventListener('dragover', e => {
     } else if (type === 'input') {
       // Vstup uživatele (samostatný blok)
       const newBlock = document.createElement('div');
-      newBlock.className = 'canvas-block';
+newBlock.className = `canvas-block type-${type}`;
       newBlock.draggable = true;
 
       newBlock.innerHTML = `
@@ -528,7 +625,7 @@ canvas.addEventListener('dragover', e => {
 
     } else if (type === 'print') {
       const newBlock = document.createElement('div');
-      newBlock.className = 'canvas-block';
+ newBlock.className = `canvas-block type-${type}`;
       newBlock.draggable = true;
 
       newBlock.innerHTML = `
@@ -702,7 +799,7 @@ canvas.addEventListener('dragover', e => {
 
     } else if (type === 'note') {
       const newBlock = document.createElement('div');
-      newBlock.className = 'canvas-block';
+    newBlock.className = `canvas-block type-${type}`;
       newBlock.draggable = true;
 
       newBlock.innerHTML = `
@@ -888,6 +985,94 @@ canvas.addEventListener('dragover', e => {
 });
 
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+ <script>
+   const userFunctions = [];
 
+function wrapIntoFunction() {
+  const canvas = document.getElementById('canvas');
+  const blocks = Array.from(canvas.querySelectorAll('.canvas-block'));
+  if (blocks.length === 0) return alert('Neni co zabalit do funkce.');
+
+  const name = prompt('Zadej název funkce:');
+  if (!name) return;
+
+  blocks.forEach(b => canvas.removeChild(b));
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'canvas-block type-def';
+  wrapper.innerHTML = `
+    <div class="function-header">
+      <span class="toggle-btn">▶</span>
+      <strong>${name}</strong>
+      <span class="btn-remove" onclick="removeFunction('${name}', this)">×</span>
+    </div>
+    <div class="function-inner"></div>
+  `;
+  const inner = wrapper.querySelector('.function-inner');
+  blocks.forEach(b => inner.appendChild(b));
+  wrapper.querySelector('.toggle-btn').onclick = () => {
+    inner.style.display = inner.style.display === 'block' ? 'none' : 'block';
+    wrapper.querySelector('.toggle-btn').textContent = inner.style.display === 'block' ? '▼' : '▶';
+  };
+  canvas.appendChild(wrapper);
+
+  userFunctions.push({ name, block: wrapper });
+  const sel = document.getElementById('userFunctionsSelect');
+  const opt = document.createElement('option');
+  opt.value = name;
+  opt.textContent = name;
+  sel.appendChild(opt);
+
+  generateCode();
+}
+
+function insertUserFunction(name) {
+  if (!name) return;
+  const found = userFunctions.find(f => f.name === name);
+  if (!found) return;
+  const copy = found.block.cloneNode(true);
+  copy.querySelector('.btn-remove').remove();
+  copy.querySelector('.toggle-btn').onclick = () => {
+    const inner = copy.querySelector('.function-inner');
+    inner.style.display = inner.style.display === 'block' ? 'none' : 'block';
+    copy.querySelector('.toggle-btn').textContent = inner.style.display === 'block' ? '▼' : '▶';
+  };
+  document.getElementById('canvas').appendChild(copy);
+  generateCode();
+}
+
+function removeFunction(name, btn) {
+  const funcIndex = userFunctions.findIndex(f => f.name === name);
+  if (funcIndex !== -1) {
+    userFunctions.splice(funcIndex, 1);
+    const sel = document.getElementById('userFunctionsSelect');
+    sel.querySelectorAll('option').forEach(opt => {
+      if (opt.value === name) opt.remove();
+    });
+  }
+  btn.closest('.canvas-block').remove();
+  generateCode();
+}
+
+function generateCode() {
+  const blocks = document.querySelectorAll('#canvas > .canvas-block');
+  let lines = [];
+  blocks.forEach(b => {
+    if (b.classList.contains('type-def')) {
+      const name = b.querySelector('strong').textContent;
+      lines.push(`def ${name}():`);
+      const inner = b.querySelector('.function-inner');
+      Array.from(inner.children).forEach(child => {
+        lines.push(`    # ${child.textContent.trim()}`);
+      });
+      lines.push(`${name}()`);
+    } else {
+      lines.push(`# ${b.textContent.trim()}`);
+    }
+  });
+  document.getElementById('output').textContent = lines.join('\n');
+}
+  </script>
 </body>
 </html>
