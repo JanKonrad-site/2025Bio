@@ -1,49 +1,168 @@
-// codeGenerator.js
-export function generateCode(canvas, output) {
-  const blocks = canvas.querySelectorAll('.canvas-block');
+function generateCode() {
+  const output = document.getElementById('output');
+  const canvas = document.getElementById('canvas');
   let codeLines = [];
-  let usedVarNames = new Set();
 
-  function sanitizeVarName(name) {
-    name = name.trim();
-    if (!name.match(/^[a-zA-Z_][a-zA-Z0-9_]*$/)) return null;
-    if (usedVarNames.has(name)) return null;
-    usedVarNames.add(name);
-    return name;
+  function sanitize(text) {
+    return text.replace(/"/g, '\\"');
   }
 
-  blocks.forEach(block => {
-    const varNameEl = block.querySelector('.var-name');
-    if (varNameEl) {
-      const varNameRaw = varNameEl.value;
-      const varName = sanitizeVarName(varNameRaw);
-      if (!varName) {
-        codeLines.push(`# NEVALIDNÍ název proměnné: ${varNameRaw}`);
-        return;
+  function getExpressionFromSegment(segment) {
+    if (segment.classList.contains('segment-val-wrapper')) {
+      const select = segment.querySelector('select');
+      const input = segment.querySelector('input');
+      const type = select?.value;
+
+      if (!type) return 'None';
+
+      if (type === 'text') {
+        const val = input?.value || '';
+        return `"${sanitize(val)}"`;
+
+      } else if (type === 'number') {
+        const val = input?.value || '0';
+        return isNaN(val) ? '0' : val;
+
+      } else if (type === 'input') {
+        const area = segment.querySelector('.input-area');
+        const prompt = area?.querySelector('.input-prompt')?.value || '';
+        const subtype = area?.querySelector('.input-subtype')?.value || 'text';
+        const expr = `input("${sanitize(prompt)}")`;
+        return subtype === 'number' ? `int(${expr})` : expr;
+
+      } else if (type === 'var') {
+        const selectVar = segment.querySelector('.input-area select');
+        const span = segment.querySelector('.segment-var');
+        if (selectVar) return selectVar.value || 'None';
+        if (span) return span.textContent.trim();
       }
+    }
 
-      const valueType = block.querySelector('.value-type').value;
-      const noteText = block.querySelector('.note-text').value.trim();
-      let valueCode = 'None';
+    if (segment.classList.contains('segment-input-wrapper')) {
+      const select = segment.querySelector('select');
+      const expr = segment.querySelector('span')?.textContent || '';
+      const subtype = select?.value || 'text';
+      return subtype === 'number' ? `int(${expr})` : expr;
+    }
 
-      if (valueType === 'input') {
-        const prompt = block.querySelector('.input-prompt')?.value.trim() || '';
-        const subtype = block.querySelector('.input-subtype')?.value || 'text';
-        valueCode = subtype === 'number'
-          ? `int(input("${prompt.replace(/"/g, '\\"')}"))`
-          : `input("${prompt.replace(/"/g, '\\"')}")`;
-      } else if (valueType === 'text') {
-        const val = block.querySelector('input[type="text"]')?.value || '';
-        valueCode = `"${val.replace(/"/g, '\\"')}"`;
-      } else if (valueType === 'number') {
-        const val = block.querySelector('input[type="number"]')?.value || '0';
-        valueCode = /^\d+(\.\d+)?$/.test(val) ? val : '0';
+    if (segment.classList.contains('segment-var')) {
+      return segment.textContent.trim();
+    }
+
+    return '';
+  }
+
+  function getExpressionFromVarBlock(block) {
+    const container = block.querySelector('.value-expression-container');
+    if (!container) return 'None';
+
+    const expressions = [];
+    const children = [...container.children];
+
+    if (children.length === 0) return 'None';
+
+    const firstSegment = children[0];
+    if (!firstSegment.classList.contains('segment-val-wrapper')) return 'None';
+    expressions.push(getExpressionFromSegment(firstSegment));
+
+    for (let i = 1; i < children.length; i++) {
+      const child = children[i];
+      if (child.classList.contains('operator-expression-wrapper')) {
+        const op = child.querySelector('.segment-operator')?.value || '+';
+        const valSegment = child.querySelector('.segment-val-wrapper');
+        if (valSegment) {
+          const val = getExpressionFromSegment(valSegment);
+          expressions.push(op, val);
+        }
       }
+    }
 
-      if (noteText) codeLines.push(`# ${noteText}`);
-      codeLines.push(`${varName} = ${valueCode}`);
+    return expressions.join(' ');
+  }
+
+ function getExpressionFromCondition(editor) {
+  const parts = [];
+  editor.childNodes.forEach(node => {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const txt = node.textContent.trim();
+      if (txt) parts.push(txt);
+    } else if (node.classList?.contains('operator')) {
+      parts.push(node.textContent.trim());
+    } else {
+      const expr = getExpressionFromSegment(node);
+      if (expr) parts.push(expr);
     }
   });
+  return parts.join(' ').trim() || 'True';
+}
 
+  function parseCanvas(container, indent = '') {
+    const blocks = container.querySelectorAll(':scope > .canvas-block');
+
+    blocks.forEach(block => {
+      if (block.classList.contains('type-var')) {
+        const name = block.querySelector('.var-name')?.value || 'x';
+        const valueCode = getExpressionFromVarBlock(block);
+        const note = block.querySelector('.note-text')?.value.trim();
+        if (note) codeLines.push(`${indent}# ${note}`);
+        codeLines.push(`${indent}${name} = ${valueCode}`);
+
+      } else if (block.classList.contains('type-input')) {
+        const prompt = block.querySelector('.input-prompt')?.value || '';
+        const subtype = block.querySelector('.input-subtype')?.value || 'text';
+        const expr = `input("${sanitize(prompt)}")`;
+        codeLines.push(`${indent}${subtype === 'number' ? 'int(' + expr + ')' : expr}`);
+
+      } else if (block.classList.contains('type-print')) {
+        const editor = block.querySelector('.expression-editor');
+        const parts = [];
+
+        editor.childNodes.forEach(node => {
+          if (node.nodeType === Node.TEXT_NODE) {
+            const text = node.textContent.trim();
+            if (text) parts.push(`"${sanitize(text)}"`);
+          } else if (node.classList?.contains('segment-var')) {
+            parts.push(node.textContent.trim());
+          } else if (node.classList?.contains('segment-text')) {
+            const text = node.textContent.trim();
+            if (text) parts.push(`"${sanitize(text)}"`);
+          } else if (node.classList?.contains('segment-space')) {
+            parts.push(`" "`);
+          }
+        });
+
+        if (parts.length > 0) {
+          codeLines.push(`${indent}print(${parts.join(' + ')})`);
+        } else {
+          codeLines.push(`${indent}print()`);
+        }
+
+      } else if (block.classList.contains('type-note')) {
+        const text = block.querySelector('textarea')?.value.trim();
+        if (text) codeLines.push(`${indent}# ${text}`);
+
+      } else if (block.classList.contains('type-if')) {
+        const editor = block.querySelector('.condition-editor');
+        const condition = getExpressionFromCondition(editor);
+        codeLines.push(`${indent}if ${condition}:`);
+
+        const ifCanvas = block.querySelector('.if-true-canvas');
+        const elseCanvas = block.querySelector('.if-false-canvas');
+
+        if (ifCanvas && ifCanvas.querySelector('.canvas-block')) {
+          parseCanvas(ifCanvas, indent + '    ');
+        } else {
+          codeLines.push(indent + '    pass');
+        }
+
+        if (elseCanvas && elseCanvas.querySelector('.canvas-block')) {
+          codeLines.push(`${indent}else:`);
+          parseCanvas(elseCanvas, indent + '    ');
+        }
+      }
+    });
+  }
+
+  parseCanvas(canvas);
   output.textContent = codeLines.join('\n') || '# Žádný kód';
 }

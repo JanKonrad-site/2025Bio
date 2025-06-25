@@ -1,5 +1,4 @@
-// blocks.js
-export function setupBlocks(insertBlock) {
+function setupBlockClicks() {
   const blocks = document.querySelectorAll('#blocks .block');
   blocks.forEach(block => {
     block.addEventListener('click', () => {
