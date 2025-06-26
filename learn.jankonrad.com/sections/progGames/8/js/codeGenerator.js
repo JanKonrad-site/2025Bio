@@ -10,31 +10,33 @@ function generateCode() {
   function getExpressionFromSegment(segment) {
     if (segment.classList.contains('segment-val-wrapper')) {
       const select = segment.querySelector('select');
-      const input = segment.querySelector('input');
+      const area = segment.querySelector('.input-area');
       const type = select?.value;
 
-      if (!type) return 'None';
+      if (!type || !area) return 'None';
 
       if (type === 'text') {
+        const input = area.querySelector('input');
         const val = input?.value || '';
         return `"${sanitize(val)}"`;
 
       } else if (type === 'number') {
+        const input = area.querySelector('input');
         const val = input?.value || '0';
         return isNaN(val) ? '0' : val;
 
       } else if (type === 'input') {
-        const area = segment.querySelector('.input-area');
-        const prompt = area?.querySelector('.input-prompt')?.value || '';
-        const subtype = area?.querySelector('.input-subtype')?.value || 'text';
+        const prompt = area.querySelector('.input-prompt')?.value || '';
+        const subtype = area.querySelector('.input-subtype')?.value || 'text';
         const expr = `input("${sanitize(prompt)}")`;
         return subtype === 'number' ? `int(${expr})` : expr;
 
       } else if (type === 'var') {
-        const selectVar = segment.querySelector('.input-area select');
-        const span = segment.querySelector('.segment-var');
-        if (selectVar) return selectVar.value || 'None';
+        const selected = area.querySelector('select')?.value;
+        if (selected) return selected;
+        const span = area.querySelector('.segment-var');
         if (span) return span.textContent.trim();
+        return 'None';
       }
     }
 
@@ -80,21 +82,21 @@ function generateCode() {
     return expressions.join(' ');
   }
 
- function getExpressionFromCondition(editor) {
-  const parts = [];
-  editor.childNodes.forEach(node => {
-    if (node.nodeType === Node.TEXT_NODE) {
-      const txt = node.textContent.trim();
-      if (txt) parts.push(txt);
-    } else if (node.classList?.contains('operator')) {
-      parts.push(node.textContent.trim());
-    } else {
-      const expr = getExpressionFromSegment(node);
-      if (expr) parts.push(expr);
-    }
-  });
-  return parts.join(' ').trim() || 'True';
-}
+  function getExpressionFromCondition(editor) {
+    const parts = [];
+    editor.childNodes.forEach(node => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const txt = node.textContent.trim();
+        if (txt) parts.push(txt);
+      } else if (node.classList?.contains('operator')) {
+        parts.push(node.textContent.trim());
+      } else {
+        const expr = getExpressionFromSegment(node);
+        if (expr) parts.push(expr);
+      }
+    });
+    return parts.join(' ').trim() || 'True';
+  }
 
   function parseCanvas(container, indent = '') {
     const blocks = container.querySelectorAll(':scope > .canvas-block');

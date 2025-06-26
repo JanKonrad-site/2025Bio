@@ -6,7 +6,7 @@ function insertIfBlock() {
   newBlock.innerHTML = `
     <label>Podmínka (if):</label>
     <div class="expression-editor-wrap">
-      <div class="expression-editor condition-editor" title="Zadej výraz (např. x > 5)"></div>
+      <div class="expression-editor condition-editor" contenteditable="false" title="Sestav podmínku pomocí prvků níže" style="min-height:24px;"></div>
       <div class="operator-buttons" style="margin-top: 5px; display: flex; flex-wrap: wrap; gap: 5px; align-items: center;">
         <button type="button" data-op="==">==</button>
         <button type="button" data-op="!=">!=</button>
@@ -42,51 +42,27 @@ function insertIfBlock() {
 
   const conditionEditor = newBlock.querySelector('.condition-editor');
 
-  // DnD proměnných
-  conditionEditor.addEventListener('dragover', e => {
-    e.preventDefault();
-    conditionEditor.classList.add('dragover');
-  });
-  conditionEditor.addEventListener('dragleave', () => conditionEditor.classList.remove('dragover'));
-  conditionEditor.addEventListener('drop', e => {
-    e.preventDefault();
-    conditionEditor.classList.remove('dragover');
-    if (window.dragged && window.dragged.classList.contains('var-widget')) {
-      const span = document.createElement('span');
-      span.className = 'segment-var';
-      span.textContent = window.dragged.textContent;
-      span.draggable = true;
-      span.addEventListener('dblclick', () => span.remove());
-      conditionEditor.appendChild(span);
-      generateCode();
-    }
-  });
-
-  // Operátory
-  newBlock.querySelectorAll('.operator-buttons button[data-op]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const op = btn.dataset.op;
-      const span = document.createElement('span');
-      span.className = 'operator';
-      span.textContent = ` ${op} `;
-      span.addEventListener('dblclick', () => span.remove());
-      conditionEditor.appendChild(span);
-      generateCode();
-    });
-  });
-
-  // Výběr proměnných
-  const varSelect = newBlock.querySelector('.insert-var-select');
   const updateVarSelect = () => {
+    const varSelect = newBlock.querySelector('.insert-var-select');
     varSelect.innerHTML = '<option value="">+ Proměnná</option>';
-    const vars = [...window.canvas.querySelectorAll('.var-widget')].map(w => w.textContent.trim());
-    [...new Set(vars)].forEach(name => {
-      const opt = document.createElement('option');
-      opt.value = name;
-      opt.textContent = name;
-      varSelect.appendChild(opt);
-    });
+    if (window.canvas) {
+      const varWidgets = window.canvas.querySelectorAll('.var-widget');
+      const added = new Set();
+      varWidgets.forEach(w => {
+        const name = w.textContent.trim();
+        if (name && !added.has(name)) {
+          const option = document.createElement('option');
+          option.value = name;
+          option.textContent = name;
+          varSelect.appendChild(option);
+          added.add(name);
+        }
+      });
+    }
   };
+
+  updateVarSelect();
+  const varSelect = newBlock.querySelector('.insert-var-select');
   varSelect.addEventListener('mousedown', updateVarSelect);
   varSelect.addEventListener('change', () => {
     const name = varSelect.value;
@@ -95,57 +71,100 @@ function insertIfBlock() {
     span.className = 'segment-var';
     span.textContent = name;
     span.draggable = true;
-    span.addEventListener('dblclick', () => span.remove());
+    span.addEventListener('dblclick', () => {
+      span.remove();
+      generateCode();
+    });
     conditionEditor.appendChild(span);
     varSelect.value = '';
     generateCode();
   });
 
-  // Hodnota
-  newBlock.querySelector('.insert-value').addEventListener('click', () => {
+  function addValueInput(type = 'value') {
     const wrapper = document.createElement('span');
     wrapper.className = 'segment-val-wrapper';
+    wrapper.style.display = 'inline-flex';
+    wrapper.style.alignItems = 'center';
+    wrapper.style.gap = '5px';
 
     const select = document.createElement('select');
-    select.innerHTML = '<option value="text">Text</option><option value="number">Číslo</option>';
-    select.style.marginRight = '5px';
+    select.className = type === 'input' ? 'input-subtype' : 'value-type';
+    select.innerHTML = `
+      <option value="text">Text</option>
+      <option value="number">Číslo</option>
+    `;
 
     const input = document.createElement('input');
-    input.placeholder = 'hodnota';
-    input.style.width = '80px';
+    input.type = 'text';
+    input.className = type === 'input' ? 'input-prompt' : 'value-input';
+    input.placeholder = type === 'input' ? 'Prompt' : 'Hodnota';
+    input.style.width = '150px';
 
-    wrapper.appendChild(select);
-    wrapper.appendChild(input);
-    wrapper.addEventListener('dblclick', () => wrapper.remove());
+    const inputArea = document.createElement('span');
+    inputArea.className = 'input-area';
+    inputArea.appendChild(input);
+    inputArea.appendChild(select);
+
+    wrapper.appendChild(inputArea);
+
+    wrapper.addEventListener('dblclick', () => {
+      wrapper.remove();
+      generateCode();
+    });
 
     conditionEditor.appendChild(wrapper);
     generateCode();
+  }
+
+  newBlock.querySelector('.insert-value').addEventListener('click', () => {
+    addValueInput('value');
   });
 
-  // Vstup
   newBlock.querySelector('.insert-input').addEventListener('click', () => {
-    const wrapper = document.createElement('span');
-    wrapper.className = 'segment-input-wrapper';
-
-    const inputPrompt = prompt('Zadej text pro input (např. Zadej věk):') || '';
-    const subtype = document.createElement('select');
-    subtype.className = 'input-subtype';
-    subtype.innerHTML = '<option value="text">Text</option><option value="number">Číslo</option>';
-    subtype.style.marginLeft = '5px';
-
-    const prompt = document.createElement('span');
-    prompt.className = 'input-prompt';
-    prompt.textContent = inputPrompt;
-
-    wrapper.appendChild(subtype);
-    wrapper.appendChild(prompt);
-    wrapper.addEventListener('dblclick', () => wrapper.remove());
-
-    conditionEditor.appendChild(wrapper);
-    generateCode();
+    addValueInput('input');
   });
 
-  // Drag & drop větví
+  newBlock.querySelectorAll('.operator-buttons button[data-op]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const op = btn.dataset.op;
+      const span = document.createElement('span');
+      span.className = 'operator';
+      span.textContent = ` ${op} `;
+      span.addEventListener('dblclick', () => {
+        span.remove();
+        generateCode();
+      });
+      conditionEditor.appendChild(span);
+      generateCode();
+    });
+  });
+
+  conditionEditor.addEventListener('dragover', e => {
+    e.preventDefault();
+    conditionEditor.classList.add('dragover');
+  });
+
+  conditionEditor.addEventListener('dragleave', () => {
+    conditionEditor.classList.remove('dragover');
+  });
+
+  conditionEditor.addEventListener('drop', e => {
+    e.preventDefault();
+    conditionEditor.classList.remove('dragover');
+    if (window.dragged && window.dragged.classList.contains('var-widget')) {
+      const span = document.createElement('span');
+      span.className = 'segment-var';
+      span.textContent = window.dragged.textContent;
+      span.draggable = true;
+      span.addEventListener('dblclick', () => {
+        span.remove();
+        generateCode();
+      });
+      conditionEditor.appendChild(span);
+      generateCode();
+    }
+  });
+
   ['if-true-canvas', 'if-false-canvas'].forEach(className => {
     const canvas = newBlock.querySelector(`.${className}`);
     canvas.addEventListener('dragover', e => e.preventDefault());
@@ -159,7 +178,6 @@ function insertIfBlock() {
     });
   });
 
-  // Ovládání
   newBlock.querySelector('.btn-remove').addEventListener('click', () => {
     newBlock.remove();
     generateCode();
@@ -173,7 +191,7 @@ function insertIfBlock() {
 
   newBlock.querySelector('.move-down').addEventListener('click', () => {
     const next = newBlock.nextElementSibling;
-    if (next) window.canvas.insertBefore(next, newBlock.nextSibling);
+    if (next) window.canvas.insertBefore(next, newBlock);
     generateCode();
   });
 
@@ -182,9 +200,6 @@ function insertIfBlock() {
     newBlock.classList.remove('dragging');
     generateCode();
   });
-
-  const observer = new MutationObserver(() => generateCode());
-  observer.observe(conditionEditor, { childList: true, subtree: true });
 
   window.canvas.appendChild(newBlock);
   generateCode();
