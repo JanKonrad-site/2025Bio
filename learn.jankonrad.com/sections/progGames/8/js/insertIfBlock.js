@@ -80,41 +80,44 @@ function insertIfBlock() {
     generateCode();
   });
 
-  function addValueInput(type = 'value') {
-    const wrapper = document.createElement('span');
-    wrapper.className = 'segment-val-wrapper';
-    wrapper.style.display = 'inline-flex';
-    wrapper.style.alignItems = 'center';
-    wrapper.style.gap = '5px';
+ function addValueInput(type = 'value') {
+  const wrapper = document.createElement('span');
+  wrapper.className = type === 'input' ? 'segment-input-wrapper' : 'segment-val-wrapper';
+  wrapper.style.display = 'inline-flex';
+  wrapper.style.alignItems = 'center';
+  wrapper.style.gap = '5px';
 
-    const select = document.createElement('select');
-    select.className = type === 'input' ? 'input-subtype' : 'value-type';
-    select.innerHTML = `
-      <option value="text">Text</option>
-      <option value="number">Číslo</option>
-    `;
+  const select = document.createElement('select');
+  select.className = 'input-subtype';
+  select.innerHTML = `
+    <option value="text">Text</option>
+    <option value="number">Číslo</option>
+  `;
 
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.className = type === 'input' ? 'input-prompt' : 'value-input';
-    input.placeholder = type === 'input' ? 'Prompt' : 'Hodnota';
-    input.style.width = '150px';
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.className = 'input-prompt';
+  input.placeholder = type === 'input' ? 'Zadej prompt' : 'Hodnota';
+  input.style.width = '150px';
 
-    const inputArea = document.createElement('span');
-    inputArea.className = 'input-area';
-    inputArea.appendChild(input);
-    inputArea.appendChild(select);
+  const inputArea = document.createElement('span');
+  inputArea.className = 'input-area';
+  inputArea.appendChild(input);
+  inputArea.appendChild(select);
 
-    wrapper.appendChild(inputArea);
+  wrapper.appendChild(inputArea);
 
-    wrapper.addEventListener('dblclick', () => {
-      wrapper.remove();
-      generateCode();
-    });
-
-    conditionEditor.appendChild(wrapper);
+  input.addEventListener('input', generateCode);
+  select.addEventListener('change', generateCode);
+  wrapper.addEventListener('dblclick', () => {
+    wrapper.remove();
     generateCode();
-  }
+  });
+
+  conditionEditor.appendChild(wrapper);
+  generateCode();
+}
+
 
   newBlock.querySelector('.insert-value').addEventListener('click', () => {
     addValueInput('value');

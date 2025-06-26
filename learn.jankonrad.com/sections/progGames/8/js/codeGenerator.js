@@ -4,13 +4,13 @@ function generateCode() {
   let codeLines = [];
 
   function sanitize(text) {
-    return text.replace(/"/g, '\\"');
+    return text.replace(/"/g, '\"');
   }
 
   function getExpressionFromSegment(segment) {
     if (segment.classList.contains('segment-val-wrapper')) {
-      const select = segment.querySelector('select');
       const area = segment.querySelector('.input-area');
+      const select = segment.querySelector('.input-subtype, select');
       const type = select?.value;
 
       if (!type || !area) return 'None';
@@ -19,33 +19,31 @@ function generateCode() {
         const input = area.querySelector('input');
         const val = input?.value || '';
         return `"${sanitize(val)}"`;
-
       } else if (type === 'number') {
         const input = area.querySelector('input');
         const val = input?.value || '0';
         return isNaN(val) ? '0' : val;
-
       } else if (type === 'input') {
         const prompt = area.querySelector('.input-prompt')?.value || '';
         const subtype = area.querySelector('.input-subtype')?.value || 'text';
-        const expr = `input("${sanitize(prompt)}")`;
+        const expr = `input(\"${sanitize(prompt)}\")`;
         return subtype === 'number' ? `int(${expr})` : expr;
-
       } else if (type === 'var') {
         const selected = area.querySelector('select')?.value;
-        if (selected) return selected;
         const span = area.querySelector('.segment-var');
+        if (selected) return selected;
         if (span) return span.textContent.trim();
         return 'None';
       }
     }
 
     if (segment.classList.contains('segment-input-wrapper')) {
-      const select = segment.querySelector('select');
-      const expr = segment.querySelector('span')?.textContent || '';
-      const subtype = select?.value || 'text';
-      return subtype === 'number' ? `int(${expr})` : expr;
-    }
+  const area = segment.querySelector('.input-area');
+  const prompt = area?.querySelector('.input-prompt')?.value || '';
+  const subtype = area?.querySelector('.input-subtype')?.value || 'text';
+  const inputExpr = `input("${sanitize(prompt)}")`;
+  return subtype === 'number' ? `int(${inputExpr})` : inputExpr;
+}
 
     if (segment.classList.contains('segment-var')) {
       return segment.textContent.trim();
@@ -60,7 +58,6 @@ function generateCode() {
 
     const expressions = [];
     const children = [...container.children];
-
     if (children.length === 0) return 'None';
 
     const firstSegment = children[0];
@@ -112,7 +109,7 @@ function generateCode() {
       } else if (block.classList.contains('type-input')) {
         const prompt = block.querySelector('.input-prompt')?.value || '';
         const subtype = block.querySelector('.input-subtype')?.value || 'text';
-        const expr = `input("${sanitize(prompt)}")`;
+        const expr = `input(\"${sanitize(prompt)}\")`;
         codeLines.push(`${indent}${subtype === 'number' ? 'int(' + expr + ')' : expr}`);
 
       } else if (block.classList.contains('type-print')) {
