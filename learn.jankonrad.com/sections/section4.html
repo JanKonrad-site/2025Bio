@@ -16,331 +16,111 @@
 
 <section id="section4" class="container my-5">
   <h3 class="mb-4">4. Úvod do programování v Pythonu</h3>
-  <div class="container mt-5">
 
-</div>
-
-  <!-- Co se naučíš ?-->
+  <!-- Co se naučíš -->
   <div class="container my-4 p-4 border rounded bg-light">
     <h3 class="mb-3">Co se naučíš?</h3>
-    <p>V této kapitole pochopíš, co je to programování, jak funguje, k čemu slouží a proč je důležité. Získáš přehled o vývoji programovacích jazyků a seznámíš se se základy jazyka Python.</p>
+    <p>V této kapitole pochopíš, co je to programování obecně, jak počítač vykonává příkazy, co je to skript a jak Python čte kód. Ukážeme si i první příkazy v Pythonu jako <code>print()</code> a <code>input()</code>. Naučíš se také, kde Python získat, jak ho nainstalovat a kde psát kód.</p>
     <ul class="list-group list-group-flush mb-3">
-      <li class="list-group-item"><strong>Programování</strong>: Co to je a proč se používá.</li>
-      <li class="list-group-item"><strong>Jak funguje program</strong>: Zápis, překlad a vykonávání.</li>
-      <li class="list-group-item"><strong>Historie programování</strong>: Od prvních programů po Python.</li>
-      <li class="list-group-item"><strong>Úvod do Pythonu</strong>: Co to je a proč ho používat.</li>
-      <li class="list-group-item"><strong>Myšlení v algoritmech</strong>: Základní principy algoritmizace.</li>
+      <li class="list-group-item"><strong>Co je programování</strong>: myšlení o problému + instrukce pro počítač</li>
+      <li class="list-group-item"><strong>Jak počítač čte kód</strong>: řádek po řádku, shora dolů</li>
+      <li class="list-group-item"><strong>Skript</strong>: posloupnost příkazů</li>
+      <li class="list-group-item"><strong>Program</strong>: větší celek složený z více skriptů či modulů</li>
+      <li class="list-group-item"><strong>Příkazy <code>print()</code> a <code>input()</code></strong>: první praktické ukázky</li>
+      <li class="list-group-item"><strong>IDE a instalace</strong>: kde získat Python a psát kód</li>
     </ul>
-    <div class="alert alert-info" role="alert">
-      <strong>Tip:</strong> Programování není o psaní kódu – je to způsob, jak přemýšlet.
+    <div class="alert alert-info">
+      <strong>Tip:</strong> Program je jako scénář – provádí se řádek po řádku odshora dolů.
     </div>
   </div>
 
-  <div class="row align-items-center mb-4">
-    <div class="col-md-2 text-center">
-      <img class="img-fluid rounded-circle shadow resize-mobile"
-        src="https://upload.wikimedia.org/wikipedia/commons/0/03/Grace_Hopper.jpg" alt="Grace Hopper">
-      <p class="mt-2 text-muted small">Grace Hopper</p>
-    </div>
-    <div class="col-md-10">
-      <blockquote class="blockquote">
-        <p class="mb-0">„Nejlepší způsob, jak získat nápad, je ho zrealizovat.“</p>
-        <footer class="blockquote-footer mt-2">
-          <a href="https://en.wikipedia.org/wiki/Grace_Hopper" target="_blank">(zdroj)</a>
-        </footer>
-      </blockquote>
-    </div>
+  <!-- Co je IDE a kde psát kód -->
+  <h5 class="mt-5">🖥️ Co je IDE a kde psát kód</h5>
+  <p><strong>IDE</strong> (Integrated Development Environment) je prostředí, ve kterém můžeš psát, ukládat a spouštět kód. Obsahuje zvýraznění syntaxe, konzoli, ladicí nástroje atd.</p>
+  <ul class="list-group mb-4">
+    <li class="list-group-item"><strong>Visual Studio Code (VS Code)</strong> – populární, zdarma, přehledný editor</li>
+    <li class="list-group-item"><strong>Thonny</strong> – jednoduché IDE speciálně pro začátečníky v Pythonu</li>
+    <li class="list-group-item"><strong>Online editory</strong> – např. Replit.com, PythonAnywhere.com, náš školní editor</li>
+  </ul>
+  <p>💡 Doporučujeme <strong>VS Code</strong> pro pokročilejší uživatele, nebo <strong>Thonny</strong> pro začátek.</p>
+
+  <h5 class="mt-4">📥 Kde stáhnout Python</h5>
+  <ul class="list-group mb-4">
+    <li class="list-group-item">Oficiální stránka: <a href="https://www.python.org/downloads/" target="_blank">https://www.python.org/downloads/</a></li>
+    <li class="list-group-item">Vyber si verzi pro svůj operační systém (Windows, macOS, Linux)</li>
+    <li class="list-group-item">Spusť instalaci a zaškrtni <strong>Add Python to PATH</strong> (důležité pro příkazovou řádku)</li>
+  </ul>
+
+  <h5 class="mt-4">▶️ Jak spustit Python skript</h5>
+  <ul class="list-group mb-4">
+    <li class="list-group-item"><strong>1. V IDE</strong> (např. Thonny, VS Code) – klikni na tlačítko <em>Run</em></li>
+    <li class="list-group-item"><strong>2. Příkazová řádka (Windows)</strong>: <code>python muj_program.py</code></li>
+    <li class="list-group-item"><strong>3. Terminál na MacBooku</strong>: <code>python3 muj_program.py</code></li>
+  </ul>
+  <div class="alert alert-secondary">
+    📌 <strong>Tip:</strong> Pro testování můžeš spustit <code>python</code> nebo <code>python3</code> a zkusit příkazy přímo.
   </div>
 
-  <h5 class="mt-5">Co je to programování?</h5>
-  <p>Programování je proces <strong>vytváření instrukcí</strong>, které počítač dokáže vykonat. Pomocí programovacího jazyka sdělujeme počítači, co má dělat a jak má reagovat na různé situace.</p>
+  <!-- Jak počítač čte kód -->
+  <h5 class="mt-5">📜 Jak počítač čte kód v Pythonu</h5>
+  <p>Python čte skript odshora dolů, vykonává příkazy jeden po druhém. Říkáme tomu <strong>sekvenční vykonávání</strong>.</p>
+  <pre><code>print("A")
+print("B")
+print("C")</code></pre>
+  <p>Tento skript vypíše: A, B, C – vždy v tomto pořadí.</p>
 
-  <h5 class="mt-4">Základy fungování</h5>
+  <!-- Co je skript a program -->
+  <h5 class="mt-4">📁 Skript a program</h5>
   <ul class="list-group mb-4">
-    <li class="list-group-item"><strong>Zdrojový kód</strong>: Lidsky čitelný zápis programu
-      <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal4First">Více</button>
-    </li>
-    <li class="list-group-item">
-      <strong>🧠 Hierarchie témat</strong>: Programování → Kód → Překlad → Vykonání
-      <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#SomeSubmenu" aria-expanded="false" aria-controls="SomeSubmenu">
-        &#9660;
-      </button>
-
-      <ul class="list-group list-group-flush collapse mt-2" id="SomeSubmenu">
-        <li class="list-group-item">
-          <strong>Interpreter vs. kompilátor</strong>: Dva přístupy k překladu kódu
-          <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal4Secound">
-            Více
-          </button>
-        </li>
-      </ul>
-    </li>
+    <li class="list-group-item"><strong>Skript</strong>: jednoduchý soubor obsahující posloupnost příkazů</li>
+    <li class="list-group-item"><strong>Program</strong>: rozsáhlejší celek – může se skládat z více skriptů a knihoven</li>
   </ul>
 
-  <ul class="list-group mb-4">
-    <li class="list-group-item">
-      <strong>Historie programování</strong>
-      <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#windowsSubmenu" aria-expanded="false" aria-controls="windowsSubmenu">
-        &#9660;
-      </button>
+  <!-- print() -->
+  <h5 class="mt-4">🖨️ Funkce <code>print()</code></h5>
+  <p>Funkce <code>print()</code> vypíše text do konzole. Používáme ji pro komunikaci s uživatelem a pro výstup informací.</p>
+  <pre><code>print("Hello World")</code></pre>
 
-      <ul class="list-group list-group-flush collapse mt-2" id="windowsSubmenu">
-        <li class="list-group-item">
-          <div class="container mt-5">
-            <div class="row justify-content-center">
-              <div class="col-md-8">
-                <div class="card shadow-sm">
-                  <div class="card-header bg-primary text-white">
-                    Od Ada Lovelace po Python
-                  </div>
-                  <div class="card-body">
-                    <h5 class="card-title">Základní informace</h5>
-                    <ul>
-                      <li><strong>1843:</strong> Ada Lovelace – první algoritmus</li>
-                      <li><strong>1950s:</strong> Fortran, COBOL</li>
-                      <li><strong>1991:</strong> Guido van Rossum vydává Python</li>
-                    </ul>
+  <!-- input() -->
+  <h5 class="mt-4">⌨️ Funkce <code>input()</code></h5>
+  <p>Funkce <code>input()</code> zastaví program a čeká, až uživatel něco napíše a stiskne Enter.</p>
+  <pre><code>input("Stiskni Enter pro ukončení")</code></pre>
+  <p>Používá se např. na konci skriptu, aby se program nezavřel okamžitě.</p>
 
-                    <h5 class="mt-4">Tabulka jazyků</h5>
-                    <table class="table table-bordered">
-                      <thead class="table-light">
-                        <tr>
-                          <th>Jazyk</th>
-                          <th>Rok</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr><td>Python</td><td>1991</td></tr>
-                        <tr><td>JavaScript</td><td>1995</td></tr>
-                      </tbody>
-                    </table>
-
-                    <h5 class="mt-4">Zdroje</h5>
-                    <ul>
-                      <li><a href="https://cs.wikipedia.org/wiki/Programovac%C3%AD_jazyk" target="_blank">Wikipedia – Programovací jazyky</a></li>
-                      <li><a href="https://realpython.com" target="_blank">Real Python</a></li>
-                      <li><a href="https://python.org" target="_blank">Python.org</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </li>
-  </ul>
-
-  <p>💡 Hint: I když programování může působit složitě, ve skutečnosti je to trénink logického myšlení a řešení problémů.</p>
- 
- <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal4Functions">
-  Jak funguje volání funkcí?
-</button>
- 
- 
- 
   <!-- Úkoly -->
   <div class="container my-4 p-4 border rounded bg-light">
-    <h4 class="mb-3">Úkoly:</h4>
+    <h4 class="mb-3">Úkoly</h4>
     <ul class="list-group list-group-flush mb-3">
-      <li class="list-group-item">1. Otevři Editor níže</li>
-      <li class="list-group-item">2. Vytvoř program, který vypíše do konzole "Hello World".</li>
-      <li class="list-group-item">3. Na další řádce vypíše "Toto je můj první program" "mezera" ":)" </li>
-      <li class="list-group-item">4. Nakonec klikni na tlačítkoStáhnout jako .py, a nasdílej projekt na e-mail učitele. </li>
+      <li class="list-group-item">1. Otevři editor níže</li>
+      <li class="list-group-item">2. Napiš <code>print("Hello, World!")</code></li>
+      <li class="list-group-item">3. Napiš <code>print("Tvé jméno")</code></li>
+      <li class="list-group-item">4. Přidej <code>input("Stiskni Enter pro ukončení")</code></li>
+      <li class="list-group-item">5. Spusť a sleduj pořadí vykonání</li>
     </ul>
-     <a href="/learn.jankonrad.com/sections/progGames/3.html" target="_blank" ><button class="btn btn-sm btn-outline-primary" type="button">Editor</button></a>
+    <a href="/learn.jankonrad.com/sections/progGames/3.html" target="_blank"><button class="btn btn-sm btn-outline-primary">Editor</button></a>
   </div>
-
-
-
 
   <!-- Shrnutí -->
   <div class="container my-4 p-4 border rounded bg-light">
-    <h3 class="mb-3">Shrnutí kapitoly</h3>
-    <p>V této kapitole jsi poznal, co je programování, jak funguje počítačový kód, a nahlédl do historie vývoje jazyků až k Pythonu.</p>
+    <h3>🔑 Shrnutí</h3>
     <ul class="list-group list-group-flush mb-3">
-      <li class="list-group-item"><strong>Program</strong>: Série instrukcí pro počítač.</li>
-      <li class="list-group-item"><strong>Python</strong>: Moderní, srozumitelný jazyk pro začátečníky i experty.</li>
-      <li class="list-group-item"><strong>Algoritmus</strong>: Logický postup řešení problému.</li>
-      <li class="list-group-item"><strong>Interpreter</strong>: Vykonává kód řádek po řádku.</li>
-      <li class="list-group-item"><strong>Historie</strong>: Kořeny sahají do 19. století.</li>
+      <li>📌 Python čte kód odshora dolů, řádek po řádku</li>
+      <li>📌 Skript je soubor s příkazy, program může být větší celek</li>
+      <li>📌 <code>print()</code> vypisuje text, <code>input()</code> čeká na vstup</li>
+      <li>📌 Spouštět můžeš v IDE, v příkazové řádce nebo v terminálu</li>
     </ul>
-    <div class="alert alert-info" role="alert">
-      <strong>Tip:</strong> Každý velký program začíná jednoduchým "Hello, world!"
+    <div class="alert alert-info">
+      <strong>Tip:</strong> Každý velký program začíná malým „Hello, World!“
     </div>
   </div>
 
   <!-- Odkazy -->
-  <hr>
-  <h6>Odkazy na použité zdroje</h6>
+  <h6>📚 Zdroje</h6>
   <ol class="small">
-    <li><a href="https://en.wikipedia.org/wiki/History_of_programming_languages" target="_blank">Wikipedia – Historie programovacích jazyků</a></li>
-    <li><a href="https://python.org" target="_blank">Oficiální web Pythonu</a></li>
-    <li><a href="https://realpython.com" target="_blank">Real Python – tutoriály</a></li>
+    <li><a href="https://www.itnetwork.cz/python/zaklady/python-tutorial-uvod-do-pythonu-a-zakladni-matematicke-operace" target="_blank">IT‑network: Lekce 1 – Úvod do Pythonu</a></li>
+    <li><a href="https://www.python.org/downloads/" target="_blank">Oficiální stránka Pythonu</a></li>
+    <li><a href="https://code.visualstudio.com/" target="_blank">Visual Studio Code – ke stažení</a></li>
+    <li><a href="https://thonny.org/" target="_blank">Thonny – Python IDE</a></li>
   </ol>
 </section>
-
-<!-- MODÁLY -->
-
-<!-- Modal: Zdrojový kód -->
-<div class="modal fade" id="modal4First" tabindex="-1" aria-labelledby="modal4FirstLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modal4FirstLabel">Zdrojový kód</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-      </div>
-      <div class="modal-body">
-        <p><strong>Zdrojový kód</strong> je text napsaný v programovacím jazyce, který určuje, co má počítač dělat.</p>
-        <pre><code>print("Ahoj světe!")</code></pre>
-        <ul>
-          <li>Čitelný pro člověka</li>
-          <li>Zapisuje se do souboru např. <code>.py</code></li>
-          <li>Musí být přeložen nebo interpretován</li>
-        </ul>
-
-        <!-- SVG animace: programovací kód -> CPU -->
-        <div class="text-center my-4">
-          <svg width="100%" height="120" viewBox="0 0 500 100">
-            <text x="20" y="30" font-size="16">Zdrojový kód</text>
-            <rect x="10" y="40" width="100" height="40" fill="#e0f7fa" stroke="#00796b" />
-            <text x="30" y="65" font-size="14">print()</text>
-            <line x1="110" y1="60" x2="250" y2="60" stroke="#00796b" stroke-width="2" class="svg-line" />
-            <rect x="250" y="40" width="100" height="40" fill="#fff9c4" stroke="#fbc02d" />
-            <text x="265" y="65" font-size="14">Počítač</text>
-          </svg>
-          <p class="small text-muted">Vizualizace: kód → zpracování</p>
-        </div>
-
-        <h6>💡 Shrnutí</h6>
-        <p>Zdrojový kód je základ každého programu – to, co skutečně píšeš.</p>
-        <h6>📚 Zdroje a doporučená četba</h6>
-        <ul>
-          <li><a href="https://cs.wikipedia.org/wiki/Zdrojov%C3%BD_k%C3%B3d" target="_blank">Wikipedia – Zdrojový kód</a></li>
-        </ul>
-        <p class="text-muted text-center"><small><em>Tip:</em> V Pythonu se kód často píše ve VS Code nebo Thonny.</small></p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal: Interpreter vs. kompilátor -->
-<div class="modal fade" id="modal4Secound" tabindex="-1" aria-labelledby="modal4SecoundLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modal4SecoundLabel">Interpreter vs. Kompilátor</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-      </div>
-      <div class="modal-body">
-        <p><strong>Interpreter</strong> a <strong>kompilátor</strong> jsou nástroje, které překládají zdrojový kód do instrukcí pro počítač.</p>
-        <ul>
-          <li><strong>Interpreter</strong>: Provádí kód řádek po řádku (např. Python).</li>
-          <li><strong>Kompilátor</strong>: Přeloží celý program před spuštěním (např. C, Java).</li>
-        </ul>
-        <pre><code>print("Ahoj světe!")</code></pre>
-
-        <!-- SVG animace: porovnání interpreter vs kompilátor -->
-        <div class="text-center my-4">
-          <svg width="100%" height="150" viewBox="0 0 600 140">
-            <text x="20" y="20" font-size="16">Interpreter</text>
-            <rect x="10" y="30" width="120" height="40" fill="#e3f2fd" stroke="#2196f3" />
-            <text x="35" y="55" font-size="14">Zdrojový kód</text>
-            <line x1="130" y1="50" x2="270" y2="50" stroke="#2196f3" stroke-width="2" class="svg-line" />
-            <rect x="270" y="30" width="100" height="40" fill="#c8e6c9" stroke="#43a047" />
-            <text x="280" y="55" font-size="14">Výstup</text>
-
-            <text x="20" y="100" font-size="16">Kompilátor</text>
-            <rect x="10" y="110" width="120" height="30" fill="#e3f2fd" stroke="#2196f3" />
-            <text x="35" y="130" font-size="14">Zdrojový kód</text>
-            <line x1="130" y1="125" x2="270" y2="125" stroke="#2196f3" stroke-width="2" class="svg-line" />
-            <rect x="270" y="110" width="100" height="30" fill="#ffe082" stroke="#fbc02d" />
-            <text x="280" y="130" font-size="13">Kompilace</text>
-            <line x1="370" y1="125" x2="500" y2="125" stroke="#43a047" stroke-width="2" class="svg-line" />
-            <rect x="500" y="110" width="90" height="30" fill="#c8e6c9" stroke="#43a047" />
-            <text x="510" y="130" font-size="13">Výstup</text>
-          </svg>
-          <p class="small text-muted">Interpreter: ihned | Kompilátor: nejdřív překlad, pak spuštění</p>
-        </div>
-
-        <h6>💡 Shrnutí</h6>
-        <p>Python používá interpret – kód se spustí okamžitě.</p>
-        <h6>📚 Zdroje a doporučená četba</h6>
-        <ul>
-          <li><a href="https://cs.wikipedia.org/wiki/Interpreter_(programov%C3%A1n%C3%AD)" target="_blank">Wikipedia – Interpreter</a></li>
-          <li><a href="https://cs.wikipedia.org/wiki/Kompil%C3%A1tor" target="_blank">Wikipedia – Kompilátor</a></li>
-        </ul>
-        <p class="text-muted text-center"><small><em>Tip:</em> Interpretry jsou ideální pro učení – můžeš experimentovat v reálném čase.</small></p>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Modal: Volání funkcí a print() -->
-<div class="modal fade" id="modal4Functions" tabindex="-1" aria-labelledby="modal4FunctionsLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modal4FunctionsLabel">Jak funguje volání funkcí v Pythonu?</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-      </div>
-      <div class="modal-body">
-        <p><strong>Funkce</strong> je pojmenovaný blok kódu, který něco dělá – například vypisuje text, počítá nebo načítá data.</p>
-
-        <h6>🧩 Co je to <code>print()</code>?</h6>
-        <p><code>print()</code> je vestavěná funkce v Pythonu, která vypisuje text do konzole.</p>
-        <pre><code>print("Ahoj světe!")</code></pre>
-
-        <ul>
-          <li><strong>print</strong> je název funkce</li>
-          <li><strong>()</strong> jsou závorky, které značí „volání“ funkce</li>
-          <li><strong>"Ahoj světe!"</strong> je argument, který funkce použije</li>
-        </ul>
-
-        <h6>🧠 Proč používáme závorky?</h6>
-        <p>V Pythonu (a většině jazyků) závorky říkají: <em>„spusť tuto funkci právě teď“</em>. Bez závorek funkci jen označíš, ale nespustíš ji.</p>
-        <pre><code>
-print         # odkaz na funkci, ale nic se nestane
-print()       # volání funkce – proběhne výpis
-        </code></pre>
-
-        <h6>📚 Co jsou knihovny?</h6>
-        <p>Knihovna (např. <code>math</code>, <code>random</code>) je soubor funkcí, které můžeš používat.</p>
-        <pre><code>import math
-print(math.sqrt(25))  # vypíše 5.0</code></pre>
-
-        <div class="alert alert-warning mt-4" role="alert">
-          <strong>Tip:</strong> Pokud si nejsi jistý, co funkce dělá, napiš <code>help(nazev_funkce)</code> v Pythonu.
-        </div>
-
-        <div class="text-center my-4">
-          <svg width="100%" height="120" viewBox="0 0 600 100">
-            <text x="20" y="30" font-size="16">Volání funkce</text>
-            <rect x="10" y="40" width="140" height="40" fill="#e1f5fe" stroke="#039be5" />
-            <text x="25" y="65" font-size="14">print("text")</text>
-            <line x1="150" y1="60" x2="300" y2="60" stroke="#039be5" stroke-width="2" class="svg-line" />
-            <rect x="300" y="40" width="130" height="40" fill="#fff9c4" stroke="#fbc02d" />
-            <text x="315" y="65" font-size="14">Konzole: "text"</text>
-          </svg>
-          <p class="small text-muted">Funkce → výstup</p>
-        </div>
-
-        <h6>💡 Shrnutí</h6>
-        <ul>
-          <li><code>print()</code> je funkce pro výpis</li>
-          <li>Závorky volají funkci s argumenty</li>
-          <li>Můžeš si tvořit i vlastní funkce</li>
-        </ul>
-
-        <h6>📚 Doporučené odkazy</h6>
-        <ul>
-          <li><a href="https://cs.wikipedia.org/wiki/Funkce_(programov%C3%A1n%C3%AD)" target="_blank">Wikipedia – Funkce v programování</a></li>
-          <li><a href="https://docs.python.org/3/library/functions.html#print" target="_blank">Oficiální dokumentace: print()</a></li>
-        </ul>
-        <p class="text-muted text-center"><small><em>Tip:</em> Funkce dělají kód přehlednější a opakovatelný – používej je často!</small></p>
-      </div>
-    </div>
-  </div>
-</div>
-
-
 
