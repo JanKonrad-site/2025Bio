@@ -341,7 +341,44 @@ Kolik nohou má pes? 4
 Test dokončen. Získal jsi 2 bodů z 3
       </pre>
     </div>
+<div class="container my-4 p-4 border rounded bg-light">
+  <h4 class="mb-3">🎼 Samostatné cvičení: Přehled durových stupnic a jejich předznamenání</h4>
+  <p>
+    Tvým úkolem je vytvořit program, který vypíše přehled všech běžných durových tónin a počet jejich křížků nebo béček (předznamenání).<br>
+    <b>Postupuj podle těchto kroků:</b>
+    <ol class="list-group list-group-numbered mb-3">
+      <li class="list-group-item">
+        Vytvoř si dva seznamy (listy) dvojic: jeden pro tóniny s křížky, druhý pro tóniny s béčky.<br>
+        Každý prvek v seznamu bude dvojice (n-tice) <code>(název_tóniny, počet_předznamenání)</code>.<br>
+        <span class="text-muted">Například: <code>("G", 1)</code> znamená „G dur má 1 křížek“.</span>
+      </li>
+      <li class="list-group-item">
+        Pomocí cyklu <code>for</code> projdi oba seznamy.<br>
+        Pro každou tóninu vypiš na obrazovku, kolik má křížků nebo béček.<br>
+        Pokud má tónina žádné předznamenání, vypiš místo čísla text „žádné předznamenání“.
+      </li>
+      <li class="list-group-item">
+        Zamysli se, kde se může hodit podmínka <code>if</code> a kde bude stačit prosté vypisování.<br>
+        <b>Bonus:</b> Přemýšlej, jak by šlo program rozšířit, aby správně vypisoval „křížek“/„křížky“ nebo „béčko“/„béčka“ podle počtu.
+      </li>
+    </ol>
+    <b>Příklad výstupu programu:</b>
+    <pre class="bg-light border rounded p-2">
+C - dur: žádné předznamenání
+G - dur: 1 křížek/křížky
+D - dur: 2 křížek/křížky
+...
+F - dur: 1 béčko/béčka
+B - dur: 2 béčko/béčka
+</pre>
+    <b>Tip:</b> Výsledek nezapomeň uzavřít pomocí <code>input()</code>, aby okno po spuštění hned nezmizelo.
+  </p>
+  <div class="alert alert-warning mb-0">
+    <b>Pomůcka:</b>
+    Připomeň si práci s cyklem <code>for</code> a podmínkou <code>if</code>.  
+    Přemýšlej, jak nejlépe uložit a projít dvojice (n-tice) v seznamu.
   </div>
+</div>
 
   </section>
   
