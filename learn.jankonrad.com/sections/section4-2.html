@@ -380,5 +380,166 @@ B - dur: 2 béčko/béčka
   </div>
 </div>
 
+
+
+  <!-- Teoretický blok -->
+ <div class="container my-4 p-4 border rounded bg-light">
+  <h4 class="mb-3">🔄 Cyklus <code>while</code> – podrobná teorie a procvičování</h4>
+
+  <h5>Co je cyklus <code>while</code>?</h5>
+  <p>
+    Cyklus <code>while</code> opakuje určitou část programu (blok příkazů) tak dlouho, dokud platí podmínka.<br>
+    Jinými slovy: <b>Stále dokola kontroluje, jestli je podmínka splněná. Pokud ano, provede příkazy uvnitř cyklu. Pokud ne, pokračuje dál.</b>
+  </p>
+
+  <pre><code>
+# Základní struktura:
+while podmínka:
+    příkazy uvnitř cyklu (odsazené)
+  </code></pre>
+
+  <div class="alert alert-info">
+    <b>Jakmile se podmínka stane nepravdivou, cyklus skončí!</b>
+  </div>
+
+  <h5>Příklad – Počítání do pěti</h5>
+  <pre><code>
+i = 1
+while i <= 5:
+    print(i)
+    i += 1
+  </code></pre>
+  <ul>
+    <li><b>Začínáš od jedničky:</b> <code>i = 1</code></li>
+    <li><b>Podmínka <code>i &lt;= 5</code></b>: cyklus běží, dokud je i menší nebo rovno pěti.</li>
+    <li><b>Při každém průchodu</b> vypíšeš hodnotu a počitadlo zvýšíš.</li>
+    <li><b>Když je i větší než 5, cyklus skončí.</b></li>
+  </ul>
+
+  <div class="alert alert-warning mb-3">
+    <b>Tip:</b> Nezapomeň proměnnou v cyklu vždy správně měnit – jinak vznikne nekonečný cyklus!
+  </div>
+
+  <hr>
+
+  <h5 class="mt-4">Cvičení 1 – Opakované výpisy ("Ahoj")</h5>
+  <p>
+    <b>Zadání:</b> Napiš program, který desetkrát vypíše slovo "Ahoj".<br>
+    <b>Jak na to?</b>
+    <ul>
+      <li>Použij proměnnou jako počitadlo (např. <code>pocet = 1</code>).</li>
+      <li>Nastav cyklus <code>while</code>, který poběží, dokud je počitadlo menší nebo rovno 10.</li>
+      <li>Po každém výpisu počitadlo zvětši (<code>pocet += 1</code>).</li>
+      <li>Zkus si do výpisu přidat i číslo aktuálního opakování (např. <code>Ahoj 1</code>, <code>Ahoj 2</code>...).</li>
+    </ul>
+    <div class="alert alert-info">Nápověda: Pokud si nevíš rady, napiš si na papír, jak se počitadlo mění v každém kole cyklu.</div>
+  </p>
+
+  <hr>
+
+  <h5 class="mt-4">Cvičení 2 – Odpočítávání (10 až 1)</h5>
+  <p>
+    <b>Zadání:</b> Napiš program, který odpočítá čísla od 10 do 1 a na konci vypíše "Start!".<br>
+    <b>Jak na to?</b>
+    <ul>
+      <li>Vytvoř proměnnou, která začíná na 10 (<code>odpocet = 10</code>).</li>
+      <li>Cyklus <code>while</code> poběží, dokud je <code>odpocet</code> větší nebo roven 1.</li>
+      <li>Po každém výpisu proměnnou zmenši o 1 (<code>odpocet -= 1</code>).</li>
+      <li>Po skončení cyklu vypiš <code>print("Start!")</code>.</li>
+    </ul>
+    <div class="alert alert-info">Nápověda: Zkus změnit výchozí hodnotu a podmínku – uvidíš, jak se výstup změní!</div>
+  </p>
+
+  <hr>
+
+  <h5 class="mt-4">Cvičení 3 – Zadání správného hesla</h5>
+  <p>
+    <b>Zadání:</b> Napiš program, který se stále dokola ptá na heslo, dokud uživatel nezadá správné heslo <b>"tajne"</b>. Pokud zadá správně, vypiš "Vítej!".<br>
+    <b>Jak na to?</b>
+    <ul>
+      <li>Před cyklem vytvoř proměnnou <code>heslo</code>, do které dáš např. prázdný řetězec.</li>
+      <li>Cyklem <code>while</code> opakuj dotaz na vstup, dokud heslo není "tajne".</li>
+      <li>Uvnitř cyklu vždy znovu načti hodnotu z <code>input()</code>.</li>
+      <li>Když je heslo správné, cyklus skončí a vypíšeš "Vítej!".</li>
+    </ul>
+    <div class="alert alert-info">Nápověda: Ověř si, že podmínka cyklu je správně – má běžet, když je heslo špatně!</div>
+  </p>
+
+  <hr>
+
+  <h5 class="mt-4">Cvičení 4 – Dotaz na jméno s ukončením</h5>
+  <p>
+    <b>Zadání:</b> Napiš program, který se opakovaně ptá na jméno uživatele a vždy jej vypíše zpět. Program skončí, když uživatel zadá "konec".<br>
+    <b>Jak na to?</b>
+    <ul>
+      <li>Před cyklem vytvoř proměnnou <code>jmeno</code> s prázdným textem.</li>
+      <li>Cyklem <code>while</code> opakuj dotaz, dokud jméno není "konec".</li>
+      <li>Po zadání jména ho vypiš zpět na obrazovku (<code>print("Zadal jsi:", jmeno)</code>).</li>
+      <li>Jakmile uživatel zadá "konec", program skončí.</li>
+    </ul>
+    <div class="alert alert-info">Nápověda: Pozor na pořadí příkazů – nejprve zeptej se na vstup, až potom kontroluj podmínku!</div>
+  </p>
+
+  <hr>
+
+  <h5 class="mt-4">Cvičení 5 – Ověření správného vstupu</h5>
+  <p>
+    <b>Zadání:</b> Program se ptá uživatele na číslo mezi 1 a 10, dokud opravdu nezadá číslo v tomto rozsahu. Potom poděkuje a skončí.<br>
+    <b>Jak na to?</b>
+    <ul>
+      <li>Nejprve načti číslo od uživatele (<code>int(input(...))</code>).</li>
+      <li>Cyklus <code>while</code> má podmínku, že číslo není mezi 1 a 10 (<code>not (1 <= cislo <= 10)</code>).</li>
+      <li>Když číslo není v rozsahu, ptej se dál.</li>
+      <li>Jakmile je správné, vypiš poděkování a skonči.</li>
+    </ul>
+    <div class="alert alert-info">Nápověda: Pokud nefunguje, zkus si napsat na papír, jak vypadá proměnná cislo v každém průchodu cyklem.</div>
+  </p>
+
+  <hr>
+
+   <h5>❗ Nejčastější chyby s while cyklem</h5>
+  <ul>
+    <li>
+      <b>Nekonečný cyklus:</b> Pokud v těle cyklu <b>nezměníš hodnotu, na které závisí podmínka</b>, cyklus nikdy neskončí!<br>
+      <span class="text-danger">Například:</span>
+      <pre><code>
+x = 1
+while x < 5:
+    print(x)  # x se nikdy nezmění!
+      </code></pre>
+      <span class="text-muted">Cyklus nikdy neskončí, program se „zasekne“.</span>
+    </li>
+    <li>
+      <b>Pozor na správné porovnání:</b> <code>==</code> pro rovnost, <code>!=</code> pro nerovnost.
+    </li>
+    <li>
+      <b>Porovnávání špatných typů:</b>  
+      Pokud se pokusíš porovnávat text s číslem, Python vypíše chybu.<br>
+    
+      <pre><code>
+slovo = "Ahoj"
+while slovo <= 10:  # nelze porovnat text a číslo!
+    print(slovo)
+    slovo = slovo
+      </code></pre>
+      <span class="text-muted">Výsledek: <b>TypeError</b> – Python neví, jak porovnat text a číslo.</span>
+    </li>
+    <li>
+      <b>Špatná podmínka cyklu – cyklus se nikdy nespustí:</b><br>
+      Když podmínka není splněná hned na začátku, cyklus ani nezačne.
+      <pre><code>
+odpocet = 10
+while odpocet <= 0:   # 10 není <= 0, cyklus vůbec neběží
+    print(odpocet)
+    odpocet -= 1
+      </code></pre>
+      <span class="text-muted">Výsledek: Program nic nevypíše, protože cyklus nezačne.</span>
+    </li>
+    <li>
+      <b>Zapomenuté zvětšování/zmenšování počitadla:</b>  
+      Pokud v cyklu nezměníš hodnotu počitadla, cyklus nikdy neskončí (viz první příklad).
+    </li>
+  </ul>
+
   </section>
   
