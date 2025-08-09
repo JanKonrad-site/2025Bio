@@ -10,4 +10,6 @@
     let siblings = button.parentElement.querySelectorAll("button");
     siblings.forEach(b => b.disabled = true);
   }
+
+ 
   
