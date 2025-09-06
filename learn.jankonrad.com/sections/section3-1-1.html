@@ -1,0 +1,183 @@
+<section id="section3-1-1" class="container my-5">
+  <h3 class="mb-4">3.1.1 Úvod do HTML, VS Code a nadpisová hierarchie</h3>
+
+  <!-- Cíl lekce -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Co se naučíš?</h4>
+    <p>Správně převádět strukturu obsahu do nadpisů h1–h6 (hierarchie jako obsah knihy) a zkontrolovat výsledek v náhledu.</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>HTML = HyperText Markup Language</strong> – rozdíl hypertext (odkazy) × markup (značky).</li>
+      <li class="list-group-item"><strong>Tag vs. element</strong> – <code>&lt;h1&gt;</code>, <code>&lt;/h1&gt;</code> vs. celý blok.</li>
+      <li class="list-group-item"><strong>Projekt ve VS Code</strong> – složka + <code>index.html</code> + náhled (Live Server/Preview).</li>
+      <li class="list-group-item"><strong>Nadpisy h1–h6</strong> – 1× h1, další úrovně postupně, nepřeskakovat.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <i class="bi bi-lightbulb"></i>
+      <strong>Tip:</strong> Založ složku <code>WebDevProjects</code> → otevři ji ve VS Code (<kbd>File</kbd> → <kbd>Open Folder…</kbd>) → náhled přes <strong>Live Server</strong> („Go Live“) nebo <strong>Live Preview</strong>.
+    </div>
+  </div>
+
+  <!-- Teorie -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <h4 class="mb-3">Teorie: Co je HTML a jak fungují nadpisy</h4>
+    <p><strong>HTML</strong> popisuje obsah a strukturu webu. <em>Hypertext</em> = text s odkazy; <em>markup</em> = značky (tagy), které dávají obsahu význam.</p>
+    <p><i class="bi bi-eye"></i> <strong>Tag</strong> je to, co je v lomených závorkách (<code>&lt;h1&gt;</code>), <strong>element</strong> je celý blok včetně obsahu a párových tagů.</p>
+    <ul>
+      <li><strong>Nadpisy <code>h1–h6</code></strong> vytvářejí přehlednou hierarchii (jako obsah knihy).</li>
+      <li><strong>1× <code>h1</code></strong> (titul stránky), pak <code>h2</code> (kapitoly), <code>h3</code> (sekce), <code>h4</code> (podsekce)…</li>
+      <li>Nadpisy nejsou na „zvětšení písma“ – vzhled řeší CSS.</li>
+    </ul>
+  </div>
+
+  <!-- Ukázkový text -->
+        <h5 class="mt-5">Text k cvičení</h5>
+         <p>Tento „holý“ obsah převeď do správných nadpisů (h1–h4):</p>
+     <div class="container my-4 p-4 border rounded bg-light">
+
+
+  <pre><code>Book
+Chapter 1
+  Section 1
+  Section 2
+Chapter 2
+  Section 1
+    Diagram 1
+Chapter 3
+   </div>
+ 
+</code></pre>
+
+  <p><strong>Mapa převodu:</strong></p>
+  <ul>
+    <li><code>Book</code> → <code>&lt;h1&gt;</code> (titul)</li>
+    <li><code>Chapter 1, Chapter 2, Chapter 3</code> → <code>&lt;h2&gt;</code> (kapitoly)</li>
+    <li><code>Section 1, Section 2</code> → <code>&lt;h3&gt;</code> (sekce kapitol)</li>
+    <li><code>Diagram 1</code> → <code>&lt;h4&gt;</code> (podsekce v rámci sekce)</li>
+  </ul>
+
+
+
+  <!-- Úkoly -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Úkoly k textu</h4>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">
+        1) Vytvoř složku <code>lekce-3-1-1</code> a v ní <code>index.html</code> (boilerplate: <code>&lt;!doctype html&gt;</code>, <code>&lt;html lang="cs"&gt;</code>, <code>&lt;head&gt;</code> s <code>&lt;meta charset="utf-8"&gt;</code> a <code>&lt;title&gt;</code>, <code>&lt;body&gt;</code>).
+      </li>
+      <li class="list-group-item">
+        2) Do <code>&lt;body&gt;</code> zapiš nadpisy podle mapy (výše). <strong>Nevynechávej</strong> úrovně.
+      </li>
+      <li class="list-group-item">
+        3) Spusť náhled a ověř: <code>h1</code> největší, <code>h4</code> nejmenší; struktura odpovídá obsahu knihy.
+      </li>
+    </ul>
+
+    <!-- Rychlé modální vysvětlovače h1–h6 -->
+    <div class="d-flex flex-wrap gap-2">
+      <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#mH1">h1</button>
+      <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#mH2">h2</button>
+      <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#mH3">h3</button>
+      <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#mH4">h4</button>
+      <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#mH5">h5</button>
+      <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#mH6">h6</button>
+    </div>
+  </div>
+
+  <!-- Akordeon -->
+  <div class="accordion mb-5" id="accordion3-1-1">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingOne3-1-1">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne3-1-1">
+          1. Založení projektu a základní HTML kostra
+        </button>
+      </h2>
+      <div id="collapseOne3-1-1" class="accordion-collapse collapse show" data-bs-parent="#accordion3-1-1">
+        <div class="accordion-body">
+          <p><strong>Postup ve VS Code:</strong></p>
+          <ol>
+            <li>Otevři <code>WebDevProjects/lekce-3-1-1</code> ve VS Code (<kbd>File</kbd> → <kbd>Open Folder…</kbd>).</li>
+            <li>Vytvoř <code>index.html</code>. Jestli chceš rychle, napiš <kbd>!</kbd> a potvrď <kbd>Tab</kbd>/<kbd>Enter</kbd> (Emmet vloží HTML5 kostru).</li>
+            <li>Spusť náhled (Live Server/Preview). Měl bys vidět prázdnou stránku s titulkem z <code>&lt;title&gt;</code>.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingTwo3-1-1">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo3-1-1">
+          2. Pravidla pro nadpisy (best practices)
+        </button>
+      </h2>
+      <div id="collapseTwo3-1-1" class="accordion-collapse collapse" data-bs-parent="#accordion3-1-1">
+        <div class="accordion-body">
+          <ul>
+            <li><strong>1× h1</strong> (titul stránky).</li>
+            <li><strong>Nepřeskakuj</strong> úrovně (po <code>h1</code> → <code>h2</code> → <code>h3</code> …).</li>
+            <li>Nadpisy jsou o <strong>struktuře</strong>, ne o velikosti písma.</li>
+            <li>Správná hierarchie pomáhá přístupnosti (čtečky) i orientaci.</li>
+          </ul>
+          <hr>
+          <p><strong>Kontrolní seznam:</strong></p>
+          <ul class="mb-0">
+            <li>Mám jen <strong>jeden</strong> <code>h1</code> s textem „Book“.</li>
+            <li>Každá kapitola je <code>h2</code> a pod ní odpovídající <code>h3</code>.</li>
+            <li>„Diagram 1“ je <code>h4</code> pod správnou sekcí.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- Modály: h1–h6 krátká vysvětlení -->
+<div class="modal fade" id="mH1" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content">
+  <div class="modal-header"><h5 class="modal-title">h1 – hlavní titul</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+  <div class="modal-body"><p>Nejdůležitější nadpis (název stránky, článku). Na stránce <strong>jen jeden</strong>.</p></div>
+</div></div></div>
+
+<div class="modal fade" id="mH2" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content">
+  <div class="modal-header"><h5 class="modal-title">h2 – kapitola</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+  <div class="modal-body"><p>Hlavní části obsahu (kapitoly). Patří přímo pod <code>h1</code>.</p></div>
+</div></div></div>
+
+<div class="modal fade" id="mH3" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content">
+  <div class="modal-header"><h5 class="modal-title">h3 – sekce kapitoly</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+  <div class="modal-body"><p>Podsekce kapitoly (např. jednotlivé oddíly v kapitole).</p></div>
+</div></div></div>
+
+<div class="modal fade" id="mH4" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content">
+  <div class="modal-header"><h5 class="modal-title">h4 – podsekce</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+  <div class="modal-body"><p>Detailní podsekce v rámci <code>h3</code> (např. „Diagram 1“).</p></div>
+</div></div></div>
+
+<div class="modal fade" id="mH5" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content">
+  <div class="modal-header"><h5 class="modal-title">h5 – jemnější úroveň</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+  <div class="modal-body"><p>Méně časté; použij, až když vyčerpáš vyšší úrovně.</p></div>
+</div></div></div>
+
+<div class="modal fade" id="mH6" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content">
+  <div class="modal-header"><h5 class="modal-title">h6 – nejnižší úroveň</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+  <div class="modal-body"><p>Nejnižší nadpisová úroveň. Pod <code>h5</code>.</p></div>
+</div></div></div>
+
+<!-- Vzorový obrázek zůstává -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#imageModalKap-3-1-1">
+  Zobrazit vzor
+</button>
+<div class="modal fade" id="imageModalKap-3-1-1" tabindex="-1" aria-labelledby="imageModalLabelKap-3-1-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="imageModalLabelKap-3-1-1">Vzorový obrázek – hierarchie nadpisů</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body text-center">
+        <img src="[img/hierarchy.png]" alt="Ukázka h1–h4" class="img-fluid rounded shadow">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Test a odkazy zůstávají beze změny (můžeš je ponechat, jak máš) -->
