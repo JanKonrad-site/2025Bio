@@ -1,0 +1,117 @@
+<section id="section2-2-3" class="container my-5">
+  <h3 class="mb-4">2.2.3 Kvadratické funkce a rovnice</h3>
+
+  <!-- Cíl lekce -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Co se naučíš?</h4>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">Rozlišit <strong>kvadratickou funkci</strong> (<code>y = ax² + bx + c</code>) a <strong>kvadratickou rovnici</strong> (<code>ax²+bx+c=0</code>).</li>
+      <li class="list-group-item">Pochopit význam parametrů <strong>a, b, c</strong> – otevření, posun osy, posun nahoru/dolů.</li>
+      <li class="list-group-item">Najít <strong>vrchol paraboly</strong> (<code>u=-b/(2a)</code>, <code>v=f(u)</code>) a průsečíky s osami.</li>
+      <li class="list-group-item">Umět řešit kvadratickou rovnici pomocí <strong>diskriminantu</strong> a vysvětlit počet řešení.</li>
+      <li class="list-group-item">Prakticky vytvořit tabulku hodnot a XY graf v <strong>Excelu</strong>, dopočítat vrchol a kořeny.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <i class="bi bi-lightbulb"></i>
+      <strong>Tip:</strong> V Excelu použij XY (bodový) graf. Hledání řešení (<em>Goal Seek</em>) najde X, pro které Y=0, tedy řešení rovnice.
+    </div>
+  </div>
+
+  <!-- Teorie: Kvadratická funkce -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <h4 class="mb-3">1. Kvadratická funkce</h4>
+    <p>Obecný tvar kvadratické funkce je:</p>
+    <p class="text-center"><code>y = ax² + bx + c</code></p>
+    <ul>
+      <li><strong>a</strong>: směr a šířka paraboly (<code>a&gt;0</code> nahoru, <code>a&lt;0</code> dolů).</li>
+      <li><strong>b</strong>: posouvá osu souměrnosti (a tím vrchol) po ose X.</li>
+      <li><strong>c</strong>: posouvá graf nahoru/dolů (průsečík s osou Y je [0; c]).</li>
+    </ul>
+    <p><strong>Vrchol paraboly:</strong> <code>u = -b/(2a)</code>, <code>v = f(u)</code>.</p>
+    <div class="alert alert-secondary" role="alert">
+      Intuice: <em>a</em> = otevření a šířka, <em>b</em> = vodorovný posun vrcholu, <em>c</em> = svislý posun.
+    </div>
+  </div>
+
+  <!-- Teorie: Kvadratická rovnice -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <h4 class="mb-3">2. Kvadratická rovnice</h4>
+    <p>Když hledáme, kdy je funkce rovna nule, dostáváme rovnici:</p>
+    <p class="text-center"><code>ax² + bx + c = 0</code></p>
+    <p>Řešení = průsečíky paraboly s osou X.</p>
+    <h5 class="mt-3">Diskriminant</h5>
+    <p><code>D = b² − 4ac</code></p>
+    <ul>
+      <li><code>D &gt; 0</code> → dva reálné kořeny.</li>
+      <li><code>D = 0</code> → jeden dvojnásobný kořen (dotyk v bodě vrcholu).</li>
+      <li><code>D &lt; 0</code> → žádné reálné kořeny.</li>
+    </ul>
+    <h5 class="mt-3">Vzorce pro kořeny</h5>
+    <p><code>x₁ = (-b - √D) / (2a)</code>, <code>x₂ = (-b + √D) / (2a)</code></p>
+  </div>
+
+  <!-- Excel -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <h4 class="mb-3">3. Výpočet v Excelu</h4>
+    <ol>
+      <li>Parametry: D1:<em>a</em>=1, E1:<em>b</em>=2, F1:<em>c</em>=-3.</li>
+      <li>Do A napiš X (-5 až 5). Do B vzorec: <code>=$D$1*A2^2 + $E$1*A2 + $F$1</code>.</li>
+      <li>Diskriminant G1: <code>=E1^2 - 4*D1*F1</code> → 16.</li>
+      <li>Kořeny: 
+        <ul>
+          <li>G2: <code>=(-E1 - ODMOCNINA(G1))/(2*D1)</code> → -3</li>
+          <li>G3: <code>=(-E1 + ODMOCNINA(G1))/(2*D1)</code> → 1</li>
+        </ul>
+      </li>
+      <li>Vrchol: 
+        <ul>
+          <li>G4 (u): <code>=-E1/(2*D1)</code> → -1</li>
+          <li>G5 (v): <code>=D1*G4^2 + E1*G4 + F1</code> → -4</li>
+        </ul>
+      </li>
+      <li>Označ A:B a vlož XY graf s hladkou čarou. Přidej do grafu body pro kořeny a vrchol.</li>
+    </ol>
+    <div class="alert alert-secondary" role="alert">
+      V Excelu lze řešení najít i přes <em>Data → Analýza hypotéz → Hledání řešení</em>.
+    </div>
+  </div>
+
+  <!-- Konkrétní příklad -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <h4 class="mb-3">4. Konkrétní příklad z našeho sešitu</h4>
+    <p>Naše parametry: <strong>a=1</strong>, <strong>b=2</strong>, <strong>c=-3</strong></p>
+    <p>Funkce: <code>y = x² + 2x − 3</code></p>
+    <ul>
+      <li>Vrchol: [−1; −4]</li>
+      <li>Diskriminant: 16</li>
+      <li>Kořeny: x₁ = −3, x₂ = 1</li>
+      <li>Průsečík s osou Y: [0; −3]</li>
+    </ul>
+  </div>
+
+  <!-- Úkoly -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">5. Úkoly k procvičení</h4>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>1)</strong> Vytvoř tabulku a graf pro <code>a=1, b=0, c=-6</code>. Najdi vrchol a kořeny.</li>
+      <li class="list-group-item"><strong>2)</strong> Ověř, že pro <code>a=1, b=2, c=-3</code> vychází kořeny −3 a 1.</li>
+      <li class="list-group-item"><strong>3)</strong> Najdi příklad, kdy <code>D&lt;0</code>. Jak vypadá parabola?</li>
+      <li class="list-group-item"><strong>4)</strong> Použij „Hledání řešení“ a nech Excel najít X, kdy Y=0.</li>
+    </ul>
+  </div>
+
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Shrnutí celé hodiny</h3>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">Kvadratická funkce má tvar <code>y = ax² + bx + c</code>.</li>
+      <li class="list-group-item">Kvadratická rovnice <code>ax² + bx + c = 0</code> určuje průsečíky s osou X.</li>
+      <li class="list-group-item">Diskriminant <code>D=b²−4ac</code> určuje počet řešení.</li>
+      <li class="list-group-item">Vrchol paraboly: <code>u=-b/(2a)</code>, <code>v=f(u)</code>.</li>
+      <li class="list-group-item">Excel umožňuje spočítat tabulku, graf, vrchol i kořeny přímo pomocí vzorců.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Pamatuj si: <em>funkce</em> popisuje celý graf, <em>rovnice</em> hledá jen konkrétní body (řešení).
+    </div>
+  </div>
+</section>
