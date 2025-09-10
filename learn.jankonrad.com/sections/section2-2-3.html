@@ -115,3 +115,270 @@
     </div>
   </div>
 </section>
+
+<!-- Hudební příklad: Buben – přesný a postupný model -->
+<div class="container my-4 p-4 border rounded bg-white">
+  <h4 class="mb-3">4.1 Hudební příklad – Buben (kvadratická aproximace první fáze pohybu)</h4>
+
+  <p><strong>Cíl:</strong> Na jednoduchém modelu ukázat, jak kvadratická funkce popíše první „oblouk“ výchylky bubnové membrány po úderu a jak z ní v Excelu automaticky najdeme vrchol (maximum) a kořeny (návrat do klidu).</p>
+
+  <h5>Model a jednotky</h5>
+  <ul>
+    <li><strong>Proměnná x</strong>: čas po úderu v milisekundách <em>[ms]</em>.</li>
+    <li><strong>Proměnná y</strong>: relativní výchylka membrány (bezrozměrně, např. v „jednotkách amplitudy“).</li>
+    <li><strong>Funkce</strong>: <code>y = ax^2 + bx + c</code> se zvolenými parametry:
+      <ul>
+        <li><strong>a = −0,25</strong> (jednotky ≈ 1/ms²) – udává „rychlost návratu“ (zakřivení dolů).</li>
+        <li><strong>b = 2</strong> (jednotky ≈ 1/ms) – udává „sílu/tempo růstu“ výchylky po úderu.</li>
+        <li><strong>c = 0</strong> – počáteční výchylka je nulová (<code>y(0)=0</code>).</li>
+      </ul>
+      Tedy konkrétně: <code>y = −0,25·x^2 + 2·x + 0</code>.
+    </li>
+  </ul>
+  <div class="alert alert-secondary">
+    <strong>Poznámka:</strong> Skutečný pohyb je tlumená sinusovka. Kvadratika zde slouží jako <em>jednoduchá aproximace</em> první fáze (od úderu po první návrat).
+  </div>
+
+  <h5>Krok 1: Připrav tabulku v Excelu</h5>
+  <ol>
+    <li>Do <strong>D1:F1</strong> napiš záhlaví: <code>a</code>, <code>b</code>, <code>c</code>. Do <strong>D2:F2</strong> hodnoty: <code>-0,25</code>, <code>2</code>, <code>0</code>.</li>
+    <li>Do <strong>A1</strong> napiš <em>čas [ms]</em>, do <strong>B1</strong> <em>výchylka y</em>.</li>
+    <li>Do <strong>A2</strong> napiš <code>0</code>, do <strong>A3</strong> <code>0,5</code>. Obě buňky označ a táhni úchopem dolů, až dojdeš k <strong>8,0</strong> (krok 0,5 ms dává hezký hladký graf).</li>
+    <li>Do <strong>B2</strong> napiš vzorec a zkopíruj dolů:
+      <div class="bg-light border rounded p-2 my-2">
+        <code>= $D$2*A2^2 + $E$2*A2 + $F$2</code>
+      </div>
+      (Dolar <code>$</code> „uzamkne“ buňky s parametry.)
+    </li>
+  </ol>
+
+  <h5>Krok 2: Vrchol (maximum) a kořeny automaticky</h5>
+  <p>Mimo tabulku (třeba do oblasti <strong>H:G</strong>) si připrav pomocné výpočty:</p>
+  <ul class="list-group list-group-flush mb-3">
+    <li class="list-group-item"><strong>Diskriminant D</strong> (např. do <strong>H2</strong> napiš „D“ a do <strong>I2</strong> vzorec):
+      <div class="bg-light border rounded p-2 my-2">
+        <code>= E2^2 - 4*$D$2*F2</code>
+      </div>
+      Pro naše parametry vyjde <strong>D = 4</strong>.
+    </li>
+    <li class="list-group-item"><strong>Kořeny (návrat do klidu)</strong> – do <strong>H4</strong> „x₁“, <strong>I4</strong>:
+      <div class="bg-light border rounded p-2 my-2">
+        <code>=(-E2 - ODMOCNINA(I2)) / (2*$D$2)</code>
+      </div>
+      do <strong>H5</strong> „x₂“, <strong>I5</strong>:
+      <div class="bg-light border rounded p-2 my-2">
+        <code>=(-E2 + ODMOCNINA(I2)) / (2*$D$2)</code>
+      </div>
+      Vyjde <strong>x₁ = 0</strong> ms a <strong>x₂ = 8</strong> ms.
+    </li>
+    <li class="list-group-item"><strong>Vrchol paraboly</strong> – do <strong>H7</strong> „u (čas)“, <strong>I7</strong>:
+      <div class="bg-light border rounded p-2 my-2">
+        <code>= -E2 / (2*$D$2)</code>
+      </div>
+      a do <strong>H8</strong> „v (výchylka)“, <strong>I8</strong>:
+      <div class="bg-light border rounded p-2 my-2">
+        <code>= $D$2*I7^2 + E2*I7 + F2</code>
+      </div>
+      Vyjde <strong>u = 4</strong> ms a <strong>v = 4</strong> (vrchol <strong>[4; 4]</strong>).
+    </li>
+  </ul>
+
+  <h5>Krok 3: Graf (XY – bodový se spojnicí)</h5>
+  <ol>
+    <li>Označ sloupce <strong>A:B</strong> a vlož <strong>Vložit → Bodový (XY) → Hladká spojnica</strong>.</li>
+    <li>Do grafu přidej samostatné body:
+      <ul>
+        <li><em>Vrchol</em>: Pravým → <strong>Vybrat data</strong> → <strong>Přidat</strong> sérii, X-hodnota = buňka <strong>I7</strong>, Y-hodnota = <strong>I8</strong>.</li>
+        <li><em>Kořeny</em>: Přidej novou sérii, X-hodnoty = <strong>I4:I5</strong>, Y-hodnoty zadej ručně jako <code>{0,0}</code> (nebo dvě buňky s nulou).</li>
+      </ul>
+      Pak v <strong>Formátování</strong> nastav těmto sériím jen „značky“ (bez čáry) a případně popisky dat („x=0“, „x=8“, „vrchol“).
+    </li>
+  </ol>
+
+  <h5>Volitelně: Kořen bez vzorce (Hledání řešení)</h5>
+  <ol>
+    <li>Do <strong>K2</strong> napiš „x*“, do <strong>L2</strong> třeba <code>1</code> (výchozí odhad). Do <strong>K3</strong> „y(x*)“, do <strong>L3</strong>:
+      <div class="bg-light border rounded p-2 my-2">
+        <code>= $D$2*L2^2 + $E$2*L2 + $F$2</code>
+      </div>
+    </li>
+    <li><strong>Data → Analýza hypotéz → Hledání řešení</strong>: Nastav <em>Buňku pro nastavení</em> = <strong>L3</strong>, <em>na hodnotu</em> = <strong>0</strong>, <em>změnou buňky</em> = <strong>L2</strong>.</li>
+    <li>Spusť – najde jeden kořen. Když do <strong>L2</strong> dáš jiný odhad (např. <code>7</code>), najde ten druhý.</li>
+  </ol>
+
+  <h5>Hotové výsledky (kontrola)</h5>
+  <ul>
+    <li><strong>Kořeny:</strong> x = 0 ms a x = 8 ms (membrána je v klidu na začátku a po 8 ms).</li>
+    <li><strong>Vrchol:</strong> v čase 4 ms dosáhne výchylka maxima y = 4.</li>
+  </ul>
+
+  <div class="alert alert-info">
+    <strong>Co dělají parametry?</strong> <em>a</em> (záporné) stáčí oblouk dolů a udává „rychlost návratu“, <em>b</em> posouvá čas vrcholu (větší <em>b</em> ⇒ vrchol později a výš), <em>c</em> je počáteční výchylka.
+  </div>
+</div>
+Shrnutí pro tebe (učitelsky)
+Výběr parametrů a jednotek je teď jasně daný: x [ms], y [rel. výchylka], a [1/ms²], b [1/ms], c [1].
+
+Studenti si okamžitě spočítají tabulku + graf a automaticky získají vrchol i kořeny (vzorce i „Hledání řešení“).
+
+Vše je napsané tak, aby to šlo doslova krokovat na hodině.
+
+Chceš k tomu ještě krátký snímek obrazovky s doporučeným rozložením buněk (kde je A1, D2 atd.), nebo radši necháš jen text a graf si uděláte přímo ve třídě?
+
+
+
+
+
+
+Řekl/a jsi:
+Hele promiň ale nejsem si jistý, že je to šťastný příklad pro tento model, mnohem použitelnější, a tím i zábavnější by byl příklad s tím koncertem co myslíš ?
+
+
+ChatGPT řekl:
+
+Přemýšlení po dobu 12s
+Souhlas — koncert je pro kvadratiku ideální. Vezmeme reálný model poptávky → tržba (výnos), vše pomalu, krok za krokem, s jasným významem 
+𝑎
+,
+𝑏
+,
+𝑐
+a,b,c a s přesnými Excel vzorci.
+
+html
+Zkopírovat kód
+<section id="section2-2-3" class="container my-5">
+  <h3 class="mb-4">2.2.3 Kvadratické funkce a rovnice – koncert (praktický model)</h3>
+
+  <!-- Cíl lekce -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Co se naučíš?</h4>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">Pochopit model ceny lístku, poptávky diváků a tržby jako kvadratickou funkci.</li>
+      <li class="list-group-item">Umět určit vrchol paraboly (optimální cenu) a kořeny (hranice, kdy je tržba nulová).</li>
+      <li class="list-group-item">Spočítat vše automaticky v Excelu a sestrojit XY graf.</li>
+    </ul>
+    <div class="alert alert-info"><strong>Idea:</strong> Vyšší cena → menší návštěvnost. Tržba = cena × počet diváků. Výsledek je kvadratická funkce s maximem.</div>
+  </div>
+
+  <!-- Intuitivní model -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <h4 class="mb-3">1) Model koncertu: cena → poptávka → tržba</h4>
+    <p>Uvažujme jednoduchou (lineární) poptávku po lístku:</p>
+    <p class="text-center"><code>D(p) = n<sub>0</sub> − k·p</code></p>
+    <ul>
+      <li><strong>p</strong> … cena lístku (v €).</li>
+      <li><strong>D(p)</strong> … počet diváků (osob).</li>
+      <li><strong>n<sub>0</sub></strong> … maximální počet diváků, když je lístek „zdarma“.</li>
+      <li><strong>k</strong> … o kolik osob klesne zájem při zdražení o 1 €.</li>
+    </ul>
+    <p>Tržba (výnos) je: <code>R(p) = p · D(p) = p(n<sub>0</sub> − k·p) = −k·p² + n<sub>0</sub>·p</code></p>
+    <p>Tedy kvadratická funkce:</p>
+    <p class="text-center"><code>R(p) = a·p² + b·p + c</code>, kde <code>a = −k</code> (záporné), <code>b = n<sub>0</sub></code>, <code>c = 0</code>.</p>
+    <div class="alert alert-secondary"><strong>Význam parametrů:</strong> 
+      <em>a</em> (záporné) určuje „jak rychle“ po překročení optimální ceny tržba padá; 
+      <em>b</em> je „startovní růst“ (čím větší potenciální publikum, tím strmější nárůst); 
+      <em>c</em>=0, protože při ceně 0 € je tržba 0 €.
+    </div>
+  </div>
+
+  <!-- Konkrétní čísla -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <h4 class="mb-3">2) Konkrétní příklad (realistická čísla)</h4>
+    <ul>
+      <li><strong>n<sub>0</sub> = 1000</strong> diváků (kdyby to bylo zdarma).</li>
+      <li><strong>k = 20</strong> (při zdražení o 1 € ubyde cca 20 lidí).</li>
+    </ul>
+    <p>Tržba: <code>R(p) = −20·p² + 1000·p</code></p>
+    <ul>
+      <li><strong>a = −20</strong>, <strong>b = 1000</strong>, <strong>c = 0</strong>.</li>
+      <li><strong>Vrchol (optimální cena):</strong> <code>p* = −b / (2a) = −1000 / (2·(−20)) = 25 €</code>.</li>
+      <li><strong>Maximální tržba:</strong> <code>R(25) = −20·25² + 1000·25 = 12 500 €</code>.</li>
+      <li><strong>Kořeny (nulová tržba):</strong> <code>p = 0 €</code> (zdarma) a <code>p = b/|a| = 1000/20 = 50 €</code> (moc drahé, nikdo nepřijde).</li>
+    </ul>
+  </div>
+
+  <!-- Excel postup -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <h4 class="mb-3">3) Výpočet v Excelu (automaticky)</h4>
+    <h5>Krok A — Parametry a tabulka</h5>
+    <ol>
+      <li>Do <strong>D1:F1</strong> napiš záhlaví: <code>a</code>, <code>b</code>, <code>c</code>. Do <strong>D2:F2</strong> napiš: <code>-20</code>, <code>1000</code>, <code>0</code>.</li>
+      <li>Do <strong>A1</strong> napiš <em>cena p [€]</em>, do <strong>B1</strong> <em>tržba R(p) [€]</em>.</li>
+      <li>Do <strong>A2</strong> zadej <code>0</code>, do <strong>A3</strong> <code>1</code>. Obě označ a táhni dolů až do <strong>50</strong> (krok 1 €).</li>
+      <li>Do <strong>B2</strong> vlož vzorec a zkopíruj dolů:
+        <div class="bg-light border rounded p-2 my-2"><code>= $D$2*A2^2 + $E$2*A2 + $F$2</code></div>
+        (Dolar <code>$</code> uzamkne parametry v řádku 2.)
+      </li>
+    </ol>
+
+    <h5>Krok B — Vrchol a kořeny z parametrů</h5>
+    <p>Do volných buněk (třeba <strong>H:I</strong>) si udělej pomocné výpočty:</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Diskriminant</strong> <em>D = b² − 4ac</em> — do <strong>H2</strong> „D“, do <strong>I2</strong>:
+        <div class="bg-light border rounded p-2 my-2"><code>= E2^2 - 4*$D$2*F2</code></div>
+        Zde vyjde <strong>D = 1 000 000</strong>.
+      </li>
+      <li class="list-group-item"><strong>Kořeny:</strong>
+        <div class="bg-light border rounded p-2 my-2"><code>x1 (H4), I4: =(-E2 - ODMOCNINA(I2)) / (2*$D$2)</code></div>
+        <div class="bg-light border rounded p-2 my-2"><code>x2 (H5), I5: =(-E2 + ODMOCNINA(I2)) / (2*$D$2)</code></div>
+        Vyjde <strong>0</strong> a <strong>50</strong>.
+      </li>
+      <li class="list-group-item"><strong>Vrchol:</strong>
+        <div class="bg-light border rounded p-2 my-2"><code>p* (H7), I7: = -E2 / (2*$D$2)</code></div>
+        <div class="bg-light border rounded p-2 my-2"><code>R(p*) (H8), I8: = $D$2*I7^2 + E2*I7 + F2</code></div>
+        Vyjde <strong>25</strong> a <strong>12 500</strong>.
+      </li>
+    </ul>
+
+    <h5>Krok C — Najdi optimum „bez vzorce“ (Hledání řešení)</h5>
+    <ol>
+      <li>Do <strong>K2</strong> napiš „p* (odhad)“, do <strong>L2</strong> dej např. <code>10</code>.</li>
+      <li>Do <strong>K3</strong> „R(p*)“, do <strong>L3</strong>:
+        <div class="bg-light border rounded p-2 my-2"><code>= $D$2*L2^2 + $E$2*L2 + $F$2</code></div>
+      </li>
+      <li>Otevři <strong>Data → Analýza hypotéz → Hledání řešení</strong>: nastav <em>Buňku pro nastavení</em> = <strong>L3</strong>, <em>na maximum</em>, <em>změnou buňky</em> = <strong>L2</strong>. Excel najde <strong>p* ≈ 25</strong>.</li>
+    </ol>
+
+    <h5>Krok D — Graf (XY bodový se spojnicí)</h5>
+    <ol>
+      <li>Označ <strong>A:B</strong> a vlož <strong>Vložit → Bodový (XY) → Hladká spojnice</strong>.</li>
+      <li>Přidej body pro <em>kořeny</em> a <em>vrchol</em> jako samostatné série (X = <strong>I4:I5</strong>, Y = nuly; a X = <strong>I7</strong>, Y = <strong>I8</strong>). Nastav viditelné značky a popisky.</li>
+    </ol>
+  </div>
+
+  <!-- Propojení s teorií -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <h4 class="mb-3">4) Propojení s kvadratickou funkcí</h4>
+    <p>Máme <code>R(p) = a·p² + b·p + c</code> se <code>a &lt; 0</code>. Vrchol je:</p>
+    <p class="text-center"><code>p* = −b/(2a)</code>, <code>R(p*) = a·p*² + b·p* + c</code></p>
+    <p>Kořeny (kde je tržba nulová):</p>
+    <p class="text-center"><code>p = 0</code> a <code>p = −b/a = n<sub>0</sub> / k</code></p>
+    <div class="alert alert-info"><strong>Interpretace:</strong> 
+      <em>a</em> je záporné – parabola klesá po obou stranách vrcholu; 
+      <em>b</em> reprezentuje „potenciální publikum“; 
+      <em>c</em>=0, protože při 0 € nemáme tržbu.
+    </div>
+  </div>
+
+  <!-- Úkoly -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">5) Úkoly k procvičení</h4>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>1)</strong> Vypočti a v grafu vyznač kořeny a vrchol pro <code>R(p) = −20p² + 1000p</code>.</li>
+      <li class="list-group-item"><strong>2)</strong> Změň parametry na <code>n₀ = 800</code>, <code>k = 16</code> (tedy <code>R(p) = −16p² + 800p</code>) a znovu najdi optimální cenu. Co se změnilo a proč?</li>
+      <li class="list-group-item"><strong>3)</strong> (Volitelné) Přidej <em>fixní náklady</em> 5 000 € a zjisti, při jaké ceně je <em>zisk</em> maximální. (Tip: nejdřív definuj <code>Z(p) = R(p) − 5000</code>.)</li>
+      <li class="list-group-item"><strong>4)</strong> Najdi optimální cenu pomocí <em>Hledání řešení</em> bez použití vzorce pro vrchol.</li>
+    </ul>
+  </div>
+
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Shrnutí</h3>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">Tržba z koncertu: <code>R(p) = −k·p² + n₀·p</code> je kvadratická funkce s maximem.</li>
+      <li class="list-group-item">Optimální cena: <code>p* = −b/(2a)</code>; kořeny: <code>p = 0</code> a <code>p = n₀/k</code>.</li>
+      <li class="list-group-item">Excel spočítá tabulku, kořeny, vrchol i maximum automaticky; graf (XY) vizualizuje celou situaci.</li>
+    </ul>
+  </div>
+
