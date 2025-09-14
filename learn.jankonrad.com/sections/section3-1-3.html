@@ -4,62 +4,81 @@
   <!-- Cíl lekce -->
   <div class="container my-4 p-4 border rounded bg-light">
     <h4 class="mb-3">Co se naučíš?</h4>
-    <p>Navážeš na předchozí práci s HTML elementy a posuneš se k seznamům a jejich vnořování.</p>
+    <p>
+      Navážeš na předchozí práci s HTML elementy a posuneš se k seznamům a
+      jejich vnořování.
+    </p>
 
     <ul class="list-group list-group-flush mb-3">
-      <li class="list-group-item"><strong>Neseřazené a seřazené seznamy</strong> – <code>&lt;ul&gt;</code>, <code>&lt;ol&gt;</code> a položky <code>&lt;li&gt;</code>.</li>
-      <li class="list-group-item"><strong>Kdy použít jaký typ</strong> – odrážky (pořadí není důležité) vs. číslování (pořadí je důležité).</li>
-      <li class="list-group-item"><strong>Vnořené seznamy</strong> – seznam uvnitř seznamu a proč je důležité správné odsazování.</li>
+      <li class="list-group-item">
+        <strong>Neseřazené a seřazené seznamy</strong> –
+        <code>&lt;ul&gt;</code>, <code>&lt;ol&gt;</code> a položky
+        <code>&lt;li&gt;</code>.
+      </li>
+      <li class="list-group-item">
+        <strong>Kdy použít jaký typ</strong> – odrážky (pořadí není důležité)
+        vs. číslování (pořadí je důležité).
+      </li>
+      <li class="list-group-item">
+        <strong>Vnořené seznamy</strong> – seznam uvnitř seznamu a proč je
+        důležité správné odsazování.
+      </li>
     </ul>
 
     <div class="alert alert-info" role="alert">
       <i class="bi bi-lightbulb"></i>
-      <strong>Tip:</strong> Internet je plný seznamů (BuzzFeed články, „FBI Ten Most Wanted“ atd.). Když v prohlížeči dáš <em>Inspect</em>, často uvidíš, že galerie či výpisy jsou <code>&lt;ul&gt;</code> s položkami <code>&lt;li&gt;</code>.
+      <strong>Tip:</strong> Internet je plný seznamů (BuzzFeed články, „FBI Ten
+      Most Wanted“ atd.). Když v prohlížeči dáš <em>Inspect</em>, často uvidíš,
+      že galerie či výpisy jsou <code>&lt;ul&gt;</code> s položkami
+      <code>&lt;li&gt;</code>.
     </div>
   </div>
 
   <!-- Teorie (část 1: seznamy) -->
   <div class="container my-4 p-4 border rounded bg-white">
     <h4 class="mb-3">Teorie: Seznamové elementy (ul/ol/li)</h4>
-    <p>Začneme jedním z nejčastějších typů – <strong>neseřazeným seznamem</strong>. Vytvoříš ho takto: otevírací tag <code>&lt;ul&gt;</code> a uzavírací tag <code>&lt;/ul&gt;</code>. Uvnitř ale <em>musí</em> být položky <code>&lt;li&gt;...&lt;/li&gt;</code> – bez nich se obsah nezobrazí jako seznam.</p>
+    <p>
+      Začneme jedním z nejčastějších typů –
+      <strong>neseřazeným seznamem</strong>. Vytvoříš ho takto: otevírací tag
+      <code>&lt;ul&gt;</code> a uzavírací tag <code>&lt;/ul&gt;</code>. Uvnitř
+      ale <em>musí</em> být položky <code>&lt;li&gt;...&lt;/li&gt;</code> – bez
+      nich se obsah nezobrazí jako seznam.
+    </p>
     <pre><code>&lt;ul&gt;
   &lt;li&gt;Položka 1&lt;/li&gt;
   &lt;li&gt;Položka 2&lt;/li&gt;
   &lt;li&gt;Položka 3&lt;/li&gt;
 &lt;/ul&gt;</code></pre>
-    <p>Neseřazený seznam zobrazuje <strong>odrážky</strong> (hodí se třeba na nákupní seznam – pořadí je jedno).</p>
+    <p>
+      Neseřazený seznam zobrazuje <strong>odrážky</strong> (hodí se třeba na
+      nákupní seznam – pořadí je jedno).
+    </p>
 
-    <p>Potřebuješ-li pořadí, použij <strong>seřazený seznam</strong> <code>&lt;ol&gt;</code>. Položky se automaticky číslují podle svého pořadí v kódu:</p>
+    <p>
+      Potřebuješ-li pořadí, použij <strong>seřazený seznam</strong>
+      <code>&lt;ol&gt;</code>. Položky se automaticky číslují podle svého pořadí
+      v kódu:
+    </p>
     <pre><code>&lt;ol&gt;
   &lt;li&gt;Krok první&lt;/li&gt;
   &lt;li&gt;Krok druhý&lt;/li&gt;
   &lt;li&gt;Krok třetí&lt;/li&gt;
 &lt;/ol&gt;</code></pre>
-    <p>Stručně: <code>&lt;ul&gt;</code> → odrážky, <code>&lt;ol&gt;</code> → čísla. V reálných webech (třeba „FBI Ten Most Wanted“) jsou položky často řešené právě jako <code>&lt;li&gt;</code> uvnitř seznamu.</p>
-  </div>
-
-  <!-- Ukázkový text (cvičení 1: recept) -->
-  <h5 class="mt-5">Ukázkový text k formátování (Cvičení – „Cinnamon Rolls“)</h5>
-  <p>Stáhni a otevři připravené soubory pro lekci „List Elements“. V <code>index.html</code> najdeš <em>holý text</em> receptu (vše je již napsáno). Tvým úkolem je doplnit <strong>jen HTML značky</strong> a vytvořit stránku s receptem:</p>
-
-  <!-- Úkoly (cvičení 1) -->
-  <div class="container my-4 p-4 border rounded bg-light">
-    <h4 class="mb-3">Úkoly k textu (Cvičení 1)</h4>
-    <ul class="list-group list-group-flush mb-3">
-      <li class="list-group-item">1) Přidej nadpisy: 1× <code>&lt;h1&gt;</code> (název receptu), „Ingredients“ a „Instructions“ jako <code>&lt;h2&gt;</code>; případné podnadpisy jako <code>&lt;h3&gt;</code> (volba velikostí je na tobě, důležitá je logika).</li>
-      <li class="list-group-item">2) Suroviny (např. „Dough“ a „Filling“) zapiš jako <strong>neseřazené seznamy</strong> <code>&lt;ul&gt;</code> (každá položka v <code>&lt;li&gt;</code>).</li>
-      <li class="list-group-item">3) Postup (kroky) zapiš jako <strong>seřazený seznam</strong> <code>&lt;ol&gt;</code> s položkami <code>&lt;li&gt;</code>.</li>
-      <li class="list-group-item">4) Sleduj náhled – měl by jsi vidět odrážky u surovin a číslované kroky u instrukcí.</li>
-    </ul>
-    <div class="alert alert-info" role="alert">
-      <strong>Tip (VS Code):</strong> Položky <code>&lt;li&gt;</code> můžeš psát za sebou; editor může část automaticky zalomit na nový řádek. Styl jednorádkově vs. víceřádkově je věcí preference – důležitá je <em>přehlednost</em>.
-    </div>
+    <p>
+      Stručně: <code>&lt;ul&gt;</code> → odrážky, <code>&lt;ol&gt;</code> →
+      čísla. V reálných webech (třeba „FBI Ten Most Wanted“) jsou položky často
+      řešené právě jako <code>&lt;li&gt;</code> uvnitř seznamu.
+    </p>
   </div>
 
   <!-- Teorie (část 2: vnořování a odsazování) -->
   <div class="container my-4 p-4 border rounded bg-white">
     <h4 class="mb-3">Teorie: Vnořování seznamů a význam odsazování</h4>
-    <p>Seznam může obsahovat další seznam – to je <strong>vnořený seznam</strong>. Příklad: <em>v položce</em> neseřazeného seznamu otevři další <code>&lt;ul&gt;</code> nebo <code>&lt;ol&gt;</code>.</p>
+    <p>
+      Seznam může obsahovat další seznam – to je
+      <strong>vnořený seznam</strong>. Příklad: <em>v položce</em> neseřazeného
+      seznamu otevři další <code>&lt;ul&gt;</code> nebo <code>&lt;ol&gt;</code>.
+    </p>
     <pre><code>&lt;ul&gt;
   &lt;li&gt;Kategorie
     &lt;ul&gt;
@@ -68,42 +87,223 @@
     &lt;/ul&gt;
   &lt;/li&gt;
 &lt;/ul&gt;</code></pre>
-    <p><strong>Klíčová zásada:</strong> Když vkládáš seznam do položky, <em>uzavírací</em> <code>&lt;/li&gt;</code> patří až <em>za celý vnořený blok</em>. Odsazení (indentace) ti pomůže číst kód a rychle najít chyby (např. chybějící <code>&lt;/ol&gt;</code>).</p>
+    <p>
+      <strong>Klíčová zásada:</strong> Když vkládáš seznam do položky,
+      <em>uzavírací</em> <code>&lt;/li&gt;</code> patří až
+      <em>za celý vnořený blok</em>. Odsazení (indentace) ti pomůže číst kód a
+      rychle najít chyby (např. chybějící <code>&lt;/ol&gt;</code>).
+    </p>
     <div class="alert alert-info" role="alert">
-      <strong>Tip (VS Code):</strong> Ulož soubor (<kbd>Ctrl</kbd>+<kbd>S</kbd>/<kbd>Cmd</kbd>+<kbd>S</kbd>) – editor většinou automaticky „přerovná“ odsazení. Svislé vodící čáry a párování tagů ti pomohou najít, co ke komu patří.
+      <strong>Tip (VS Code):</strong> Ulož soubor
+      (<kbd>Ctrl</kbd>+<kbd>S</kbd>/<kbd>Cmd</kbd>+<kbd>S</kbd>) – editor často
+      automaticky „přerovná“ odsazení. Svislé vodící čáry a párování tagů
+      pomáhají vidět, co ke komu patří.
     </div>
   </div>
 
+  <!-- Cvičení 1: Recept – Skořicové šneky (akordeon s kroky) -->
+  <h5 class="mt-5">Cvičení – „Skořicové šneky (Kanelbullar)“</h5>
+  <p class="mb-3">
+    Postupuj přesně podle kroků níže. Vytvoř H1, H2 „Ingredience“ se seznamem
+    (UL) a H2 „Postup“ s číslovaným seznamem (OL).
+  </p>
+
+  <div class="accordion mb-4" id="accordion-313-recept">
+    <!-- Krok 1 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="head-r-step1">
+        <button
+          class="accordion-button"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#col-r-step1"
+          aria-expanded="true"
+        >
+          Krok 1 — Vytvoř H1 s názvem receptu
+        </button>
+      </h2>
+      <div
+        id="col-r-step1"
+        class="accordion-collapse collapse show"
+        data-bs-parent="#accordion-313-recept"
+      >
+        <div class="accordion-body">
+          <ol class="mb-3">
+            <li>
+              Otevři/uvoň soubor <code>index.html</code> (HTML5 kostru vložíš
+              přes <kbd>!</kbd> → <kbd>Tab/Enter</kbd>).
+            </li>
+            <li>
+              Do <code>&lt;body&gt;</code> vlož <strong>H1</strong> s textem:
+              <em>Skořicové šneky</em> (můžeš doplnit „Kanelbullar“).
+            </li>
+          </ol>
+          <pre><code>&lt;h1&gt;Skořicové šneky (Kanelbullar)&lt;/h1&gt;</code></pre>
+          <div class="alert alert-info mt-3 mb-0">
+            <strong>VS Code tip:</strong> Formátuj kód: Win/Linux
+            <kbd>Shift</kbd>+<kbd>Alt</kbd>+<kbd>F</kbd>, macOS <kbd>⌥⇧F</kbd>.
+            Rychlá kostra přes Emmet: napiš <kbd>!</kbd> a potvrď.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 2 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="head-r-step2">
+        <button
+          class="accordion-button collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#col-r-step2"
+        >
+          Krok 2 — Vytvoř H2 „Ingredience“ a neseřazený seznam (UL)
+        </button>
+      </h2>
+      <div
+        id="col-r-step2"
+        class="accordion-collapse collapse"
+        data-bs-parent="#accordion-313-recept"
+      >
+        <div class="accordion-body">
+          <p>
+            Pod H1 přidej <strong>H2</strong> „Ingredience“ a pod něj neseřazený
+            seznam <code>&lt;ul&gt;</code> s položkami přesně takto:
+          </p>
+          <ul>
+            <li>Mouka 400 g hladké mouky</li>
+            <li>Mléko 250 ml</li>
+            <li>Droždí 51 g</li>
+            <ul>
+              <li>Náplň (na každý obdélník po jedné dávce)</li>
+              <ul>
+                <li>Cukr 3 lžíce cukr krystal</li>
+                <li>Skořice 1,5 lžíčky</li>
+                <li>50 g změklého másla</li>
+              </ul>
+            </ul>
+          </ul>
+          
+
+          <div class="alert alert-info mt-3 mb-0">
+            <strong>Emmet tip:</strong> Napiš <code>ul&gt;li*6</code> →
+            <kbd>Tab</kbd> a rychle vytvoříš 6 položek k přepsání.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 3 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="head-r-step3">
+        <button
+          class="accordion-button collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#col-r-step3"
+        >
+          Krok 3 — Vytvoř H2 „Postup“ a seřazený seznam (OL)
+        </button>
+      </h2>
+      <div
+        id="col-r-step3"
+        class="accordion-collapse collapse"
+        data-bs-parent="#accordion-313-recept"
+      >
+        <div class="accordion-body">
+          <p>
+            Pod „Ingredience“ přidej <strong>H2</strong> „Postup“ a pod něj
+            číslovaný seznam <code>&lt;ol&gt;</code> s následujícími kroky:
+          </p>
+          <ol>
+            <li>V míse smícháme vlažné mléko se dvěma lžičkami moučkového cukru a droždím. Necháme stát 15 minut, dokud nevzejde kvásek.</li>
+            <li>Do mísy navážíme mouku se dvěma lžícemi cukru, přidáme sůl, rozpuštěné máslo, kvásek a vše důkladně zpracujeme v těsto, které necháme přikryté utěrkou na teplém místě nakynout do dvojnásobného objemu (asi 45-60 minut).</li>
+            <li>Až je těsto nakynuté, rozdělíme ho na dva díly. Každý vyválíme na obdélník, na který rozetřeme 50 g změklého másla a posypeme rovnoměrně cukrem smíchaným se skořicí.</li>
+            <li>Pláty srolujeme jako roládu a nakrájíme na kousky silné asi 2,5 cm. Ty klademe na plech vyložený pečicím papírem a necháme ještě 30 minut kynout.</li>
+            <li>Poté potřeme rozšlehaným vejcem a pocukrujeme krystalovým nebo perličkovým cukrem.</li>
+            <li>Troubu předehřejeme na 210 °C. Šneky pečeme 9-13 minut a necháme vychladnout na mřížce.</li>
+          </ol>
+
+          <div class="alert alert-info mt-3 mb-0">
+            <strong>Emmet tip:</strong> <code>ol&gt;li*6</code> →
+            <kbd>Tab</kbd> pro 7 prázdných kroků k doplnění.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div>
+
+  </div>
+  </div>
+
+  
+
   <!-- Ukázkový text (cvičení 2: komplexní vnoření) -->
   <h5 class="mt-5">Cvičení – Vnořené seznamy a odsazování</h5>
-  <p>Stáhni a otevři sadu „Nesting and Indentation“. Cílem je vytvořit <strong>komplexní vnořenou strukturu</strong> přesně takto:</p>
-  <pre><code>• A
-• B
-    1. B1
-    2. B2
-        • B2a
-            • B2aa
-            • B2ab
-        • B2b
-        • B2c
-    3. B3
-        1. B31
-        2. B32
-• C</code></pre>
+  <p>
+    Cílem je vytvořit <strong>komplexní vnořenou strukturu</strong> přesně
+    takto:
+  </p>
+    <ul>
+      <li>A</li>
+      <li>B</li>
+      <ol>
+        <li>B1</li>
+        <li>B2</li>
+        <ul>
+          <li>B2a</li>
+          <ul>
+            <li>B2aa</li>
+            <li>B2ab</li>
+          </ul>
+        </ul>
+        <li>B3</li>
+        <ol>
+          <li>B31</li>
+          <li>B32</li>
+        </ol>
+      </ol>
+      <li>C</li>
+    </ul>
 
   <!-- Úkoly (cvičení 2) -->
   <div class="container my-4 p-4 border rounded bg-light">
     <h4 class="mb-3">Úkoly k textu (Cvičení 2)</h4>
     <ul class="list-group list-group-flush mb-3">
-      <li class="list-group-item">1) Vytvoř horní <strong>neseřazený seznam</strong> <code>&lt;ul&gt;</code> se třemi položkami: A, B, C.</li>
-      <li class="list-group-item">2) <strong>Uvnitř položky B</strong> vlož <strong>seřazený seznam</strong> <code>&lt;ol&gt;</code> s položkami B1, B2, B3.</li>
-      <li class="list-group-item">3) <strong>Uvnitř položky B2</strong> vlož <strong>neseřazený seznam</strong> <code>&lt;ul&gt;</code> s položkami B2a, B2b, B2c.</li>
-      <li class="list-group-item">4) <strong>Uvnitř položky B2a</strong> vlož další <strong>neseřazený seznam</strong> <code>&lt;ul&gt;</code> s položkami B2aa, B2ab.</li>
-      <li class="list-group-item">5) <strong>Uvnitř položky B3</strong> vlož <strong>seřazený seznam</strong> <code>&lt;ol&gt;</code> s položkami B31, B32.</li>
-      <li class="list-group-item">6) Dbej na správné <strong>uzavírání</strong> tagů: uzavři <code>&lt;/li&gt;</code> vždy až za vnořený blok.</li>
+      <li class="list-group-item">
+        1) Vytvoř horní <strong>neseřazený seznam</strong>
+        <code>&lt;ul&gt;</code> se třemi položkami: A, B, C.
+      </li>
+      <li class="list-group-item">
+        2) <strong>Uvnitř položky B</strong> vlož
+        <strong>seřazený seznam</strong> <code>&lt;ol&gt;</code> s položkami B1,
+        B2, B3.
+      </li>
+      <li class="list-group-item">
+        3) <strong>Uvnitř položky B2</strong> vlož
+        <strong>neseřazený seznam</strong> <code>&lt;ul&gt;</code> s položkami
+        B2a, B2b, B2c.
+      </li>
+      <li class="list-group-item">
+        4) <strong>Uvnitř položky B2a</strong> vlož další
+        <strong>neseřazený seznam</strong> <code>&lt;ul&gt;</code> s položkami
+        B2aa, B2ab.
+      </li>
+      <li class="list-group-item">
+        5) <strong>Uvnitř položky B3</strong> vlož
+        <strong>seřazený seznam</strong> <code>&lt;ol&gt;</code> s položkami
+        B31, B32.
+      </li>
+      <li class="list-group-item">
+        6) Dbej na správné <strong>uzavírání</strong> tagů: uzavři
+        <code>&lt;/li&gt;</code> vždy až za vnořený blok.
+      </li>
     </ul>
     <div class="alert alert-info" role="alert">
-      <strong>Debugging podle transkriptu:</strong> Pokud se ti např. položka „C“ ocitne omylem v číslovaném seznamu, hledej chybějící <code>&lt;/ol&gt;</code> a využij vodící čáry/odsazení k dohledání chyby.
+      <strong>Debugging podle transkriptu:</strong> Pokud se ti např. položka
+      „C“ ocitne omylem v číslovaném seznamu, hledej chybějící
+      <code>&lt;/ol&gt;</code> a využij vodící čáry/odsazení k dohledání chyby.
     </div>
   </div>
 
@@ -111,17 +311,38 @@
   <div class="accordion mb-5" id="accordion3-1-3">
     <div class="accordion-item">
       <h2 class="accordion-header" id="headingOne3-1-3">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne3-1-3">
+        <button
+          class="accordion-button"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#collapseOne3-1-3"
+        >
           1. Seznamy: ul × ol × li – co, kdy a proč
         </button>
       </h2>
-      <div id="collapseOne3-1-3" class="accordion-collapse collapse show" data-bs-parent="#accordion3-1-3">
+      <div
+        id="collapseOne3-1-3"
+        class="accordion-collapse collapse show"
+        data-bs-parent="#accordion3-1-3"
+      >
         <div class="accordion-body">
-          <p><strong>ul</strong> = odrážky (pořadí jedno), <strong>ol</strong> = číslování (pořadí důležité). <strong>li</strong> je povinná položka seznamu. V praxi z nich vznikají menu, galerie i výpisy.</p>
+          <p>
+            <strong>ul</strong> = odrážky (pořadí jedno), <strong>ol</strong> =
+            číslování (pořadí důležité). <strong>li</strong> je povinná položka
+            seznamu. V praxi z nich vznikají menu, galerie i výpisy.
+          </p>
           <ol>
-            <li>Rozhodni, jestli je důležitá posloupnost → podle toho vol <code>ul</code> nebo <code>ol</code>.</li>
-            <li>Každou položku vkládej do <code>&lt;li&gt;</code>…<code>&lt;/li&gt;</code>.</li>
-            <li>U receptu: ingredience = <code>ul</code>, kroky = <code>ol</code>.</li>
+            <li>
+              Rozhodni, jestli je důležitá posloupnost → podle toho vol
+              <code>ul</code> nebo <code>ol</code>.
+            </li>
+            <li>
+              Každou položku vkládej do
+              <code>&lt;li&gt;</code>…<code>&lt;/li&gt;</code>.
+            </li>
+            <li>
+              U receptu: ingredience = <code>ul</code>, kroky = <code>ol</code>.
+            </li>
           </ol>
         </div>
       </div>
@@ -129,17 +350,36 @@
 
     <div class="accordion-item">
       <h2 class="accordion-header" id="headingTwo3-1-3">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo3-1-3">
+        <button
+          class="accordion-button collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#collapseTwo3-1-3"
+        >
           2. Vnoření a odsazování: jak číst a psát složité seznamy
         </button>
       </h2>
-      <div id="collapseTwo3-1-3" class="accordion-collapse collapse" data-bs-parent="#accordion3-1-3">
+      <div
+        id="collapseTwo3-1-3"
+        class="accordion-collapse collapse"
+        data-bs-parent="#accordion3-1-3"
+      >
         <div class="accordion-body">
-          <p>Seznam uvnitř <em>položky</em> (po textu položky) → nový <code>ul/ol</code> → teprve pak uzavři <code>&lt;/li&gt;</code>. Odsazení ti ukáže hierarchii a pomůže odhalit chyby v párování tagů.</p>
+          <p>
+            Seznam uvnitř <em>položky</em> (po textu položky) → nový
+            <code>ul/ol</code> → teprve pak uzavři <code>&lt;/li&gt;</code>.
+            Odsazení ti ukáže hierarchii a pomůže odhalit chyby v párování tagů.
+          </p>
           <p><strong>Rychlá kontrola:</strong></p>
           <ul>
-            <li>Každý otevřený seznam (<code>&lt;ul&gt;</code>/<code>&lt;ol&gt;</code>) má svůj uzávěr.</li>
-            <li>Každá položka <code>&lt;li&gt;</code> končí <em>až po</em> vnořeném seznamu.</li>
+            <li>
+              Každý otevřený seznam
+              (<code>&lt;ul&gt;</code>/<code>&lt;ol&gt;</code>) má svůj uzávěr.
+            </li>
+            <li>
+              Každá položka <code>&lt;li&gt;</code> končí
+              <em>až po</em> vnořeném seznamu.
+            </li>
             <li>Uložením souboru si nechej kód automaticky „srovnat“.</li>
           </ul>
         </div>
@@ -150,14 +390,25 @@
   <!-- Shrnutí kapitoly -->
   <div class="container my-4 p-4 border rounded bg-light">
     <h3 class="mb-3">Shrnutí</h3>
-    <p>Umíš vytvořit neseřazené a seřazené seznamy a správně je vnořovat. Chápeš, proč je odsazování v HTML klíčové pro čitelnost i hledání chyb.</p>
+    <p>
+      Umíš vytvořit neseřazené a seřazené seznamy a správně je vnořovat. Chápeš,
+      proč je odsazování v HTML klíčové pro čitelnost i hledání chyb.
+    </p>
     <ul class="list-group list-group-flush mb-3">
-      <li class="list-group-item"><strong>&lt;ul&gt;</strong> – odrážky, když na pořadí nezáleží.</li>
-      <li class="list-group-item"><strong>&lt;ol&gt;</strong> – číslování, když na pořadí záleží.</li>
-      <li class="list-group-item"><strong>Vnoření</strong> – seznam uvnitř <code>&lt;li&gt;</code>; uzavírej <code>&lt;/li&gt;</code> až za vnořený blok.</li>
+      <li class="list-group-item">
+        <strong>&lt;ul&gt;</strong> – odrážky, když na pořadí nezáleží.
+      </li>
+      <li class="list-group-item">
+        <strong>&lt;ol&gt;</strong> – číslování, když na pořadí záleží.
+      </li>
+      <li class="list-group-item">
+        <strong>Vnoření</strong> – seznam uvnitř <code>&lt;li&gt;</code>;
+        uzavírej <code>&lt;/li&gt;</code> až za vnořený blok.
+      </li>
     </ul>
     <div class="alert alert-info" role="alert">
-      <strong>Tip:</strong> Při potížích s párováním tagů si dočasně „zalamuj“ každou značku na vlastní řádek – hierarchie se ti zvýrazní.
+      <strong>Tip:</strong> Při potížích s párováním tagů si dočasně „zalamuj“
+      každou značku na vlastní řádek – hierarchie se ti zvýrazní.
     </div>
   </div>
 
@@ -167,5 +418,4 @@
     ... (případné otázky)
   </section>
   -->
-
 </section>
