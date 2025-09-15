@@ -1,0 +1,302 @@
+<!-- 7.1.2 Rastrová grafika — GIMP (Lekce 2: Vrstvy, do Projektu 4) -->
+<section id="section7-1-2" class="container my-5">
+  <h3 class="mb-4">7.1.2 GIMP — Vrstvy (Lekce 2)</h3>
+
+  <!-- Co se naučíš -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co se naučíš?</h3>
+    <p>Import obrázků, práce s vrstvami (pořadí, průhlednost), přidání Alfa kanálu, guma (Eraser), výběry a barvy, velikost plátna, masky vrstev a změna pozadí — přesně dle pracovního listu.</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Import & nové plátno</strong>: vytvoření projektu, přizpůsobení zobrazení.</li>
+      <li class="list-group-item"><strong>Alpha Channel & Eraser</strong>: průhlednost, šachovnice, nastavení nástroje.</li>
+      <li class="list-group-item"><strong>Pořadí vrstev & barvy</strong>: elipsa, výplň barvou, text.</li>
+      <li class="list-group-item"><strong>Velikost plátna</strong>: Show All, Layers to Image Size, práce s panelem Layers.</li>
+      <li class="list-group-item"><strong>Layer Mask</strong>: masky, štětce, přechody (FG→Transparent), změna pozadí.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> U průhlednosti hledej šachovnicový vzor; „Show All“ zvýrazní původní hranice vloženého obrázku.
+    </div>
+  </div>
+
+  <!-- Stahování materiálů -->
+  <div class="d-flex flex-wrap gap-2 align-items-center mb-4">
+    <a class="btn btn-primary" href="/assets/downloads/gimp_lesson2.zip">⬇️ Stáhnout balíček obrázků (Lekce 2)</a>
+    <a class="btn btn-outline-secondary" href="https://www.gimp.org/downloads/" target="_blank" rel="noopener">⤓ Stáhnout GIMP (oficiální)</a>
+  </div>
+
+  <!-- Akordeon lekce 2 -->
+  <div class="accordion" id="gimpLesson2">
+
+    <!-- 1) Import obrázků -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h2-import">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c2-import" aria-expanded="true" aria-controls="c2-import">
+          1) Import obrázků
+        </button>
+      </h2>
+      <div id="c2-import" class="accordion-collapse collapse show" aria-labelledby="h2-import" data-bs-parent="#gimpLesson2">
+        <div class="accordion-body">
+          <ol class="mb-3">
+            <li>Klikněte na odkaz (ve škole) a <strong>stáhněte si obrázky</strong> do projektové složky.</li>
+            <li>Nahrajte nové obrázky do složky <em>Obrázky</em> (v projektové struktuře).</li>
+          </ol>
+
+          <div class="card shadow-sm">
+            <div class="card-body">
+       <div class="ratio ratio-16x9 mb-2">
+  <img id="img2-import" class="img-contained rounded border"
+       src="/learn.jankonrad.com/Assets/img/gimp/Lekce2/image1.png"
+       alt="Import obrázků do projektu">
+</div>
+<div class="d-flex justify-content-between">
+  <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img2-import">◀ Předchozí</button>
+  <small class="text-muted">Import</small>
+  <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img2-import">Další ▶</button>
+</div>
+<div data-gallery-src="img2-import"
+     data-images='["/learn.jankonrad.com/Assets/img/gimp/Lekce2/image1.png",
+                   "/learn.jankonrad.com/Assets/img/gimp/Lekce2/image2.png",
+                   "/learn.jankonrad.com/Assets/img/gimp/Lekce2/image3.png",
+                   "/learn.jankonrad.com/Assets/img/gimp/Lekce2/image4.png",
+                   "/learn.jankonrad.com/Assets/img/gimp/Lekce2/image5.png"]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2) Background & import 'extreme' (nová kompozice) -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h2-bg-extreme">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c2-bg-extreme" aria-expanded="false" aria-controls="c2-bg-extreme">
+          2) Background & import „extreme“ (nová kompozice)
+        </button>
+      </h2>
+      <div id="c2-bg-extreme" class="accordion-collapse collapse" aria-labelledby="h2-bg-extreme" data-bs-parent="#gimpLesson2">
+        <div class="accordion-body">
+          <ul>
+            <li>Vytvořte <strong>nový obrázek</strong> dle zadaných parametrů (viz sešit).</li>
+            <li>V menu <strong>View</strong> lze vypnout žluté okraje (oblast canvasu).</li>
+            <li>Vložte obrázek <strong>extreme</strong> jako <em>novou kompozici</em> — ohraničení se přizpůsobí velikosti obrázku.</li>
+          </ul>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img2-bgext" class="img-contained rounded border"
+                 src="/assets/img/gimp/Lekce2/image6.png"
+                 alt="Nový obrázek a vložení extreme">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img2-bgext">◀</button>
+            <small class="text-muted">Vytvoření + Kompozice</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img2-bgext">▶</button>
+          </div>
+          <div data-gallery-src="img2-bgext"
+               data-images='["/assets/img/gimp/Lekce2/image6.png",
+                             "/assets/img/gimp/Lekce2/image7.png",
+                             "/assets/img/gimp/Lekce2/image8.png",
+                             "/assets/img/gimp/Lekce2/image9.png",
+                             "/assets/img/gimp/Lekce2/image10.png",
+                             "/assets/img/gimp/Lekce2/image11.png",
+                             "/assets/img/gimp/Lekce2/image12.png"]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3) Layers: Add Alpha Channel & Eraser Tool -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h2-alpha-eraser">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c2-alpha-eraser" aria-expanded="false" aria-controls="c2-alpha-eraser">
+          3) Layers: Add Alpha Channel & Eraser Tool
+        </button>
+      </h2>
+      <div id="c2-alpha-eraser" class="accordion-collapse collapse" aria-labelledby="h2-alpha-eraser" data-bs-parent="#gimpLesson2">
+        <div class="accordion-body">
+          <ol>
+            <li>V <strong>Layers</strong> klikněte PPM na vrstvu <em>Background</em> → <strong>Add Alpha Channel</strong>.</li>
+            <li>V <strong>Channels</strong> ověřte, že je přidaný <em>Alpha Channel</em>.</li>
+            <li>Zvolte <strong>Eraser Tool</strong> a vyzkoušejte nastavení (Size, Hardness, Opacity, Brush, Mode, Force).</li>
+          </ol>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img2-alpha" class="img-contained rounded border"
+                 src="/assets/img/gimp/Lekce2/image13.png"
+                 alt="Add Alpha Channel & Eraser">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img2-alpha">◀</button>
+            <small class="text-muted">Alpha & Eraser</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img2-alpha">▶</button>
+          </div>
+          <div data-gallery-src="img2-alpha"
+               data-images='["/assets/img/gimp/Lekce2/image13.png",
+                             "/assets/img/gimp/Lekce2/image14.png",
+                             "/assets/img/gimp/Lekce2/image15.png",
+                             "/assets/img/gimp/Lekce2/image16.png",
+                             "/assets/img/gimp/Lekce2/image17.png",
+                             "/assets/img/gimp/Lekce2/image18.png"]'></div>
+
+          <div class="alert alert-secondary mt-3">
+            <strong>Vrstvy – transparentnost:</strong> vytvoř podobný efekt gumou; přidej novou vrstvu (černá, <em>Background color</em>), nastav pořadí: <em>Background</em> dole, <em>Black</em> nad ní. Ulož jako <strong>projekt2.xcf</strong>. Úkol: vytvoř <strong>Ukol1.xcf</strong> dle zadání (1920×1200, 2 vrstvy, guma).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4) Pořadí vrstev & elipsa & barvy (text) -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h2-order-ellipse">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c2-order-ellipse" aria-expanded="false" aria-controls="c2-order-ellipse">
+          4) Pořadí vrstev & elipsa & barvy & text
+        </button>
+      </h2>
+      <div id="c2-order-ellipse" class="accordion-collapse collapse" aria-labelledby="h2-order-ellipse" data-bs-parent="#gimpLesson2">
+        <div class="accordion-body">
+          <ul>
+            <li><strong>Preview Size</strong> v panelu Layers → <em>Extra Large</em>.</li>
+            <li>Nová vrstva <strong>Shape</strong>: Opacity 100 %, vyplnit <em>Transparency</em>.</li>
+            <li><strong>Ellipse Select Tool</strong> → tahem vytvoř kruh, barvu nastav na červenou a <em>Click &amp; Drag</em> barvu do výběru.</li>
+            <li>Nová vrstva <strong>Text</strong>: obsah „TOHLE JE TEST“, pak <strong>přeuspořádejte</strong> vrstvy.</li>
+            <li>Importuj <em>extreme</em> jako novou vrstvu. Ulož jako <strong>Projekt3.xcf</strong>.</li>
+          </ul>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img2-ellipse" class="img-contained rounded border"
+                 src="/assets/img/gimp/Lekce2/image19.png"
+                 alt="Preview size, ellipse, barvy, text">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img2-ellipse">◀</button>
+            <small class="text-muted">Elipsa & Barvy</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img2-ellipse">▶</button>
+          </div>
+          <div data-gallery-src="img2-ellipse"
+               data-images='["/assets/img/gimp/Lekce2/image19.png",
+                             "/assets/img/gimp/Lekce2/image20.png",
+                             "/assets/img/gimp/Lekce2/image21.png",
+                             "/assets/img/gimp/Lekce2/image22.png",
+                             "/assets/img/gimp/Lekce2/image23.png",
+                             "/assets/img/gimp/Lekce2/image24.png",
+                             "/assets/img/gimp/Lekce2/image25.png"]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5) Vrstvy & velikost plátna (Show All, Layers to Image Size, panel Layers) -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h2-canvas-size">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c2-canvas-size" aria-expanded="false" aria-controls="c2-canvas-size">
+          5) Vrstvy & velikost plátna
+        </button>
+      </h2>
+      <div id="c2-canvas-size" class="accordion-collapse collapse" aria-labelledby="h2-canvas-size" data-bs-parent="#gimpLesson2">
+        <div class="accordion-body">
+          <ul>
+            <li><strong>Show All</strong> (View) — žluté/ohran. původní velikosti vs. oranžové exportní.</li>
+            <li><strong>Layers → Layer to Image Size</strong> — přizpůsobí hranice vrstvy.</li>
+            <li><strong>Opacity</strong>, <strong>Lock</strong> (malování/pohyb), <strong>oko</strong> (viditelnost), multi-výběr, spodní lišta (nová, group, dup., merge, maska, delete).</li>
+          </ul>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img2-canvas" class="img-contained rounded border"
+                 src="/assets/img/gimp/Lekce2/image26.png"
+                 alt="Show All, Layer to Image Size, panel Layers">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img2-canvas">◀</button>
+            <small class="text-muted">Velikost plátna & Layers</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img2-canvas">▶</button>
+          </div>
+          <div data-gallery-src="img2-canvas"
+               data-images='["/assets/img/gimp/Lekce2/image26.png",
+                             "/assets/img/gimp/Lekce2/image27.png",
+                             "/assets/img/gimp/Lekce2/image28.png",
+                             "/assets/img/gimp/Lekce2/image29.png",
+                             "/assets/img/gimp/Lekce2/image30.png",
+                             "/assets/img/gimp/Lekce2/image31.png",
+                             "/assets/img/gimp/Lekce2/image32.png",
+                             "/assets/img/gimp/Lekce2/image33.png"]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6) Layer Mask — Změna pozadí (Projekt 4 – motorkář) -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h2-mask-rider">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c2-mask-rider" aria-expanded="false" aria-controls="c2-mask-rider">
+          6) Layer Mask — Změna pozadí (Projekt 4 — motorkář)
+        </button>
+      </h2>
+      <div id="c2-mask-rider" class="accordion-collapse collapse" aria-labelledby="h2-mask-rider" data-bs-parent="#gimpLesson2">
+        <div class="accordion-body">
+          <ol>
+            <li>Nový projekt: nahraj <em>Model</em> a <em>Canyon</em> jako <strong>vrstvy</strong>.</li>
+            <li>Na vrstvu <strong>Model</strong> přidej <strong>Layer Mask</strong> (bílá).</li>
+            <li>Vysvětlení: bílá = neprůhledné, černá = průhledné, šedá = poloprůhledné.</li>
+            <li><strong>Bucket Fill (černá)</strong> na masku: zakryje model → vidět canyon.</li>
+            <li><strong>Paintbrush</strong> na masku (X pro přepínání FG/BG): maluj, zpřesni hrany (vlasy, chodidla) pomocí <strong>Zoom</strong>.</li>
+            <li>U přechodů použij <strong>Gradient Tool</strong> (FG→Transparent), poté <em>Reverse</em>, <em>Shape: Radial</em> — dolaď bílý „ostrov“ uprostřed.</li>
+            <li>Ulož jako <strong>projekt4.xcf</strong>.</li>
+          </ol>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img2-mask" class="img-contained rounded border"
+                 src="/assets/img/gimp/Lekce2/image60.png"
+                 alt="Layer Mask — změna pozadí (motorkář)">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img2-mask">◀</button>
+            <small class="text-muted">Layer Mask (Projekt 4)</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img2-mask">▶</button>
+          </div>
+          <div data-gallery-src="img2-mask"
+               data-images='["/assets/img/gimp/Lekce2/image60.png",
+                             "/assets/img/gimp/Lekce2/image61.png",
+                             "/assets/img/gimp/Lekce2/image62.png",
+                             "/assets/img/gimp/Lekce2/image63.png",
+                             "/assets/img/gimp/Lekce2/image64.png",
+                             "/assets/img/gimp/Lekce2/image65.png",
+                             "/assets/img/gimp/Lekce2/image66.png",
+                             "/assets/img/gimp/Lekce2/image67.png",
+                             "/assets/img/gimp/Lekce2/image68.png",
+                             "/assets/img/gimp/Lekce2/image69.png"]'></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /accordion -->
+
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Shrnutí (do Projektu 4)</h3>
+    <ul class="list-group list-group-flush mb-0">
+      <li class="list-group-item">Import & práce s novým plátnem.</li>
+      <li class="list-group-item">Alpha Channel, guma a průhlednost.</li>
+      <li class="list-group-item">Pořadí vrstev, výběry, barvy a text.</li>
+      <li class="list-group-item">Show All, Layer to Image Size, panel Layers (locky, opacity, group…).</li>
+      <li class="list-group-item">Layer Mask: štětce, přechody (FG→Transparent), „motorkář“: změna pozadí.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Galerie helper (stejný jako v Lekci 1) -->
+<style>
+  .img-contained { width:100%; height:100%; object-fit:contain; object-position:center; }
+</style>
+<script>
+(function(){
+  function parseImages(el){ try { return JSON.parse(el.getAttribute('data-images')||'[]'); } catch(e){ return []; } }
+  function setImg(id, src){ const img = document.getElementById(id); if(img){ img.src = src; } }
+  function move(dir, btn){
+    const id = btn.getAttribute(dir===-1?'data-gallery-prev':'data-gallery-next'); if(!id) return;
+    const holder = document.querySelector('[data-gallery-src="'+id+'"]'); if(!holder) return;
+    const list = parseImages(holder); if(!list.length) return;
+    const img = document.getElementById(id);
+    const current = img.src.split('/').pop();
+    let idx = list.findIndex(x => x.split('/').pop() === current); if(idx===-1) idx = 0;
+    const next = (idx + dir + list.length) % list.length;
+    setImg(id, list[next]);
+  }
+  document.addEventListener('click', e => {
+    if(e.target.matches('[data-gallery-prev]')) { e.preventDefault(); move(-1, e.target); }
+    if(e.target.matches('[data-gallery-next]')) { e.preventDefault(); move(1, e.target); }
+  });
+})();
+</script>
