@@ -8,7 +8,7 @@ const sections = ['section1',
                   'section3-1-1', 'section3-1-2', 'section3-1-3',
                   'section4','section4-1','section4-2','section4-3','section4-4',
                   'section5',
-                  'section7-1-1', 'section7-1-2'
+                  'section7-1-1', 'section7-1-2', 'section7-1-3'
                 ];
 let currentSectionIndex = 0;
 const loadedSections = new Set();

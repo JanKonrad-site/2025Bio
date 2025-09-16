@@ -1,0 +1,263 @@
+<!-- 7.1.3 Rastrová grafika — GIMP (Změna pozadí — slečna; dle sešitu) -->
+<section id="section7-1-3" class="container my-5">
+  <h3 class="mb-4">7.1.3 GIMP — Změna pozadí (slečna)</h3>
+
+  <!-- Co se naučíš -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co se naučíš?</h3>
+    <p>Ne-destruktivně vyměnit pozadí portrétu pomocí <em>masky vrstvy</em>, výběrů a jejich doostření/zjemnění. Vše přesně podle sešitu, s vysvětlením pojmů.</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Maska vrstvy</strong>: princip a ovládání (bílá/černá/šedá).</li>
+      <li class="list-group-item"><strong>Výběry</strong>: Free Select / Paths, Quick Mask, Feather, Grow/Shrink, Feather radius.</li>
+      <li class="list-group-item"><strong>Prolínání</strong>: štětec na masce, gradient na masce, jemné okraje (vlasy).</li>
+      <li class="list-group-item"><strong>Kompozice</strong>: pořadí vrstev (Model nahoře, Pozadí dole), zarovnání a měřítko.</li>
+      <li class="list-group-item"><strong>Export</strong>: zachování průhlednosti (PNG) vs. sloučení (JPG).</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Pracuj <em>na masce</em>, ne na obrázku. Je to vratné – obraz zůstává nedotčený.
+    </div>
+  </div>
+
+  <!-- Materiály (uprav si cestu podle svých souborů) -->
+  <div class="d-flex flex-wrap gap-2 align-items-center mb-4">
+    <a class="btn btn-primary" href="https://github.com/JanKonrad-site/GimpAssets.git" target="_blank" rel="noopener">⬇️ Soubory ke cvičení (slečna + pozadí)</a>
+  </div>
+
+  <!-- Akordeon kapitoly -->
+  <div class="accordion" id="gimpGirlBG">
+
+    <!-- 1) Teorie: Maska vrstvy + pracovní nastavení -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-girl-theory">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c-girl-theory" aria-expanded="true" aria-controls="c-girl-theory">
+          1) Teorie & nastavení (Maska vrstvy, průhlednost, pracovní pohled)
+        </button>
+      </h2>
+      <div id="c-girl-theory" class="accordion-collapse collapse show" aria-labelledby="h-girl-theory" data-bs-parent="#gimpGirlBG">
+        <div class="accordion-body">
+          <div class="alert alert-secondary mb-3">
+            <strong>🧠 Co je maska vrstvy?</strong><br>
+            Maska řídí <em>viditelnost</em> vrstvy: <strong>bílá</strong> = viditelné, <strong>černá</strong> = průhledné, <strong>šedá</strong> = poloprůhledné. Malujeme na masku (ne do obrázku), takže úprava je <em>nedestruktivní</em>.
+          </div>
+          <ol class="mb-3">
+            <li><kbd>File</kbd> → <kbd>Open as Layers</kbd> → otevři <strong>slečnu</strong> (vrstva <em>Model</em>) a pod ni <strong>nové pozadí</strong> (vrstva <em>Background</em>).</li>
+            <li>Zkontroluj <em>Alpha Channel</em> u vrstvy Model (<kbd>Layers</kbd> → pravý klik → <em>Add Alpha Channel</em>, pokud chybí).</li>
+            <li><kbd>View</kbd> → <em>Show All</em> (volitelně). Připrav si zoom (Ctrl+kolečko), ručku (Space) a náhled panelu Layers (větší thumbnails).</li>
+          </ol>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-girl-theory" class="img-contained rounded border"
+                 src="/learn.jankonrad.com/Assets/img/gimp/Lekce2/Slecna/Girl01.png"
+                 alt="Vrstvy: Model nad Background, příprava pracovního prostředí">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-girl-theory">◀</button>
+            <small class="text-muted">Model + Background</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-girl-theory">▶</button>
+          </div>
+          <div data-gallery-src="img-girl-theory"
+               data-images='[
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce2/Slecna/Girl01.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce2/Slecna/Girl02.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce2/Slecna/Girl03.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2) Výběr postavy (Free Select / Paths / Quick Mask) -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-girl-select">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-girl-select" aria-expanded="false" aria-controls="c-girl-select">
+          2) Výběr postavy (Free Select / Paths / Quick Mask)
+        </button>
+      </h2>
+      <div id="c-girl-select" class="accordion-collapse collapse" aria-labelledby="h-girl-select" data-bs-parent="#gimpGirlBG">
+        <div class="accordion-body">
+          <div class="alert alert-secondary mb-3">
+            <strong>🧠 Jaký nástroj vybrat?</strong><br>
+            <em>Free Select</em> (laso) = rychlé ruční obtažení. <em>Paths</em> (pera) = přesné křivky (pak <em>Path → Selection</em>). <em>Quick Mask</em> = „maluj a označuj“ (toggler vpravo dole).
+          </div>
+          <ol class="mb-3">
+            <li>Zvol jednu metodu a <strong>označ postavu</strong> (hrubý výběr). Přibliž na vlasy a ruce kvůli detailům.</li>
+            <li><kbd>Select</kbd> → <strong>Feather…</strong> (např. 1–2 px) pro jemný okraj.</li>
+            <li>Podle potřeby <kbd>Select</kbd> → <strong>Grow/Shrink…</strong> (±1–2 px) k doladění hran.</li>
+          </ol>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-girl-select" class="img-contained rounded border"
+                 src="/learn.jankonrad.com/Assets/img/gimp/Lekce2/Slecna/Girl04.png"
+                 alt="Tvorba a jemnění výběru postavy">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-girl-select">◀</button>
+            <small class="text-muted">Výběr & Feather</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-girl-select">▶</button>
+          </div>
+          <div data-gallery-src="img-girl-select"
+               data-images='[
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce2/Slecna/Girl04.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce2/Slecna/Girl05.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce2/Slecna/Girl06.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3) Přidání masky a skrytí pozadí -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-girl-mask">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-girl-mask" aria-expanded="false" aria-controls="c-girl-mask">
+          3) Přidej masku k Modelu a skryj původní pozadí
+        </button>
+      </h2>
+      <div id="c-girl-mask" class="accordion-collapse collapse" aria-labelledby="h-girl-mask" data-bs-parent="#gimpGirlBG">
+        <div class="accordion-body">
+          <div class="alert alert-secondary mb-3">
+            <strong>🧠 Bílá/černá na masce?</strong><br>
+            Bílá = vše z vrstvy je vidět. Černá = vrstvu skrývá. Když máš <em>výběr postavy</em>, použij <em>Masku z výběru</em> → postava bude vidět, původní pozadí skryté.
+          </div>
+          <ol class="mb-3">
+            <li>S aktivním výběrem postavy: v panelu <strong>Layers</strong> na vrstvě <em>Model</em> → pravý klik → <strong>Add Layer Mask…</strong> → <em>Initialize to: Selection</em> → <strong>Add</strong>.</li>
+            <li>Výběr zruš (<kbd>Select</kbd> → <em>None</em>). Ujisti se, že je aktivní <em>maska</em> (zelený rámeček na miniatuře masky).</li>
+            <li>Štětcem (<em>Paintbrush</em>) dolaď okraje: <strong>černou</strong> skryješ zbytky původního pozadí, <strong>bílou</strong> vrátíš části postavy. Klávesa <kbd>X</kbd> přepíná FG/BG.</li>
+          </ol>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-girl-mask" class="img-contained rounded border"
+                 src="/learn.jankonrad.com/Assets/img/gimp/Lekce2/Slecna/Girl07.png"
+                 alt="Maska z výběru a ruční doladění štětcem">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-girl-mask">◀</button>
+            <small class="text-muted">Maska z výběru</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-girl-mask">▶</button>
+          </div>
+          <div data-gallery-src="img-girl-mask"
+               data-images='[
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce2/Slecna/Girl07.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce2/Slecna/Girl08.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce2/Slecna/Girl09.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4) Jemné okraje (vlasy) a prolínání s novým pozadím -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-girl-hair">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-girl-hair" aria-expanded="false" aria-controls="c-girl-hair">
+          4) Vlasy & jemné okraje: štětce + gradient na masce
+        </button>
+      </h2>
+      <div id="c-girl-hair" class="accordion-collapse collapse" aria-labelledby="h-girl-hair" data-bs-parent="#gimpGirlBG">
+        <div class="accordion-body">
+          <div class="alert alert-secondary mb-3">
+            <strong>🧠 Proč gradient na masce?</strong><br>
+            Gradient na masce umí udělat plynulý přechod mezi vrstvami. Hodí se u rozmazaného pozadí, kouře, vlasů apod.
+          </div>
+          <ol class="mb-3">
+            <li>Na masce použij <strong>měkký štětec</strong> s nižší <em>Opacity</em> (20–50 %) pro postupné „dobarvení“ detailů vlasů.</li>
+            <li>Pro přechody do pozadí použij <strong>Gradient</strong> na masce: režim <em>FG → Transparent</em>, podle potřeby <em>Reverse</em>, tvar <em>Linear</em> nebo <em>Radial</em>.</li>
+            <li>Vyzkoušej různé barvy pozadí (můžeš pod <em>Background</em> dočasně vložit bílou/černou vrstvu a ověřit halo.</li>
+          </ol>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-girl-hair" class="img-contained rounded border"
+                 src="/learn.jankonrad.com/Assets/img/gimp/Lekce2/Slecna/Girl10.png"
+                 alt="Jemné okraje vlasů — štětec a gradient na masce">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-girl-hair">◀</button>
+            <small class="text-muted">Vlasy & přechod</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-girl-hair">▶</button>
+          </div>
+          <div data-gallery-src="img-girl-hair"
+               data-images='[
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce2/Slecna/Girl10.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce2/Slecna/Girl11.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce2/Slecna/Girl12.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5) Zarovnání s novým pozadím a export -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-girl-export">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-girl-export" aria-expanded="false" aria-controls="c-girl-export">
+          5) Zarovnání, měřítko a export výsledku
+        </button>
+      </h2>
+      <div id="c-girl-export" class="accordion-collapse collapse" aria-labelledby="h-girl-export" data-bs-parent="#gimpGirlBG">
+        <div class="accordion-body">
+          <ol class="mb-3">
+            <li><strong>Move Tool</strong> a <strong>Scale Tool</strong>: uprav pozici a velikost <em>Background</em> i <em>Model</em>, aby scéna působila přirozeně.</li>
+            <li>Volitelně přidej <em>Gaussian Blur</em> na <em>Background</em> pro větší separaci (bokéh efekt).</li>
+            <li>Ulož projekt jako <strong>.XCF</strong> (vrstvy zachováš). Pro publikaci:
+              <ul>
+                <li><strong>PNG</strong>: zachová průhlednost, když pozadí vypneš.</li>
+                <li><strong>JPG</strong>: sloučený výsledek (bez průhlednosti).</li>
+              </ul>
+            </li>
+          </ol>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-girl-export" class="img-contained rounded border"
+                 src="/learn.jankonrad.com/Assets/img/gimp/Lekce2/Slecna/Girl12.png"
+                 alt="Finální kompozice a export">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-girl-export">◀</button>
+            <small class="text-muted">Finále</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-girl-export">▶</button>
+          </div>
+          <div data-gallery-src="img-girl-export"
+               data-images='[
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce2/Slecna/Girl12.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce2/Slecna/Girl13.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce2/Slecna/Girl14.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /accordion -->
+
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Shrnutí</h3>
+    <ul class="list-group list-group-flush mb-0">
+      <li class="list-group-item">Rozumíš masce vrstvy (bílá/černá/šedá) a proč je nedestruktivní.</li>
+      <li class="list-group-item">Umíš vytvořit a zjemnit výběr (Feather, Grow/Shrink, Quick Mask).</li>
+      <li class="list-group-item">Aplikuješ masku z výběru a jemně doladíš okraje štětcem.</li>
+      <li class="list-group-item">Použiješ gradient na masce pro plynulé prolínání s novým pozadím.</li>
+      <li class="list-group-item">Zarovnáš kompozici, uložíš .XCF a vyexportuješ PNG/JPG.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Galerie helper (stejný jako u předchozích lekcí) -->
+<style>
+  .img-contained { width:100%; height:100%; object-fit:contain; object-position:center; }
+</style>
+<script>
+(function(){
+  function parseImages(el){ try { return JSON.parse(el.getAttribute('data-images')||'[]'); } catch(e){ return []; } }
+  function setImg(id, src){ const img = document.getElementById(id); if(img){ img.src = src; } }
+  function move(dir, btn){
+    const id = btn.getAttribute(dir===-1?'data-gallery-prev':'data-gallery-next'); if(!id) return;
+    const holder = document.querySelector('[data-gallery-src="'+id+'"]'); if(!holder) return;
+    const list = parseImages(holder); if(!list.length) return;
+    const img = document.getElementById(id);
+    const current = img.src.split('/').pop();
+    let idx = list.findIndex(x => x.split('/').pop() === current); if(idx===-1) idx = 0;
+    const next = (idx + dir + list.length) % list.length;
+    setImg(id, list[next]);
+  }
+  document.addEventListener('click', e => {
+    if(e.target.matches('[data-gallery-prev]')) { e.preventDefault(); move(-1, e.target); }
+    if(e.target.matches('[data-gallery-next]')) { e.preventDefault(); move(1, e.target); }
+  });
+})();
+</script>
