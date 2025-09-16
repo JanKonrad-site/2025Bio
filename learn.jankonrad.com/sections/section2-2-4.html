@@ -1,0 +1,122 @@
+<section id="section4-abs" class="container my-5">
+  <h3 class="mb-4">4. Funkce s absolutní hodnotou</h3>
+
+  <!-- Cíl lekce -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Co se naučíš?</h4>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">Pochopit <strong>co znamená absolutní hodnota</strong> a proč je vždy nezáporná.</li>
+      <li class="list-group-item">Seznámit se s funkcí <code>y = |x|</code> a jejím grafem ve tvaru „V“.</li>
+      <li class="list-group-item">Poznat <strong>obecný tvar</strong> <code>y = a·|x − h| + k</code> a význam parametrů.</li>
+      <li class="list-group-item">Vytvořit v Excelu tabulku hodnot a XY graf pomocí <code>ABS()</code> a <strong>absolutního adresování</strong>.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <i class="bi bi-lightbulb"></i>
+      <strong>Tipy:</strong>
+      <ul class="mb-0">
+        <li>Funkce v Excelu: <code>=ABS(A2)</code>.</li>
+        <li><kbd>F4</kbd> přepíná relativní/absolutní adresování (A1 → <code>$A$1</code>).</li>
+        <li>Pro graf používej <strong>XY (bodový)</strong>, ne spojnicový.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Teorie -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <h4 class="mb-3">Teorie: co je funkce s absolutní hodnotou?</h4>
+    <p><strong>Absolutní hodnota</strong> čísla <code>x</code> (značí se <code>|x|</code>) je vzdálenost čísla od nuly na číselné ose. Proto je vždy <strong>nezáporná</strong> (≥0).</p>
+    <p>Definice po kouskách:</p>
+    <ul>
+      <li><code>|x| = x</code>, pokud <code>x ≥ 0</code></li>
+      <li><code>|x| = -x</code>, pokud <code>x &lt; 0</code></li>
+    </ul>
+    <p><strong>Obecný tvar funkce s absolutní hodnotou:</strong></p>
+    <p class="text-center"><code>y = a·|x − h| + k</code></p>
+    <ul>
+      <li><strong>a</strong> – strmost ramen („V“ je užší nebo širší, a&lt;0 obrátí graf dolů).</li>
+      <li><strong>h</strong> – posun vrcholu vpravo/vlevo.</li>
+      <li><strong>k</strong> – posun vrcholu nahoru/dolů.</li>
+    </ul>
+  </div>
+
+  <!-- Příklad A -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Příklad A – základní funkce <code>y = |x|</code></h4>
+    <ol>
+      <li>Do sloupce <strong>A</strong> zapiš hodnoty x od −6 do 6.</li>
+      <li>Do <strong>B2</strong> napiš vzorec: <code>=ABS(A2)</code> a zkopíruj dolů.</li>
+      <li>Označ A:B a vlož <strong>XY (bodový)</strong> graf s hladkou čarou.</li>
+    </ol>
+    <p>Výsledkem je graf ve tvaru „V“ s vrcholem v bodě [0;0].</p>
+  </div>
+
+  <!-- Příklad B -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Příklad B – obecný tvar <code>y = a·|x − h| + k</code></h4>
+    <ol>
+      <li>Do buněk <strong>E1–E3</strong> zapiš parametry: E1 = <em>a</em>, E2 = <em>h</em>, E3 = <em>k</em>.</li>
+      <li>Do <strong>A2</strong> zapiš x (např. −6 až 6). Do <strong>B2</strong> vzorec:
+        <pre>=$E$1*ABS(A2 - $E$2) + $E$3</pre>
+        a zkopíruj dolů.
+      </li>
+      <li>Označ A:B a vlož XY graf. Měň <em>a, h, k</em> → sleduj změny vrcholu a tvaru.</li>
+    </ol>
+    <p>Pamatuj: vrchol grafu je vždy v bodě <strong>[h; k]</strong>.</p>
+  </div>
+
+  <!-- Kontrolní otázka -->
+  <section id="section4-abs-test" class="container my-5">
+    <h4>📝 Kontrolní otázka</h4>
+    <div class="quiz-question mb-4">
+      <p><strong>Kde bude vrchol grafu funkce <code>y = |x - 3| + 2</code>?</strong></p>
+      <div class="btn-group-vertical">
+        <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">[0;0]</button>
+        <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">[3;2]</button>
+        <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">[-3;2]</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Shrnutí</h3>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Funkce s absolutní hodnotou</strong> má tvar <code>y = a·|x − h| + k</code>.</li>
+      <li class="list-group-item">Graf je písmeno „V“, vrchol je v bodě <code>[h; k]</code>.</li>
+      <li class="list-group-item"><strong>a</strong> určuje strmost a směr, <strong>h</strong> posun po ose X, <strong>k</strong> posun po ose Y.</li>
+      <li class="list-group-item">V Excelu použij <code>ABS()</code> a pro parametry absolutní adresování (<kbd>F4</kbd>).</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Funkce s absolutní hodnotou je jednoduchý model pro výpočty „vzdálenosti“ (např. rozdíl mezi skutečným a očekávaným výsledkem).
+    </div>
+  </div>
+    <div class="quiz-question mb-4">
+    <p><strong>1. Kde bude vrchol grafu funkce <code>y = |x| + 2</code>?</strong></p>
+    <div class="btn-group-vertical">
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">[0;2]</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">[2;0]</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">[−2;0]</button>
+    </div>
+  </div>
+
+  <!-- Otázka D -->
+  <div class="quiz-question mb-4">
+    <p><strong>2. Kde bude vrchol grafu funkce <code>y = |x − 3|</code>?</strong></p>
+    <div class="btn-group-vertical">
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">[0;3]</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">[3;0]</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">[−3;0]</button>
+    </div>
+  </div>
+
+  <!-- Otázka E -->
+  <div class="quiz-question mb-4">
+    <p><strong>3. Kde bude vrchol grafu funkce <code>y = |x + 4|</code>?</strong></p>
+    <div class="btn-group-vertical">
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">[4;0]</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">[−4;0]</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">[0;−4]</button>
+    </div>
+  </div>
+  
+</section>
