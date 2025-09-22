@@ -1,0 +1,133 @@
+<section id="section2-2-2" class="container my-5">
+  <h3 class="mb-4">2.2.2 Úvod do funkcí </h3>
+
+  <!-- Cíl lekce -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Co se naučíš?</h4>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Opakovat číselné řady</strong> – postupné vyplňování hodnot v Excelu.</li>
+      <li class="list-group-item"><strong>Pochopit relativní a absolutní adresování</strong> – proč se někdy vzorec mění a jindy ne.</li>
+      <li class="list-group-item"><strong>Používat graf</strong> – převést čísla na obrázek.</li>
+      <li class="list-group-item"><strong>Pochopit lineární funkci</strong> – co znamená <code>y = ax + b</code> na jednoduchých příkladech.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Excel je vlastně chytrá kalkulačka. Každý vzorec začíná <code>=</code> a výsledek se vždy přepočítá automaticky.
+    </div>
+  </div>
+
+  <!-- Teorie: Číselné řady -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <h4 class="mb-3">Číselné řady</h4>
+    <p>Excel dokáže rozpoznat vzor a dopočítat hodnoty.</p>
+    <ul>
+      <li>Když napíšeš 1 a 2 pod sebe, označíš je a potáhneš za roh, Excel dopočítá 3, 4, 5…</li>
+      <li>Podobně umí dny v týdnu: Po, Út, St…</li>
+      <li>Umí i data: 1.1.2024, 2.1.2024…</li>
+    </ul>
+    <p><i class="bi bi-eye"></i> To se hodí, když potřebuješ rychle vytvořit sloupec hodnot <em>x</em> pro funkci.</p>
+  </div>
+
+  <!-- Teorie: Relativní a absolutní adresování -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <h4 class="mb-3">Relativní a absolutní adresování</h4>
+    <p>Excel si pamatuje, odkud bere čísla. Když kopíruješ vzorec, může se adresa buňky změnit – tomu říkáme <strong>relativní</strong>.</p>
+    <ul>
+      <li><code>=A1+1</code> → když ho zkopíruješ o řádek níž, změní se na <code>=A2+1</code>.</li>
+    </ul>
+    <p>Někdy ale chceme, aby se adresa neměnila. Použijeme znak <code>$</code> – to je <strong>absolutní</strong> odkaz.</p>
+    <ul>
+      <li><code>=$A$1+1</code> → zůstane vždy na buňce A1, i když vzorec kopíruješ.</li>
+    </ul>
+    <div class="alert alert-secondary"><strong>Příklad:</strong> Když počítáme funkci <code>y = ax + b</code>, chceme mít <em>a</em> a <em>b</em> napsané někde stranou a na ně odkazovat absolutně.</div>
+  </div>
+
+  <!-- Teorie: Co je funkce -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <h4 class="mb-3">Co je funkce</h4>
+    <p>Představ si funkci jako <strong>automat</strong>: hodíš dovnitř číslo (<em>x</em>) a automat ti vrátí jiné číslo (<em>y</em>).</p>
+    <p>Například: <code>y = 2x + 1</code></p>
+    <ul>
+      <li>Když vložíš <em>x=0</em>, vyjde <em>y=1</em>.</li>
+      <li>Když vložíš <em>x=5</em>, vyjde <em>y=11</em>.</li>
+      <li>Když vložíš <em>x=-3</em>, vyjde <em>y=-5</em>.</li>
+    </ul>
+    <p>Stejné je to v Excelu, jen místo <em>x</em> dáš buňku, třeba A2. Do sousední buňky zapíšeš: <code>=2*A2+1</code>.</p>
+  </div>
+
+  <!-- Graf funkce -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <h4 class="mb-3">Graf funkce</h4>
+    <p>Tabulku hodnot si můžeme zobrazit v grafu. V Excelu použijeme <strong>Bodový graf (XY)</strong>.</p>
+    <ul>
+      <li>Osa <em>x</em> – vstupní čísla (nezávislá proměnná).</li>
+      <li>Osa <em>y</em> – výsledky (závislá proměnná).</li>
+      <li>Když hodnoty spojíme čárou, dostaneme <strong>přímku</strong> (protože jde o lineární funkci).</li>
+    </ul>
+    <div class="alert alert-secondary"><strong>Příklad:</strong> Platíš taxi. Cena = 40 Kč (nástupní) + 20 Kč/km. To je funkce <code>y = 20x + 40</code>. Když si uděláš tabulku a graf, uvidíš, že cena roste rovnoměrně s počtem kilometrů.</div>
+  </div>
+
+  <!-- Úkoly -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Úkol: Lineární funkce v Excelu</h4>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">1. Do buňky E1 napiš <strong>a</strong>=20, do E2 napiš <strong>b</strong>=40.</li>
+      <li class="list-group-item">2. Do sloupce A napiš hodnoty x = 0,1,2,3,4,5 (počet kilometrů).</li>
+      <li class="list-group-item">3. Do sloupce B napiš vzorec <code>=$E$1*A2+$E$2</code> a zkopíruj dolů.</li>
+      <li class="list-group-item">4. Označ tabulku a vlož bodový graf. Doplň název „Cena taxi“.</li>
+      <li class="list-group-item">5. Změň <em>a</em> na 25 (dražší sazba) a sleduj, jak se změní přímka.</li>
+    </ul>
+  </div>
+
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Shrnutí</h3>
+    <p>Funkce je jednoduché pravidlo – každému číslu <em>x</em> přiřadí číslo <em>y</em>. V Excelu se to zapisuje jako vzorec. Naučili jsme se:</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Číselné řady</strong> – rychlé vyplnění hodnot.</li>
+      <li class="list-group-item"><strong>Relativní vs. absolutní adresování</strong> – když chceme parametry <em>a</em> a <em>b</em> pevně uchovat.</li>
+      <li class="list-group-item"><strong>Graf</strong> – obrázek čísel, který ukazuje růst nebo pokles funkce.</li>
+      <li class="list-group-item"><strong>Lineární funkce</strong> – přímka, která roste nebo klesá podle směrnice <em>a</em>.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> V Excelu je funkce <code>=$E$1*A2+$E$2</code> přesně to samé jako v matematice <code>y=ax+b</code>. Jen místo „x“ používáme číslo v buňce.
+    </div>
+  </div>
+
+  <div>
+<a href="https://prgconscz-my.sharepoint.com/:x:/g/personal/konrja_prgcons_cz/EZGC0oYmddJBmAzpG5gvP5ABBCFwdmud7Pb2paPI8TjXwA?e=pxwOwd" 
+   class="btn btn-primary" target="_blank">
+  Zobrazit vzor
+</a>
+  </div>
+
+  <!-- Hudební příklady -->
+<div class="container my-4 p-4 border rounded bg-light">
+  <h4 class="mb-3">Hudební příklady lineární funkce</h4>
+  <p>I v hudebním životě najdeme spoustu lineárních vztahů. Zkusme je spočítat v Excelu:</p>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <strong>1. Pronájem zkušebny:</strong> 100 Kč základ + 50 Kč/hodina.<br>
+      Funkce: <code>y = 50x + 100</code>.<br>
+     
+
+    </li>
+    <li class="list-group-item">
+      <strong>2. Výplata muzikanta:</strong> 500 Kč fixně + 1500 Kč za každý koncert.<br>
+      Funkce: <code>y = 1500x + 500</code>.
+    </li>
+    <li class="list-group-item">
+      <strong>3. Předplatné hudební služby:</strong> 200 Kč měsíčně + 20 Kč za extra skladbu.<br>
+      Funkce: <code>y = 20x + 200</code>.
+    </li>
+    <li class="list-group-item">
+      <strong>4. Struny na kytaru:</strong> 150 Kč za každou sadu.<br>
+      Funkce: <code>y = 150x</code>.
+    </li>
+  </ul>
+  <div class="alert alert-secondary mt-3">
+    <strong>Úkol:</strong> Vytvoř tabulku a graf pro každý příklad. Zkus změnit parametry
+    <em>a</em> a <em>b</em> (sazba za hodinu, fixní částka) a sleduj, jak se mění sklon a
+    posun přímky.
+  </div>
+</div>
+</section>

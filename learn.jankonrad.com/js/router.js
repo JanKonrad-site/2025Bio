@@ -3,9 +3,17 @@ const sections = ['section1',
                   'section2',
                   'section2-1',
                   'section2-1-1a','section2-1-1','section2-1-2', 'section2-1-3','section2-1-4', 'section2-1-5','section2-1-6','section2-1-7','section2-1-8','section2-1-9','section2-1-10','section2-1-11','section2-1-12',
+<<<<<<< HEAD
                   'section2-2-1',
+=======
+                  'section2-2-1', 'section2-2-2', 'section2-2-3', 'section2-2-4',
+>>>>>>> bf5ce506d1bcc6fd2347d727d71cbf069b3bcc51
                   'section3',
-                  'section4','section4-1','section4-2','section4-3','section4-4'];
+                  'section3-1-1', 'section3-1-2', 'section3-1-3',
+                  'section4','section4-1','section4-2','section4-3','section4-4',
+                  'section5',
+                  'section7-1-1', 'section7-1-2', 'section7-1-3'
+                ];
 let currentSectionIndex = 0;
 const loadedSections = new Set();
 let observer; // musíme mít globálně, kvůli případnému odpojení
