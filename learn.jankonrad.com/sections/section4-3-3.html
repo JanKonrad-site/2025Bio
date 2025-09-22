@@ -1,0 +1,154 @@
+<section id="section4-3-3" class="container my-5">
+  <h3 class="mb-4">4.3.3. Základy OOP: Třída Hráč</h3>
+
+  <!-- Úvodní přehled -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co se naučíš?</h3>
+    <p>V této kapitole si poprvé vytvoříme vlastní třídu a pochopíme základní principy objektově orientovaného programování v Pythonu.</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Třída a instance</strong>: Jak vytvořit vlastní objekt podle šablony.</li>
+      <li class="list-group-item"><strong>Metoda __init__</strong>: Jak se vytváří konstruktor a ukládají vlastnosti.</li>
+      <li class="list-group-item"><strong>Metody a atributy</strong>: Jak přidávat funkce do objektu a uchovávat data.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> OOP je klíčovým přístupem v moderním programování – používá se třeba i při tvorbě her.
+    </div>
+  </div>
+
+  <!-- Postup 1: Definice třídy -->
+  <ul class="list-group mb-4">
+    <li class="list-group-item">
+      <strong>1. Vytvoření třídy</strong>
+      <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseClass">
+        &#9660;
+      </button>
+      <ul class="list-group list-group-flush collapse mt-2" id="collapseClass">
+        <li class="list-group-item">
+          Nejprve vytvoříme třídu pomocí klíčového slova <code>class</code>:
+<pre><code>class Hrac:
+    def __init__(self, jmeno):
+        self.jmeno = jmeno
+        self.zivoty = 5
+        self.inventar = []</code></pre>
+          <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalInit">Vysvětlení konstruktoru</button>
+        </li>
+      </ul>
+    </li>
+
+    <!-- Postup 2: Přidání metody -->
+    <li class="list-group-item">
+      <strong>2. Přidání metody seber()</strong>
+      <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMethod">
+        &#9660;
+      </button>
+      <ul class="list-group list-group-flush collapse mt-2" id="collapseMethod">
+        <li class="list-group-item">
+          Metoda je funkce uvnitř třídy. Přidáme například metodu pro sbírání předmětů:
+<pre><code>def seber(self, predmet):
+    self.inventar.append(predmet)
+    print(self.jmeno, "sebral:", predmet)</code></pre>
+          <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalMethod">Více o metodách</button>
+        </li>
+      </ul>
+    </li>
+
+    <!-- Postup 3: Vytvoření objektu -->
+    <li class="list-group-item">
+      <strong>3. Vytvoření objektu hráče</strong>
+      <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseObject">
+        &#9660;
+      </button>
+      <ul class="list-group list-group-flush collapse mt-2" id="collapseObject">
+        <li class="list-group-item">
+          Objekt vytvoříme voláním třídy jako funkce:
+<pre><code>hrac = Hrac("Jan")</code></pre>
+          <p>Objekt <code>hrac</code> má nyní jméno, životy a prázdný inventář.</p>
+        </li>
+      </ul>
+    </li>
+
+    <!-- Postup 4: Interakce -->
+    <li class="list-group-item">
+      <strong>4. Volání metod a práce s objektem</strong>
+      <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInteract">
+        &#9660;
+      </button>
+      <ul class="list-group list-group-flush collapse mt-2" id="collapseInteract">
+        <li class="list-group-item">
+          Nyní můžeme s objektem pracovat:
+<pre><code>hrac.seber("meč")
+hrac.seber("lektvar")
+
+print(hrac.inventar)
+print(hrac.jmeno)
+print(hrac.zivoty)</code></pre>
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+  <!-- Úkoly -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Úkoly:</h4>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">1. Přidej další metodu, například <code>vypis_statistiky()</code>.</li>
+      <li class="list-group-item">2. Umožni uživateli zadat jméno hráče pomocí <code>input()</code>.</li>
+      <li class="list-group-item">3. Vytvoř si vlastní příběh a přidej další interakce.</li>
+    </ul>
+    <a href="https://replit.com/~" target="_blank">
+      <button class="btn btn-sm btn-outline-primary" type="button">Editor</button>
+    </a>
+  </div>
+
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Shrnutí kapitoly</h3>
+    <p>V této kapitole ses dozvěděl:</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>class</strong>: jak vytvořit třídu v Pythonu.</li>
+      <li class="list-group-item"><strong>__init__()</strong>: jak inicializovat objekt.</li>
+      <li class="list-group-item"><strong>Metody</strong>: jak přidat chování objektu.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Tvoř si vlastní třídy, programy budou přehlednější a zábavnější.
+    </div>
+  </div>
+</section>
+
+<!-- MODÁLY -->
+<div class="modal fade" id="modalInit" tabindex="-1" aria-labelledby="modalInitLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalInitLabel">Metoda __init__</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Konstruktor <code>__init__</code> se spustí automaticky při vytvoření objektu. Slouží k nastavení počátečních hodnot.</p>
+<pre><code>def __init__(self, jmeno):
+    self.jmeno = jmeno
+    self.zivoty = 5
+    self.inventar = []</code></pre>
+        <p><small><em>self</em> odkazuje na konkrétní objekt – viz níže.</small></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalMethod" tabindex="-1" aria-labelledby="modalMethodLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalMethodLabel">Co je metoda třídy?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Metoda je funkce uvnitř třídy, která může pracovat s atributy objektu přes <code>self</code>.</p>
+        <pre><code>def seber(self, predmet):
+    self.inventar.append(predmet)
+    print(self.jmeno, "sebral:", predmet)</code></pre>
+        <p><small>Metoda má vždy první parametr <code>self</code>, který odkazuje na aktuální objekt.</small></p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -7,7 +7,7 @@ const sections = ['section1',
                   'section3',
                   'section3-1-1', 'section3-1-2', 'section3-1-3',
                   'section4','section4-1','section4-2','section4-3','section4-4',
-                  'section4-2-1',
+                  'section4-3-1','section4-3-2','section4-3-3',
                   'section5',
                   'section7-1-1', 'section7-1-2', 'section7-1-3'
                 ];

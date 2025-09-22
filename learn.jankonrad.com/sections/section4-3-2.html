@@ -1,0 +1,166 @@
+<section id="section4-3-2" class="container my-5">
+  <h3 class="mb-4">4.3.2. Textová adventura – rozhodnutí a životy</h3>
+
+  <!-- Úvodní přehled -->
+
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co se naučíš?</h3>
+    <p>V této kapitole si rozšíříš svou textovou adventuru o systém životů. Hráč bude mít omezený počet životů a podle svých rozhodnutí může o ně přicházet nebo si je uchovat. Díky tomu přidáš do své hry napětí a herní logiku.</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Proměnná zivoty</strong>: Uchování počtu životů.</li>
+      <li class="list-group-item"><strong>if/elif/else s důsledkem</strong>: Jak rozhodnutí ovlivní stav hry.</li>
+      <li class="list-group-item"><strong>Formátovaný výstup (f-string)</strong>: Přehledné zobrazení životů hráče.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Životy přidávají do hry riziko a nutí hráče přemýšlet strategicky.
+    </div>
+  </div>
+
+  <!-- Citát osobnosti -->
+
+  <div class="row align-items-center mb-4">
+    <div class="col-md-2 text-center">
+      <img class="img-fluid rounded-circle shadow" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Dennis_Ritchie_2011.jpg/440px-Dennis_Ritchie_2011.jpg" alt="Dennis Ritchie">
+      <p class="mt-2 text-muted small">Dennis Ritchie</p>
+    </div>
+    <div class="col-md-10">
+      <blockquote class="blockquote">
+        <p class="mb-0">„Zajímavý program je ten, který má vnitřní logiku a nutí tě přemýšlet.“</p>
+        <footer class="blockquote-footer mt-2">
+          <a href="https://en.wikipedia.org/wiki/Dennis_Ritchie" target="_blank">(zdroj)</a>
+        </footer>
+      </blockquote>
+    </div>
+  </div>
+
+  <!-- Teoretický blok -->
+
+  <h5 class="mt-5">Přidání proměnné pro životy</h5>
+  <p>Každý hráč může mít určitý počet životů. Vytvoříme proměnnou <code>zivoty</code>, která se na začátku nastaví například na 3. Podle hráčovy volby se pak tato hodnota může změnit.</p>
+
+  <!-- Rozbalovací části -->
+
+  <ul class="list-group mb-4">
+    <li class="list-group-item">
+      <strong>1) Vytvoření proměnné životy</strong>
+      <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLives">
+        &#9660;
+      </button>
+      <ul class="list-group list-group-flush collapse mt-2" id="collapseLives">
+        <li class="list-group-item">
+          <pre><code>zivoty = 3</code></pre>
+          <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalLives">
+            Více
+          </button>
+        </li>
+      </ul>
+    </li>
+
+```
+<li class="list-group-item">
+  <strong>2) Výběr možnosti a snížení životů</strong>
+  <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseChoices">
+    &#9660;
+  </button>
+  <ul class="list-group list-group-flush collapse mt-2" id="collapseChoices">
+    <li class="list-group-item">
+      <pre><code>print("Narazil jsi na bandu loupežníků, co uděláš?")
+```
+
+print("a) zaútočíš")
+print("b) utečeš")
+print("c) zkusíš je přesvědčit")
+
+volba = input("Zadej a, b nebo c: ")
+
+if volba == "a":
+zivoty -= 3
+print(f"Zaútočil jsi, ale prohrál. Životy: {zivoty}. GAMEOVER")
+elif volba == "b":
+zivoty -= 1
+print(f"Při útěku jsi zakopl. Životy: {zivoty}")
+elif volba == "c":
+print(f"Přesvědčil jsi je a nic se ti nestalo. Životy: {zivoty}")
+else:
+print("Neudělal jsi nic. Loupežníci tě okradli.")</code></pre> <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalChoices">
+Více </button> </li> </ul> </li>
+
+  </ul>
+
+  <p>💡 Hint: Když ubíráš životy, použij zápis <code>zivoty -= 1</code>. Znamená to totéž jako <code>zivoty = zivoty - 1</code>.</p>
+
+  <!-- Úkoly -->
+
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Úkoly:</h4>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">1. Přidej proměnnou <code>zivoty</code> na začátek programu.</li>
+      <li class="list-group-item">2. Uprav své volby tak, aby měly důsledky na počet životů.</li>
+      <li class="list-group-item">3. Napiš výpis s <code>f"Životy: {zivoty}"</code> po každém rozhodnutí.</li>
+      <li class="list-group-item">4. Vymysli vlastní scénář, ve kterém se podle volby životy mění.</li>
+    </ul>
+    <a href="https://replit.com/~" target="_blank">
+      <button class="btn btn-sm btn-outline-primary" type="button">Editor</button>
+    </a>
+  </div>
+
+  <!-- Shrnutí -->
+
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Shrnutí kapitoly</h3>
+    <p>V této kapitole ses naučil:</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Proměnná zivoty</strong>: ukládá stav hráče.</li>
+      <li class="list-group-item"><strong>Snižování hodnoty</strong>: pomocí <code>-=</code>.</li>
+      <li class="list-group-item"><strong>Formátovaný výstup</strong>: pomocí <code>f"..."</code>.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Hráčské rozhodnutí má větší váhu, když může vést ke ztrátě životů.
+    </div>
+  </div>
+
+  <!-- Odkazy -->
+
+  <hr>
+  <h6>Odkazy na použité zdroje</h6>
+  <ol class="small">
+    <li><a href="https://www.w3schools.com/python/python_conditions.asp" target="_blank">W3Schools: Python podmínky</a></li>
+    <li><a href="https://realpython.com/python-f-strings/" target="_blank">RealPython: F-strings</a></li>
+  </ol>
+</section>
+
+<!-- MODÁLY -->
+
+<div class="modal fade" id="modalLives" tabindex="-1" aria-labelledby="modalLivesLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLivesLabel">Proměnná zivoty</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Proměnná <code>zivoty</code> slouží k uložení počtu životů hráče. Můžeš ji kdykoliv zvyšovat nebo snižovat podle toho, co se ve hře stane.</p>
+        <pre><code>zivoty = 3
+zivoty -= 1  # hráč ztrácí 1 život
+print(zivoty)</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalChoices" tabindex="-1" aria-labelledby="modalChoicesLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalChoicesLabel">Rozhodnutí a důsledky</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Při každém rozhodnutí můžeš hráči změnit počet životů. Stačí použít podmínku a upravit hodnotu:</p>
+        <pre><code>if volba == "b":
+    zivoty -= 1
+    print("Ztratil jsi 1 život.")</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
