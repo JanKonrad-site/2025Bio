@@ -1,0 +1,131 @@
+<section id="section4-2-1" class="container my-5">
+  <h3 class="mb-4">4.2.1. Základy objektově orientovaného programování – hráč a inventář</h3>
+
+  <!-- Co se naučíš -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co se naučíš?</h3>
+    <p>V této lekci vytvoříme základ textové adventury – postavu hráče, která má jméno, životy a inventář. Naučíš se pracovat s třídami a metodami, vytvářet objekty, ukládat informace o stavu postavy a reagovat na vstupy uživatele.</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Třída (class)</strong>: Definice vlastního typu objektu.</li>
+      <li class="list-group-item"><strong>Metoda __init__</strong>: Konstruktor, který nastaví vlastnosti nového objektu.</li>
+      <li class="list-group-item"><strong>Vlastnosti objektu (self.jmeno, self.zivoty, self.inventar)</strong>: Ukládání údajů o hráči.</li>
+      <li class="list-group-item"><strong>Metoda seber</strong>: Přidávání předmětů do inventáře.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Tohle je základ, ze kterého můžeš stavět rozsáhlé hry! Každá postava, příšera nebo předmět může být objekt.
+    </div>
+  </div>
+
+  <!-- Blok citace autora Pythonu -->
+  <div class="row align-items-center mb-4">
+    <div class="col-md-2 text-center">
+      <img class="img-fluid rounded-circle shadow" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Guido_van_Rossum_OSCON_2006.jpg/330px-Guido_van_Rossum_OSCON_2006.jpg" alt="Guido van Rossum">
+      <p class="mt-2 text-muted small">Guido van Rossum</p>
+    </div>
+    <div class="col-md-10">
+      <blockquote class="blockquote">
+        <p class="mb-0">„The goal of Python is to be a programming language that is intuitive and fun to use.“</p>
+        <footer class="blockquote-footer mt-2">
+          <a href="https://en.wikiquote.org/wiki/Guido_van_Rossum" target="_blank">(zdroj)</a>
+        </footer>
+      </blockquote>
+    </div>
+  </div>
+
+  <!-- Akordeon: krokový postup -->
+  <div class="accordion" id="accordionSteps">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="step1">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+          Krok 1: Vytvoř třídu Hrac a nastav výchozí hodnoty
+        </button>
+      </h2>
+      <div id="collapse1" class="accordion-collapse collapse show" data-bs-parent="#accordionSteps">\        <div class="accordion-body">
+<pre><code>class Hrac:
+    def __init__(self, jmeno):
+        self.jmeno = jmeno
+        self.zivoty = 5
+        self.inventar = []</code></pre>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="step2">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
+          Krok 2: Definuj metodu pro přidání předmětů do inventáře
+        </button>
+      </h2>
+      <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#accordionSteps">
+        <div class="accordion-body">
+<pre><code>    def seber(self, predmet):
+        self.inventar.append(predmet)
+        print(self.jmeno, "sebral:", predmet)</code></pre>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="step3">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
+          Krok 3: Vytvoř instanci hráče a pracuj s metodami
+        </button>
+      </h2>
+      <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#accordionSteps">
+        <div class="accordion-body">
+<pre><code>hrac = Hrac("Jan")
+hrac.seber("meč")
+hrac.seber("lektvar")
+print(hrac.inventar)</code></pre>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="step4">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4">
+          Krok 4: Zeptej se uživatele na jméno pomocí input()
+        </button>
+      </h2>
+      <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#accordionSteps">
+        <div class="accordion-body">
+<pre><code>jmeno_hrace = input("Zadej jméno postavy: ")
+hrac = Hrac(jmeno_hrace)</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Úlohy -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Úlohy:</h4>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">1. Vytvoř třídu <code>Hrac</code> a nastav jméno, životy a prázdný inventář.</li>
+      <li class="list-group-item">2. Pomocí <code>seber()</code> přidej hráči předmět a vypiš jeho inventář.</li>
+      <li class="list-group-item">3. Rozšiř konstruktor tak, aby se jméno zadávalo pomocí <code>input()</code>.</li>
+    </ul>
+    <a href="https://replit.com/~" target="_blank">
+      <button class="btn btn-sm btn-outline-primary" type="button">Otevřít editor</button>
+    </a>
+  </div>
+
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Shrnutí kapitoly</h3>
+    <p>V této kapitole ses naučil:</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Třída</strong>: slouží jako šablona pro objekt (např. hráč).</li>
+      <li class="list-group-item"><strong>__init__</strong>: nastavuje počáteční vlastnosti objektu.</li>
+      <li class="list-group-item"><strong>Metoda</strong>: <code>seber()</code> přidá předmět do inventáře.</li>
+      <li class="list-group-item"><strong>Vstup uživatele</strong>: <code>input()</code> se zeptá na jméno postavy.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Tento princip později využiješ u všech herních objektů: nepřátel, obchodů, předmětů...
+    </div>
+  </div>
+
+  <!-- Odkazy -->
+  <hr>
+  <h6>Odkazy na použité zdroje</h6>
+  <ol class="small">
+    <li><a href="https://realpython.com/python3-object-oriented-programming/" target="_blank">RealPython: Object-Oriented Programming</a></li>
+    <li><a href="https://www.w3schools.com/python/python_classes.asp" target="_blank">W3Schools: Python Classes</a></li>
+  </ol>
+</section>
