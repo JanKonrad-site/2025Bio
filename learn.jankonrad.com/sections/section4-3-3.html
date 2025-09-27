@@ -1,154 +1,449 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <title>Lekce 2 – Pseudokód, flowcharty a první funkce místností (N/S/E)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    /* Animace z tvé šablony */
+    .svg-line { stroke-dasharray: 300; stroke-dashoffset: 300; animation: draw 2s ease forwards; }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+    pre code { white-space: pre; }
+
+    .task-badge { font-size: .75rem; }
+
+    /* --- ZÁKLADNÍ OCHRANA PROTI KOPÍROVÁNÍ KÓDU --- */
+    /* 1) Zákaz výběru textu uvnitř kódových bloků */
+    .no-copy, .no-copy * {
+      -webkit-user-select: none !important;
+      -moz-user-select: none !important;
+      -ms-user-select: none !important;
+      user-select: none !important;
+    }
+    /* 2) Zabránit přetažení a výběru */
+    .no-copy {
+      -webkit-touch-callout: none !important;
+      -webkit-user-drag: none !important;
+      -khtml-user-select: none !important;
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+      position: relative;
+    }
+    /* 3) Volitelný překryv (neruší čtení, jen brání interakci myší) */
+    .no-copy-overlay {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: auto;
+      background: transparent; /* neviditelný */
+    }
+    /* Vizuální vzhled kódu beze změny */
+    .code-wrapper {
+      position: relative;
+    }
+  </style>
+</head>
+<body class="bg-white">
+
 <section id="section4-3-3" class="container my-5">
-  <h3 class="mb-4">4.3.3. Základy OOP: Třída Hráč</h3>
+  <h3 class="mb-4">2. Pseudokód, flowcharty a první funkce místností (N/S/E)</h3>
 
   <!-- Úvodní přehled -->
   <div class="container my-4 p-4 border rounded bg-light">
     <h3 class="mb-3">Co se naučíš?</h3>
-    <p>V této kapitole si poprvé vytvoříme vlastní třídu a pochopíme základní principy objektově orientovaného programování v Pythonu.</p>
+    <p>Podle pseudokódu a flowchartu naprogramuješ první logiku herních místností a voleb.</p>
     <ul class="list-group list-group-flush mb-3">
-      <li class="list-group-item"><strong>Třída a instance</strong>: Jak vytvořit vlastní objekt podle šablony.</li>
-      <li class="list-group-item"><strong>Metoda __init__</strong>: Jak se vytváří konstruktor a ukládají vlastnosti.</li>
-      <li class="list-group-item"><strong>Metody a atributy</strong>: Jak přidávat funkce do objektu a uchovávat data.</li>
+      <li class="list-group-item"><strong>Pseudokód</strong>: jak stručně popsat algoritmus hry.</li>
+      <li class="list-group-item"><strong>Flowcharty</strong>: symboly a tok rozhodování (výběr N/S/E).</li>
+      <li class="list-group-item"><strong>Funkce v Pythonu</strong>: <code>def ...()</code> pro jednotlivé lokace.</li>
+      <li class="list-group-item"><strong>Výběr podle vstupu</strong>: <code>if / elif / else</code> pro navigaci.</li>
     </ul>
     <div class="alert alert-info" role="alert">
-      <strong>Tip:</strong> OOP je klíčovým přístupem v moderním programování – používá se třeba i při tvorbě her.
+      <strong>Tip:</strong> Nejprve navrhni (pseudokód/flowchart), teprve pak kóduj – ušetříš si ladění.
     </div>
   </div>
 
-  <!-- Postup 1: Definice třídy -->
-  <ul class="list-group mb-4">
-    <li class="list-group-item">
-      <strong>1. Vytvoření třídy</strong>
-      <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseClass">
-        &#9660;
-      </button>
-      <ul class="list-group list-group-flush collapse mt-2" id="collapseClass">
-        <li class="list-group-item">
-          Nejprve vytvoříme třídu pomocí klíčového slova <code>class</code>:
-<pre><code>class Hrac:
-    def __init__(self, jmeno):
-        self.jmeno = jmeno
-        self.zivoty = 5
-        self.inventar = []</code></pre>
-          <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalInit">Vysvětlení konstruktoru</button>
-        </li>
-      </ul>
-    </li>
-
-    <!-- Postup 2: Přidání metody -->
-    <li class="list-group-item">
-      <strong>2. Přidání metody seber()</strong>
-      <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMethod">
-        &#9660;
-      </button>
-      <ul class="list-group list-group-flush collapse mt-2" id="collapseMethod">
-        <li class="list-group-item">
-          Metoda je funkce uvnitř třídy. Přidáme například metodu pro sbírání předmětů:
-<pre><code>def seber(self, predmet):
-    self.inventar.append(predmet)
-    print(self.jmeno, "sebral:", predmet)</code></pre>
-          <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalMethod">Více o metodách</button>
-        </li>
-      </ul>
-    </li>
-
-    <!-- Postup 3: Vytvoření objektu -->
-    <li class="list-group-item">
-      <strong>3. Vytvoření objektu hráče</strong>
-      <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseObject">
-        &#9660;
-      </button>
-      <ul class="list-group list-group-flush collapse mt-2" id="collapseObject">
-        <li class="list-group-item">
-          Objekt vytvoříme voláním třídy jako funkce:
-<pre><code>hrac = Hrac("Jan")</code></pre>
-          <p>Objekt <code>hrac</code> má nyní jméno, životy a prázdný inventář.</p>
-        </li>
-      </ul>
-    </li>
-
-    <!-- Postup 4: Interakce -->
-    <li class="list-group-item">
-      <strong>4. Volání metod a práce s objektem</strong>
-      <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInteract">
-        &#9660;
-      </button>
-      <ul class="list-group list-group-flush collapse mt-2" id="collapseInteract">
-        <li class="list-group-item">
-          Nyní můžeme s objektem pracovat:
-<pre><code>hrac.seber("meč")
-hrac.seber("lektvar")
-
-print(hrac.inventar)
-print(hrac.jmeno)
-print(hrac.zivoty)</code></pre>
-        </li>
-      </ul>
-    </li>
-  </ul>
-
-  <!-- Úkoly -->
-  <div class="container my-4 p-4 border rounded bg-light">
-    <h4 class="mb-3">Úkoly:</h4>
-    <ul class="list-group list-group-flush mb-3">
-      <li class="list-group-item">1. Přidej další metodu, například <code>vypis_statistiky()</code>.</li>
-      <li class="list-group-item">2. Umožni uživateli zadat jméno hráče pomocí <code>input()</code>.</li>
-      <li class="list-group-item">3. Vytvoř si vlastní příběh a přidej další interakce.</li>
-    </ul>
-    <a href="https://replit.com/~" target="_blank">
-      <button class="btn btn-sm btn-outline-primary" type="button">Editor</button>
-    </a>
+  <!-- Citát osobnosti -->
+  <div class="row align-items-center mb-4">
+    <div class="col-md-2 text-center">
+      <img class="img-fluid rounded-circle shadow" src="https://upload.wikimedia.org/wikipedia/commons/6/68/Guido_van_Rossum_OSCON_2006_cropped.png" alt="Guido van Rossum">
+      <p class="mt-2 text-muted small">Guido van Rossum</p>
+    </div>
+    <div class="col-md-10">
+      <blockquote class="blockquote">
+        <p class="mb-0">„Code is read much more often than it is written.“</p>
+        <footer class="blockquote-footer mt-2">
+          <a href="https://en.wikipedia.org/wiki/Guido_van_Rossum" target="_blank">(zdroj)</a>
+        </footer>
+      </blockquote>
+    </div>
   </div>
+
+  <!-- Teoretický blok -->
+  <h5 class="mt-5">Od nápadu k programu: pseudokód → flowchart → Python</h5>
+  <p>
+    Pseudokód je <em>čitelné</em> sepsání kroků bez přísné syntaxe. Flowchart ukáže tok programu (sekvence, rozhodnutí,
+    případně smyčky). Teprve potom vytváříme funkce a větvení v Pythonu.
+  </p>
+
+  <!-- Úkoly v akordeonu -->
+  <div class="accordion" id="ukolyAccordion">
+    <!-- KROK 1 – PSEUDOKÓD ÚVODU A HLAVNÍ MÍSTNOSTI -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingK1">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseK1" aria-expanded="true" aria-controls="collapseK1">
+          Krok 1 — Napiš pseudokód (úvod + main_dining_hall) <span class="badge bg-secondary ms-2 task-badge">Úkol</span>
+        </button>
+      </h2>
+      <div id="collapseK1" class="accordion-collapse collapse show" aria-labelledby="headingK1" data-bs-parent="#ukolyAccordion">
+        <div class="accordion-body">
+          <p>Sepsáním pseudokódu si připravíš strukturu. Zamysli se nad volbami N/S/E a co se po nich stane.</p>
+          <div class="d-flex gap-2 mb-2">
+            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalPseudokod">Vysvětlení: co je pseudokód</button>
+          </div>
+          <div class="code-wrapper no-copy">
+            <div class="no-copy-overlay"></div>
+<pre><code># Pseudokód – Úvod a hlavní místnost
+
+START
+Zeptej se na jméno
+Zobraz úvod a scénář
+Požádej o ENTER pro pokračování
+Zavolej main_dining_hall()
+
+FUNKCE main_dining_hall():
+  Vypiš popis místnosti a směrů (N, S, E)
+  Načti volbu (N/S/E)
+  Když N → dark_hallway()
+  Jinak když S → long_corridor()
+  Jinak když E → stairway()
+  Jinak → vypiš „Nerozumím, zkus to znovu“ a vrať se na začátek místnosti
+ENDFUNKCE
+</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KROK 2 – FLOWCHART SYMBOLY A TOK ROZHODOVÁNÍ -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingK2">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseK2" aria-expanded="false" aria-controls="collapseK2">
+          Krok 2 — Navrhni tok (flowchart) voleb N/S/E <span class="badge bg-secondary ms-2 task-badge">Úkol</span>
+        </button>
+      </h2>
+      <div id="collapseK2" class="accordion-collapse collapse" aria-labelledby="headingK2" data-bs-parent="#ukolyAccordion">
+        <div class="accordion-body">
+          <p>Nakresli (na papír nebo digitálně) jednoduchý flowchart: Start → <em>main_dining_hall</em> → Rozhodnutí N/S/E → volání funkcí.</p>
+          <div class="d-flex gap-2 mb-2">
+            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalFlowchart">Vysvětlení: symboly a čtení flowchartu</button>
+          </div>
+          <div class="alert alert-warning" role="alert">
+            <strong>Kontrola:</strong> Každá větev (N/S/E) musí vést k jediné další akci (funkci/místnosti).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KROK 3 – IMPLEMENTACE MAIN_DINING_HALL() S VĚTVENÍM -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingK3">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseK3" aria-expanded="false" aria-controls="collapseK3">
+          Krok 3 — Implementuj <code>main_dining_hall()</code> s volbami N/S/E <span class="badge bg-secondary ms-2 task-badge">Úkol</span>
+        </button>
+      </h2>
+      <div id="collapseK3" class="accordion-collapse collapse" aria-labelledby="headingK3" data-bs-parent="#ukolyAccordion">
+        <div class="accordion-body">
+          <p>Podle pseudokódu napiš funkci. Pro neplatnou volbu vrať hráče na začátek místnosti.</p>
+          <div class="d-flex gap-2 mb-2">
+            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalIfElifElse">Vysvětlení: <code>if/elif/else</code> a návrat do místnosti</button>
+          </div>
+          <div class="code-wrapper no-copy">
+            <div class="no-copy-overlay"></div>
+<pre><code>def main_dining_hall():
+    print()
+    print("Jsi v hlavní jídelně strašidelného domu. Stojíš sám ve tmě.")
+    print("Vidíš tři těžké dveře.")
+    print("Půjdeš severem (N), jihem (S) nebo východem (E)?")
+    print()
+    volba = input("Zadej N, S nebo E: ")
+
+    if volba == "N":
+        dark_hallway()
+    elif volba == "S":
+        long_corridor()
+    elif volba == "E":
+        stairway()
+    else:
+        print("Nerozumím. Zkus to znovu, musíš se dostat VEN!!")
+        main_dining_hall()   # jednoduchý návrat (v dalších lekcích ukážeme i while-smyčku)
+</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KROK 4 – STUBY DALŠÍCH MÍSTNOSTÍ -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingK4">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseK4" aria-expanded="false" aria-controls="collapseK4">
+          Krok 4 — Vytvoř stubs: <code>dark_hallway()</code>, <code>long_corridor()</code>, <code>stairway()</code> <span class="badge bg-secondary ms-2 task-badge">Úkol</span>
+        </button>
+      </h2>
+      <div id="collapseK4" class="accordion-collapse collapse" aria-labelledby="headingK4" data-bs-parent="#ukolyAccordion">
+        <div class="accordion-body">
+          <p>Založ jednoduché (zatím prázdné) funkce pro místnosti, aby k nim šlo přejít. Naplníme je v dalších lekcích.</p>
+          <div class="d-flex gap-2 mb-2">
+            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalFunkce">Vysvětlení: proč dělíme kód do funkcí</button>
+          </div>
+          <div class="code-wrapper no-copy">
+            <div class="no-copy-overlay"></div>
+<pre><code>def dark_hallway():
+    print("\\nStojíš v temné chodbě. (Obsah doplníme příště.)")
+
+def long_corridor():
+    print("Jsi v dlouhé chodbě. (Obsah doplníme příště.)")
+
+def stairway():
+    print("Vrže dřevěné schodiště. (Obsah doplníme příště.)")
+</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KROK 5 – START HRY (NAVÁZÁNÍ NA LEKCI 1) -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingK5">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseK5" aria-expanded="false" aria-controls="collapseK5">
+          Krok 5 — Propoj start hry s hlavní místností <span class="badge bg-success ms-2 task-badge">Výstup lekce</span>
+        </button>
+      </h2>
+      <div id="collapseK5" class="accordion-collapse collapse" aria-labelledby="headingK5" data-bs-parent="#ukolyAccordion">
+        <div class="accordion-body">
+          <p>Na konec tvého úvodu (z Lekce 1) přidej volání <code>main_dining_hall()</code>.</p>
+          <div class="d-flex gap-2 mb-2">
+            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalVystup">Vysvětlení: co považujeme za hotový výstup</button>
+          </div>
+          <div class="code-wrapper no-copy">
+            <div class="no-copy-overlay"></div>
+<pre><code># ... zde je tvůj úvod z Lekce 1 ...
+# na konci úvodu:
+main_dining_hall()
+</code></pre>
+          </div>
+          <div class="alert alert-warning mt-3" role="alert">
+            <strong>Kontrola:</strong> Spusť hru → po scénáři se otevře hlavní místnost → zadej N/S/E → zobrazí se odpovídající stub funkce.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hint -->
+  <p class="mt-4">💡 Hint: Při čtení vstupu je konzole <em>case-sensitive</em>. Drž se přesného zadání (např. „N“, „S“, „E“).</p>
 
   <!-- Shrnutí -->
   <div class="container my-4 p-4 border rounded bg-light">
     <h3 class="mb-3">Shrnutí kapitoly</h3>
-    <p>V této kapitole ses dozvěděl:</p>
+    <p>Z návrhu (pseudokód/flowchart) jsi došel k první funkční verzi navigace mezi místnostmi.</p>
     <ul class="list-group list-group-flush mb-3">
-      <li class="list-group-item"><strong>class</strong>: jak vytvořit třídu v Pythonu.</li>
-      <li class="list-group-item"><strong>__init__()</strong>: jak inicializovat objekt.</li>
-      <li class="list-group-item"><strong>Metody</strong>: jak přidat chování objektu.</li>
+      <li class="list-group-item"><strong>Pseudokód</strong> – srozumitelný plán.</li>
+      <li class="list-group-item"><strong>Flowchart</strong> – vizualizace voleb N/S/E.</li>
+      <li class="list-group-item"><strong>Funkce</strong> – jedna místnost = jedna funkce.</li>
+      <li class="list-group-item"><strong>if/elif/else</strong> – řízení toku podle vstupu hráče.</li>
     </ul>
     <div class="alert alert-info" role="alert">
-      <strong>Tip:</strong> Tvoř si vlastní třídy, programy budou přehlednější a zábavnější.
+      <strong>Tip:</strong> V dalších lekcích naplníme místnosti obsahem (zombie, laboratoř, únikový kód) a přidáme smyčky.
     </div>
   </div>
+
+  <!-- Odkazy -->
+  <hr>
+  <h6>Odkazy na použité zdroje</h6>
+  <ol class="small">
+    <li><a href="#" target="_blank">Pseudocode – Sample for Text Adventure</a></li>
+    <li><a href="#" target="_blank">Text Adventure – Flowchart (N/S/E)</a></li>
+    <li><a href="#" target="_blank">Flowchart – Basic Symbols</a></li>
+  </ol>
 </section>
 
-<!-- MODÁLY -->
-<div class="modal fade" id="modalInit" tabindex="-1" aria-labelledby="modalInitLabel" aria-hidden="true">
+<!-- MODÁLY – vysvětlení -->
+<div class="modal fade" id="modalPseudokod" tabindex="-1" aria-labelledby="modalPseudokodLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalInitLabel">Metoda __init__</h5>
+        <h5 class="modal-title" id="modalPseudokodLabel">Co je pseudokód a proč ho psát?</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
       </div>
       <div class="modal-body">
-        <p>Konstruktor <code>__init__</code> se spustí automaticky při vytvoření objektu. Slouží k nastavení počátečních hodnot.</p>
-<pre><code>def __init__(self, jmeno):
-    self.jmeno = jmeno
-    self.zivoty = 5
-    self.inventar = []</code></pre>
-        <p><small><em>self</em> odkazuje na konkrétní objekt – viz níže.</small></p>
+        <h6>Proč</h6>
+        <p>Pomáhá rychle zachytit algoritmus bez řešení syntaxe. Snadno se sdílí a opravuje.</p>
+        <h6>Co</h6>
+        <ul>
+          <li>Jednoduché kroky, srozumitelné i „ne-programátorovi“.</li>
+          <li>Konstantní styl – důležitý je obsah, ne formální zápis.</li>
+        </ul>
+        <h6>Jak</h6>
+<pre><code>START
+Získej jméno
+Zobraz scénář
+ENTER pro pokračování
+main_dining_hall()
+</code></pre>
+        <p class="text-muted"><small><em>Tip:</em> Každá funkce může mít svůj vlastní malý pseudokód – udržíš pořádek.</small></p>
       </div>
     </div>
   </div>
 </div>
 
-<div class="modal fade" id="modalMethod" tabindex="-1" aria-labelledby="modalMethodLabel" aria-hidden="true">
+<div class="modal fade" id="modalFlowchart" tabindex="-1" aria-labelledby="modalFlowchartLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalMethodLabel">Co je metoda třídy?</h5>
+        <h5 class="modal-title" id="modalFlowchartLabel">Flowchart: symboly a tok programu</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
       </div>
       <div class="modal-body">
-        <p>Metoda je funkce uvnitř třídy, která může pracovat s atributy objektu přes <code>self</code>.</p>
-        <pre><code>def seber(self, predmet):
-    self.inventar.append(predmet)
-    print(self.jmeno, "sebral:", predmet)</code></pre>
-        <p><small>Metoda má vždy první parametr <code>self</code>, který odkazuje na aktuální objekt.</small></p>
+        <h6>Základní symboly</h6>
+        <ul>
+          <li><strong>Start/End</strong> – začátek/konec (ovál).</li>
+          <li><strong>Process</strong> – akce/krok (obdélník).</li>
+          <li><strong>Decision</strong> – rozhodnutí (kosočtverec) s větvemi Ano/Ne.</li>
+          <li><strong>Input/Output</strong> – vstup či výstup.</li>
+          <li><strong>Function (volání)</strong> – „zabalený“ kód (např. <code>dark_hallway()</code>).</li>
+        </ul>
+        <h6>Tok voleb N/S/E</h6>
+<pre><code>Start → main_dining_hall → [Decision: volba]
+   N → dark_hallway
+   S → long_corridor
+   E → stairway
+</code></pre>
+        <p class="text-muted"><small><em>Tip:</em> Každá šipka musí vést k jednoznačné další akci.</small></p>
       </div>
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="modalIfElifElse" tabindex="-1" aria-labelledby="modalIfElifElseLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalIfElifElseLabel">if / elif / else – řízení toku podle vstupu</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <h6>Proč</h6>
+        <p>Volby hráče ovlivňují děj. Potřebujeme vybrat, kterou funkci zavoláme.</p>
+        <h6>Co</h6>
+        <ul>
+          <li><code>if</code> – první podmínka, <code>elif</code> – alternativy, <code>else</code> – všechno ostatní.</li>
+          <li>Neplatnou volbu vrátíme zpět (zde rekurzí, později ukážeme i while-smyčku).</li>
+        </ul>
+        <h6>Jak</h6>
+<pre><code>volba = input("Zadej N, S nebo E: ")
+if volba == "N":
+    dark_hallway()
+elif volba == "S":
+    long_corridor()
+elif volba == "E":
+    stairway()
+else:
+    print("Nerozumím.")
+    main_dining_hall()
+</code></pre>
+        <p class="text-muted"><small><em>Tip:</em> Konzistence vstupů (písmena, velká/malá) zjednoduší zpracování.</small></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalFunkce" tabindex="-1" aria-labelledby="modalFunkceLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalFunkceLabel">Proč jedna místnost = jedna funkce</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <h6>Proč</h6>
+        <p>Struktura hry je přehledná, snadno se testuje a rozšiřuje (oddělené bloky).</p>
+        <h6>Co</h6>
+        <ul>
+          <li><strong>Decompozice</strong> – dělení problému na menší části.</li>
+          <li><strong>Opakované použití</strong> – snadno voláš místnost z více míst.</li>
+        </ul>
+        <h6>Jak</h6>
+<pre><code>def dark_hallway():
+    print("Temná chodba...")
+    # rozhodnutí a příběh přidáme v dalších lekcích
+</code></pre>
+        <p class="text-muted"><small><em>Tip:</em> Pojmenovávej funkce podle obsahu (místnost, akce).</small></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalVystup" tabindex="-1" aria-labelledby="modalVystupLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalVystupLabel">Jak hodnotíme výstup lekce 2</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="mb-2">
+          <li>Existuje <code>main_dining_hall()</code> s volbami N/S/E.</li>
+          <li>Existují stub funkce: <code>dark_hallway()</code>, <code>long_corridor()</code>, <code>stairway()</code>.</li>
+          <li>Neplatná volba vrací hráče zpět (zatím jednoduchým způsobem).</li>
+        </ul>
+        <p class="text-muted"><small><em>Tip:</em> V dalších lekcích doplníme obsah místností a smyčky (<code>while</code>).</small></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Skript: základní blokace kopírování v kódu -->
+<script>
+  (function() {
+    // Zabraň kontextové nabídce
+    document.addEventListener('contextmenu', function(e) {
+      // Povolit na odkazech/ovládacích prvcích, blokovat na kódu:
+      if (e.target.closest('.no-copy')) e.preventDefault();
+    }, { capture: true });
+
+    // Zabraň kopírování a výběru v kódu
+    document.addEventListener('copy', function(e) {
+      if (e.target.closest && e.target.closest('.no-copy')) {
+        e.preventDefault();
+      }
+    }, { capture: true });
+
+    // Blokuj klávesové zkratky kopírování v kódu (Ctrl/Cmd+C, Ctrl/Cmd+S, Ctrl/Cmd+U apod.)
+    document.addEventListener('keydown', function(e) {
+      const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+      const mod = isMac ? e.metaKey : e.ctrlKey;
+      const targetInNoCopy = e.target.closest && e.target.closest('.no-copy');
+      if (!targetInNoCopy) return;
+
+      const k = e.key.toLowerCase();
+      if (mod && (k === 'c' || k === 's' || k === 'u' || k === 'p' || k === 'a')) {
+        e.preventDefault();
+      }
+    }, { capture: true });
+
+    // Zabraň označování a přetahování v kódu
+    ['selectstart', 'dragstart'].forEach(evt =>
+      document.addEventListener(evt, function(e) {
+        if (e.target.closest && e.target.closest('.no-copy')) e.preventDefault();
+      }, { capture: true })
+    );
+  })();
+</script>
+</body>
+</html>
