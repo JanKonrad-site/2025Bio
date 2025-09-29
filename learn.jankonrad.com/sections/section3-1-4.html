@@ -1,0 +1,215 @@
+<style>
+    .nocopy {
+  user-select: none;
+}
+</style>
+<section id="section3-1-4" class="container my-5, nocopy">
+  <h3 class="mb-4">3.1.4 Odkazy (&lt;a&gt;) a obrázky (&lt;img&gt;): cesty, alt, portfolio</h3>
+
+  <!-- Cíl lekce -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Co se naučíš?</h4>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Odkazy</strong> – jak funguje atribut <code>href</code>, kdy použít relativní/kořenově relativní cesty.</li>
+      <li class="list-group-item"><strong>Obrázky</strong> – jak funguje atribut <code>src</code> a <code>alt</code>, práce s adresářem <code>Assets/</code>.</li>
+      <li class="list-group-item"><strong>Struktura projektu</strong> – odkazy mezi lekcemi, vložení obrázku z podadresáře, základ portfolia.</li>
+    </ul>
+    <div class="d-flex gap-2">
+      <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalHref">Vysvětlení: jak funguje <code>href</code></button>
+      <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalPaths">Vysvětlení: typy cest</button>
+      <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalAlt">Vysvětlení: atribut <code>alt</code></button>
+    </div>
+  </div>
+
+  <!-- Zápisky & Procvičení seznamů (dodané ukázky) -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <h4 class="mb-3">Zápisky &amp; procvičení seznamů s odkazy</h4>
+    <p>Ukázka odkazů samostatně, v číslovaném i nečíslovaném seznamu, včetně <em>záměrně špatného</em> použití &lt;ul&gt; bez &lt;li&gt; (proč je to problém viz akordeon níže).</p>
+<pre><code class="nocopy" >&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+  &lt;head&gt;…&lt;/head&gt;
+  &lt;body&gt;
+    &lt;a href=""&gt;Odkaz1&lt;/a&gt; … &lt;a href=""&gt;Odkaz5&lt;/a&gt;
+
+    &lt;ol&gt;
+      &lt;li&gt;&lt;a href=""&gt;Odkaz1&lt;/a&gt;&lt;/li&gt;
+      …
+      &lt;li&gt;&lt;a href=""&gt;Odkaz5&lt;/a&gt;&lt;/li&gt;
+    &lt;/ol&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=""&gt;Odkaz1&lt;/a&gt;&lt;/li&gt; … &lt;li&gt;&lt;a href=""&gt;Odkaz5&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;!-- ŠPATNĚ: &lt;ul&gt; musí obsahovat &lt;li&gt;, ne přímo &lt;a&gt; --&gt;
+    &lt;ul&gt; &lt;a href=""&gt;Odkaz1&lt;/a&gt; &lt;/ul&gt;
+    … (opakovaně)
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+  </div>
+
+  <!-- Akordeon: metodika krok za krokem -->
+  <div class="accordion mb-5" id="accordion-3-1-4">
+
+    <!-- Blok A: Cvičení 1 – Odkazy v adresářích (kořenově relativní cesta /) -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="head-a">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#col-a">
+          Cvičení 1 — Odkazy mezi lekcemi (kořenově relativní cesty <code>/</code>)
+        </button>
+      </h2>
+      <div id="col-a" class="accordion-collapse collapse show" data-bs-parent="#accordion-3-1-4">
+        <div class="accordion-body">
+          <p class="mb-3">Cílem je vytvořit testovací stránku s odkazy na různé podadresáře kurzu pomocí <strong>kořenově relativních</strong> cest (začínají <code>/</code>).</p>
+
+          <ol class="mb-3">
+            <li>Vytvoř složku (např. <code>lekce-3-1-4</code>) a v ní <code>index.html</code>. Vlož boilerplate: napiš <kbd>!</kbd> → <kbd>Tab/Enter</kbd>.</li>
+            <li>Do <code class="nocopy">&lt;body&gt;</code> vlož sadu odkazů:
+<pre class="mb-2"><code>&lt;a href="/Kvinta - HTML &amp; CSS/1_Lekce/index.html"&gt;1-Lekce&lt;/a&gt;
+&lt;a href="/Kvinta - HTML &amp; CSS/2.Lekce/index.html"&gt;2-Lekce&lt;/a&gt;
+&lt;a href="/Kvinta - HTML &amp; CSS/3.Lekce/index.html"&gt;3-Lekce&lt;/a&gt;
+&lt;a href="/Kvinta - HTML &amp; CSS/4.Lekce/index.html"&gt;4-Lekce&lt;/a&gt;
+&lt;a href="/Kvinta - HTML &amp; CSS/4.Lekce/1.Cviceni/index.html"&gt;4.1-Lekce&lt;/a&gt;
+&lt;a href="/Kvinta - HTML &amp; CSS/4.Lekce/2.Cviceni/index.html"&gt;4.2-Lekce&lt;/a&gt;
+&lt;a href="/Kvinta - HTML &amp; CSS/5.Lekce/index.html"&gt;5-Lekce&lt;/a&gt;
+&lt;a href="/Kvinta - HTML &amp; CSS/5.Lekce/1.Cviceni/index.html"&gt;5.1-Lekce&lt;/a&gt;</code></pre>
+            </li>
+            <li>Otestuj odkazy. Pokud nefungují, zkontroluj <em>skutečná</em> jména složek/souborů a to, odkud je projekt servírován. <button class="btn btn-link p-0 align-baseline" data-bs-toggle="modal" data-bs-target="#modalPaths">Více o typech cest</button></li>
+          </ol>
+
+          <div class="alert alert-info mb-0">
+            <strong>VS Code tipy:</strong> Emmet pro odkazy: napiš <code>a{1-Lekce}+a{2-Lekce}+…</code> a kurzorem pak doplň <code>href</code>. Formátování: Win/Linux <kbd>Shift</kbd>+<kbd>Alt</kbd>+<kbd>F</kbd>, macOS <kbd>⌥⇧F</kbd>.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Blok B: Cvičení 2 — Portfolio + obrázek z ./Assets + alt -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="head-b">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#col-b">
+          Cvičení 2 — Portfolio + obrázek (relativní cesta <code>./</code>, složka <code>Assets/</code>, <code>alt</code>)
+        </button>
+      </h2>
+      <div id="col-b" class="accordion-collapse collapse" data-bs-parent="#accordion-3-1-4">
+        <div class="accordion-body">
+          <p>Vytvoříš jednoduchou portfoliovou stránku s nadpisem, popisem, sadou odkazů a vloženým obrázkem z podadresáře <code>Assets</code>.</p>
+
+          <ol class="mb-3">
+            <li>Ve složce projektu vytvoř podadresář <code>Assets</code> a vlož do něj soubor obrázku (např. <code>win.jpeg</code>).</li>
+            <li>Do <code>&lt;body&gt;</code> přidej hlavičku portfolia a odstavce s odkazy (můžeš recyklovat odkazy z Cvičení 1):
+<pre class="mb-2"><code>&lt;div&gt;
+  &lt;h1&gt;Portfólio prací&lt;/h1&gt;
+  &lt;p&gt;Zde je můj seznam prací za první měsíc výuky v HTML.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div&gt;
+  &lt;a href="/Kvinta - HTML &amp; CSS/1_Lekce/index.html"&gt;1-Lekce&lt;/a&gt;
+  &lt;a href="/Kvinta - HTML &amp; CSS/2.Lekce/index.html"&gt;2-Lekce&lt;/a&gt;
+  &lt;a href="/Kvinta - HTML &amp; CSS/3.Lekce/index.html"&gt;3-Lekce&lt;/a&gt;
+  &lt;a href="/Kvinta - HTML &amp; CSS/4.Lekce/index.html"&gt;4-Lekce&lt;/a&gt;
+  &lt;a href="/Kvinta - HTML &amp; CSS/4.Lekce/1.Cviceni/index.html"&gt;4.1-Lekce&lt;/a&gt;
+  &lt;a href="/Kvinta - HTML &amp; CSS/4.Lekce/2.Cviceni/index.html"&gt;4.2-Lekce&lt;/a&gt;
+  &lt;a href="/Kvinta - HTML &amp; CSS/5.Lekce/index.html"&gt;5-Lekce&lt;/a&gt;
+  &lt;a href="/Kvinta - HTML &amp; CSS/5.Lekce/1.Cviceni/index.html"&gt;5.1-Lekce&lt;/a&gt;
+&lt;/div&gt;</code></pre>
+            </li>
+            <li>Pod odkazy vlož obrázek z aktuální složky s relativní cestou <code>./Assets/win.jpeg</code> a smysluplným <code>alt</code>:
+<pre class="mb-2"><code>&lt;div&gt;
+  &lt;img src="./Assets/win.jpeg" alt="Vítězný obrázek (ilustrace úspěchu)"&gt;
+&lt;/div&gt;</code></pre>
+              <p class="small mb-0">Proč je <code>alt</code> důležitý? <button class="btn btn-link p-0 align-baseline" data-bs-toggle="modal" data-bs-target="#modalAlt">Vysvětlení zde</button>.</p>
+            </li>
+          </ol>
+
+          <div class="alert alert-info mb-0">
+            <strong>Kontrola cest:</strong> <code>./</code> = „odtud“, <code>../</code> = „o složku výš“. Pokud se obrázek nezobrazuje, zkontroluj, zda soubor <em>opravdu</em> leží v <code>Assets/</code> vedle <code>index.html</code> (nebo uprav cestu).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Blok C: Validita HTML se seznamy a odkazy -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="head-c">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#col-c">
+          Pozor na strukturu: &lt;ul&gt; musí obsahovat &lt;li&gt; (ne přímo &lt;a&gt;)
+        </button>
+      </h2>
+      <div id="col-c" class="accordion-collapse collapse" data-bs-parent="#accordion-3-1-4">
+        <div class="accordion-body">
+          <p>Seznamy mají jasná pravidla: přímými potomky <code>&lt;ul&gt;</code>/<code>&lt;ol&gt;</code> jsou <code>&lt;li&gt;</code>. <em>Špatně</em> je psát <code>&lt;ul&gt;&lt;a …&gt;…</code> bez <code>&lt;li&gt;</code>.</p>
+<pre class="mb-2"><code>&lt;!-- ŠPATNĚ --&gt;
+&lt;ul&gt;
+  &lt;a href=""&gt;Odkaz1&lt;/a&gt;
+&lt;/ul&gt;
+
+&lt;!-- SPRÁVNĚ --&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=""&gt;Odkaz1&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+          <div class="alert alert-info mb-0">
+            <strong>Proč?</strong> Přístupnost, čtečky obrazovky, konzistence a CSS styly očekávají strukturu seznam → položky → obsah položky (např. odkaz).
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Shrnutí</h3>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><strong>&lt;a href="…"&gt;</strong> odkazuje na dokument. Cesta může být relativní (<code>./</code>, <code>../</code>) nebo kořenově relativní (<code>/</code>).</li>
+      <li class="list-group-item"><strong>&lt;img src="…"</strong> <strong>alt="…"&gt;</strong> vloží obrázek; <code>alt</code> popíše obsah (přístupnost, SEO, fallback).</li>
+      <li class="list-group-item"><strong>&lt;ul&gt;/&lt;ol&gt; → &lt;li&gt; → &lt;a&gt;</strong> je správná hierarchie pro seznam odkazů.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Modals: vysvětlivky -->
+<div class="modal fade" id="modalHref" tabindex="-1" aria-labelledby="modalHrefLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="modalHrefLabel">Jak funguje <code>href</code> u odkazu</h5>
+      <button class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <p><code>&lt;a href="…"&gt;</code> říká prohlížeči, kam má odkaz vést. <strong>Absolutní URL</strong> (např. <code>https://…</code>) míří na jiný web. <strong>Relativní cesta</strong> míří v rámci tvého projektu.</p>
+      <ul>
+        <li><code>./soubor.html</code> – v aktuální složce.</li>
+        <li><code>../soubor.html</code> – o úroveň výš.</li>
+        <li><code>/cesta/od/korenoveho/umístění</code> – kořenově relativní, závisí na tom, kde je „root“ serveru.</li>
+      </ul>
+      <p>Chyby odkazů často způsobí překlepy ve jménech souborů/složek nebo špatně zvolený typ cesty.</p>
+    </div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="modalPaths" tabindex="-1" aria-labelledby="modalPathsLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="modalPathsLabel">Typy cest: relativní × kořenově relativní</h5>
+      <button class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <p><strong>Relativní</strong> (doporučeno v malých projektech): <code>./</code> a <code>../</code> – robustní při přenosu projektu. <strong>Kořenově relativní</strong> (<code>/…</code>) je pohodlná v rámci jednoho webu, ale mimo server s daným „rootem“ může selhat.</p>
+      <p><em>Příklad:</em> stránka v <code>/Kvinta - HTML &amp; CSS/4.Lekce/</code> a obrázek v <code>/Kvinta - HTML &amp; CSS/4.Lekce/Assets/win.jpeg</code> → použij <code>./Assets/win.jpeg</code>.</p>
+    </div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="modalAlt" tabindex="-1" aria-labelledby="modalAltLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="modalAltLabel">Atribut <code>alt</code> u obrázků</h5>
+      <button class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <p><code>alt</code> popisuje, <em>co</em> je na obrázku – pomáhá čtečkám obrazovky, zobrazí se při chybě načtení a je užitečný pro SEO.</p>
+      <p><em>Příklad:</em> <code>&lt;img src="./Assets/win.jpeg" alt="Vítězný pohár na stupních vítězů"&gt;</code></p>
+      <p>Nezadávej „ilustrační obrázek“ – napiš smysl (obsah/funkci) pro danou stránku.</p>
+    </div>
+  </div></div>
+</div>
