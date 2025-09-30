@@ -1,123 +1,267 @@
-<!-- ======= KAPITOLA 4.3 ======= -->
-<section id="section4-1-4" class="section-wrapper container my-5">
-  <h3 class="mb-3">4.1.4 Indexování a řezání řetězců</h3>
-  <p class="lead">Naučíme se, jak se v Pythonu dostat k jednotlivým znakům v textu (<em>indexování</em>) a jak z textu vyříznout jen část (<em>řezání</em>). Tyto základy budeme potřebovat pro kontrolu vstupů v kalkulačce a pro práci s funkcemi v další kapitole.</p>
+<section id="section4-2-metodika-adventura" class="section-wrapper container my-5">
+  <h3 class="mb-3">4.2 Metodika: od větvení k herní smyčce (while / break / continue)</h3>
+  <p class="lead">
+    Cíl: Proměnit jednorázovou textovou adventuru z minulé lekce v <strong>opakovatelnou hru</strong> s hlavním menu,
+    vnořenými scénami a bezpečným zpracováním voleb pomocí <code>while</code>, <code>break</code> a <code>continue</code>.
+    <br><span class="text-muted small">Pozn.: Záměrně tu není hotové řešení – studenti musí kroky dotvořit sami.</span>
+  </p>
 
-  <div class="row g-3">
-    <!-- Indexování -->
-    <div class="col-lg-6">
-      <div class="card h-100"><div class="card-body">
-        <h5 class="card-title">Co je indexování</h5>
-        <p>Každý znak v textu má své pořadové číslo (<strong>index</strong>). Indexování začíná od nuly:</p>
-<pre><code class="language-python">slovo = "Ahoj"
-# Indexy:  0   1   2   3
-# Znaky:  'A' 'h' 'o' 'j'
-
-print(slovo[0])  # A
-print(slovo[1])  # h
-print(slovo[3])  # j</code></pre>
-        <div class="alert alert-info small mb-0">⚠️ Pozor: pokud použiješ index, který neexistuje, program spadne s chybou.</div>
-      </div></div>
-    </div>
-
-    <!-- Délka řetězce -->
-    <div class="col-lg-6">
-      <div class="card h-100"><div class="card-body">
-        <h5 class="card-title">Jak zjistit délku textu</h5>
-        <p>Použij funkci <code>len()</code>, která vrátí počet znaků:</p>
-<pre><code class="language-python">slovo = "Ahoj"
-print(len(slovo))  # 4
-
-# Můžeme použít v cyklu:
-i = 0
-while i &lt; len(slovo):
-    print(slovo[i])
-    i = i + 1</code></pre>
-        <button class="btn btn-sm btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#modalLenExplain">
-          Vysvětli krok za krokem
-        </button>
-      </div></div>
-    </div>
+  <div class="alert alert-warning small">
+    ⚠️ <strong>Bez kopírování!</strong> Používejte jen nápovědy a pseudokód. Cílem je vlastní funkční řešení.
   </div>
 
-  <hr class="my-4">
-
   <div class="row g-3">
-    <!-- Řezání -->
     <div class="col-lg-6">
       <div class="card h-100"><div class="card-body">
-        <h5 class="card-title">Řezání (slicing)</h5>
-        <p>Z textu můžeme „ukrojit“ část – tzv. <em>slice</em>:</p>
-<pre><code class="language-python">slovo = "Ahoj"
-
-print(slovo[0:2])  # Ah  (indexy 0 a 1)
-print(slovo[1:4])  # hoj (indexy 1, 2, 3)</code></pre>
-        <ul>
-          <li><code>start</code> = odkud začít (včetně)</li>
-          <li><code>stop</code> = kde skončit (bez tohoto znaku)</li>
+        <h5 class="card-title">Co trénujeme</h5>
+        <ul class="mb-0">
+          <li>Hlavní herní smyčka (<code>while True</code>) = „menu běží pořád“</li>
+          <li>Vnořené smyčky pro lokace (A.a, A.b) – lokální logika</li>
+          <li><code>continue</code> pro špatné volby (zeptat se znovu)</li>
+          <li><code>break</code> pro návrat do vyšší úrovně (menu)</li>
+          <li>Konzistentní UX: pauza <code>ENTER</code> před návratem do menu</li>
         </ul>
       </div></div>
     </div>
 
-    <!-- Kratší zápis -->
     <div class="col-lg-6">
       <div class="card h-100"><div class="card-body">
-        <h5 class="card-title">Kratší zápis</h5>
-<pre><code class="language-python">slovo = "Ahoj"
-
-print(slovo[:2])   # Ah (od začátku do indexu 2)
-print(slovo[1:])   # hoj (od indexu 1 do konce)</code></pre>
-        <div class="alert alert-secondary small mb-0">Pokud vynecháš <code>start</code>, bere se od začátku.<br>
-        Pokud vynecháš <code>stop</code>, bere se až do konce.</div>
+        <h5 class="card-title">Výchozí projekt (z minula)</h5>
+        <p class="mb-2">Lineární adventura s <code>if/elif</code>, bez opakování hry.</p>
+        <div class="small text-muted">Zadání dnes: obalit logiku do smyček tak, aby hra šla hrát a vracet se do menu bez restartu programu.</div>
       </div></div>
     </div>
   </div>
+
+  <hr class="my-4">
+
+  <!-- Kuchařka krok za krokem -->
+  <div class="accordion" id="acc-metodika">
+    <!-- Krok 0 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="m0h">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#m0" aria-expanded="true" aria-controls="m0">
+          0) Zahřátí (5 min): Kde hra končí? Co když chci hrát znovu?
+        </button>
+      </h2>
+      <div id="m0" class="accordion-collapse collapse show" aria-labelledby="m0h" data-bs-parent="#acc-metodika">
+        <div class="accordion-body">
+          <ul class="mb-0">
+            <li>Krátká diskuse: „Po konci příběhu chci možnost <em>vrátit se do hlavního menu</em>“.</li>
+            <li>Myšlenka: jedno <strong>hlavní menu</strong> = <code>while True</code> + volby „1/2“.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 1 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="m1h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#m1" aria-expanded="false" aria-controls="m1">
+          1) Hlavní smyčka (10–12 min): obal menu do <code>while True</code>
+        </button>
+      </h2>
+      <div id="m1" class="accordion-collapse collapse" aria-labelledby="m1h" data-bs-parent="#acc-metodika">
+        <div class="accordion-body">
+          <p>Vytvořte nekonečnou smyčku, která zobrazuje hlavní menu a čte volbu.</p>
+<pre class="mb-2"><code># Pseudokód (ne kopírovat, jen se inspirovat!)
+while True:
+    vypiš uvítání a hlavní menu (lokace A, volby 1/2)
+    volba_menu = input("Vyber možnost: ")
+
+    if volba_menu == "1":
+        # půjde do A.a
+    elif volba_menu == "2":
+        # půjde do A.b
+    else:
+        vypiš "Neplatná volba..."
+        continue  # vrať se na začátek hlavního menu
+</code></pre>
+          <div class="alert alert-info small mb-0">
+            <strong>Kontrolní bod:</strong> „1“ otevře logiku A.a, „2“ otevře logiku A.b, jiná volba zůstává v menu bez pádu programu.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 2 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="m2h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#m2" aria-expanded="false" aria-controls="m2">
+          2) Vnořené smyčky (12–15 min): A.a a A.b mají vlastní <code>while True</code>
+        </button>
+      </h2>
+      <div id="m2" class="accordion-collapse collapse" aria-labelledby="m2h" data-bs-parent="#acc-metodika">
+        <div class="accordion-body">
+          <p>V každé lokaci zobrazujte její příběh a nabídněte dvě zakončení (Win/GameOver). Neplatná volba = ptám se znovu.</p>
+<pre class="mb-2"><code># Pseudokód pro A.a
+while True:
+    vypiš popis A.a a volby "1" (Win) / "2" (GameOver)
+    volba_aa = input("Vyber možnost: ")
+
+    if volba_aa == "1":
+        vypiš "Win"
+        input("ENTER pro návrat do menu...")
+        break  # opustí A.a a vrátí se do HLAVNÍHO menu
+    elif volba_aa == "2":
+        vypiš "GameOver"
+        input("ENTER pro návrat do menu...")
+        break
+    else:
+        vypiš "Neplatná volba..."
+        continue  # zůstávám v A.a a ptám se znovu
+</code></pre>
+          <div class="alert alert-info small mb-0">
+            <strong>Kontrolní bod:</strong> Po jakémkoliv zakončení A.a/A.b se hra po ENTER vrátí do hlavního menu.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 3 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="m3h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#m3" aria-expanded="false" aria-controls="m3">
+          3) Rozdíl <code>continue</code> × <code>break</code> (5–7 min) – proč a kde
+        </button>
+      </h2>
+      <div id="m3" class="accordion-collapse collapse" aria-labelledby="m3h" data-bs-parent="#acc-metodika">
+        <div class="accordion-body">
+          <ul>
+            <li><strong>continue</strong> – přeskočí zbytek aktuálního kola a začne <em>znovu tu samou smyčku</em> (hodí se při <em>špatné volbě</em>).</li>
+            <li><strong>break</strong> – ukončí <em>celou</em> aktuální smyčku (hodí se po <em>konci lokace</em> → návrat do menu).</li>
+          </ul>
+          <div class="alert alert-secondary small mb-0">
+            <strong>Úkol pro dvojice:</strong> Zakroužkuj ve svém kódu jedno místo pro <code>continue</code> a jedno pro <code>break</code> a vysvětli parťákovi proč.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 4 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="m4h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#m4" aria-expanded="false" aria-controls="m4">
+          4) UX: pauza a čitelnost (5 min)
+        </button>
+      </h2>
+      <div id="m4" class="accordion-collapse collapse" aria-labelledby="m4h" data-bs-parent="#acc-metodika">
+        <div class="accordion-body">
+          <ul class="mb-2">
+            <li>Po konci lokace vložte <code>input("\nStiskni ENTER pro návrat do hlavního menu...")</code>.</li>
+            <li>Pro přehlednost přidejte prázdné řádky (<code>\n</code>) do výpisů.</li>
+            <li>Proměnné pojmenovávejte srozumitelně: <code>volba_menu</code>, <code>volba_aa</code>, <code>volba_ab</code>.</li>
+          </ul>
+          <div class="alert alert-info small mb-0">
+            <strong>Kontrolní bod:</strong> Zkuste zadat <code>x</code>, <code>3</code> nebo prázdný vstup. Program se nezhroutí a ptá se znovu.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 5 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="m5h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#m5" aria-expanded="false" aria-controls="m5">
+          5) Volitelné: přidej „Konec hry“ v menu (3–5 min)
+        </button>
+      </h2>
+      <div id="m5" class="accordion-collapse collapse" aria-labelledby="m5h" data-bs-parent="#acc-metodika">
+        <div class="accordion-body">
+          <p>Přidej třetí volbu „3) Konec“ do hlavního menu a <em>čistě</em> ukonči smyčku.</p>
+<pre class="mb-2"><code># Pseudokód
+if volba_menu == "3":
+    vypiš "Konec hry"
+    break  # ukončí HLAVNÍ smyčku → konec programu
+</code></pre>
+          <div class="alert alert-secondary small mb-0">
+            V příští kapitole ukážeme korektní ukončení přes <code>sys.exit()</code>. Teď stačí <code>break</code>.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /accordion -->
 
   <hr class="my-4">
 
   <div class="row g-3">
-    <!-- Přeskočení znaku -->
+    <!-- Checklist -->
     <div class="col-lg-6">
       <div class="card h-100"><div class="card-body">
-        <h5 class="card-title">Přeskočení prvního znaku</h5>
-        <p>Pokud má číslo znaménko <code>-</code>, můžeme ho přeskočit a zkontrolovat jen zbytek:</p>
-<pre><code class="language-python">cislo = "-123"
-print(cislo[1:])  # "123" (od druhého znaku dál)</code></pre>
+        <h5 class="card-title">Checklist pro studenty</h5>
+        <ul class="mb-0">
+          <li>[ ] Hlavní menu běží ve <code>while True</code>.</li>
+          <li>[ ] A.a a A.b mají vlastní smyčku <code>while True</code>.</li>
+          <li>[ ] Špatná volba v A.a/A.b → hláška + <code>continue</code>.</li>
+          <li>[ ] Konec A.a/A.b → pauza <code>ENTER</code> + <code>break</code> (návrat do menu).</li>
+          <li>[ ] Špatná volba v menu → hláška + <code>continue</code>.</li>
+          <li>[ ] Kód je čitelný (proměnné <code>volba_menu</code>, <code>volba_aa</code>, ...).</li>
+        </ul>
       </div></div>
     </div>
 
-
+    <!-- Časté chyby -->
+    <div class="col-lg-6">
+      <div class="card h-100"><div class="card-body">
+        <h5 class="card-title">Časté chyby & prevence</h5>
+        <ul class="mb-0">
+          <li>✅ <strong>Nepřepisuj</strong> stejnou proměnnou <code>volba</code> v různých úrovních → používej konkrétní názvy.</li>
+          <li>✅ Nezapomeň na <code>break</code> po konci lokace, jinak uvízneš ve vnitřní smyčce.</li>
+          <li>✅ Přidej <code>continue</code> pro neplatné volby, ať program „nezajede“ do nesmyslné větve.</li>
+          <li>✅ Vypisuj prázdné řádky (<code>\n</code>) pro čitelnost.</li>
+        </ul>
+      </div></div>
+    </div>
+  </div>
 
   <hr class="my-4">
 
-  <!-- Cvičení -->
-  <div class="card mb-4">
+  <div class="card">
     <div class="card-body">
-      <h5 class="card-title">Cvičení (10 minut)</h5>
-      <ol>
-        <li>Vypiš všechny znaky z <code>"Program"</code> po jednom.</li>
-        <li>Vypiš první 3 znaky z <code>"Python"</code>.</li>
-        <li>Vypiš vše kromě prvního znaku z <code>"Banán"</code>.</li>
-       
+      <h5 class="card-title">Diferenciace (podle rychlosti)</h5>
+      <div class="row g-3">
+        <div class="col-md-4">
+          <div class="p-3 border rounded h-100">
+            <h6 class="mb-2">Minimum (✅)</h6>
+            <ul class="small mb-0">
+              <li>Hlavní smyčka + jedna lokace s vlastní smyčkou.</li>
+              <li>Fungující <code>continue</code> a <code>break</code>.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="p-3 border rounded h-100">
+            <h6 class="mb-2">Standard (🎯)</h6>
+            <ul class="small mb-0">
+              <li>Obě lokace (A.a, A.b) s konci Win/Over.</li>
+              <li>Ošetřené neplatné volby všude.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="p-3 border rounded h-100">
+            <h6 class="mb-2">Extra (⭐)</h6>
+            <ul class="small mb-0">
+              <li>Skryté volby/Easter egg.</li>
+              <li>Počítadlo her/score.</li>
+              <li>Volba „Konec“ v menu (zatím <code>break</code>).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="my-4">
+
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Mini-reflexe (2 min)</h5>
+      <ol class="mb-0">
+        <li>Kde a proč jsi použil(a) <code>continue</code>?</li>
+        <li>Kde a proč jsi použil(a) <code>break</code>?</li>
+        <li>Co by šlo příště vyčlenit do funkcí?</li>
       </ol>
     </div>
   </div>
-
- 
 </section>
-
-<!-- ======= MODÁL 1 ======= -->
-<div class="modal fade" id="modalLenExplain" tabindex="-1" aria-labelledby="modalLenExplainLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 id="modalLenExplainLabel" class="modal-title">Jak funguje <code>len()</code> a průchod textem v <code>while</code> (úplně polopatě)</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-      </div>
-      <div class="modal-body">
-        <p><code>len(text)</code> vrátí počet znaků v řetězci. V cyklu <code>while</code> kontrolujeme, zda <code>i</code> není větší než délka textu. Každé kolo vypíšeme znak na pozici <code>i</code> a <code>i</code> zvětšíme o 1.</p>
-      </div>
-    </div>
-  </div>
-</div>
-
