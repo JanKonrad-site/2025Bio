@@ -1,0 +1,159 @@
+<style>
+     .no-copy-overlay {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: auto;
+      background: transparent; /* neviditelný */
+    }
+</style>
+<section id="section4-1-2-adventura" class="section-wrapper container my-5, no-copy">
+  <h3 class="mb-3">4.1.2 Jednoduchá textová adventura (větvení pomocí if)</h3>
+  <p class="lead">
+    V této části si vytvoříme svou první <strong>textovou adventuru</strong>. Naučíme se používat 
+    <code>if / elif / else</code> pro větvení příběhu podle voleb hráče.
+  </p>
+
+  <div class="alert alert-info small">
+    👉 Cílem je zatím <strong>jednorázový průchod hrou</strong>. Nevracíme se zpět do menu – to přijde až v další kapitole.
+  </div>
+
+  <!-- Akordeony -->
+  <div class="accordion" id="acc-adventura">
+
+    <!-- Krok 1 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="adv1h">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#adv1" aria-expanded="true" aria-controls="adv1">
+          1) Úvod a první volba
+        </button>
+      </h2>
+      <div id="adv1" class="accordion-collapse collapse show" aria-labelledby="adv1h" data-bs-parent="#acc-adventura">
+        <div class="accordion-body">
+          <ul>
+            <li>Nejprve hráče přivítej.</li>
+            <li>Načti jméno postavy pomocí <code>input()</code>.</li>
+            <li>Vypiš krátký scénář a nabídni <strong>dvě volby</strong> (1 a 2).</li>
+          </ul>
+<pre><code class="language-python">print("Vítejte v mé textové adventuře!")
+player = input("Zadej jméno svého hrdiny: ")
+print(f"Vítej: {player}")
+print("Nacházíš se v lokaci A")
+print("1) Přesun do lokace A.a")
+print("2) Přesun do lokace A.b")
+volba = input("Vyber jednu z možností: ")
+</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 2 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="adv2h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#adv2" aria-expanded="false" aria-controls="adv2">
+          2) Větvení pomocí if/elif
+        </button>
+      </h2>
+      <div id="adv2" class="accordion-collapse collapse" aria-labelledby="adv2h" data-bs-parent="#acc-adventura">
+        <div class="accordion-body">
+          <p>Podle volby hráče použij <code>if</code> nebo <code>elif</code> a rozhodni, kam se příběh vydá:</p>
+<pre><code class="language-python">if volba == "1":
+    print("Vybral jsi možnost 1")
+    print("Jsi v oblasti A.a")
+    # zde nabídneme nové volby...
+elif volba == "2":
+    print("Vybral jsi možnost 2")
+    print("Jsi v oblasti A.b")
+    # zde nabídneme nové volby...
+</code></pre>
+          <div class="alert alert-secondary small mb-0">
+            Každá volba otevírá novou větev příběhu.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 3 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="adv3h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#adv3" aria-expanded="false" aria-controls="adv3">
+          3) Další větvení (A.a.2, A.a.3, A.b.2, A.b.3)
+        </button>
+      </h2>
+      <div id="adv3" class="accordion-collapse collapse" aria-labelledby="adv3h" data-bs-parent="#acc-adventura">
+        <div class="accordion-body">
+          <ul>
+            <li>V každé oblasti nabídněte hráči <strong>dvě nové možnosti</strong>.</li>
+            <li>Podle volby příběh zakončete – jednou dobře (WinGame), jednou špatně (GameOver).</li>
+          </ul>
+<pre><code class="language-python">if volba == "1":
+    print("Jsi v oblasti A.a")
+    print("1) Přesun do A.a.2 (WinGame)")
+    print("2) Přesun do A.a.3 (GameOver)")
+    volba = input("Vyber: ")
+    if volba == "1":
+        print("Gratuluji, vyhrál jsi!")
+    elif volba == "2":
+        print("Bohužel, prohrál jsi.")
+</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 4 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="adv4h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#adv4" aria-expanded="false" aria-controls="adv4">
+          4) Ukončení hry
+        </button>
+      </h2>
+      <div id="adv4" class="accordion-collapse collapse" aria-labelledby="adv4h" data-bs-parent="#acc-adventura">
+        <div class="accordion-body">
+          <p>Na úplný konec programu vlož jednoduchou pauzu, aby okno hned nezmizelo:</p>
+<pre><code class="language-python">input("Na konci hry stiskni ENTER pro ukončení...")
+</code></pre>
+        </div>
+      </div>
+    </div>
+  </div><!-- /accordion -->
+
+  <hr class="my-4">
+
+  <div class="row g-3">
+    <div class="col-lg-6">
+      <div class="card h-100"><div class="card-body">
+        <h5 class="card-title">Checklist pro studenty</h5>
+        <ul class="mb-0">
+          <li>[ ] Hráč zadává jméno hrdiny.</li>
+          <li>[ ] V hlavní lokaci A má na výběr 2 možnosti.</li>
+          <li>[ ] Každá možnost vede do vlastní oblasti (A.a nebo A.b).</li>
+          <li>[ ] Každá oblast se větví na 2 konce (Win / GameOver).</li>
+          <li>[ ] Na konci hry se čeká na ENTER.</li>
+        </ul>
+      </div></div>
+    </div>
+    <div class="col-lg-6">
+      <div class="card h-100"><div class="card-body">
+        <h5 class="card-title">Časté chyby</h5>
+        <ul class="mb-0">
+          <li>Zapomenuté uvozovky u číselných voleb (<code>if volba == 1</code> ❌ → <code>if volba == "1"</code> ✅).</li>
+          <li>Přepis proměnné <code>volba</code> na špatném místě.</li>
+          <li>Příliš dlouhý kód v jedné větvi – doporučujeme odřádkovat <code>\n</code>.</li>
+        </ul>
+      </div></div>
+    </div>
+  </div>
+
+  <hr class="my-4">
+
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Mini-reflexe (2 min)</h5>
+      <ol class="mb-0">
+        <li>Kde jsi použil(a) <code>if</code> a kde <code>elif</code>?</li>
+        <li>Jak by šlo přidat třetí možnost do menu?</li>
+        <li>Co by se stalo, kdyby hráč napsal jiný vstup než "1" nebo "2"?</li>
+      </ol>
+    </div>
+  </div>
+</section>
