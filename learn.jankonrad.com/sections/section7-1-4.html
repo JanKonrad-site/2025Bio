@@ -1,0 +1,215 @@
+<!-- 7.1.4 Rastrová grafika — GIMP (Quick Mask — Rychlá maska výběru) -->
+<section id="section7-1-4" class="container my-5">
+  <h3 class="mb-4">7.1.4 GIMP — Rychlá maska (Quick Mask)</h3>
+
+  <!-- Co se naučíš -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co se naučíš?</h3>
+    <p>Naučíš se používat <em>Quick Mask Tool</em> – rychlou masku výběru, která umožňuje přesně malovat oblasti výběru bílou, černou nebo šedou barvou. Zjistíš, jak ji převést na masku vrstvy, jak upravit barvu překryvu a jak s ní kombinovat přechody (gradienty) pro plynulé okraje.</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Zapnutí Quick Mask</strong>: <kbd>Shift</kbd>+<kbd>Q</kbd> nebo ikona vlevo dole.</li>
+      <li class="list-group-item"><strong>Barvy v masce</strong>: bílá = vybrat, černá = odznačit, šedá = částečný výběr.</li>
+      <li class="list-group-item"><strong>Nastavení overlaye</strong>: změna barvy a průhlednosti překryvu.</li>
+      <li class="list-group-item"><strong>„50 % pravidlo“</strong>: marching ants zobrazí jen ≥ 50 % krytí.</li>
+      <li class="list-group-item"><strong>Kanály & masky</strong>: Save to Channel, Add Layer Mask z kanálu Quick Mask.</li>
+      <li class="list-group-item"><strong>Gradienty</strong>: lineární/radiální přechody v masce pro jemné prolínání.</li>
+      <li class="list-group-item"><strong>Přenos výběru</strong>: kopie/vložení Quick Mask mezi kompozicemi.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Přepínej FG/BG <kbd>X</kbd>, měň velikost štětce <kbd>[</kbd>/<kbd>]</kbd>, zoomuj <kbd>Z</kbd> nebo <kbd>Ctrl</kbd>+klik.
+    </div>
+  </div>
+
+  <div class="accordion" id="gimpQuickMask">
+
+    <!-- 1) Teorie -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-qm-theory">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c-qm-theory" aria-expanded="true" aria-controls="c-qm-theory">
+          1) Teorie & nastavení (co je Quick Mask, barva/opacity překryvu)
+        </button>
+      </h2>
+      <div id="c-qm-theory" class="accordion-collapse collapse show" aria-labelledby="h-qm-theory" data-bs-parent="#gimpQuickMask">
+        <div class="accordion-body">
+          <div class="alert alert-secondary mb-3">
+            <strong>🧠 Princip:</strong> Quick Mask je „malířská“ cesta k výběru. Maluješ, které části mají být vybrané nebo skryté. 
+          </div>
+          <ol class="mb-3">
+            <li>Zapni Quick Mask: <kbd>Shift</kbd>+<kbd>Q</kbd> nebo klikni na <em>ikonu vlevo dole</em>.</li>
+            <li>Výchozí režim: <em>Mask Unselected Areas</em> → nevybrané oblasti zčervenají (poloprůhledně).</li>
+            <li>Pravým klikem na ikonu můžeš změnit barvu překryvu (např. modrá) a průhlednost.</li>
+          </ol>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-qm-theory" class="img-contained rounded border"
+                 src="/learn.jankonrad.com/Assets/img/gimp/Lekce3/1.png"
+                 alt="Quick Mask — zapnutí a nastavení overlaye">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-qm-theory">◀</button>
+            <small class="text-muted">Aktivace & nastavení</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-qm-theory">▶</button>
+          </div>
+          <div data-gallery-src="img-qm-theory"
+               data-images='[
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/1.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/QuickMask/QM01b.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/QuickMask/QM01c.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2) Malování výběru -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-qm-paint">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-qm-paint" aria-expanded="false" aria-controls="c-qm-paint">
+          2) Malování výběru (bílá, černá, šedá)
+        </button>
+      </h2>
+      <div id="c-qm-paint" class="accordion-collapse collapse" aria-labelledby="h-qm-paint" data-bs-parent="#gimpQuickMask">
+        <div class="accordion-body">
+          <div class="alert alert-secondary mb-3">
+            <strong>Bílá</strong> = vybráno, <strong>Černá</strong> = odznačeno, <strong>Šedá</strong> = částečně vybráno.
+          </div>
+          <ol class="mb-3">
+            <li>Vyber <em>Paintbrush</em> (<kbd>P</kbd>), tvrdost 100 % nebo měkčí pro jemné okraje.</li>
+            <li>Resetuj barvy (<kbd>D</kbd>), FG = bílá, BG = černá.</li>
+            <li>Maluj do červeného překryvu. Kde červená mizí → vzniká výběr.</li>
+            <li>Přepínej barvy (<kbd>X</kbd>), zvětšuj štětec <kbd>[</kbd>/<kbd>]</kbd>.</li>
+          </ol>
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-qm-paint" class="img-contained rounded border"
+                 src="/learn.jankonrad.com/Assets/img/gimp/Lekce3/QuickMask/QM02.png"
+                 alt="Malování výběru v Quick Mask">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-qm-paint">◀</button>
+            <small class="text-muted">Bílá = výběr</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-qm-paint">▶</button>
+          </div>
+          <div data-gallery-src="img-qm-paint"
+               data-images='[
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/QuickMask/QM02.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/QuickMask/QM02b.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/QuickMask/QM02c.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3) Marching ants -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-qm-ants">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-qm-ants" aria-expanded="false" aria-controls="c-qm-ants">
+          3) Přepnutí na „pochodující mravence“ a 50% hranice
+        </button>
+      </h2>
+      <div id="c-qm-ants" class="accordion-collapse collapse" aria-labelledby="h-qm-ants" data-bs-parent="#gimpQuickMask">
+        <div class="accordion-body">
+          <div class="alert alert-secondary mb-3">
+            <strong>50 % pravidlo:</strong> Hranice výběru („ants“) se ukazuje pouze od 50 % opacity výš. Quick Mask ti ale ukáže všechno, i jemné přechody.
+          </div>
+          <ol class="mb-3">
+            <li>Vypni Quick Mask (<kbd>Shift</kbd>+<kbd>Q</kbd>) → zobrazí se výběr.</li>
+            <li>Použij měkký štětec pro jemné okraje a feather efekty.</li>
+          </ol>
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-qm-ants" class="img-contained rounded border"
+                 src="/learn.jankonrad.com/Assets/img/gimp/Lekce3/QuickMask/QM03.png"
+                 alt="Marching ants a skutečné hranice výběru">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-qm-ants">◀</button>
+            <small class="text-muted">50% hranice</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-qm-ants">▶</button>
+          </div>
+          <div data-gallery-src="img-qm-ants"
+               data-images='[
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/QuickMask/QM03.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/QuickMask/QM03b.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4) Kanály & maska vrstvy -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-qm-layer">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-qm-layer" aria-expanded="false" aria-controls="c-qm-layer">
+          4) Převod Quick Mask na kanál nebo masku vrstvy
+        </button>
+      </h2>
+      <div id="c-qm-layer" class="accordion-collapse collapse" aria-labelledby="h-qm-layer" data-bs-parent="#gimpQuickMask">
+        <div class="accordion-body">
+          <ol class="mb-3">
+            <li>V aktivní Quick Mask se v panelu <em>Channels</em> vytvoří dočasný kanál.</li>
+            <li>Pro trvalé uložení: <em>Select → Save to Channel</em>.</li>
+            <li>Pro převod: pravým na vrstvu → <em>Add Layer Mask → Channel → Quick Mask</em>.</li>
+          </ol>
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-qm-layer" class="img-contained rounded border"
+                 src="/learn.jankonrad.com/Assets/img/gimp/Lekce3/QuickMask/QM04.png"
+                 alt="Převod Quick Mask na masku vrstvy">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-qm-layer">◀</button>
+            <small class="text-muted">Kanál / maska vrstvy</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-qm-layer">▶</button>
+          </div>
+          <div data-gallery-src="img-qm-layer"
+               data-images='[
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/QuickMask/QM04.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/QuickMask/QM04b.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5) Gradienty -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-qm-gradient">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-qm-gradient" aria-expanded="false" aria-controls="c-qm-gradient">
+          5) Gradienty a přenos mezi kompozicemi
+        </button>
+      </h2>
+      <div id="c-qm-gradient" class="accordion-collapse collapse" aria-labelledby="h-qm-gradient" data-bs-parent="#gimpQuickMask">
+        <div class="accordion-body">
+          <ol class="mb-3">
+            <li>Zapni Quick Mask a vyber <em>Gradient Tool</em>.</li>
+            <li>Nastav FG→BG (bílá→černá), tvar <em>Linear</em> nebo <em>Radial</em>.</li>
+            <li>Táhni gradient a potvrď <kbd>Enter</kbd>.</li>
+            <li><strong>Přenos:</strong> V Quick Mask <kbd>Ctrl</kbd>+<kbd>C</kbd> → v jiné kompozici <kbd>Ctrl</kbd>+<kbd>V</kbd> → ukotvi.</li>
+          </ol>
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-qm-gradient" class="img-contained rounded border"
+                 src="/learn.jankonrad.com/Assets/img/gimp/Lekce3/QuickMask/QM05.png"
+                 alt="Gradient a přenos masky">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-qm-gradient">◀</button>
+            <small class="text-muted">Gradient / přenos</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-qm-gradient">▶</button>
+          </div>
+          <div data-gallery-src="img-qm-gradient"
+               data-images='[
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/QuickMask/QM05.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/QuickMask/QM05b.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Shrnutí</h3>
+    <ul class="list-group list-group-flush mb-0">
+      <li class="list-group-item">Quick Mask umožňuje malovat výběr jako bys maloval obrázek.</li>
+      <li class="list-group-item">Bílá přidává, černá odebírá, šedá vytváří částečný výběr.</li>
+      <li class="list-group-item">„Marching ants“ zobrazují pouze ≥50 % krytí, Quick Mask vše.</li>
+      <li class="list-group-item">Výběr lze uložit do kanálu nebo převést na masku vrstvy.</li>
+      <li class="list-group-item">Gradienty vytvářejí plynulé přechody mezi výběrem a pozadím.</li>
+    </ul>
+  </div>
+</section>
