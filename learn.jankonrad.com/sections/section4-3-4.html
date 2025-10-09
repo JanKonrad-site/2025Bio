@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <title>Lekce 3 – Naplnění místností, smyčky a únik (escape)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    /* Animace z tvé šablony */
+    .svg-line { stroke-dasharray: 300; stroke-dashoffset: 300; animation: draw 2s ease forwards; }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+    pre code { white-space: pre; }
+
+    .task-badge { font-size: .75rem; }
+
+    /* --- ZÁKLADNÍ OCHRANA PROTI KOPÍROVÁNÍ KÓDU (měkká) --- */
+    .no-copy, .no-copy * {
+      -webkit-user-select: none !important;
+      -moz-user-select: none !important;
+      -ms-user-select: none !important;
+      user-select: none !important;
+    }
+    .no-copy {
+      -webkit-touch-callout: none !important;
+      -webkit-user-drag: none !important;
+      -khtml-user-select: none !important;
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+      position: relative;
+    }
+    .no-copy-overlay {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: auto;
+      background: transparent;
+    }
+    .code-wrapper { position: relative; }
+  </style>
+</head>
+<body class="bg-white">
+
+<section id="section4-3-4" class="container my-5">
+  <h3 class="mb-4">3. Naplnění místností, smyčky a únik (escape)</h3>
+
+  <!-- Úvodní přehled -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co se naučíš?</h3>
+    <p>Podle návrhu z minulé lekce naplníš místnosti obsahem a přidáš logiku úniku pomocí kódu.</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>while smyčky</strong>: opakování dotazu, dokud hráč nezadá správnou volbu.</li>
+      <li class="list-group-item"><strong>větvení</strong>: reakce na volby hráče (N/S/E) + „Play again“.</li>
+      <li class="list-group-item"><strong>modularita</strong>: každá místnost jako samostatná funkce.</li>
+      <li class="list-group-item"><strong>logika úniku</strong>: místnosti dávají nápovědu → zadání kódu <code>skeleton</code>.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Při delší interakci používej smyčky — hráč nemá spadnout do „dead endu“, ale dostat šanci opravit vstup.
+    </div>
+  </div>
+
+  <!-- Citát osobnosti -->
+  <div class="row align-items-center mb-4">
+    <div class="col-md-2 text-center">
+      <img class="img-fluid rounded-circle shadow" src="https://upload.wikimedia.org/wikipedia/commons/6/68/Guido_van_Rossum_OSCON_2006_cropped.png" alt="Guido van Rossum">
+      <p class="mt-2 text-muted small">Guido van Rossum</p>
+    </div>
+    <div class="col-md-10">
+      <blockquote class="blockquote">
+        <p class="mb-0">„There should be one— and preferably only one —obvious way to do it.“</p>
+        <footer class="blockquote-footer mt-2">
+          <a href="https://en.wikipedia.org/wiki/Guido_van_Rossum" target="_blank">(zdroj)</a>
+        </footer>
+      </blockquote>
+    </div>
+  </div>
+
+  <!-- Teorie -->
+  <h5 class="mt-5">Smyčky a rozcestníky v textové adventuře</h5>
+  <p>
+    Smyčky <code>while</code> se hodí pro opakované dotazování (např. bezpečnostní kód nebo potvrzení „Yes“). 
+    Větvení <code>if/elif/else</code> řídí tok příběhu podle voleb hráče (N/S/E, E/F atd.).
+  </p>
+
+  <!-- Úkoly v akordeonu -->
+  <div class="accordion" id="ukolyAccordion">
+    <!-- KROK 1 – dark_hallway -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingK1">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseK1" aria-expanded="true" aria-controls="collapseK1">
+          Krok 1 — Temná chodba: keypad, varování před „E“, smrt a „Play again“ <span class="badge bg-secondary ms-2 task-badge">Úkol</span>
+        </button>
+      </h2>
+      <div id="collapseK1" class="accordion-collapse collapse show" aria-labelledby="headingK1" data-bs-parent="#ukolyAccordion">
+        <div class="accordion-body">
+          <p>Implementuj místnost <code>dark_hallway()</code> dle scénáře: N → keypad (volba E/F), S → návrat, E → „DEAD!!“ + možnost hrát znovu.</p>
+          <div class="d-flex gap-2 mb-2">
+            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalDarkHallway">Vysvětlení: design volby a „fail state“</button>
+          </div>
+          <div class="code-wrapper no-copy"><div class="no-copy-overlay"></div>
+<pre><code>def dark_hallway():
+    print("\\nJsi v temné chodbě, kde vzduchem líně poletuje duch.")
+    print("Dveře jsou na sever (N), východ (E) a jih (S).")
+    volba = input("Kterými dveřmi půjdeš? (nechoď na východ!) ")
+
+    if volba == "N":
+        print()
+        print("Tlačíš na dveře. Jsou zamčené.")
+        print("Na dveřích je klávesnice – musíš zadat kód k úniku.")
+        print("(Kód najdeš v jedné z místností v domě.)")
+        akce = input("Chceš zadat kód (E) nebo jít ho najít (F)? ")
+        if akce == "E":
+            escape()
+        elif akce == "F":
+            main_dining_hall()
+        else:
+            print("Nerozumím. Odpověz E nebo F.")
+            dark_hallway()
+
+    elif volba == "S":
+        print()
+        main_dining_hall()
+
+    elif volba == "E":
+        print("\\nOtevíráš dveře, vržou...")
+        print("Temná místnost tě pohlcuje. Dveře se s rachotem zavřou!")
+        print("ZOMBIES!!!")
+        print("Jsi ... DEAD!!")
+        znovu = input('Napsat "YES" a ENTER pro novou hru, jinak ENTER pro konec: ')
+        if znovu == "YES":
+            print("\\nFajn! Jen tentokrát nechoď na východ 😉")
+            main_dining_hall()
+        else:
+            exit()
+
+    else:
+        print("Nerozumím. Zkus to znovu.")
+        dark_hallway()</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KROK 2 – long_corridor → spooky_lab -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingK2">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseK2" aria-expanded="false" aria-controls="collapseK2">
+          Krok 2 — Dlouhá chodba: napojení do laboratoře <span class="badge bg-secondary ms-2 task-badge">Úkol</span>
+        </button>
+      </h2>
+      <div id="collapseK2" class="accordion-collapse collapse" aria-labelledby="headingK2" data-bs-parent="#ukolyAccordion">
+        <div class="accordion-body">
+          <p>Implementuj <code>long_corridor()</code>: N → návrat do hlavní haly, W → <code>spooky_lab()</code>, jinak zopakuj dotaz.</p>
+          <div class="d-flex gap-2 mb-2">
+            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalCorridorLab">Vysvětlení: lineární propojení místností</button>
+          </div>
+          <div class="code-wrapper no-copy"><div class="no-copy-overlay"></div>
+<pre><code>def long_corridor():
+    print("Jsi v dlouhé chodbě.")
+    print("Vidíš těžké dřevěné dveře na sever (N) a na západ (W).")
+    volba = input("Kam půjdeš? ")
+    if volba == "N":
+        main_dining_hall()
+    elif volba == "W":
+        spooky_lab()
+    else:
+        print("Nerozumím. Zkus to znovu.")
+        long_corridor()</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KROK 3 – stairway → dungeon -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingK3">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseK3" aria-expanded="false" aria-controls="collapseK3">
+          Krok 3 — Schodiště a žalář (nápověda ke kódu) <span class="badge bg-secondary ms-2 task-badge">Úkol</span>
+        </button>
+      </h2>
+      <div id="collapseK3" class="accordion-collapse collapse" aria-labelledby="headingK3" data-bs-parent="#ukolyAccordion">
+        <div class="accordion-body">
+          <p>Implementuj <code>stairway()</code> a <code>dungeon()</code>: S → žalář s nápovědou (kostlivec), W → návrat.</p>
+          <div class="d-flex gap-2 mb-2">
+            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalStairwayDungeon">Vysvětlení: „zapamatuj si, co jsi viděl“</button>
+          </div>
+          <div class="code-wrapper no-copy"><div class="no-copy-overlay"></div>
+<pre><code>def stairway():
+    print()
+    print("Vrže dřevěné schodiště. Buď opatrně.")
+    print("Dveře jsou dole na jih (S) a zpět na západ (W).")
+    volba = input("Kam půjdeš? ")
+    if volba == "S":
+        dungeon()
+    elif volba == "W":
+        main_dining_hall()
+    else:
+        print("Nerozumím. Zkus to znovu.")
+        stairway()
+
+def dungeon():
+    print()
+    print("Našel jsi žalář s kostlivcem spoutaným u zdi.")
+    print("Zapamatuj si to – pomůže ti to dostat se ven.")
+    input("ENTER pro návrat do hlavní haly...")
+    main_dining_hall()</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KROK 4 – spooky_lab s potvrzením „Yes“ -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingK4">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseK4" aria-expanded="false" aria-controls="collapseK4">
+          Krok 4 — Laboratoř: zásuvka s instrukcemi a potvrzení „Yes“ <span class="badge bg-secondary ms-2 task-badge">Úkol</span>
+        </button>
+      </h2>
+      <div id="collapseK4" class="accordion-collapse collapse" aria-labelledby="headingK4" data-bs-parent="#ukolyAccordion">
+        <div class="accordion-body">
+          <p>Implementuj <code>spooky_lab()</code>: popis laboratoře → zásuvka → instrukce k úniku → while dokud hráč nezadá „Yes“.</p>
+          <div class="d-flex gap-2 mb-2">
+            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalWhileYes">Vysvětlení: while-smyčka na potvrzení</button>
+          </div>
+          <div class="code-wrapper no-copy"><div class="no-copy-overlay"></div>
+<pre><code>def spooky_lab():
+    print()
+    print("Jsi ve strašidelné laboratoři s bublajícími zkumavkami fosforeskující tekutiny.")
+    print("V rohu je monstrózní postava — zatím si tě nevšimla.")
+    input("ENTER pro pokračování...")
+
+    print("Na stole je zásuvka.")
+    print("Otevřeš ji a najdeš instrukce, jak se dostat ven předními dveřmi.")
+    print('Instrukce: "Na dveřích je klávesnice. Pro odchod zadej název toho, co jsi viděl v žaláři."')
+
+    potvrzeno = ""
+    while potvrzeno != "Yes":
+        potvrzeno = input('Potvrď (Yes), že jsi instrukce přečetl: ')
+    print("\\nSkvěle, pokračuj dál.")
+    input("ENTER pro opuštění místnosti...")
+    long_corridor()</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KROK 5 – escape() s while a návratem -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingK5">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseK5" aria-expanded="false" aria-controls="collapseK5">
+          Krok 5 — Únik: zadej kód „skeleton“ s možností vrátit se hledat <span class="badge bg-success ms-2 task-badge">Výstup lekce</span>
+        </button>
+      </h2>
+      <div id="collapseK5" class="accordion-collapse collapse" aria-labelledby="headingK5" data-bs-parent="#ukolyAccordion">
+        <div class="accordion-body">
+          <p>Implementuj <code>escape()</code> — while dotaz na kód; při chybě nabídni vrátit se hledat („Y“) nebo zkusit znovu.</p>
+          <div class="d-flex gap-2 mb-2">
+            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalEscape">Vysvětlení: ověřování vstupu a návrat</button>
+          </div>
+          <div class="code-wrapper no-copy"><div class="no-copy-overlay"></div>
+<pre><code>def escape():
+    kod = ""
+    while kod != "skeleton":
+        kod = input("Zadej kód: ")
+        if kod == "skeleton":
+            print("Jsi VOLNÝ !!!!!!!!")
+            input("ENTER pro ukončení programu")
+            exit()
+        else:
+            print("Nesprávně.")
+            hledat = input("Stiskni Y pro návrat a hledání kódu, nebo ENTER pro znovu zadání: ")
+            if hledat == "Y":
+                main_dining_hall()
+            else:
+                pass  # smyčka pokračuje a vyzve kódem znovu</code></pre>
+          </div>
+          <div class="alert alert-warning mt-3" role="alert">
+            <strong>Kontrola:</strong> Ověř, že lze hru dokončit (žalář → zapamatovat si „skeleton“ → laboratoř → potvrdit „Yes“ → zadat kód → výhra).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KROK 6 – Sestavení celé hry (integrace) -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingK6">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseK6" aria-expanded="false" aria-controls="collapseK6">
+          Krok 6 — Integrace: start hry + volání hlavní haly <span class="badge bg-info ms-2 task-badge">Kontrola</span>
+        </button>
+      </h2>
+      <div id="collapseK6" class="accordion-collapse collapse" aria-labelledby="headingK6" data-bs-parent="#ukolyAccordion">
+        <div class="accordion-body">
+          <p>Ujisti se, že po úvodním scénáři z Lekce 1 následuje volání <code>main_dining_hall()</code> a všechny funkce jsou definované.</p>
+          <div class="d-flex gap-2 mb-2">
+            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalIntegrace">Vysvětlení: pořadí definic a volání</button>
+          </div>
+          <div class="code-wrapper no-copy"><div class="no-copy-overlay"></div>
+<pre><code># ... tvůj úvodní kód z Lekce 1 ...
+# definice všech místností a escape() ...
+# start hry:
+main_dining_hall()</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hint -->
+  <p class="mt-4">💡 Hint: Porovnávej přesně řetězce („Yes“, „skeleton“) — záleží na velkých/malých písmenech.</p>
+
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Shrnutí kapitoly</h3>
+    <p>Dokončil/a jsi hratelný základ textové adventury:</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>dark_hallway</strong> – keypad, zákaz východu, „DEAD!! + Play again“.</li>
+      <li class="list-group-item"><strong>long_corridor → spooky_lab</strong> – instrukce s potvrzením „Yes“.</li>
+      <li class="list-group-item"><strong>stairway → dungeon</strong> – nápověda ke kódu „skeleton“.</li>
+      <li class="list-group-item"><strong>escape()</strong> – while smyčka pro zadání kódu a vítězství.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> V další lekci vylepšíme ověřování vstupu (např. bez ohledu na velká/malá písmena) a nahradíme rekurzi čistšími smyčkami.
+    </div>
+  </div>
+
+  <!-- Odkazy -->
+  <hr>
+  <h6>Odkazy na použité zdroje</h6>
+  <ol class="small">
+    <li><a href="#" target="_blank">Ukázkový Python kód textovky</a></li>
+    <li><a href="#" target="_blank">Flowchart textové adventury</a></li>
+    <li><a href="#" target="_blank">Features of the Game (požadavky na hru)</a></li>
+  </ol>
+</section>
+
+<!-- MODÁLY – vysvětlení -->
+<div class="modal fade" id="modalDarkHallway" tabindex="-1" aria-labelledby="modalDarkHallwayLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalDarkHallwayLabel">Dark Hallway – volby, „fail state“ a restart</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <h6>Proč</h6>
+        <p>Tahle místnost učí zpracování chybné volby a „game over“ scénář s možností restartu.</p>
+        <h6>Co</h6>
+        <ul>
+          <li>Varování před „E“ je záměrné – hráč prozkoumává a učí se.</li>
+          <li>Restart (<code>YES</code>) vrací do hlavní haly bez resetu celé aplikace.</li>
+        </ul>
+        <h6>Jak</h6>
+<pre><code># rozdělení větví N/S/E, po E nabízíme YES → návrat do main_dining_hall()</code></pre>
+        <p class="text-muted"><small><em>Tip:</em> V příštích lekcích můžeme udělat i „životy“ místo okamžité smrti.</small></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalCorridorLab" tabindex="-1" aria-labelledby="modalCorridorLabLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalCorridorLabLabel">Napojení long_corridor → spooky_lab</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <h6>Proč</h6>
+        <p>Lineární propojení usnadňuje hráči najít instrukce k úniku.</p>
+        <h6>Co</h6>
+        <p>Držíme jasnou logiku: sever = návrat, západ = laboratoř.</p>
+        <h6>Jak</h6>
+<pre><code># jednoduché větvení if/elif/else s opakováním dotazu při chybě</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalStairwayDungeon" tabindex="-1" aria-labelledby="modalStairwayDungeonLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalStairwayDungeonLabel">Schodiště a žalář – práce s nápovědou</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <h6>Proč</h6>
+        <p>Žalář poskytuje klíčovou informaci (slovo „skeleton“) pro finální únik.</p>
+        <h6>Co</h6>
+        <p>Jasně vyslov nápovědu, ale neprozrazuj ji explicitně mimo kontext.</p>
+        <h6>Jak</h6>
+<pre><code># po zobrazení nápovědy vrať hráče zpět do haly (plynulý tok)</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalWhileYes" tabindex="-1" aria-labelledby="modalWhileYesLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalWhileYesLabel">While smyčka – potvrzení „Yes“ v laboratoři</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <h6>Proč</h6>
+        <p>Chceme si být jistí, že hráč instrukce skutečně přečetl.</p>
+        <h6>Co</h6>
+        <p><code>while</code> běží, dokud není splněna podmínka (zde: vstup je přesně „Yes“).</p>
+        <h6>Jak</h6>
+<pre><code>potvrzeno = ""
+while potvrzeno != "Yes":
+    potvrzeno = input("Potvrď (Yes): ")</code></pre>
+        <p class="text-muted"><small><em>Tip:</em> Později můžeme přidat <code>.strip()</code>/<code>.lower()</code> pro tolerantnější porovnání.</small></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalEscape" tabindex="-1" aria-labelledby="modalEscapeLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalEscapeLabel">Escape – while smyčka a návrat pro nápovědu</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <h6>Proč</h6>
+        <p>Bez správného kódu nemá jít uniknout; hráč se může vrátit pro nápovědu.</p>
+        <h6>Co</h6>
+        <ul>
+          <li><code>while</code> opakuje dotaz na kód.</li>
+          <li>Nabídka „Y“ vrací do hlavní haly – hráč hledá stopy.</li>
+        </ul>
+        <h6>Jak</h6>
+<pre><code>kod = ""
+while kod != "skeleton":
+    kod = input("Zadej kód: ")
+    if kod != "skeleton":
+        if input("Y pro hledání, ENTER pro znovu: ") == "Y":
+            main_dining_hall()</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalIntegrace" tabindex="-1" aria-labelledby="modalIntegraceLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalIntegraceLabel">Integrace – pořadí definic a start hry</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <h6>Proč</h6>
+        <p>Python musí znát funkce dřív, než je zavolá — udržuj pořadí a přehlednost.</p>
+        <h6>Co</h6>
+        <ul>
+          <li>Úvod (Lekce 1) → definice místností (Lekce 2–3) → <code>main_dining_hall()</code>.</li>
+          <li>Na konci souboru spusť hru voláním <code>main_dining_hall()</code>.</li>
+        </ul>
+        <h6>Jak</h6>
+<pre><code># definice funkcí výše
+main_dining_hall()</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Skript: základní blokace kopírování v kódu (stejné jako v Lekci 2) -->
+<script>
+  (function() {
+    document.addEventListener('contextmenu', function(e) {
+      if (e.target.closest('.no-copy')) e.preventDefault();
+    }, { capture: true });
+
+    document.addEventListener('copy', function(e) {
+      if (e.target.closest && e.target.closest('.no-copy')) e.preventDefault();
+    }, { capture: true });
+
+    document.addEventListener('keydown', function(e) {
+      const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+      const mod = isMac ? e.metaKey : e.ctrlKey;
+      const inNoCopy = e.target.closest && e.target.closest('.no-copy');
+      if (!inNoCopy) return;
+      const k = e.key.toLowerCase();
+      if (mod && (k === 'c' || k === 's' || k === 'u' || k === 'p' || k === 'a')) e.preventDefault();
+    }, { capture: true });
+
+    ['selectstart','dragstart'].forEach(evt =>
+      document.addEventListener(evt, e => {
+        if (e.target.closest && e.target.closest('.no-copy')) e.preventDefault();
+      }, { capture: true })
+    );
+  })();
+</script>
+</body>
+</html>

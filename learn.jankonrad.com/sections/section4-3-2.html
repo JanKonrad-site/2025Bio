@@ -1,0 +1,118 @@
+<section id="section4-3-2" class="container my-5">
+  <h3 class="mb-4">4.3.1. Textová adventura s výběrem směru</h3>
+
+  <!-- Úfvodní přehled -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co se naučíš?</h3>
+    <p>V této kapitole si vytvoříš jednoduchou textovou adventuru, ve které bude hráč volit směr a dostane odpověď podle své volby. Zároveň se naučíš základy podmínek v jazyce Python a vstupu od uživatele pomocí <code>input()</code>.</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Funkce input()</strong>: Získání vstupu od uživatele.</li>
+      <li class="list-group-item"><strong>Podmínky (if, elif, else)</strong>: Reakce programu na volbu hráče.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Tento typ programu je skvělý základ pro větší příběhové hry, kde si můžeš vymyslet vlastní svět.
+    </div>
+  </div>
+
+  <!-- Citát osobnosti -->
+  <div class="row align-items-center mb-4">
+    <div class="col-md-2 text-center">
+      <img class="img-fluid rounded-circle shadow" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Guido_van_Rossum_OSCON_2006.jpg/330px-Guido_van_Rossum_OSCON_2006.jpg" alt="Guido van Rossum">
+      <p class="mt-2 text-muted small">Guido van Rossum</p>
+    </div>
+    <div class="col-md-10">
+      <blockquote class="blockquote">
+        <p class="mb-0">„Python má být intuitivní a zábavný pro začátečníky.“</p>
+        <footer class="blockquote-footer mt-2">
+          <a href="https://en.wikiquote.org/wiki/Guido_van_Rossum" target="_blank">(zdroj)</a>
+        </footer>
+      </blockquote>
+    </div>
+  </div>
+
+  <!-- Teoretický blok -->
+  <h5 class="mt-5">Jak funguje rozhodovací strom</h5>
+  <p>Pomocí <code>input()</code> získáš odpověď od uživatele a pomocí podmínek <code>if</code>, <code>elif</code> a <code>else</code> rozhodneš, co se má v programu stát.</p>
+
+  <ul class="list-group mb-4">
+    <li class="list-group-item">
+      <strong>Rozhodovací větvení</strong>
+      <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample1">
+        &#9660;
+      </button>
+      <ul class="list-group list-group-flush collapse mt-2" id="collapseExample1">
+        <li class="list-group-item">
+          Uživatel zadá písmeno a ty na základě jeho odpovědi rozhodneš, který blok kódu se vykoná:
+          <pre><code>volba = input("Zadej a, b, c, nebo d: ")
+if volba == "a":
+    print("Šel jsi na sever.")
+elif volba == "b":
+    print("Šel jsi na jih.")
+else:
+    print("Neudělal jsi nic.")</code></pre>
+          <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalXTopic">
+            Více
+          </button>
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+  <p>💡 Hint: Nezapomeň zkontrolovat odsazení! Každý blok <code>if</code> musí mít správné zarovnání (tabulátor nebo mezery).</p>
+
+  <!-- Úkoly -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Úkoly:</h4>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">1. Vytvoř vlastní příběh, který začíná probuzením na ostrově.</li>
+      <li class="list-group-item">2. Doplň 4 volby (a, b, c, d) a ke každé vymysli odpověď.</li>
+      <li class="list-group-item">3. Pokud uživatel zadá neplatnou volbu, napiš mu zprávu.</li>
+    </ul>
+    <a href="https://replit.com/~" target="_blank">
+      <button class="btn btn-sm btn-outline-primary" type="button">Editor</button>
+    </a>
+  </div>
+
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Shrnutí kapitoly</h3>
+    <p>V této kapitole ses dozvěděl:</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>input()</strong>: jak získat vstup od uživatele.</li>
+      <li class="list-group-item"><strong>if / elif / else</strong>: jak reagovat na různé možnosti.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Programování je jako tvoření příběhu, kde ty rozhoduješ, co se stane.
+    </div>
+  </div>
+
+  <!-- Odkazy -->
+  <hr>
+  <h6>Odkazy na použité zdroje</h6>
+  <ol class="small">
+    <li><a href="https://www.w3schools.com/python/python_conditions.asp" target="_blank">W3Schools: Python podmínky</a></li>
+    <li><a href="https://realpython.com/python-conditional-statements/" target="_blank">RealPython: Conditional logic</a></li>
+  </ol>
+</section>
+
+<!-- MODÁLY -->
+<div class="modal fade" id="modalXTopic" tabindex="-1" aria-labelledby="modalXTopicLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalXTopicLabel">Jak funguje podmínka if</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Pomocí <code>if</code> kontrolujeme, co uživatel zadal. Pokud to odpovídá předem určené hodnotě (např. "a"), provede se příslušný kód. Pokud ne, použijeme <code>elif</code> nebo <code>else</code>.</p>
+        <pre><code>if volba == "a":
+    print("Našel jsi poklad!")
+elif volba == "b":
+    print("Utékl jsi před drakem!")
+else:
+    print("Zůstal jsi na místě a usnul.")</code></pre>
+        <p class="text-muted text-center"><small><em>Tip:</em> if = když, elif = jinak když, else = jinak</small></p>
+      </div>
+    </div>
+  </div>
+</div>
