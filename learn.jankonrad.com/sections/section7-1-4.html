@@ -106,7 +106,7 @@
     <div class="accordion-item">
       <h2 class="accordion-header" id="h-qm-ants">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-qm-ants" aria-expanded="false" aria-controls="c-qm-ants">
-          3) Převod Quick Mask na kanál nebo masku vrstvy
+          3) Převod Quick Mask na kanál nebo masku vrstvy (první obrázek)
         </button>
       </h2>
       <div id="c-qm-ants" class="accordion-collapse collapse" aria-labelledby="h-qm-ants" data-bs-parent="#gimpQuickMask">
@@ -120,6 +120,7 @@
             <li>Až budeš mít výběr hotový, přidej masku vrstvy.</li>
             <li>Vyber z kanál rychlé masky.</li>
             <li><kbd>Select -> Save to Chanel </kbd> uložíš výběr rychlé masky pro znovupoužití u jiných vrstev.</li>
+            <li>Uložte si kompozici jako 4-1</li>
            
           </ol>
           <div class="ratio ratio-16x9 mb-2">
@@ -152,7 +153,7 @@
     <div class="accordion-item">
       <h2 class="accordion-header" id="h-qm-gradient">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-qm-gradient" aria-expanded="false" aria-controls="c-qm-gradient">
-          4) Přenos mezi kompozicemi
+          4) Přenos mezi kompozicemi (Druhý obrázek)
         </button>
       </h2>
       <div id="c-qm-gradient" class="accordion-collapse collapse" aria-labelledby="h-qm-gradient" data-bs-parent="#gimpQuickMask">
@@ -165,6 +166,7 @@
             <li><strong>Přenos:</strong> V Quick Mask <kbd>Ctrl</kbd>+<kbd>C</kbd> → v jiné kompozici <kbd>Ctrl</kbd>+<kbd>V</kbd> → ukotvi.</li>
             <li><kbd>Shift + Q</kbd> vypni masku -> klikni pravým tlačítkem na kompozici moře -> přidej vrstvu -> selection a invertuj strany <kbd>Control + I</kbd></li>
             <li>Přidejte jako poslední vrstvu v kompozici černou vrstvu.</li>
+            <li>Uložte si kompozici jako 4-2</li>
           </ol>
           <div class="ratio ratio-16x9 mb-2">
             <img id="img-qm-gradient" class="img-contained rounded border"
@@ -186,6 +188,53 @@
                  "/learn.jankonrad.com/Assets/img/gimp/Lekce3/21.png",
                  "/learn.jankonrad.com/Assets/img/gimp/Lekce3/22.png",
                  "/learn.jankonrad.com/Assets/img/gimp/Lekce3/23.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+  </div>
+   <!-- 5) Gradienty -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-qm-gradient">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-qm-gradient" aria-expanded="false" aria-controls="c-qm-gradient">
+          4) Quick MAsk & Grandient (3 kompozice - opakování)
+        </button>
+      </h2>
+      <div id="c-qm-gradient" class="accordion-collapse collapse" aria-labelledby="h-qm-gradient" data-bs-parent="#gimpQuickMask">
+        <div class="accordion-body">
+          <ol class="mb-3">
+            <li>Vytvoř novou kompozici</li>
+            <li>Nahraj první obrázek (slečny)</li>
+            <li>Nahraj druhý obrázek (moře) jako vrstvu (as layers)</li>
+            <li><kbd>Shift + Q</kbd> zapni masku a použij Grandient Tool</li>
+            <li>Vyber <strong>Grandient</strong>-> FG to BG (z bíle do černé)</li>
+           <li>Vytvoř linku od středu po dolní okraj</li>
+            <li>Přidej k prvnímu obrázku slečny <strong>masku</strong> -> <strong>výběr (selection)</strong></li>
+          </ol>
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-qm-gradient" class="img-contained rounded border"
+                 src="/learn.jankonrad.com/Assets/img/gimp/Lekce3/12.png"
+                 alt="Gradient a přenos masky">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-qm-gradient">◀</button>
+            <small class="text-muted">Gradient / přenos</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-qm-gradient">▶</button>
+          </div>
+          <div data-gallery-src="img-qm-gradient"
+               data-images='[
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/25.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/26.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/27.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/28.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/29.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/30.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/31.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/32.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/33.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/34.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/35.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/36.png"
                ]'></div>
         </div>
       </div>
