@@ -1,0 +1,240 @@
+<!-- 7.x.y GIMP — Selection Tools (výběry) -->
+<section id="section7-selection-tools" class="container my-5">
+  <h3 class="mb-4">7.1.5 GIMP — Selection Tools (výběry)</h3>
+
+  <!-- Co se naučíš -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co se naučíš?</h3>
+    <p>Pochopíš, jak v GIMPu fungují výběry: co znamená obrys (contour line) a „marching ants“, jak invertovat výběr, vyplňovat a malovat jen uvnitř výběru, aplikovat úpravy, pracovat s částečným výběrem (0–255), použít Quick Mask ke kontrolám, feather/sharpen hran a Floating Selection s ukotvením.</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Přehled nástrojů výběru</strong>: Rectangle/Ellipse, Free/Scissors/Foreground Select, Fuzzy Select, Select by Color.</li>
+      <li class="list-group-item"><strong>Conture line & marching ants</strong>: co označují a jak se chovají.</li>
+      <li class="list-group-item"><strong>Invert (Ctrl+I)</strong>: kdy a proč obracet výběr.</li>
+      <li class="list-group-item"><strong>Práce uvnitř výběru</strong>: vyplnění barvou, Bucket Fill (Shift+B), štětec, úpravy (Colors → Saturation).</li>
+      <li class="list-group-item"><strong>Deselect/Select All</strong>: Ctrl+Shift+A / Ctrl+A.</li>
+      <li class="list-group-item"><strong>Pokročile</strong>: 0–255 „míra výběru“, Quick Mask, Feather vs. Sharpen, zaoblení rohů.</li>
+      <li class="list-group-item"><strong>Floating Selection</strong>: Shift+Ctrl+L, snížení opacity a Anchor zpět.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Zapni <em>Highlight</em> v možnostech nástroje výběru pro ztmavení mimo výběr. Zoom <kbd>Ctrl</kbd>+kolečko, přesun mezerníkem.
+    </div>
+  </div>
+
+  <div class="accordion" id="gimpSelectionTools">
+
+    <!-- 1) Základy výběru a nástroje -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-sel-basics">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c-sel-basics" aria-expanded="true" aria-controls="c-sel-basics">
+          1) Základy výběru: obrys, „marching ants“ a přehled nástrojů (nastavení prostředí)
+        </button>
+      </h2>
+      <div id="c-sel-basics" class="accordion-collapse collapse show" aria-labelledby="h-sel-basics" data-bs-parent="#gimpSelectionTools">
+        <div class="accordion-body">
+          <div class="alert alert-secondary mb-3">
+            <strong>🧠 Princip:</strong> Výběr je „kontejner“ pro úpravy: izoluje oblast pro malování, výplň, efekty, mazání či kopírování. Obrys (contour line) = hranice výběru; pohyblivá čárkovaná linie = „marching ants“.
+          </div>
+          <ol class="mb-3">
+            <li>Nahrajte nový obrázek z lekce 3.</li>
+            <li>Nastav si prostředí přes <kbd>preferences</kbd> -> <kbd>Use Tool Groups</kbd></li>
+            <li>Otevři obrázek. Zvol <strong>Rectangle Select</strong> nebo <strong>Ellipse Select</strong> a táhni pro vytvoření výběru.</li>
+            <li>„Marching ants“ obkreslí hranici. Zapni <strong>Highlight</strong> v Tool Options – vnitřek se zvýrazní, okolí se ztmaví.</li>
+            <li>Přehled skupin nástrojů: tvary (Rectangle/Ellipse), „smart/freehand“ (Free Select, Scissors, Foreground Select), a <em>Fuzzy Select</em>/<em>Select by Color</em> pro barvy.</li>
+          </ol>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-sel-basics" class="img-contained rounded border"
+                 src="/learn.jankonrad.com/Assets/img/gimp/Lekce4/0.png"
+                 alt="Základní výběr a marching ants">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-sel-basics">◀</button>
+            <small class="text-muted">Základy výběru</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-sel-basics">▶</button>
+          </div>
+          <div data-gallery-src="img-sel-basics"
+               data-images='[
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce4/0.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce4/1.png",
+                "/learn.jankonrad.com/Assets/img/gimp/Lekce4/2.png",
+                "/learn.jankonrad.com/Assets/img/gimp/Lekce4/3.png",
+                "/learn.jankonrad.com/Assets/img/gimp/Lekce4/5.png",
+                "/learn.jankonrad.com/Assets/img/gimp/Lekce4/4.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2) Invert a práce uvnitř výběru -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-sel-invert">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-sel-invert" aria-expanded="false" aria-controls="c-sel-invert">
+          2) Invert výběru, výplně a malování jen uvnitř
+        </button>
+      </h2>
+      <div id="c-sel-invert" class="accordion-collapse collapse" aria-labelledby="h-sel-invert" data-bs-parent="#gimpSelectionTools">
+        <div class="accordion-body">
+          <div class="alert alert-secondary mb-3">
+            <strong>🧠 Invert (Ctrl+I):</strong> Přehodí vybranou oblast na <em>okolí</em> a naopak. „Ants“ se objeví i po obvodu plátna – vybráno je vše mezi dvojicí hranic.
+          </div>
+          <ol class="mb-3">
+            <li>Vytvoř obdélníkový výběr → stiskni <kbd>Ctrl</kbd>+<kbd>I</kbd> pro invert.</li>
+            <li>Vyplň výběr: přetáhni FG barvu ze swatche, nebo použij <strong>Bucket Fill</strong> (<kbd>Shift</kbd>+<kbd>B</kbd>), případně <strong>Pattern Fill</strong>.</li>
+            <li>Maluj <strong>Paintbrushem</strong> – tahy se omezí jen na aktivní výběr.</li>
+            <li>Aplikuj úpravu pouze uvnitř: <em>Colors → Saturation</em> a zvyšte <em>Scale</em>.</li>
+            <li>Odznač: <strong>Select → None</strong> (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>A</kbd>). Vyber vše: <kbd>Ctrl</kbd>+<kbd>A</kbd>.</li>
+          </ol>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-sel-invert" class="img-contained rounded border"
+                 src="/learn.jankonrad.com/Assets/img/gimp/Lekce4/Selection/4.png"
+                 alt="Invert výběru a práce uvnitř">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-sel-invert">◀</button>
+            <small class="text-muted">Invert & výplně</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-sel-invert">▶</button>
+          </div>
+          <div data-gallery-src="img-sel-invert"
+               data-images='[
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce4/Selection/4.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce4/Selection/5.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce4/Selection/6.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce4/Selection/7.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3) Pokročile: 0–255, Quick Mask, Feather -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-sel-advanced1">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-sel-advanced1" aria-expanded="false" aria-controls="c-sel-advanced1">
+          3) Pokročile: 0–255 „míra výběru“, Quick Mask a Feather
+        </button>
+      </h2>
+      <div id="c-sel-advanced1" class="accordion-collapse collapse" aria-labelledby="h-sel-advanced1" data-bs-parent="#gimpSelectionTools">
+        <div class="accordion-body">
+          <div class="alert alert-secondary mb-3">
+            <strong>🧠 Teorie:</strong> Každý pixel může být vybrán „na procenta“ (0–255). <em>0</em> = nevybrán, <em>255</em> = plně vybrán, mezilehlé hodnoty = částečně. <strong>Quick Mask</strong> vizuálně ukáže poloprůhlednost okrajů.
+          </div>
+          <ol class="mb-3">
+            <li>Zapni/vypni <strong>Quick Mask</strong> (ikona vlevo dole) → červený overlay = mimo výběr.</li>
+            <li>Vytvoř „měkký“ okraj: <strong>Select → Feather…</strong> (např. 100 px) → ostrý obdélník se zaoblí a hrana se zjemní.</li>
+            <li>V Quick Mask uvidíš plynulý přechod: čím víc červené, tím menší míra výběru.</li>
+          </ol>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-sel-advanced1" class="img-contained rounded border"
+                 src="/learn.jankonrad.com/Assets/img/gimp/Lekce4/Selection/8.png"
+                 alt="Quick Mask a Featherovaná hrana">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-sel-advanced1">◀</button>
+            <small class="text-muted">Quick Mask & Feather</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-sel-advanced1">▶</button>
+          </div>
+          <div data-gallery-src="img-sel-advanced1"
+               data-images='[
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce4/Selection/8.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce4/Selection/9.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce4/Selection/10.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4) Sharpen, zaoblení u obdélníku vs elipsy, „spill“ -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-sel-advanced2">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-sel-advanced2" aria-expanded="false" aria-controls="c-sel-advanced2">
+          4) Sharpen hranice, elipsa vs. obdélník a „přesah“ barvy
+        </button>
+      </h2>
+      <div id="c-sel-advanced2" class="accordion-collapse collapse" aria-labelledby="h-sel-advanced2" data-bs-parent="#gimpSelectionTools">
+        <div class="accordion-body">
+          <div class="alert alert-secondary mb-3">
+            <strong>🧠 Feather vs. Sharpen:</strong> Feather vytváří přechod (část výplně „přeteče“ mimo konturu), <strong>Select → Sharpen</strong> hranu „zostří“. U obdélníku se rohy featherem zaoblí, elipsa je přirozeně bez rohů.
+          </div>
+          <ol class="mb-3">
+            <li>Po Feather zkus výplň barvou – uvidíš jemné „vyblednutí“ k okraji a minimální přesah.</li>
+            <li>Poté použij <strong>Select → Sharpen</strong> a znovu vyplň – hrana bude ostře oříznutá.</li>
+            <li>Vyzkoušej stejný postup s <strong>Ellipse Select</strong> a porovnej chování hran.</li>
+          </ol>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-sel-advanced2" class="img-contained rounded border"
+                 src="/learn.jankonrad.com/Assets/img/gimp/Lekce4/Selection/11.png"
+                 alt="Sharpen vs Feather a chování výplně">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-sel-advanced2">◀</button>
+            <small class="text-muted">Sharpen vs Feather</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-sel-advanced2">▶</button>
+          </div>
+          <div data-gallery-src="img-sel-advanced2"
+               data-images='[
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce4/Selection/11.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce4/Selection/12.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce4/Selection/13.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5) Floating Selection a Anchor -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-sel-float">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-sel-float" aria-expanded="false" aria-controls="c-sel-float">
+          5) Floating Selection (Shift+Ctrl+L), opacity a Anchor
+        </button>
+      </h2>
+      <div id="c-sel-float" class="accordion-collapse collapse" aria-labelledby="h-sel-float" data-bs-parent="#gimpSelectionTools">
+        <div class="accordion-body">
+          <div class="alert alert-secondary mb-3">
+            <strong>🧠 Co je „Float“:</strong> Přesune pixely z výběru na dočasnou plovoucí vrstvu. Tu můžeš upravit (např. snížit <em>Opacity</em>) a poté vrátit zpět <strong>Anchor</strong> ikonou.
+          </div>
+          <ol class="mb-3">
+            <li>Na pozadí vyber oblast (např. elipsu). Zvol <strong>Select → Float</strong> (<kbd>Shift</kbd>+<kbd>Ctrl</kbd>+<kbd>L</kbd>).</li>
+            <li>V Layers sniž <strong>Opacity</strong> plovoucí vrstvy (např. na 25 %).</li>
+            <li>Klikni na <strong>Anchor</strong> → vrátí se na původní vrstvu. (Pokud chybí alfa kanál, poloprůhlednost se projeví ztmavením na barvu pozadí.)</li>
+          </ol>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-sel-float" class="img-contained rounded border"
+                 src="/learn.jankonrad.com/Assets/img/gimp/Lekce4/Selection/14.png"
+                 alt="Floating Selection a Anchor">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-sel-float">◀</button>
+            <small class="text-muted">Float & Anchor</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-sel-float">▶</button>
+          </div>
+          <div data-gallery-src="img-sel-float"
+               data-images='[
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce4/Selection/14.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce4/Selection/15.png",
+                 "/learn.jankonrad.com/Assets/img/gimp/Lekce4/Selection/16.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /accordion -->
+
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Shrnutí</h3>
+    <ul class="list-group list-group-flush mb-0">
+      <li class="list-group-item">Výběr izoluje oblast pro úpravy; obrys a „marching ants“ ukazují aktivní výběr.</li>
+      <li class="list-group-item">Invert (Ctrl+I) rychle přehazuje kontext práce dovnitř/ven.</li>
+      <li class="list-group-item">Malování, výplně i úpravy (Colors) se omezují jen na výběr.</li>
+      <li class="list-group-item">„Míra výběru“ (0–255) → Feather vytváří měkké hrany; Sharpen je „narovná“.</li>
+      <li class="list-group-item">Floating Selection umožní upravovat vybranou oblast na plovoucí vrstvě a pak ji ukotvit.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- helper styl (pokud už máš globálně, klidně vynech) -->
+<style>
+  .img-contained { width:100%; height:100%; object-fit:contain; object-position:center; }
+</style>
