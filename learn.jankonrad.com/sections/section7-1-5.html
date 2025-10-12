@@ -119,7 +119,7 @@
     <div class="accordion-item">
       <h2 class="accordion-header" id="h-sel-advanced1">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-sel-advanced1" aria-expanded="false" aria-controls="c-sel-advanced1">
-          3) Pokročile: 0–255 „míra výběru“, Quick Mask a Feather (2. Úkol)
+          3) Feather & Invertování stran + saturace (2. Úkol)
         </button>
       </h2>
       <div id="c-sel-advanced1" class="accordion-collapse collapse" aria-labelledby="h-sel-advanced1" data-bs-parent="#gimpSelectionTools">
@@ -133,7 +133,7 @@
             <li>Vyber ze záložek <kbd>Color</kbd> -> <strong>Saturation</strong> -> <strong>Scale</strong> nastav vyšší hodnoty</li>
           <li>Označ obrázek na panelu <strong> vrstev</strong>, a klávesovou zkratkou<kbd>CONTROL + I</kbd> - Invertuj strany.</li>
           <li>Vyber ze záložek <kbd>Color</kbd> -> <strong>Saturation</strong> -> <strong>Scale</strong> stav na hodnotu 0.</li>
-            <li>Ulož kompozici jako 5-2</li>
+            <li>Ulož kompozici jako 5-2.</li>
           </ol>
 
           <div class="ratio ratio-16x9 mb-2">
@@ -152,7 +152,8 @@
               "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/16.png",
               "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/24-2.png",
                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/24-3.png",
-                    "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/24-4.png"
+                    "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/24-4.png",
+                     "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/17.png"
 
                ]'></div>
         </div>
@@ -163,7 +164,7 @@
     <div class="accordion-item">
       <h2 class="accordion-header" id="h-sel-advanced2">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-sel-advanced2" aria-expanded="false" aria-controls="c-sel-advanced2">
-          4) Sharpen hranice, elipsa vs. obdélník a „přesah“ barvy
+          4) Sharpen hranice, saturace vs. zatmavení a „přesah“ barvy (3. Úkol)
         </button>
       </h2>
       <div id="c-sel-advanced2" class="accordion-collapse collapse" aria-labelledby="h-sel-advanced2" data-bs-parent="#gimpSelectionTools">
@@ -172,14 +173,27 @@
             <strong>🧠 Feather vs. Sharpen:</strong> Feather vytváří přechod (část výplně „přeteče“ mimo konturu), <strong>Select → Sharpen</strong> hranu „zostří“. U obdélníku se rohy featherem zaoblí, elipsa je přirozeně bez rohů.
           </div>
           <ol class="mb-3">
-            <li>Po Feather zkus výplň barvou – uvidíš jemné „vyblednutí“ k okraji a minimální přesah.</li>
-            <li>Poté použij <strong>Select → Sharpen</strong> a znovu vyplň – hrana bude ostře oříznutá.</li>
-            <li>Vyzkoušej stejný postup s <strong>Ellipse Select</strong> a porovnej chování hran.</li>
+            <li>Otevřeme nový obrázek, a tím vytvoříme novou kompozici</li>
+            <li>Vybereme nástroj <strong>Elipse</strong> -> Vytvoříme kruh v místě, kde sedí slečny.</li>
+            <li>Vybereme nástroj ze záložek <kbd>Select</kbd> -> <strong>Feather</strong>.</li>
+            <li>Nastav hodnotu <strong>Feather</strong> na 100 pixelů.</li>
+           <li>Zapni <kbd>Quick Mask</kbd>, a podívej se jak se maska vytvoří podle nastavených preferencí. (<kbd>Shift + Q</kbd></li>
+              <li>Vyber ze záložek <kbd>Color</kbd> -> <strong>Saturation</strong> -> <strong>Scale</strong> nastav vyšší hodnoty</li>
+               <li>Označ obrázek na panelu <strong> vrstev</strong>, a klávesovou zkratkou<kbd>CONTROL + I</kbd> - Invertuj strany.</li>
+               <li>
+                  <div class="alert alert-secondary mb-3">
+            <strong>🧠 Co je „Float“:</strong> Přesune pixely z výběru na dočasnou plovoucí vrstvu. Tu můžeš upravit (např. snížit <em>Opacity</em>) a poté vrátit zpět <strong>Anchor</strong> ikonou.
+          </div>
+               </li>
+                   <li>Na záložce <kbd>Select</kbd>, vyber <strong>Float</strong> -> <strong>Cut and Float</strong>  (<kbd>Shift</kbd>+<kbd>Ctrl</kbd>+<kbd>L</kbd>).</li>
+            <li>V Layers sniž <strong>Opacity</strong> plovoucí vrstvy (např. na 25 %).</li>
+            <li>Až budeš s konečným výsledkem spokojený, spoj vrstvy dohromady.</li>
+            <li>Ulož obrázek jako 5-3.</li>
           </ol>
 
           <div class="ratio ratio-16x9 mb-2">
             <img id="img-sel-advanced2" class="img-contained rounded border"
-                 src="/learn.jankonrad.com/Assets/img/gimp/Lekce4/Selection/11.png"
+                 src= "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/18.png"
                  alt="Sharpen vs Feather a chování výplně">
           </div>
           <div class="d-flex justify-content-between">
@@ -189,51 +203,27 @@
           </div>
           <div data-gallery-src="img-sel-advanced2"
                data-images='[
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce4/Selection/11.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce4/Selection/12.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce4/Selection/13.png"
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/18.png",
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/19.png",
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/20.png",
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/21.png",
+
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/23.png",
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/24.png",
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/25.png",
+
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/27.png",
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/28.png",
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/29.png",
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/30.png",
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/31.png"
+       
                ]'></div>
         </div>
       </div>
     </div>
 
-    <!-- 5) Floating Selection a Anchor -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="h-sel-float">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-sel-float" aria-expanded="false" aria-controls="c-sel-float">
-          5) Floating Selection (Shift+Ctrl+L), opacity a Anchor
-        </button>
-      </h2>
-      <div id="c-sel-float" class="accordion-collapse collapse" aria-labelledby="h-sel-float" data-bs-parent="#gimpSelectionTools">
-        <div class="accordion-body">
-          <div class="alert alert-secondary mb-3">
-            <strong>🧠 Co je „Float“:</strong> Přesune pixely z výběru na dočasnou plovoucí vrstvu. Tu můžeš upravit (např. snížit <em>Opacity</em>) a poté vrátit zpět <strong>Anchor</strong> ikonou.
-          </div>
-          <ol class="mb-3">
-            <li>Na pozadí vyber oblast (např. elipsu). Zvol <strong>Select → Float</strong> (<kbd>Shift</kbd>+<kbd>Ctrl</kbd>+<kbd>L</kbd>).</li>
-            <li>V Layers sniž <strong>Opacity</strong> plovoucí vrstvy (např. na 25 %).</li>
-            <li>Klikni na <strong>Anchor</strong> → vrátí se na původní vrstvu. (Pokud chybí alfa kanál, poloprůhlednost se projeví ztmavením na barvu pozadí.)</li>
-          </ol>
-
-          <div class="ratio ratio-16x9 mb-2">
-            <img id="img-sel-float" class="img-contained rounded border"
-                 src="/learn.jankonrad.com/Assets/img/gimp/Lekce4/Selection/14.png"
-                 alt="Floating Selection a Anchor">
-          </div>
-          <div class="d-flex justify-content-between">
-            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-sel-float">◀</button>
-            <small class="text-muted">Float & Anchor</small>
-            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-sel-float">▶</button>
-          </div>
-          <div data-gallery-src="img-sel-float"
-               data-images='[
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce4/Selection/14.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce4/Selection/15.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce4/Selection/16.png"
-               ]'></div>
-        </div>
-      </div>
-    </div>
+ 
   </div><!-- /accordion -->
 
   <!-- Shrnutí -->
