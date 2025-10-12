@@ -26,7 +26,7 @@
     <div class="accordion-item">
       <h2 class="accordion-header" id="h-sel-basics">
         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c-sel-basics" aria-expanded="true" aria-controls="c-sel-basics">
-          1) Základy výběru: obrys, „marching ants“ a přehled nástrojů (nastavení prostředí)
+          1) Základy výběru: obrys, „marching ants“ a přehled nástrojů (nastavení prostředí) (1. Úkol)
         </button>
       </h2>
       <div id="c-sel-basics" class="accordion-collapse collapse show" aria-labelledby="h-sel-basics" data-bs-parent="#gimpSelectionTools">
@@ -69,7 +69,7 @@
     <div class="accordion-item">
       <h2 class="accordion-header" id="h-sel-invert">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-sel-invert" aria-expanded="false" aria-controls="c-sel-invert">
-          2) Invert výběru, výplně a malování jen uvnitř
+          2) Invert výběru, výplně a malování jen uvnitř (1. Úkol)
         </button>
       </h2>
       <div id="c-sel-invert" class="accordion-collapse collapse" aria-labelledby="h-sel-invert" data-bs-parent="#gimpSelectionTools">
@@ -81,13 +81,14 @@
             <li>Vytvoř obdélníkový výběr → stiskni <kbd>Ctrl</kbd>+<kbd>I</kbd> pro invert.</li>
             <li>Vyplň výběr: přetáhni FG barvu ze swatche, nebo použij <strong>Bucket Fill</strong> (<kbd>Shift</kbd>+<kbd>B</kbd>), případně <strong>Pattern Fill</strong>.</li>
             <li>Maluj <strong>Paintbrushem</strong> – tahy se omezí jen na aktivní výběr.</li>
-            <li><kbd></kbd></li>
+            <li>Označ obrázek na panelu <strong> vrstev</strong>, a klávesovou zkratkou<kbd>CONTROL + I</kbd> - Invertuj zpátky strany.</li>
+            <li>Vyber z nabídky <kbd>Color</kbd> -> <strong>Saturation</strong> -> Nastav hodnotu <strong>Scale</strong> na 0.</li>
           <li>Ulož kompozici jako 5-1.</li>
           </ol>
 
           <div class="ratio ratio-16x9 mb-2">
             <img id="img-sel-invert" class="img-contained rounded border"
-                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/7.png"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/6.png"
                  alt="Invert výběru a práce uvnitř">
           </div>
           <div class="d-flex justify-content-between">
@@ -99,16 +100,16 @@
                data-images='[
         
 
-             "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/7.png",
+             "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/6.png",
+                     "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/7.png",
              "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/8.png",
               "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/9.png",
               "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/10.png",
               "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/11.png",
               "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/12.png",
               "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/13.png",
-              "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/14.png",
-              "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/15.png",,
-              "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/16.png"
+              "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/14.png"
+          
                ]'></div>
         </div>
       </div>
@@ -118,7 +119,7 @@
     <div class="accordion-item">
       <h2 class="accordion-header" id="h-sel-advanced1">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-sel-advanced1" aria-expanded="false" aria-controls="c-sel-advanced1">
-          3) Pokročile: 0–255 „míra výběru“, Quick Mask a Feather
+          3) Pokročile: 0–255 „míra výběru“, Quick Mask a Feather (2. Úkol)
         </button>
       </h2>
       <div id="c-sel-advanced1" class="accordion-collapse collapse" aria-labelledby="h-sel-advanced1" data-bs-parent="#gimpSelectionTools">
@@ -127,6 +128,8 @@
             <strong>🧠 Teorie:</strong> Každý pixel může být vybrán „na procenta“ (0–255). <em>0</em> = nevybrán, <em>255</em> = plně vybrán, mezilehlé hodnoty = částečně. <strong>Quick Mask</strong> vizuálně ukáže poloprůhlednost okrajů.
           </div>
           <ol class="mb-3">
+            <li>Otevři nový obrázek, a tím vytvoř novou kompozici. (Pracujeme se stejným obrázkem jako v úkolu 1)</li>
+        <li>Vytvoř obdélníkový výběr → nastav <kbd>Feather Edges</kbd> na vyšší hodnotu tak, aby došlo k zaoblení rohů.</li>
             <li>Zapni/vypni <strong>Quick Mask</strong> (ikona vlevo dole) → červený overlay = mimo výběr.</li>
             <li>Vytvoř „měkký“ okraj: <strong>Select → Feather…</strong> (např. 100 px) → ostrý obdélník se zaoblí a hrana se zjemní.</li>
             <li>V Quick Mask uvidíš plynulý přechod: čím víc červené, tím menší míra výběru.</li>
@@ -134,7 +137,7 @@
 
           <div class="ratio ratio-16x9 mb-2">
             <img id="img-sel-advanced1" class="img-contained rounded border"
-                 src="/learn.jankonrad.com/Assets/img/gimp/Lekce4/Selection/8.png"
+                 src= "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/15.png"
                  alt="Quick Mask a Featherovaná hrana">
           </div>
           <div class="d-flex justify-content-between">
@@ -144,9 +147,9 @@
           </div>
           <div data-gallery-src="img-sel-advanced1"
                data-images='[
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce4/Selection/8.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce4/Selection/9.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce4/Selection/10.png"
+            "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/15.png",
+              "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/16.png",
+              "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce4/24-2.png"
                ]'></div>
         </div>
       </div>
