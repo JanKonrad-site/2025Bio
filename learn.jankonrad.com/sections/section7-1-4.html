@@ -1,272 +1,197 @@
-<!-- 7.1.4 Rastrová grafika — GIMP (Quick Mask — Rychlá maska výběru) -->
+<!-- 7.1.3 Rastrová grafika — GIMP (Změna pozadí — slečna; dle sešitu) -->
 <section id="section7-1-4" class="container my-5">
-  <h3 class="mb-4">7.1.4 GIMP — Rychlá maska (Quick Mask)</h3>
+  <h3 class="mb-4">7.1.4 GIMP — Změna pozadí (slečna)</h3>
 
   <!-- Co se naučíš -->
   <div class="container my-4 p-4 border rounded bg-light">
     <h3 class="mb-3">Co se naučíš?</h3>
-    <p>Naučíš se používat <em>Quick Mask</em> – rychlou masku výběru, která umožňuje přesně malovat oblasti výběru bílou, černou nebo šedou barvou. Zjistíš, jak ji převést na masku vrstvy, jak upravit barvu překryvu a jak s ní kombinovat přechody (gradienty) pro plynulé okraje.</p>
+    <p>Ne-destruktivně vyměnit pozadí portrétu pomocí <em>masky vrstvy</em>, výběrů a jejich doostření/zjemnění. Vše přesně podle sešitu, s vysvětlením pojmů.</p>
     <ul class="list-group list-group-flush mb-3">
-      <li class="list-group-item"><strong>Zapnutí Quick Mask</strong>: <kbd>Shift</kbd>+<kbd>Q</kbd> nebo ikona vlevo dole.</li>
-      <li class="list-group-item"><strong>Barvy v masce</strong>: bílá = vybrat, černá = odznačit, šedá = částečný výběr.</li>
-      <li class="list-group-item"><strong>Nastavení overlaye</strong>: změna barvy a průhlednosti překryvu.</li>
-      <li class="list-group-item"><strong>„50 % pravidlo“</strong>: marching ants zobrazí jen ≥ 50 % krytí.</li>
-      <li class="list-group-item"><strong>Kanály & masky</strong>: Save to Channel, Add Layer Mask z kanálu Quick Mask.</li>
-      <li class="list-group-item"><strong>Gradienty</strong>: lineární/radiální přechody v masce pro jemné prolínání.</li>
-      <li class="list-group-item"><strong>Přenos výběru</strong>: kopie/vložení Quick Mask mezi kompozicemi.</li>
+      <li class="list-group-item"><strong>Maska vrstvy</strong>: princip a ovládání (bílá/černá/šedá).</li>
+      <li class="list-group-item"><strong>Výběry</strong>: Free Select / Paths, Quick Mask, Feather, Grow/Shrink, Feather radius.</li>
+      <li class="list-group-item"><strong>Prolínání</strong>: štětec na masce, gradient na masce, jemné okraje (vlasy).</li>
+      <li class="list-group-item"><strong>Kompozice</strong>: pořadí vrstev (Model nahoře, Pozadí dole), zarovnání a měřítko.</li>
+      <li class="list-group-item"><strong>Export</strong>: zachování průhlednosti (PNG) vs. sloučení (JPG).</li>
     </ul>
     <div class="alert alert-info" role="alert">
-      <strong>Tip:</strong> Přepínej FG/BG <kbd>X</kbd>, měň velikost štětce <kbd>[</kbd>/<kbd>]</kbd>, zoomuj <kbd>Z</kbd> nebo <kbd>Ctrl</kbd>+klik.
+      <strong>Tip:</strong> Pracuj <em>na masce</em>, ne na obrázku. Je to vratné – obraz zůstává nedotčený.
     </div>
   </div>
 
-  <div class="accordion" id="gimpQuickMask">
-    <!-- 1) Teorie -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="h-qm-theory">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c-qm-theory" aria-expanded="true" aria-controls="c-qm-theory">
-          1) Teorie & nastavení (co je Quick Mask, barva/opacity překryvu)
-        </button>
-      </h2>
-      <div id="c-qm-theory" class="accordion-collapse collapse show" aria-labelledby="h-qm-theory" data-bs-parent="#gimpQuickMask">
-        <div class="accordion-body">
-          <div class="alert alert-secondary mb-3">
-            <strong>🧠 Princip:</strong> Quick Mask je „malířská“ cesta k výběru. Maluješ, které části mají být vybrané nebo skryté.
-          </div>
-          <ol class="mb-3">
-            <li>Zapni Quick Mask: <kbd>Shift</kbd>+<kbd>Q</kbd> nebo klikni na <em>ikonu vlevo dole</em>.</li>
-            <li>Výchozí režim: <em>Mask Unselected Areas</em> → nevybrané oblasti zčervenají (poloprůhledně).</li>
-            <li>Pravým klikem na ikonu můžeš změnit barvu překryvu (např. modrá) a průhlednost.</li>
-          </ol>
-
-          <div class="ratio ratio-16x9 mb-2">
-            <img id="img-qm-theory" class="img-contained rounded border"
-                 src="/learn.jankonrad.com/Assets/img/gimp/Lekce3/1.png"
-                 alt="Quick Mask — zapnutí a nastavení overlaye">
-          </div>
-          <div class="d-flex justify-content-between align-items-center">
-            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-qm-theory">◀</button>
-            <small class="text-muted">Aktivace & nastavení</small>
-            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-qm-theory">▶</button>
-          </div>
-          <div data-gallery-src="img-qm-theory"
-               data-images='[
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/1.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/2.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/3.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/4.png"
-               ]'></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 2) Malování výběru -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="h-qm-paint">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-qm-paint" aria-expanded="false" aria-controls="c-qm-paint">
-          2) Malování výběru (bílá, černá, šedá)
-        </button>
-      </h2>
-      <div id="c-qm-paint" class="accordion-collapse collapse" aria-labelledby="h-qm-paint" data-bs-parent="#gimpQuickMask">
-        <div class="accordion-body">
-          <div class="alert alert-secondary mb-3">
-            <strong>Bílá</strong> = vybráno, <strong>Černá</strong> = odznačeno, <strong>Šedá</strong> = částečně vybráno.
-          </div>
-          <ol class="mb-3">
-            <li>Vyber <em>Paintbrush</em> (<kbd>P</kbd>), tvrdost 100 % nebo měkčí pro jemné okraje.</li>
-            <li>Resetuj barvy (<kbd>D</kbd>), FG = bílá, BG = černá.</li>
-            <li>Maluj do červeného překryvu. Kde červená mizí → vzniká výběr.</li>
-            <li>Přepínej barvy (<kbd>X</kbd>), zvětšuj štětec <kbd>[</kbd>/<kbd>]</kbd>.</li>
-          </ol>
-          <div class="ratio ratio-16x9 mb-2">
-            <img id="img-qm-paint" class="img-contained rounded border"
-                 src="/learn.jankonrad.com/Assets/img/gimp/Lekce3/5.png"
-                 alt="Malování výběru v Quick Mask">
-          </div>
-          <div class="d-flex justify-content-between align-items-center">
-            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-qm-paint">◀</button>
-            <small class="text-muted">Bílá = výběr</small>
-            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-qm-paint">▶</button>
-          </div>
-          <div data-gallery-src="img-qm-paint"
-               data-images='[
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/5.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/6.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/7.png"
-               ]'></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 3) Převod výběru (kanál/maska vrstvy) -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="h-qm-ants">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-qm-ants" aria-expanded="false" aria-controls="c-qm-ants">
-          3) Převod Quick Mask na kanál nebo masku vrstvy (první obrázek)
-        </button>
-      </h2>
-      <div id="c-qm-ants" class="accordion-collapse collapse" aria-labelledby="h-qm-ants" data-bs-parent="#gimpQuickMask">
-        <div class="accordion-body">
-          <div class="alert alert-secondary mb-3">
-            <strong>50 % pravidlo:</strong> Hranice výběru („ants“) se ukazuje pouze od 50 % opacity výš. Quick Mask ti ale ukáže všechno, i jemné přechody.
-          </div>
-          <ol class="mb-3">
-            <li>Vypni Quick Mask (<kbd>Shift</kbd>+<kbd>Q</kbd>) → zobrazí se výběr.</li>
-            <li>Použij měkký štětec pro jemné okraje.</li>
-            <li>Až budeš mít výběr hotový, přidej masku vrstvy.</li>
-            <li>Vyber z kanálu rychlé masky.</li>
-            <li><kbd>Select → Save to Channel</kbd> uloží výběr rychlé masky pro znovupoužití u jiných vrstev.</li>
-            <li>Ulož kompozici jako <strong>4-1</strong>.</li>
-          </ol>
-          <div class="ratio ratio-16x9 mb-2">
-            <img id="img-qm-ants" class="img-contained rounded border"
-                 src="/learn.jankonrad.com/Assets/img/gimp/Lekce3/8.png"
-                 alt="Marching ants a skutečné hranice výběru">
-          </div>
-          <div class="d-flex justify-content-between align-items-center">
-            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-qm-ants">◀</button>
-            <small class="text-muted">50% hranice</small>
-            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-qm-ants">▶</button>
-          </div>
-          <div data-gallery-src="img-qm-ants"
-               data-images='[
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/8.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/17.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/18.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/19.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/24.png"
-               ]'></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 4) Přenos mezi kompozicemi -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="h-qm-transfer">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-qm-transfer" aria-expanded="false" aria-controls="c-qm-transfer">
-          4) Přenos mezi kompozicemi (druhý obrázek)
-        </button>
-      </h2>
-      <div id="c-qm-transfer" class="accordion-collapse collapse" aria-labelledby="h-qm-transfer" data-bs-parent="#gimpQuickMask">
-        <div class="accordion-body">
-          <ol class="mb-3">
-            <li>Nahraj druhý obrázek (moře).</li>
-            <li>Zapni Quick Mask (<kbd>Shift</kbd>+<kbd>Q</kbd>).</li>
-            <li>Přepni na první obrázek (slečna), označ masku a <kbd>Ctrl</kbd>+<kbd>C</kbd> zkopíruj.</li>
-            <li>Přejdi do kompozice 2 (moře) a vlož <kbd>Ctrl</kbd>+<kbd>V</kbd>, pomocí <strong>Move Tool</strong> napozicuj, poté ukotvi.</li>
-            <li>Vypni masku (<kbd>Shift</kbd>+<kbd>Q</kbd>) → <em>Add Layer Mask from Selection</em>, případně invertuj <kbd>Ctrl</kbd>+<kbd>I</kbd>.</li>
-            <li>Přidej dole černou vrstvu jako pozadí.</li>
-            <li>Ulož kompozici jako <strong>4-2</strong>.</li>
-          </ol>
-          <div class="ratio ratio-16x9 mb-2">
-            <img id="img-qm-transfer" class="img-contained rounded border"
-                 src="/learn.jankonrad.com/Assets/img/gimp/Lekce3/12.png"
-                 alt="Přenos masky mezi kompozicemi">
-          </div>
-          <div class="d-flex justify-content-between align-items-center">
-            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-qm-transfer">◀</button>
-            <small class="text-muted">Přenos masky</small>
-            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-qm-transfer">▶</button>
-          </div>
-          <div data-gallery-src="img-qm-transfer"
-               data-images='[
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/13.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/14.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/15.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/16.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/20.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/21.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/22.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/23.png"
-               ]'></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 5) Quick Mask & Gradient (opakování) -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="h-qm-gradient2">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-qm-gradient2" aria-expanded="false" aria-controls="c-qm-gradient2">
-          5) Quick Mask & Gradient (3 kompozice – opakování)
-        </button>
-      </h2>
-      <div id="c-qm-gradient2" class="accordion-collapse collapse" aria-labelledby="h-qm-gradient2" data-bs-parent="#gimpQuickMask">
-        <div class="accordion-body">
-          <ol class="mb-3">
-            <li>Vytvoř novou kompozici.</li>
-            <li>Nahraj první obrázek (slečna).</li>
-            <li>Nahraj druhý obrázek (moře) jako vrstvu (<em>Open as Layers</em>).</li>
-            <li><kbd>Shift</kbd>+<kbd>Q</kbd> zapni masku a použij <strong>Gradient Tool</strong>.</li>
-            <li>Vyber gradient <strong>FG to BG</strong> (z bílé do černé).</li>
-            <li>Táhni od středu k dolnímu okraji.</li>
-            <li>Přidej k prvnímu obrázku masku z aktuálního výběru (<em>Add Layer Mask → Selection</em>).</li>
-          </ol>
-          <div class="ratio ratio-16x9 mb-2">
-            <img id="img-qm-gradient2" class="img-contained rounded border"
-                 src="/learn.jankonrad.com/Assets/img/gimp/Lekce3/25.png"
-                 alt="Gradient v rychlé masce">
-          </div>
-          <div class="d-flex justify-content-between align-items-center">
-            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-qm-gradient2">◀</button>
-            <small class="text-muted">Gradient / přenos</small>
-            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-qm-gradient2">▶</button>
-          </div>
-          <div data-gallery-src="img-qm-gradient2"
-               data-images='[
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/26.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/27.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/28.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/29.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/30.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/31.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/32.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/33.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/34.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/35.png",
-                 "/learn.jankonrad.com/Assets/img/gimp/Lekce3/36.png"
-               ]'></div>
-        </div>
-      </div>
-    </div>
+  <!-- Materiály (uprav si cestu podle svých souborů) -->
+  <div class="d-flex flex-wrap gap-2 align-items-center mb-4">
+    <a class="btn btn-primary" href="https://github.com/JanKonrad-site/GimpAssets.git" target="_blank" rel="noopener">⬇️ Soubory ke cvičení (slečna + pozadí)</a>
   </div>
 
+  <!-- Akordeon kapitoly -->
+  <div class="accordion" id="gimpGirlBG">
+
+    <!-- 1) Teorie: Maska vrstvy + pracovní nastavení -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-girl-theory">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c-girl-theory" aria-expanded="true" aria-controls="c-girl-theory">
+          1) Teorie: Maska vrstvy + příprava pracovního prostředí & Změna pozadí: nástroje Paintbrush, a masky vrstvy & Uložení projektu  (1. Úkol)
+        </button>
+      </h2>
+      <div id="c-girl-theory" class="accordion-collapse collapse show" aria-labelledby="h-girl-theory" data-bs-parent="#gimpGirlBG">
+        <div class="accordion-body">
+          <div class="alert alert-secondary mb-3">
+            <strong>🧠 Co je maska vrstvy?</strong><br>
+            Maska řídí <em>viditelnost</em> vrstvy: <strong>bílá</strong> = viditelné, <strong>černá</strong> = průhledné, <strong>šedá</strong> = poloprůhledné. Malujeme na masku (ne do obrázku), takže úprava je <em>nedestruktivní</em>.
+          </div>
+          <ol class="mb-3">
+            <li><kbd>File</kbd> → <kbd>Open</kbd> → otevři <strong>obrázek model-in-red-chair</strong> (vrstva <em>Model</em>.</li>
+            <li><kbd>File</kbd> → <kbd>Open as Layers</kbd> → otevři <strong>obrázek Canyon</strong> (vrstva <em>Canyon</em>.</li>
+            <li>Přesuň vrstvu <strong>model-in-red-chair</strong>, na první pořadí v kompozici.</li>
+            <li>Přidej masku vrstvy u obrázku <strong>model-in-red-chair</strong> -> full opacity.</li>
+            <li>Ujisti se, že máš kolem náhledu zelené ohraničení, to signalizuje, že praciješ s vrstvou, né s obrázkem. (žluté ohraničení)</li>
+            <li>Vyberte nástroj <strong>PaintBrush Tool</strong></li>
+            <li>Nastavte <strong>Foreground color</strong> na Černou, a začněte malovat na masku tak, abychom vybrali černou na masce vše, kde není slečna na červené židli.</li>
+            <li>Podrobné nastavení nástrojů, nalezneme na pod výběrem nástrojů viz. obrázek </li>
+            <li>Změnu přiblížení, můžeme změnit na dolním okraji šipky směřující dolů, nebo <kbd>CONTROL + Kolečko (nahoru, dolů)</kbd></li>
+            <li>Změnu náhledu vrstev a masky vrstvy, můžeme změnit v pravém rohu vedle pole vrstev, viz. obrázek.</li>
+            <li>Uložte projekt jako 3-1 do projektové složky.</li>
+          </ol>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-girl-theory" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/1.png"
+                 alt="Vrstvy: Model nad Background, příprava pracovního prostředí">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-girl-theory">◀</button>
+            <small class="text-muted">Model + Background</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-girl-theory">▶</button>
+          </div>
+          <div data-gallery-src="img-girl-theory"
+               data-images='[
+             
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/2.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/3.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/4.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/5.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/6.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/7.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/8.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/9.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/10.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/11.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/12.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/13.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/14.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/15.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/16.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/17.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/18.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/19.png"
+                    
+                              
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2) Výběr postavy (Free Select / Paths / Quick Mask) -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-girl-select">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-girl-select" aria-expanded="false" aria-controls="c-girl-select">
+          2) Vytvoření efektu Grandient, mezi dvěma vrstvy (2. úkol)
+        </button>
+      </h2>
+      <div id="c-girl-select" class="accordion-collapse collapse" aria-labelledby="h-girl-select" data-bs-parent="#gimpGirlBG">
+        <div class="accordion-body">
+          <div class="alert alert-secondary mb-3">
+            <strong>Grandient Tool</strong><br>
+            <em>Gradient Tool</em> na masce vytvoří plynulý přechod mezi vrstvami. Hodí se u rozmazaného pozadí, kouře, vlasů apod. Nastav <em>FG → BG</em>, podle potřeby <em>Reverse</em>, tvar <em>Linear</em> nebo <em>Radial</em>.
+          </div>
+          <ol class="mb-3">
+            <li>Otevřete novou kompozici 4-1</li>
+        <li>Vyber nástroj Grandient</li>
+        <li>NAstav nástroj následovně:
+          <ul>
+            <li>Foreground To Background</li>
+            <li>Shaoe: Radial</li>
+            <li>Někdy je potřeba prokliknout možnost reverse.</li>
+          </ul>
+        </li>
+            <li>Nastavte v kompozici <strong>Grandient</strong> do středu slečny, a táhněte směrem do dolního okraje.</li>
+            <li>Nastavte mid a end pointy. (Jak moc se bude vrstva plynule měnit z bíle do černé)</li>
+            <li>Potvrďte klávesou Enter</li>
+            <li>Uložte projekt jako 3-2</li>
+          </ol>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-girl-select" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/20.png"
+                 alt="Tvorba a jemnění výběru postavy">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-girl-select">◀</button>
+            <small class="text-muted">Výběr & Feather</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-girl-select">▶</button>
+          </div>
+          <div data-gallery-src="img-girl-select"
+               data-images='[
+                   "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/21.png",
+                    "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/22.png",
+                    "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/23.png",
+                    "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/24.png"
+                   
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+   
   <!-- Shrnutí -->
   <div class="container my-4 p-4 border rounded bg-light">
     <h3 class="mb-3">Shrnutí</h3>
     <ul class="list-group list-group-flush mb-0">
-      <li class="list-group-item">Quick Mask umožňuje malovat výběr jako bys maloval obrázek.</li>
-      <li class="list-group-item">Bílá přidává, černá odebírá, šedá vytváří částečný výběr.</li>
-      <li class="list-group-item">„Marching ants“ zobrazují pouze ≥50 % krytí, Quick Mask vše.</li>
-      <li class="list-group-item">Výběr lze uložit do kanálu nebo převést na masku vrstvy.</li>
-      <li class="list-group-item">Gradienty vytvářejí plynulé přechody mezi výběrem a pozadím.</li>
+      <li class="list-group-item">Porozumíš principu <strong>masky vrstvy</strong> – bílá = viditelné, černá = skryté, šedá = poloprůhledné – a chápeš, že úprava je <em>nedestruktivní</em>.</li>
+      <li class="list-group-item">Naučíš se <strong>správně vrstvit obrázky</strong> (model nahoře, pozadí dole) a přidat masku k horní vrstvě.</li>
+      <li class="list-group-item">Pomocí <strong>štětce (Paintbrush)</strong> odstraníš původní pozadí tak, že na masce maluješ černou barvou mimo postavu.</li>
+      <li class="list-group-item">Zvládneš orientaci v <strong>Tool Options</strong>, přepínání mezi vrstvou a maskou, a práci s <strong>přiblížením</strong> (Ctrl + kolečko).</li>
+      <li class="list-group-item">Použiješ <strong>Gradient Tool</strong> na masce k vytvoření plynulého přechodu mezi dvěma vrstvami (např. postava ↔ pozadí).</li>
+      <li class="list-group-item">Pochopíš, jak <strong>prolínání</strong> a přechody vytvářejí přirozené spojení mezi vrstvami.</li>
+      <li class="list-group-item">Uložíš projekt jako <strong>.XCF</strong> (pro úpravy) a vyexportuješ finální výsledek do <strong>PNG nebo JPG</strong>.</li>
     </ul>
+  </div>
+   <div>
+<a href="https://www.figma.com/proto/o4Sesbpg3vRamXzaMQw1fp/Gimp3?page-id=0%3A1&node-id=1-2&viewport=12%2C361%2C0.61&t=jpwisNk10mqd8qJE-1&scaling=contain&content-scaling=fixed" 
+   class="btn btn-primary" target="_blank">
+  Zobrazit vzor 4-1
+</a>
+  </div>
+  <hr>
+   <div>
+<a href="https://www.figma.com/proto/Lv01iRkWHnAPVrk9wyeF1C/Gimp3-2?page-id=0%3A1&node-id=1-2&viewport=12%2C361%2C0.61&t=mG4SmcLUupPeaaAN-1&scaling=contain&content-scaling=fixed" 
+   class="btn btn-primary" target="_blank">
+  Zobrazit vzor 4-2
+</a>
   </div>
 </section>
 
+<!-- Galerie helper (stejný jako u předchozích lekcí) -->
+<style>
+  .img-contained { width:100%; height:100%; object-fit:contain; object-position:center; }
+</style>
 <script>
-/* Mini-galerie pro přepínání obrázků podle data-images (bez závislostí) */
-(function () {
-  function getSet(imgId) {
-    const img = document.getElementById(imgId);
-    const srcHolder = document.querySelector('[data-gallery-src="' + imgId + '"]');
-    if (!img || !srcHolder) return null;
-    try { return { img, list: JSON.parse(srcHolder.getAttribute('data-images') || '[]') }; }
-    catch { return null; }
+(function(){
+  function parseImages(el){ try { return JSON.parse(el.getAttribute('data-images')||'[]'); } catch(e){ return []; } }
+  function setImg(id, src){ const img = document.getElementById(id); if(img){ img.src = src; } }
+  function move(dir, btn){
+    const id = btn.getAttribute(dir===-1?'data-gallery-prev':'data-gallery-next'); if(!id) return;
+    const holder = document.querySelector('[data-gallery-src="'+id+'"]'); if(!holder) return;
+    const list = parseImages(holder); if(!list.length) return;
+    const img = document.getElementById(id);
+    const current = img.src.split('/').pop();
+    let idx = list.findIndex(x => x.split('/').pop() === current); if(idx===-1) idx = 0;
+    const next = (idx + dir + list.length) % list.length;
+    setImg(id, list[next]);
   }
-  function shiftImage(imgId, dir) {
-    const set = getSet(imgId);
-    if (!set || !set.list.length) return;
-    const current = set.img.getAttribute('src');
-    let idx = set.list.indexOf(current);
-    if (idx === -1) idx = 0;
-    idx = (idx + dir + set.list.length) % set.list.length;
-    set.img.setAttribute('src', set.list[idx]);
-  }
-  document.addEventListener('click', function (e) {
-    const prev = e.target.closest('[data-gallery-prev]');
-    const next = e.target.closest('[data-gallery-next]');
-    if (prev) { shiftImage(prev.getAttribute('data-gallery-prev'), -1); }
-    if (next) { shiftImage(next.getAttribute('data-gallery-next'), +1); }
+  document.addEventListener('click', e => {
+    if(e.target.matches('[data-gallery-prev]')) { e.preventDefault(); move(-1, e.target); }
+    if(e.target.matches('[data-gallery-next]')) { e.preventDefault(); move(1, e.target); }
   });
 })();
 </script>

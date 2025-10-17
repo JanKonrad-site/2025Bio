@@ -1,0 +1,243 @@
+<!-- 3.1.4 GitHub & GitHub Pages — nasazení webu -->
+<section id="section3-1-4" class="container my-5">
+    <h3 class="mb-4">3.1.5 GitHub &amp; GitHub Pages — nasazení webu</h3>
+  
+    <!-- Co se naučíš -->
+    <div class="container my-4 p-4 border rounded bg-light">
+      <h3 class="mb-3">Co se naučíš?</h3>
+      <p>Od úplného seznámení s GitHubem až po zveřejnění hotového webu přes GitHub Pages na veřejné URL. Filozofie Git/GitHub, repozitáře, commity a praktický postup krok za krokem.</p>
+      <ul class="list-group list-group-flush mb-3">
+        <li class="list-group-item">Co je <strong>Git</strong> a <strong>GitHub</strong>, pro koho je a proč se používá.</li>
+        <li class="list-group-item">Založení účtu a bezpečné nastavení profilu.</li>
+        <li class="list-group-item">Vytvoření <strong>repozitáře</strong> pro statický web (HTML/CSS/JS).</li>
+        <li class="list-group-item">Nahrání souborů (drag &amp; drop) a práce s <em>commit</em> zprávami.</li>
+        <li class="list-group-item">Zapnutí <strong>GitHub Pages</strong> a výběr zdroje (branch / folder).</li>
+        <li class="list-group-item">Jak se web aktualizuje (nové commity) a jak řešit běžné chyby.</li>
+        <li class="list-group-item">Bonus: struktura projektu, README a základy spolupráce (public vs private).</li>
+      </ul>
+      <div class="alert alert-info" role="alert">
+        <strong>Tip:</strong> GitHub není jen „úložiště souborů“. Je to platforma pro správu verzí a spolupráci. I když jsi na projektu sám/sama, získáš historii změn, zálohu a snadné nasazení přes Pages.
+      </div>
+    </div>
+  
+    <!-- Akordeon -->
+    <div class="accordion" id="section3-1-4-accordion">
+  
+      <!-- Krok 1 -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="h-section3-1-4-step1">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c-section3-1-4-step1" aria-expanded="true" aria-controls="c-section3-1-4-step1">
+            1) Co je Git/GitHub + vytvoření účtu
+          </button>
+        </h2>
+        <div id="c-section3-1-4-step1" class="accordion-collapse collapse show" aria-labelledby="h-section3-1-4-step1" data-bs-parent="#section3-1-4-accordion">
+          <div class="accordion-body">
+            <div class="alert alert-secondary mb-3">
+              <strong>🧠</strong> <strong>Git</strong> = systém pro správu verzí (ukládá historii změn v kódu). <strong>GitHub</strong> = cloudová služba nad Gitem: hostuje repozitáře, umožňuje spolupráci a nabízí GitHub Pages pro statické weby.
+            </div>
+            <ol class="mb-3">
+              <li>Jdi na <em>github.com</em> a klikni <strong>Sign up</strong>.</li>
+              <li>Zadej e-mail, heslo, vyber uživatelské jméno (promítne se do URL tvých stránek).</li>
+              <li>Potvrď e-mail a přihlas se (<strong>Sign in</strong>).</li>
+              <li>Volitelné: vyplň <strong>Profile</strong> (avatar, bio) — pomáhá identifikaci u veřejných projektů.</li>
+              <li>Zkontroluj <strong>Settings &gt; Password and authentication</strong> (silné heslo, případně 2FA).</li>
+            </ol>
+  
+            <div class="ratio ratio-16x9 mb-2">
+              <img id="img-section3-1-4-step1" class="img-contained rounded border"
+                   src="/Assets/img/github/3-1-4/step1-01.png"
+                   alt="Registrace a přihlášení do GitHubu">
+            </div>
+            <div class="d-flex justify-content-between">
+              <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-section3-1-4-step1">◀</button>
+              <small class="text-muted">Založení účtu a základní nastavení profilu.</small>
+              <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-section3-1-4-step1">▶</button>
+            </div>
+            <div data-gallery-src="img-section3-1-4-step1"
+                 data-images='[
+                   "/Assets/img/github/3-1-4/step1-01.png",
+                   "/Assets/img/github/3-1-4/step1-02.png",
+                   "/Assets/img/github/3-1-4/step1-03.png"
+                 ]'></div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Krok 2 -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="h-section3-1-4-step2">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-section3-1-4-step2" aria-expanded="false" aria-controls="c-section3-1-4-step2">
+            2) Vytvoření repozitáře (Project → Repository)
+          </button>
+        </h2>
+        <div id="c-section3-1-4-step2" class="accordion-collapse collapse" aria-labelledby="h-section3-1-4-step2" data-bs-parent="#section3-1-4-accordion">
+          <div class="accordion-body">
+            <div class="alert alert-secondary mb-3">
+              <strong>🧠</strong> <em>Repository</em> je „krabice“ na tvé soubory a historii změn. Název repa se propíše do URL GitHub Pages (u projektových stránek).
+            </div>
+            <ol class="mb-3">
+              <li>Vpravo nahoře klikni <strong>+</strong> → <strong>New repository</strong>.</li>
+              <li>Nazvi repozitář (např. <code>moje-stranka</code>), zvol <strong>Public</strong> (pro Pages doporučeno).</li>
+              <li>Zaškrtni <strong>Add a README file</strong> (volitelné, ale užitečné).</li>
+              <li>Klikni <strong>Create repository</strong>.</li>
+              <li>Repo je založeno — uvidíš přehled, soubory a záložky <em>Code / Issues / Settings</em>…</li>
+            </ol>
+  
+            <div class="ratio ratio-16x9 mb-2">
+              <img id="img-section3-1-4-step2" class="img-contained rounded border"
+                   src="/Assets/img/github/3-1-4/step2-01.png"
+                   alt="Vytvoření nového repozitáře">
+            </div>
+            <div class="d-flex justify-content-between">
+              <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-section3-1-4-step2">◀</button>
+              <small class="text-muted">Nový public repozitář připravený pro statický web.</small>
+              <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-section3-1-4-step2">▶</button>
+            </div>
+            <div data-gallery-src="img-section3-1-4-step2"
+                 data-images='[
+                   "/Assets/img/github/3-1-4/step2-01.png",
+                   "/Assets/img/github/3-1-4/step2-02.png",
+                   "/Assets/img/github/3-1-4/step2-03.png"
+                 ]'></div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Krok 3 -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="h-section3-1-4-step3">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-section3-1-4-step3" aria-expanded="false" aria-controls="c-section3-1-4-step3">
+            3) Nahrání souborů (drag &amp; drop) a první commit
+          </button>
+        </h2>
+        <div id="c-section3-1-4-step3" class="accordion-collapse collapse" aria-labelledby="h-section3-1-4-step3" data-bs-parent="#section3-1-4-accordion">
+          <div class="accordion-body">
+            <div class="alert alert-secondary mb-3">
+              <strong>🧠</strong> <em>Commit</em> = uložená změna s popisnou zprávou (co a proč se mění). U statických webů nahráváme typicky <code>index.html</code>, <code>style.css</code>, složku <code>assets/</code> apod.
+            </div>
+            <ol class="mb-3">
+              <li>V repozitáři klikni na <strong>Add file</strong> → <strong>Upload files</strong>.</li>
+              <li>Přetáhni (drag &amp; drop) své soubory a složky (např. <code>index.html</code>, <code>style.css</code>, <code>Assets/</code>).</li>
+              <li>Dole vyplň zprávu commitu (např. <em>Initial commit: přidán web</em>).</li>
+              <li>Klikni <strong>Commit changes</strong>.</li>
+              <li>Na záložce <strong>Code</strong> ověř, že jsou soubory vidět (strom projektu).</li>
+            </ol>
+  
+            <div class="ratio ratio-16x9 mb-2">
+              <img id="img-section3-1-4-step3" class="img-contained rounded border"
+                   src="/Assets/img/github/3-1-4/step3-01.png"
+                   alt="Nahrání souborů a commit">
+            </div>
+            <div class="d-flex justify-content-between">
+              <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-section3-1-4-step3">◀</button>
+              <small class="text-muted">Upload souborů a první commit s popisnou zprávou.</small>
+              <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-section3-1-4-step3">▶</button>
+            </div>
+            <div data-gallery-src="img-section3-1-4-step3"
+                 data-images='[
+                   "/Assets/img/github/3-1-4/step3-01.png",
+                   "/Assets/img/github/3-1-4/step3-02.png",
+                   "/Assets/img/github/3-1-4/step3-03.png"
+                 ]'></div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Krok 4 -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="h-section3-1-4-step4">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-section3-1-4-step4" aria-expanded="false" aria-controls="c-section3-1-4-step4">
+            4) Aktivace GitHub Pages (nasazení na URL)
+          </button>
+        </h2>
+        <div id="c-section3-1-4-step4" class="accordion-collapse collapse" aria-labelledby="h-section3-1-4-step4" data-bs-parent="#section3-1-4-accordion">
+          <div class="accordion-body">
+            <div class="alert alert-secondary mb-3">
+              <strong>🧠</strong> GitHub Pages slouží k hostování <em>statických webů</em>. Zdroj bývá branch <code>main</code> (root) nebo složka <code>/docs</code>. Výsledná URL: <code>https://&lt;username&gt;.github.io/&lt;repo&gt;/</code>.
+            </div>
+            <ol class="mb-3">
+              <li>V repozitáři otevři <strong>Settings</strong> → sekce <strong>Pages</strong>.</li>
+              <li>V části <strong>Build and deployment</strong> nastav <strong>Source: Deploy from a branch</strong>.</li>
+              <li>Zvol <strong>Branch: main</strong> a <strong>Folder: / (root)</strong> (nebo <code>/docs</code>, pokud web držíš tam).</li>
+              <li>Ulož (Save). GitHub spustí build a vygeneruje URL (může chvíli trvat).</li>
+              <li>Jakmile se zobrazí zelený status, klikni na odkaz a otestuj web.</li>
+            </ol>
+  
+            <div class="ratio ratio-16x9 mb-2">
+              <img id="img-section3-1-4-step4" class="img-contained rounded border"
+                   src="/Assets/img/github/3-1-4/step4-01.png"
+                   alt="Zapnutí GitHub Pages a výběr zdroje">
+            </div>
+            <div class="d-flex justify-content-between">
+              <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-section3-1-4-step4">◀</button>
+              <small class="text-muted">Pages nasadí web na veřejnou URL v rámci GitHubu.</small>
+              <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-section3-1-4-step4">▶</button>
+            </div>
+            <div data-gallery-src="img-section3-1-4-step4"
+                 data-images='[
+                   "/Assets/img/github/3-1-4/step4-01.png",
+                   "/Assets/img/github/3-1-4/step4-02.png",
+                   "/Assets/img/github/3-1-4/step4-03.png"
+                 ]'></div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Krok 5 -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="h-section3-1-4-step5">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-section3-1-4-step5" aria-expanded="false" aria-controls="c-section3-1-4-step5">
+            5) Aktualizace webu + časté problémy
+          </button>
+        </h2>
+        <div id="c-section3-1-4-step5" class="accordion-collapse collapse" aria-labelledby="h-section3-1-4-step5" data-bs-parent="#section3-1-4-accordion">
+          <div class="accordion-body">
+            <div class="alert alert-secondary mb-3">
+              <strong>🧠</strong> Nové změny = nové commity do stejného repozitáře a branch. Pages se po pushi znovu nasadí (většinou automaticky během pár desítek sekund).
+            </div>
+            <ol class="mb-3">
+              <li>Uprav soubory (např. <code>index.html</code>) a znovu je nahraj přes <strong>Add file → Upload files</strong> (nebo použij Git lokálně).</li>
+              <li>Přidej popisnou commit zprávu (např. „Oprava odkazu, úprava textu“).</li>
+              <li>Ověř nasazenou verzi na URL (občas pomůže <em>hard refresh</em> <kbd>Ctrl</kbd>+<kbd>F5</kbd> / <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd>).</li>
+              <li><strong>Nezobrazuje se stránka?</strong> Zkontroluj: název výchozího souboru <code>index.html</code>, cestu k Assets, nastavení Pages (branch/folder).</li>
+              <li><strong>Chybové kódy 404/403?</strong> Často špatná cesta v <code>href/src</code> (u Pages bývá prefix <code>/&lt;repo&gt;/</code>), nebo se čeká na build.</li>
+            </ol>
+  
+            <div class="ratio ratio-16x9 mb-2">
+              <img id="img-section3-1-4-step5" class="img-contained rounded border"
+                   src="/Assets/img/github/3-1-4/step5-01.png"
+                   alt="Aktualizace webu a řešení problémů">
+            </div>
+            <div class="d-flex justify-content-between">
+              <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-section3-1-4-step5">◀</button>
+              <small class="text-muted">Commity = nové verze webu. Kontrola cest a výchozího souboru.</small>
+              <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-section3-1-4-step5">▶</button>
+            </div>
+            <div data-gallery-src="img-section3-1-4-step5"
+                 data-images='[
+                   "/Assets/img/github/3-1-4/step5-01.png",
+                   "/Assets/img/github/3-1-4/step5-02.png"
+                 ]'></div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /accordion -->
+  
+    <!-- Shrnutí -->
+    <div class="container my-4 p-4 border rounded bg-light">
+      <h3 class="mb-3">Shrnutí</h3>
+      <ul class="list-group list-group-flush mb-0">
+        <li class="list-group-item">GitHub = platforma pro verzování a spolupráci; Git = nástroj pod kapotou.</li>
+        <li class="list-group-item">Repozitář je „krabice“ na tvůj web; commity dokumentují změny.</li>
+        <li class="list-group-item">GitHub Pages snadno hostuje statické weby z branch <code>main</code> (root nebo <code>/docs</code>).</li>
+        <li class="list-group-item">Aktualizace = nový commit → auto-deploy. Kontroluj názvy souborů a cesty.</li>
+        <li class="list-group-item">Udržuj README a strukturu projektu — pomáhá i budoucí spolupráci.</li>
+      </ul>
+    </div>
+  </section>
+  
+  <!-- Mini styl pro obrázky v poměru -->
+  <style>
+    .img-contained { width:100%; height:100%; object-fit:contain; object-position:center; }
+  </style>
+  

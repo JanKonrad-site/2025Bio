@@ -4,6 +4,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <meta http-equiv="Content-Security-Policy"
+  content="
+    default-src 'self';
+    img-src 'self' https: data: blob: raw.githubusercontent.com user-images.githubusercontent.com res.cloudinary.com *.cloudinary.com learn.jankonrad.com;
+    script-src 'self' 'unsafe-inline' https:;
+    style-src  'self' 'unsafe-inline' https:;
+    font-src   'self' https: data:;
+    connect-src 'self' https:;
+    media-src  'self' https:;
+    frame-src  'self' https:;
+    object-src 'none';
+    base-uri 'self';
+    upgrade-insecure-requests;
+  ">
   <title>Dokumentace s vyhledáváním a přepínačem režimu</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="./CSS/animace.css">
@@ -306,12 +320,14 @@
         <a class="nav-link ms-2" href="#section2-3-1">2.3.1 Principy efektivní prezentace</a>
         <a class="nav-link ms-2" href="#section2-3-2">2.3.2 Figma jako moderní nástroj vizuální prezentace</a>
         <a class="nav-link ms-1" href="#section2-1">2. Projekt</a>
-           <a class="nav-link" href="#section3" data-section="section3">3 HTML: co to je, historie a první dokument</a>
+           <a class="nav-link" href="#section3" data-section="section3">3 HTML: co to je, historie a první dokument</a>ě
       
           <a class="nav-link ms-1" href="#section3-1-1" data-section="section3-1-1">3.1.1 Úvod do HTML, VS Code a nadpisová hierarchie/a>
           <a class="nav-link ms-1" href="#section3-1-2" data-section="section3-1-2">3.1.2 Odstavce a „void“ prvky: <code>&lt;p&gt;</code>, <code>&lt;br&gt;</code>, <code>&lt;hr&gt;</code>
                          <a class="nav-link ms-1" href="#section3-1-3" data-section="section3-1-3">3.1.3 Seznamy v HTML + vnořování a odsazování <code>&lt;ul&gt;</code>, <code>&lt;ol&gt;</code>, <code>&lt;li&gt;</code>
                                     <a class="nav-link ms-1" href="#section3-1-4" data-section="section3-1-4">3.1.4 Odkazy a obrázky v HTML<code>&lt;a&gt;</code>, <code>&lt;img&gt;</code>
+                                       <a class="nav-link ms-1" href="#section3-1-5" data-section="section3-1-5">3.1.5 Git Hub - nasazení projektů na webovou adresu<code>&lt;a&gt;</code>, <code>&lt;img&gt;</code>
+                                        <a class="nav-link ms-1" href="#section3-1-6" data-section="section3-1-6">3.1.6 Základy CSS<code>&lt;a&gt;</code>, <code>&lt;img&gt;</code>
                           
         <a class="nav-link ms-1" href="#section3-3">3.3 Uložení dat v prohlížeči – localStorage,
           sessionStorage</a>
@@ -359,11 +375,13 @@
         <a class="nav-link ms-1" href="#section6-6">6.6 Základy práce s VPN, dvoufázové ověření, digitální
           identita</a>
 
-           <a class="nav-link ms-1" href="#section7-1-1" data-section="section7-1-1">7.1.1 Rastrová grafika – GIMP</a>
+           <a class="nav-link ms-1" href="#section7-1-1" data-section="section7-1-1">7.1.1 Rastrová grafika (Lekce 1) – GIMP</a>
             <a class="nav-link ms-1" href="#section7-1-2" data-section="section7-1-2">7.1.2 Vrstvy (Lekce 2) - GIMP</a>
-             <a class="nav-link ms-1" href="#section7-1-3" data-section="section7-1-3">7.1.3 Změna pozadí (Lekce 3) - GIMP</a>
-                <a class="nav-link ms-1" href="#section7-1-4" data-section="section7-1-4">7.1.4 Rychlá maska (Lekce 4) - GIMP</a>
-                <a class="nav-link ms-1" href="#section7-1-5" data-section="section7-1-5">7.1.5 Výběrové nástroje (Lekce 5) - GIMP</a>
+                <a class="nav-link ms-1" href="#section7-1-3" data-section="section7-1-3">7.1.3 Koláž (Lekce 3) - GIMP</a>
+             <a class="nav-link ms-1" href="#section7-1-4" data-section="section7-1-4">7.1.4 Změna pozadí (Lekce 4) - GIMP</a>
+                <a class="nav-link ms-1" href="#section7-1-4" data-section="section7-1-5">7.1.5 Rychlá maska (Lekce 5) - GIMP</a>
+                <a class="nav-link ms-1" href="#section7-1-5" data-section="section7-1-6">7.1.6 Výběrové nástroje (Lekce 6) - GIMP</a>
+            
 
 
 
@@ -436,8 +454,8 @@
           <a class="nav-link ms-1" href="#section3-1-2" data-section="section3-1-2">3.1.2 Odstavce a „void“ prvky: <code>&lt;p&gt;</code>, <code>&lt;br&gt;</code>, <code>&lt;hr&gt;</code>
              <a class="nav-link ms-1" href="#section3-1-3" data-section="section3-1-3">3.1.3 Seznamy v HTML + vnořování a odsazování <code>&lt;ul&gt;</code>, <code>&lt;ol&gt;</code>, <code>&lt;li&gt;</code>
                     <a class="nav-link ms-1" href="#section3-1-4" data-section="section3-1-4">3.1.4 Odkazy a obrázky v HTML<code>&lt;a&gt;</code>, <code>&lt;img&gt;</code>
-          <a class="nav-link ms-1" href="#section3-5">3.5 Vizualizace dat – jednoduché grafy pomocí
-            Chart.js</a>
+                      <a class="nav-link ms-1" href="#section3-1-5" data-section="section3-1-5">3.1.5 Git Hub - nasazení projektů na webovou adresu<code>&lt;a&gt;</code>, <code>&lt;img&gt;</code>
+                        <a class="nav-link ms-1" href="#section3-1-6" data-section="section3-1-6">3.1.6 Základy CSS<code>&lt;a&gt;</code>, <code>&lt;img&gt;</code>
           <a class="nav-link ms-1" href="#section3-6">3.6 Práce s IndexedDB – databáze v prohlížeči</a>
           <a class="nav-link ms-1" href="#section3-7">3.7 Načítání dat z API pomocí fetch</a>
           <a class="nav-link ms-1" href="#section3-8">3.8 Jednoduchý backend v Node.js – Express a ukládání
@@ -482,11 +500,12 @@
             news</a>
           <a class="nav-link ms-1" href="#section6-6">6.6 Základy práce s VPN, dvoufázové ověření, digitální
             identita</a>
-               <a class="nav-link ms-1" href="#section7-1-1" data-section="section7-1-1">7.1.1 Rastrová grafika – GIMP</a>
-              <a class="nav-link ms-1" href="#section7-1-2" data-section="section7-1-2">7.1.2 Vrstvy (Lekce 2) - GIMP</a>
-               <a class="nav-link ms-1" href="#section7-1-3" data-section="section7-1-3">7.1.3 Změna pozadí (Lekce 3) - GIMP</a>
-                <a class="nav-link ms-1" href="#section7-1-4" data-section="section7-1-4">7.1.4 Rychlá maska (Lekce 4) - GIMP</a>
-                <a class="nav-link ms-1" href="#section7-1-5" data-section="section7-1-5">7.1.5 Výběrové nástroje (Lekce 5) - GIMP</a>
+                     <a class="nav-link ms-1" href="#section7-1-1" data-section="section7-1-1">7.1.1 Rastrová grafika (Lekce 1) – GIMP</a>
+            <a class="nav-link ms-1" href="#section7-1-2" data-section="section7-1-2">7.1.2 Vrstvy (Lekce 2) - GIMP</a>
+                <a class="nav-link ms-1" href="#section7-1-3" data-section="section7-1-3">7.1.3 Koláž (Lekce 3) - GIMP</a>
+             <a class="nav-link ms-1" href="#section7-1-4" data-section="section7-1-4">7.1.4 Změna pozadí (Lekce 4) - GIMP</a>
+                <a class="nav-link ms-1" href="#section7-1-4" data-section="section7-1-5">7.1.5 Rychlá maska (Lekce 5) - GIMP</a>
+                <a class="nav-link ms-1" href="#section7-1-5" data-section="section7-1-6">7.1.6 Výběrové nástroje (Lekce 6) - GIMP</a>
 
 
         </nav>
