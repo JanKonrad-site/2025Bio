@@ -1,324 +1,184 @@
 <!-- =========================================================
-     4.1.6 ZÁPISKY (rozšířené): Funkce úplně od základů
+     4.1.7 FUNKCE krok za krokem — příprava na kalkulačku
      ========================================================= -->
-<section id="section4-1-7-notes" class="container my-5">
+<section id="section4-1-7" class="container my-5">
   <style>
     .tip{border-left:4px solid #0d6efd;background:#f8f9fa;padding:.75rem 1rem}
     .warn{border-left:4px solid #dc3545;background:#fff5f5;padding:.75rem 1rem}
     .ok{border-left:4px solid #198754;background:#f6fff8;padding:.75rem 1rem}
     .mono{font-family:ui-monospace,Menlo,Consolas,monospace}
     pre code{white-space:pre}
-    .kbd{padding:.05rem .35rem;border:1px solid #ddd;border-radius:.25rem;background:#eee}
   </style>
 
-  <h3 class="mb-3">4.1.6 <span class="mono">def</span>, parametry × argumenty, <span class="mono">return</span> × <span class="mono">print</span>, funkce jako hodnota, <span class="mono">__main__</span></h3>
+  <h3 class="mb-3">4.1.7 Funkce krok za krokem – od volání po načítání vstupů</h3>
+  <p class="lead">
+    V této lekci pochopíš, jak se tvoří a používají <b>funkce</b> v Pythonu.  
+    Každé cvičení navazuje na předchozí a připravuje tě na projekt „Kalkulačka“.
+  </p>
 
-  <!-- Přehled cílů -->
-  <div class="row g-3">
-    <div class="col-lg-6">
-      <div class="card h-100"><div class="card-body">
-        <h5 class="card-title">Co si zapsat (body)</h5>
-        <ul class="mb-0">
-          <li><b>Definice funkce</b> ≠ <b>volání funkce</b>.</li>
-          <li><b>Parametry</b> (v hlavičce) ≠ <b>argumenty</b> (při volání).</li>
-          <li><b>return</b> vrací data, <b>print</b> jen zobrazuje.</li>
-          <li>Funkce je <b>hodnota</b> → lze ji vracet/ukládat: <span class="mono">("Součet", soucet)</span>.</li>
-          <li><b>Python rozlišuje velká/malá písmena</b>: <span class="mono">"Součet"</span> (text) × <span class="mono">soucet</span> (funkce).</li>
-          <li><span class="mono">if __name__ == "__main__":</span> – spouštěcí „brána“ programu.</li>
-        </ul>
-        <div class="tip mt-3"><b>Tip:</b> Piš funkce krátké a testuj je zvlášť – mnohem méně chyb.</div>
-      </div></div>
-    </div>
-    <div class="col-lg-6">
-      <div class="card h-100"><div class="card-body">
-        <h5 class="card-title">Mini-příklady (do sešitu)</h5>
-<pre><code class="language-python">def soucet(a, b):         # definice (vznik funkce)
-    return a + b
+  <div class="accordion" id="acc-funkce-simple">
 
-vysledek = soucet(2, 3)   # volání (předání argumentů 2 a 3)
-print(vysledek)           # 5
-
-# funkce jako hodnota:
-f = soucet                 # uložím ODKAZ na funkci (nevolám!)
-print(f(10, 5))            # 15
-
-# řetězec × funkce:
-par = ("Součet", soucet)   # ('Součet' je text), (soucet je funkce)
-nazev, fn = par
-print(nazev, fn(1, 2))     # Součet 3
-</code></pre>
-        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalBalicekPojmu">📘 Klíčové pojmy polopatě</button>
-      </div></div>
-    </div>
-  </div>
-
-  <hr class="my-4">
-
-  <!-- Akordeon metodických kroků -->
-  <div class="accordion" id="acc-functions-basics">
-
-    <!-- Krok 1: Definice vs. volání -->
+    <!-- 1) Základ: definice a volání -->
     <div class="accordion-item">
       <h2 class="accordion-header" id="f1h">
         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#f1" aria-expanded="true">
-          1) Definice funkce × volání funkce (úplný základ)
+          1️⃣ Definice a volání funkce
         </button>
       </h2>
-      <div id="f1" class="accordion-collapse collapse show" data-bs-parent="#acc-functions-basics">
+      <div id="f1" class="accordion-collapse collapse show" data-bs-parent="#acc-funkce-simple">
         <div class="accordion-body">
-          <p><b>Definice</b> funkce jen vytvoří „krabičku“ s kódem. <b>Volání</b> funkce tu krabičku skutečně spustí.</p>
-<pre><code class="language-python">def soucet(a, b):   # ① definice (parametry a, b)
-    return a + b
+          <p>Začneme úplným základem — vytvoříme funkci a zavoláme ji:</p>
+<pre><code class="language-python">def pozdrav():
+    print("Ahoj")
 
-# nic se zatím NEvypočítalo, jen existuje funkce 'soucet'
-
-x = soucet(10, 5)   # ② volání (argumenty 10, 5)
-print(x)            # 15</code></pre>
-          <div class="ok"><b>Zapamatuj:</b> Kulaté závorky <span class="mono">()</span> u jména → <b>voláš</b> funkci. Bez závorek pracuješ s <b>odkazem na funkci</b> (hodnota typu <span class="mono">function</span>).</div>
-          <div class="d-flex flex-wrap gap-2 mt-2">
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalParamArg">Parametr vs. argument</button>
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalCaseSensitive">Rozdíl velká/malá písmena</button>
-          </div>
-          <div class="warn mt-3"><b>Častá chyba:</b> <span class="mono">f = soucet()</span> bez argumentů vyvolá funkci a pravděpodobně hodí chybu (chybí parametry). Správně: <span class="mono">f = soucet</span> (bez závorek) – uloží odkaz.</div>
-          <div class="ok mt-2"><b>Mini-cvičení:</b> Napiš <span class="mono">def pozdrav(jmeno): return "Ahoj " + jmeno</span>. Ulož odkaz <span class="mono">g = pozdrav</span> a zavolej <span class="mono">g("Eva")</span>.</div>
+pozdrav()</code></pre>
+          <ul>
+            <li><code>def</code> – klíčové slovo, kterým začíná definice funkce.</li>
+            <li><code>pozdrav()</code> – volání funkce (závorky = spuštění).</li>
+          </ul>
+          <div class="tip">Mini-úkol: vytvoř <code>def info():</code> která vypíše <code>"Program běží"</code> a zavolej ji dvakrát.</div>
         </div>
       </div>
     </div>
 
-    <!-- Krok 2: return vs. print -->
+    <!-- 2) Parametry a argumenty -->
     <div class="accordion-item">
       <h2 class="accordion-header" id="f2h">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f2">
-          2) <span class="mono">return</span> × <span class="mono">print()</span> – kdy co použít
+          2️⃣ Parametry a argumenty
         </button>
       </h2>
-      <div id="f2" class="accordion-collapse collapse" data-bs-parent="#acc-functions-basics">
+      <div id="f2" class="accordion-collapse collapse" data-bs-parent="#acc-funkce-simple">
         <div class="accordion-body">
-<pre><code class="language-python">def soucet_return(a, b):
-    return a + b    # ① vrátí výsledek zpět volajícímu
+          <p>Chceme, aby funkce uměla počítat s hodnotami, které jí pošleme.</p>
+<pre><code class="language-python">def soucet(a, b):
+    print(a + b)
 
-def soucet_print(a, b):
-    print(a + b)    # ② jen vytiskne na obrazovku (funkce vrací None)
-
-x = soucet_return(2, 3)  # x = 5 → lze dál použít
-y = soucet_print(2, 3)   # vytiskne 5, ale y == None
-</code></pre>
+soucet(2, 3)  # vypíše 5</code></pre>
           <ul>
-            <li><b>return</b> = výsledek se dá uložit, použít v dalším výpočtu, snadno testovat.</li>
-            <li><b>print</b> = jen okamžitě zobrazí. Nevrací data, takže s výsledkem dál nepracuješ.</li>
+            <li><b>Parametry</b> (<code>a, b</code>) jsou proměnné, které přijímají hodnoty.</li>
+            <li><b>Argumenty</b> (<code>2, 3</code>) jsou skutečné hodnoty při volání.</li>
           </ul>
-          <div class="ok">Většinu „počítacích“ funkcí piš s <b>return</b>. Tisk (prezentace) nech až na místo, kde výsledek opravdu potřebuješ zobrazit.</div>
-          <button class="btn btn-sm btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#modalReturnVsPrint">Více k return × print</button>
-          <div class="ok mt-2"><b>Mini-cvičení:</b> Přepiš funkci, která tiskla, aby místo toho <b>vracela</b> výsledek. Ověř, že jde výsledek uložit do proměnné.</div>
+          <div class="tip">Mini-úkol: napiš <code>def pozdrav(jmeno, vek)</code> a vypiš <code>f"Ahoj {jmeno}, je ti {vek} let."</code></div>
         </div>
       </div>
     </div>
 
-    <!-- Krok 3: Funkce jako hodnota; ("Součet", soucet) -->
+    <!-- 3) Funkce, která vrací hodnotu -->
     <div class="accordion-item">
       <h2 class="accordion-header" id="f3h">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f3">
-          3) Funkce jako hodnota: <span class="mono">("Součet", soucet)</span> a proč je to skvělé
+          3️⃣ Funkce, která něco vrátí – <code>return</code>
         </button>
       </h2>
-      <div id="f3" class="accordion-collapse collapse" data-bs-parent="#acc-functions-basics">
+      <div id="f3" class="accordion-collapse collapse" data-bs-parent="#acc-funkce-simple">
         <div class="accordion-body">
-          <p>V Pythonu je <b>funkce taky hodnota</b>. Může být v proměnné, v n-tici, může se <b>vracet</b> z jiné funkce.</p>
-<pre><code class="language-python">def soucet(a, b): return a + b
+          <p>Někdy nechceme hned tisknout výsledek, ale vrátit ho zpět pro další výpočty.</p>
+<pre><code class="language-python">def soucet(a, b):
+    return a + b   # vrátí výsledek, netiskne
 
-# Příklad s n-ticí (text + odkaz na funkci):
-par = ("Součet", soucet)
-nazev, funkce = par
-print(nazev, funkce(10, 5))   # Součet 15
-
-# Funkce vracející funkci:
-def vyber():
-    # (představ si, že tady by byla volba uživatele)
-    return soucet
-
-f = vyber()          # f je odkaz na funkci 'soucet'
-print(f(3, 4))       # 7
-</code></pre>
-          <div class="tip"><b>Velmi důležité:</b> <span class="mono">"Součet"</span> je <b>řetězec</b> (text pro hezký výpis), zatímco <span class="mono">soucet</span> je <b>odkaz na funkci</b> (kód, který lze zavolat).</div>
-          <button class="btn btn-sm btn-outline-secondary mt-2" data-bs-toggle="modal" data-bs-target="#modalFunctionAsValue">Funkce jako data – přirovnání</button>
-          <div class="ok mt-2"><b>Mini-cvičení:</b> Vytvoř <span class="mono">("Rozdíl", rozdil)</span>, pak zavolej uloženou funkci s argumenty (8, 2).</div>
+vysledek = soucet(4, 6)
+print("Součet je:", vysledek)</code></pre>
+          <div class="ok"><b>Zapamatuj:</b> <code>print()</code> zobrazuje, <code>return</code> vrací.</div>
+          <div class="tip mt-2">Mini-úkol: napiš <code>def rozdil(a,b)</code>, která vrátí <code>a-b</code>, a výsledek ulož do proměnné.</div>
         </div>
       </div>
     </div>
 
-    <!-- Krok 4: try/except a ValueError -->
+    <!-- 4) Funkce jako hodnota -->
     <div class="accordion-item">
       <h2 class="accordion-header" id="f4h">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f4">
-          4) <span class="mono">try/except</span> u vstupu: proč chytáme <span class="mono">ValueError</span>
+          4️⃣ Funkce může být také hodnota (odkaz)
         </button>
       </h2>
-      <div id="f4" class="accordion-collapse collapse" data-bs-parent="#acc-functions-basics">
+      <div id="f4" class="accordion-collapse collapse" data-bs-parent="#acc-funkce-simple">
         <div class="accordion-body">
-<pre><code class="language-python">while True:
-    try:
-        a = float(input("Zadej číslo: "))
-        break
-    except ValueError:
-        print("Tohle číslo není, zkus to znovu.")</code></pre>
-          <p><b>ValueError</b> dostaneš, když se hodnota nedá převést na číslo (<span class="mono">float("ahoj")</span>).</p>
-          <button class="btn btn-sm btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#modalValueError">Co přesně je ValueError?</button>
+<pre><code class="language-python">def soucet(a,b):
+    return a + b
+
+def rozdil(a,b):
+    return a - b
+
+Soucet = soucet   # uložím odkaz (bez závorek!)
+Rozdil = rozdil
+
+print(Soucet(10,5))
+print(Rozdil(10,5))</code></pre>
+          <p>Toto budeme později využívat při tvorbě „menu“ s výběrem operací.</p>
+          <div class="tip">Mini-úkol: ulož si funkci <code>rozdil</code> pod jiný název a zavolej ji.</div>
         </div>
       </div>
     </div>
 
-    <!-- Krok 5: if __name__ == "__main__": main() -->
+    <!-- 5) Funkce pro bezpečné načtení vstupu -->
     <div class="accordion-item">
       <h2 class="accordion-header" id="f5h">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f5">
-          5) Co je <span class="mono">if __name__ == "__main__":</span> a proč to chceme
+          5️⃣ Funkce, která načítá číslo – ošetření chyb pomocí <code>try / except</code>
         </button>
       </h2>
-      <div id="f5" class="accordion-collapse collapse" data-bs-parent="#acc-functions-basics">
+      <div id="f5" class="accordion-collapse collapse" data-bs-parent="#acc-funkce-simple">
         <div class="accordion-body">
-<pre><code class="language-python">def main():
-    print("Ahoj z mainu!")
-
-if __name__ == "__main__":
-    main()</code></pre>
+          <p>Při práci s uživatelem může dojít k chybě, např. zadá text místo čísla.  
+          Proto použijeme <b>výjimku</b> – záchrannou síť <code>try / except</code>.</p>
+<pre><code class="language-python">def nacti_cislo():
+    while True:
+        try:
+            return int(input("Zadejte číslo: "))
+        except ValueError:
+            print("Tohle není celé číslo, zkuste to znovu.")</code></pre>
           <ul>
-            <li>Když skript <b>spustíš přímo</b>, proměnná <span class="mono">__name__</span> je <span class="mono">"__main__"</span> → <b>main()</b> se zavolá.</li>
-            <li>Když ho <b>naimportuješ</b> do jiného souboru, <span class="mono">__name__</span> je jméno modulu → <b>main()</b> se <b>automaticky nespouští</b>.</li>
+            <li><code>try</code> = pokus se o převod na celé číslo.</li>
+            <li><code>except ValueError</code> = pokud to nejde, vypiš varování a opakuj.</li>
+            <li><code>return</code> = když převod proběhne úspěšně, funkce skončí a vrátí číslo.</li>
           </ul>
-          <div class="ok">Díky tomu může tvůj soubor sloužit jako <b>program</b> i jako <b>„knihovna“</b> (bez nežádoucího spuštění).</div>
-          <button class="btn btn-sm btn-outline-secondary mt-2" data-bs-toggle="modal" data-bs-target="#modalMainGuard">Vizualizace chování <span class="mono">__name__</span></button>
-          <div class="ok mt-2"><b>Mini-cvičení:</b> Vytvoř soubor s funkcí a <span class="mono">main()</span>; zkus ho spustit přímo a pak ho importovat z jiného souboru – sleduj rozdíl.</div>
+          <div class="ok">Tento princip použijeme v kalkulačce pro načítání čísel.</div>
+          <div class="tip mt-2">Mini-úkol: spusť funkci několikrát – zkus zadat text, pak číslo.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6) Cvičení – načti dvě čísla -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="f6h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f6">
+          6️⃣ Cvičení: načti dvě čísla a vrať je jako dvojici
+        </button>
+      </h2>
+      <div id="f6" class="accordion-collapse collapse" data-bs-parent="#acc-funkce-simple">
+        <div class="accordion-body">
+<pre><code class="language-python">def nacti_dve_cisla():
+    print("Načteme dvě čísla:")
+    a = nacti_cislo()
+    b = nacti_cislo()
+    return a, b
+
+x, y = nacti_dve_cisla()
+print("Zadal jsi:", x, "a", y)
+print("Součet je:", x + y)</code></pre>
+          <ul>
+            <li>Funkce <code>nacti_dve_cisla()</code> využívá dříve vytvořenou <code>nacti_cislo()</code>.</li>
+            <li>Vrací dvě hodnoty jako <em>dvojici</em> (tuple), které si rozdělíme na <code>x, y</code>.</li>
+          </ul>
+          <div class="ok">Tohle je ideální příprava pro kalkulačku – už umíme načíst vstupy bezpečně.</div>
         </div>
       </div>
     </div>
 
   </div>
 
-  <hr class="my-4">
-
-  <!-- Krátké cvičení „křížem krážem“ -->
-  <div class="card">
+  <div class="card mt-4">
     <div class="card-body">
-      <h5 class="card-title">🎯 Procvičování (krátké úkoly)</h5>
-      <ol class="mb-0">
-        <li>Napiš <span class="mono">def pozdrav(jmeno):</span> a vrať text <span class="mono">"Ahoj, {jmeno}!"</span>. Ulož odkaz do proměnné <span class="mono">g</span> a zavolej <span class="mono">g("Ada")</span>.</li>
-        <li>Rozliš <b>řetězec</b> vs. <b>funkci</b>: vytvoř <span class="mono">("Pozdrav", pozdrav)</span>, rozbal do <span class="mono">nazev, fn</span> a vypiš <span class="mono">nazev</span> + výsledek <span class="mono">fn("Bob")</span>.</li>
-        <li>Napiš <span class="mono">nacti_cislo()</span>, které se ptá, dokud nedostane číslo (použij <span class="mono">try/except ValueError</span>).</li>
-        <li>Vysvětli vlastními slovy, proč chceme <span class="mono">if __name__ == "__main__":</span> před voláním <span class="mono">main()</span>.</li>
-      </ol>
+      <h5 class="card-title">💡 Shrnutí</h5>
+      <ul>
+        <li><code>def</code> = definice funkce.</li>
+        <li><code>print()</code> = zobrazí, <code>return</code> = vrátí hodnotu.</li>
+        <li><b>Parametry</b> = vstup do funkce, <b>argumenty</b> = hodnoty při volání.</li>
+        <li><code>try / except</code> = ošetření chyb při zadávání vstupů.</li>
+        <li>Funkce může vracet jednu nebo více hodnot (např. <code>a, b</code>).</li>
+      </ul>
+      <div class="tip">✅ V další kapitole tyto funkce použijeme při stavbě kalkulačky s menu.</div>
     </div>
   </div>
 </section>
-
-<!-- ======================= MODÁLY s vysvětlením ======================= -->
-
-<!-- Balíček pojmů -->
-<div class="modal fade" id="modalBalicekPojmu" tabindex="-1" aria-labelledby="modalBalicekPojmuLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
-    <div class="modal-header">
-      <h5 id="modalBalicekPojmuLabel" class="modal-title">Pojmy: definice × volání, parametry × argumenty, return × print, funkce jako hodnota</h5>
-      <button class="btn-close" data-bs-dismiss="modal"></button>
-    </div>
-    <div class="modal-body">
-      <ul>
-        <li><b>Definice</b> = vznik funkce; <b>volání</b> = skutečné spuštění.</li>
-        <li><b>Parametr</b> (v hlavičce <span class="mono">def f(x):</span>) vs. <b>argument</b> (<span class="mono">f(5)</span>).</li>
-        <li><b>return</b> vrací data; <b>print</b> jen zobrazuje.</li>
-        <li>Funkce je hodnota → lze ji uložit, předat, vrátit; jméno funkce bez závorek je <b>odkaz na funkci</b>.</li>
-      </ul>
-    </div>
-  </div></div>
-</div>
-
-<!-- Parametr vs. argument -->
-<div class="modal fade" id="modalParamArg" tabindex="-1" aria-labelledby="modalParamArgLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
-    <div class="modal-header"><h5 id="modalParamArgLabel" class="modal-title">Parametr × argument (pozor na záměnu!)</h5>
-      <button class="btn-close" data-bs-dismiss="modal"></button></div>
-    <div class="modal-body">
-<pre><code class="language-python">def plus(a, b):  # a, b = PARAMETRY (místo pro hodnoty)
-    return a + b
-
-plus(2, 3)       # 2, 3 = ARGUMENTY (konkrétní hodnoty při volání)</code></pre>
-      <p>Parametry = „škatulky“, Argumenty = „co do škatulek vložím“.</p>
-    </div>
-  </div></div>
-</div>
-
-<!-- Case sensitive -->
-<div class="modal fade" id="modalCaseSensitive" tabindex="-1" aria-labelledby="modalCaseSensitiveLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
-    <div class="modal-header"><h5 id="modalCaseSensitiveLabel" class="modal-title">Python rozlišuje velká/malá písmena</h5>
-      <button class="btn-close" data-bs-dismiss="modal"></button></div>
-    <div class="modal-body">
-      <p><span class="mono">Součet</span> ≠ <span class="mono">soucet</span>. První může být text nebo jiné jméno, druhé je naše funkce.</p>
-<pre><code class="language-python">soucet = lambda a,b: a+b
-Součet = "Jen text"
-print(Součet, soucet(1,2))   # "Jen text" 3</code></pre>
-    </div>
-  </div></div>
-</div>
-
-<!-- return vs print -->
-<div class="modal fade" id="modalReturnVsPrint" tabindex="-1" aria-labelledby="modalReturnVsPrintLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
-    <div class="modal-header"><h5 id="modalReturnVsPrintLabel" class="modal-title">Proč preferovat return před print?</h5>
-      <button class="btn-close" data-bs-dismiss="modal"></button></div>
-    <div class="modal-body">
-<pre><code class="language-python">def cena_s_dph(cena, sazba=0.21):
-    return cena * (1 + sazba)
-
-x = cena_s_dph(100)     # 121.0 → můžu s tím dál pracovat
-print(x)</code></pre>
-      <p>S <b>return</b> je funkce znovupoužitelná a testovatelná. <b>print</b> používej až pro finální zobrazení.</p>
-    </div>
-  </div></div>
-</div>
-
-<!-- Funkce jako hodnota – přirovnání -->
-<div class="modal fade" id="modalFunctionAsValue" tabindex="-1" aria-labelledby="modalFunctionAsValueLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
-    <div class="modal-header"><h5 id="modalFunctionAsValueLabel" class="modal-title">Funkce jako „kontakt v telefonu“</h5>
-      <button class="btn-close" data-bs-dismiss="modal"></button></div>
-    <div class="modal-body">
-      <p>Jméno funkce je jako <em>kontakt</em>. Bez závorek ho můžeš uložit a předat dál. Závorky znamenají „zavolat teď hned“.</p>
-<pre><code class="language-python">def volat_kamose():
-    print("Čau!")
-
-kontakt = volat_kamose  # uložím kontakt
-kontakt()               # teď „volám“ → vypíše Čau!</code></pre>
-    </div>
-  </div></div>
-</div>
-
-<!-- ValueError -->
-<div class="modal fade" id="modalValueError" tabindex="-1" aria-labelledby="modalValueErrorLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
-    <div class="modal-header"><h5 id="modalValueErrorLabel" class="modal-title">ValueError na prstech</h5>
-      <button class="btn-close" data-bs-dismiss="modal"></button></div>
-    <div class="modal-body">
-<pre><code class="language-python">float("123")   # OK → 123.0
-float("12.5")  # OK → 12.5
-float("ahoj")  # ValueError: 'ahoj' není číslo</code></pre>
-    </div>
-  </div></div>
-</div>
-
-<!-- __main__ guard -->
-<div class="modal fade" id="modalMainGuard" tabindex="-1" aria-labelledby="modalMainGuardLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
-    <div class="modal-header"><h5 id="modalMainGuardLabel" class="modal-title"><span class="mono">__name__</span> a spouštěcí brána</h5>
-      <button class="btn-close" data-bs-dismiss="modal"></button></div>
-    <div class="modal-body">
-      <p>Když soubor <b>spustíš</b>, <span class="mono">__name__</span> je <span class="mono">"__main__"</span>. Když ho <b>naimportuješ</b>, je to jeho <b>jméno modulu</b>.</p>
-<pre><code class="language-python"># soubor a.py
-def main(): print("A běží")
-if __name__ == "__main__":
-    main()
-
-# soubor b.py
-import a     # a.main() se nespustí automaticky
-</code></pre>
-    </div>
-  </div></div>
-</div>
