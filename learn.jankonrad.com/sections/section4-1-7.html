@@ -1,5 +1,5 @@
 <!-- =========================================================
-     4.1.7 FUNKCE krok za krokem — příprava na kalkulačku
+     4.1.7 Funkce krok za krokem – příprava na kalkulačku
      ========================================================= -->
 <section id="section4-1-7" class="container my-5">
   <style>
@@ -10,33 +10,37 @@
     pre code{white-space:pre}
   </style>
 
-  <h3 class="mb-3">4.1.7 Funkce krok za krokem – od volání po načítání vstupů</h3>
-  <p class="lead">
-    V této lekci pochopíš, jak se tvoří a používají <b>funkce</b> v Pythonu.  
-    Každé cvičení navazuje na předchozí a připravuje tě na projekt „Kalkulačka“.
-  </p>
+  <h3 class="mb-3">4.1.7 Funkce krok za krokem – od volání po bezpečné načítání vstupů</h3>
+  <p class="lead">Jdeme přesně po tvé metodice. Každý krok: krátký kód → proč to funguje → mini-úkol. Na konci umíš bezpečně načíst čísla pro kalkulačku.</p>
 
-  <div class="accordion" id="acc-funkce-simple">
+  <div class="accordion" id="acc-funkce">
 
-    <!-- 1) Základ: definice a volání -->
+    <!-- 1) Definice a volání -->
     <div class="accordion-item">
       <h2 class="accordion-header" id="f1h">
         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#f1" aria-expanded="true">
-          1️⃣ Definice a volání funkce
+          1) Definice a volání funkce (úplný základ)
         </button>
       </h2>
-      <div id="f1" class="accordion-collapse collapse show" data-bs-parent="#acc-funkce-simple">
+      <div id="f1" class="accordion-collapse collapse show" data-bs-parent="#acc-funkce">
         <div class="accordion-body">
-          <p>Začneme úplným základem — vytvoříme funkci a zavoláme ji:</p>
-<pre><code class="language-python">def pozdrav():
-    print("Ahoj")
+<pre><code class="language-python"># 1) Definice a volání funkce – vytvoření jednoduché funkce pozdrav
+def pozdrav():
+    print("ahoj")
 
-pozdrav()</code></pre>
-          <ul>
-            <li><code>def</code> – klíčové slovo, kterým začíná definice funkce.</li>
-            <li><code>pozdrav()</code> – volání funkce (závorky = spuštění).</li>
+pozdrav()
+
+# Úkol k 1: Vytvořte funkci, která vypíše "Program běží" 2x
+def info():
+    print("Program běží")
+
+info()
+info()</code></pre>
+          <ul class="mb-2">
+            <li><span class="mono">def pozdrav():</span> je <b>definice</b> (vznik „krabičky“).</li>
+            <li><span class="mono">pozdrav()</span> je <b>volání</b> (závorky = spuštění kódu uvnitř).</li>
           </ul>
-          <div class="tip">Mini-úkol: vytvoř <code>def info():</code> která vypíše <code>"Program běží"</code> a zavolej ji dvakrát.</div>
+          <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#m-def-vs-call">Definice × volání (polopatě)</button>
         </div>
       </div>
     </div>
@@ -45,56 +49,80 @@ pozdrav()</code></pre>
     <div class="accordion-item">
       <h2 class="accordion-header" id="f2h">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f2">
-          2️⃣ Parametry a argumenty
+          2) Parametry × argumenty (posílání hodnot do funkce)
         </button>
       </h2>
-      <div id="f2" class="accordion-collapse collapse" data-bs-parent="#acc-funkce-simple">
+      <div id="f2" class="accordion-collapse collapse" data-bs-parent="#acc-funkce">
         <div class="accordion-body">
-          <p>Chceme, aby funkce uměla počítat s hodnotami, které jí pošleme.</p>
-<pre><code class="language-python">def soucet(a, b):
+<pre><code class="language-python"># 2) parametry & argumenty 
+def soucet(a, b):
     print(a + b)
 
-soucet(2, 3)  # vypíše 5</code></pre>
-          <ul>
-            <li><b>Parametry</b> (<code>a, b</code>) jsou proměnné, které přijímají hodnoty.</li>
-            <li><b>Argumenty</b> (<code>2, 3</code>) jsou skutečné hodnoty při volání.</li>
+soucet(2, 3)
+
+# Cvičení k 2: Vytvořte funkci, která vypíše věk a jméno uživatele
+def pozdrav(jmeno, vek):
+    print(f"Ahoj: {jmeno}\nVěk: {vek}")
+
+pozdrav("Jan", 30)</code></pre>
+          <ul class="mb-2">
+            <li><b>Parametry</b> (a, b / jméno, věk) jsou škatulky v hlavičce funkce.</li>
+            <li><b>Argumenty</b> (2, 3 / "Jan", 30) jsou konkrétní hodnoty při volání.</li>
           </ul>
-          <div class="tip">Mini-úkol: napiš <code>def pozdrav(jmeno, vek)</code> a vypiš <code>f"Ahoj {jmeno}, je ti {vek} let."</code></div>
+          <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#m-params-args">Parametry vs. argumenty</button>
         </div>
       </div>
     </div>
 
-    <!-- 3) Funkce, která vrací hodnotu -->
+    <!-- 3) Návratová hodnota -->
     <div class="accordion-item">
       <h2 class="accordion-header" id="f3h">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f3">
-          3️⃣ Funkce, která něco vrátí – <code>return</code>
+          3) Návratová hodnota: <code>return</code> (ne vždy chci hned tisknout)
         </button>
       </h2>
-      <div id="f3" class="accordion-collapse collapse" data-bs-parent="#acc-funkce-simple">
+      <div id="f3" class="accordion-collapse collapse" data-bs-parent="#acc-funkce">
         <div class="accordion-body">
-          <p>Někdy nechceme hned tisknout výsledek, ale vrátit ho zpět pro další výpočty.</p>
-<pre><code class="language-python">def soucet(a, b):
-    return a + b   # vrátí výsledek, netiskne
+<pre><code class="language-python"># 3) návratová hodnota
+def soucet(a, b):
+    return a + b
 
-vysledek = soucet(4, 6)
-print("Součet je:", vysledek)</code></pre>
-          <div class="ok"><b>Zapamatuj:</b> <code>print()</code> zobrazuje, <code>return</code> vrací.</div>
-          <div class="tip mt-2">Mini-úkol: napiš <code>def rozdil(a,b)</code>, která vrátí <code>a-b</code>, a výsledek ulož do proměnné.</div>
+priklad1 = soucet(5, 7)
+priklad2 = soucet(10, 15)
+vysledek = priklad1 + priklad2
+print(vysledek)
+
+# Cvičení k 3:
+# Vytvořte proměnnou do které uložíme vstup uživatele.
+# Tento vstup vložíme jako parametr do funkce, která vrátí věk uživatele a vypište ho.
+vek = input("Zadejte váš věk: ")
+
+def vrat_vek(vek):
+    return vek
+
+vek_uzivatele = vrat_vek(vek)
+print(f"Věk: {vek_uzivatele}")</code></pre>
+          <ul class="mb-2">
+            <li><span class="mono">return</span> vrací data volajícímu (můžu je ukládat/počítat/testovat).</li>
+            <li><span class="mono">print()</span> jen zobrazí – nic „nepředá“ dál.</li>
+            <li><span class="mono">input()</span> vrací <b>text (str)</b>. U kalkulačky budeme převádět na čísla, ale to přijde v krocích 5–6.</li>
+          </ul>
+          <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#m-return-vs-print">Proč <code>return</code> × <code>print</code>?</button>
         </div>
       </div>
     </div>
 
-    <!-- 4) Funkce jako hodnota -->
+    <!-- 4) Funkce jako objekty (hodnoty) -->
     <div class="accordion-item">
       <h2 class="accordion-header" id="f4h">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f4">
-          4️⃣ Funkce může být také hodnota (odkaz)
+          4) Funkce jako hodnota (objekt): uložit a zavolat později
         </button>
       </h2>
-      <div id="f4" class="accordion-collapse collapse" data-bs-parent="#acc-funkce-simple">
+      <div id="f4" class="accordion-collapse collapse" data-bs-parent="#acc-funkce">
         <div class="accordion-body">
-<pre><code class="language-python">def soucet(a,b):
+<pre><code class="language-python"># 4) Funkce jako objekty
+def soucet(a,b):
     return a + b
 
 def rozdil(a,b):
@@ -104,51 +132,73 @@ Soucet = soucet   # uložím odkaz (bez závorek!)
 Rozdil = rozdil
 
 print(Soucet(10,5))
-print(Rozdil(10,5))</code></pre>
-          <p>Toto budeme později využívat při tvorbě „menu“ s výběrem operací.</p>
-          <div class="tip">Mini-úkol: ulož si funkci <code>rozdil</code> pod jiný název a zavolej ji.</div>
+print(Rozdil(10,5))
+
+# Cvičení k 4) ulož si funkci rozdil pod jiný název a zavolej ji.
+def rozdil(a,b):
+    return a - b
+
+Rozdil = rozdil
+print(Rozdil(20,8))</code></pre>
+          <p>Tuhle schopnost (uložit „kontakt“ na funkci) využijeme při výběru operace v kalkulačce.</p>
+          <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#m-func-as-value">Funkce jako hodnota – přirovnání</button>
         </div>
       </div>
     </div>
 
-    <!-- 5) Funkce pro bezpečné načtení vstupu -->
+    <!-- 5) Bezpečné načítání vstupů -->
     <div class="accordion-item">
       <h2 class="accordion-header" id="f5h">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f5">
-          5️⃣ Funkce, která načítá číslo – ošetření chyb pomocí <code>try / except</code>
+          5) Bezpečné načítání čísla: <code>try</code> / <code>except ValueError</code>
         </button>
       </h2>
-      <div id="f5" class="accordion-collapse collapse" data-bs-parent="#acc-funkce-simple">
+      <div id="f5" class="accordion-collapse collapse" data-bs-parent="#acc-funkce">
         <div class="accordion-body">
-          <p>Při práci s uživatelem může dojít k chybě, např. zadá text místo čísla.  
-          Proto použijeme <b>výjimku</b> – záchrannou síť <code>try / except</code>.</p>
+<pre><code class="language-python"># 5) Funkce, která načítá číslo a ošetřuje vstupy uživatele přes try a except
+def nacti_cislo():
+    while True:
+        try:
+            return int(input("Zadejte číslo: "))
+        except ValueError:
+            print("Tohle není celé číslo.")
+
+nacti_cislo()</code></pre>
+          <ul class="mb-2">
+            <li><span class="mono">try</span>: pokus o převod na <span class="mono">int</span>.</li>
+            <li><span class="mono">except ValueError</span>: když to nejde (uživatel zadal např. „ahoj“), slušně požádej znovu.</li>
+            <li><span class="mono">while True</span>: opakuj dotaz, dokud nemám validní číslo.</li>
+          </ul>
+          <div class="ok mb-2">Mini-úkol k 5: ulož si výsledek do proměnné a vytiskni ho.</div>
 <pre><code class="language-python">def nacti_cislo():
     while True:
         try:
             return int(input("Zadejte číslo: "))
         except ValueError:
-            print("Tohle není celé číslo, zkuste to znovu.")</code></pre>
-          <ul>
-            <li><code>try</code> = pokus se o převod na celé číslo.</li>
-            <li><code>except ValueError</code> = pokud to nejde, vypiš varování a opakuj.</li>
-            <li><code>return</code> = když převod proběhne úspěšně, funkce skončí a vrátí číslo.</li>
-          </ul>
-          <div class="ok">Tento princip použijeme v kalkulačce pro načítání čísel.</div>
-          <div class="tip mt-2">Mini-úkol: spusť funkci několikrát – zkus zadat text, pak číslo.</div>
+            print("Tohle není celé číslo.")
+
+cislo_uzivatele = nacti_cislo()
+print(f"Zadané číslo je: {cislo_uzivatele}")</code></pre>
+          <div class="d-flex flex-wrap gap-2">
+            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#m-try-except">Jak přesně funguje try/except?</button>
+            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#m-while-flow">Co dělá while v tomhle vzoru?</button>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- 6) Cvičení – načti dvě čísla -->
+    <!-- 6) Načíst dvě čísla pomocí předchozí funkce -->
     <div class="accordion-item">
       <h2 class="accordion-header" id="f6h">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f6">
-          6️⃣ Cvičení: načti dvě čísla a vrať je jako dvojici
+          6) <b>Dvě čísla</b> znovupoužitím <code>nacti_cislo()</code> + návrat dvojice
         </button>
       </h2>
-      <div id="f6" class="accordion-collapse collapse" data-bs-parent="#acc-funkce-simple">
+      <div id="f6" class="accordion-collapse collapse" data-bs-parent="#acc-funkce">
         <div class="accordion-body">
-<pre><code class="language-python">def nacti_dve_cisla():
+<pre><code class="language-python"># 6) Funkce, která načítá dvě čísla pomocí předchozí funkce
+# (TOHLE si podrobně vysvětlíme v modálu níže)
+def nacti_dve_cisla():
     print("Načteme dvě čísla:")
     a = nacti_cislo()
     b = nacti_cislo()
@@ -157,28 +207,129 @@ print(Rozdil(10,5))</code></pre>
 x, y = nacti_dve_cisla()
 print("Zadal jsi:", x, "a", y)
 print("Součet je:", x + y)</code></pre>
-          <ul>
-            <li>Funkce <code>nacti_dve_cisla()</code> využívá dříve vytvořenou <code>nacti_cislo()</code>.</li>
-            <li>Vrací dvě hodnoty jako <em>dvojici</em> (tuple), které si rozdělíme na <code>x, y</code>.</li>
+          <ul class="mb-2">
+            <li>Funkce znovupoužívá <span class="mono">nacti_cislo()</span> – žádné kopírování kódu!</li>
+            <li><span class="mono">return a, b</span> vrací <b>dvojici</b> (n-tici), kterou „rozbalíme“ do <span class="mono">x, y</span>.</li>
           </ul>
-          <div class="ok">Tohle je ideální příprava pro kalkulačku – už umíme načíst vstupy bezpečně.</div>
+          <div class="tip mb-2"><b>Mini-úkol k 6:</b> Vypiš kromě součtu i rozdíl, součin a bezpečné dělení (pokud <span class="mono">y != 0</span>).</div>
+          <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#m-two-nums">Proč to funguje? (rozbalení návratu, znovupoužití)</button>
         </div>
       </div>
     </div>
 
   </div>
 
+  <!-- Shrnutí -->
   <div class="card mt-4">
     <div class="card-body">
-      <h5 class="card-title">💡 Shrnutí</h5>
-      <ul>
-        <li><code>def</code> = definice funkce.</li>
-        <li><code>print()</code> = zobrazí, <code>return</code> = vrátí hodnotu.</li>
-        <li><b>Parametry</b> = vstup do funkce, <b>argumenty</b> = hodnoty při volání.</li>
-        <li><code>try / except</code> = ošetření chyb při zadávání vstupů.</li>
-        <li>Funkce může vracet jednu nebo více hodnot (např. <code>a, b</code>).</li>
+      <h5 class="card-title">🔚 Shrnutí pro kalkulačku</h5>
+      <ul class="mb-0">
+        <li>Umíme <b>definovat</b> a <b>volat</b> funkce.</li>
+        <li>Rozumíme <b>parametrům</b> a <b>argumentům</b>.</li>
+        <li>Víme, kdy použít <b>return</b> a kdy <b>print</b>.</li>
+        <li>Umíme <b>bezpečně načíst čísla</b> (s <span class="mono">try/except ValueError</span>).</li>
+        <li>Umíme vracet <b>dvojici</b> (a rozbalit ji do dvou proměnných).</li>
       </ul>
-      <div class="tip">✅ V další kapitole tyto funkce použijeme při stavbě kalkulačky s menu.</div>
+      <div class="ok mt-2">V další kapitole tyto funkce rovnou použijeme v <b>kalkulačce s menu</b>.</div>
     </div>
   </div>
 </section>
+
+<!-- ===================== MODÁLY – podrobné vysvětlivky ===================== -->
+
+<!-- Definice vs volání -->
+<div class="modal fade" id="m-def-vs-call" tabindex="-1" aria-labelledby="m-def-vs-callLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header"><h5 id="m-def-vs-callLabel" class="modal-title">Definice × volání (na prstech)</h5>
+      <button class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body">
+      Definice = vznikne „krabička“ (ale nic se nespustí). Volání = krabičku skutečně použiješ.  
+      <span class="mono">pozdrav</span> (bez závorek) je <em>odkaz</em> na funkci, <span class="mono">pozdrav()</span> ji <em>spouští</em>.
+    </div>
+  </div></div>
+</div>
+
+<!-- Parametry vs argumenty -->
+<div class="modal fade" id="m-params-args" tabindex="-1" aria-labelledby="m-params-argsLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header"><h5 id="m-params-argsLabel" class="modal-title">Parametry vs. argumenty</h5>
+      <button class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body">
+<pre><code class="language-python">def plus(a, b):  # a, b = parametry
+    return a + b
+
+plus(2, 3)       # 2, 3 = argumenty</code></pre>
+      Parametry = „škatulky“, argumenty = „co do škatulek vložím při volání“.
+    </div>
+  </div></div>
+</div>
+
+<!-- return vs print -->
+<div class="modal fade" id="m-return-vs-print" tabindex="-1" aria-labelledby="m-return-vs-printLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header"><h5 id="m-return-vs-printLabel" class="modal-title">Proč raději <code>return</code> než <code>print</code> u výpočtů?</h5>
+      <button class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body">
+      <ul>
+        <li><b>return</b> vrací data – můžu je uložit, poslat dál, testovat.</li>
+        <li><b>print</b> jen zobrazí – data dál už nemám.</li>
+      </ul>
+    </div>
+  </div></div>
+</div>
+
+<!-- Funkce jako hodnota -->
+<div class="modal fade" id="m-func-as-value" tabindex="-1" aria-labelledby="m-func-as-valueLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header"><h5 id="m-func-as-valueLabel" class="modal-title">Funkce jako hodnota (kontakt)</h5>
+      <button class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body">
+      Jméno funkce bez závorek je jako kontakt v telefonu. Můžeš ho uložit a „zavolat“ až později:  
+<pre><code class="language-python">def zdr():
+    print("Ahoj")
+
+k = zdr   # uložený kontakt
+k()       # teprve teď volám</code></pre>
+    </div>
+  </div></div>
+</div>
+
+<!-- try/except detail -->
+<div class="modal fade" id="m-try-except" tabindex="-1" aria-labelledby="m-try-exceptLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header"><h5 id="m-try-exceptLabel" class="modal-title">Jak přesně funguje <code>try</code> / <code>except ValueError</code>?</h5>
+      <button class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body">
+      V bloku <code>try</code> zkusíš „nebezpečný“ kód (<code>int(input(...))</code>).  
+      Když se nepovede (uživatel zadá např. „ahoj“), Python hodí výjimku <code>ValueError</code> → skočí do <code>except</code> a vypíše zprávu.  
+      Smyčka <code>while True</code> zajistí, že se <em>zopakujeme</em>, dokud to nebude číslo.
+    </div>
+  </div></div>
+</div>
+
+<!-- while flow -->
+<div class="modal fade" id="m-while-flow" tabindex="-1" aria-labelledby="m-while-flowLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header"><h5 id="m-while-flowLabel" class="modal-title">Co dělá while v <code>nacti_cislo()</code>?</h5>
+      <button class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body">
+      Cyklus běží pořád. Když se převod povede, <code>return</code> funkci ukončí a číslo vrátí.  
+      Když ne, <code>except</code> zobrazí zprávu a smyčka se ptá znovu.
+    </div>
+  </div></div>
+</div>
+
+<!-- nacti_dve_cisla – proč to funguje -->
+<div class="modal fade" id="m-two-nums" tabindex="-1" aria-labelledby="m-two-numsLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header"><h5 id="m-two-numsLabel" class="modal-title">Proč <code>nacti_dve_cisla()</code> funguje a co je rozbalování?</h5>
+      <button class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body">
+      <ul>
+        <li><b>Znovupoužití</b>: místo psaní dvoukrát stejného kódu voláme <code>nacti_cislo()</code> dvakrát.</li>
+        <li><b>Návrat dvojice</b>: <code>return a, b</code> vrací n-tici. Python ji umí „rozbalit“: <code>x, y = nacti_dve_cisla()</code>.</li>
+        <li>Tím máme <b>obě čísla</b> připravená pro sčítání/odčítání/násobení/dělení v kalkulačce.</li>
+      </ul>
+    </div>
+  </div></div>
+</div>
