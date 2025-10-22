@@ -1,330 +1,269 @@
 <!-- =========================================================
-     4.1.7 PROJEKT: Kalkulačka řízená menu (funkce → cykly → výjimky → sys)
+     4.1.7–8 FUNKCE + PROJEKT: KALKULAČKA
      ========================================================= -->
-<section id="section4-1-8" class="container my-5">
-  <h3 class="mb-3">4.1.7 Kalkulačka krok-za-krokem: funkce → cykly → výjimky → <code>sys</code></h3>
-  <p class="lead">Postavíme kalkulačku jako skutečnou mini-aplikaci: <b>hlavní menu ve smyčce</b> vyvolá <b>funkci kalkulačky</b>, která řeší vstupy, výběr operace a zobrazení výsledku. Program ukončíme korektně přes <code>sys.exit()</code>.</p>
+<section id="section4-1-7-8" class="container my-5">
+  <style>
+    .tip{border-left:4px solid #0d6efd;background:#f8f9fa;padding:.75rem 1rem}
+    .warn{border-left:4px solid #dc3545;background:#fff5f5;padding:.75rem 1rem}
+    .ok{border-left:4px solid #198754;background:#f6fff8;padding:.75rem 1rem}
+    .mono{font-family:ui-monospace,Menlo,Consolas,monospace}
+    pre code{white-space:pre}
+  </style>
 
-  <!-- Akordeon kroků -->
-  <div class="accordion" id="acc-calc-menu">
+  <h3 class="mb-3">4.1.7–8 Funkce krok za krokem → Projekt: Kalkulačka</h3>
+  <p class="lead">
+    Naučíš se vytvářet a používat funkce – od nejjednodušších po složený projekt kalkulačky.  
+    Každý krok navazuje na předchozí a přidává nový prvek: parametry, návratové hodnoty, bezpečný vstup a práci s menu.
+  </p>
 
-    <!-- Krok 1: čisté funkce operací (vrací číslo nebo text chyby) -->
+  <div class="accordion" id="acc-funkce">
+
+    <!-- 1) Definice a volání -->
     <div class="accordion-item">
-      <h2 class="accordion-header" id="c1h">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c1" aria-expanded="true">
-          1) Funkce operací: krátké a jednoúčelové
+      <h2 class="accordion-header" id="f1h">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#f1" aria-expanded="true">
+          1️⃣ Definice a volání funkce
         </button>
       </h2>
-      <div id="c1" class="accordion-collapse collapse show" data-bs-parent="#acc-calc-menu">
+      <div id="f1" class="accordion-collapse collapse show" data-bs-parent="#acc-funkce">
         <div class="accordion-body">
-          <p>Začneme čtyřmi funkcemi. Vrací <b>číslo</b> (nebo u dělení text v případě nuly). Tiskneme až později.</p>
-<pre><code class="language-python">def soucet(a, b):  return a + b
-def rozdil(a, b):  return a - b
-def soucin(a, b):  return a * b
-def podil(a, b):
-    if b == 0:
-        return "Dělit nulou nejde."
-    return a / b</code></pre>
-          <div class="d-flex flex-wrap gap-2">
-            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalReturnVsPrint">return × print – proč vracet?</button>
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalFstring">f-string za chvíli v prezentaci výsledku</button>
-          </div>
+<pre><code class="language-python">def pozdrav():
+    print("ahoj")
+
+pozdrav()
+
+# Úkol: vytvoř funkci, která vypíše "Program běží" dvakrát
+def info():
+    print("Program běží")
+
+info()
+info()</code></pre>
+          <div class="tip">Funkci nejdříve <b>definuješ</b> (<code>def ...</code>), pak ji <b>voláš</b> pomocí závorek <code>()</code>.</div>
         </div>
       </div>
     </div>
 
-    <!-- Krok 2: načtení čísel s try/except -->
+    <!-- 2) Parametry a argumenty -->
     <div class="accordion-item">
-      <h2 class="accordion-header" id="c2h">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c2">
-          2) Načtení čísel: <code>try/except</code> a opakování dotazu
+      <h2 class="accordion-header" id="f2h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f2">
+          2️⃣ Parametry a argumenty
         </button>
       </h2>
-      <div id="c2" class="accordion-collapse collapse" data-bs-parent="#acc-calc-menu">
+      <div id="f2" class="accordion-collapse collapse" data-bs-parent="#acc-funkce">
         <div class="accordion-body">
-          <p>Chceme jistotu, že máme čísla. Když ne, <code>ValueError</code> → slušně požádáme znovu.</p>
-<pre><code class="language-python">def nacti_cisla():
-    while True:
-        try:
-            a = float(input("Zadejte první číslo: "))
-            b = float(input("Zadejte druhé číslo: "))
-            return a, b
-        except ValueError:
-            print("Musíte zadat číslo! Zkuste to znovu.")
-            # while se opakuje</code></pre>
-          <div class="d-flex flex-wrap gap-2">
-            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalValueError">Co přesně je ValueError?</button>
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalTryInLoop">Jak funguje try/except v cyklu?</button>
-          </div>
-        </div>
-      </div>
-    </div>
+<pre><code class="language-python">def soucet(a, b):
+    print(a + b)
 
-    <!-- Krok 3: výběr operace – dispatcher vrací funkci -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="c3h">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c3">
-          3) Výběr operace: funkce, která vrací <em>funkci</em>
-        </button>
-      </h2>
-      <div id="c3" class="accordion-collapse collapse" data-bs-parent="#acc-calc-menu">
-        <div class="accordion-body">
-<pre><code class="language-python">def vyber_operaci():
-    while True:
-        op = input("Zadejte operátor (+,-,*,/): ")
-        if op == "+": return ("Součet", soucet)
-        if op == "-": return ("Rozdíl", rozdil)
-        if op == "*": return ("Součin", soucin)
-        if op == "/": return ("Podíl",  podil)
-        print("Neznámý operátor, zkuste znovu.")</code></pre>
-          <p>Vracíme dvojici: <code>(název, funkce)</code> – abychom hezky vypsali výsledek.</p>
-          <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalVraciFunkci">Jak může funkce vracet funkci?</button>
-        </div>
-      </div>
-    </div>
+soucet(2, 3)
 
-    <!-- Krok 4: kalkulačka jako jedna volatelná funkce -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="c4h">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c4">
-          4) Složíme kalkulačku do jedné funkce: <code>spust_kalkulacku()</code>
-        </button>
-      </h2>
-      <div id="c4" class="accordion-collapse collapse" data-bs-parent="#acc-calc-menu">
-        <div class="accordion-body">
-<pre><code class="language-python">def spust_kalkulacku():
-    print("\n=== KALKULAČKA ===")
-    a, b = nacti_cisla()                 # 1) načti čísla
-    nazev, funkce = vyber_operaci()      # 2) vyber operaci (název + funkce)
-    vysledek = funkce(a, b)              # 3) spočítej
-    # 4) prezentace výsledku (f-string)
-    if isinstance(vysledek, str):
-        print(vysledek)                   # např. "Dělit nulou nejde."
-    else:
-        print(f"{nazev}: {vysledek}")</code></pre>
-          <div class="tip">Kalkulačka teď žije v jediné funkci. **Menu** ji jen volá, a to kolikrát chceš.</div>
-        </div>
-      </div>
-    </div>
+# Úkol: vytvoř funkci, která vypíše jméno a věk
+def pozdrav(jmeno, vek):
+    print(f"Ahoj: {jmeno}\nVěk: {vek}")
 
-    <!-- Krok 5: menu ve smyčce while + sys.exit -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="c5h">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c5">
-          5) Hlavní menu: smyčka, volání kalkulačky, korektní ukončení
-        </button>
-      </h2>
-      <div id="c5" class="accordion-collapse collapse" data-bs-parent="#acc-calc-menu">
-        <div class="accordion-body">
-<pre><code class="language-python">import sys
-
-def vypis_menu():
-    print("\n========== MENU ==========")
-    print("1) Kalkulačka")
-    print("2) Nápověda")
-    print("3) Exit")
-
-def main():
-    while True:
-        vypis_menu()
-        volba = input("Zadejte volbu: ")
-        if volba == "1":
-            spust_kalkulacku()
-            input("Pokračuj klávesou ENTER...")
-        elif volba == "2":
-            print("Nápověda: zadejte dvě čísla a vyberte operátor (+,-,*,/).")
-            input("ENTER...")
-        elif volba == "3":
-            sys.exit("Program ukončen.")       # korektní konec
-        else:
-            print("Neplatná volba, zkuste znovu.")</code></pre>
-          <div class="d-flex flex-wrap gap-2">
-            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalSys">Co dělá sys.exit()?</button>
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalWhileVsFlag">while True vs. flag proměnná</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Krok 6: hygiena kódu – komentáře, odsazení, VS Code -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="c6h">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c6">
-          6) Neztrať se: komentáře, odsazení a VS Code triky
-        </button>
-      </h2>
-      <div id="c6" class="accordion-collapse collapse" data-bs-parent="#acc-calc-menu">
-        <div class="accordion-body">
-<pre><code class="language-python"># ====== MENU APLIKACE ======
-# krátké, výrazné záhlaví bloků pomůže v orientaci
-def vypis_menu():
-    # --- Výpis možností ---
-    print("...")
-
-def spust_kalkulacku():
-    # --- Vstupy ---
-    # --- Volba operace ---
-    # --- Výpočet a výstup ---
-    pass</code></pre>
-          <ul class="mb-2">
-            <li><b>Odsadit blok</b>: označ řádky → <span class="kbd">Tab</span> (od-odsadit <span class="kbd">Shift</span>+<span class="kbd">Tab</span>).</li>
-            <li><b>Autoformát</b>: <span class="kbd">Shift</span>+<span class="kbd">Alt</span>+<span class="kbd">F</span> (Win/Linux), <span class="kbd">Option</span>+<span class="kbd">Shift</span>+<span class="kbd">F</span> (macOS).</li>
-            <li><b>Rychlé komentování</b>: <span class="kbd">Ctrl</span>/<span class="kbd">Cmd</span> + <span class="kbd">/</span>.</li>
-            <li><b>Sbalit/rozbalit bloky</b> podle odsazení (gutter trojúhelníčky).</li>
+pozdrav("Jan", 30)</code></pre>
+          <ul>
+            <li><b>Parametry</b> jsou proměnné v definici funkce.</li>
+            <li><b>Argumenty</b> jsou skutečné hodnoty při volání.</li>
           </ul>
-          <div class="ok">Krátké funkce + jasné komentáře = vnořené smyčky jsou přehledné.</div>
         </div>
       </div>
     </div>
 
-  </div>
-
-  <!-- Finální blok: hotový kód k odevzdání -->
-  <div class="container my-4 p-4 border rounded bg-light">
-    <h4 class="mb-3">🎯 Finální verze k odevzdání: menu → ve smyčce volá kalkulačku</h4>
-<pre><code class="language-python">import sys
-
-def soucet(a, b):  return a + b
-def rozdil(a, b):  return a - b
-def soucin(a, b):  return a * b
-def podil(a, b):
-    if b == 0:
-        return "Dělit nulou nejde."
-    return a / b
-
-def nacti_cisla():
-    while True:
-        try:
-            a = float(input("Zadejte první číslo: "))
-            b = float(input("Zadejte druhé číslo: "))
-            return a, b
-        except ValueError:
-            print("Musíte zadat číslo! Zkuste to znovu.")
-
-def vyber_operaci():
-    while True:
-        op = input("Zadejte operátor (+,-,*,/): ")
-        if op == "+": return ("Součet", soucet)
-        if op == "-": return ("Rozdíl", rozdil)
-        if op == "*": return ("Součin", soucin)
-        if op == "/": return ("Podíl",  podil)
-        print("Neznámý operátor, zkuste znovu.")
-
-def spust_kalkulacku():
-    print("\n=== KALKULAČKA ===")
-    a, b = nacti_cisla()
-    nazev, funkce = vyber_operaci()
-    vysledek = funkce(a, b)
-    if isinstance(vysledek, str):
-        print(vysledek)
-    else:
-        print(f"{nazev}: {vysledek}")
-
-def vypis_menu():
-    print("\n========== MENU ==========")
-    print("1) Kalkulačka")
-    print("2) Nápověda")
-    print("3) Exit")
-
-def main():
-    while True:
-        vypis_menu()
-        volba = input("Zadejte volbu: ")
-        if volba == "1":
-            spust_kalkulacku()
-            input("Pokračuj klávesou ENTER...")
-        elif volba == "2":
-            print("Nápověda: zadejte dvě čísla a vyberte operátor (+,-,*,/).")
-            input("ENTER...")
-        elif volba == "3":
-            sys.exit("Program ukončen.")
-        else:
-            print("Neplatná volba, zkuste znovu.")
-
-if __name__ == "__main__":
-    main()</code></pre>
-  </div>
-</section>
-
-<!-- ====== Recyklované modály z dřívějška (kvůli soběstačnosti kapitoly) ====== -->
-<div class="modal fade" id="modalReturnVsPrint" tabindex="-1" aria-labelledby="modalReturnVsPrintLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
-    <div class="modal-header"><h5 id="modalReturnVsPrintLabel" class="modal-title">Proč raději <code>return</code> než <code>print()</code>?</h5>
-      <button class="btn-close" data-bs-dismiss="modal"></button></div>
-    <div class="modal-body">
-<pre><code class="language-python">def f(a, b):      # návrat = data dál, testovatelnost
+    <!-- 3) Návratová hodnota -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="f3h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f3">
+          3️⃣ Návratová hodnota – <code>return</code>
+        </button>
+      </h2>
+      <div id="f3" class="accordion-collapse collapse" data-bs-parent="#acc-funkce">
+        <div class="accordion-body">
+<pre><code class="language-python">def soucet(a, b):
     return a + b
 
-def g(a, b):      # print = jen výstup do konzole
-    print(a + b)</code></pre>
-      <p>S <code>return</code> můžeš výsledek znovu použít, uložit či testovat.</p>
-    </div>
-  </div></div>
-</div>
+priklad1 = soucet(5, 7)
+priklad2 = soucet(10, 15)
+vysledek = priklad1 + priklad2
+print(vysledek)
 
-<div class="modal fade" id="modalFstring" tabindex="-1" aria-labelledby="modalFstringLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
-    <div class="modal-header"><h5 id="modalFstringLabel" class="modal-title">f-string stručně</h5>
-      <button class="btn-close" data-bs-dismiss="modal"></button></div>
-    <div class="modal-body">
-<pre><code class="language-python">a, b = 2, 3
-print(f"Součet: {a + b}")  # → Součet: 5</code></pre>
-    </div>
-  </div></div>
-</div>
+# Úkol: funkce, která vrátí věk uživatele
+vek = input("Zadejte váš věk: ")
 
-<div class="modal fade" id="modalValueError" tabindex="-1" aria-labelledby="modalValueErrorLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
-    <div class="modal-header"><h5 id="modalValueErrorLabel" class="modal-title">Co je ValueError?</h5>
-      <button class="btn-close" data-bs-dismiss="modal"></button></div>
-    <div class="modal-body">
-<pre><code class="language-python">float("123")   # OK
-float("ahoj")  # ValueError: 'ahoj' není číslo</code></pre>
-      <p>Chytáme ho při převodu vstupu na číslo.</p>
-    </div>
-  </div></div>
-</div>
+def vrat_vek(vek):
+    return vek
 
-<div class="modal fade" id="modalTryInLoop" tabindex="-1" aria-labelledby="modalTryInLoopLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
-    <div class="modal-header"><h5 id="modalTryInLoopLabel" class="modal-title">Jak funguje try/except v cyklu?</h5>
-      <button class="btn-close" data-bs-dismiss="modal"></button></div>
-    <div class="modal-body">
-<pre><code class="language-python">while True:
-    try:
-        x = float(input("Číslo: "))
-        break
-    except ValueError:
-        print("Zkus to znovu…")</code></pre>
-      <p>Při chybě se cyklus zopakuje a znovu se zeptá.</p>
+vek_uzivatele = vrat_vek(vek)
+print(f"Věk: {vek_uzivatele}")</code></pre>
+          <div class="ok"><code>print()</code> zobrazuje, <code>return</code> vrací výsledek – ten můžeš uložit, použít dál.</div>
+        </div>
+      </div>
     </div>
-  </div></div>
-</div>
 
-<div class="modal fade" id="modalSys" tabindex="-1" aria-labelledby="modalSysLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
-    <div class="modal-header"><h5 id="modalSysLabel" class="modal-title">Proč <code>sys.exit()</code>?</h5>
-      <button class="btn-close" data-bs-dismiss="modal"></button></div>
-    <div class="modal-body">
-<pre><code class="language-python">import sys
-sys.exit(0)              # 0 = OK, nenulové = chyba
-# nebo:
-sys.exit("Program ukončen.")</code></pre>
-      <p>Jasné, čitelné a „profesionální“ ukončení programu.</p>
+    <!-- 4) Funkce jako objekty -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="f4h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f4">
+          4️⃣ Funkce jako objekty (hodnoty)
+        </button>
+      </h2>
+      <div id="f4" class="accordion-collapse collapse" data-bs-parent="#acc-funkce">
+        <div class="accordion-body">
+<pre><code class="language-python">def soucet(a,b): return a + b
+def rozdil(a,b): return a - b
+
+Soucet = soucet
+Rozdil = rozdil
+
+print(Soucet(10,5))
+print(Rozdil(10,5))
+
+# Úkol: ulož funkci rozdil pod jiný název a zavolej ji
+NovaFunkce = rozdil
+print(NovaFunkce(20,8))</code></pre>
+          <div class="tip">Tento princip využijeme při tvorbě menu kalkulačky – funkce uložíme do „pole“ a voláme podle výběru uživatele.</div>
+        </div>
+      </div>
     </div>
-  </div></div>
-</div>
 
-<div class="modal fade" id="modalWhileVsFlag" tabindex="-1" aria-labelledby="modalWhileVsFlagLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
-    <div class="modal-header"><h5 id="modalWhileVsFlagLabel" class="modal-title"><code>while True</code> vs. „flag“ proměnná</h5>
-      <button class="btn-close" data-bs-dismiss="modal"></button></div>
-    <div class="modal-body">
+    <!-- 5) Bezpečné načítání čísel -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="f5h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f5">
+          5️⃣ Bezpečné načítání čísla (try/except)
+        </button>
+      </h2>
+      <div id="f5" class="accordion-collapse collapse" data-bs-parent="#acc-funkce">
+        <div class="accordion-body">
+<pre><code class="language-python">def nacti_cislo():
+    while True:
+        try:
+            return int(input("Zadejte číslo: "))
+        except ValueError:
+            print("Tohle není celé číslo, zkuste to znovu.")
+
+cislo = nacti_cislo()
+print(f"Zadal jsi: {cislo}")</code></pre>
+          <div class="ok">Funkce se sama opakuje, dokud uživatel nezadá platné číslo.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6) Načtení dvou čísel -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="f6h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f6">
+          6️⃣ Načtení dvou čísel pomocí <code>nacti_cislo()</code>
+        </button>
+      </h2>
+      <div id="f6" class="accordion-collapse collapse" data-bs-parent="#acc-funkce">
+        <div class="accordion-body">
+<pre><code class="language-python">def nacti_dve_cisla():
+    print("Načteme dvě čísla:")
+    a = nacti_cislo()
+    b = nacti_cislo()
+    return a, b
+
+x, y = nacti_dve_cisla()
+print("Zadal jsi:", x, "a", y)
+print("Součet je:", x + y)</code></pre>
+          <div class="ok">Vracíme dvojici (<code>a,b</code>) a rozbalíme ji do dvou proměnných (<code>x, y</code>).</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7) Projekt: Kalkulačka s funkcemi -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="f7h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f7">
+          7️⃣ Projekt: Kalkulačka s funkcemi a polem voleb
+        </button>
+      </h2>
+      <div id="f7" class="accordion-collapse collapse" data-bs-parent="#acc-funkce">
+        <div class="accordion-body">
+<pre><code class="language-python"># Operace – všechny vrací číslo
+def soucet(a,b): return a + b
+def rozdil(a,b): return a - b
+def soucin(a,b): return a * b
+def podil(a,b):  return a / b
+
+# Pole voleb (klíč, název, funkce)
+VOLBY = [
+    ("1", "Sčítání",  soucet),
+    ("2", "Odčítání", rozdil),
+    ("3", "Násobení", soucin),
+    ("4", "Dělení",   podil),
+    ("5", "Konec",    None)
+]
+
+# Převod na slovník = dispatcher
+DISPATCH = {klic: (nazev, fn) for klic, nazev, fn in VOLBY}
+
+def vypis_menu():
+    print("====== Kalkulačka ======")
+    for klic, nazev, _ in VOLBY:
+        print(f"{klic}) {nazev}")
+
+def kalkulacka():
+    print("Kalkulačka je spuštěna.")
+    while True:
+        vypis_menu()
+        volba = input("Zadejte možnost: ").strip()
+        if volba not in DISPATCH:
+            print("Neplatná volba, zkuste to znovu.")
+            continue
+
+        nazev, fn = DISPATCH[volba]
+
+        if fn is None:
+            print("Konec kalkulačky.")
+            break
+
+        a, b = nacti_dve_cisla()
+
+        if fn is podil and b == 0:
+            print("Chyba: nelze dělit nulou!")
+            continue
+
+        vysledek = fn(a, b)
+        print(f"{nazev} {a} a {b} = {vysledek}")
+
+def hlavni_menu():
+    while True:
+        print("===== Hlavní menu =====")
+        print("1) Spustit kalkulačku")
+        print("2) Konec programu")
+        volba = input("Zadejte možnost: ").strip()
+        if volba == "1":
+            kalkulacka()
+        elif volba == "2":
+            print("Ukončuji program.")
+            break
+        else:
+            print("Neplatná volba.")
+
+if __name__ == "__main__":
+    hlavni_menu()</code></pre>
+          <div class="ok">Celý program teď používá všechny principy: funkce, parametry, návraty, bezpečné vstupy, menu i dispatcher.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card mt-4">
+    <div class="card-body">
+      <h5 class="card-title">🎯 Shrnutí a úkoly</h5>
       <ul>
-        <li><b>while True</b> + <code>break/sys.exit</code> → stručné.</li>
-        <li><b>flag proměnná</b> (<code>running = True</code>) → čitelný důvod běhu/ukončení.</li>
+        <li>Umíš vytvářet <b>funkce</b> s parametry a návratem.</li>
+        <li>Rozumíš <b>try/except</b> a bezpečnému načítání vstupů.</li>
+        <li>Dokážeš vytvořit program z <b>více funkčních částí</b>.</li>
       </ul>
-      <p>V téhle lekci používáme <code>while True</code> v <code>main()</code> kvůli jednoduchosti a <code>sys.exit()</code> pro korektní ukončení.</p>
+      <ol>
+        <li>Přidej funkci <code>mocnina(a,b)</code> a položku menu 6) Mocnina.</li>
+        <li>Změň operace, aby používaly <code>float</code> místo <code>int</code>.</li>
+        <li>Přidej paměť: ulož poslední výsledek a nabídni jeho znovupoužití.</li>
+      </ol>
     </div>
-  </div></div>
-</div>
+  </div>
+</section>
