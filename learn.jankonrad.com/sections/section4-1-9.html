@@ -1,0 +1,435 @@
+<!-- =========================================================
+     4.1.8 Projekt: Kalkulačka s funkcemi, polem voleb a dispatcherem
+     ========================================================= -->
+<section id="section4-1-9" class="container my-5">
+  <style>
+    .tip{border-left:4px solid #0d6efd;background:#f8f9fa;padding:.75rem 1rem}
+    .warn{border-left:4px solid #dc3545;background:#fff5f5;padding:.75rem 1rem}
+    .ok{border-left:4px solid #198754;background:#f6fff8;padding:.75rem 1rem}
+    .mono{font-family:ui-monospace,Menlo,Consolas,monospace}
+    pre code{white-space:pre}
+  </style>
+
+  <h3 class="mb-3">4.1.9 Kalkulačka „jako programátor“ – funkce → pole voleb → dispatcher</h3>
+  <p class="lead">Navazujeme na 4.1.7. Všechny vstupy řeší <code>nacti_cislo()</code> a <code>nacti_dve_cisla()</code>, výpočty jsou čisté funkce s <code>return</code>, menu vyrábíme ze <b>seznamu n-tic</b> a volbu obslouží <b>dispatcher</b> (slovník).</p>
+
+  <div class="accordion" id="acc-calc">
+
+    <!-- Přehled / mapa -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="c0h">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c0" aria-expanded="true">
+          0) Mapa kapitoly – co stavíme a proč
+        </button>
+      </h2>
+      <div id="c0" class="accordion-collapse collapse show" data-bs-parent="#acc-calc">
+        <div class="accordion-body">
+          <ul class="mb-2">
+            <li><b>Vstupy</b>: <span class="mono">nacti_cislo()</span>, <span class="mono">nacti_dve_cisla()</span> → garantují čísla.</li>
+            <li><b>Logika</b>: <span class="mono">soucet/rozdil/soucin/podil</span> → <b>vrací</b> výsledek, netisknou.</li>
+            <li><b>UI data</b>: <span class="mono">VOLBY</span> (seznam n-tic) → jeden zdroj pravdy pro menu.</li>
+            <li><b>Dispatcher</b>: <span class="mono">DISPATCH</span> (slovník) → rychlé vyhledání funkce podle volby.</li>
+            <li><b>Řízení</b>: <span class="mono">kalkulacka()</span> + <span class="mono">menu()</span> + <span class="mono">if __name__ == "__main__":</span></li>
+          </ul>
+          <div class="ok">Cíl: <b>žádné kopírování kódu</b>, jednoduché rozšíření („přidám řádek do VOLBY“ → vše funguje).</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vstupní funkce -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="c1h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c1">
+          1) Vstupy: bezpečné načítání čísel (try/except + while)
+        </button>
+      </h2>
+      <div id="c1" class="accordion-collapse collapse" data-bs-parent="#acc-calc">
+        <div class="accordion-body">
+<pre><code class="language-python">def nacti_cislo():
+    while True:
+        try:
+            cislo = int(input("Zadejte celé číslo: "))
+            return cislo
+        except ValueError:
+            print("Tohle není celé číslo.")
+
+def nacti_dve_cisla():
+    print("Načteme dvě čísla:")
+    a = nacti_cislo()
+    b = nacti_cislo()
+    return a, b</code></pre>
+          <div class="tip">Validace je uvnitř funkce → zbytek programu může <b>spolehnout</b> na to, že dostane <b>int</b>.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Operace -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="c2h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c2">
+          2) Operace: čisté funkce s <code>return</code> (bez tisku)
+        </button>
+      </h2>
+      <div id="c2" class="accordion-collapse collapse" data-bs-parent="#acc-calc">
+        <div class="accordion-body">
+<pre><code class="language-python">def soucet(a, b):  return a + b
+def rozdil(a, b):  return a - b
+def soucin(a, b):  return a * b
+def podil(a, b):   return a / b   # dělení nulou hlídáme v UI</code></pre>
+          <div class="ok"><b>Odděl UI od logiky:</b> počítej → vrať hodnotu; tiskni až ve vrstvě menu.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seznam (pole) voleb -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="c3h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c3">
+          3) Pole voleb (<code>VOLBY</code>): seznam n-tic → jedna pravda pro menu
+        </button>
+      </h2>
+      <div id="c3" class="accordion-collapse collapse" data-bs-parent="#acc-calc">
+        <div class="accordion-body">
+<pre><code class="language-python"># (klíč, název v menu, odkaz na funkci)
+VOLBY = [
+    ("1", "Součet",  soucet),
+    ("2", "Rozdíl",  rozdil),
+    ("3", "Součin",  soucin),
+    ("4", "Podíl",   podil),
+    ("5", "Konec",   None),
+]
+
+def vypis_menu():
+    print("=== Menu ===")
+    for cislo, nazev, _ in VOLBY:
+        print(f"{cislo}) {nazev}")</code></pre>
+          <ul>
+            <li><b>Proč n-tice?</b> Potřebujeme 3 údaje pohromadě (klíč, text, funkci).</li>
+            <li><b>Proč seznam?</b> Zachová pořadí, snadno přes něj projdu a vygeneruji UI.</li>
+          </ul>
+          <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#m-list">Seznam n-tic: pohled „zevnitř“</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dispatcher -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="c4h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c4">
+          4) Dispatcher (<code>DISPATCH</code>): slovník volba → (název, funkce)
+        </button>
+      </h2>
+      <div id="c4" class="accordion-collapse collapse" data-bs-parent="#acc-calc">
+        <div class="accordion-body">
+<pre><code class="language-python">DISPATCH = {klic: (nazev, funkce) for klic, nazev, funkce in VOLBY}</code></pre>
+          <ul>
+            <li><b>Co je to?</b> Rychlá mapa: <span class="mono">"3"</span> → <span class="mono">("Součin", soucin)</span>.</li>
+            <li><b>Proč?</b> Odpadají dlouhé <span class="mono">if/elif</span>; stačí vyhledat a zavolat vrácenou funkci.</li>
+            <li><b>Udržitelnost:</b> Měníš jen <span class="mono">VOLBY</span> → slovník se z něj vždy vygeneruje (jeden zdroj pravdy).</li>
+          </ul>
+          <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#m-dispatch">Dispatcher polopatě + složitost</button>
+          <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#m-comp">Co dělá ta „zvláštní“ závorka? (dict comprehension)</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- get() pattern -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="c5h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c5">
+          5) Bezpečné vyhledání: <code>par = DISPATCH.get(volba)</code> → test na <code>None</code>
+        </button>
+      </h2>
+      <div id="c5" class="accordion-collapse collapse" data-bs-parent="#acc-calc">
+        <div class="accordion-body">
+<pre><code class="language-python">par = DISPATCH.get(volba)
+if par is None:
+    print("Neplatná volba, zkuste to znovu.")
+    continue
+
+nazev, funkce = par
+# ... dál pracuji s nazvem a funkci ...</code></pre>
+          <ul>
+            <li><b>Proč <span class="mono">.get()</span>?</b> Když klíč neexistuje, vrátí <span class="mono">None</span> (a nevyhodí chybu <span class="mono">KeyError</span>).</li>
+            <li><b>Proč kontrola na <span class="mono">is None</span>?</b> Je to nejčistší způsob, jak testovat „nedostatek hodnoty“ v Pythonu.</li>
+            <li><b>Rozdíl</b>: <span class="mono">DISPATCH[volba]</span> → spadne, když klíč není; <span class="mono">DISPATCH.get(volba)</span> → vrátí <span class="mono">None</span>.</li>
+          </ul>
+          <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#m-get-none">Metoda <code>get()</code> a „None-pattern“ (detailně)</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- kalkulacka() celé -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="c6h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c6">
+          6) Tok v <code>kalkulacka()</code>: jedna větev pro 1–4, kontrola dělení nulou
+        </button>
+      </h2>
+      <div id="c6" class="accordion-collapse collapse" data-bs-parent="#acc-calc">
+        <div class="accordion-body">
+<pre><code class="language-python">def kalkulacka():
+    print("Kalkulačka je spuštěna.")
+    while True:
+        vypis_menu()
+        volba = input("Zadejte možnost: ").strip()
+
+        if volba == "5":
+            print("Konec kalkulačky.")
+            break
+
+        par = DISPATCH.get(volba)
+        if par is None:
+            print("Neplatná volba, zkuste to znovu.")
+            continue
+
+        nazev, funkce = par
+        a, b = nacti_dve_cisla()
+
+        if funkce is podil and b == 0:
+            print("Chyba: nelze dělit nulou!")
+            continue
+
+        vysledek = funkce(a, b)
+        print(f"{nazev} je: {vysledek}")</code></pre>
+          <ul>
+            <li><b>Jediná větev</b> řeší všechny operace – jen dosadí jinou funkci.</li>
+            <li><b>Dělení nulou</b> kontrolujeme v UI (před voláním <span class="mono">podil</span>).</li>
+            <li><b><span class="mono">is</span> vs <span class="mono">==</span>:</b> Pro porovnání s <i>tou samou</i> funkcí (<span class="mono">podil</span>) používáme <span class="mono">is</span> (identita objektu).</li>
+          </ul>
+          <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#m-is-vs-eq"><code>is</code> × <code>==</code> u funkcí</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- hlavní menu + main guard -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="c7h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c7">
+          7) Hlavní menu a vstupní bod: <code>if __name__ == "__main__":</code>
+        </button>
+      </h2>
+      <div id="c7" class="accordion-collapse collapse" data-bs-parent="#acc-calc">
+        <div class="accordion-body">
+<pre><code class="language-python">MAIN_VOLBY = [("1", "Spustit kalkulačku"),
+              ("2", "Konec programu")]
+
+def menu():
+    while True:
+        print("Hlavní menu:")
+        for cislo, nazev in MAIN_VOLBY:
+            print(f"{cislo}) {nazev}")
+        select = input("Zadejte možnost: ").strip()
+
+        if select == "1":
+            kalkulacka()
+        elif select == "2":
+            print("Ukončuji program.")
+            break
+        else:
+            print("Neplatná volba, zkuste to znovu.")
+
+# Vstupní bod skriptu:
+if __name__ == "__main__":
+    menu()</code></pre>
+          <div class="ok"><b>„Main guard“</b> zajistí, že se <span class="mono">menu()</span> spustí jen při <u>přímém</u> spuštění souboru, ne při importu.</div>
+          <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#m-main-guard">Co přesně dělá <code>if __name__ == "__main__":</code>?</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Finální kód – přesně podle této kapitoly -->
+  <div class="card mt-4">
+    <div class="card-body">
+      <h5 class="card-title">✅ Finální verze programu (zkopíruj a spusť)</h5>
+<pre><code class="language-python">def nacti_cislo():
+    while True:
+        try:
+            cislo = int(input("Zadejte celé číslo: "))
+            return cislo
+        except ValueError:
+            print("Tohle není celé číslo.")
+
+def nacti_dve_cisla():
+    print("Načteme dvě čísla:")
+    a = nacti_cislo()
+    b = nacti_cislo()
+    return a, b
+
+def soucet(a, b):  return a + b
+def rozdil(a, b):  return a - b
+def soucin(a, b):  return a * b
+def podil(a, b):   return a / b
+
+VOLBY = [
+    ("1", "Součet",  soucet),
+    ("2", "Rozdíl",  rozdil),
+    ("3", "Součin",  soucin),
+    ("4", "Podíl",   podil),
+    ("5", "Konec",   None),
+]
+
+def vypis_menu():
+    print("=== Menu ===")
+    for cislo, nazev, _ in VOLBY:
+        print(f"{cislo}) {nazev}")
+
+DISPATCH = {klic: (nazev, funkce) for klic, nazev, funkce in VOLBY}
+
+def kalkulacka():
+    print("Kalkulačka je spuštěna.")
+    while True:
+        vypis_menu()
+        volba = input("Zadejte možnost: ").strip()
+
+        if volba == "5":
+            print("Konec kalkulačky.")
+            break
+
+        par = DISPATCH.get(volba)
+        if par is None:
+            print("Neplatná volba, zkuste to znovu.")
+            continue
+
+        nazev, funkce = par
+        a, b = nacti_dve_cisla()
+
+        if funkce is podil and b == 0:
+            print("Chyba: nelze dělit nulou!")
+            continue
+
+        vysledek = funkce(a, b)
+        print(f"{nazev} je: {vysledek}")
+
+MAIN_VOLBY = [("1", "Spustit kalkulačku"),
+              ("2", "Konec programu")]
+
+def menu():
+    while True:
+        print("Hlavní menu:")
+        for cislo, nazev in MAIN_VOLBY:
+            print(f"{cislo}) {nazev}")
+        select = input("Zadejte možnost: ").strip()
+
+        if select == "1":
+            kalkulacka()
+        elif select == "2":
+            print("Ukončuji program.")
+            break
+        else:
+            print("Neplatná volba, zkuste to znovu.")
+
+if __name__ == "__main__":
+    menu()</code></pre>
+      <div class="tip">Mini-úkoly: ① Přidej „6) Mocnina“ (funkce <span class="mono">mocnina(a,b): return a ** b</span>). ② Přepni vstupy na <span class="mono">float</span>. ③ Přidej „Paměť posledního výsledku“ (ulož do proměnné a nabídni jeho použití místo zadávání).</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MODÁLY – podrobné vysvětlivky ===================== -->
+
+<!-- Seznam n-tic -->
+<div class="modal fade" id="m-list" tabindex="-1" aria-labelledby="m-listLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header"><h5 id="m-listLabel" class="modal-title">Seznam n-tic: jak to Python čte</h5>
+      <button class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body">
+<pre><code class="language-python">VOLBY = [("1", "Součet", soucet), ("2", "Rozdíl", rozdil)]
+for klic, nazev, funkce in VOLBY:
+    print(klic, nazev, funkce.__name__)</code></pre>
+      <ul>
+        <li>Každou n-tici Python „rozbalí“ do tří proměnných.</li>
+        <li>Jméno funkce bez závorek je <b>odkaz</b> („kontakt“); zavoláš až <code>funkce(a, b)</code>.</li>
+      </ul>
+    </div>
+  </div></div>
+</div>
+
+<!-- Dispatcher -->
+<div class="modal fade" id="m-dispatch" tabindex="-1" aria-labelledby="m-dispatchLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header"><h5 id="m-dispatchLabel" class="modal-title">Dispatcher: proč a jak</h5>
+      <button class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body">
+      <p>Dispatcher je „rozbočovač“: podle volby vrátí <code>(název, funkci)</code>. Výhody:</p>
+      <ul>
+        <li><b>Čitelnost</b> – žádný les <code>if/elif</code>.</li>
+        <li><b>Rychlost</b> – slovník vyhledává průměrně v <b>O(1)</b>.</li>
+        <li><b>Rozšiřitelnost</b> – přidám řádek do <code>VOLBY</code> a mám hotovo.</li>
+      </ul>
+    </div>
+  </div></div>
+</div>
+
+<!-- Dict comprehension -->
+<div class="modal fade" id="m-comp" tabindex="-1" aria-labelledby="m-compLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header"><h5 id="m-compLabel" class="modal-title">Dict comprehension – „rychlá výroba“ slovníku</h5>
+      <button class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body">
+<pre><code class="language-python">DISPATCH = {k: (n, f) for k, n, f in VOLBY}</code></pre>
+      <p>„Projdi všechny n-tice ve <code>VOLBY</code> a pro každý prvek ulož do slovníku klíč <code>k</code> a hodnotu <code>(n, f)</code>.“</p>
+    </div>
+  </div></div>
+</div>
+
+<!-- get() + None -->
+<div class="modal fade" id="m-get-none" tabindex="-1" aria-labelledby="m-get-noneLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header"><h5 id="m-get-noneLabel" class="modal-title"><code>DISPATCH.get(volba)</code> a kontrola na <code>None</code></h5>
+      <button class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body">
+<pre><code class="language-python">par = DISPATCH.get(volba)   # None, když klíč neexistuje
+if par is None:
+    print("Neplatná volba...")
+else:
+    nazev, funkce = par
+    # bezpečné volání funkce</code></pre>
+      <ul>
+        <li><b>.get()</b> je bezpečné: nevyhodí <code>KeyError</code>.</li>
+        <li><b>is None</b> je přesná kontrola „žádné hodnoty“ (neplést s prázdným řetězcem nebo 0).</li>
+      </ul>
+    </div>
+  </div></div>
+</div>
+
+<!-- is vs == -->
+<div class="modal fade" id="m-is-vs-eq" tabindex="-1" aria-labelledby="m-is-vs-eqLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header"><h5 id="m-is-vs-eqLabel" class="modal-title"><code>is</code> × <code>==</code> u funkcí</h5>
+      <button class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body">
+      <p><code>is</code> porovnává <b>identitu objektu</b> (je to ten samý objekt v paměti?). <code>==</code> porovnává hodnotu.</p>
+<pre><code class="language-python">def a(x): return x
+f = a
+print(f is a)  # True (stejný objekt)
+print(f == a)  # True, ale u funkcí používáme spíš "is"</code></pre>
+      <p>Proto testujeme <code>if funkce is podil</code> – ptáme se, jestli je to právě tahle funkce.</p>
+    </div>
+  </div></div>
+</div>
+
+<!-- Main guard -->
+<div class="modal fade" id="m-main-guard" tabindex="-1" aria-labelledby="m-main-guardLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header"><h5 id="m-main-guardLabel" class="modal-title">Co přesně dělá <code>if __name__ == "__main__":</code>?</h5>
+      <button class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body">
+      <ul>
+        <li>Když soubor <b>spustíš</b> přímo, <code>__name__</code> je <code>"__main__"</code> → blok uvnitř se provede (spustíme <code>menu()</code>).</li>
+        <li>Když soubor <b>importuješ</b> odjinud, <code>__name__</code> je jméno modulu → blok se <b>neprovede</b>.</li>
+      </ul>
+<pre><code class="language-python"># soubor kalk.py
+def pozdrav(): print("Ahoj")
+
+if __name__ == "__main__":
+    pozdrav()     # spustí se jen při "python kalk.py"</code></pre>
+<pre><code class="language-python"># jiný soubor
+import kalk       # nic se automaticky netiskne
+kalk.pozdrav()    # volám, když chci</code></pre>
+      <p>Je to „vstupní bod“ programu – standardní Python idiom.</p>
+    </div>
+  </div></div>
+</div>
