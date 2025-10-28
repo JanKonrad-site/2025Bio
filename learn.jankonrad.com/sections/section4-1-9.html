@@ -1,8 +1,11 @@
 <!-- =========================================================
-     4.1.8 Projekt: Kalkulačka s funkcemi, polem voleb a dispatcherem
+     4.1.7a Datové struktury pomalu: Listy, n-tice a volání funkcí
+     (To-Do & Košík – od nuly po malé menu)
      ========================================================= -->
 <section id="section4-1-9" class="container my-5">
   <style>
+    .svg-line { stroke-dasharray: 300; stroke-dashoffset: 300; animation: draw 2s ease forwards; }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
     .tip{border-left:4px solid #0d6efd;background:#f8f9fa;padding:.75rem 1rem}
     .warn{border-left:4px solid #dc3545;background:#fff5f5;padding:.75rem 1rem}
     .ok{border-left:4px solid #198754;background:#f6fff8;padding:.75rem 1rem}
@@ -10,426 +13,539 @@
     pre code{white-space:pre}
   </style>
 
-  <h3 class="mb-3">4.1.9 Kalkulačka „jako programátor“ – funkce → pole voleb → dispatcher</h3>
-  <p class="lead">Navazujeme na 4.1.7. Všechny vstupy řeší <code>nacti_cislo()</code> a <code>nacti_dve_cisla()</code>, výpočty jsou čisté funkce s <code>return</code>, menu vyrábíme ze <b>seznamu n-tic</b> a volbu obslouží <b>dispatcher</b> (slovník).</p>
+  <h3 class="mb-4">4.1.7a Datové struktury pomalu: Listy, n-tice a volání funkcí</h3>
 
-  <div class="accordion" id="acc-calc">
+  <!-- Úvodní přehled -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Co se naučíš?</h4>
+    <p>Tahle kapitola je pomalý MOST k pozdějšímu „menu programu“. Vše trénujeme na jednoduchých tématech <b>To-Do</b> a <b>Nákupního košíku</b>.</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><b>Funkce a volání</b>: jak vytvořit „krabičku“ kódu a spustit ji.</li>
+      <li class="list-group-item"><b>List (seznam)</b>: přidání, odebírání, procházení, indexy a bezpečí.</li>
+      <li class="list-group-item"><b>N-tice (tuple)</b>: jeden „řádek“ dat pohromadě + rozbalování.</li>
+      <li class="list-group-item"><b>Seznam n-tic</b>: jak z nich udělat jednoduché UI (výpis, To-Do).</li>
+      <li class="list-group-item"><b>Funkce jako hodnota</b> a <b>dispatcher</b> s <code>.get()</code> (bonus).</li>
+      <li class="list-group-item"><b>== vs is</b>: rovnost hodnot × identita objektu (lehký dotek).</li>
+      <li class="list-group-item"><b>Main guard</b>: správný vstupní bod programu.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <b>Princip kapitoly:</b> Každý krok → krátký kód → vysvětlení → mini-úkol → (volitelné) řešení.
+    </div>
+  </div>
 
-    <!-- Přehled / mapa -->
+  <div class="accordion" id="acc-ds-slow">
+
+    <!-- 0) Zahřátí: funkce + volání -->
     <div class="accordion-item">
-      <h2 class="accordion-header" id="c0h">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c0" aria-expanded="true">
-          0) Mapa kapitoly – co stavíme a proč
+      <h2 class="accordion-header" id="ds0h">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#ds0" aria-expanded="true">
+          0) Zahřátí: funkce a volání (bez parametrů)
         </button>
       </h2>
-      <div id="c0" class="accordion-collapse collapse show" data-bs-parent="#acc-calc">
+      <div id="ds0" class="accordion-collapse collapse show" data-bs-parent="#acc-ds-slow">
         <div class="accordion-body">
+<pre><code class="language-python">def ahoj():
+    print("Ahoj!")
+
+ahoj()</code></pre>
           <ul class="mb-2">
-            <li><b>Vstupy</b>: <span class="mono">nacti_cislo()</span>, <span class="mono">nacti_dve_cisla()</span> → garantují čísla.</li>
-            <li><b>Logika</b>: <span class="mono">soucet/rozdil/soucin/podil</span> → <b>vrací</b> výsledek, netisknou.</li>
-            <li><b>UI data</b>: <span class="mono">VOLBY</span> (seznam n-tic) → jeden zdroj pravdy pro menu.</li>
-            <li><b>Dispatcher</b>: <span class="mono">DISPATCH</span> (slovník) → rychlé vyhledání funkce podle volby.</li>
-            <li><b>Řízení</b>: <span class="mono">kalkulacka()</span> + <span class="mono">menu()</span> + <span class="mono">if __name__ == "__main__":</span></li>
+            <li><span class="mono">def ahoj():</span> vytvoří funkci (krabičku s kódem).</li>
+            <li><span class="mono">ahoj()</span> tu krabičku spustí.</li>
           </ul>
-          <div class="ok">Cíl: <b>žádné kopírování kódu</b>, jednoduché rozšíření („přidám řádek do VOLBY“ → vše funguje).</div>
+          <div class="tip mb-2">Mini-úkol: Napiš funkci <span class="mono">banner()</span>, která vytiskne dvě řádky: „Program startuje“ a „Hotovo načtení“. Zavolej ji.</div>
+          <details class="mt-2"><summary class="text-muted">Řešení (rozklikni)</summary>
+<pre><code class="language-python">def banner():
+    print("Program startuje")
+    print("Hotovo načtení")
+
+banner()</code></pre>
+          </details>
         </div>
       </div>
     </div>
 
-    <!-- Vstupní funkce -->
+    <!-- 1) List: přidávání, procházení, indexy -->
     <div class="accordion-item">
-      <h2 class="accordion-header" id="c1h">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c1">
-          1) Vstupy: bezpečné načítání čísel (try/except + while)
+      <h2 class="accordion-header" id="ds1h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ds1">
+          1) Seznam (list): přidávání, procházení, indexy
         </button>
       </h2>
-      <div id="c1" class="accordion-collapse collapse" data-bs-parent="#acc-calc">
+      <div id="ds1" class="accordion-collapse collapse" data-bs-parent="#acc-ds-slow">
         <div class="accordion-body">
-<pre><code class="language-python">def nacti_cislo():
+<pre><code class="language-python">ukoly = []            # prázdný To-Do seznam
+ukoly.append("Uklidit stůl")
+ukoly.append("Napsat domácí úkol")
+
+print("V To-Do je:", len(ukoly), "položky")
+for polozka in ukoly:
+    print("-", polozka)
+
+# přístup přes index (0 = první)
+prvni = ukoly[0]
+print("První úkol je:", prvni)</code></pre>
+          <ul class="mb-2">
+            <li><span class="mono">.append()</span> přidá položku na konec.</li>
+            <li><span class="mono">len(ukoly)</span> vrátí počet prvků.</li>
+            <li>Indexy začínají od <b>0</b>.</li>
+          </ul>
+          <div class="mb-3">
+            <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#m-append-index">📘 Podrobně: .append(), indexy a rozsah</button>
+          </div>
+          <div class="tip">Mini-úkol: Přidej třetí úkol a vypiš seznam očíslovaně pomocí <span class="mono">enumerate(ukoly, start=1)</span>.</div>
+          <details class="mt-2"><summary class="text-muted">Řešení (rozklikni)</summary>
+<pre><code class="language-python">ukoly.append("Vyvenčit psa")
+for i, polozka in enumerate(ukoly, start=1):
+    print(f"{i}. {polozka}")</code></pre>
+          </details>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: append/index -->
+    <div class="modal fade" id="m-append-index" tabindex="-1" aria-labelledby="m-append-indexLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+        <div class="modal-header"><h5 id="m-append-indexLabel" class="modal-title">Jak funguje <code>.append()</code> a indexy</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button></div>
+        <div class="modal-body">
+          <ul>
+            <li><code>seznam.append(x)</code> přidá <code>x</code> na KONEC seznamu (nezaměňuj s vkládáním doprostřed).</li>
+            <li>Indexy: <code>0</code> první, <code>1</code> druhý, … <code>len(seznam)-1</code> poslední.</li>
+            <li>Pozor na <code>IndexError</code> při přístupu mimo rozsah.</li>
+          </ul>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- 1.5) Úpravy listu -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="ds15h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ds15">
+          1.5) Úpravy listu: odebrat, hledat, vyčistit
+        </button>
+      </h2>
+      <div id="ds15" class="accordion-collapse collapse" data-bs-parent="#acc-ds-slow">
+        <div class="accordion-body">
+<pre><code class="language-python"># odeber poslední:
+posledni = ukoly.pop()     # vrátí odebranou položku
+print("Odebráno:", posledni)
+
+# odeber konkrétní text (první výskyt):
+if "Uklidit stůl" in ukoly:
+    ukoly.remove("Uklidit stůl")
+
+# vyprázdni vše:
+ukoly.clear()</code></pre>
+          <div class="warn">Když <span class="mono">remove()</span> nenajde položku, vyhodí chybu. Proto je dobré nejdřív ověřit <span class="mono">in</span>.</div>
+          <div class="tip">Mini-úkol: Odeber poslední položku jen když seznam není prázdný (nejdřív zkontroluj <span class="mono">len(ukoly) &gt; 0</span>).</div>
+          <details class="mt-2"><summary class="text-muted">Řešení (rozklikni)</summary>
+<pre><code class="language-python">if len(ukoly) > 0:
+    ukoly.pop()
+else:
+    print("Seznam je prázdný, není co odstranit.")</code></pre>
+          </details>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2) Tuple -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="ds2h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ds2">
+          2) N-tice (tuple): záznam To-Do (stav, text) + rozbalování
+        </button>
+      </h2>
+      <div id="ds2" class="accordion-collapse collapse" data-bs-parent="#acc-ds-slow">
+        <div class="accordion-body">
+<pre><code class="language-python"># úkol jako n-tice (done: bool, text: str)
+u1 = (False, "Uklidit stůl")
+done, text = u1   # rozbalení
+print("Hotovo?", done, "| Úkol:", text)</code></pre>
+          <ul class="mb-2">
+            <li>Tuple = „balíček“ dat k sobě (jeden řádek tabulky).</li>
+            <li>Unpacking = rychlé přiřazení do více proměnných najednou.</li>
+          </ul>
+          <div class="tip">Mini-úkol: <span class="mono">u2 = (True, "Zalít kytku")</span> → vytiskni „[x] Zalít kytku“ pokud je hotovo, jinak „[ ] …“.</div>
+          <details class="mt-2"><summary class="text-muted">Řešení (rozklikni)</summary>
+<pre><code class="language-python">u2 = (True, "Zalít kytku")
+hotovo, txt = u2
+box = "x" if hotovo else " "
+print(f"[{box}] {txt}")</code></pre>
+          </details>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3) Seznam n-tic: malý To-Do se stavem -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="ds3h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ds3">
+          3) Seznam n-tic: malý To-Do se stavem
+        </button>
+      </h2>
+      <div id="ds3" class="accordion-collapse collapse" data-bs-parent="#acc-ds-slow">
+        <div class="accordion-body">
+<pre><code class="language-python">todo = []
+todo.append((False, "Uklidit stůl"))
+todo.append((True,  "Zalít kytku"))
+
+def tisk_todo(polozky):
+    if not polozky:
+        print("Seznam je prázdný.")
+        return
+    for i, (done, text) in enumerate(polozky, start=1):
+        box = "x" if done else " "
+        print(f"{i}. [{box}] {text}")
+
+tisk_todo(todo)</code></pre>
+          <div class="ok">List drží pořadí, tuple drží „sloupečky“ (stav + text).</div>
+          <div class="tip">Mini-úkol: Přidej třetí úkol <span class="mono">(False, "Cvičit")</span> a znovu zavolej <span class="mono">tisk_todo(todo)</span>.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4) Čisté funkce: přidat, přepnout -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="ds4h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ds4">
+          4) Čisté funkce: přidat úkol, přepnout hotovo
+        </button>
+      </h2>
+      <div id="ds4" class="accordion-collapse collapse" data-bs-parent="#acc-ds-slow">
+        <div class="accordion-body">
+<pre><code class="language-python">def pridej(todo, text):
+    todo.append((False, text))
+
+def prepnout(todo, index):
+    # index = 1-based z výpisu
+    i = index - 1
+    if 0 &lt;= i &lt; len(todo):
+        done, txt = todo[i]
+        todo[i] = (not done, txt)
+    else:
+        print("Neplatné číslo úkolu.")
+
+# vyzkoušej:
+pridej(todo, "Procvičit Python")
+prepnout(todo, 1)   # přepne první úkol
+tisk_todo(todo)</code></pre>
+          <div class="warn">Měníme existující list (prvek na pozici) → hlídej hranice indexu.</div>
+          <div class="tip">Mini-úkol: Napiš funkci <span class="mono">odeber(todo, index)</span>, která odstraní zadaný úkol, pokud existuje.</div>
+          <details class="mt-2"><summary class="text-muted">Řešení (rozklikni)</summary>
+<pre><code class="language-python">def odeber(todo, index):
+    i = index - 1
+    if 0 <= i < len(todo):
+        todo.pop(i)
+    else:
+        print("Neplatné číslo úkolu.")</code></pre>
+          </details>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5) Bezpečný vstup čísla -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="ds5h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ds5">
+          5) Vstup od uživatele: bezpečné celé číslo (znovupoužitelné)
+        </button>
+      </h2>
+      <div id="ds5" class="accordion-collapse collapse" data-bs-parent="#acc-ds-slow">
+        <div class="accordion-body">
+<pre><code class="language-python">def nacti_int(prompt="Zadej číslo: "):
     while True:
         try:
-            cislo = int(input("Zadejte celé číslo: "))
-            return cislo
+            return int(input(prompt))
         except ValueError:
-            print("Tohle není celé číslo.")
-
-def nacti_dve_cisla():
-    print("Načteme dvě čísla:")
-    a = nacti_cislo()
-    b = nacti_cislo()
-    return a, b</code></pre>
-          <div class="tip">Validace je uvnitř funkce → zbytek programu může <b>spolehnout</b> na to, že dostane <b>int</b>.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Operace -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="c2h">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c2">
-          2) Operace: čisté funkce s <code>return</code> (bez tisku)
-        </button>
-      </h2>
-      <div id="c2" class="accordion-collapse collapse" data-bs-parent="#acc-calc">
-        <div class="accordion-body">
-<pre><code class="language-python">def soucet(a, b):  return a + b
-def rozdil(a, b):  return a - b
-def soucin(a, b):  return a * b
-def podil(a, b):   return a / b   # dělení nulou hlídáme v UI</code></pre>
-          <div class="ok"><b>Odděl UI od logiky:</b> počítej → vrať hodnotu; tiskni až ve vrstvě menu.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Seznam (pole) voleb -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="c3h">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c3">
-          3) Pole voleb (<code>VOLBY</code>): seznam n-tic → jedna pravda pro menu
-        </button>
-      </h2>
-      <div id="c3" class="accordion-collapse collapse" data-bs-parent="#acc-calc">
-        <div class="accordion-body">
-<pre><code class="language-python"># (klíč, název v menu, odkaz na funkci)
-VOLBY = [
-    ("1", "Součet",  soucet),
-    ("2", "Rozdíl",  rozdil),
-    ("3", "Součin",  soucin),
-    ("4", "Podíl",   podil),
-    ("5", "Konec",   None),
-]
-
-def vypis_menu():
-    print("=== Menu ===")
-    for cislo, nazev, _ in VOLBY:
-        print(f"{cislo}) {nazev}")</code></pre>
-          <ul>
-            <li><b>Proč n-tice?</b> Potřebujeme 3 údaje pohromadě (klíč, text, funkci).</li>
-            <li><b>Proč seznam?</b> Zachová pořadí, snadno přes něj projdu a vygeneruji UI.</li>
-          </ul>
-          <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#m-list">Seznam n-tic: pohled „zevnitř“</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Dispatcher -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="c4h">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c4">
-          4) Dispatcher (<code>DISPATCH</code>): slovník volba → (název, funkce)
-        </button>
-      </h2>
-      <div id="c4" class="accordion-collapse collapse" data-bs-parent="#acc-calc">
-        <div class="accordion-body">
-<pre><code class="language-python">DISPATCH = {klic: (nazev, funkce) for klic, nazev, funkce in VOLBY}</code></pre>
-          <ul>
-            <li><b>Co je to?</b> Rychlá mapa: <span class="mono">"3"</span> → <span class="mono">("Součin", soucin)</span>.</li>
-            <li><b>Proč?</b> Odpadají dlouhé <span class="mono">if/elif</span>; stačí vyhledat a zavolat vrácenou funkci.</li>
-            <li><b>Udržitelnost:</b> Měníš jen <span class="mono">VOLBY</span> → slovník se z něj vždy vygeneruje (jeden zdroj pravdy).</li>
-          </ul>
-          <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#m-dispatch">Dispatcher polopatě + složitost</button>
-          <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#m-comp">Co dělá ta „zvláštní“ závorka? (dict comprehension)</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- get() pattern -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="c5h">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c5">
-          5) Bezpečné vyhledání: <code>par = DISPATCH.get(volba)</code> → test na <code>None</code>
-        </button>
-      </h2>
-      <div id="c5" class="accordion-collapse collapse" data-bs-parent="#acc-calc">
-        <div class="accordion-body">
-<pre><code class="language-python">par = DISPATCH.get(volba)
-if par is None:
-    print("Neplatná volba, zkuste to znovu.")
-    continue
-
-nazev, funkce = par
-# ... dál pracuji s nazvem a funkci ...</code></pre>
-          <ul>
-            <li><b>Proč <span class="mono">.get()</span>?</b> Když klíč neexistuje, vrátí <span class="mono">None</span> (a nevyhodí chybu <span class="mono">KeyError</span>).</li>
-            <li><b>Proč kontrola na <span class="mono">is None</span>?</b> Je to nejčistší způsob, jak testovat „nedostatek hodnoty“ v Pythonu.</li>
-            <li><b>Rozdíl</b>: <span class="mono">DISPATCH[volba]</span> → spadne, když klíč není; <span class="mono">DISPATCH.get(volba)</span> → vrátí <span class="mono">None</span>.</li>
-          </ul>
-          <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#m-get-none">Metoda <code>get()</code> a „None-pattern“ (detailně)</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- kalkulacka() celé -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="c6h">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c6">
-          6) Tok v <code>kalkulacka()</code>: jedna větev pro 1–4, kontrola dělení nulou
-        </button>
-      </h2>
-      <div id="c6" class="accordion-collapse collapse" data-bs-parent="#acc-calc">
-        <div class="accordion-body">
-<pre><code class="language-python">def kalkulacka():
-    print("Kalkulačka je spuštěna.")
+            print("Tohle není celé číslo. Zkus znovu.")</code></pre>
+          <div class="ok">Jedna funkce → použiješ všude, kde chceš celé číslo.</div>
+          <div class="tip">Mini-úkol: Uprav na <span class="mono">nacti_int_ge0(prompt)</span>, která nepovolí záporné číslo.</div>
+          <details class="mt-2"><summary class="text-muted">Řešení (rozklikni)</summary>
+<pre><code class="language-python">def nacti_int_ge0(prompt="Zadej nezáporné číslo: "):
     while True:
-        vypis_menu()
-        volba = input("Zadejte možnost: ").strip()
-
-        if volba == "5":
-            print("Konec kalkulačky.")
-            break
-
-        par = DISPATCH.get(volba)
-        if par is None:
-            print("Neplatná volba, zkuste to znovu.")
-            continue
-
-        nazev, funkce = par
-        a, b = nacti_dve_cisla()
-
-        if funkce is podil and b == 0:
-            print("Chyba: nelze dělit nulou!")
-            continue
-
-        vysledek = funkce(a, b)
-        print(f"{nazev} je: {vysledek}")</code></pre>
-          <ul>
-            <li><b>Jediná větev</b> řeší všechny operace – jen dosadí jinou funkci.</li>
-            <li><b>Dělení nulou</b> kontrolujeme v UI (před voláním <span class="mono">podil</span>).</li>
-            <li><b><span class="mono">is</span> vs <span class="mono">==</span>:</b> Pro porovnání s <i>tou samou</i> funkcí (<span class="mono">podil</span>) používáme <span class="mono">is</span> (identita objektu).</li>
-          </ul>
-          <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#m-is-vs-eq"><code>is</code> × <code>==</code> u funkcí</button>
+        try:
+            x = int(input(prompt))
+            if x < 0:
+                print("Číslo nesmí být záporné.")
+                continue
+            return x
+        except ValueError:
+            print("Tohle není celé číslo.")</code></pre>
+          </details>
         </div>
       </div>
     </div>
 
-    <!-- hlavní menu + main guard -->
+    <!-- 6) Mini menu (bez dispatcheru) -->
     <div class="accordion-item">
-      <h2 class="accordion-header" id="c7h">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c7">
-          7) Hlavní menu a vstupní bod: <code>if __name__ == "__main__":</code>
+      <h2 class="accordion-header" id="ds6h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ds6">
+          6) Mini-menu (bez „kouzel“): 4 volby pro To-Do
         </button>
       </h2>
-      <div id="c7" class="accordion-collapse collapse" data-bs-parent="#acc-calc">
+      <div id="ds6" class="accordion-collapse collapse" data-bs-parent="#acc-ds-slow">
         <div class="accordion-body">
-<pre><code class="language-python">MAIN_VOLBY = [("1", "Spustit kalkulačku"),
-              ("2", "Konec programu")]
-
-def menu():
+<pre><code class="language-python">def mini_menu():
     while True:
-        print("Hlavní menu:")
-        for cislo, nazev in MAIN_VOLBY:
-            print(f"{cislo}) {nazev}")
-        select = input("Zadejte možnost: ").strip()
+        print("=== To-Do ===")
+        print("1) Přidat úkol")
+        print("2) Přepnout hotovo")
+        print("3) Vypsat")
+        print("4) Konec")
+        volba = input("Zadej volbu: ").strip()
 
-        if select == "1":
-            kalkulacka()
-        elif select == "2":
-            print("Ukončuji program.")
+        if volba == "1":
+            txt = input("Text úkolu: ").strip()
+            pridej(todo, txt)
+        elif volba == "2":
+            tisk_todo(todo)
+            idx = nacti_int("Číslo úkolu: ")
+            prepnout(todo, idx)
+        elif volba == "3":
+            tisk_todo(todo)
+        elif volba == "4":
+            print("Konec To-Do.")
             break
         else:
-            print("Neplatná volba, zkuste to znovu.")
+            print("Neplatná volba.")
 
-# Vstupní bod skriptu:
+# mini_menu()</code></pre>
+          <div class="ok">Zatím žádný dispatcher. Logika je přímočará a srozumitelná.</div>
+          <div class="tip">Mini-úkol: Doplň volbu „Odebrat úkol“ a použij svou funkci <span class="mono">odeber()</span>.</div>
+          <details class="mt-2"><summary class="text-muted">Řešení (rozklikni)</summary>
+<pre><code class="language-python"># do menu přidej:
+# print("4) Odebrat")
+# posuň Konec na "5"
+elif volba == "4":
+    tisk_todo(todo)
+    idx = nacti_int("Číslo úkolu k odebrání: ")
+    odeber(todo, idx)
+elif volba == "5":
+    print("Konec To-Do.")
+    break</code></pre>
+          </details>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7) Nákupní košík -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="ds7h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ds7">
+          7) Nákupní košík: tuple (název, ks, cena) + součet
+        </button>
+      </h2>
+      <div id="ds7" class="accordion-collapse collapse" data-bs-parent="#acc-ds-slow">
+        <div class="accordion-body">
+<pre><code class="language-python">kosik = []  # list n-tic (nazev:str, ks:int, cena_za_kus:int)
+
+def pridej_polozku(kosik, nazev, ks, cena_za_kus):
+    kosik.append((nazev, ks, cena_za_kus))
+
+def mezisoucet(kosik):
+    return sum(ks * cena for _, ks, cena in kosik)
+
+def vypis_kosik(kosik):
+    if not kosik:
+        print("Košík je prázdný.")
+        return
+    for i, (nazev, ks, cena) in enumerate(kosik, start=1):
+        print(f"{i}. {nazev} × {ks} ks @ {cena} Kč = {ks*cena} Kč")
+    print("Celkem:", mezisoucet(kosik), "Kč")
+
+# vyzkoušej:
+pridej_polozku(kosik, "Jablko", 3, 10)
+pridej_polozku(kosik, "Mléko", 1, 25)
+vypis_kosik(kosik)</code></pre>
+          <div class="tip">Mini-úkol: Přidej funkci <span class="mono">sleva_procent(kosik, p)</span>, která vrátí <b>číslo</b> „celkem se slevou p %“ (např. 10).</div>
+          <details class="mt-2"><summary class="text-muted">Řešení (rozklikni)</summary>
+<pre><code class="language-python">def sleva_procent(kosik, p):
+    celkem = mezisoucet(kosik)
+    return int(round(celkem * (100 - p) / 100))</code></pre>
+          </details>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8) BONUS: dispatcher s .get() -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="ds8h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ds8">
+          8) BONUS: jednoduchý dispatcher se <code>.get()</code>
+        </button>
+      </h2>
+      <div id="ds8" class="accordion-collapse collapse" data-bs-parent="#acc-ds-slow">
+        <div class="accordion-body">
+<pre><code class="language-python"># akce jako samostatné funkce:
+def akce_pridat():
+    txt = input("Text úkolu: ").strip()
+    pridej(todo, txt)
+
+def akce_prepnout():
+    tisk_todo(todo)
+    idx = nacti_int("Číslo úkolu: ")
+    prepnout(todo, idx)
+
+def akce_vypsat():
+    tisk_todo(todo)
+
+def akce_odebrat():
+    tisk_todo(todo)
+    idx = nacti_int("Číslo úkolu k odebrání: ")
+    odeber(todo, idx)
+
+VOLBY = [
+    ("1", "Přidat",   akce_pridat),
+    ("2", "Přepnout", akce_prepnout),
+    ("3", "Vypsat",   akce_vypsat),
+    ("4", "Odebrat",  akce_odebrat),
+    ("5", "Konec",    None),
+]
+DISPATCH = {k: (popis, fn) for k, popis, fn in VOLBY}
+
+def menu_dispatch():
+    while True:
+        print("=== To-Do (dispatcher) ===")
+        for k, popis, _ in VOLBY:
+            print(f"{k}) {popis}")
+        volba = input("Zadej volbu: ").strip()
+
+        par = DISPATCH.get(volba)    # žádný KeyError při neznámém klíči
+        if par is None:
+            print("Neplatná volba.")
+            continue
+
+        popis, fn = par
+        if fn is None:
+            print("Konec.")
+            break
+        fn()
+
+# menu_dispatch()</code></pre>
+          <div class="ok"><span class="mono">.get()</span> vrátí <span class="mono">None</span>, když klíč neexistuje → program nespadne, můžeme slušně upozornit.</div>
+          <div class="tip">Mini-úkol: Přidej volbu „Vyčistit“ (vyprázdnit seznam) a dodej <span class="mono">akce_vycistit()</span>.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9) == vs is -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="ds9h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ds9">
+          9) Lehký dotek: <code>==</code> vs <code>is</code>
+        </button>
+      </h2>
+      <div id="ds9" class="accordion-collapse collapse" data-bs-parent="#acc-ds-slow">
+        <div class="accordion-body">
+<pre><code class="language-python">def podil(a,b): return a/b
+f = podil
+g = podil
+print(f == g)  # True – stejné „hodnoty“ funkce
+print(f is g)  # True – v CPythonu ukazuje na stejný objekt</code></pre>
+          <div class="warn">Pro čísla/řetězce používej <span class="mono">==</span>. <span class="mono">is</span> řeší identitu objektu (zda je to tentýž objekt v paměti).</div>
+          <div class="tip">Mini-úkol: <span class="mono">akce = akce_vypsat</span> → ověř <span class="mono">akce is akce_vypsat</span>.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10) Main guard -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="ds10h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ds10">
+          10) Main guard: vstupní bod programu
+        </button>
+      </h2>
+      <div id="ds10" class="accordion-collapse collapse" data-bs-parent="#acc-ds-slow">
+        <div class="accordion-body">
+<pre><code class="language-python">def start():
+    # Vyber, co chceš spouštět:
+    # mini_menu()
+    # menu_dispatch()
+    print("Sem přijde volání menu.")
+
 if __name__ == "__main__":
-    menu()</code></pre>
-          <div class="ok"><b>„Main guard“</b> zajistí, že se <span class="mono">menu()</span> spustí jen při <u>přímém</u> spuštění souboru, ne při importu.</div>
-          <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#m-main-guard">Co přesně dělá <code>if __name__ == "__main__":</code>?</button>
+    start()</code></pre>
+          <div class="ok">Při importu se skript nespustí sám – hodí se u větších projektů i testování.</div>
+          <div class="tip">Mini-úkol: Nech <span class="mono">start()</span> spustit tvé <span class="mono">mini_menu()</span> a otestuj.</div>
         </div>
       </div>
     </div>
 
   </div>
 
-  <!-- Finální kód – přesně podle této kapitoly -->
+  <!-- Praktický mini-projekt -->
   <div class="card mt-4">
     <div class="card-body">
-      <h5 class="card-title">✅ Finální verze programu (zkopíruj a spusť)</h5>
-<pre><code class="language-python">def nacti_cislo():
+      <h5 class="card-title">💼 Praktický mini-projekt: To-Do + Košík</h5>
+      <p class="mb-2">Zkombinuj znalosti: vytvoř malý program, který nabídne dvě „aplikace“ – <b>To-Do</b> a <b>Košík</b> – a po skončení se vrátí do hlavního menu.</p>
+<pre><code class="language-python">def menu_hlavni():
     while True:
-        try:
-            cislo = int(input("Zadejte celé číslo: "))
-            return cislo
-        except ValueError:
-            print("Tohle není celé číslo.")
+        print("=== Hlavní menu ===")
+        print("1) To-Do")
+        print("2) Košík")
+        print("3) Konec")
+        v = input("Zadej volbu: ").strip()
 
-def nacti_dve_cisla():
-    print("Načteme dvě čísla:")
-    a = nacti_cislo()
-    b = nacti_cislo()
-    return a, b
-
-def soucet(a, b):  return a + b
-def rozdil(a, b):  return a - b
-def soucin(a, b):  return a * b
-def podil(a, b):   return a / b
-
-VOLBY = [
-    ("1", "Součet",  soucet),
-    ("2", "Rozdíl",  rozdil),
-    ("3", "Součin",  soucin),
-    ("4", "Podíl",   podil),
-    ("5", "Konec",   None),
-]
-
-def vypis_menu():
-    print("=== Menu ===")
-    for cislo, nazev, _ in VOLBY:
-        print(f"{cislo}) {nazev}")
-
-DISPATCH = {klic: (nazev, funkce) for klic, nazev, funkce in VOLBY}
-
-def kalkulacka():
-    print("Kalkulačka je spuštěna.")
-    while True:
-        vypis_menu()
-        volba = input("Zadejte možnost: ").strip()
-
-        if volba == "5":
-            print("Konec kalkulačky.")
-            break
-
-        par = DISPATCH.get(volba)
-        if par is None:
-            print("Neplatná volba, zkuste to znovu.")
-            continue
-
-        nazev, funkce = par
-        a, b = nacti_dve_cisla()
-
-        if funkce is podil and b == 0:
-            print("Chyba: nelze dělit nulou!")
-            continue
-
-        vysledek = funkce(a, b)
-        print(f"{nazev} je: {vysledek}")
-
-MAIN_VOLBY = [("1", "Spustit kalkulačku"),
-              ("2", "Konec programu")]
-
-def menu():
-    while True:
-        print("Hlavní menu:")
-        for cislo, nazev in MAIN_VOLBY:
-            print(f"{cislo}) {nazev}")
-        select = input("Zadejte možnost: ").strip()
-
-        if select == "1":
-            kalkulacka()
-        elif select == "2":
+        if v == "1":
+            mini_menu()       # nebo menu_dispatch()
+        elif v == "2":
+            # jednoduché košíkové mini-menu
+            while True:
+                print("--- Košík ---")
+                print("1) Přidat položku")
+                print("2) Vypsat košík")
+                print("3) Zpět")
+                k = input("Zadej volbu: ").strip()
+                if k == "1":
+                    nazev = input("Název: ").strip()
+                    ks = nacti_int_ge0("Ks: ")
+                    cena = nacti_int_ge0("Cena/ks: ")
+                    pridej_polozku(kosik, nazev, ks, cena)
+                elif k == "2":
+                    vypis_kosik(kosik)
+                elif k == "3":
+                    break
+                else:
+                    print("Neplatná volba.")
+        elif v == "3":
             print("Ukončuji program.")
             break
         else:
-            print("Neplatná volba, zkuste to znovu.")
+            print("Neplatná volba.")
 
 if __name__ == "__main__":
-    menu()</code></pre>
-      <div class="tip">Mini-úkoly: ① Přidej „6) Mocnina“ (funkce <span class="mono">mocnina(a,b): return a ** b</span>). ② Přepni vstupy na <span class="mono">float</span>. ③ Přidej „Paměť posledního výsledku“ (ulož do proměnné a nabídni jeho použití místo zadávání).</div>
+    menu_hlavni()</code></pre>
+      <div class="tip">Rozšíření: přidej do Košíku volbu „Sleva %“ (použij <span class="mono">sleva_procent()</span>), do To-Do volbu „Vyčistit“.</div>
+    </div>
+  </div>
+
+  <!-- Mini-kvíz -->
+  <div class="card mt-4">
+    <div class="card-body">
+      <h5 class="card-title">🧠 Mini-kvíz</h5>
+      <ol class="mb-0">
+        <li>Jaký je rozdíl mezi listem a n-ticí v našem To-Do?</li>
+        <li>Proč se hodí mít úkol jako n-tici <span class="mono">(done, text)</span> místo samotného textu?</li>
+        <li>Co nám dává <span class="mono">DISPATCH.get(volba)</span> oproti <span class="mono">DISPATCH[volba]</span>?</li>
+        <li>Co dělá <span class="mono">if __name__ == "__main__":</span> a proč je to užitečné?</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Shrnutí -->
+  <div class="card mt-4">
+    <div class="card-body">
+      <h5 class="card-title">🔚 Shrnutí (co teď umíš)</h5>
+      <ul class="mb-0">
+        <li>Pracovat s listem: přidat, odebrat, projít, hlídat indexy a chyby.</li>
+        <li>Navrhnout „řádek“ dat jako n-tici a umět ji rozbalit (unpacking).</li>
+        <li>Napsat drobné čisté funkce pro To-Do/Košík a znovupoužít je.</li>
+        <li>Validovat vstup jednou funkcí a používat ji napříč programem.</li>
+        <li>Poskládat mini-menu; bonusově i dispatcher se <span class="mono">.get()</span>.</li>
+        <li>Rozumět rozdílu <span class="mono">==</span> × <span class="mono">is</span> (na úrovni objektů).</li>
+        <li>Spustit program přes <b>main guard</b> a mít čistý vstupní bod.</li>
+      </ul>
+      <div class="ok mt-2">Připraveno na další kapitolu (kalkulačka s menu) nebo rozšíření To-Do/Košíku (filtrování, ukládání do souboru).</div>
     </div>
   </div>
 </section>
-
-<!-- ===================== MODÁLY – podrobné vysvětlivky ===================== -->
-
-<!-- Seznam n-tic -->
-<div class="modal fade" id="m-list" tabindex="-1" aria-labelledby="m-listLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
-    <div class="modal-header"><h5 id="m-listLabel" class="modal-title">Seznam n-tic: jak to Python čte</h5>
-      <button class="btn-close" data-bs-dismiss="modal"></button></div>
-    <div class="modal-body">
-<pre><code class="language-python">VOLBY = [("1", "Součet", soucet), ("2", "Rozdíl", rozdil)]
-for klic, nazev, funkce in VOLBY:
-    print(klic, nazev, funkce.__name__)</code></pre>
-      <ul>
-        <li>Každou n-tici Python „rozbalí“ do tří proměnných.</li>
-        <li>Jméno funkce bez závorek je <b>odkaz</b> („kontakt“); zavoláš až <code>funkce(a, b)</code>.</li>
-      </ul>
-    </div>
-  </div></div>
-</div>
-
-<!-- Dispatcher -->
-<div class="modal fade" id="m-dispatch" tabindex="-1" aria-labelledby="m-dispatchLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
-    <div class="modal-header"><h5 id="m-dispatchLabel" class="modal-title">Dispatcher: proč a jak</h5>
-      <button class="btn-close" data-bs-dismiss="modal"></button></div>
-    <div class="modal-body">
-      <p>Dispatcher je „rozbočovač“: podle volby vrátí <code>(název, funkci)</code>. Výhody:</p>
-      <ul>
-        <li><b>Čitelnost</b> – žádný les <code>if/elif</code>.</li>
-        <li><b>Rychlost</b> – slovník vyhledává průměrně v <b>O(1)</b>.</li>
-        <li><b>Rozšiřitelnost</b> – přidám řádek do <code>VOLBY</code> a mám hotovo.</li>
-      </ul>
-    </div>
-  </div></div>
-</div>
-
-<!-- Dict comprehension -->
-<div class="modal fade" id="m-comp" tabindex="-1" aria-labelledby="m-compLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
-    <div class="modal-header"><h5 id="m-compLabel" class="modal-title">Dict comprehension – „rychlá výroba“ slovníku</h5>
-      <button class="btn-close" data-bs-dismiss="modal"></button></div>
-    <div class="modal-body">
-<pre><code class="language-python">DISPATCH = {k: (n, f) for k, n, f in VOLBY}</code></pre>
-      <p>„Projdi všechny n-tice ve <code>VOLBY</code> a pro každý prvek ulož do slovníku klíč <code>k</code> a hodnotu <code>(n, f)</code>.“</p>
-    </div>
-  </div></div>
-</div>
-
-<!-- get() + None -->
-<div class="modal fade" id="m-get-none" tabindex="-1" aria-labelledby="m-get-noneLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
-    <div class="modal-header"><h5 id="m-get-noneLabel" class="modal-title"><code>DISPATCH.get(volba)</code> a kontrola na <code>None</code></h5>
-      <button class="btn-close" data-bs-dismiss="modal"></button></div>
-    <div class="modal-body">
-<pre><code class="language-python">par = DISPATCH.get(volba)   # None, když klíč neexistuje
-if par is None:
-    print("Neplatná volba...")
-else:
-    nazev, funkce = par
-    # bezpečné volání funkce</code></pre>
-      <ul>
-        <li><b>.get()</b> je bezpečné: nevyhodí <code>KeyError</code>.</li>
-        <li><b>is None</b> je přesná kontrola „žádné hodnoty“ (neplést s prázdným řetězcem nebo 0).</li>
-      </ul>
-    </div>
-  </div></div>
-</div>
-
-<!-- is vs == -->
-<div class="modal fade" id="m-is-vs-eq" tabindex="-1" aria-labelledby="m-is-vs-eqLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
-    <div class="modal-header"><h5 id="m-is-vs-eqLabel" class="modal-title"><code>is</code> × <code>==</code> u funkcí</h5>
-      <button class="btn-close" data-bs-dismiss="modal"></button></div>
-    <div class="modal-body">
-      <p><code>is</code> porovnává <b>identitu objektu</b> (je to ten samý objekt v paměti?). <code>==</code> porovnává hodnotu.</p>
-<pre><code class="language-python">def a(x): return x
-f = a
-print(f is a)  # True (stejný objekt)
-print(f == a)  # True, ale u funkcí používáme spíš "is"</code></pre>
-      <p>Proto testujeme <code>if funkce is podil</code> – ptáme se, jestli je to právě tahle funkce.</p>
-    </div>
-  </div></div>
-</div>
-
-<!-- Main guard -->
-<div class="modal fade" id="m-main-guard" tabindex="-1" aria-labelledby="m-main-guardLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
-    <div class="modal-header"><h5 id="m-main-guardLabel" class="modal-title">Co přesně dělá <code>if __name__ == "__main__":</code>?</h5>
-      <button class="btn-close" data-bs-dismiss="modal"></button></div>
-    <div class="modal-body">
-      <ul>
-        <li>Když soubor <b>spustíš</b> přímo, <code>__name__</code> je <code>"__main__"</code> → blok uvnitř se provede (spustíme <code>menu()</code>).</li>
-        <li>Když soubor <b>importuješ</b> odjinud, <code>__name__</code> je jméno modulu → blok se <b>neprovede</b>.</li>
-      </ul>
-<pre><code class="language-python"># soubor kalk.py
-def pozdrav(): print("Ahoj")
-
-if __name__ == "__main__":
-    pozdrav()     # spustí se jen při "python kalk.py"</code></pre>
-<pre><code class="language-python"># jiný soubor
-import kalk       # nic se automaticky netiskne
-kalk.pozdrav()    # volám, když chci</code></pre>
-      <p>Je to „vstupní bod“ programu – standardní Python idiom.</p>
-    </div>
-  </div></div>
-</div>
