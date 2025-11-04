@@ -1,0 +1,229 @@
+<!-- 3.1.6 Základy CSS – úplně od začátku -->
+<section id="section3-1-6" class="container my-5">
+  <h3 class="mb-4">3.1.6 Základy CSS – krok za krokem pro začátečníky</h3>
+
+  <!-- Co se naučíš -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Co se naučíš?</h4>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">Co je to <strong>CSS</strong> a k čemu slouží.</li>
+      <li class="list-group-item">Jak CSS <strong>mění vzhled HTML stránky</strong>.</li>
+      <li class="list-group-item">Základní <strong>syntaxi</strong> (selektor, vlastnost, hodnota).</li>
+      <li class="list-group-item">Tři způsoby připojení stylů: <strong>inline, internal, external</strong>.</li>
+      <li class="list-group-item">Použití <strong>barev</strong> – názvy, RGB, HEX.</li>
+      <li class="list-group-item">Rozdíl mezi <strong>class</strong> a <strong>ID</strong> selektorem.</li>
+      <li class="list-group-item">Jak se styly <strong>přebíjejí (specifita)</strong>.</li>
+    </ul>
+  </div>
+
+  <!-- Teorie: Co je CSS -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <h4 class="mb-3">1️⃣ Co je CSS</h4>
+    <p>
+      CSS je zkratka pro <strong>Cascading Style Sheets</strong> – česky „kaskádové styly“.  
+      Pomocí CSS určujeme, jak bude naše webová stránka <strong>vypadat</strong>.  
+      HTML popisuje strukturu stránky (co na ní je), CSS určuje vzhled (jak to vypadá).
+    </p>
+    <p>
+      Představ si, že HTML je kostra domu – zdi, dveře, okna.  
+      CSS je barva na stěnách, nábytek a dekorace.  
+      Bez CSS vypadají weby nudně, ale s CSS můžeme vytvářet moderní, přehledné a barevné stránky.
+    </p>
+  </div>
+
+  <!-- Mini úkol 1 -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h5 class="mb-3">🧩 Mini úkol 1 – Založ si projekt</h5>
+    <ol>
+      <li>Otevři <strong>Visual Studio Code</strong>.</li>
+      <li>Vytvoř novou složku <code>moje_stranka</code>.</li>
+      <li>Uvnitř vytvoř soubor <code>index.html</code> a <code>style.css</code>.</li>
+      <li>Do <code>index.html</code> napiš základ:</li>
+    </ol>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="cs"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Moje první stránka&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Ahoj světe!&lt;/h1&gt;
+  &lt;p&gt;Tohle je můj úplně první web.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+    <p>Ulož a otevři v prohlížeči. Zatím to vypadá obyčejně – a právě to teď pomocí CSS změníme.</p>
+  </div>
+
+  <!-- Teorie: Jak CSS funguje -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <h4 class="mb-3">2️⃣ Jak CSS funguje</h4>
+    <p>
+      CSS funguje tak, že napíšeme tzv. <strong>pravidlo</strong>.  
+      To pravidlo říká: „Tento prvek má vypadat takto.“  
+      Každé pravidlo má dvě části:
+    </p>
+    <ul>
+      <li><strong>Selektor</strong> – určuje, který prvek chceme upravit.</li>
+      <li><strong>Blok deklarací</strong> – v závorkách <code>{ }</code> píšeme vlastnosti a jejich hodnoty.</li>
+    </ul>
+
+<pre><code>p {
+  color: blue;         /* barva textu */
+  font-size: 20px;     /* velikost písma */
+}
+</code></pre>
+    <p>
+      Tento kód říká: všechny odstavce (<code>&lt;p&gt;</code>) budou mít modrý text a větší písmo.
+    </p>
+  </div>
+
+  <!-- Mini úkol 2 -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h5 class="mb-3">🧩 Mini úkol 2 – První styl</h5>
+    <ol>
+      <li>Otevři soubor <code>style.css</code>.</li>
+      <li>Napiš tam následující kód:</li>
+    </ol>
+<pre><code>body {
+  background-color: lightgray;
+}
+
+h1 {
+  color: darkblue;
+  text-align: center;
+}
+
+p {
+  color: darkgreen;
+}
+</code></pre>
+    <ol start="3">
+      <li>Vrať se do <code>index.html</code> a propoj oba soubory přidáním řádku do sekce <code>&lt;head&gt;</code>:</li>
+    </ol>
+<pre><code>&lt;link rel="stylesheet" href="style.css"&gt;
+</code></pre>
+    <p>Ulož, aktualizuj stránku – a voilà, první barvy a pozadí!</p>
+  </div>
+
+  <!-- Teorie: Tři způsoby stylování -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <h4 class="mb-3">3️⃣ Tři způsoby stylování</h4>
+    <ul>
+      <li><strong>Inline styl</strong> – přímo v HTML tagu: <code>&lt;p style="color:red"&gt;</code></li>
+      <li><strong>Internal styl</strong> – uvnitř <code>&lt;style&gt;&lt;/style&gt;</code> v <code>&lt;head&gt;</code>.</li>
+      <li><strong>External styl</strong> – v samostatném souboru <code>.css</code> (nejčastější způsob).</li>
+    </ul>
+    <p>
+      V praxi vždy používáme <strong>externí CSS</strong>, protože ho můžeme snadno měnit, používat na více stránkách a udržet přehled.
+    </p>
+  </div>
+
+  <!-- Mini úkol 3 -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h5 class="mb-3">🧩 Mini úkol 3 – Vyzkoušej různé způsoby</h5>
+    <ol>
+      <li>Vlož do těla stránky tři různé odstavce:</li>
+    </ol>
+<pre><code>&lt;p&gt;Externí styl – řídí ho style.css&lt;/p&gt;
+&lt;p style="color:red;"&gt;Inline styl – přímo v tagu&lt;/p&gt;
+&lt;p&gt;Interní styl – přidáme do hlavičky&lt;/p&gt;
+</code></pre>
+    <ol start="2">
+      <li>Do sekce <code>&lt;head&gt;</code> přidej interní styl:</li>
+    </ol>
+<pre><code>&lt;style&gt;
+  p:last-child {
+    color: purple;
+  }
+&lt;/style&gt;
+</code></pre>
+    <p>Všimni si: inline (červený) má přednost před ostatními – to je tzv. <strong>specifita</strong>.</p>
+  </div>
+
+  <!-- Teorie: Barvy -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <h4 class="mb-3">4️⃣ Barvy v CSS</h4>
+    <p>Barvy můžeme zapisovat několika způsoby:</p>
+    <ul>
+      <li><strong>Pojmenované barvy:</strong> <code>red</code>, <code>blue</code>, <code>lightgreen</code></li>
+      <li><strong>RGB:</strong> <code>rgb(255, 0, 0)</code> – míchá červenou, zelenou, modrou.</li>
+      <li><strong>HEX:</strong> <code>#ff0000</code> – totéž číslem v šestnáctkové soustavě.</li>
+    </ul>
+    <p>
+      RGB i HEX umí vytvořit miliony odstínů.  
+      V editorech (např. VS Code) můžeš na barvu najet myší a otevře se „color picker“ pro snadný výběr.
+    </p>
+  </div>
+
+  <!-- Mini úkol 4 -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h5 class="mb-3">🧩 Mini úkol 4 – Vytvoř barevnou sekci</h5>
+    <p>V <code>index.html</code> vytvoř sekci:</p>
+<pre><code>&lt;section&gt;
+  &lt;h2&gt;Moje oblíbené barvy&lt;/h2&gt;
+  &lt;p&gt;Tady testuji barvy v CSS&lt;/p&gt;
+&lt;/section&gt;
+</code></pre>
+    <p>Do <code>style.css</code> přidej:</p>
+<pre><code>section {
+  background-color: rgb(240, 240, 255);
+  color: #333333;
+  border-radius: 10px;
+  padding: 20px;
+}
+</code></pre>
+    <p>Experimentuj: změň barvu pozadí a textu, vyzkoušej <code>#hex</code> i <code>rgb()</code>.</p>
+  </div>
+
+  <!-- Teorie: Class vs ID -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <h4 class="mb-3">5️⃣ Class vs. ID selektory</h4>
+    <p>
+      Někdy chceme upravit jen některé prvky.  
+      K tomu slouží <strong>class</strong> (třída) a <strong>id</strong> (jedinečné označení).
+    </p>
+    <ul>
+      <li><strong>Třída (.class)</strong> – může být použitá na více prvcích.</li>
+      <li><strong>ID (#id)</strong> – používá se jen jednou na stránce.</li>
+    </ul>
+<pre><code>&lt;p class="info"&gt;Toto je info text&lt;/p&gt;
+&lt;p id="warning"&gt;Toto je varování&lt;/p&gt;
+</code></pre>
+<pre><code>.info { color: blue; }
+#warning { color: red; font-weight: bold; }
+</code></pre>
+    <p>Pokud mají oba styly vliv na stejný prvek, <strong>ID</strong> má vyšší prioritu (tzv. specifitu).</p>
+  </div>
+
+  <!-- Mini úkol 5 -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h5 class="mb-3">🧩 Mini úkol 5 – Značky, třídy a ID</h5>
+    <p>
+      Přidej do stránky tři odstavce a použij různé způsoby stylování:
+    </p>
+<pre><code>&lt;p&gt;Obyčejný odstavec&lt;/p&gt;
+&lt;p class="info"&gt;Odstavec s třídou info&lt;/p&gt;
+&lt;p id="warning"&gt;Odstavec s ID warning&lt;/p&gt;
+</code></pre>
+    <p>Do CSS přidej různé barvy a zjisti, která se uplatní, když přidáš i inline styl.</p>
+  </div>
+
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">📘 Shrnutí lekce</h4>
+    <ul>
+      <li>HTML tvoří <strong>obsah</strong>, CSS tvoří <strong>vzhled</strong>.</li>
+      <li>Každé pravidlo má <strong>selektor</strong> a <strong>blok deklarací</strong>.</li>
+      <li>Styly se dají psát <strong>inline</strong>, <strong>interně</strong> nebo <strong>externě</strong>.</li>
+      <li>Barvy zapisujeme <code>red</code>, <code>rgb(255,0,0)</code> nebo <code>#ff0000</code>.</li>
+      <li>Třídy používáme často (<code>.nazev</code>), ID jen výjimečně (<code>#nazev</code>).</li>
+      <li>Specifita určuje, který styl má přednost.</li>
+    </ul>
+    <p>
+      Gratuluju 🎉 – zvládl jsi první krok v CSS!  
+      V příští lekci se naučíme <strong>rozvržení stránky pomocí Flexboxu</strong> a <strong>centraci prvků</strong>.
+    </p>
+  </div>
+</section>
