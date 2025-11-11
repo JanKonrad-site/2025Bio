@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blender – Kapitola 1: Co znamená modelovat (V3 – s modály a animacemi)</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root{
+      --ink:#0f172a; --muted:#5b6375; --ok:#0ea5e9; --warn:#ef4444; --tip:#16a34a; --card:#f8fafc;
+    }
+    body{color:var(--ink); background:#fff;}
+    .container-narrow{max-width:900px}
+    .badge-tip{background:var(--tip)}
+    .badge-warn{background:var(--warn)}
+    .badge-ok{background:var(--ok)}
+    .callout{border-left:6px solid var(--ok); background:var(--card); padding:1rem 1.25rem; border-radius:.5rem}
+    .callout.warn{border-left-color:var(--warn)}
+    .callout.tip{border-left-color:var(--tip)}
+    .code{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background:#0f172a; color:#e2e8f0; border-radius:.4rem; padding:.75rem 1rem}
+    .list-check li{margin:.4rem 0}
+    .lesson-box{background:#ffffff; border:1px solid #e5e7eb; border-radius:12px; padding:1.25rem}
+    .kbd{border:1px solid #cbd5e1; padding:.05rem .4rem; border-radius:.25rem; background:#f8fafc; font-family:ui-monospace}
+    .term-info{font-size:.9rem;}
+    .info-btn{padding:.1rem .4rem; line-height:1; border-radius:.35rem}
+    /* Mini SVG stage */
+    .stage{background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:8px}
+    .stage svg{width:100%; height:auto; display:block}
+
+    /* Simple animations */
+    @keyframes pulse {
+      0%{transform:scale(1)} 50%{transform:scale(1.1)} 100%{transform:scale(1)}
+    }
+    .pulse{animation:pulse 2.4s infinite ease-in-out}
+
+    /* Pinching demo: move a vertex */
+    @keyframes pinch {
+      0%,100%{cx:140px; cy:60px}
+      50%{cx:110px; cy:40px}
+    }
+    /* Flipping demo: toggle opacity of face to simulate normal flip */
+    @keyframes flipOpacity {
+      0%,49%{opacity:1}
+      50%,99%{opacity:.35}
+    }
+  </style>
+</head>
+<body>
+<main class="container container-narrow my-5">
+
+  <!-- Header -->
+  <header class="mb-4">
+    <h1 class="mb-3">Blender – Kapitola 1: Co znamená modelovat</h1>
+    <p class="text-muted m-0">
+      Založeno na principech z knihy <strong>William Vaughan – Digital Modeling</strong> (New Riders Press, 2012, ISBN 978-0-321-70089-6).
+      Materiál upraven pro výuku na gymnáziu (didaktický výklad, české příklady, úkoly).
+    </p>
+  </header>
+
+  <!-- Co se naučíš -->
+  <section id="learn" class="lesson-box mb-4">
+    <h2 class="h4 mb-3">Co se naučíš?</h2>
+    <ul class="list-check">
+      <li>Co znamená „myslet v 3D“ a proč <em>topologie</em> určuje kvalitu modelu <button class="btn btn-sm btn-outline-secondary info-btn" data-bs-toggle="modal" data-bs-target="#m-scene">ℹ︎</button>.</li>
+      <li><strong>Anatomii modelu</strong> (vertex, edge, face) a rozdíly <em>quads</em> / <em>tris</em> / <em>N-gons</em> <button class="btn btn-sm btn-outline-secondary info-btn" data-bs-toggle="modal" data-bs-target="#m-anatomy">ℹ︎</button>.</li>
+      <li>Proč pro deformace držet <em>edge loops</em> a převahu <em>quads</em> <button class="btn btn-sm btn-outline-secondary info-btn" data-bs-toggle="modal" data-bs-target="#m-loops">ℹ︎</button>.</li>
+      <li>Jak připravit reference, měřítko a 3D tiskový checklist <button class="btn btn-sm btn-outline-secondary info-btn" data-bs-toggle="modal" data-bs-target="#m-print">ℹ︎</button>.</li>
+      <li>Mini-workflow: „krychle → židle“ bezpečně pro Subdivision.</li>
+    </ul>
+  </section>
+
+  <!-- 1. Co znamená modelovat -->
+  <section id="meaning" class="mb-5">
+    <h2 class="h4">1) Co znamená „modelovat“</h2>
+    <p>
+      Modelování není jen ovládání nástrojů. Je to převod reálné (nebo stylizované) formy do
+      <em>čitelné a čisté</em> digitální sítě, které rozumí další kroky pipeline (rigging, animace, shading, 3D tisk).
+      Proto vždycky začínej otázkou: <strong>„K čemu model bude?“</strong>
+    </p>
+    <div class="callout tip">
+      <strong>TIP</strong><br>
+      Funkce určuje topologii: animace → edge loops a all-quads; 3D tisk → tloušťky a uzavřenost (manifold); herní asset → efektivní lowpoly + bake.
+    </div>
+  </section>
+
+  <!-- 2. Anatomie modelu -->
+  <section id="anatomy" class="mb-5">
+    <h2 class="h4">2) Anatomie digitálního modelu <span class="term-info">(vertex, edge, face)</span>
+      <button class="btn btn-sm btn-outline-secondary info-btn" data-bs-toggle="modal" data-bs-target="#m-anatomy">Animace</button>
+    </h2>
+    <p>
+      Základní stavebnice: <strong>vertex</strong> = bod ve 3D prostoru, <strong>edge</strong> = spoj dvou bodů, <strong>face</strong> (polygon) = plocha mezi hranami.
+      V Blenderu typicky pracujeme s polygonální sítí a vyhlazujeme ji pomocí <em>Subdivision Surface</em>.
+    </p>
+    <ul>
+      <li><strong>Quads (4-úhelníky)</strong> – drží <em>edge loops</em>, dobře se vybírají a předvídatelně se deformují.</li>
+      <li><strong>Tris (trojúhelníky)</strong> – v enginu běžné; v oblastech deformace mohou způsobit záhyby (<em>pinching</em>).</li>
+      <li><strong>N-gons</strong> – obecně „polygon s N vrcholy“. <em>Pozn.:</em> Tris i Quads jsou speciální případy N-gonů; v praxi slovem <em>N-gon</em> obvykle myslíme „více než 4“.</li>
+    </ul>
+
+    <div class="callout">
+      <strong>Princip: edge loops &amp; quads</strong><br>
+      Nejde o to „kreslit pás polygonů ručně“, ale <u>přemýšlet</u>, kudy tyto smyčky <em>povedou</em> při modelování a řezu sítě (Extrude, Loop Cut). 
+      V okolí <u>ohybu</u> (klouby, ohnuté hadice) a <u>otvorů</u> (oči, trubky) smyčky <u>obepínají tvar</u>, aby se síť při SubD a animaci <u>deformovala plynule</u>. 
+      Pokud se loop "ztratí" do <em>pole</em> (místo, kde se sbíhá mnoho hran), vznikají zlomy a vrásky.
+    </div>
+    </div>
+  </section>
+
+  <!-- 3. Proč „čistá topologie“ -->
+  <section id="topology" class="mb-5">
+    <h2 class="h4">3) Proč „čistá topologie“ rozhoduje
+      <button class="btn btn-sm btn-outline-secondary info-btn" data-bs-toggle="modal" data-bs-target="#m-pinching">Pinching</button>
+      <button class="btn btn-sm btn-outline-secondary info-btn" data-bs-toggle="modal" data-bs-target="#m-flipping">Flipping</button>
+      <button class="btn btn-sm btn-outline-secondary info-btn" data-bs-toggle="modal" data-bs-target="#m-subd">Subdivision</button>
+    </h2>
+    <p>
+      Čisté vedení hran (<em>poly‑flow</em>) a smyček zajišťuje hladké povrchy a předvídatelné deformace. V místech ohybu (obličej, koleno, loket) drž <em>quads</em> a smyčky – náhodné <em>tris</em>/N‑gons často dělají záhyby či „zlomy“.
+    </p>
+    <p>
+      Potřebuješ změnit tok hran bez rozbití okolí? Použij <em>Rotate/Spin Edge</em> (v Blenderu: <kbd>Ctrl+E → Rotate Edge CW/CCW</kbd>). Tím přesměruješ diagonálu mezi dvěma quady a opravíš proudění.
+    </p>
+    <div class="callout warn">
+      <strong>POZOR</strong><br>
+      „Náplasti“ v podobě náhodných trojúhelníků v oblasti deformace problém jen skryjí – při SubD/animaci se objeví pinching a chvění normál. Raději uprav edge‑flow.
+    </div>
+  </section>
+
+  <!-- 4. Reference a měřítko -->
+  <section id="reference" class="mb-5">
+    <h2 class="h4">4) Reference a měřítko (už od lekce 1)
+      <button class="btn btn-sm btn-outline-secondary info-btn" data-bs-toggle="modal" data-bs-target="#m-scene">3D scéna</button>
+    </h2>
+    <p>
+      Workflow „nejdřív reference, pak mesh“: sběr → filtrování → pojmenování → adresáře. Standardizovaná struktura od začátku šetří čas a chyby.
+    </p>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="callout">
+          <strong>Adresáře (příklad)</strong><br>
+          <code class="code">/Projekt/CG_Content/Objects, Scenes, Images, Reference, Rigs…</code><br>
+          Verzuj: <span class="code">Chair_001</span>, <span class="code">Chair_002</span>… (bez mezer – použij podtržítko).
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="callout tip">
+          <strong>Blender: Měřítko &amp; 3D tisk (rychlé minimum)</strong>
+          <ul class="mb-0">
+            <li><span class="kbd">Scene Properties → Units</span>: Metric, <span class="kbd">Unit Scale = 1.0</span>.</li>
+            <li><span class="kbd">Preferences → Add-ons</span>: povol <em>3D‑Print Toolbox</em>.</li>
+            <li>Modeluj v reálných mm/cm; hlídej <em>tloušťky stěn</em>.</li>
+            <li>Na konci: manifold (bez děr), jednotné normály, export STL/OBJ.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Mini workflow: Krychle -> Židle (bez artefaktů) -->
+  <section id="exercise" class="mb-5">
+    <h2 class="h4">5) Mini‑workflow: <em>Krychle → židle</em> (Subdivision‑safe)</h2>
+
+    <div class="callout">
+      <strong>Cíl</strong>: z kostky vyrobit jednoduchou židli tak, aby po přidání Subdivision nevznikaly záhyby (<em>pinching</em>).
+    </div>
+
+    <ol>
+      <li><strong>Reference</strong>: 2–3 fotky židle zepředu/z boku. Vlož do <span class="kbd">Add → Image → Reference</span>.</li>
+      <li><strong>Blokování tvaru</strong>: Z <em>Cube</em> extruduj sedák/nohy/opěradlo. Drž quads, žádné díry.</li>
+      <li><strong>Podpůrné hrany</strong>: Před SubD přidej „support edges“ (Loop Cut) kolem ostrých hran.</li>
+      <li><strong>Kontrola topologie</strong>: Žádné N‑gons v přechodech; smyčky obíhají otvory a změny směru.</li>
+      <li><strong>Subdivision</strong>: Přidej <em>Subdivision Surface</em> (Lvl 1–2). Pokud vzniká pinching, uprav tok hran (<em>Rotate Edge</em>) nebo přidej smyčky.
+      </li>
+      <li><strong>3D tisk (volit.)</strong>: <span class="kbd">Ctrl+A → Scale</span>, 3D‑Print Toolbox → <em>Thickness/Non‑Manifold</em>, export STL.
+      </li>
+    </ol>
+
+    <div class="callout warn">
+      <strong>Časté chyby</strong>:
+      příliš mnoho smyček, N‑gons v rozích, vynechané podpůrné hrany před SubD, rozdílná škála objektů.
+    </div>
+  </section>
+
+  <!-- 6. Otázky & úkoly -->
+  <section id="tasks" class="mb-5">
+    <h2 class="h4">6) Otázky, úkoly, sebehodnocení</h2>
+
+    <div class="mb-3">
+      <span class="badge badge-ok">Otázky k zamyšlení</span>
+      <ul>
+        <li>Kde se bude síť „ohýbat“? Kde proto posílíš smyčky?</li>
+        <li>Jak bys upravil topologii, kdybys měl židli animovat (např. skládání)?</li>
+        <li>Co změníš pro 3D tisk (tloušťky, dutiny, podpěry)?</li>
+      </ul>
+    </div>
+
+    <div class="mb-3">
+      <span class="badge badge-tip">Úkol A (povinný)</span>
+      <p class="mb-1"><strong>„Krychle → židle“</strong>: Odevzdej <em>.blend</em> s tímto:</p>
+      <ul>
+        <li>verze souboru <span class="code">Chair_001…</span> (správné pojmenování a struktura adresářů),</li>
+        <li>model židle v quads, SubD‑ready (bez pinching),</li>
+        <li>screenshot <em>Wireframe + Subdivision</em> on/off (před/po).</li>
+      </ul>
+    </div>
+
+    <div class="mb-3">
+      <span class="badge badge-tip">Úkol B (rozšiřující)</span>
+      <p class="mb-1"><strong>„Edge‑flow challenge“</strong>: Přestav část opěradla tak, abys snížil počet polygonů, ale zachoval plynulý SubD tvar.</p>
+      <p class="mb-0">Použij <em>Rotate/Spin Edge</em> a ukaž 2 varianty toku hran (porovnej artefakty).</p>
+    </div>
+
+    <div class="mb-3">
+      <span class="badge badge-warn">Mini‑test (3 otázky)</span>
+      <ol>
+        <li>Proč se N‑gons nehodí do oblastí deformace a SubD?</li>
+        <li>Co jsou <em>edge loops</em> a proč pomáhají při riggování/animaci?</li>
+        <li>Jakými nástroji v Blenderu změníš tok hran beze změny tvaru? (uveď 1–2)</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 7) Modály s animacemi a vysvětlením pojmů -->
+  <section class="mb-5">
+    <h2 class="h4">7) Mikro‑ukázky (modály)</h2>
+    <div class="d-flex gap-2 flex-wrap">
+      <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#m-scene">3D scéna (XYZ, kamera, světlo)</button>
+      <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#m-anatomy">Vertex / Edge / Face</button>
+      <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#m-quads">Quads × Tris × N‑gons</button>
+      <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#m-loops">Edge loops</button>
+      <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#m-subd">Subdivision</button>
+      <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#m-pinching">Pinching</button>
+      <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#m-flipping">Flipping (normály)</button>
+      <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#m-print">3D‑Print checklist</button>
+    </div>
+  </section>
+
+  <!-- Modal: 3D scéna -->
+  <div class="modal fade" id="m-scene" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content p-3">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title">3D scéna: souřadnice XYZ, kamera, světlo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p>Ve 3D pracujeme v prostoru XYZ. Kamera určuje pohled; světla ovlivňují stíny a plastičnost. Objekt je tvořen body‑hranami‑plochami.</p>
+        <div class="stage">
+          <!-- Simple axis + camera icon -->
+          <svg viewBox="0 0 220 120" aria-label="3D scene axes">
+            <!-- axes -->
+            <g stroke="#64748b" stroke-width="2">
+              <line x1="20" y1="100" x2="20" y2="20"/>
+              <line x1="20" y1="100" x2="200" y2="100"/>
+              <line x1="20" y1="100" x2="90" y2="40"/>
+            </g>
+            <text x="10" y="20" font-size="10" fill="#64748b">Z</text>
+            <text x="205" y="105" font-size="10" fill="#64748b">X</text>
+            <text x="90" y="35" font-size="10" fill="#64748b">Y</text>
+            <!-- camera icon -->
+            <rect x="150" y="30" width="30" height="18" fill="#0ea5e9" rx="3"/>
+            <polygon points="180,33 200,39 200,39 180,45" fill="#0ea5e9"/>
+            <!-- object cube -->
+            <g fill="#93c5fd" opacity=".7" stroke="#64748b">
+              <rect x="60" y="60" width="40" height="30"/>
+              <path d="M60 60 L75 50 L115 50 L100 60 Z"/>
+              <path d="M100 60 L115 50 L115 80 L100 90 Z"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- Modal: Anatomie (vertex/edge/face) -->
+  <div class="modal fade" id="m-anatomy" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content p-3">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title">Anatomie: vertex • edge • face</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Vertex</strong> (bod) je jako uzel v síti. <strong>Edge</strong> (hrana) je drát mezi dvěma body. <strong>Face</strong> (plocha) je „látka“ natažená mezi dráty.</p>
+        <div class="stage">
+          <svg viewBox="0 0 220 120" aria-label="Anatomy">
+            <!-- face -->
+            <polygon points="40,30 140,30 160,80 60,80" fill="#c7d2fe" stroke="#64748b"/>
+            <!-- edges emphasized -->
+            <polyline points="40,30 140,30 160,80 60,80 40,30" fill="none" stroke="#334155" stroke-width="3"/>
+            <!-- vertices -->
+            <g fill="#0ea5e9">
+              <circle cx="40" cy="30" r="5" class="pulse"/>
+              <circle cx="140" cy="30" r="5" class="pulse"/>
+              <circle cx="160" cy="80" r="5" class="pulse"/>
+              <circle cx="60" cy="80" r="5" class="pulse"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- Modal: Quads/Tris/N-gons -->
+  <div class="modal fade" id="m-quads" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content p-3">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title">Quads × Tris × N‑gons</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          <strong>Tris</strong> = 3 vrcholy, <strong>Quads</strong> = 4 vrcholy, <strong>N‑gon</strong> = obecně polygon s N vrcholy (tedy i tris/quad jsou „N‑gony“). V praxi ale slovem <em>N‑gon</em> obvykle myslíme „více než 4“.
+        </p>
+        <div class="row g-3">
+          <div class="col-md-4 stage">
+            <svg viewBox="0 0 160 120" aria-label="Tri">
+              <polygon points="30,90 130,90 80,30" fill="#fee2e2" stroke="#64748b"/>
+              <text x="10" y="20" font-size="12" fill="#334155">TRI (3)</text>
+            </svg>
+          </div>
+          <div class="col-md-4 stage">
+            <svg viewBox="0 0 160 120" aria-label="Quad">
+              <polygon points="30,30 130,30 130,90 30,90" fill="#dcfce7" stroke="#64748b"/>
+              <text x="10" y="20" font-size="12" fill="#334155">QUAD (4)</text>
+            </svg>
+          </div>
+          <div class="col-md-4 stage">
+            <svg viewBox="0 0 160 120" aria-label="N-gon">
+              <polygon points="30,50 70,30 110,40 130,70 100,95 50,90" fill="#e0e7ff" stroke="#64748b"/>
+              <text x="10" y="20" font-size="12" fill="#334155">N‑GON (6)</text>
+            </svg>
+          </div>
+        </div>
+        <p class="mt-2"><strong>Praxe:</strong> Quads jsou ideální pro smyčky a deformace; Tris/N‑gons používej uvážlivě (mimo ohyby, povrchové detaily, game‑ready triangulace).</p>
+      </div>
+    </div></div>
+  </div>
+
+<!-- Modal: Edge loops (FIXED) -->
+<div class="modal fade" id="m-loops" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content p-3">
+    <div class="modal-header border-0 pb-0">
+      <h5 class="modal-title">Edge loops – uzavřený výběr kolem otvoru (Alt+klik)</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    </div>
+    <div class="modal-body">
+      <p class="mb-2">Loop je <u>uzavřený pás hran</u>, který obepíná otvor (oko, trubka). V Blenderu vybereš celý prstenec <strong>Alt+klikem</strong> na hranu u otvoru.</p>
+      <div class="row g-3 align-items-center">
+        <div class="col-md-7">
+          <div class="stage">
+            <svg id="loopsSvg" viewBox="0 0 320 200" aria-label="Edge loop around a hole">
+              <!-- tělo -->
+              <rect x="30" y="20" width="260" height="160" rx="40" ry="40" fill="#eef2ff" stroke="#64748b"/>
+              <!-- otvor -->
+              <ellipse cx="160" cy="100" rx="70" ry="30" fill="#fff" stroke="#64748b"/>
+              <!-- „quad“ paprsky pro náznak topologie -->
+              <g stroke="#cbd5e1" stroke-width="1">
+                <line x1="90" y1="100" x2="230" y2="100"/>
+                <line x1="160" y1="70" x2="160" y2="130"/>
+                <line x1="115" y1="82" x2="205" y2="118"/>
+                <line x1="115" y1="118" x2="205" y2="82"/>
+              </g>
+              <!-- zvýrazněný loop (marching-ants) -->
+              <ellipse id="loopPath" cx="160" cy="100" rx="70" ry="30" fill="none"
+                       stroke="#0ea5e9" stroke-width="4" stroke-dasharray="12 10"/>
+              <!-- kurzor (simulace Alt+klik – běží po smyčce) -->
+              <circle id="cursorDot" cx="230" cy="100" r="5" fill="#0ea5e9"/>
+            </svg>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <ol class="mb-2">
+            <li><strong>Alt+klik</strong> na hranu u otvoru = vybere se celý loop.</li>
+            <li><strong>K čemu:</strong> rychlý <em>inset/extrude</em>, čistý SubD, rigg-friendly deformace.</li>
+            <li><strong>Když se loop zlomí:</strong> máš tam <em>pole</em> (sbíhání hran). Oprav <kbd>Ctrl+E → Rotate Edge</kbd> nebo převeď na quady.</li>
+          </ol>
+          <div class="d-flex gap-2">
+            <button id="btnPlayLoop" class="btn btn-sm btn-primary">Animovat výběr</button>
+            <button id="btnBreakLoop" class="btn btn-sm btn-outline-danger">Rozbít loop (pole)</button>
+            <button id="btnFixLoop"   class="btn btn-sm btn-outline-success" disabled>Opravit loop</button>
+          </div>
+        </div>
+      </div>
+      <div class="callout tip mt-3 mb-0"><strong>Kam smyčky patří:</strong> okolo <u>otvorů</u>, <u>kloubů</u> a <u>ostrých přechodů</u> (support loops pro SubD).</div>
+    </div>
+  </div></div>
+</div>
+
+<script>
+(() => {
+  const loop   = document.getElementById('loopPath');
+  const cursor = document.getElementById('cursorDot');
+  const btnA   = document.getElementById('btnPlayLoop');
+  const btnB   = document.getElementById('btnBreakLoop');
+  const btnF   = document.getElementById('btnFixLoop');
+  let t=0, run=false, broken=false, timer=null;
+
+  function tick(){
+    t += 0.06;
+    loop.setAttribute('stroke-dashoffset', String(-t*60));
+    const cx = 160 + 70*Math.cos(t);
+    const cy = 100 + 30*Math.sin(t);
+    cursor.setAttribute('cx', cx); cursor.setAttribute('cy', cy);
+  }
+  btnA?.addEventListener('click', () => {
+    if(run){ clearInterval(timer); run=false; btnA.textContent='Animovat výběr'; return; }
+    timer=setInterval(tick, 30); run=true; btnA.textContent='Zastavit animaci';
+  });
+  btnB?.addEventListener('click', () => {
+    if(broken) return;
+    loop.setAttribute('stroke-dasharray','18 18 90 36'); // „díra“ v průběhu
+    loop.setAttribute('stroke','#ef4444');
+    const pole = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    pole.setAttribute('cx','230'); pole.setAttribute('cy','100'); pole.setAttribute('r','6'); pole.setAttribute('fill','#ef4444');
+    document.getElementById('loopsSvg').appendChild(pole);
+    broken=true; btnF.disabled=false;
+  });
+  btnF?.addEventListener('click', () => {
+    loop.setAttribute('stroke-dasharray','12 10');
+    loop.setAttribute('stroke','#0ea5e9');
+    const svg=document.getElementById('loopsSvg');
+    const nodes=[...svg.querySelectorAll('circle')];
+    const extra=nodes[nodes.length-1];
+    if(extra && extra!==cursor) svg.removeChild(extra);
+    broken=false; btnF.disabled=true;
+  });
+})();
+</script>
+Pozn.: Vršek tvého souboru měl pár „navíc“ </div> za tímto modalem — dej pozor, ať nemáš po </div></div></div> ještě další dva </div> navíc. Rozbíjí to DOM a event-handlery.
+
+2) Nahraď celý modal Pinching tímto (ohyb jen ve středu, s pole)
+html
+Zkopírovat kód
+<!-- Modal: Pinching (FIXED) -->
+<div class="modal fade" id="m-pinching" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content p-3">
+    <div class="modal-header border-0 pb-0">
+      <h5 class="modal-title">Pinching – proč se síť „sevře“ v ohybu (pole vs. čisté quady)</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    </div>
+    <div class="modal-body">
+      <div class="row g-3">
+        <div class="col-md-7">
+          <div class="stage">
+            <!-- Dvě pásky z quadů: vlevo čisté; vpravo pole (sbíhá se víc hran) -->
+            <svg id="pinchSvg" viewBox="0 0 420 200" aria-label="Pinching – bend demo">
+              <!-- LEVÁ: čistá síť (3 sloupce × 4 řady) -->
+              <g id="clean" transform="translate(10,20)">
+                <g id="cleanCells" stroke="#64748b">
+                  <!-- vytvoříme 12 „buněk“ (quads) – jen vizuálně jako rect -->
+                  <!-- sloupec 0 -->
+                  <rect x="0"  y="0"  width="40" height="40" fill="#dcfce7"/>
+                  <rect x="0"  y="42" width="40" height="40" fill="#dcfce7"/>
+                  <rect x="0"  y="84" width="40" height="40" fill="#dcfce7"/>
+                  <!-- sloupec 1 (střed – bude se ohýbat nahoru/dolů) -->
+                  <rect id="c10" x="42" y="0"  width="40" height="40" fill="#dcfce7"/>
+                  <rect id="c11" x="42" y="42" width="40" height="40" fill="#dcfce7"/>
+                  <rect id="c12" x="42" y="84" width="40" height="40" fill="#dcfce7"/>
+                  <!-- sloupec 2 -->
+                  <rect x="84" y="0"  width="40" height="40" fill="#dcfce7"/>
+                  <rect x="84" y="42" width="40" height="40" fill="#dcfce7"/>
+                  <rect x="84" y="84" width="40" height="40" fill="#dcfce7"/>
+                </g>
+                <!-- support smyčky (jen vizuální linky kolem středu) -->
+                <g id="supports" stroke="#16a34a" opacity=".85">
+                  <line x1="40" y1="-4" x2="40" y2="128"/>
+                  <line x1="84" y1="-4" x2="84" y2="128"/>
+                </g>
+                <text x="0" y="-10" font-size="12" fill="#16a34a">Správně: smyčky kolem ohybu</text>
+              </g>
+
+              <!-- PRAVÁ: pole uprostřed (víc hran do jednoho bodu) → pinch -->
+              <g id="bad" transform="translate(220,20)">
+                <g id="badCells" stroke="#64748b">
+                  <!-- sloupec 0 -->
+                  <rect x="0"  y="0"  width="40" height="40" fill="#fee2e2"/>
+                  <rect x="0"  y="42" width="40" height="40" fill="#fee2e2"/>
+                  <rect x="0"  y="84" width="40" height="40" fill="#fee2e2"/>
+                  <!-- sloupec 1 (střed – ohyb + pole) -->
+                  <rect id="b10" x="42" y="0"  width="40" height="40" fill="#fee2e2"/>
+                  <rect id="b11" x="42" y="42" width="40" height="40" fill="#fee2e2"/>
+                  <rect id="b12" x="42" y="84" width="40" height="40" fill="#fee2e2"/>
+                  <!-- sloupec 2 -->
+                  <rect x="84" y="0"  width="40" height="40" fill="#fee2e2"/>
+                  <rect x="84" y="42" width="40" height="40" fill="#fee2e2"/>
+                  <rect x="84" y="84" width="40" height="40" fill="#fee2e2"/>
+                </g>
+                <!-- POLE = místo, kde se sbíhá víc hran (červený uzel) -->
+                <circle id="poleDot" cx="62" cy="62" r="6" fill="#ef4444"/>
+                <text x="0" y="-10" font-size="12" fill="#ef4444">Špatně: pole v ohybu → sevření</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="col-md-5">
+          <ol class="mb-2">
+            <li><strong>Co vidíš vlevo:</strong> ohýbáme <u>pouze střední sloupec</u> (jako kloub). Díky smyčkám kolem se síť rozloží hladce.</li>
+            <li><strong>Co vidíš vpravo:</strong> stejné ohýbání, ale uprostřed je <u>pole</u> (sběh hran) → buňky se „namačkají“ = <em>pinching</em>.</li>
+            <li><strong>Oprava:</strong> převeď oblast na quady a přidej smyčky kolem ohybu; případně <kbd>Ctrl+E → Rotate Edge</kbd> změň tok hran mimo ohyb.</li>
+          </ol>
+          <div class="d-flex gap-2">
+            <button id="btnBend" class="btn btn-sm btn-primary">Ohni / narovnej</button>
+            <button id="btnToggleSupp" class="btn btn-sm btn-outline-success">Zap./vyp. support smyčky (vlevo)</button>
+          </div>
+          <p class="small text-muted mt-2 mb-0">Sleduj „tlačení“ buněk ke <span style="color:#ef4444">červenému bodu</span> na pravé straně – to je přesně pole.</p>
+        </div>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<script>
+(() => {
+  // levá (čistá) – ohýbáme jen Y pozice středního sloupce (c10,c11,c12)
+  const c10 = document.getElementById('c10');
+  const c11 = document.getElementById('c11');
+  const c12 = document.getElementById('c12');
+  const supp = document.getElementById('supports');
+
+  // pravá (špatná) – stejné buňky b10,b11,b12, ale navíc je „táhne“ poleDot
+  const b10 = document.getElementById('b10');
+  const b11 = document.getElementById('b11');
+  const b12 = document.getElementById('b12');
+  const poleDot = document.getElementById('poleDot');
+
+  const btnB = document.getElementById('btnBend');
+  const btnS = document.getElementById('btnToggleSupp');
+
+  let t=0, run=false, timer=null, supportsOn=true;
+
+  function bendRect(rect, baseY, amp, phase=0){
+    const y = baseY + amp*Math.sin(t+phase);
+    rect.setAttribute('y', String(y));
+  }
+
+  function step(){
+    t += 0.06;
+    // VLEVO: hladký ohyb (střední sloupec jde nahoru/dolů)
+    bendRect(c10, 0,  6, 0.0);
+    bendRect(c11, 42, 8, 0.6);
+    bendRect(c12, 84, 6, 1.1);
+
+    // VPRAVO: stejný ohyb, ale navíc „vtah“ do pole (větší amplitude + zúžení)
+    const pull = 6*Math.sin(t*1.2);
+    bendRect(b10, 0,  8, 0.0);
+    bendRect(b11, 42, 12, 0.6);
+    bendRect(b12, 84, 8, 1.1);
+
+    // simulace „namačkání“: střední pravé buňky se i zúží směrem k pole
+    const squeeze = 1.0 + 0.12*Math.sin(t*1.2);
+    [b10,b11,b12].forEach((r) => { r.setAttribute('width', String(40*squeeze)); });
+
+    // červený bod „dýchá“
+    poleDot.setAttribute('r', String(6 + 2*Math.max(0, Math.sin(t*1.2))));
+  }
+
+  btnB?.addEventListener('click', () => {
+    if(run){ clearInterval(timer); run=false; btnB.textContent='Ohni / narovnej'; return; }
+    timer = setInterval(step, 30); run=true; btnB.textContent='Zastavit ohyb';
+  });
+
+  btnS?.addEventListener('click', () => {
+    supportsOn = !supportsOn;
+    supp.setAttribute('opacity', supportsOn ? '.85' : '0');
+  });
+})();
+</script>
+
+  <!-- Modal: Subdivision -->
+  <div class="modal fade" id="m-subd" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content p-3">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title">Subdivision Surface – z kostky hladký tvar</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p>Subdivision (SubD) přidá mezi body další body a vyhladí povrch. <em>Podpůrné hrany</em> (loop cuts) řídí ostrost hran.</p>
+        <div class="stage">
+          <svg viewBox="0 0 220 120" aria-label="Subdivision demo">
+            <!-- left: cube wire -->
+            <g transform="translate(10,15)">
+              <rect x="0" y="20" width="60" height="40" fill="none" stroke="#334155"/>
+              <path d="M0 20 L15 0 L75 0 L60 20 Z" fill="none" stroke="#334155"/>
+              <path d="M60 20 L75 0 L75 40 L60 60 Z" fill="none" stroke="#334155"/>
+              <text x="0" y="-5" font-size="11" fill="#334155">Low‑poly</text>
+            </g>
+            <!-- right: rounded cube (approx) -->
+            <g transform="translate(120,10)">
+              <rect x="0" y="15" rx="18" ry="18" width="70" height="50" fill="#bfdbfe" stroke="#334155"/>
+              <text x="0" y="-5" font-size="11" fill="#334155">SubD (Lvl 2)</text>
+            </g>
+          </svg>
+        </div>
+        <p class="mb-0"><em>Blender:</em> <kbd>Modifier → Subdivision Surface</kbd> a přidej podpůrné smyčky (<kbd>Ctrl+R</kbd>).</p>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- Modal: Pinching -->
+  <div class="modal fade" id="m-pinching" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content p-3">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title">Pinching – ohyb trubky: správná vs. špatná topologie</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-md-7">
+            <div class="stage">
+              <!-- Two tubes: LEFT (clean with support loops), RIGHT (bad with tri/pole). Center joint bends. -->
+              <svg id="tubeSvg" viewBox="0 0 420 220" aria-label="Tube bend pinching demo">
+                <!-- LEFT CLEAN TUBE -->
+                <g id="tubeLeft" transform="translate(10,20)">
+                  <!-- tube body -->
+                  <rect x="10" y="70" width="160" height="40" rx="20" ry="20" fill="#dcfce7" stroke="#64748b"/>
+                  <rect x="150" y="30" width="40" height="140" rx="20" ry="20" fill="#dcfce7" stroke="#64748b"/>
+                  <!-- joint circle (visual) -->
+                  <circle cx="150" cy="90" r="10" fill="#86efac"/>
+                  <!-- support loops (visual) -->
+                  <rect x="140" y="30" width="4" height="140" fill="#86efac" opacity=".8"/>
+                  <rect x="170" y="30" width="4" height="140" fill="#86efac" opacity=".8"/>
+                  <text x="10" y="20" font-size="12" fill="#16a34a">Správně: smyčky okolo ohybu (hladký průběh)</text>
+                </g>
+                <!-- RIGHT BAD TUBE -->
+                <g id="tubeRight" transform="translate(220,20)">
+                  <rect x="10" y="70" width="160" height="40" rx="20" ry="20" fill="#fee2e2" stroke="#64748b"/>
+                  <rect x="150" y="30" width="40" height="140" rx="20" ry="20" fill="#fee2e2" stroke="#64748b"/>
+                  <!-- missing support; tri/pole at the joint -->
+                  <polygon id="triJoint" points="150,80 190,90 150,100" fill="#fca5a5" stroke="#64748b"/>
+                  <circle id="badPole" cx="158" cy="90" r="8" fill="#ef4444"/>
+                  <text x="10" y="20" font-size="12" fill="#ef4444">Špatně: tri/pole v ohybu (sevření)</text>
+                </g>
+              </svg>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <ol class="mb-2">
+              <li><strong>Co je pinching:</strong> při ohybu se povrch <u>sevře</u> (vznikne ostrá vráska/špička).</li>
+              <li><strong>Proč:</strong> v ohybu je <u>N‑gon/tris</u> nebo <u>pole</u> (moc hran do jednoho bodu); chybí <em>support loops</em>.</li>
+              <li><strong>Oprava:</strong> smyčky okolo ohybu, <kbd>Rotate Edge</kbd> pro změnu toku, předělat N‑gony na quady.</li>
+            </ol>
+            <div class="d-flex gap-2">
+              <button id="btnBendTubes" class="btn btn-sm btn-primary">Ohni / narovnej</button>
+              <button id="btnToggleSupport" class="btn btn-sm btn-outline-success">Přidej/odeber support smyčky</button>
+            </div>
+            <p class="small text-muted mt-2 mb-0">Sleduj rozdíl v ohybu – vlevo plynulý, vpravo zřetelné „sevření“ u červeného bodu.</p>
+          </div>
+        </div>
+        <script>
+          (function(){
+            const left = document.getElementById('tubeLeft');
+            const right = document.getElementById('tubeRight');
+            const btnB = document.getElementById('btnBendTubes');
+            const btnS = document.getElementById('btnToggleSupport');
+            // support loops are two rects in left tube; we toggle their opacity to show removal
+            const supports = left.querySelectorAll('rect[fill="#86efac"]');
+            let t=0, run=false, timer=null, supportsOn=true;
+            function step(){
+              t+=0.05; const ang = 10*Math.sin(t); // +/-10° bend
+              left.setAttribute('transform',`translate(10,20) rotate(${ang} 150 90)`);
+              right.setAttribute('transform',`translate(220,20) rotate(${ang} 150 90)`);
+            }
+            btnB.addEventListener('click',()=>{
+              if(run){ clearInterval(timer); run=false; btnB.textContent='Ohni / narovnej'; return; }
+              timer=setInterval(step,30); run=true; btnB.textContent='Zastavit ohyb';
+            });
+            btnS.addEventListener('click',()=>{
+              supportsOn=!supportsOn; supports.forEach(el=>el.setAttribute('opacity', supportsOn? '.8' : '0'));
+            });
+          })();
+        </script>
+      </div>
+    </div></div>
+  </div>
+  </div></div>
+  </div>
+  </div>
+
+  <!-- Modal: Flipping (normals) -->
+  <div class="modal fade" id="m-flipping" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content p-3">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title">Flipping – převrácené normály (proč plocha mizí)</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <ol class="mb-3">
+          <li><strong>Co to je:</strong> Každá plocha má směr – <em>normálu</em>. Když míří dovnitř, „zvenku“ je plocha neviditelná.</li>
+          <li><strong>Proč se děje:</strong> Špatné pořadí vrcholů, zrcadlení bez přepočtu normál, non‑manifold geometrie.</li>
+          <li><strong>Jak to poznám:</strong> <em>Face Orientation</em> v Blenderu – <span style="color:#1d4ed8">modrá = správně</span>, <span style="color:#b91c1c">červená = špatně</span>.</li>
+          <li><strong>Jak to opravit:</strong> Vyber plochy → <kbd>Shift+N</kbd> (Recalculate Outside); případně <kbd>Alt+N</kbd> → Flip.</li>
+        </ol>
+        <div class="stage mb-2">
+          <!-- Face orientation demo: barva přepíná mezi modrou a červenou -->
+          <svg viewBox="0 0 280 140" aria-label="Face orientation">
+            <rect x="30" y="30" width="220" height="80" rx="8" ry="8" id="faceRect" stroke="#64748b" stroke-width="2" fill="#1d4ed8"></rect>
+            <text x="40" y="55" font-size="12" fill="#ffffff" id="labelText">MODRÁ = správné normály</text>
+            <script><![CDATA[
+              const r=document.getElementById('faceRect');
+              const l=document.getElementById('labelText');
+              let s=true; setInterval(()=>{ s=!s; if(s){ r.setAttribute('fill','#1d4ed8'); l.textContent='MODRÁ = správné normály'; } else { r.setAttribute('fill','#b91c1c'); l.textContent='ČERVENÁ = převrácené normály (flip)'; } },1400);
+            ]]></script>
+          </svg>
+        </div>
+        <p class="mb-0"><strong>Pozn. k renderu:</strong> Při špatných normálách se mohou objevit i „blikající“ stíny. Než budeš řešit materiály, <u>nejdřív zkontroluj orientaci ploch</u>.</p>
+      </div>
+    </div></div>
+  </div>
+  </div>
+
+  <!-- Modal: 3D print checklist -->
+  <div class="modal fade" id="m-print" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered"><div class="modal-content p-3">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title">3D‑Print – rychlý checklist</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="mb-0">
+          <li>Reálné jednotky (mm/cm), <em>Apply Scale</em>, sjednocené normály.</li>
+          <li>Manifold (uzavřené objemy, žádné díry/duplikované plochy).</li>
+          <li>Tloušťky ≥ limit filamentu/trysky; orientace a podpěry promyšlené.</li>
+          <li>Export STL/OBJ, test v sliceru.</li>
+        </ul>
+      </div>
+    </div></div>
+  </div>
+
+ <!-- =========================================
+     8. Cvičení: Hrneček (myšlení v 3D, topologie, tisk)
+========================================= -->
+<section id="exercise-cup" class="mb-5">
+  <h2 class="h4 mb-3">8) Praktická část – modelování hrnečku</h2>
+  <p>
+    Na tomto cvičení pochopíš rozdíl mezi „vytvarovat tvar“ a „vytvořit
+    čistý, uzavřený 3D objekt“. Hrneček je ideální start: obsahuje
+    <em>obal, otvor, tloušťku i rukojeť</em> – tedy všechny základní principy
+    topologie.
+  </p>
+
+  <div class="accordion" id="cupAccordion">
+    <!-- 1. Instalace a spuštění -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="cupStep1">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#cupCollapse1">
+          1️⃣ Instalace a spuštění Blenderu
+        </button>
+      </h2>
+      <div id="cupCollapse1" class="accordion-collapse collapse show" data-bs-parent="#cupAccordion">
+        <div class="accordion-body">
+          <h5>Teorie</h5>
+          <p>
+            Blender je open-source 3D software dostupný pro Windows, macOS i Linux.
+            Stáhneš jej z <a href="https://www.blender.org/download/" target="_blank">blender.org</a>.
+          </p>
+          <ul>
+            <li>Po instalaci spusť Blender → objeví se výchozí <em>kostka</em>.</li>
+            <li>Pro výuku doporučujeme přepnout klávesy na <strong>Industry Compatible</strong> (Edit → Preferences → Keymap).</li>
+            <li>Rozložení <em>Layout</em> – levý panel nástroje, pravý Outliner, spodní Timeline.</li>
+          </ul>
+
+          <h5>Praktické cvičení</h5>
+          <ol>
+            <li>Otevři Blender.</li>
+            <li>Vymaž výchozí objekty <span class="kbd">A → X → Delete</span>.</li>
+            <li>Ulož soubor jako <span class="code">Cup_001.blend</span> do složky <em>Project → Objects</em>.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Import addonů -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="cupStep2">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cupCollapse2">
+          2️⃣ Nastavení a import doplňků
+        </button>
+      </h2>
+      <div id="cupCollapse2" class="accordion-collapse collapse" data-bs-parent="#cupAccordion">
+        <div class="accordion-body">
+          <h5>Teorie</h5>
+          <p>
+            Addony rozšiřují funkce Blenderu. Mnohé jsou součástí instalace, stačí je aktivovat.
+          </p>
+          <ul>
+            <li><strong>3D Print Toolbox</strong> – kontrola tlouštěk a manifoldů.</li>
+            <li><strong>Bool Tool</strong> – jednodušší práce se spojováním objektů.</li>
+            <li><strong>LoopTools</strong> – přesné zarovnání a vytváření smyček.</li>
+          </ul>
+          <p><strong>Aktivace:</strong> <span class="kbd">Edit → Preferences → Add-ons → vyhledej „3D“ / „Bool“ / „LoopTools“ → zaškrtni.</span></p>
+
+          <h5>Praktické cvičení</h5>
+          <ol>
+            <li>Aktivuj uvedené addony.</li>
+            <li>V panelu <em>Tool → 3D Print</em> ověř, že se zobrazí možnosti kontroly modelu.</li>
+            <li>Ulož nastavení (Preferences → Save Preferences).</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Cvičení 1 – hrneček jako amatér -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="cupStep3">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cupCollapse3">
+          3️⃣ Hrneček jako amatér ☕ (špatná topologie)
+        </button>
+      </h2>
+      <div id="cupCollapse3" class="accordion-collapse collapse" data-bs-parent="#cupAccordion">
+        <div class="accordion-body">
+          <h5>Teorie</h5>
+          <p>
+            Začátečník často vytvoří hrnek z <em>válce</em> a přidá samostatné <em>ucho (torus)</em>.
+            Na pohled to vypadá správně, ale:
+          </p>
+          <ul>
+            <li>Objekt je složený ze <strong>dvou samostatných sítí</strong> – nejsou spojené (non-manifold).</li>
+            <li>Průnik nevytváří sdílené vrcholy → při tisku <em>děravý model</em>.</li>
+            <li>Topologie kolem ucha neexistuje – animace rozbití selže.</li>
+          </ul>
+
+          <div class="callout warn my-3">
+            <strong>Problém:</strong> model „vypadá“ správně, ale ve skutečnosti
+            jsou to dva samostatné objekty, které se pouze vizuálně protínají.
+          </div>
+
+          <h5>Praktické cvičení</h5>
+          <ol>
+            <li><span class="kbd">Shift+A → Mesh → Cylinder</span> (24 sides), uprav výšku a průměr.</li>
+            <li><span class="kbd">Shift+A → Mesh → Torus</span>, umísti jej jako ucho.</li>
+            <li>Oba objekty ponech samostatně – sleduj jak vypadají v režimu <em>Wireframe</em>.</li>
+            <li>Zapni <em>3D Print Toolbox</em> a klikni na <strong>Check All</strong> → zobrazí se „Non-Manifold edges“.</li>
+          </ol>
+
+          <p class="small text-muted mt-2">
+            Tento krok je záměrně chybný – pomůže pochopit, proč nestačí „překrývat“ objekty.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Cvičení 2 – hrneček jako profesionál -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="cupStep4">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cupCollapse4">
+          4️⃣ Hrneček jako profesionál 🧩 (čistá topologie)
+        </button>
+      </h2>
+      <div id="cupCollapse4" class="accordion-collapse collapse" data-bs-parent="#cupAccordion">
+        <div class="accordion-body">
+          <h5>Teorie</h5>
+          <p>
+            Cílem je vytvořit <u>jedno tělo</u> s <strong>čistou topologií</strong>, které je vhodné pro SubD,
+            animaci i 3D tisk. Všechny části sdílejí vrcholy a okraje plynule navazují.
+          </p>
+          <ul>
+            <li><strong>Quads only:</strong> žádné N-gony ani tris v místě ohybu ucha.</li>
+            <li><strong>Edge-loops:</strong> smyčky obepínají otvor i ucho.</li>
+            <li><strong>Manifold:</strong> žádné mezery, díry ani překryvy.</li>
+          </ul>
+
+          <h5>Praktické cvičení</h5>
+          <ol>
+            <li>Vytvoř tělo hrnku (Cylinder → horní face delete → <em>Solidify</em> → <em>Apply</em>).</li>
+            <li>Vytvoř ucho pomocí křivky (Curve → Bezier → tvar „C“) → <em>Bevel Object = Circle</em> → <em>Convert to Mesh</em>.</li>
+            <li>Vyřízni otvory v těle pro napojení ucha → <em>Inset + Delete Face</em>.</li>
+            <li>Vyber odpovídající edge-loopy a použij <span class="kbd">Bridge Edge Loops</span>.</li>
+            <li>Oprav proudění hran pomocí <span class="kbd">Ctrl+E → Rotate Edge</span>.</li>
+            <li><em>Merge by Distance</em>, <em>Recalculate Normals</em>, přidej <em>Subdivision Surface</em>.</li>
+          </ol>
+
+          <div class="callout tip mt-3 mb-0">
+            <strong>Výsledek:</strong> hrneček tvoří jediný objekt s vnitřní tloušťkou,
+            čistým edge-flow a bez pinching. Vhodné pro SubD i tisk.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
