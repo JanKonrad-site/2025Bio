@@ -1,264 +1,1183 @@
-<!-- 3.1.7 CSS – Rozměry, rámečky a box model -->
-<section id="section3-1-7" class="container my-5">
-  <h3 class="mb-4">3.1.7 Základy rozměrů, rámečků a box modelu</h3>
+<!-- ========================================= -->
+<!-- 3.1.7 – ČÁST 1: ŠÍŘKA/VÝŠKA, JEDNOTKY, PARENT–CHILD -->
+<section id="css-317-part1" class="container my-5">
 
-  <!-- Co se naučíš -->
+  <h3 class="mb-4">3.1.7 (1/6) Rozměry prvků: width, height, px vs %</h3>
+
+  <!-- Teorie (krátce) -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <p>
+      Blokové prvky (např. <code>&lt;div&gt;</code>) bez stylů vyplní šířku kontejneru (řádku) a výška se přizpůsobí obsahu.
+      Rozměry řídí <code>width</code> (šířka) a <code>height</code> (výška). Jednotky:
+      <strong>px</strong> (pevné) a <strong>%</strong> (relativní k rodiči).
+    </p>
+    <button class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#modalUnits">📏 Jednotky</button>
+    <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalParentChild">👨‍👧 Parent–Child</button>
+  </div>
+
+  <!-- Modal: Jednotky -->
+  <div class="modal fade" id="modalUnits" tabindex="-1" aria-labelledby="modalUnitsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header"><h5 class="modal-title" id="modalUnitsLabel">Jednotky v CSS</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <ul class="mb-3">
+            <li><strong>px</strong> – pevná velikost (nemění se se šířkou okna).</li>
+            <li><strong>%</strong> – relativní k rozměru <em>rodiče</em> (u <code>height:%</code> musí mít rodič výšku).</li>
+          </ul>
+          <p><strong>Příklad:</strong> <code>.box { width: 400px; height: 400px; }</code> → čtverec 400×400 px.  
+             <code>.box { width: 50%; }</code> → polovina šířky svého rodiče.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Parent–Child -->
+  <div class="modal fade" id="modalParentChild" tabindex="-1" aria-labelledby="modalParentChildLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header"><h5 class="modal-title" id="modalParentChildLabel">Vztah rodič–dítě (Parent–Child)</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+<pre><code>&lt;div class="parent"&gt;
+  &lt;div class="child"&gt;Dítě&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          <ul>
+            <li>Procenta (<code>%</code>) se vztahují k rozměrům <strong>parenta</strong>.</li>
+            <li>U <code>height:%</code> musí mít parent výšku (jinak není z čeho počítat).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Akordeony: postup práce -->
+  <h4 class="mt-5 mb-3">Praktická cvičení (krok za krokem)</h4>
+  <div class="accordion" id="acc-317-p1">
+
+    <!-- Krok 1: HTML základ -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p1-h1">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#p1-c1">1️⃣ Vytvoř základní HTML</button>
+      </h2>
+      <div id="p1-c1" class="accordion-collapse collapse show" data-bs-parent="#acc-317-p1">
+        <div class="accordion-body">
+          <p>Otevři <code>index.html</code> a do <code>&lt;body&gt;</code> vlož:</p>
+<pre><code>&lt;section class="demo-wrap"&gt;
+  &lt;h4&gt;Šířka a výška – px vs %&lt;/h4&gt;
+
+  &lt;div class="example-1"&gt;Pevný box v px&lt;/div&gt;
+
+  &lt;div class="parent"&gt;
+    &lt;div class="child"&gt;Dítě (výška v %)&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 2: CSS pro pevné rozměry -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p1-h2">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p1-c2">2️⃣ Styl: pevné px (400×400)</button>
+      </h2>
+      <div id="p1-c2" class="accordion-collapse collapse" data-bs-parent="#acc-317-p1">
+        <div class="accordion-body">
+          <p>Otevři <code>style.css</code> a přidej:</p>
+<pre><code>body { margin: 0; padding: 0; font-family: system-ui, sans-serif; }
+.demo-wrap { padding: 16px; }
+
+.example-1 {
+  width: 400px;
+  height: 400px;
+  background: steelblue;
+  color: white;
+  display: grid; place-items: center;   /* jen aby byl text uprostřed */
+  margin-bottom: 16px;
+}</code></pre>
+          <p>Výsledek: modrý čtverec 400×400 px bez ohledu na velikost okna.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 3: CSS pro parent 50% a child 50% výšky -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p1-h3">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p1-c3">3️⃣ Styl: % relativní k rodiči</button>
+      </h2>
+      <div id="p1-c3" class="accordion-collapse collapse" data-bs-parent="#acc-317-p1">
+        <div class="accordion-body">
+          <p>Přidej styly pro parent/child. Pozor: aby <code>height: %</code> fungovala, musí mít parent výšku.</p>
+<pre><code>.parent {
+  width: 50%;           /* polovina šířky okna (rodič je body/section) */
+  height: 200px;        /* pevná výška → dítě může mít % výšku */
+  background: lightgreen;
+  margin-bottom: 12px;
+}
+
+.child  {
+  width: 150px;         /* pevná šířka dítěte */
+  height: 50%;          /* polovina výšky parenta = 100 px */
+  background: lightskyblue;
+  display: grid; place-items: center;
+}</code></pre>
+          <p>Zúž okno prohlížeče: <code>.parent</code> reaguje (50&nbsp;% šířky), <code>.child</code> drží 150&nbsp;px šířku a 50&nbsp;% výšky parenta.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 4: Mini kontrola pochopení -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p1-h4">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p1-c4">4️⃣ Kontrola: proč někdy % výška „nefunguje“?</button>
+      </h2>
+      <div id="p1-c4" class="accordion-collapse collapse" data-bs-parent="#acc-317-p1">
+        <div class="accordion-body">
+          <ul class="mb-2">
+            <li><strong>Protože rodič nemá výšku.</strong> Procentuální výška musí z něčeho počítat.</li>
+            <li>Řešení: dej rodiči <code>height</code> v px (nebo v % až od kořene s definovanou výškou).</li>
+          </ul>
+          <p class="small text-muted mb-0">Tip: <code>html, body { height: 100%; }</code> umožní později pracovat s výškami v % od celé stránky.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Shrnutí části 1 -->
   <div class="container my-4 p-4 border rounded bg-light">
-    <h4 class="mb-3">Co se naučíš?</h4>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">Nastavit <strong>šířku a výšku</strong> prvků (<code>width</code>, <code>height</code>).</li>
-      <li class="list-group-item">Používat jednotky <strong>px</strong> a <strong>%</strong> a chápat rozdíl mezi nimi.</li>
-      <li class="list-group-item">Vysvětlit <strong>vztah rodič–dítě</strong> mezi prvky (parent–child).</li>
-      <li class="list-group-item">Používat <strong>border</strong> pro ohraničení a <strong>margin/padding</strong> pro rozestupy.</li>
-      <li class="list-group-item">Pochopit princip <strong>box modelu</strong> v CSS.</li>
+    <h5 class="mb-2">📘 Shrnutí (část 1)</h5>
+    <ul class="mb-0">
+      <li><code>width/height</code> řídí rozměry; <strong>px</strong> = pevné, <strong>%</strong> = relativní k rodiči.</li>
+      <li>U <code>height:%</code> musí mít parent výšku.</li>
+      <li>Vyzkoušeli jsme: pevný box 400×400 px a parent (50&nbsp;% šířky) s child (50&nbsp;% výšky).</li>
     </ul>
   </div>
 
-  <!-- Teorie 1: Rozměry -->
+</section>
+<!-- ========================================= -->
+<!-- 3.1.7 – ČÁST 2: RÁMEČKY (BORDER) -->
+<section id="css-317-part2" class="container my-5">
+
+  <h3 class="mb-4">3.1.7 (2/6) Rámečky – tloušťka, styl, barva + různé strany</h3>
+
+  <!-- Teorie (krátce) -->
   <div class="container my-4 p-4 border rounded bg-white">
-    <h4 class="mb-3">1️⃣ Rozměry prvků: šířka a výška</h4>
     <p>
-      Každý blokový prvek má svou <strong>šířku (<code>width</code>)</strong> a <strong>výšku (<code>height</code>)</strong>.  
-      Výška se obvykle přizpůsobí obsahu, šířka zabere celý řádek.
+      Rámeček tvoří trojice vlastností: <code>border-width</code>, <code>border-style</code>, <code>border-color</code>.  
+      Bez <code>border-style</code> se rámeček nezobrazí. Existují i zkratky (např. <code>border: 5px solid black;</code>)
+      a varianty pro jednotlivé strany (<code>border-top</code>, <code>border-right</code>…).
     </p>
-    <p>
-      Pomocí vlastností <code>width</code> a <code>height</code> můžeme rozměry řídit ručně.  
-      Např. <code>width: 400px;</code> a <code>height: 200px;</code> vytvoří obdélník.
-    </p>
-    <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalJednotky">
-      📏 Jednotky v CSS
+    <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalBorderTeorie">
+      📘 Přehled stylů a zkratek
     </button>
   </div>
 
-  <!-- Modal: jednotky -->
-  <div class="modal fade" id="modalJednotky" tabindex="-1" aria-labelledby="modalJednotkyLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header"><h5 class="modal-title" id="modalJednotkyLabel">Jednotky v CSS</h5>
-          <button class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-          <ul>
-            <li><strong>px</strong> – pevná velikost (vždy stejná, nereaguje na okno).</li>
-            <li><strong>%</strong> – relativní k rodiči (např. 50 % šířky rodiče).</li>
-            <li><strong>em</strong> – násobek aktuální velikosti písma prvku.</li>
-            <li><strong>rem</strong> – násobek velikosti písma <code>&lt;html&gt;</code> (kořen).</li>
-          </ul>
-          <p>V praxi kombinujeme jednotky podle kontextu – např. <code>width: 80%</code> a <code>padding: 1rem</code>.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal: vztahy parent-child -->
-  <div class="modal fade" id="modalRodicDite" tabindex="-1" aria-labelledby="modalRodicDiteLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header"><h5 class="modal-title" id="modalRodicDiteLabel">Vztah rodič – dítě (Parent – Child)</h5>
-          <button class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-          <p>
-            V HTML se prvky vnořují do sebe. Prvek, který obsahuje jiný prvek, je <strong>rodič (parent)</strong>,  
-            a ten uvnitř je <strong>dítě (child)</strong>.
-          </p>
-<pre><code>&lt;div class="parent"&gt;
-  &lt;div class="child"&gt;Já jsem dítě&lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
-          <ul>
-            <li><code>.parent</code> může ovlivnit rozměry svých potomků.</li>
-            <li>Hodnoty <code>%</code> se vždy vztahují k rozměrům rodiče.</li>
-            <li>Rodič může mít více dětí; děti mohou mít vlastní děti (hierarchie).</li>
-          </ul>
-          <p>Rozumět těmto vztahům je klíčové pro práci s rozvržením a responzivitou.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Accordion cvičení -->
-  <h4 class="mt-5 mb-3">Praktická cvičení</h4>
-  <div class="accordion mb-4" id="accordion317">
-
-    <!-- Úkol 1 -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="heading317a">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse317a">
-          1️⃣ Parent &amp; Child – pevná vs. relativní velikost
-        </button>
-      </h2>
-      <div id="collapse317a" class="accordion-collapse collapse show" data-bs-parent="#accordion317">
-        <div class="accordion-body">
-          <p>Vytvoř dva vnořené boxy – rodiče a dítě. Použij různé jednotky:</p>
-<pre><code>&lt;div class="parent"&gt;
-  &lt;div class="child"&gt;Dítě&lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
-          <p>Do <code>style.css</code> přidej:</p>
-<pre><code>.parent {
-  width: 50%;
-  height: 200px;
-  background-color: lightgreen;
-}
-
-.child {
-  width: 150px;
-  height: 50%;
-  background-color: lightblue;
-}</code></pre>
-          <p>🔍 Změň šířku okna a sleduj, jak se <code>.parent</code> přizpůsobuje, zatímco <code>.child</code> zůstává 150 px široké.</p>
-          <button class="btn btn-outline-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#modalRodicDite">Otevřít teorii o rodiči a dítěti</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Úkol 2 -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="heading317b">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse317b">
-          2️⃣ Rámečky a styly okrajů
-        </button>
-      </h2>
-      <div id="collapse317b" class="accordion-collapse collapse" data-bs-parent="#accordion317">
-        <div class="accordion-body">
-          <p>Každý rámeček se skládá z tloušťky, stylu a barvy:</p>
-<pre><code>.panel {
-  width: 300px;
-  height: 300px;
-  background: lightgray;
-  border-width: 8px;
-  border-style: solid;
-  border-color: tomato;
-}</code></pre>
-          <p>
-            Pokud změníš <code>border-style</code> na <code>dashed</code> nebo <code>dotted</code>,  
-            okamžitě uvidíš rozdíl.  
-          </p>
-          <p>Vyzkoušej také různé styly pro každou stranu:</p>
-<pre><code>.weird {
-  border-left-style: dashed;
-  border-top-style: dotted;
-  border-right-style: solid;
-  border-bottom-style: double;
-  border-right-color: cornflowerblue;
-}</code></pre>
-        </div>
-      </div>
-    </div>
-
-    <!-- Úkol 3 -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="heading317c">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse317c">
-          3️⃣ Zkratka pro border
-        </button>
-      </h2>
-      <div id="collapse317c" class="accordion-collapse collapse" data-bs-parent="#accordion317">
-        <div class="accordion-body">
-          <p>
-            Místo tří řádků můžeš použít jednu zkratku:
-          </p>
-<pre><code>.card {
-  border: 5px solid black;
-}</code></pre>
-          <p>
-            Stejným způsobem fungují i jednotlivé strany, např. <code>border-top: 2px dashed red;</code>.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Úkol 4 -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="heading317d">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse317d">
-          4️⃣ Margin vs. Padding a výchozí mezery
-        </button>
-      </h2>
-      <div id="collapse317d" class="accordion-collapse collapse" data-bs-parent="#accordion317">
-        <div class="accordion-body">
-          <p><strong>Padding</strong> = vnitřní mezera mezi obsahem a rámečkem.<br>
-             <strong>Margin</strong> = vnější mezera mezi prvky.</p>
-<pre><code>.box {
-  background: lightgreen;
-  padding: 16px;     /* uvnitř */
-  margin: 20px;      /* kolem */
-}</code></pre>
-          <p>Zkus přidat tři <code>div.box</code> za sebou – uvidíš, jak se díky marginu oddělí.</p>
-          <p>💡 Proč má stránka okraj i bez CSS?  
-             Prohlížeče přidávají výchozí <code>margin</code> tělu:</p>
-<pre><code>html, body { margin: 0; padding: 0; }</code></pre>
-          <p>Výsledkem bude stránka přesně zarovnaná k okrajům okna.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Úkol 5 -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="heading317e">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse317e">
-          5️⃣ Box model a zaoblení rohů
-        </button>
-      </h2>
-      <div id="collapse317e" class="accordion-collapse collapse" data-bs-parent="#accordion317">
-        <div class="accordion-body">
-          <p>
-            Každý prvek v CSS je „krabice“ (box) složená z obsahu, vnitřního odsazení, rámečku a vnější mezery.
-          </p>
-          <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalBoxModel">
-            📦 Zobrazit schéma box modelu
-          </button>
-<pre class="mt-3"><code>.panel {
-  border: 2px solid #333;
-  padding: 16px;
-  margin: 20px;
-  border-radius: 12px;   /* zaoblené rohy */
-}</code></pre>
-          <p>
-            Doporučuje se používat i toto nastavení:
-          </p>
-<pre><code>* { box-sizing: border-box; }</code></pre>
-          <p>
-            Díky němu se <code>width</code> počítá včetně <em>paddingu</em> a <em>borderu</em> – jednodušší pro rozvržení stránky.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal: Box Model -->
-  <div class="modal fade" id="modalBoxModel" tabindex="-1" aria-labelledby="modalBoxModelLabel" aria-hidden="true">
+  <!-- MODAL: teorie border -->
+  <div class="modal fade" id="modalBorderTeorie" tabindex="-1" aria-labelledby="modalBorderTeorieLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
-        <div class="modal-header"><h5 class="modal-title" id="modalBoxModelLabel">Box model – vrstvy prvku</h5>
+        <div class="modal-header"><h5 class="modal-title" id="modalBorderTeorieLabel">Rámeček v CSS – co potřebuje</h5>
           <button class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <ul>
-            <li><strong>Content</strong> – samotný text nebo obrázek.</li>
-            <li><strong>Padding</strong> – mezera mezi obsahem a rámečkem.</li>
-            <li><strong>Border</strong> – rámeček kolem prvku.</li>
-            <li><strong>Margin</strong> – vnější mezera mezi sousedními prvky.</li>
-          </ul>
-          <p>
-            <em>Box model</em> určuje, jak se počítají rozměry a rozestupy.  
-            Při návrhu layoutu je nezbytné ho chápat – všechny vizuální prvky (tlačítka, sekce, panely) jsou na něm postavené.
-          </p>
+          <h6 class="mb-2">Základní trojice</h6>
+<pre><code>.box {
+  border-width: 10px;      /* tloušťka */
+  border-style: solid;     /* solid | dashed | dotted | double | groove | ridge | inset | outset | none */
+  border-color: tomato;    /* barva tenké linie */
+}</code></pre>
+          <p class="mb-2">Bez <code>border-style</code> je rámeček „neviditelný“ (i když má width a color).</p>
+          <h6 class="mt-3 mb-2">Zkratka (shorthand)</h6>
+<pre><code>.card { border: 5px solid black; }</code></pre>
+          <p class="mb-2">Pořadí: tloušťka → styl → barva.</p>
+          <h6 class="mt-3 mb-2">Jednotlivé strany</h6>
+<pre><code>.box {
+  border-top:    2px dotted gray;
+  border-right:  4px solid cornflowerblue;
+  border-bottom: 6px double black;
+  border-left:   3px dashed tomato;
+}</code></pre>
+          <p class="small text-muted mb-0">Styl každé strany může být jiný (a i barva může být jiná).</p>
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Akordeony: postup práce -->
+  <h4 class="mt-5 mb-3">Praktická cvičení (krok za krokem)</h4>
+  <div class="accordion" id="acc-317-p2">
+
+    <!-- Krok 1: HTML základ -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p2-h1">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#p2-c1">
+          1️⃣ Vytvoř HTML pro ukázky
+        </button>
+      </h2>
+      <div id="p2-c1" class="accordion-collapse collapse show" data-bs-parent="#acc-317-p2">
+        <div class="accordion-body">
+          <p>Do <code>index.html</code> (do <code>&lt;body&gt;</code>) přidej:</p>
+<pre><code>&lt;section class="demo-wrap"&gt;
+  &lt;h4&gt;Rámečky (border)&lt;/h4&gt;
+
+  &lt;div class="panel"&gt;Základní border (width + style + color)&lt;/div&gt;
+
+  &lt;div class="weird"&gt;Různé styly na každé straně&lt;/div&gt;
+
+  &lt;div class="card"&gt;Zkratka border&lt;/div&gt;
+&lt;/section&gt;
+</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 2: CSS pro základní border -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p2-h2">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p2-c2">
+          2️⃣ Styl: základní border (šířka, styl, barva)
+        </button>
+      </h2>
+      <div id="p2-c2" class="accordion-collapse collapse" data-bs-parent="#acc-317-p2">
+        <div class="accordion-body">
+          <p>Do <code>style.css</code> přidej (hodnoty vycházejí z výuky):</p>
+<pre><code>/* doporučený základ z minula */
+body { margin: 0; padding: 0; font-family: system-ui, sans-serif; }
+.demo-wrap { padding: 16px; }
+
+/* 400 × 400 – div bude dobře vidět */
+.panel {
+  width: 400px;
+  height: 400px;
+  background: lightgray;
+
+  border-width: 10px;    /* tloušťka */
+  border-style: solid;   /* nutné – jinak nic neuvidíš */
+  border-color: tomato;  /* barva */
+  display: grid; place-items: center;
+  margin-bottom: 16px;
+}</code></pre>
+          <p>Ulož a zkontroluj v prohlížeči: zobrazí se šedý čtverec s červeným (tomato) rámečkem tloušťky 10&nbsp;px.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 3: CSS různé strany (dashed/dotted/solid/double) -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p2-h3">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p2-c3">
+          3️⃣ Styl: různé strany (dashed / dotted / solid / double)
+        </button>
+      </h2>
+      <div id="p2-c3" class="accordion-collapse collapse" data-bs-parent="#acc-317-p2">
+        <div class="accordion-body">
+          <p>Teď nastav různé styly (a barvu pravé strany) pro čtverec 300×300:</p>
+<pre><code>.weird {
+  width: 300px;
+  height: 300px;
+  background: chocolate;
+  border-width: 10px;   /* tloušťka všech stran */
+
+  border-left-style:   dashed;   /* levá: čárkovaná */
+  border-top-style:    dotted;   /* horní: tečkovaná */
+  border-right-style:  solid;    /* pravá: plná */
+  border-bottom-style: double;   /* dolní: dvojitá */
+  border-right-color:  cornflowerblue;  /* jiná barva pro pravou stranu */
+
+  display: grid; place-items: center;
+  margin-bottom: 16px;
+}</code></pre>
+          <p>Výsledek: čtyři různé styly na jedné „krabici“, pravá strana navíc jinou barvou.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 4: Zkratka (shorthand) border -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p2-h4">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p2-c4">
+          4️⃣ Zkratka: <code>border: 5px solid black;</code>
+        </button>
+      </h2>
+      <div id="p2-c4" class="accordion-collapse collapse" data-bs-parent="#acc-317-p2">
+        <div class="accordion-body">
+          <p>Jedním řádkem nastavíš šířku, styl i barvu:</p>
+<pre><code>.card {
+  width: 260px;
+  height: 120px;
+  background: #fff;
+  border: 5px solid black;  /* tloušťka | styl | barva */
+  display: grid; place-items: center;
+}</code></pre>
+          <p>Stejně fungují i strany: <code>border-top: 2px dashed red;</code></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 5: Mini úkol s dokumentací -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p2-h5">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p2-c5">
+          5️⃣ Mini úkol: najdi další styly v dokumentaci
+        </button>
+      </h2>
+      <div id="p2-c5" class="accordion-collapse collapse" data-bs-parent="#acc-317-p2">
+        <div class="accordion-body">
+          <ol class="mb-2">
+            <li>Vyhledej v dokumentaci CSS vlastnosti pro <code>border-style</code>.</li>
+            <li>Zkus <code>groove</code> a <code>ridge</code> na různých stranách a sleduj, jak se mění vzhled.</li>
+            <li>Zkus změnit jen jednu stranu přes <code>border-*-style</code> a <code>border-*-color</code>.</li>
+          </ol>
+          <p class="small text-muted mb-0">Cílem je zvyknout si hledat přesné názvy a chování v dokumentaci a umět je použít.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Shrnutí části 2 -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h5 class="mb-2">📘 Shrnutí (část 2)</h5>
+    <ul class="mb-0">
+      <li>Rámeček potřebuje: <code>border-width</code> + <code>border-style</code> + <code>border-color</code> (bez stylu není vidět).</li>
+      <li>Jednotlivé strany můžeš stylovat samostatně, včetně jiné barvy.</li>
+      <li>Zkratka: <code>border: &lt;width&gt; &lt;style&gt; &lt;color&gt;;</code></li>
+    </ul>
+  </div>
+
+</section>
+<!-- ========================================= -->
+<!-- ========================================= -->
+<!-- 3.1.7 – ČÁST 3: MARGIN a PADDING (upravená verze s vysvětlením gridu) -->
+<section id="css-317-part3" class="container my-5">
+
+  <h3 class="mb-4">3.1.7 (3/6) Margin a Padding – vnější a vnitřní mezery</h3>
+
+  <!-- Teorie -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <p>
+      <strong>Margin</strong> určuje mezeru <em>venku</em> (mezi prvky).  
+      <strong>Padding</strong> určuje mezeru <em>uvnitř</em> (mezi obsahem a rámečkem).  
+      Díky nim vytváříme rozestupy mezi boxy a prostor pro text.
+    </p>
+    <button class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#modalMarginPadding">
+      🔍 Rozdíl mezi margin a padding
+    </button>
+    <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalGridCenter">
+      🎯 Co dělá display: grid; place-items: center;
+    </button>
+  </div>
+
+  <!-- Modal: rozdíl margin vs padding -->
+  <div class="modal fade" id="modalMarginPadding" tabindex="-1" aria-labelledby="modalMarginPaddingLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalMarginPaddingLabel">Margin vs. Padding – vysvětlení</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Všechny prvky v CSS jsou jako krabice. Mají 4 vrstvy:</p>
+          <ol>
+            <li><strong>Content</strong> – text, obrázky apod.</li>
+            <li><strong>Padding</strong> – prostor uvnitř kolem obsahu.</li>
+            <li><strong>Border</strong> – čára kolem boxu.</li>
+            <li><strong>Margin</strong> – prostor mezi boxy (venku).</li>
+          </ol>
+          <p>Představ si hrnek na stole:</p>
+          <ul>
+            <li>Prostor uvnitř hrnku = <strong>padding</strong>.</li>
+            <li>Prostor mezi hrnkem a ostatními věcmi na stole = <strong>margin</strong>.</li>
+          </ul>
+          <p><em>Padding</em> zvětšuje vnitřní prostor boxu (obsah se odtlačí od okraje).  
+             <em>Margin</em> posouvá celý box dál od okolních prvků.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: vysvětlení display grid -->
+  <div class="modal fade" id="modalGridCenter" tabindex="-1" aria-labelledby="modalGridCenterLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalGridCenterLabel">🎯 Co dělá <code>display: grid; place-items: center;</code></h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Tato kombinace vlastností se často používá v ukázkách, aby byl text nebo prvek přesně uprostřed boxu.
+          </p>
+          <ul>
+            <li><code>display: grid;</code> – změní chování prvku, takže se jeho obsah zarovnává pomocí gridového systému (mřížky).</li>
+            <li><code>place-items: center;</code> – zkrácený zápis pro <code>align-items: center;</code> (vertikálně) a <code>justify-items: center;</code> (horizontálně).</li>
+          </ul>
+          <p>Výsledek: text nebo vnořený prvek se umístí přesně doprostřed – bez nutnosti řešit padding, line-height nebo flexbox.</p>
+          <div class="alert alert-secondary small mt-3 mb-0">
+            💡 Pokud tě zajímá alternativa: <br>
+            <code>display: flex; align-items: center; justify-content: center;</code> dělá úplně totéž, ale pomocí flexboxu.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Akordeony: postup práce -->
+  <h4 class="mt-5 mb-3">Praktická cvičení (krok za krokem)</h4>
+  <div class="accordion" id="acc-317-p3">
+
+    <!-- Krok 1 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p3-h1">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#p3-c1">
+          1️⃣ Připrav HTML s několika boxy
+        </button>
+      </h2>
+      <div id="p3-c1" class="accordion-collapse collapse show" data-bs-parent="#acc-317-p3">
+        <div class="accordion-body">
+          <p>Do <code>index.html</code> vlož:</p>
+<pre><code>&lt;section class="demo-wrap"&gt;
+  &lt;h4&gt;Margin a Padding&lt;/h4&gt;
+
+  &lt;div class="box"&gt;První box&lt;/div&gt;
+  &lt;div class="box"&gt;Druhý box&lt;/div&gt;
+  &lt;div class="box"&gt;Třetí box&lt;/div&gt;
+&lt;/section&gt;
+</code></pre>
+          <p>Všechny tři boxy budou sdílet stejnou třídu <code>.box</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 2 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p3-h2">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p3-c2">
+          2️⃣ Zobraz boxy bez marginu/paddingu
+        </button>
+      </h2>
+      <div id="p3-c2" class="accordion-collapse collapse" data-bs-parent="#acc-317-p3">
+        <div class="accordion-body">
+          <p>Do <code>style.css</code> přidej:</p>
+<pre><code>body { margin: 0; padding: 0; font-family: system-ui, sans-serif; }
+.demo-wrap { padding: 16px; }
+
+.box {
+  background: lightgreen;
+  height: 50px;
+  display: grid; place-items: center;  /* zarovnání textu doprostřed */
+}</code></pre>
+          <p>Uvidíš tři zelené boxy přilepené na sebe. Zatím žádný prostor mezi nimi.</p>
+          <p class="small"><a href="#" data-bs-toggle="modal" data-bs-target="#modalGridCenter">❓ Klikni sem a zjisti, co dělá <code>display: grid; place-items: center;</code></a></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 3 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p3-h3">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p3-c3">
+          3️⃣ Přidej margin – vnější mezery
+        </button>
+      </h2>
+      <div id="p3-c3" class="accordion-collapse collapse" data-bs-parent="#acc-317-p3">
+        <div class="accordion-body">
+          <p>Uprav CSS a přidej margin 20 px kolem každého boxu:</p>
+<pre><code>.box {
+  background: lightgreen;
+  height: 50px;
+  margin: 20px;      /* vnější mezera kolem */
+  display: grid; place-items: center;
+}</code></pre>
+          <p>Teď mezi boxy uvidíš prostor. Každý má kolem sebe 20 px volného místa.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 4 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p3-h4">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p3-c4">
+          4️⃣ Přidej padding – vnitřní mezery
+        </button>
+      </h2>
+      <div id="p3-c4" class="accordion-collapse collapse" data-bs-parent="#acc-317-p3">
+        <div class="accordion-body">
+          <p>Uprav <code>.box</code> a přidej <code>padding: 16px;</code> – text se posune od okraje dovnitř:</p>
+<pre><code>.box {
+  background: lightgreen;
+  padding: 16px;     /* vnitřní mezera (text není nalepený na okraji) */
+  margin: 20px;      /* vnější mezera mezi boxy */
+}</code></pre>
+          <p>Všimni si, že boxy jsou teď o něco větší – padding přidává místo uvnitř, takže rozšiřuje element.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 5 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p3-h5">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p3-c5">
+          5️⃣ Výchozí margin u body
+        </button>
+      </h2>
+      <div id="p3-c5" class="accordion-collapse collapse" data-bs-parent="#acc-317-p3">
+        <div class="accordion-body">
+          <p>V prohlížeči klikni pravým tlačítkem → <strong>Inspect</strong> (Zkontrolovat prvek).</p>
+          <p>Najdeš tam, že i samotné <code>&lt;body&gt;</code> má výchozí <code>margin: 8px;</code> – přidává to prohlížeč sám.</p>
+          <p>Řešení: resetuj margin a padding u <code>html</code> a <code>body</code> na nulu:</p>
+<pre><code>html, body {
+  margin: 0;
+  padding: 0;
+}</code></pre>
+          <p>Teď stránka opravdu začíná úplně od okraje okna.</p>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- Shrnutí -->
   <div class="container my-4 p-4 border rounded bg-light">
-    <h4 class="mb-3">📘 Shrnutí</h4>
+    <h5 class="mb-2">📘 Shrnutí (část 3)</h5>
     <ul>
-      <li><code>width</code> a <code>height</code> určují rozměr, <code>%</code> je relativní k rodiči.</li>
-      <li><code>border</code> může mít různé styly; zkratka <code>border: 5px solid black;</code>.</li>
-      <li><code>margin</code> = mezera venku, <code>padding</code> = uvnitř.</li>
-      <li>Box model = content → padding → border → margin.</li>
-      <li>Použij <code>box-sizing: border-box;</code> pro jednodušší práci s rozměry.</li>
+      <li><strong>Margin</strong> = prostor kolem prvku (vnější).</li>
+      <li><strong>Padding</strong> = prostor uvnitř prvku (vnitřní).</li>
+      <li>Výchozí <code>margin</code> má i samotné <code>body</code> – resetuj na 0 px.</li>
+      <li><code>display: grid; place-items: center;</code> zarovná text doprostřed boxu (horizontálně i vertikálně).</li>
     </ul>
   </div>
+
 </section>
+<!-- ========================================= -->
+<!-- 3.1.7 – ČÁST 4: BOX MODEL (content, padding, border, margin) -->
+<section id="css-317-part4" class="container my-5">
+
+  <h3 class="mb-4">3.1.7 (4/6) Box model – jak se počítá výsledná velikost prvku</h3>
+
+  <!-- Teorie – krátký úvod -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <p>
+      Každý HTML prvek je „krabice“ (box) složená z vrstev: <strong>content</strong> → <strong>padding</strong> → <strong>border</strong> → <strong>margin</strong>.  
+      Šířka/výška, které v CSS nastavíš, se standardně týkají jen <em>obsahu</em> (content). <em>Padding</em> a <em>border</em> se k rozměrům přičítají.
+    </p>
+    <button class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#modalBoxModelTeorie">
+      📘 Co přesně je box model
+    </button>
+    <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalDevtoolsBox">
+      🛠️ Jak to zkontrolovat v DevTools
+    </button>
+  </div>
+
+  <!-- MODAL: Teorie box modelu -->
+  <div class="modal fade" id="modalBoxModelTeorie" tabindex="-1" aria-labelledby="modalBoxModelTeorieLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header"><h5 class="modal-title" id="modalBoxModelTeorieLabel">Box model – vrstvy a výpočty</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <ul>
+            <li><strong>Content</strong> – skutečný obsah (text, obrázky). <em>width/height</em> se ve výchozím režimu vztahují sem.</li>
+            <li><strong>Padding</strong> – vnitřní odsazení, „tlačí“ obsah od okraje dovnitř. Zvětšuje celkový rozměr prvku.</li>
+            <li><strong>Border</strong> – rámeček okolo prvku. Zvětšuje celkový rozměr prvku.</li>
+            <li><strong>Margin</strong> – vnější mezera kolem prvku (nepočítá se do velikosti prvku, ale posouvá ho v layoutu).</li>
+          </ul>
+          <hr>
+          <p><strong>Výpočet (výchozí režim <code>content-box</code>):</strong></p>
+          <ul>
+            <li>Celková šířka = <em>content width</em> + <em>padding-left</em> + <em>padding-right</em> + <em>border-left</em> + <em>border-right</em></li>
+            <li>Celková výška = <em>content height</em> + <em>padding-top</em> + <em>padding-bottom</em> + <em>border-top</em> + <em>border-bottom</em></li>
+          </ul>
+          <p class="small text-muted mb-0">O tom, jak to změnit na „pevnější“ chování pomocí <code>box-sizing: border-box;</code>, bude následující část.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: DevTools -->
+  <div class="modal fade" id="modalDevtoolsBox" tabindex="-1" aria-labelledby="modalDevtoolsBoxLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header"><h5 class="modal-title" id="modalDevtoolsBoxLabel">Kontrola v DevTools (Box Model panel)</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <ol>
+            <li>Otevři stránku v Chromu/Edge → stiskni <kbd>F12</kbd> (nebo pravým → Zkontrolovat).</li>
+            <li>V panelu Elements vyber svůj prvek (např. <code>.demo</code>).</li>
+            <li>Vpravo v části <strong>Computed</strong> najdi schéma „Box model“ – uvidíš <em>content</em>, <em>padding</em>, <em>border</em> a <em>margin</em> s konkrétními čísly.</li>
+          </ol>
+          <p class="small text-muted mb-0">Barevné zvýraznění při najetí myší ti ukáže přesně, která vrstva zabírá jaké místo.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Akordeony: krok za krokem -->
+  <h4 class="mt-5 mb-3">Praktická ukázka a počítání (krok za krokem)</h4>
+  <div class="accordion" id="acc-317-p4">
+
+    <!-- Krok 1: HTML -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p4-h1">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#p4-c1">
+          1️⃣ Vytvoř HTML – jeden demonstrační box
+        </button>
+      </h2>
+      <div id="p4-c1" class="accordion-collapse collapse show" data-bs-parent="#acc-317-p4">
+        <div class="accordion-body">
+          <p>Do <code>index.html</code> (do <code>&lt;body&gt;</code>) vlož:</p>
+<pre><code>&lt;section class="demo-wrap"&gt;
+  &lt;h4&gt;Box model – content, padding, border, margin&lt;/h4&gt;
+
+  &lt;div class="demo"&gt;Obsah (content)&lt;/div&gt;
+&lt;/section&gt;
+</code></pre>
+          <p>Budeme s tímto boxem postupně pracovat (přidáme různé paddingy a border) a budeme <em>počítat</em> rozměry.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 2: CSS – content area a asymetrický padding -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p4-h2">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p4-c2">
+          2️⃣ Nastav obsahovou velikost a padding (asymetricky)
+        </button>
+      </h2>
+      <div id="p4-c2" class="accordion-collapse collapse" data-bs-parent="#acc-317-p4">
+        <div class="accordion-body">
+          <p>Do <code>style.css</code> přidej (hodnoty přesně takto, ať se shodneme na číslech):</p>
+<pre><code>/* základ (přehlednost a font) */
+body { margin: 0; padding: 0; font-family: system-ui, sans-serif; }
+.demo-wrap { padding: 16px; }
+
+/* DEMO BOX – content má 300 × 50 px */
+.demo {
+  width: 300px;           /* content width */
+  height: 50px;           /* content height */
+  background-color: lightcoral;
+  margin: 20px;           /* vnější mezera – nepočítá se do velikosti boxu */
+  /* asymetrický padding (všimni si různých směrů): */
+  padding-top: 100px;
+  padding-right: 90px;
+  padding-bottom: 50px;
+  padding-left: 120px;
+
+  /* jen pro čitelnost textu uprostřed */
+  display: grid; place-items: center;
+}
+</code></pre>
+          <p>Teď uvidíš „tlustý“ červený box – padding ho uvnitř roztlačí od obsahu a <em>celkově se zvětší</em>.</p>
+          <p class="small"><a href="#" data-bs-toggle="modal" data-bs-target="#modalGridCenter">🎯 Co dělá <code>display: grid; place-items: center;</code>?</a></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 3: Měření + ruční výpočet -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p4-h3">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p4-c3">
+          3️⃣ Změř v DevTools a spočti celkové rozměry
+        </button>
+      </h2>
+      <div id="p4-c3" class="accordion-collapse collapse" data-bs-parent="#acc-317-p4">
+        <div class="accordion-body">
+          <p>Otevři DevTools → vyber <code>.demo</code> → panel <em>Computed</em> → schéma <strong>Box model</strong>.</p>
+          <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalVypocetPadding">
+            📐 Ruční výpočet (bez borderu)
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: Výpočet bez borderu -->
+    <div class="modal fade" id="modalVypocetPadding" tabindex="-1" aria-labelledby="modalVypocetPaddingLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header"><h5 class="modal-title" id="modalVypocetPaddingLabel">Výpočet rozměrů (bez borderu)</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <p><strong>Zadané hodnoty:</strong> content = 300×50, padding = 100 (top), 90 (right), 50 (bottom), 120 (left)</p>
+            <ul>
+              <li>Celková šířka = 300 + 120 + 90 = <strong>510 px</strong></li>
+              <li>Celková výška = 50 + 100 + 50 = <strong>200 px</strong></li>
+            </ul>
+            <p class="small text-muted mb-0">Margin (20 px) je vnější – <em>nepřičítá se</em> do velikosti prvku, jen odtlačí prvek od okolí.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 4: Přidej border a znovu přepočítej -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p4-h4">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p4-c4">
+          4️⃣ Přidej border a sleduj, co to udělá
+        </button>
+      </h2>
+      <div id="p4-c4" class="accordion-collapse collapse" data-bs-parent="#acc-317-p4">
+        <div class="accordion-body">
+          <p>Do třídy <code>.demo</code> přidej border (na všechny strany):</p>
+<pre><code>.demo {
+  /* ... vše z dřívějška ... */
+  border: 10px solid black;
+}
+</code></pre>
+          <p>V DevTools si ověř, že se <em>celková velikost</em> znovu zvětšila (protože border se přičítá).</p>
+          <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalVypocetBorder">
+            📐 Ruční výpočet (s borderem)
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: Výpočet s borderem -->
+    <div class="modal fade" id="modalVypocetBorder" tabindex="-1" aria-labelledby="modalVypocetBorderLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header"><h5 class="modal-title" id="modalVypocetBorderLabel">Výpočet rozměrů (s borderem)</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <p><strong>Navíc:</strong> border = 10 px na všech stranách.</p>
+            <ul>
+              <li>Celková šířka = 510 + 10 + 10 = <strong>530 px</strong></li>
+              <li>Celková výška = 200 + 10 + 10 = <strong>220 px</strong></li>
+            </ul>
+            <div class="alert alert-info small mb-0">
+              Takto to funguje ve výchozím režimu <code>content-box</code>. V další části si ukážeme, jak <code>box-sizing: border-box;</code>
+              „vtlačí“ padding a border dovnitř, aby <em>celková</em> šířka/výška zůstala přesně na zadané hodnotě.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 5: Mini kontrolní úkol -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p4-h5">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p4-c5">
+          🧩 Mini úkol: Změň čísla a ověř výsledek
+        </button>
+      </h2>
+      <div id="p4-c5" class="accordion-collapse collapse" data-bs-parent="#acc-317-p4">
+        <div class="accordion-body">
+          <ol>
+            <li>Změň <code>padding-right</code> na 110 px a <code>padding-bottom</code> na 70 px.</li>
+            <li>Ručně přepočti celkovou šířku/výšku a ověř v DevTools (Computed → Box model).</li>
+            <li>Přidej <code>border-left: 20px solid #333;</code> a znovu uprav výpočet (pozor – různé tloušťky na stranách).</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Shrnutí části 4 -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h5 class="mb-2">📘 Shrnutí (část 4)</h5>
+    <ul class="mb-0">
+      <li>Prvek = <strong>content</strong> + <strong>padding</strong> + <strong>border</strong> (+ <strong>margin</strong> mimo prvek).</li>
+      <li>Ve výchozím režimu <code>content-box</code> se <em>padding</em> a <em>border</em> k <em>width/height</em> přičítají → prvek se zvětšuje.</li>
+      <li>Výpočty si vždy ověř v DevTools → <em>Computed</em> → <strong>Box model</strong>.</li>
+      <li>V další části ukážeme <code>box-sizing: border-box;</code>, který udrží celkovou velikost prvku stabilní.</li>
+    </ul>
+  </div>
+
+</section>
+
+<!-- Reuse modal z předchozí části (grid center) – pokud ho na stránce už máš, tento blok NEduplikuj -->
+<div class="modal fade" id="modalGridCenter" tabindex="-1" aria-labelledby="modalGridCenterLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalGridCenterLabel">🎯 Co dělá <code>display: grid; place-items: center;</code></h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p>Snadný způsob, jak zarovnat obsah prvku doprostřed (horizontálně i vertikálně):</p>
+        <ul>
+          <li><code>display: grid;</code> aktivuje mřížku pro vnitřní zarovnání.</li>
+          <li><code>place-items: center;</code> = <code>align-items: center;</code> + <code>justify-items: center;</code>.</li>
+        </ul>
+        <p class="small text-muted mb-0">Alternativa: <code>display:flex; align-items:center; justify-content:center;</code></p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ========================================= -->
+<!-- 3.1.7 – ČÁST 5: BOX-SIZING -->
+<section id="css-317-part5" class="container my-5">
+
+  <h3 class="mb-4">3.1.7 (5/6) Box-sizing – jak se šířka a výška opravdu počítá</h3>
+
+  <!-- Teorie -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <p>
+      V předchozí části jsme viděli, že prvek se ve výchozím nastavení zvětšuje,  
+      protože <strong>padding</strong> a <strong>border</strong> se <em>přičítají</em> k šířce a výšce.  
+      Vlastnost <code>box-sizing</code> nám umožní to změnit – říct prohlížeči,  
+      <em>co přesně</em> má být započteno do rozměru prvku.
+    </p>
+    <button class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#modalBoxSizing">
+      📘 Jak funguje box-sizing
+    </button>
+    <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalBorderBoxPriklad">
+      🧩 Příklad výpočtu border-box
+    </button>
+  </div>
+
+  <!-- MODAL: vysvětlení box-sizing -->
+  <div class="modal fade" id="modalBoxSizing" tabindex="-1" aria-labelledby="modalBoxSizingLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header"><h5 class="modal-title" id="modalBoxSizingLabel">Jak funguje <code>box-sizing</code></h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Vlastnost <code>box-sizing</code> říká, jak se má počítat šířka a výška prvku.  
+            Může mít dvě hlavní hodnoty:
+          </p>
+          <ul>
+            <li><strong>content-box</strong> (výchozí) – <em>šířka/výška se vztahuje pouze na obsah</em>.</li>
+            <li><strong>border-box</strong> – <em>šířka/výška zahrnuje i padding a border</em>.</li>
+          </ul>
+          <hr>
+          <p><strong>Příklad (šířka 200 px, padding 20 px, border 10 px):</strong></p>
+          <ul>
+            <li><code>content-box</code> → celková šířka = 200 + 20 + 20 + 10 + 10 = <strong>260 px</strong></li>
+            <li><code>border-box</code> → celková šířka = <strong>200 px</strong> (padding a border jsou uvnitř)</li>
+          </ul>
+          <p class="small text-muted mb-0">Proto <code>border-box</code> dělá layout stabilnější a přehlednější – prvek nikdy nepřeroste rodiče.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: detailní příklad -->
+  <div class="modal fade" id="modalBorderBoxPriklad" tabindex="-1" aria-labelledby="modalBorderBoxPrikladLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header"><h5 class="modal-title" id="modalBorderBoxPrikladLabel">Výpočet s <code>border-box</code></h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p><strong>Máme:</strong></p>
+          <pre><code>width: 200px;
+padding: 20px;
+border: 10px solid steelblue;</code></pre>
+          <p><strong>content-box:</strong> → obsah = 200 px, prvek = 260 px široký.</p>
+          <p><strong>border-box:</strong> → prvek zůstává 200 px široký,  
+             ale obsah se zmenší na 140 px (200 − 20 − 20 − 10 − 10).</p>
+          <div class="alert alert-info small mb-0">
+            💡 Padding a border se vtlačí „dovnitř“ prvku,  
+            takže celková velikost zůstane stabilní.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Akordeony: krok za krokem -->
+  <h4 class="mt-5 mb-3">Praktická ukázka – dva boxy se stejnými rozměry</h4>
+  <div class="accordion" id="acc-317-p5">
+
+    <!-- Krok 1 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p5-h1">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#p5-c1">
+          1️⃣ Připrav HTML se dvěma boxy
+        </button>
+      </h2>
+      <div id="p5-c1" class="accordion-collapse collapse show" data-bs-parent="#acc-317-p5">
+        <div class="accordion-body">
+          <p>Do <code>index.html</code> vlož:</p>
+<pre><code>&lt;section class="demo-wrap"&gt;
+  &lt;h4&gt;Box-sizing – content-box vs border-box&lt;/h4&gt;
+
+  &lt;div class="content-box"&gt;content-box&lt;/div&gt;
+  &lt;div class="border-box"&gt;border-box&lt;/div&gt;
+&lt;/section&gt;
+</code></pre>
+          <p>Oba prvky mají stejný obsah, rozdíl bude jen ve výpočtu rozměru.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 2 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p5-h2">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p5-c2">
+          2️⃣ Nastav CSS pro oba boxy
+        </button>
+      </h2>
+      <div id="p5-c2" class="accordion-collapse collapse" data-bs-parent="#acc-317-p5">
+        <div class="accordion-body">
+          <p>Do <code>style.css</code> přidej:</p>
+<pre><code>.content-box, .border-box {
+  width: 200px;
+  height: 50px;
+  background: lightblue;
+  margin: 8px 0;
+  padding: 20px;
+  border: 10px solid steelblue;
+  display: grid; place-items: center;
+}
+
+/* rozdíl v režimu výpočtu */
+.content-box { box-sizing: content-box; }  /* výchozí chování */
+.border-box  { box-sizing: border-box;  }  /* stabilní velikost */
+</code></pre>
+          <p>
+            Oba boxy mají stejný kód – liší se pouze v režimu <code>box-sizing</code>.  
+            Sleduj, že <code>content-box</code> se <em>zvětší</em>, zatímco <code>border-box</code> zůstává přesně 200 px široký.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 3 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p5-h3">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p5-c3">
+          3️⃣ Zkontroluj rozměry v DevTools
+        </button>
+      </h2>
+      <div id="p5-c3" class="accordion-collapse collapse" data-bs-parent="#acc-317-p5">
+        <div class="accordion-body">
+          <p>Otevři <kbd>F12</kbd> → klikni na každý box → panel <strong>Computed → Box model</strong>.</p>
+          <p>Porovnej:</p>
+          <ul>
+            <li><strong>content-box:</strong> celková šířka ≈ 260 px (200 + padding + border)</li>
+            <li><strong>border-box:</strong> celková šířka = 200 px (padding a border „uvnitř“)</li>
+          </ul>
+          <p class="text-muted small mb-0">👉 border-box se hodí hlavně při návrhu layoutů s přesnými rozměry (karty, gridy, inputy).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 4 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p5-h4">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p5-c4">
+          4️⃣ Nastav univerzálně border-box pro všechny prvky
+        </button>
+      </h2>
+      <div id="p5-c4" class="accordion-collapse collapse" data-bs-parent="#acc-317-p5">
+        <div class="accordion-body">
+          <p>V reálných projektech se často používá tzv. <strong>reset</strong> pro všechny prvky:</p>
+<pre><code>* {
+  box-sizing: border-box;
+}</code></pre>
+          <p>Tím zajistíš, že šířky a výšky všech prvků se budou počítat konzistentně.</p>
+          <div class="alert alert-success small mb-0">
+            ✅ Doporučení: použij tento reset hned na začátku každého projektu – ušetří ti desítky minut ladění.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h5 class="mb-2">📘 Shrnutí (část 5)</h5>
+    <ul>
+      <li><strong>content-box</strong> = výchozí režim, padding a border zvětšují prvek.</li>
+      <li><strong>border-box</strong> = šířka/výška zahrnuje i padding a border → stabilní velikost.</li>
+      <li>Celková šířka v content-box: <code>width + padding + border</code>.</li>
+      <li>Doporučený reset: <code>* { box-sizing: border-box; }</code>.</li>
+      <li>V DevTools sleduj rozdíl – border-box „držící tvar“ je tmavší a přesně ohraničený.</li>
+    </ul>
+  </div>
+
+</section>
+<!-- ========================================= -->
+<!-- 3.1.7 – ČÁST 6: UNIVERZÁLNÍ SELEKTOR -->
+<section id="css-317-part6" class="container my-5">
+
+  <h3 class="mb-4">3.1.7 (6/6) Univerzální selektor <code>*</code> a výchozí styly prohlížeče</h3>
+
+  <!-- Teorie -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <p>
+      Každý prohlížeč přidává HTML prvkům <em>výchozí styly</em> – mezery, paddingy nebo písma.  
+      Proto se ti někdy zdá, že má stránka „okraj“, i když jsi žádný nenastavil.  
+      <strong>Univerzální selektor</strong> (<code>*</code>) umožňuje upravit <em>všechny</em> prvky najednou a začít s čistým plátnem.
+    </p>
+    <button class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#modalUniversalSelector">
+      📘 Co je univerzální selektor
+    </button>
+    <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalBrowserDefaults">
+      🧩 Výchozí styly prohlížeče
+    </button>
+  </div>
+
+  <!-- MODAL: univerzální selektor -->
+  <div class="modal fade" id="modalUniversalSelector" tabindex="-1" aria-labelledby="modalUniversalSelectorLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header"><h5 class="modal-title" id="modalUniversalSelectorLabel">Co je univerzální selektor <code>*</code></h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Selektor <code>*</code> znamená „vyber všechny prvky“.  
+            Používá se například pro nastavení jednotného chování celého webu:
+          </p>
+<pre><code>* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}</code></pre>
+          <p>Tento zápis odstraní výchozí mezery u všech prvků a zajistí, že jejich rozměry se počítají stabilně.</p>
+          <div class="alert alert-info small mb-0">
+            💡 Tento zápis se nazývá <strong>CSS reset</strong> nebo <em>normalize</em>.  
+            Je vhodné ho mít hned na začátku každého projektu.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: výchozí styly prohlížeče -->
+  <div class="modal fade" id="modalBrowserDefaults" tabindex="-1" aria-labelledby="modalBrowserDefaultsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header"><h5 class="modal-title" id="modalBrowserDefaultsLabel">Výchozí styly prohlížeče</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Každý prohlížeč (Chrome, Firefox, Safari…) má vlastní <em>uživatelský CSS soubor</em>, kde jsou nastavené výchozí styly.</p>
+          <ul>
+            <li><code>&lt;body&gt;</code> má obvykle <code>margin: 8px;</code></li>
+            <li><code>&lt;ul&gt;</code> a <code>&lt;ol&gt;</code> mají <code>padding-left: 40px;</code></li>
+            <li><code>&lt;h1&gt;</code> až <code>&lt;h6&gt;</code> mají předdefinované velikosti a mezery.</li>
+            <li><code>&lt;p&gt;</code> má výchozí <code>margin-top</code> a <code>margin-bottom</code>.</li>
+          </ul>
+          <p>Když tyto hodnoty vynuluješ pomocí univerzálního selektoru,  
+             můžeš si rozvržení vytvořit zcela podle sebe.</p>
+          <div class="alert alert-warning small mb-0">
+            ⚠️ Pozor – resetuj styly jen na začátku projektu.  
+            U hotových šablon může univerzální selektor rozbít hotový layout.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Akordeony: cvičení -->
+  <h4 class="mt-5 mb-3">Praktické cvičení – resetujeme výchozí styly</h4>
+  <div class="accordion" id="acc-317-p6">
+
+    <!-- Krok 1 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p6-h1">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#p6-c1">
+          1️⃣ Připrav stránku s několika prvky
+        </button>
+      </h2>
+      <div id="p6-c1" class="accordion-collapse collapse show" data-bs-parent="#acc-317-p6">
+        <div class="accordion-body">
+          <p>Do <code>index.html</code> vlož následující kód:</p>
+<pre><code>&lt;h1&gt;Nadpis první úrovně&lt;/h1&gt;
+&lt;p&gt;Toto je odstavec s výchozím stylem prohlížeče.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Položka 1&lt;/li&gt;
+  &lt;li&gt;Položka 2&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+          <p>Když stránku otevřeš, uvidíš mezery a odsazení, i když jsi žádné nestanovil.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 2 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p6-h2">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p6-c2">
+          2️⃣ Zkontroluj výchozí marginy a paddingy
+        </button>
+      </h2>
+      <div id="p6-c2" class="accordion-collapse collapse" data-bs-parent="#acc-317-p6">
+        <div class="accordion-body">
+          <p>V DevTools si všimni:</p>
+          <ul>
+            <li><code>&lt;body&gt;</code> má <code>margin: 8px;</code></li>
+            <li><code>&lt;ul&gt;</code> má <code>padding-left: 40px;</code></li>
+            <li><code>&lt;h1&gt;</code> a <code>&lt;p&gt;</code> mají své vlastní mezery.</li>
+          </ul>
+          <p>Toto vše nastavuje prohlížeč automaticky.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 3 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p6-h3">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p6-c3">
+          3️⃣ Použij univerzální reset
+        </button>
+      </h2>
+      <div id="p6-c3" class="accordion-collapse collapse" data-bs-parent="#acc-317-p6">
+        <div class="accordion-body">
+          <p>Do <code>style.css</code> na úplný začátek napiš:</p>
+<pre><code>* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}</code></pre>
+          <p>Nyní stránka ztratí všechny výchozí mezery. Nadpis, odstavec i seznam se zarovnají přesně k okraji.</p>
+          <div class="alert alert-success small mb-0">
+            ✅ Výsledek: „čisté plátno“ – odteď máš rozložení zcela pod kontrolou.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 4 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p6-h4">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p6-c4">
+          4️⃣ Obnov vlastní mezery ručně
+        </button>
+      </h2>
+      <div id="p6-c4" class="accordion-collapse collapse" data-bs-parent="#acc-317-p6">
+        <div class="accordion-body">
+          <p>Po resetu si mezery nastavíš ručně podle potřeby:</p>
+<pre><code>body { padding: 20px; font-family: system-ui, sans-serif; }
+h1   { margin-bottom: 12px; }
+p    { margin-bottom: 8px; }
+ul   { margin-left: 20px; }</code></pre>
+          <p>Tím máš kontrolu nad celým vzhledem stránky bez vlivu výchozích hodnot prohlížeče.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h5 class="mb-2">📘 Shrnutí (část 6)</h5>
+    <ul>
+      <li><code>*</code> = univerzální selektor – ovlivní všechny prvky.</li>
+      <li>Každý prohlížeč má své výchozí styly (margin, padding, písmo).</li>
+      <li>Pomocí resetu <code>* { margin:0; padding:0; box-sizing:border-box; }</code> začínáme s „čistým“ layoutem.</li>
+      <li>Po resetu si mezery a styly nastavujeme ručně podle designu.</li>
+      <li>Border-box drží stabilní rozměry i po resetu – používej ho univerzálně.</li>
+    </ul>
+  </div>
+
+</section>
+
+
