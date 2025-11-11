@@ -10,6 +10,7 @@
     let siblings = button.parentElement.querySelectorAll("button");
     siblings.forEach(b => b.disabled = true);
   }
+  
 
 
   // Gimp gallery
@@ -44,3 +45,5 @@
     if(e.target.matches('[data-gallery-next]')) { e.preventDefault(); move(1, e.target); }
   });
 })();
+
+
