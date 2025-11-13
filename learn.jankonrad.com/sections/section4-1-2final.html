@@ -1,0 +1,315 @@
+<!-- KAPITOLA: 4.1.2 Final Project – Treasure Island (pokročilá textová adventura) -->
+<section id="section4-1-2final" class="container my-5 no-copy">
+  <h3 class="mb-4">4.1.2 Final Project – Treasure Island (pokročilá textová adventura)</h3>
+
+  <!-- Úvodní přehled -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co je cílem?</h3>
+    <p>
+      V tomto finálním projektu kapitoly 4.1.2 vytvoříš vlastní 
+      <strong>textovou adventuru ve stylu „Treasure Island“</strong>.
+      Hráč bude dělat volby (left/right, swim/wait, doors) a podle toho se příběh větví.
+    </p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">Procvičíš <strong>podmínky</strong> <code>if/elif/else</code> a <strong>vnořené podmínky</strong>.</li>
+      <li class="list-group-item">Naučíš se pracovat s <strong>řetězci</strong>, <strong>ASCII art</strong> a funkcí <code>.lower()</code> pro normalizaci vstupu.</li>
+      <li class="list-group-item">Přepíšeš <strong>flowchart</strong> do kódu (rozhodovací strom).</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Strukturu můžeš převzít z ukázky, ale příběh si klidně <strong>úplně vymysli vlastní</strong>.
+      Důležité jsou <code>if/elif/else</code>, ne text.
+    </div>
+  </div>
+
+  <!-- Akordeon kroků -->
+  <div class="accordion" id="acc-4-1-2-final">
+
+    <!-- Krok 1 – ASCII art + úvod -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-412f-1">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c-412f-1" aria-expanded="true" aria-controls="c-412f-1">
+          1) ASCII art + úvod do hry
+        </button>
+      </h2>
+      <div id="c-412f-1" class="accordion-collapse collapse show" aria-labelledby="h-412f-1" data-bs-parent="#acc-4-1-2-final">
+        <div class="accordion-body">
+          <p>Na začátku hry vypíšeme jednoduchý obrázek pokladu pomocí <strong>ASCII art</strong> a uvítací text.</p>
+          <p>Víceřádkový text zapíšeme pomocí <strong>trojitých uvozovek</strong> <code>''' ... '''</code>:</p>
+
+<pre><code class="language-python">print('''\
+*******************************************************************************
+          |                   |                  |                     |
+ _________|________________.=""_;=.______________|_____________________|_______
+|                   |  ,-"_,=""     `"=.|                  |
+|___________________|__"=._o`"-._        `"=.______________|___________________
+          |                `"=._o`"=._      _`"=._                     |
+          |                      :=._o "=._."_.-="'"=.                 |
+          |______________________.=""_.-="'"=._________________________|
+*******************************************************************************
+''')
+print("Vítej na Treasure Island.")
+print("Tvým úkolem je najít poklad.")
+</code></pre>
+
+          <div class="d-flex flex-wrap gap-2 mb-2">
+            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal412f-ascii">Jak funguje ASCII art?</button>
+            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal412f-multiline">Trojité uvozovky a více řádků</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 2 – První volba: křižovatka (left/right) -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-412f-2">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-412f-2" aria-expanded="false" aria-controls="c-412f-2">
+          2) První volba: křižovatka (left/right)
+        </button>
+      </h2>
+      <div id="c-412f-2" class="accordion-collapse collapse" aria-labelledby="h-412f-2" data-bs-parent="#acc-4-1-2-final">
+        <div class="accordion-body">
+          <p>Hráč stojí na křižovatce a volí, jestli půjde <strong>left</strong> nebo <strong>right</strong>.</p>
+          <p>Vstup si hned převedeme na malá písmena pomocí <code>.lower()</code>, aby nezáleželo na CAPSLOCKu.</p>
+
+<pre><code class="language-python">choice1 = input(
+    "Stojíš na křižovatce. Kam chceš jít? Napiš \"left\" nebo \"right\": "
+).lower()
+
+if choice1 == "left":
+    # pokračuješ ve hře
+    print("Vydáváš se doleva po prašné cestě...")
+else:
+    print("Spadneš do hluboké díry. GAME OVER.")</code></pre>
+
+          <div class="alert alert-warning small">
+            <strong>Pozor na uvozovky:</strong> text můžeš obalit do <code>'...'</code> a uvnitř mít <code>"left"</code>/<code>"right"</code>,
+            nebo používat <code>\</code> pro „escapování“.
+          </div>
+          <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal412f-input">
+            Jak správně psát texty s uvozovkami?
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 3 – Druhá volba: jezero (swim/wait) -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-412f-3">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-412f-3" aria-expanded="false" aria-controls="c-412f-3">
+          3) Druhá volba: jezero (swim/wait)
+        </button>
+      </h2>
+      <div id="c-412f-3" class="accordion-collapse collapse" aria-labelledby="h-412f-3" data-bs-parent="#acc-4-1-2-final">
+        <div class="accordion-body">
+          <p>Pokud hráč zvolil <code>left</code>, dostane se k jezeru. Další rozhodnutí:</p>
+          <ul>
+            <li><strong>wait</strong> – počkáš na loď → pokračuješ dál</li>
+            <li><strong>swim</strong> – plaveš → napadnou tě ryby / krokodýli → GAME OVER</li>
+          </ul>
+
+<pre><code class="language-python">if choice1 == "left":
+    choice2 = input(
+        "Dorazil jsi k jezeru. "
+        "Napiš \"wait\" pro čekání na loď nebo \"swim\" pro plavání přes: "
+    ).lower()
+
+    if choice2 == "wait":
+        print("Počkal jsi na loď a bezpečně dorazil na ostrov.")
+    else:
+        print("Napadly tě hladové ryby. GAME OVER.")</code></pre>
+
+          <div class="alert alert-info small mb-0">
+            <strong>Struktura:</strong> Podmínka pro druhou volbu je <em>vnořená</em> uvnitř prvního <code>if</code> –
+            ke druhé otázce se dostane jen hráč, který šel doleva.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 4 – Třetí volba: dveře (red / yellow / blue) -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-412f-4">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-412f-4" aria-expanded="false" aria-controls="c-412f-4">
+          4) Třetí volba: dveře (red / yellow / blue)
+        </button>
+      </h2>
+      <div id="c-412f-4" class="accordion-collapse collapse" aria-labelledby="h-412f-4" data-bs-parent="#acc-4-1-2-final">
+        <div class="accordion-body">
+          <p>Pokud hráč zvolil <code>left</code> a poté <code>wait</code>, dorazí k domu se třemi dveřmi:</p>
+          <ul>
+            <li><strong>red</strong> – oheň → GAME OVER</li>
+            <li><strong>blue</strong> – bestie → GAME OVER</li>
+            <li><strong>yellow</strong> – poklad → VÝHRA 🎉</li>
+          </ul>
+
+<pre><code class="language-python">if choice1 == "left" and choice2 == "wait":
+    choice3 = input(
+        "Dorazil jsi k domu se třemi dveřmi: red, yellow, blue. "
+        "Jakou barvu si vybereš? "
+    ).lower()
+
+    if choice3 == "red":
+        print("Místnost plná ohně. GAME OVER.")
+    elif choice3 == "blue":
+        print("Sežrala tě smečka příšer. GAME OVER.")
+    elif choice3 == "yellow":
+        print("Našel jsi poklad! VYHRÁL JSI! 🏆")
+    else:
+        print("Tyhle dveře neexistují. GAME OVER.")</code></pre>
+
+          <div class="alert alert-warning small mb-0">
+            <strong>Všimni si:</strong> využíváme <code>if / elif / elif / else</code>,
+            takže se vždy provede <em>maximálně jedna</em> větev.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 5 – Kompletní ukázkové řešení -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-412f-5">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-412f-5" aria-expanded="false" aria-controls="c-412f-5">
+          5) Kompletní ukázkové řešení (Treasure Island)
+        </button>
+      </h2>
+      <div id="c-412f-5" class="accordion-collapse collapse" aria-labelledby="h-412f-5" data-bs-parent="#acc-4-1-2-final">
+        <div class="accordion-body">
+          <p>Celý program pohromadě (můžeš použít jako vzor, žáci mohou mít vlastní texty/výsledky):</p>
+
+<pre><code class="language-python">print('''\
+*******************************************************************************
+          |                   |                  |                     |
+ _________|________________.=""_;=.______________|_____________________|_______
+|                   |  ,-"_,=""     `"=.|                  |
+|___________________|__"=._o`"-._        `"=.______________|___________________
+          |                `"=._o`"=._      _`"=._                     |
+          |                      :=._o "=._."_.-="'"=.                 |
+          |______________________.=""_.-="'"=._________________________|
+*******************************************************************************
+''')
+print("Vítej na Treasure Island.")
+print("Tvým úkolem je najít poklad.\n")
+
+choice1 = input(
+    "Stojíš na křižovatce. Kam chceš jít? Napiš \"left\" nebo \"right\": "
+).lower()
+
+if choice1 == "left":
+    choice2 = input(
+        "Došel jsi k jezeru. Uprostřed je ostrov.\n"
+        "Napiš \"wait\" pro čekání na loď nebo \"swim\" pro plavání přes: "
+    ).lower()
+
+    if choice2 == "wait":
+        choice3 = input(
+            "Dorazil jsi na ostrov. Vidíš dům se třemi dveřmi: red, yellow, blue.\n"
+            "Jakou barvu dveří si vybereš? "
+        ).lower()
+
+        if choice3 == "red":
+            print("Místnost plná ohně. GAME OVER.")
+        elif choice3 == "blue":
+            print("Napadla tě smečka příšer. GAME OVER.")
+        elif choice3 == "yellow":
+            print("Našel jsi poklad! Vyhrál jsi! 🏆")
+        else:
+            print("Tyhle dveře neexistují. GAME OVER.")
+    else:
+        print("Napadly tě hladové ryby v jezeře. GAME OVER.")
+else:
+    print("Spadl jsi do hluboké díry. GAME OVER.")</code></pre>
+
+          <div class="alert alert-info small mb-0">
+            <strong>Úkol pro žáky:</strong> změň texty, přidej nové větve, jiné „Game Over“ scénáře,
+            nebo úplně jiné prostředí (vesmír, dungeon, hororový dům…).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 6 – Rozšiřující výzvy -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-412f-6">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-412f-6" aria-expanded="false" aria-controls="c-412f-6">
+          6) Rozšiřující výzvy (pro rychlejší)
+        </button>
+      </h2>
+      <div id="c-412f-6" class="accordion-collapse collapse" aria-labelledby="h-412f-6" data-bs-parent="#acc-4-1-2-final">
+        <div class="accordion-body">
+          <ul>
+            <li>Přidej <strong>proměnnou životů</strong> (např. 3 životy) a při chybné volbě odečti život místo okamžitého Game Over.</li>
+            <li>Udělej další rozhodovací vrstvu (např. v místnosti je truhla, ale i past).</li>
+            <li>Přidej <strong>heslo/klíč</strong> – hráč ho musí zadat správně, jinak Game Over.</li>
+            <li>Přidej <strong>číselný vstup</strong> (např. volba 1/2/3) místo textu.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /accordion -->
+
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Shrnutí projektu</h3>
+    <p>V tomto finálním projektu jsi:</p>
+    <ul class="list-group">
+      <li class="list-group-item">použil(a) <strong>vnořené podmínky</strong> a <strong>if/elif/else</strong> na větvení příběhu,</li>
+      <li class="list-group-item">pracoval(a) s textem, ASCII art a normalizací vstupu pomocí <code>.lower()</code>,</li>
+      <li class="list-group-item">převedl(a) <strong>flowchart</strong> do funkčního Python programu.</li>
+    </ul>
+    <div class="alert alert-success mt-3 mb-0">
+      Hotovo! Zbývá už jen <strong>závěrečný test</strong> na podmínky a logické operátory pro kapitolu 4.1.2.
+    </div>
+  </div>
+</section>
+
+<!-- MODÁLY pro 4.1.2 Final Project -->
+<div class="modal fade" id="modal412f-ascii" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">ASCII art – co to je?</h5>
+      <button class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <p>ASCII art je obrázek složený jen z <strong>běžných znaků</strong> (písmena, čísla, interpunkce).</p>
+      <p>Můžeš ho najít například na stránkách s ASCII obrázky (např. „treasure ASCII art“) a jednoduše zkopírovat do trojitých uvozovek v Pythonu.</p>
+      <p>Python ho pak vypíše přesně tak, jak je napsaný.</p>
+    </div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="modal412f-multiline" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Trojité uvozovky a víceřádkové řetězce</h5>
+      <button class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+<pre><code class="language-python">text = '''Toto je
+víceřádkový
+řetězec.'''
+print(text)</code></pre>
+      <p>Vše mezi <code>'''</code> a <code>'''</code> se bere jako jeden string včetně konců řádků a mezer.</p>
+    </div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="modal412f-input" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Uvozovky a escapování ve stringu</h5>
+      <button class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <p>Pokud chceš uvnitř textu použít uvozovky, máš víc možností:</p>
+<pre><code class="language-python"># 1) Venku jednoduché, uvnitř dvojité:
+input('Napiš "left" nebo "right": ')
+
+# 2) Escapování pomocí \:
+input("Napiš \"left\" nebo \"right\": ")</code></pre>
+      <p>Funkce <code>.lower()</code> převede celý vstup na malá písmena:</p>
+<pre><code class="language-python">choice = input("Volba: ").lower()
+# "Left", "LEFT", "left" → vždy "left"</code></pre>
+    </div>
+  </div></div>
+</div>

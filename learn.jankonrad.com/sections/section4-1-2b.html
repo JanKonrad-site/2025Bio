@@ -1,0 +1,219 @@
+ <!-- KAPITOLA: 4.1.2b Datové typy v praxi – BMI a kalkulačka spropitného -->
+<section id="section4-1-2b" class="container my-5 no-copy">
+  <h3 class="mb-4">4.1.2b Datové typy v praxi – BMI a kalkulačka spropitného</h3>
+
+  <!-- Úvodní přehled -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co se naučíš?</h3>
+    <p>V této kapitole si vyzkoušíš <strong>datové typy</strong> na dvou malých projektech z praxe. Navazuje to na teorii o <code>int</code>, <code>float</code>, převodech typů a f-řetězcích.</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">Používat <strong>čísla</strong> a převody typů v reálných výpočtech.</li>
+      <li class="list-group-item">Formátovat výstup pomocí <strong>f-řetězců</strong> (počet desetinných míst).</li>
+      <li class="list-group-item">Vytvořit <strong>BMI kalkulátor</strong> a <strong>kalkulačku spropitného</strong>.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Klíčem jsou správné datové typy – vstupy převáděj na <code>float</code>/<code>int</code>, výstupy formátuj f-stringem.
+    </div>
+  </div>
+
+  <h4 class="mt-4 mb-3">🧪 Praktická cvičení</h4>
+
+  <!-- ===== Cvičení & Projekt (akordeony) ===== -->
+  <div class="accordion my-4" id="acc-day2">
+
+    <!-- Cvičení: BMI -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-bmi">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c-bmi" aria-expanded="true" aria-controls="c-bmi">
+          🎯 Cvičení: BMI kalkulátor (mini)
+        </button>
+      </h2>
+      <div id="c-bmi" class="accordion-collapse collapse show" aria-labelledby="h-bmi" data-bs-parent="#acc-day2">
+        <div class="accordion-body">
+
+          <p>Napiš program, který se zeptá na <b>výšku v metrech</b> a <b>hmotnost v kilogramech</b>, spočítá
+            <code>BMI = hmotnost / (výška ** 2)</code> a vytiskne výsledek na <b>1 desetinné místo</b>.</p>
+
+          <div class="d-flex flex-wrap gap-2 mb-2">
+            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalBMIJak">Jak na to</button>
+            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalBMIReseni">Ukázkové řešení</button>
+          </div>
+
+<pre><code># Vstupy v češtině:
+vyska = float(input("Zadej výšku v metrech (např. 1.75): "))
+hmotnost = float(input("Zadej hmotnost v kg (např. 68.5): "))
+
+bmi = hmotnost / (vyska ** 2)
+print(f"BMI: {bmi:.1f}")  # vytiskne např. BMI: 22.4
+</code></pre>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Projekt: Tip Calculator -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-tip">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-tip" aria-expanded="false" aria-controls="c-tip">
+          🧮 Projekt: Kalkulačka spropitného (Tip Calculator)
+        </button>
+      </h2>
+      <div id="c-tip" class="accordion-collapse collapse" aria-labelledby="h-tip" data-bs-parent="#acc-day2">
+        <div class="accordion-body">
+
+          <p>Program vypočítá, kolik má <b>každý člověk zaplatit</b>, když známe celkový účet, procento
+            spropitného a počet lidí.</p>
+
+          <ol class="mb-3">
+            <li>Uvítání: <code>print("Vítej v kalkulačce spropitného!")</code></li>
+            <li>Vstupy (česky):
+<pre><code>ucet = float(input("Jaká byla celková cena účtu? Kč: "))
+sprop = int(input("Kolik dáš spropitného? (10 / 12 / 15): "))
+osoby = int(input("Mezi kolik lidí se účet dělí? "))</code></pre>
+            </li>
+            <li>Výpočet a výstup na <b>2 desetinná místa</b>:
+<pre><code>koef = 1 + (sprop / 100)
+celkem = ucet * koef
+podil = celkem / osoby
+print(f"Každý zaplatí: {podil:.2f} Kč")</code></pre>
+            </li>
+          </ol>
+
+          <div class="d-flex flex-wrap gap-2 mb-3">
+            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalTipJak">Jak se to počítá</button>
+            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalTipChyby">Časté chyby & tipy</button>
+            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalF">F-stringy & formátování</button>
+          </div>
+
+          <!-- Simulace (ponechán vzhled jako dříve) -->
+          <div class="bg-dark text-light p-3 rounded" style="max-width: 640px;">
+            <p><strong>Simulace kalkulačky:</strong></p>
+            <div>Účet (Kč):</div>
+            <input type="number" id="tipBill" class="form-control mb-2" step="any">
+            <div>Spropitné (%):</div>
+            <input type="number" id="tipPct" class="form-control mb-2" step="1" value="12">
+            <div>Počet osob:</div>
+            <input type="number" id="tipPeople" class="form-control mb-2" step="1" value="2" min="1">
+            <button class="btn btn-sm btn-light" onclick="runSimTip()">Spočítat</button>
+            <div id="tipResult" class="mt-3" style="white-space:pre-line;color:white;"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Shrnutí kapitoly -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Shrnutí kapitoly</h3>
+    <ul class="list-group">
+      <li class="list-group-item">Procvičil/a jsi <strong>float</strong>, <strong>int</strong> a převody typů.</li>
+      <li class="list-group-item">Umíš použít <strong>f-řetězce</strong> pro formátování výstupu (počet desetinných míst).</li>
+      <li class="list-group-item">Vytvořil/a jsi dva malé programy: BMI kalkulátor a kalkulačku spropitného.</li>
+    </ul>
+    <div class="alert alert-info mt-3">
+      <strong>Další krok:</strong> zkus oba programy rozšířit o podmínky <code>if/elif/else</code> (např. slovní hodnocení BMI, různé komentáře podle výše spropitného).
+    </div>
+  </div>
+</section>
+
+<!-- MODÁLY PRO 4.1.2b -->
+
+<!-- BMI: Jak na to -->
+<div class="modal fade" id="modalBMIJak" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">BMI – co a proč</h5>
+      <button class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <ul>
+        <li>Vzorec: <code>BMI = hmotnost(kg) / (výška(m) ** 2)</code>.</li>
+        <li>Na vstupu použij <code>float()</code>, jinak dělení celých čísel může být zkreslené.</li>
+        <li>Výstup na 1 desetinné místo: <code>f"{bmi:.1f}"</code>.</li>
+      </ul>
+      <div class="alert alert-info mb-0">Nepřeváděj cm na m zapomenutím: 175 cm ⇒ <b>1.75</b> m.</div>
+    </div>
+  </div></div>
+</div>
+
+<!-- BMI: Řešení -->
+<div class="modal fade" id="modalBMIReseni" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Ukázkové řešení BMI</h5>
+      <button class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+<pre><code>vyska = float(input("Zadej výšku v metrech: "))
+hmotnost = float(input("Zadej hmotnost v kg: "))
+bmi = hmotnost / (vyska ** 2)
+print(f"BMI: {bmi:.1f}")</code></pre>
+      <p class="small text-muted mb-0">Rozšiř: kategorizace pomocí <code>if/elif/else</code> (podváha, normál, nadváha).</p>
+    </div>
+  </div></div>
+</div>
+
+<!-- Tip: Jak se počítá -->
+<div class="modal fade" id="modalTipJak" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Kalkulačka spropitného – princip</h5>
+      <button class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <ol>
+        <li>Převeď procenta na koeficient: <code>koef = 1 + (sprop / 100)</code>.</li>
+        <li>Spropitné připočti k účtu: <code>celkem = ucet * koef</code>.</li>
+        <li>Rozděl mezi osoby: <code>podil = celkem / osoby</code>.</li>
+        <li>Zobraz 2 desetinná místa: <code>f"{podil:.2f}"</code>.</li>
+      </ol>
+      <div class="alert alert-info mb-0">Alternativa CZK/ Kč: můžeš zaokrouhlit na celé koruny: <code>round(podil)</code>.</div>
+    </div>
+  </div></div>
+</div>
+
+<!-- Tip: Časté chyby -->
+<div class="modal fade" id="modalTipChyby" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Časté chyby & tipy</h5>
+      <button class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <ul>
+        <li><b>TypeError:</b> Sčítáš text a číslo – převáděj na správné typy, používej <code>float()</code>/<code>int()</code> a f-stringy.</li>
+        <li><b>Dělení nulou:</b> Ošetři <code>osoby &lt; 1</code> → minimálně 1 osoba.</li>
+        <li><b>Formát peněz:</b> Pro zobrazení používej <code>:.2f</code>; pro výpočty uchovávej v číslech, ne jako text.</li>
+        <li><b>Desetinná tečka vs čárka:</b> V Pythonu používej <b>tečku</b> <code>1.75</code>, ne čárku.</li>
+      </ul>
+    </div>
+  </div></div>
+</div>
+
+<!-- JS simulace pro kalkulačku spropitného -->
+<script>
+  function runSimTip(){
+    const bill = parseFloat(document.getElementById('tipBill').value || '0');
+    const pct  = parseFloat(document.getElementById('tipPct').value  || '0');
+    const ppl  = Math.max(1, parseInt(document.getElementById('tipPeople').value || '1'));
+    if (bill < 0 || pct < 0) {
+      document.getElementById('tipResult').textContent = "Zadej nezáporné hodnoty.";
+      return;
+    }
+    const total = bill * (1 + pct/100);
+    const share = total / ppl;
+    document.getElementById('tipResult').textContent =
+      `Každý zaplatí: ${share.toFixed(2)} Kč\n(Celkem: ${total.toFixed(2)} Kč; Osob: ${ppl})`;
+  }
+</script>
+<section id="section4-1-2b" class="container my-5 no-copy">
+  <h3 class="mb-4">4.1.2b Opakování podmínky, If Statementy (tvorba testu)</h3>
+
+  <!-- Úvodní přehled -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co se naučíš?</h3>
+    <p>V této kapitole si vyzkoušíš tvorbu jednoduchého <strong>testu s otázkami a vyhodnocením</strong> pomocí podmínek <code>if/elif/else</code>. Navazuje to na teorii o podmínkách.</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group

@@ -64,6 +64,11 @@
   <pre><code>jmeno = "Petr"
 vek = 18</code></pre>
   <p>Proměnná má <strong>název</strong> a <strong>hodnotu</strong>. Python si typ odvodí automaticky.</p>
+  <div class="d-flex flex-wrap gap-2 my-3">
+  <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalNaming">Pojmenování proměnných</button>
+  <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalDebugging">Debugging chyb</button>
+  <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalStrings">Řetězce: nový řádek &amp; spojování</button>
+</div>
 
   <!-- Rozbalovací část -->
   <ul class="list-group mb-4">
@@ -290,6 +295,32 @@ else:
     </div>
   </div>
 
+  <hr class="my-4">
+
+<h5 class="mb-2">🎵 Úkol 3: Band Name Generator</h5>
+<p>Vytvoř program, který pozdraví uživatele, zeptá se na <strong>město</strong> a <strong>jméno zvířete</strong> a vypíše návrh názvu kapely.</p>
+
+<ol class="list-group list-group-numbered mb-3">
+  <li class="list-group-item">Uvítání:
+    <pre><code>print("Welcome to the Band Name Generator.")</code></pre>
+  </li>
+  <li class="list-group-item">Vstupy (kurzor na novém řádku – použij <code>\n</code>):
+<pre><code>city = input("Which city did you grow up in?\n")
+pet  = input("What is the name of a pet?\n")</code></pre>
+  </li>
+  <li class="list-group-item">Výstup (zvol jednu variantu):
+<pre><code># A) konkatenace
+print("Your band name could be: " + city + " " + pet)
+
+# B) f-string (doporučeno)
+print(f"Your band name could be: {city} {pet}")</code></pre>
+  </li>
+</ol>
+
+<div class="alert alert-info">
+  <strong>Časté chyby:</strong> <code>NameError</code> (překlep v <code>city</code>/<code>pet</code>), slepený text bez mezery, nebo <code>IndentationError</code> kvůli odsazení.
+</div>
+
 
 
   <!-- Shrnutí -->
@@ -439,3 +470,93 @@ c = \"Python\" # str</code></pre>
     </div>
   </div>
 </div>
+<!-- Modal: Pojmenování proměnných -->
+<div class="modal fade" id="modalNaming" tabindex="-1" aria-labelledby="modalNamingLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalNamingLabel">Pojmenování proměnných (naming)</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="mb-3">
+          <li>Preferuj <strong>čitelnost</strong>: <code>user_name</code> &gt; <code>n</code>.</li>
+          <li>Víceslovné názvy: <strong>snake_case</strong> (<code>user_name</code>), <em>ne</em> mezery ani pomlčky.</li>
+          <li>Číslice mohou být na konci (<code>version2</code>), <em>ne</em> na začátku (<code>2version</code> ⟶ <code>SyntaxError</code>).</li>
+          <li>Nestínuj vestavěné názvy: <code>print</code>, <code>input</code>, <code>len</code> apod. nepoužívat jako proměnné.</li>
+          <li><code>NameError</code> = překlep v názvu (např. <code>name</code> vs. <code>nama</code>). Python neřeší „pravopis”, jen <strong>konzistenci</strong>.</li>
+        </ul>
+        <pre><code># OK
+user_name = "Petr"
+length1 = 6
+
+# ŠPATNĚ
+user name = "Petr"   # mezera
+1length = 6          # číslo na začátku
+print = "text"       # stínování vestavěné funkce</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Debugging chyb -->
+<div class="modal fade" id="modalDebugging" tabindex="-1" aria-labelledby="modalDebuggingLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalDebuggingLabel">Debugging: nejčastější chyby a jak je číst</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="mb-3">
+          <li><code>SyntaxError</code> – chybí uvozovka/závorka/dvojtečka.</li>
+          <li><code>IndentationError</code> – špatné odsazení (4 mezery na úroveň).</li>
+          <li><code>NameError</code> – proměnná neexistuje (překlep, jiný název).</li>
+          <li><code>TypeError</code> – míchání typů (např. <code>"věk: " + 18</code>).</li>
+        </ul>
+        <pre><code># SyntaxError – chybí uvozovka
+print("Hello)
+
+# IndentationError – chybí odsazení
+if x > 0:
+print(x)
+
+# NameError – jiný název
+user_name = "Petr"
+print(username)
+
+# TypeError – míchání typů
+vek = 18
+print("Věk: " + vek)  # -> použij str(vek) nebo f-string</code></pre>
+        <div class="alert alert-info">
+          <strong>Tip:</strong> Zkopíruj text chyby do Google / StackOverflow. Sleduj <em>červené</em> a <em>žluté</em> vlnovky editoru.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Řetězce – nový řádek & spojování -->
+<div class="modal fade" id="modalStrings" tabindex="-1" aria-labelledby="modalStringsLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalStringsLabel">Řetězce: <code>\n</code> (nový řádek) a spojování</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Nový řádek:</strong> <code>\n</code> vloží zalomení řádku uvnitř textu.</p>
+        <pre><code>print("Ahoj\nsvěte")</code></pre>
+        <p class="mt-3"><strong>Spojení textu:</strong></p>
+        <pre><code>mesto = "Praha"
+zvire = "Kočka"
+print("Kapela: " + mesto + " " + zvire)         # konkatenace
+print(f"Kapela: {mesto} {zvire}")               # f-string (doporučeno)</code></pre>
+        <div class="alert alert-warning">
+          <strong>Pozor:</strong> Nepřidávej náhodné mezery/odsazení před <code>print</code> ⟶ <code>IndentationError</code>.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
