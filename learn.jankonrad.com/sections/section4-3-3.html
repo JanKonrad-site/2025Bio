@@ -1,449 +1,426 @@
-<!DOCTYPE html>
-<html lang="cs">
-<head>
-  <meta charset="utf-8" />
-  <title>Lekce 2 – Pseudokód, flowcharty a první funkce místností (N/S/E)</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Bootstrap 5 -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
+<!-- =========================================
+     4.1.5 Menu + vnořené smyčky (while)
+     ========================================= -->
+<section id="section4-1-5" class="container no-copy my-5">
   <style>
-    /* Animace z tvé šablony */
-    .svg-line { stroke-dasharray: 300; stroke-dashoffset: 300; animation: draw 2s ease forwards; }
-    @keyframes draw { to { stroke-dashoffset: 0; } }
-    pre code { white-space: pre; }
-
-    .task-badge { font-size: .75rem; }
-
-    /* --- ZÁKLADNÍ OCHRANA PROTI KOPÍROVÁNÍ KÓDU --- */
-    /* 1) Zákaz výběru textu uvnitř kódových bloků */
-    .no-copy, .no-copy * {
-      -webkit-user-select: none !important;
-      -moz-user-select: none !important;
-      -ms-user-select: none !important;
-      user-select: none !important;
-    }
-    /* 2) Zabránit přetažení a výběru */
-    .no-copy {
-      -webkit-touch-callout: none !important;
-      -webkit-user-drag: none !important;
-      -khtml-user-select: none !important;
-      -webkit-tap-highlight-color: rgba(0,0,0,0);
-      position: relative;
-    }
-    /* 3) Volitelný překryv (neruší čtení, jen brání interakci myší) */
-    .no-copy-overlay {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: auto;
-      background: transparent; /* neviditelný */
-    }
-    /* Vizuální vzhled kódu beze změny */
-    .code-wrapper {
-      position: relative;
-    }
+    .tip{border-left:4px solid #0d6efd; background:#f8f9fa; padding:.75rem 1rem}
+    .warn{border-left:4px solid #dc3545; background:#fff5f5; padding:.75rem 1rem}
+    .ok{border-left:4px solid #198754; background:#f6fff8; padding:.75rem 1rem}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}
+    pre code{white-space:pre}
+    .kbd{padding:.05rem .35rem;border:1px solid #ddd;border-radius:.25rem;background:#eee}
   </style>
-</head>
-<body class="bg-white">
 
-<section id="section4-3-3" class="container my-5">
-  <h3 class="mb-4">2. Pseudokód, flowcharty a první funkce místností (N/S/E)</h3>
+  <h3 class="mb-4">4.1.5 Vytvoř si menu a příběh pomocí vnořených <code>while</code></h3>
 
-  <!-- Úvodní přehled -->
   <div class="container my-4 p-4 border rounded bg-light">
-    <h3 class="mb-3">Co se naučíš?</h3>
-    <p>Podle pseudokódu a flowchartu naprogramuješ první logiku herních místností a voleb.</p>
-    <ul class="list-group list-group-flush mb-3">
-      <li class="list-group-item"><strong>Pseudokód</strong>: jak stručně popsat algoritmus hry.</li>
-      <li class="list-group-item"><strong>Flowcharty</strong>: symboly a tok rozhodování (výběr N/S/E).</li>
-      <li class="list-group-item"><strong>Funkce v Pythonu</strong>: <code>def ...()</code> pro jednotlivé lokace.</li>
-      <li class="list-group-item"><strong>Výběr podle vstupu</strong>: <code>if / elif / else</code> pro navigaci.</li>
+    <h4 class="mb-3">Cíl lekce</h4>
+    <ul class="mb-3">
+      <li>Postavíš <b>hlavní menu</b> (vratná smyčka) a <b>herní smyčku</b> (vnořenou) pomocí <code>while</code>.</li>
+      <li>Pochopíš, proč používáme <em>řídicí proměnné</em> jako <code>menuLoop</code> a <code>gameLoop</code>.</li>
+      <li>Naučíš se používat <code>continue</code>, <code>break</code> a ukončit program (<code>exit()</code> / <code>sys.exit()</code>).</li>
+      <li>Tipy pro <b>orientaci ve vnořených smyčkách</b>, <b>komentáře</b> a <b>odsazení ve VS Code</b>.</li>
     </ul>
-    <div class="alert alert-info" role="alert">
-      <strong>Tip:</strong> Nejprve navrhni (pseudokód/flowchart), teprve pak kóduj – ušetříš si ladění.
+    <div class="tip"><b>Kdy while?</b> Když dopředu nevíš, kolikrát se bude něco opakovat (menu běží „dokud hráč nechce skončit“).</div>
+  </div>
+
+  <!-- BLOK 1: Kostra hlavního menu -->
+  <div class="container my-4 p-4 border rounded">
+    <h4 class="mb-3">1) Hlavní menu: řídicí proměnná a smyčka</h4>
+    <div class="accordion" id="accMenuStep1">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="m1h1">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#m1c1">
+            Krok 1 – Proč <span class="mono">menuLoop = True</span>?
+          </button>
+        </h2>
+        <div id="m1c1" class="accordion-collapse collapse show" data-bs-parent="#accMenuStep1">
+          <div class="accordion-body">
+            <p><em>Řídicí proměnná</em> říká, zda smyčka běží. Pokud ji přepneme na <code>False</code>, smyčka skončí. Je to přehledné a dobře čitelné.</p>
+<pre><code class="language-python">menuLoop = True
+while menuLoop:
+    # ... obsah menu</code></pre>
+            <div class="tip"><b>Alternativa:</b> <code>while True:</code> a odchod řídit <code>break</code> nebo <code>exit()</code>. Více v modálu dole.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="m1h2">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#m1c2">
+            Krok 2 – Výpis menu a načtení volby
+          </button>
+        </h2>
+        <div id="m1c2" class="accordion-collapse collapse" data-bs-parent="#accMenuStep1">
+          <div class="accordion-body">
+<pre><code class="language-python">menuLoop = True
+while menuLoop:
+    print("===================================")
+    print("=== Vítejte v textové adventuře ===")
+    print("===================================")
+    volba = input("1) Start Game\n2) Exit\nZadejte jednu z možností: ")
+    # ... reakce na volbu doplníme v dalších krocích</code></pre>
+            <p><b>Proč to funguje:</b> Každý průchod vypíšeme nabídku a načteme volbu. Smyčka udrží menu „živé“.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-3">
+      <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalFlagVsTrue">ℹ️ <code>menuLoop</code> vs. <code>while True</code></button>
     </div>
   </div>
 
-  <!-- Citát osobnosti -->
-  <div class="row align-items-center mb-4">
-    <div class="col-md-2 text-center">
-      <img class="img-fluid rounded-circle shadow" src="https://upload.wikimedia.org/wikipedia/commons/6/68/Guido_van_Rossum_OSCON_2006_cropped.png" alt="Guido van Rossum">
-      <p class="mt-2 text-muted small">Guido van Rossum</p>
-    </div>
-    <div class="col-md-10">
-      <blockquote class="blockquote">
-        <p class="mb-0">„Code is read much more often than it is written.“</p>
-        <footer class="blockquote-footer mt-2">
-          <a href="https://en.wikipedia.org/wiki/Guido_van_Rossum" target="_blank">(zdroj)</a>
-        </footer>
-      </blockquote>
-    </div>
-  </div>
-
-  <!-- Teoretický blok -->
-  <h5 class="mt-5">Od nápadu k programu: pseudokód → flowchart → Python</h5>
-  <p>
-    Pseudokód je <em>čitelné</em> sepsání kroků bez přísné syntaxe. Flowchart ukáže tok programu (sekvence, rozhodnutí,
-    případně smyčky). Teprve potom vytváříme funkce a větvení v Pythonu.
-  </p>
-
-  <!-- Úkoly v akordeonu -->
-  <div class="accordion" id="ukolyAccordion">
-    <!-- KROK 1 – PSEUDOKÓD ÚVODU A HLAVNÍ MÍSTNOSTI -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="headingK1">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseK1" aria-expanded="true" aria-controls="collapseK1">
-          Krok 1 — Napiš pseudokód (úvod + main_dining_hall) <span class="badge bg-secondary ms-2 task-badge">Úkol</span>
-        </button>
-      </h2>
-      <div id="collapseK1" class="accordion-collapse collapse show" aria-labelledby="headingK1" data-bs-parent="#ukolyAccordion">
-        <div class="accordion-body">
-          <p>Sepsáním pseudokódu si připravíš strukturu. Zamysli se nad volbami N/S/E a co se po nich stane.</p>
-          <div class="d-flex gap-2 mb-2">
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalPseudokod">Vysvětlení: co je pseudokód</button>
-          </div>
-          <div class="code-wrapper no-copy">
-            <div class="no-copy-overlay"></div>
-<pre><code># Pseudokód – Úvod a hlavní místnost
-
-START
-Zeptej se na jméno
-Zobraz úvod a scénář
-Požádej o ENTER pro pokračování
-Zavolej main_dining_hall()
-
-FUNKCE main_dining_hall():
-  Vypiš popis místnosti a směrů (N, S, E)
-  Načti volbu (N/S/E)
-  Když N → dark_hallway()
-  Jinak když S → long_corridor()
-  Jinak když E → stairway()
-  Jinak → vypiš „Nerozumím, zkus to znovu“ a vrať se na začátek místnosti
-ENDFUNKCE
-</code></pre>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- KROK 2 – FLOWCHART SYMBOLY A TOK ROZHODOVÁNÍ -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="headingK2">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseK2" aria-expanded="false" aria-controls="collapseK2">
-          Krok 2 — Navrhni tok (flowchart) voleb N/S/E <span class="badge bg-secondary ms-2 task-badge">Úkol</span>
-        </button>
-      </h2>
-      <div id="collapseK2" class="accordion-collapse collapse" aria-labelledby="headingK2" data-bs-parent="#ukolyAccordion">
-        <div class="accordion-body">
-          <p>Nakresli (na papír nebo digitálně) jednoduchý flowchart: Start → <em>main_dining_hall</em> → Rozhodnutí N/S/E → volání funkcí.</p>
-          <div class="d-flex gap-2 mb-2">
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalFlowchart">Vysvětlení: symboly a čtení flowchartu</button>
-          </div>
-          <div class="alert alert-warning" role="alert">
-            <strong>Kontrola:</strong> Každá větev (N/S/E) musí vést k jediné další akci (funkci/místnosti).
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- KROK 3 – IMPLEMENTACE MAIN_DINING_HALL() S VĚTVENÍM -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="headingK3">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseK3" aria-expanded="false" aria-controls="collapseK3">
-          Krok 3 — Implementuj <code>main_dining_hall()</code> s volbami N/S/E <span class="badge bg-secondary ms-2 task-badge">Úkol</span>
-        </button>
-      </h2>
-      <div id="collapseK3" class="accordion-collapse collapse" aria-labelledby="headingK3" data-bs-parent="#ukolyAccordion">
-        <div class="accordion-body">
-          <p>Podle pseudokódu napiš funkci. Pro neplatnou volbu vrať hráče na začátek místnosti.</p>
-          <div class="d-flex gap-2 mb-2">
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalIfElifElse">Vysvětlení: <code>if/elif/else</code> a návrat do místnosti</button>
-          </div>
-          <div class="code-wrapper no-copy">
-            <div class="no-copy-overlay"></div>
-<pre><code>def main_dining_hall():
-    print()
-    print("Jsi v hlavní jídelně strašidelného domu. Stojíš sám ve tmě.")
-    print("Vidíš tři těžké dveře.")
-    print("Půjdeš severem (N), jihem (S) nebo východem (E)?")
-    print()
-    volba = input("Zadej N, S nebo E: ")
-
-    if volba == "N":
-        dark_hallway()
-    elif volba == "S":
-        long_corridor()
-    elif volba == "E":
-        stairway()
-    else:
-        print("Nerozumím. Zkus to znovu, musíš se dostat VEN!!")
-        main_dining_hall()   # jednoduchý návrat (v dalších lekcích ukážeme i while-smyčku)
-</code></pre>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- KROK 4 – STUBY DALŠÍCH MÍSTNOSTÍ -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="headingK4">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseK4" aria-expanded="false" aria-controls="collapseK4">
-          Krok 4 — Vytvoř stubs: <code>dark_hallway()</code>, <code>long_corridor()</code>, <code>stairway()</code> <span class="badge bg-secondary ms-2 task-badge">Úkol</span>
-        </button>
-      </h2>
-      <div id="collapseK4" class="accordion-collapse collapse" aria-labelledby="headingK4" data-bs-parent="#ukolyAccordion">
-        <div class="accordion-body">
-          <p>Založ jednoduché (zatím prázdné) funkce pro místnosti, aby k nim šlo přejít. Naplníme je v dalších lekcích.</p>
-          <div class="d-flex gap-2 mb-2">
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalFunkce">Vysvětlení: proč dělíme kód do funkcí</button>
-          </div>
-          <div class="code-wrapper no-copy">
-            <div class="no-copy-overlay"></div>
-<pre><code>def dark_hallway():
-    print("\\nStojíš v temné chodbě. (Obsah doplníme příště.)")
-
-def long_corridor():
-    print("Jsi v dlouhé chodbě. (Obsah doplníme příště.)")
-
-def stairway():
-    print("Vrže dřevěné schodiště. (Obsah doplníme příště.)")
-</code></pre>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- KROK 5 – START HRY (NAVÁZÁNÍ NA LEKCI 1) -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="headingK5">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseK5" aria-expanded="false" aria-controls="collapseK5">
-          Krok 5 — Propoj start hry s hlavní místností <span class="badge bg-success ms-2 task-badge">Výstup lekce</span>
-        </button>
-      </h2>
-      <div id="collapseK5" class="accordion-collapse collapse" aria-labelledby="headingK5" data-bs-parent="#ukolyAccordion">
-        <div class="accordion-body">
-          <p>Na konec tvého úvodu (z Lekce 1) přidej volání <code>main_dining_hall()</code>.</p>
-          <div class="d-flex gap-2 mb-2">
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalVystup">Vysvětlení: co považujeme za hotový výstup</button>
-          </div>
-          <div class="code-wrapper no-copy">
-            <div class="no-copy-overlay"></div>
-<pre><code># ... zde je tvůj úvod z Lekce 1 ...
-# na konci úvodu:
-main_dining_hall()
-</code></pre>
-          </div>
-          <div class="alert alert-warning mt-3" role="alert">
-            <strong>Kontrola:</strong> Spusť hru → po scénáři se otevře hlavní místnost → zadej N/S/E → zobrazí se odpovídající stub funkce.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Hint -->
-  <p class="mt-4">💡 Hint: Při čtení vstupu je konzole <em>case-sensitive</em>. Drž se přesného zadání (např. „N“, „S“, „E“).</p>
-
-  <!-- Shrnutí -->
+  <!-- BLOK 2: Start Game → druhá (vnořená) smyčka -->
   <div class="container my-4 p-4 border rounded bg-light">
-    <h3 class="mb-3">Shrnutí kapitoly</h3>
-    <p>Z návrhu (pseudokód/flowchart) jsi došel k první funkční verzi navigace mezi místnostmi.</p>
-    <ul class="list-group list-group-flush mb-3">
-      <li class="list-group-item"><strong>Pseudokód</strong> – srozumitelný plán.</li>
-      <li class="list-group-item"><strong>Flowchart</strong> – vizualizace voleb N/S/E.</li>
-      <li class="list-group-item"><strong>Funkce</strong> – jedna místnost = jedna funkce.</li>
-      <li class="list-group-item"><strong>if/elif/else</strong> – řízení toku podle vstupu hráče.</li>
-    </ul>
-    <div class="alert alert-info" role="alert">
-      <strong>Tip:</strong> V dalších lekcích naplníme místnosti obsahem (zombie, laboratoř, únikový kód) a přidáme smyčky.
+    <h4 class="mb-3">2) Start Game: vstup hráče a herní smyčka</h4>
+    <div class="accordion" id="accGameLoop">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="g1h1">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#g1c1">
+            Krok 3 – Reakce na volbu „1“ a vytvoření herní smyčky
+          </button>
+        </h2>
+        <div id="g1c1" class="accordion-collapse collapse show" data-bs-parent="#accGameLoop">
+          <div class="accordion-body">
+<pre><code class="language-python">if volba == "1":
+    print("Vítejte v mé textové adventuře!")
+    player = input("Zadej jméno svého hrdiny: ")
+    print(f"Vítej: {player}")
+    gameLoop = True
+    while gameLoop:
+        print("\nNyní následuje nějaký scénář.")
+        print("Nacházíš se v lokaci A")
+        print("Máš na výběr ze 2 možností")
+        print("1) Přesun do příběhu / lokace A.a")
+        print("2) Přesun do příběhu / lokace A.b")
+        volba = input("Vyber jednu z možností: ")
+        # ... větvení doplníme v dalších krocích</code></pre>
+            <ul class="mb-0">
+              <li><code>gameLoop</code> je <em>druhá</em> řídicí proměnná – udržuje běh herní části.</li>
+              <li>Vnořená smyčka běží uvnitř menu – proto potřebujeme jasné komentáře a odsazení.</li>
+            </ul>
+            <div class="warn mt-3"><b>Pozor:</b> Proměnná <code>volba</code> se používá v obou úrovních. Udržuj přehledné komentáře (viz tipy níže).</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Odkazy -->
-  <hr>
-  <h6>Odkazy na použité zdroje</h6>
-  <ol class="small">
-    <li><a href="#" target="_blank">Pseudocode – Sample for Text Adventure</a></li>
-    <li><a href="#" target="_blank">Text Adventure – Flowchart (N/S/E)</a></li>
-    <li><a href="#" target="_blank">Flowchart – Basic Symbols</a></li>
-  </ol>
+  <!-- BLOK 3: Větvení A.a a A.b (vnořené while + continue) -->
+  <div class="container my-4 p-4 border rounded">
+    <h4 class="mb-3">3) Větvení příběhu: A.a a A.b</h4>
+    <div class="accordion" id="accBranches">
+      <!-- A.a -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="b1h1">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#b1c1">
+            Krok 4 – Větev A.a (WinGame / GameOver) + <code>continue</code>
+          </button>
+        </h2>
+        <div id="b1c1" class="accordion-collapse collapse show" data-bs-parent="#accBranches">
+          <div class="accordion-body">
+<pre><code class="language-python">if volba == "1":
+    # SMYČKA LOKACE A.a – opakuje se, dokud gameLoop zůstává True
+    while gameLoop:
+        print("\nVybral jsi možnost 1")
+        print("Jsi v oblasti A.a")
+        print("Zde následuje větvení příběhu pomocí If Statementů")
+        print("Máš na výběr ze dvou možností: ")
+        print("1) Přesun do lokace A.a.2 (WinGame)")
+        print("2) Přesun do lokace A.a.3 (GameOver)")
+        volba = input("Vyber jednu z možností: ")
+
+        if volba == "1":
+            print("\nVybral jsi možnost 1.")
+            print("Přesunul jsi se do lokace A.a.2, kde tvůj příběh končí dobře (WinGame)")
+            input("Stiskni ENTER pro návrat do hlavního menu...")
+            gameLoop = False   # ukončí herní smyčku → vrátí do hlavního menu
+        elif volba == "2":
+            print("\nVybral jsi možnost 2")
+            print("Přesunul jsi se do lokace A.a.3, kde tvůj příběh končí špatně (GameOver)")
+            input("Stiskni ENTER pro návrat do hlavního menu...")
+            gameLoop = False
+        else:
+            continue            # špatná volba → zůstaň v A.a</code></pre>
+            <div class="tip"><b>Proč <code>continue</code>?</b> Přeskočí zbytek těla smyčky a začne <em>další průchod</em> – hodí se, když volba nebyla platná.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- A.b -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="b2h1">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#b2c1">
+            Krok 5 – Větev A.b (GameOver / WinGame) + návrat do menu
+          </button>
+        </h2>
+        <div id="b2c1" class="accordion-collapse collapse" data-bs-parent="#accBranches">
+          <div class="accordion-body">
+<pre><code class="language-python">elif volba == "2":
+    # SMYČKA LOKACE A.b – opakuje se, dokud gameLoop zůstává True
+    while gameLoop:
+        print("\nVybral jsi možnost 2")
+        print("Jsi v oblati A.b")
+        print("Zde může tvůj příběh skončit, nebo se větvit na více možností.")
+        print("Máš na výběr ze dvou možností: ")
+        print("1) Přesun do lokace A.b.2 (GameOver)")
+        print("2) Přesun do lokace A.b.3 (WinGame)")
+        volba = input("Zadejte jednu z možností: ")
+
+        if volba == "1":
+            print("\nJsi v lokaci A.b.2")
+            print("Zde tvůj příběh končí špatně (GameOver)")
+            input("Stiskni ENTER pro návrat do hlavního menu...")
+            gameLoop = False
+        elif volba == "2":
+            print("\nJsi v lokaci A.b.3")
+            print("Zde tvůj příběh končí dobře (WinGame)")
+            input("Stiskni ENTER pro návrat do hlavního menu...")
+            gameLoop = False
+        else:
+            continue            # špatná volba → zůstaň v A.b</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Neplatná volba -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="b3h1">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#b3c1">
+            Krok 6 – Ošetření neplatné volby v herním menu
+          </button>
+        </h2>
+        <div id="b3c1" class="accordion-collapse collapse" data-bs-parent="#accBranches">
+          <div class="accordion-body">
+<pre><code class="language-python">else:
+    print("Neplatná volba, zkus to znovu.")
+    continue  # vrátí tě na začátek herní smyčky</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOK 4: Ukončení programu (Exit) -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">4) Ukončení programu: <code>exit()</code> a <code>sys.exit()</code></h4>
+    <div class="accordion" id="accExit">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="e1h1">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#e1c1">
+            Krok 7 – Reakce na „2) Exit“
+          </button>
+        </h2>
+        <div id="e1c1" class="accordion-collapse collapse show" data-bs-parent="#accExit">
+          <div class="accordion-body">
+<pre><code class="language-python">elif volba == "2":
+    exit()   # okamžitě ukončí program</code></pre>
+            <div class="tip"><b>Doporučení:</b> V „dospělejších“ projektech použij <code>import sys</code> a <code>sys.exit()</code>, protože je to explicitnější a lépe kontrolovatelné (viz modál níže).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-3">
+      <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalExit">📘 <code>exit()</code> vs. <code>sys.exit()</code></button>
+    </div>
+  </div>
+
+  <!-- BLOK 5: Jak se neztratit – komentáře, odsazení, VS Code -->
+  <div class="container my-4 p-4 border rounded">
+    <h4 class="mb-3">5) Organizace kódu: komentáře, odsazení, VS Code</h4>
+    <div class="accordion" id="accHygiene">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="h1h1">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#h1c1">
+            Komentáře a „záhlaví“ bloků
+          </button>
+        </h2>
+        <div id="h1c1" class="accordion-collapse collapse show" data-bs-parent="#accHygiene">
+          <div class="accordion-body">
+<pre><code class="language-python"># ===== Hlavní menu =====
+menuLoop = True
+while menuLoop:
+    # --- Nadpis a volby ---
+    print("===================================")
+    # ... zbytek menu
+
+    # --- Start Game: vstup hráče ---
+    if volba == "1":
+        # --- Herní smyčka (lokace A) ---
+        gameLoop = True
+        while gameLoop:
+            # --- Větev A.a ---
+            # --- Větev A.b ---
+            pass</code></pre>
+            <p>Výrazné komentáře pomáhají „neztratit se“ ve vnořených blocích.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="h1h2">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#h1c2">
+            Odsazení a hromadné úpravy ve VS Code
+          </button>
+        </h2>
+        <div id="h1c2" class="accordion-collapse collapse" data-bs-parent="#accHygiene">
+          <div class="accordion-body">
+            <ul class="mb-2">
+              <li><b>Odsadit blok</b>: označ řádky → <span class="kbd">Tab</span>. Od-odsadit: <span class="kbd">Shift</span>+<span class="kbd">Tab</span>.</li>
+              <li><b>Automatické formátování</b>: <span class="kbd">Shift</span>+<span class="kbd">Alt</span>+<span class="kbd">F</span> (Win/Linux), <span class="kbd">Option</span>+<span class="kbd">Shift</span>+<span class="kbd">F</span> (macOS).</li>
+              <li><b>Zakomentovat</b> (toggle): <span class="kbd">Ctrl</span>+<span class="kbd">/</span> (Win/Linux), <span class="kbd">Cmd</span>+<span class="kbd">/</span> (macOS).</li>
+              <li><b>Sbalit/rozbalit blok</b> (podle odsazení): klikni na trojúhelník v gutteru, nebo <span class="kbd">Ctrl</span>+<span class="kbd">Shift</span>+<span class="kbd">[</span> / <span class="kbd">]</span>.</li>
+              <li><b>Přesun řádku</b>: <span class="kbd">Alt</span>+<span class="kbd">↑</span>/<span class="kbd">↓</span> (Win/Linux), <span class="kbd">Option</span>+<span class="kbd">↑</span>/<span class="kbd">↓</span> (macOS).</li>
+            </ul>
+            <div class="ok">Díky pevnému odsazení (4 mezery / Tab nastavený na 4) uvidíš jasně hierarchii vnořených smyček.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-3">
+      <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalNestedMental">🧠 Mentální model vnořených smyček</button>
+    </div>
+  </div>
+
+  <!-- MODÁLY -->
+  <div class="modal fade" id="modalExit" tabindex="-1" aria-labelledby="modalExitLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 id="modalExitLabel" class="modal-title"><code>exit()</code> vs. <code>sys.exit()</code></h5>
+          <button class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+        </div>
+        <div class="modal-body">
+          <ul>
+            <li><code>exit()</code> – uživatelské „zkratkové“ ukončení (funguje v interaktivní konzoli i v jednoduchých skriptech).</li>
+            <li><code>sys.exit()</code> – profesionální a explicitní; umožňuje předat návratový kód OS. Použij:
+<pre><code class="language-python">import sys
+# ...
+sys.exit(0)   # 0 = OK; nenulové hodnoty značí chybu</code></pre>
+            </li>
+          </ul>
+          <p>Pro jednoduché skripty a výuku je <code>exit()</code> v pořádku. V reálných projektech používej <code>sys.exit()</code>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalFlagVsTrue" tabindex="-1" aria-labelledby="modalFlagVsTrueLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 id="modalFlagVsTrueLabel" class="modal-title"><code>menuLoop=True</code> vs. <code>while True</code></h5>
+          <button class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+        </div>
+        <div class="modal-body">
+          <ul>
+            <li><code>menuLoop = True</code> + <code>while menuLoop:</code> – přehledné, jasně vidíš, kdy smyčka končí (změnou na <code>False</code>).</li>
+            <li><code>while True:</code> – kratší zápis, ale odchod musíš řídit pomocí <code>break</code> nebo <code>exit()</code>. Může být méně přehledné.</li>
+            <li><b>Doporučení:</b> Pro začátečníky je lepší první varianta s řídicí proměnnou (<code>menuLoop</code>), protože je čitelnější a srozumitelnější.</li>
+          </ul>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalNestedMental" tabindex="-1" aria-labelledby="modalNestedMentalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 id="modalNestedMentalLabel" class="modal-title">Jak číst vnořené smyčky bez ztráty nitě</h5>
+          <button class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+        </div>
+        <div class="modal-body">
+          <ol>
+            <li><b>Okraje/odsazení</b> = hierarchie. Co je víc vpravo, patří <em>dovnitř</em> nadřazeného bloku.</li>
+            <li><b>Bloky pojmenovávej komentáři</b>: <code># ===== MENU =====</code>, <code># --- Lokace A.a ---</code>.</li>
+            <li><b>Tok programu</b>: vstup do smyčky → vykonání těla → konec těla → kontrola podmínky → (případně) další kolo.</li>
+            <li><b>Vnoření</b> = stejný princip, jen uvnitř jiné smyčky. Po ukončení vnořené smyčky se vracíš do té nadřazené.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINÁLNÍ VÝSTUP PRO STUDENTY (přesně dle zadání) -->
+  <div class="container my-5 p-4 border rounded bg-light">
+    <h4 class="mb-3">🎯 Finální kód</h4>
+    <div class="warn mb-2">Pozn.: Profesionálnější varianta používá <code>import sys</code> a <code>sys.exit()</code>, ale zde ponecháváme přesně vámi požadovanou podobu s <code>exit()</code>.</div>
+<pre><code class="language-python">menuLoop = True
+while menuLoop:
+    print("===================================")
+    print("=== Vítejte v textové adventuře ===")
+    print("===================================")
+    volba = input("1) Start Game\n2) Exit\nZadejte jednu z možností: ")
+    if volba == "1":
+        
+            print("Vítejte v mé textové adventuře!")
+            player = input("Zadej jméno svého hrdiny: ")
+            print(f"Vítej: {player}")
+            gameLoop = True
+            while gameLoop:
+                print("\nNyní následuje nějaký scénář.")
+                print("Nacházíš se v lokaci A")
+                print("Máš na výběr ze 2 možností")
+                print("1) Přesun do příběhu / lokace A.a")
+                print("2) Přesun do příběhu / lokace A.b")
+                volba = input("Vyber jednu z možností: ")
+
+                if volba == "1":
+                    while gameLoop:
+                        print("\nVybral jsi možnost 1")
+                        print("Jsi v oblasti A.a")
+                        print("Zde následuje větvení příběhu pomocí If Statementů")
+                        print("Máš na výběr ze dvou možností: ")
+                        print("1) Přesun do lokace A.a.2 (WinGame)")
+                        print("2) Přesun do lokace A.a.3 (GameOver)")
+                        volba = input("Vyber jednu z možností: ")
+
+                        if volba == "1":
+                            print("\nVybral jsi možnost 1.")
+                            print("Přesunul jsi se do lokace A.a.2, kde tvůj příběh končí dobře (WinGame)")
+                            input("Stiskni ENTER pro návrat do hlavního menu...")
+                            gameLoop = False
+                        elif volba == "2":
+                            print("\nVybral jsi možnost 2")
+                            print("Přesunul jsi se do lokace A.a.3, kde tvůj příběh končí špatně (GameOver)")
+                            input("Stiskni ENTER pro návrat do hlavního menu...")
+                            gameLoop = False
+                        else:
+                            continue  # špatná volba, zůstane ve smyčce A.a
+
+                elif volba == "2":
+                    while gameLoop:
+                        print("\nVybral jsi možnost 2")
+                        print("Jsi v oblati A.b")
+                        print("Zde může tvůj příběh skončit, nebo se větvit na více možností.")
+                        print("Máš na výběr ze dvou možností: ")
+                        print("1) Přesun do lokace A.b.2 (GameOver)")
+                        print("2) Přesun do lokace A.b.3 (WinGame)")
+                        volba = input("Zadejte jednu z možností: ")
+
+                        if volba == "1":
+                            print("\nJsi v lokaci A.b.2")
+                            print("Zde tvůj příběh končí špatně (GameOver)")
+                            input("Stiskni ENTER pro návrat do hlavního menu...")
+                            gameLoop = False
+                        elif volba == "2":
+                            print("\nJsi v lokaci A.b.3")
+                            print("Zde tvůj příběh končí dobře (WinGame)")
+                            input("Stiskni ENTER pro návrat do hlavního menu...")
+                            gameLoop = False
+                        else:
+                            continue  # špatná volba, zůstane ve smyčce A.b
+                else:
+                    print("Neplatná volba, zkus to znovu.")
+                    continue
+    elif volba == "2":
+        exit()</code></pre>
+  </div>
+
+
 </section>
-
-<!-- MODÁLY – vysvětlení -->
-<div class="modal fade" id="modalPseudokod" tabindex="-1" aria-labelledby="modalPseudokodLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalPseudokodLabel">Co je pseudokód a proč ho psát?</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-      </div>
-      <div class="modal-body">
-        <h6>Proč</h6>
-        <p>Pomáhá rychle zachytit algoritmus bez řešení syntaxe. Snadno se sdílí a opravuje.</p>
-        <h6>Co</h6>
-        <ul>
-          <li>Jednoduché kroky, srozumitelné i „ne-programátorovi“.</li>
-          <li>Konstantní styl – důležitý je obsah, ne formální zápis.</li>
-        </ul>
-        <h6>Jak</h6>
-<pre><code>START
-Získej jméno
-Zobraz scénář
-ENTER pro pokračování
-main_dining_hall()
-</code></pre>
-        <p class="text-muted"><small><em>Tip:</em> Každá funkce může mít svůj vlastní malý pseudokód – udržíš pořádek.</small></p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="modalFlowchart" tabindex="-1" aria-labelledby="modalFlowchartLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalFlowchartLabel">Flowchart: symboly a tok programu</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-      </div>
-      <div class="modal-body">
-        <h6>Základní symboly</h6>
-        <ul>
-          <li><strong>Start/End</strong> – začátek/konec (ovál).</li>
-          <li><strong>Process</strong> – akce/krok (obdélník).</li>
-          <li><strong>Decision</strong> – rozhodnutí (kosočtverec) s větvemi Ano/Ne.</li>
-          <li><strong>Input/Output</strong> – vstup či výstup.</li>
-          <li><strong>Function (volání)</strong> – „zabalený“ kód (např. <code>dark_hallway()</code>).</li>
-        </ul>
-        <h6>Tok voleb N/S/E</h6>
-<pre><code>Start → main_dining_hall → [Decision: volba]
-   N → dark_hallway
-   S → long_corridor
-   E → stairway
-</code></pre>
-        <p class="text-muted"><small><em>Tip:</em> Každá šipka musí vést k jednoznačné další akci.</small></p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="modalIfElifElse" tabindex="-1" aria-labelledby="modalIfElifElseLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalIfElifElseLabel">if / elif / else – řízení toku podle vstupu</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-      </div>
-      <div class="modal-body">
-        <h6>Proč</h6>
-        <p>Volby hráče ovlivňují děj. Potřebujeme vybrat, kterou funkci zavoláme.</p>
-        <h6>Co</h6>
-        <ul>
-          <li><code>if</code> – první podmínka, <code>elif</code> – alternativy, <code>else</code> – všechno ostatní.</li>
-          <li>Neplatnou volbu vrátíme zpět (zde rekurzí, později ukážeme i while-smyčku).</li>
-        </ul>
-        <h6>Jak</h6>
-<pre><code>volba = input("Zadej N, S nebo E: ")
-if volba == "N":
-    dark_hallway()
-elif volba == "S":
-    long_corridor()
-elif volba == "E":
-    stairway()
-else:
-    print("Nerozumím.")
-    main_dining_hall()
-</code></pre>
-        <p class="text-muted"><small><em>Tip:</em> Konzistence vstupů (písmena, velká/malá) zjednoduší zpracování.</small></p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="modalFunkce" tabindex="-1" aria-labelledby="modalFunkceLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalFunkceLabel">Proč jedna místnost = jedna funkce</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-      </div>
-      <div class="modal-body">
-        <h6>Proč</h6>
-        <p>Struktura hry je přehledná, snadno se testuje a rozšiřuje (oddělené bloky).</p>
-        <h6>Co</h6>
-        <ul>
-          <li><strong>Decompozice</strong> – dělení problému na menší části.</li>
-          <li><strong>Opakované použití</strong> – snadno voláš místnost z více míst.</li>
-        </ul>
-        <h6>Jak</h6>
-<pre><code>def dark_hallway():
-    print("Temná chodba...")
-    # rozhodnutí a příběh přidáme v dalších lekcích
-</code></pre>
-        <p class="text-muted"><small><em>Tip:</em> Pojmenovávej funkce podle obsahu (místnost, akce).</small></p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="modalVystup" tabindex="-1" aria-labelledby="modalVystupLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalVystupLabel">Jak hodnotíme výstup lekce 2</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-      </div>
-      <div class="modal-body">
-        <ul class="mb-2">
-          <li>Existuje <code>main_dining_hall()</code> s volbami N/S/E.</li>
-          <li>Existují stub funkce: <code>dark_hallway()</code>, <code>long_corridor()</code>, <code>stairway()</code>.</li>
-          <li>Neplatná volba vrací hráče zpět (zatím jednoduchým způsobem).</li>
-        </ul>
-        <p class="text-muted"><small><em>Tip:</em> V dalších lekcích doplníme obsah místností a smyčky (<code>while</code>).</small></p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- Skript: základní blokace kopírování v kódu -->
-<script>
-  (function() {
-    // Zabraň kontextové nabídce
-    document.addEventListener('contextmenu', function(e) {
-      // Povolit na odkazech/ovládacích prvcích, blokovat na kódu:
-      if (e.target.closest('.no-copy')) e.preventDefault();
-    }, { capture: true });
-
-    // Zabraň kopírování a výběru v kódu
-    document.addEventListener('copy', function(e) {
-      if (e.target.closest && e.target.closest('.no-copy')) {
-        e.preventDefault();
-      }
-    }, { capture: true });
-
-    // Blokuj klávesové zkratky kopírování v kódu (Ctrl/Cmd+C, Ctrl/Cmd+S, Ctrl/Cmd+U apod.)
-    document.addEventListener('keydown', function(e) {
-      const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
-      const mod = isMac ? e.metaKey : e.ctrlKey;
-      const targetInNoCopy = e.target.closest && e.target.closest('.no-copy');
-      if (!targetInNoCopy) return;
-
-      const k = e.key.toLowerCase();
-      if (mod && (k === 'c' || k === 's' || k === 'u' || k === 'p' || k === 'a')) {
-        e.preventDefault();
-      }
-    }, { capture: true });
-
-    // Zabraň označování a přetahování v kódu
-    ['selectstart', 'dragstart'].forEach(evt =>
-      document.addEventListener(evt, function(e) {
-        if (e.target.closest && e.target.closest('.no-copy')) e.preventDefault();
-      }, { capture: true })
-    );
-  })();
-</script>
-</body>
-</html>

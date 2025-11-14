@@ -13,8 +13,14 @@ const sections = ['section1',
            
 
                   'section3-1-1', 'section3-1-2', 'section3-1-3','section3-1-4','section3-1-5', 'section3-1-6','section3-1-7','section3-1-8',
-                  'section4','section4-1-1','section4-1-2', 'section4-1-2a','section4-1-2b','section4-1-2c','section4-1-2d','section4-1-2final','section4-1-2test','section4-1-3','section4-1-3final','section4-1-4for','section4-1-4while','section4-1-5','section4-1-6','section4-1-7',
-                  'section4-3-1','section4-3-2','section4-3-3','section4-3-4', 
+                  
+                  'section4-1-základy-pythonu','section4-1-1','section4-1-2', 'section4-1-3','section4-1-4','section4-1-5','section4-1-6','section4-1-7final','section4-1-8test',
+                  'section4-2-1','section4-2-2','section4-2-3final',
+                  'section4-3-1for','section4-3-2while', 'section4-3-3',
+                  
+                  'section4-4-1','section4-4-2','section4-4-3',
+
+            
 
                   'section5',
                   'section7-1-1', 'section7-1-2', 'section7-1-3', 'section7-1-4', 'section7-1-5', 'section7-1-6','section7-1-7',

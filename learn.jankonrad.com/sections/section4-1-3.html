@@ -1,333 +1,144 @@
-<section id="section4-1-3" class="container my-5">
-  <h3 class="mb-4">4.1.3 Randomizace a seznamy</h3>
+<!-- PŘEDKAPITOLA: Samostatné cvičení před cykly -->
+<section id="section4-1-2a" class="container my-5 no-copy">
+  <h3 class="mb-4">4.1.2a Samostatné cvičení – mini-kvíz bez cyklů</h3>
 
-  <!-- CO SE NAUČÍŠ -->
+  <!-- Úvodní přehled (minimální vedení) -->
   <div class="container my-4 p-4 border rounded bg-light">
-    <h4 class="mb-3">Co se naučíš?</h4>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">Používat modul <code>random</code> pro generování náhodných čísel.</li>
-      <li class="list-group-item">Vytvářet a používat <strong>seznamy</strong> v Pythonu.</li>
-      <li class="list-group-item">Pracovat s indexy (kladnými i zápornými).</li>
-      <li class="list-group-item">Přidávat a měnit položky v seznamech.</li>
-      <li class="list-group-item">Předcházet a řešit chybu <strong>IndexError</strong>.</li>
-      <li class="list-group-item">Pracovat s <strong>vnořenými seznamy</strong>.</li>
-      <li class="list-group-item">Použít randomizaci v jednoduchých hrách (např. náhodný výběr jména).</li>
+    <h3 class="mb-3">Zadání</h3>
+    <p>Tvým cílem je vytvořit krátký <strong>mini-kvíz v konzoli</strong> bez použití cyklů. Po dokončení budeš připraven/a v další kapitole kód jednoduše převést na <code>for</code>/<code>while</code>.</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Komunikace</strong>: program se ptá na otázky a vypisuje odpovědi/feedback.</li>
+      <li class="list-group-item"><strong>Vyhodnocení</strong>: sčítá body za správné odpovědi.</li>
+      <li class="list-group-item"><strong>Výsledek</strong>: na konci ukáže přehled bodů.</li>
     </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Drž se jednoduchosti. Nepoužívej cykly – to přijde v další kapitole.
+    </div>
   </div>
 
-  <!-- AKORDEON -->
-  <div class="accordion" id="accordion-random-lists">
-
-    <!-- 1. Moduly a randomizace -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="heading-1">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapse-1">
-          1) Co je modul a jak funguje náhodnost v Pythonu
-        </button>
-      </h2>
-      <div id="collapse-1" class="accordion-collapse collapse show" data-bs-parent="#accordion-random-lists">
-        <div class="accordion-body">
-
-          <p>Python má stovky modulů – předpřipravených balíčků funkcí. Jedním z nich je modul <code>random</code>, který umí generovat náhodná čísla.</p>
-
-          <p>Aby šel použít, musíš ho nejprve připojit:</p>
-
-<pre><code class="language-python">import random
-</code></pre>
-
-          <p>Příklad: náhodné číslo od 1 do 10:</p>
-
-<pre><code class="language-python">import random
-
-cislo = random.randint(1, 10)
-print(cislo)
-</code></pre>
-
-          <button class="btn btn-outline-secondary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#modalModules">
-            Co je to modul? (vysvětlení)
-          </button>
-
-        </div>
-      </div>
-    </div>
-
-    <!-- MODAL: MODULES -->
-    <div class="modal fade" id="modalModules" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header"><h5 class="modal-title">Co je modul v Pythonu?</h5></div>
-          <div class="modal-body">
-            <p>Modul je soubor s funkcemi, které můžeš použít ve svém programu. Např. modul <code>random</code> obsahuje funkce pro generování náhodných čísel.</p>
-            <p>Příklad vlastního modulu:</p>
-<pre><code class="language-python"># soubor muj_modul.py
-moje_cislo = 42
-
-# hlavní program
-import muj_modul
-print(muj_modul.moje_cislo)
-</code></pre>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 2. random.randint a random.random -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="heading-2">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapse-2">
-          2) Generování náhodných čísel: randint() a random()
-        </button>
-      </h2>
-      <div id="collapse-2" class="accordion-collapse collapse" data-bs-parent="#accordion-random-lists">
-        <div class="accordion-body">
-
-          <h5><code>random.randint(a, b)</code></h5>
-          <p>Vrací celé číslo <strong>včetně</strong> obou hranic.</p>
-
-<pre><code class="language-python">cislo = random.randint(0, 1)   # 0 nebo 1
-</code></pre>
-
-          <h5><code>random.random()</code></h5>
-          <p>Vrací číslo v rozsahu <code>0.0 – 1.0</code> (1 se nikdy neobjeví).</p>
-
-<pre><code class="language-python">x = random.random()
-print(x)  # např. 0.4912
-</code></pre>
-
-          <h5>Cvičení: Hoď si kostkou 🎲</h5>
-          <p>Napiš program, který vytiskne náhodné číslo 1–6.</p>
-
-        </div>
-      </div>
-    </div>
-
-    <!-- 3. Seznamy -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="heading-3">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapse-3">
-          3) Seznamy: naše první datová struktura
-        </button>
-      </h2>
-      <div id="collapse-3" class="accordion-collapse collapse" data-bs-parent="#accordion-random-lists">
-        <div class="accordion-body">
-
-<p>Seznam (list) je „krabička“, ve které můžeš uložit více hodnot pohromadě.</p>
-
-<pre><code class="language-python">ovoce = ["Jablko", "Hruška", "Třešeň"]
-</code></pre>
-
-<h5>Přístup k prvkům – indexy</h5>
-<p>Indexování začíná od nuly.</p>
-
-<pre><code class="language-python">ovoce[0]  # Jablko
-ovoce[1]  # Hruška
-</code></pre>
-
-<h5>Záporné indexy</h5>
-<p>Python umí počítat i odzadu:</p>
-
-<pre><code class="language-python">ovoce[-1]   # Třešeň
-ovoce[-2]   # Hruška
-</code></pre>
-
-<h5>Cvičení</h5>
-<p>Najdi hodnoty:</p>
-<ul>
-  <li><code>ovoce[-1]</code></li>
-  <li><code>ovoce[0]</code></li>
-  <li><code>ovoce[1]</code></li>
-</ul>
-
-        </div>
-      </div>
-    </div>
-
-    <!-- 4. Úprava a přidávání -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="heading-4">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapse-4">
-          4) Jak měnit seznamy: přepisování a přidávání
-        </button>
-      </h2>
-      <div id="collapse-4" class="accordion-collapse collapse" data-bs-parent="#accordion-random-lists">
-        <div class="accordion-body">
-
-<h5>Změna hodnoty</h5>
-
-<pre><code class="language-python">ovoce = ["Jablko", "Hruška", "Třešeň"]
-ovoce[1] = "Nektarinka"
-</code></pre>
-
-<h5>Přidání položky na konec</h5>
-
-<pre><code class="language-python">ovoce.append("Meruňka")
-</code></pre>
-
-<h5>Cvičení</h5>
-<p>Co vytiskne následující kód?</p>
-
-<pre><code class="language-python">ovoce = ["Jablko", "Hruška", "Třešeň"]
-ovoce[-1] = "Meloun"
-ovoce.append("Limetka")
-print(ovoce)
-</code></pre>
-
-        </div>
-      </div>
-    </div>
-
-    <!-- 5. random.choice + Kdo zaplatí účet -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="heading-5">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapse-5">
-          5) Náhodný výběr ze seznamu (random.choice)
-        </button>
-      </h2>
-      <div id="collapse-5" class="accordion-collapse collapse" data-bs-parent="#accordion-random-lists">
-        <div class="accordion-body">
-
-<p>Někdy potřebujeme náhodně vybrat jeden prvek ze seznamu. K tomu slouží funkce <code>random.choice()</code>.</p>
-
-<pre><code class="language-python">import random
-
-kamaradi = ["Petr", "Martin", "Eva", "Lucie", "Tomáš"]
-print(random.choice(kamaradi))
-</code></pre>
-
-<h5>Mini-projekt: Kdo dnes platí účet?</h5>
-<p>Z listu kamarádů náhodně vyber jednoho – ten zaplatí.</p>
-
-        </div>
-      </div>
-    </div>
-
-    <!-- 6. len() a IndexError -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="heading-6">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapse-6">
-          6) Funkce len() a chyba IndexError
-        </button>
-      </h2>
-      <div id="collapse-6" class="accordion-collapse collapse" data-bs-parent="#accordion-random-lists">
-        <div class="accordion-body">
-
-<p><code>len()</code> vrátí délku seznamu.</p>
-
-<pre><code class="language-python">ovoce = ["Jablko", "Hruška", "Třešeň"]
-print(len(ovoce))   # 3
-</code></pre>
-
-<h5>Pozor na chyby!</h5>
-
-<pre><code class="language-python">print(ovoce[3])  # IndexError
-</code></pre>
-
-<p>Poslední prvek je <code>ovoce[2]</code>.</p>
-
-<h5>Typická chyba při náhodném indexu</h5>
-
-<pre><code class="language-python">index = len(ovoce)      # ŠPATNĚ
-print(ovoce[index])
-</code></pre>
-
-<pre><code class="language-python">index = len(ovoce) - 1  # SPRÁVNĚ
-</code></pre>
-
-        </div>
-      </div>
-    </div>
-
-    <!-- 7. Vnořené seznamy -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="heading-7">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapse-7">
-          7) Vnořené seznamy (Dirty Dozen)
-        </button>
-      </h2>
-      <div id="collapse-7" class="accordion-collapse collapse" data-bs-parent="#accordion-random-lists">
-        <div class="accordion-body">
-
-<p>Někdy potřebujeme mít seznamy v seznamu.</p>
-
-<pre><code class="language-python">ovoce = ["Jahody", "Nektarinky", "Jablka", "Hrozny"]
-zelenina = ["Špenát", "Kedlubny", "Rajčata", "Celer"]
-
-dirty_dozen = [ovoce, zelenina]
-</code></pre>
-
-<p>Přístup k vnořeným prvkům:</p>
-
-<pre><code class="language-python">print(dirty_dozen[0][1])  # Nektarinky
-print(dirty_dozen[1][0])  # Špenát
-</code></pre>
-
-<h5>Cvičení</h5>
-<p>Vytiskni:</p>
-<ul>
-  <li><code>"Rajčata"</code></li>
-  <li><code>"Jablka"</code></li>
-</ul>
-
-        </div>
-      </div>
-    </div>
-
-    <!-- 8. Test -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="heading-8">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapse-8">
-          8) Mini test – ověření znalostí
-        </button>
-      </h2>
-      <div id="collapse-8" class="accordion-collapse collapse" data-bs-parent="#accordion-random-lists">
-        <div class="accordion-body">
-
-<h5>Otázka 1: Který kód vrátí "Jablka"? </h5>
-
-<div class="btn-group-vertical">
-  <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">ovoce[3]</button>
-  <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">ovoce[-1]</button>
-  <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">ovoce[-3]</button>
-</div>
-
-<hr>
-
-<h5>Otázka 2: Co vytiskne <code>dirty_dozen[1][1]</code>?</h5>
-
-<div class="btn-group-vertical">
-  <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">"Nektarinky"</button>
-  <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">"Kedlubny"</button>
-  <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">"Špenát"</button>
-</div>
-
-<hr>
-
-<h5>Otázka 3: Výsledek kódu?</h5>
-
-<pre><code class="language-python">ovoce = ["Jablko", "Hruška", "Třešeň"]
-ovoce[-1] = "Meloun"
-ovoce.append("Limetka")
-print(ovoce)
-</code></pre>
-
-<div class="btn-group-vertical">
-  <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">["Jablko","Hruška","Třešeň","Limetka"]</button>
-  <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">["Jablko","Hruška","Meloun","Limetka"]</button>
-  <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">["Jablko","Hruška","Meloun"]</button>
-</div>
-
-        </div>
-      </div>
-    </div>
-
+  <!-- Cvičení 1 -->
+  <h5 class="mt-4">🎯 Cvičení 1 – Dvě otázky, sčítání bodů</h5>
+  <p>Napiš program, který se zeptá na dvě jednoduché otázky a po každé odpovědi započítá bod za správnou odpověď.</p>
+  <ul>
+    <li>Přidej úvodní pozdrav a stručné instrukce.</li>
+    <li>Zvol si libovolné 2 otázky (např. matematika + zeměpis).</li>
+    <li>Po každé otázce vypiš „Správně/Špatně“.</li>
+    <li>Na konci vypiš: <code>Konec testu. Získal jsi X bodů z 2.</code></li>
+  </ul>
+  <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#hint1">Nápověda (volitelné)</button>
+
+  <!-- Cvičení 2 -->
+  <h5 class="mt-4">🧪 Cvičení 2 – Citlivost na diakritiku a velikost</h5>
+  <p>Uprav program tak, aby uznal správnou odpověď bez ohledu na <em>velká/malá písmena</em> a běžné varianty diakritiky (např. „Praha“, „praha“).</p>
+  <ul>
+    <li>Porovnávej odpovědi v „normalizované“ podobě (vše malými).</li>
+    <li>Volitelné: ošetři běžné překlepy (např. toleruj mezery navíc).</li>
+  </ul>
+  <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#hint2">Nápověda (volitelné)</button>
+
+  <!-- Cvičení 3 -->
+  <h5 class="mt-4">🧩 Cvičení 3 – Rozšíření na 4 otázky + závěrečný komentář</h5>
+  <p>Rozšiř kvíz na 4 otázky. Po výsledku přidej jednoduchý komentář podle počtu bodů (např. 0–1 „Je co zlepšovat“, 2–3 „Dobrá práce“, 4 „Výborně!“).</p>
+  <ul>
+    <li>Stále bez cyklů: zápis může být „opakovaný“ – to je záměr.</li>
+    <li>Výsledek: <em>X bodů ze 4</em> + krátký slovní komentář.</li>
+  </ul>
+  <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#hint3">Nápověda (volitelné)</button>
+
+  <!-- Cvičení 4 (příprava na další kapitolu) -->
+  <h5 class="mt-4">🚀 Cvičení 4 – Příprava dat pro cyklus (bez použití cyklu)</h5>
+  <p>Vytvoř <strong>pouze datovou strukturu</strong> se svými otázkami a správnými odpověďmi – <em>nepoužívej cyklus</em>. Kód zatím dál neupravuj. V další kapitole přes ni projdeme <code>for</code>-cyklem.</p>
+  <ul>
+    <li>Ulož otázky a správné odpovědi do <strong>dvojic</strong> v seznamu.</li>
+    <li>Nech si v kódu i „ručně“ napsané otázky z předchozích cvičení – úmyslně uvidíš opakování, které cyklus odstraní.</li>
+  </ul>
+  <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#hint4">Nápověda (volitelné)</button>
+
+  <!-- Akceptační kritéria (rychlá kontrola) -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">✅ Kontrolní checklist</h4>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">Program <strong>nepadá</strong> a postupuje otázku po otázce.</li>
+      <li class="list-group-item">Započítá <strong>správné body</strong> a vypíše finální skóre.</li>
+      <li class="list-group-item">Umí <strong>porovnat odpověď</strong> nezávisle na velkých/malých písmenech.</li>
+      <li class="list-group-item">Má <strong>4 otázky</strong> a krátký závěrečný komentář.</li>
+      <li class="list-group-item">Existuje <strong>seznam dvojic</strong> (otázka, správná) připravený pro další kapitolu.</li>
+    </ul>
+    <a href="https://www.online-python.com/" target="_blank">
+      <button class="btn btn-sm btn-outline-primary" type="button">Otevřít editor</button>
+    </a>
   </div>
 
+  <!-- Shrnutí (velmi krátké) -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Shrnutí</h3>
+    <p>Vyrobil/a jsi mini-kvíz bez cyklů, který sčítá body a zvládá různé zápisy odpovědí. V další kapitole jen nahradíme opakovaný zápis <strong>cyklem</strong> a kód zkrátíme.</p>
+  </div>
 </section>
+
+<!-- MODÁLY: nenápadné nápovědy -->
+<div class="modal fade" id="hint1" tabindex="-1" aria-labelledby="hint1Label" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="hint1Label">Nápověda k Cvičení 1 (volitelné)</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <ul>
+        <li><code>print()</code> na uvítání, <code>input()</code> pro odpověď.</li>
+        <li>Proměnná <code>body = 0</code>, po správné odpovědi <code>body += 1</code>.</li>
+        <li>Na konci vytiskni výsledek pomocí <code>print()</code>.</li>
+      </ul>
+    </div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="hint2" tabindex="-1" aria-labelledby="hint2Label" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="hint2Label">Nápověda k Cvičení 2 (volitelné)</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <ul>
+        <li>Ulož si odpověď do proměnné, např. <code>odp = input(...)</code>.</li>
+        <li>Porovnávej <code>odp.strip().lower()</code> se správnou odpovědí také v malých písmenech.</li>
+        <li>Diakritiku neřeš složitě – u jmen měst stačí často lowercase.</li>
+      </ul>
+    </div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="hint3" tabindex="-1" aria-labelledby="hint3Label" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="hint3Label">Nápověda k Cvičení 3 (volitelné)</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <ul>
+        <li>Závěrečný komentář rozhodni jednoduchým <code>if/elif/else</code> podle počtu bodů.</li>
+        <li>Bez cyklů = čtyři bloky pro čtyři otázky.</li>
+      </ul>
+    </div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="hint4" tabindex="-1" aria-labelledby="hint4Label" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="hint4Label">Nápověda k Cvičení 4 (volitelné)</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <p>Vytvoř si seznam dvojic:</p>
+<pre><code>otazky = [
+  ("Kolik je 5 + 7?", "12"),
+  ("Hlavní město ČR?", "praha"),
+  ("Barva oblohy za dne?", "modrá"),
+  ("Kolik má pes nohou?", "4")
+]</code></pre>
+      <p>Seznam zatím <strong>neprocházej</strong>. V 4.1.3 si ukážeme, jak ho projít cyklem <code>for</code> a nahradit tak opakující se kód.</p>
+    </div>
+  </div></div>
+</div>

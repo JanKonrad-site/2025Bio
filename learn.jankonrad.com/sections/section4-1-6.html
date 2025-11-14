@@ -1,132 +1,290 @@
-<style>
-   .no-copy-overlay {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: auto;
-      background: transparent; /* neviditelný */
-    }
-</style>
-<!-- ======= KAPITOLA 4.3 ======= -->
-<section id="section4-1-6" class="section-wrapper container my-5, no-copy">
-  <h3 class="mb-3">4.1.6 Indexování a řezání řetězců</h3>
-  <p class="lead">Naučíme se, jak se v Pythonu dostat k jednotlivým znakům v textu (<em>indexování</em>) a jak z textu vyříznout jen část (<em>řezání</em>). Tyto základy budeme potřebovat pro kontrolu vstupů v kalkulačce a pro práci s funkcemi v další kapitole.</p>
+<!-- KAPITOLA: 4.1.3d Vnořené podmínky, elif, logické operátory -->
+<section id="section4-1-2d" class="container my-5 no-copy">
+  <h3 class="mb-4">4.1.2d Vnořené podmínky, více větví a logické operátory</h3>
 
-  <div class="row g-3">
-    <!-- Indexování -->
-    <div class="col-lg-6">
-      <div class="card h-100"><div class="card-body">
-        <h5 class="card-title">Co je indexování</h5>
-        <p>Každý znak v textu má své pořadové číslo (<strong>index</strong>). Indexování začíná od nuly:</p>
-<pre><code class="language-python">slovo = "Ahoj"
-# Indexy:  0   1   2   3
-# Znaky:  'A' 'h' 'o' 'j'
-
-print(slovo[0])  # A
-print(slovo[1])  # h
-print(slovo[3])  # j</code></pre>
-        <div class="alert alert-info small mb-0">⚠️ Pozor: pokud použiješ index, který neexistuje, program spadne s chybou.</div>
-      </div></div>
+  <!-- Úvodní přehled -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co se naučíš?</h3>
+    <p>V této kapitole posuneš podmínky na další úroveň na příkladu <strong>prodeje lístků na horskou dráhu</strong>.</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">Použít <strong>vnořené podmínky</strong> (if uvnitř if).</li>
+      <li class="list-group-item>Vytvořit více větví pomocí <code>elif</code> (dětský / studentský / dospělý lístek).</li>
+      <li class="list-group-item">Použít <strong>logické operátory</strong> <code>and</code>, <code>or</code>, <code>not</code> pro složitější podmínky.</li>
+      <li class="list-group-item">Postupně skládat program: výška → věk → cena → fotka → speciální akce.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Myšlenka:</strong> Nejdřív kontrolujeme <em>jestli vůbec může jet</em> (výška), teprve potom řešíme <em>kolik zaplatí</em>.
     </div>
+  </div>
 
-    <!-- Délka řetězce -->
-    <div class="col-lg-6">
-      <div class="card h-100"><div class="card-body">
-        <h5 class="card-title">Jak zjistit délku textu</h5>
-        <p>Použij funkci <code>len()</code>, která vrátí počet znaků:</p>
-<pre><code class="language-python">slovo = "Ahoj"
-print(len(slovo))  # 4
+  <div class="accordion" id="acc-4-1-3d">
 
-# Můžeme použít v cyklu:
-i = 0
-while i &lt; len(slovo):
-    print(slovo[i])
-    i = i + 1</code></pre>
-        <button class="btn btn-sm btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#modalLenExplain">
-          Vysvětli krok za krokem
+    <!-- Krok 1 – nested if: výška + základní podmínka na věk -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-413d-1">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c-413d-1" aria-expanded="true" aria-controls="c-413d-1">
+          1) Vnořený if: nejdřív výška, pak věk
         </button>
-      </div></div>
+      </h2>
+      <div id="c-413d-1" class="accordion-collapse collapse show" aria-labelledby="h-413d-1" data-bs-parent="#acc-4-1-3d">
+        <div class="accordion-body">
+          <p>Začneme zjednodušenou verzí – dvě cenové kategorie:</p>
+          <ul>
+            <li>&lt;= 18 let → <strong>7 €</strong></li>
+            <li>&gt; 18 let → <strong>12 €</strong></li>
+          </ul>
+
+<pre><code class="language-python">print("Vítej na horské dráze!")
+height = int(input("Jak měříš v centimetrech? "))
+
+if height &gt;= 120:
+    print("Můžeš jet na horské dráze. 🎢")
+    age = int(input("Kolik ti je let? "))
+
+    if age &lt;= 18:
+        print("Studentský lístek: 7 €")
+    else:
+        print("Dospělý lístek: 12 €")
+else:
+    print("Bohužel jsi příliš malý/á, nemůžeš jet.")</code></pre>
+
+          <div class="alert alert-warning small mb-0">
+            <strong>Všimni si odsazení:</strong> druhý <code>if</code> je <em>uvnitř</em> prvního bloku. Na věk se ptáme jen tehdy, když už víme, že výška stačí.
+          </div>
+        </div>
+      </div>
     </div>
+
+    <!-- Krok 2 – elif: tři věkové kategorie -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-413d-2">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-413d-2" aria-expanded="false" aria-controls="c-413d-2">
+          2) Více větví: dětský / studentský / dospělý lístek (elif)
+        </button>
+      </h2>
+      <div id="c-413d-2" class="accordion-collapse collapse" aria-labelledby="h-413d-2" data-bs-parent="#acc-4-1-3d">
+        <div class="accordion-body">
+          <p>Šéf ti zadá přesnější ceník:</p>
+          <ul>
+            <li>&lt; 12 let → <strong>5 €</strong></li>
+            <li>12–18 let → <strong>7 €</strong></li>
+            <li>&gt; 18 let → <strong>12 €</strong></li>
+          </ul>
+
+<pre><code class="language-python">print("Vítej na horské dráze!")
+height = int(input("Jak měříš v centimetrech? "))
+
+bill = 0  # účet
+
+if height &gt;= 120:
+    print("Můžeš jet na horské dráze. 🎢")
+    age = int(input("Kolik ti je let? "))
+
+    if age &lt; 12:
+        bill = 5
+        print("Dětský lístek: 5 €")
+    elif age &lt;= 18:
+        bill = 7
+        print("Studentský lístek: 7 €")
+    else:
+        bill = 12
+        print("Dospělý lístek: 12 €")
+
+    print(f"Zatím máš zaplatit: {bill} €")
+else:
+    print("Bohužel jsi příliš malý/á, nemůžeš jet.")</code></pre>
+
+          <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal413d-ifelif">
+            Jak přesně funguje if / elif / else?
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 3 – multiple if: fotka navíc -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-413d-3">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-413d-3" aria-expanded="false" aria-controls="c-413d-3">
+          3) Více nezávislých podmínek: přidáme fotku (+3 €)
+        </button>
+      </h2>
+      <div id="c-413d-3" class="accordion-collapse collapse" aria-labelledby="h-413d-3" data-bs-parent="#acc-4-1-3d">
+        <div class="accordion-body">
+          <p>Teď už víš, jestli může jet a kolik stojí lístek. Přidáme ještě jednu <strong>nezávislou otázku</strong>:</p>
+          <ul>
+            <li>Chceš fotku z jízdy? → <strong>+3 €</strong> k účtu.</li>
+          </ul>
+
+<pre><code class="language-python">print("Vítej na horské dráze!")
+height = int(input("Jak měříš v centimetrech? "))
+
+bill = 0
+
+if height &gt;= 120:
+    print("Můžeš jet na horské dráze. 🎢")
+    age = int(input("Kolik ti je let? "))
+
+    if age &lt; 12:
+        bill = 5
+        print("Dětský lístek: 5 €")
+    elif age &lt;= 18:
+        bill = 7
+        print("Studentský lístek: 7 €")
+    else:
+        bill = 12
+        print("Dospělý lístek: 12 €")
+
+    wants_photo = input("Chceš fotku z jízdy? (y/n) ")
+
+    if wants_photo == "y":
+        bill += 3
+        print("Přidávám 3 € za fotku.")
+
+    print(f"Tvůj celkový účet je: {bill} €")
+else:
+    print("Bohužel jsi příliš malý/á, nemůžeš jet.")</code></pre>
+
+          <div class="alert alert-info small mb-0">
+            <strong>Rozdíl:</strong> podmínka pro věk <em>rozhoduje o jedné z mnoha možností</em> (if/elif/else),<br>
+            podmínka pro fotku je <em>nezávislá</em> (samostatné <code>if</code>).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 4 – logické operátory + speciální akce -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-413d-4">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-413d-4" aria-expanded="false" aria-controls="c-413d-4">
+          4) Logické operátory: and / or / not (midlife crisis free ride)
+        </button>
+      </h2>
+      <div id="c-413d-4" class="accordion-collapse collapse" aria-labelledby="h-413d-4" data-bs-parent="#acc-4-1-3d">
+        <div class="accordion-body">
+          <p>Teď přidáme „marketingový nápad“:</p>
+          <ul>
+            <li>Věk 45–55 → <strong>lístek zdarma</strong> (krize středního věku – free ride).</li>
+          </ul>
+          <p>K tomu potřebujeme <strong>logický operátor</strong> <code>and</code>:</p>
+
+<pre><code class="language-python">if 45 &lt;= age &lt;= 55:
+    print("Krize středního věku – lístek máš zdarma! 🤯")
+    bill = 0</code></pre>
+
+          <p>Celý program může vypadat takto:</p>
+<pre><code class="language-python">print("Vítej na horské dráze!")
+height = int(input("Jak měříš v centimetrech? "))
+
+bill = 0
+
+if height &gt;= 120:
+    print("Můžeš jet na horské dráze. 🎢")
+    age = int(input("Kolik ti je let? "))
+
+    if age &lt; 12:
+        bill = 5
+        print("Dětský lístek: 5 €")
+    elif age &lt;= 18:
+        bill = 7
+        print("Studentský lístek: 7 €")
+    elif 45 &lt;= age &lt;= 55:
+        print("Krize středního věku – jízda zdarma! 🤯")
+        bill = 0
+    else:
+        bill = 12
+        print("Dospělý lístek: 12 €")
+
+    wants_photo = input("Chceš fotku z jízdy? (y/n) ")
+    if wants_photo == "y":
+        bill += 3
+        print("Přidávám 3 € za fotku.")
+
+    print(f"Tvůj celkový účet je: {bill} €")
+else:
+    print("Bohužel jsi příliš malý/á, nemůžeš jet.")</code></pre>
+
+          <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal413d-logical">
+            Jak funguje and / or / not?
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 5 – Mini challenge -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-413d-5">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-413d-5" aria-expanded="false" aria-controls="c-413d-5">
+          5) Mini výzva – rozšíření ceníku
+        </button>
+      </h2>
+      <div id="c-413d-5" class="accordion-collapse collapse" aria-labelledby="h-413d-5" data-bs-parent="#acc-4-1-3d">
+        <div class="accordion-body">
+          <p>Zkus podle zadání upravit ceník:</p>
+          <ul>
+            <li>Dítě &lt; 10 let → <strong>3 €</strong> (sleva pro nejmenší).</li>
+            <li>Dospělý nad 60 let → <strong>6 €</strong> (senior sleva).</li>
+            <li>Pokud je věk <strong>přesně 18</strong>, vypiš speciální hlášku: „První jízda jako dospělý!“.</li>
+          </ul>
+          <p>Použij kombinaci <code>if</code>, <code>elif</code>, <code>else</code> a logických operátorů.</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /accordion -->
+
+  <!-- Shrnutí kapitoly -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Shrnutí</h3>
+    <ul class="list-group">
+      <li class="list-group-item">Umíš <strong>vnořené podmínky</strong> – ptáš se na další věc až ve chvíli, kdy ta první prošla.</li>
+      <li class="list-group-item">Rozumíš rozdílu mezi <code>if / elif / else</code> a vícenásobnými <code>if</code>.</li>
+      <li class="list-group-item">Použil/a jsi <strong>logické operátory</strong> <code>and</code>, <code>or</code>, <code>not</code> pro složitější rozhodování.</li>
+      <li class="list-group-item">Máš hotový menší „reálný“ projekt: ticket systém na horskou dráhu.</li>
+    </ul>
   </div>
-
-  <hr class="my-4">
-
-  <div class="row g-3">
-    <!-- Řezání -->
-    <div class="col-lg-6">
-      <div class="card h-100"><div class="card-body">
-        <h5 class="card-title">Řezání (slicing)</h5>
-        <p>Z textu můžeme „ukrojit“ část – tzv. <em>slice</em>:</p>
-<pre><code class="language-python">slovo = "Ahoj"
-
-print(slovo[0:2])  # Ah  (indexy 0 a 1)
-print(slovo[1:4])  # hoj (indexy 1, 2, 3)</code></pre>
-        <ul>
-          <li><code>start</code> = odkud začít (včetně)</li>
-          <li><code>stop</code> = kde skončit (bez tohoto znaku)</li>
-        </ul>
-      </div></div>
-    </div>
-
-    <!-- Kratší zápis -->
-    <div class="col-lg-6">
-      <div class="card h-100"><div class="card-body">
-        <h5 class="card-title">Kratší zápis</h5>
-<pre><code class="language-python">slovo = "Ahoj"
-
-print(slovo[:2])   # Ah (od začátku do indexu 2)
-print(slovo[1:])   # hoj (od indexu 1 do konce)</code></pre>
-        <div class="alert alert-secondary small mb-0">Pokud vynecháš <code>start</code>, bere se od začátku.<br>
-        Pokud vynecháš <code>stop</code>, bere se až do konce.</div>
-      </div></div>
-    </div>
-  </div>
-
-  <hr class="my-4">
-
-  <div class="row g-3">
-    <!-- Přeskočení znaku -->
-    <div class="col-lg-6">
-      <div class="card h-100"><div class="card-body">
-        <h5 class="card-title">Přeskočení prvního znaku</h5>
-        <p>Pokud má číslo znaménko <code>-</code>, můžeme ho přeskočit a zkontrolovat jen zbytek:</p>
-<pre><code class="language-python">cislo = "-123"
-print(cislo[1:])  # "123" (od druhého znaku dál)</code></pre>
-      </div></div>
-    </div>
-
-
-
-  <hr class="my-4">
-
-  <!-- Cvičení -->
-  <div class="card mb-4">
-    <div class="card-body">
-      <h5 class="card-title">Cvičení (10 minut)</h5>
-      <ol>
-        <li>Vypiš všechny znaky z <code>"Program"</code> po jednom.</li>
-        <li>Vypiš první 3 znaky z <code>"Python"</code>.</li>
-        <li>Vypiš vše kromě prvního znaku z <code>"Banán"</code>.</li>
-       
-      </ol>
-    </div>
-  </div>
-
- 
 </section>
 
-<!-- ======= MODÁL 1 ======= -->
-<div class="modal fade" id="modalLenExplain" tabindex="-1" aria-labelledby="modalLenExplainLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 id="modalLenExplainLabel" class="modal-title">Jak funguje <code>len()</code> a průchod textem v <code>while</code> (úplně polopatě)</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-      </div>
-      <div class="modal-body">
-        <p><code>len(text)</code> vrátí počet znaků v řetězci. V cyklu <code>while</code> kontrolujeme, zda <code>i</code> není větší než délka textu. Každé kolo vypíšeme znak na pozici <code>i</code> a <code>i</code> zvětšíme o 1.</p>
-      </div>
+<!-- MODÁLY pro 4.1.3d -->
+<div class="modal fade" id="modal413d-ifelif" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Jak přesně funguje if / elif / else?</h5>
+      <button class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
     </div>
-  </div>
+    <div class="modal-body">
+<pre><code>if podmínka1:
+    # provede se, pokud je podmínka1 True
+elif podmínka2:
+    # provede se, pokud podmínka1 byla False
+    # a podmínka2 je True
+else:
+    # provede se, pokud všechny předchozí podmínky byly False</code></pre>
+      <ul>
+        <li>Vždy se provede <strong>maximálně jedna</strong> větev z této trojice.</li>
+        <li>Jakmile Python najde první <code>True</code>, zbytek větví už nekontroluje.</li>
+      </ul>
+    </div>
+  </div></div>
 </div>
 
+<div class="modal fade" id="modal413d-logical" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Logické operátory: and, or, not</h5>
+      <button class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <ul>
+        <li><code>a &gt; 10 and a &lt; 20</code> – <strong>oba</strong> testy musí být True → výsledek True.</li>
+        <li><code>a &lt; 0 or a &gt; 100</code> – stačí, aby <strong>jeden</strong> z testů byl True.</li>
+        <li><code>not a &gt; 10</code> – výsledek opačný k podmínce (<code>True</code> → <code>False</code>, <code>False</code> → <code>True</code>).</li>
+      </ul>
+      <p>Příklad z jízdenky zdarma:</p>
+<pre><code>if 45 &lt;= age &lt;= 55:
+    # věk je současně &gt;= 45 a &lt;= 55</code></pre>
+      <p>Je to jen zkrácený zápis za:</p>
+<pre><code>if age &gt;= 45 and age &lt;= 55:
+    ...</code></pre>
+    </div>
+  </div></div>
+</div>
