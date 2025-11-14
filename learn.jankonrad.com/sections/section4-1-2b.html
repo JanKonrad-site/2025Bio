@@ -1,4 +1,4 @@
- <!-- KAPITOLA: 4.1.2b Datové typy v praxi – BMI a kalkulačka spropitného -->
+<!-- KAPITOLA: 4.1.2b Datové typy v praxi – BMI a kalkulačka spropitného -->
 <section id="section4-1-2b" class="container my-5 no-copy">
   <h3 class="mb-4">4.1.2b Datové typy v praxi – BMI a kalkulačka spropitného</h3>
 
@@ -7,12 +7,13 @@
     <h3 class="mb-3">Co se naučíš?</h3>
     <p>V této kapitole si vyzkoušíš <strong>datové typy</strong> na dvou malých projektech z praxe. Navazuje to na teorii o <code>int</code>, <code>float</code>, převodech typů a f-řetězcích.</p>
     <ul class="list-group list-group-flush mb-3">
-      <li class="list-group-item">Používat <strong>čísla</strong> a převody typů v reálných výpočtech.</li>
+      <li class="list-group-item">Přepsat <strong>matematický vzorec</strong> do zápisu v Pythonu.</li>
+      <li class="list-group-item">Používat <strong>čísla</strong> a převody typů v reálných výpočtech (BMI, spropitné).</li>
       <li class="list-group-item">Formátovat výstup pomocí <strong>f-řetězců</strong> (počet desetinných míst).</li>
       <li class="list-group-item">Vytvořit <strong>BMI kalkulátor</strong> a <strong>kalkulačku spropitného</strong>.</li>
     </ul>
     <div class="alert alert-info" role="alert">
-      <strong>Tip:</strong> Klíčem jsou správné datové typy – vstupy převáděj na <code>float</code>/<code>int</code>, výstupy formátuj f-stringem.
+      <strong>Tip:</strong> Přemýšlej takhle: <em>„Jak bych vzorec napsal na tabuli?“</em> → a teprve potom ho přepiš do Pythonu.
     </div>
   </div>
 
@@ -25,27 +26,59 @@
     <div class="accordion-item">
       <h2 class="accordion-header" id="h-bmi">
         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c-bmi" aria-expanded="true" aria-controls="c-bmi">
-          🎯 Cvičení: BMI kalkulátor (mini)
+          🎯 Cvičení: BMI kalkulátor – od tabule k Pythonu
         </button>
       </h2>
       <div id="c-bmi" class="accordion-collapse collapse show" aria-labelledby="h-bmi" data-bs-parent="#acc-day2">
         <div class="accordion-body">
 
-          <p>Napiš program, který se zeptá na <b>výšku v metrech</b> a <b>hmotnost v kilogramech</b>, spočítá
-            <code>BMI = hmotnost / (výška ** 2)</code> a vytiskne výsledek na <b>1 desetinné místo</b>.</p>
+          <p>
+            Budeme počítat BMI podle vzorce, který bys napsal na tabuli:
+          </p>
+          <p class="text-center fs-5 mb-3">
+            <code>BMI = \(\dfrac{\text{hmotnost}}{\text{výška}^2}\)</code><br>
+            neboli zjednodušeně: <code>BMI = m / h²</code>
+          </p>
 
-          <div class="d-flex flex-wrap gap-2 mb-2">
-            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalBMIJak">Jak na to</button>
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalBMIReseni">Ukázkové řešení</button>
-          </div>
+          <h5 class="mt-3">1️⃣ Matematický zápis → jména proměnných</h5>
+          <ul>
+            <li><code>m</code> (hmotnost) → v kódu pojmenujeme <code>hmotnost</code></li>
+            <li><code>h</code> (výška v metrech) → v kódu <code>vyska</code></li>
+            <li><code>BMI</code> → v kódu prostě <code>bmi</code></li>
+          </ul>
+          <p>Vzorec z tabule: <code>BMI = m / h²</code> přepíšeme pomocí těchto jmen:</p>
+          <p class="text-center mb-3"><code>bmi = hmotnost / (vyska²)</code></p>
 
-<pre><code># Vstupy v češtině:
+          <h5>2️⃣ Jak zapsat „na druhou“ v Pythonu</h5>
+          <p>V matematice se píše <code>h²</code>. V Pythonu žádný horní index nemáme, proto používáme mocninu pomocí <code>**</code>:</p>
+          <ul>
+            <li><code>h²</code> → <code>h ** 2</code></li>
+            <li><code>vyska²</code> → <code>vyska ** 2</code></li>
+          </ul>
+          <p>Finální zápis vzorce v Pythonu:</p>
+          <p class="text-center fs-5 mb-3"><code>bmi = hmotnost / (vyska ** 2)</code></p>
+
+          <h5>3️⃣ Kompletní program</h5>
+          <p>Teď už jen doplníme vstupy a výstup:</p>
+
+<pre><code class="language-python"># 1) Vstupy z klávesnice (převedeme na float, protože jde o desetinná čísla)
 vyska = float(input("Zadej výšku v metrech (např. 1.75): "))
 hmotnost = float(input("Zadej hmotnost v kg (např. 68.5): "))
 
+# 2) Přepis matematického vzorce BMI = m / h²
 bmi = hmotnost / (vyska ** 2)
-print(f"BMI: {bmi:.1f}")  # vytiskne např. BMI: 22.4
-</code></pre>
+
+# 3) Výstup na 1 desetinné místo
+print(f"BMI: {bmi:.1f}")  # např. BMI: 22.4</code></pre>
+
+          <div class="d-flex flex-wrap gap-2 mb-2">
+            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalBMIJak">
+              🔍 Matematika → Python krok za krokem
+            </button>
+            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalF">
+              ℹ️ Co přesně znamená <code>f"{bmi:.1f}"</code>?
+            </button>
+          </div>
 
         </div>
       </div>
@@ -55,7 +88,7 @@ print(f"BMI: {bmi:.1f}")  # vytiskne např. BMI: 22.4
     <div class="accordion-item">
       <h2 class="accordion-header" id="h-tip">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-tip" aria-expanded="false" aria-controls="c-tip">
-          🧮 Projekt: Kalkulačka spropitného (Tip Calculator)
+          🧮 Projekt: Kalkulačka spropitného – proč tam je ten koeficient?
         </button>
       </h2>
       <div id="c-tip" class="accordion-collapse collapse" aria-labelledby="h-tip" data-bs-parent="#acc-day2">
@@ -64,25 +97,69 @@ print(f"BMI: {bmi:.1f}")  # vytiskne např. BMI: 22.4
           <p>Program vypočítá, kolik má <b>každý člověk zaplatit</b>, když známe celkový účet, procento
             spropitného a počet lidí.</p>
 
-          <ol class="mb-3">
-            <li>Uvítání: <code>print("Vítej v kalkulačce spropitného!")</code></li>
-            <li>Vstupy (česky):
-<pre><code>ucet = float(input("Jaká byla celková cena účtu? Kč: "))
-sprop = int(input("Kolik dáš spropitného? (10 / 12 / 15): "))
-osoby = int(input("Mezi kolik lidí se účet dělí? "))</code></pre>
-            </li>
-            <li>Výpočet a výstup na <b>2 desetinná místa</b>:
-<pre><code>koef = 1 + (sprop / 100)
+          <h5>1️⃣ Co počítáme matematicky</h5>
+          <p>Řekněme, že:</p>
+          <ul>
+            <li><code>U</code> = celková cena účtu (bez spropitného)</li>
+            <li><code>p</code> = spropitné v procentech (např. 10, 12, 15)</li>
+            <li><code>n</code> = počet osob</li>
+          </ul>
+          <p>Nejprve sečteme účet + spropitné:</p>
+          <p class="text-center mb-2">
+            <code>spropitné = U · (p / 100)</code><br>
+            <code>celkem = U + spropitné</code>
+          </p>
+          <p>Dosadíme za <code>spropitné</code>:</p>
+          <p class="text-center mb-2">
+            <code>celkem = U + U · (p / 100)</code>
+          </p>
+          <p>A teď vytkneme <code>U</code> (známý trik z algebry):</p>
+          <p class="text-center mb-3">
+            <code>celkem = U · (1 + p / 100)</code>
+          </p>
+          <p>Výsledná částka na osobu je:</p>
+          <p class="text-center fs-5 mb-3">
+            <code>podíl = celkem / n = U · (1 + p / 100) / n</code>
+          </p>
+
+          <h5>2️⃣ Jak z toho vznikne <code>koef = 1 + (sprop / 100)</code>?</h5>
+          <p>V Pythonu si tu část <code>(1 + p / 100)</code> uložíme do proměnné <code>koef</code> (koeficient):</p>
+          <ul>
+            <li><code>koef</code> říká, kolikrát se účet zvětší.</li>
+            <li>Např. <code>p = 10</code> → <code>koef = 1 + 10/100 = 1.1</code> → účet se násobí číslem <strong>1,1</strong>.</li>
+            <li><code>p = 15</code> → <code>koef = 1.15</code> atd.</li>
+          </ul>
+
+          <h5>3️⃣ Kompletní program v Pythonu</h5>
+
+<pre><code class="language-python">print("Vítej v kalkulačce spropitného!")
+
+# 1) Vstupy
+ucet = float(input("Jaká byla celková cena účtu? Kč: "))
+sprop = int(input("Kolik dáš spropitného? (např. 10 / 12 / 15): "))
+osoby = int(input("Mezi kolik lidí se účet dělí? "))
+
+# 2) Převod procent na koeficient
+# Matematicky: celkem = U · (1 + p / 100)
+koef = 1 + (sprop / 100)
+
+# 3) Celková částka a podíl na osobu
 celkem = ucet * koef
 podil = celkem / osoby
+
+# 4) Výstup na 2 desetinná místa
 print(f"Každý zaplatí: {podil:.2f} Kč")</code></pre>
-            </li>
-          </ol>
 
           <div class="d-flex flex-wrap gap-2 mb-3">
-            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalTipJak">Jak se to počítá</button>
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalTipChyby">Časté chyby & tipy</button>
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalF">F-stringy & formátování</button>
+            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalTipJak">
+              📐 Matematické odvození kroku za krokem
+            </button>
+            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalTipChyby">
+              ⚠️ Časté chyby & tipy
+            </button>
+            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalF">
+              ℹ️ F-stringy & formátování peněz
+            </button>
           </div>
 
           <!-- Simulace (ponechán vzhled jako dříve) -->
@@ -108,8 +185,9 @@ print(f"Každý zaplatí: {podil:.2f} Kč")</code></pre>
   <div class="container my-4 p-4 border rounded bg-light">
     <h3 class="mb-3">Shrnutí kapitoly</h3>
     <ul class="list-group">
+      <li class="list-group-item">Umíš vzít <strong>matematický vzorec</strong> a přepsat ho do <strong>Python zápisu</strong>.</li>
       <li class="list-group-item">Procvičil/a jsi <strong>float</strong>, <strong>int</strong> a převody typů.</li>
-      <li class="list-group-item">Umíš použít <strong>f-řetězce</strong> pro formátování výstupu (počet desetinných míst).</li>
+      <li class="list-group-item">Rozumíš f-řetězcům a zápisu jako <code>f"{bmi:.1f}"</code> nebo <code>f"{podil:.2f}"</code>.</li>
       <li class="list-group-item">Vytvořil/a jsi dva malé programy: BMI kalkulátor a kalkulačku spropitného.</li>
     </ul>
     <div class="alert alert-info mt-3">
@@ -120,56 +198,115 @@ print(f"Každý zaplatí: {podil:.2f} Kč")</code></pre>
 
 <!-- MODÁLY PRO 4.1.2b -->
 
-<!-- BMI: Jak na to -->
+<!-- BMI: Matematika -> Python -->
 <div class="modal fade" id="modalBMIJak" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title">BMI – co a proč</h5>
-      <button class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-    </div>
-    <div class="modal-body">
-      <ul>
-        <li>Vzorec: <code>BMI = hmotnost(kg) / (výška(m) ** 2)</code>.</li>
-        <li>Na vstupu použij <code>float()</code>, jinak dělení celých čísel může být zkreslené.</li>
-        <li>Výstup na 1 desetinné místo: <code>f"{bmi:.1f}"</code>.</li>
-      </ul>
-      <div class="alert alert-info mb-0">Nepřeváděj cm na m zapomenutím: 175 cm ⇒ <b>1.75</b> m.</div>
-    </div>
-  </div></div>
-</div>
-
-<!-- BMI: Řešení -->
-<div class="modal fade" id="modalBMIReseni" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title">Ukázkové řešení BMI</h5>
-      <button class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-    </div>
-    <div class="modal-body">
-<pre><code>vyska = float(input("Zadej výšku v metrech: "))
-hmotnost = float(input("Zadej hmotnost v kg: "))
-bmi = hmotnost / (vyska ** 2)
-print(f"BMI: {bmi:.1f}")</code></pre>
-      <p class="small text-muted mb-0">Rozšiř: kategorizace pomocí <code>if/elif/else</code> (podváha, normál, nadváha).</p>
-    </div>
-  </div></div>
-</div>
-
-<!-- Tip: Jak se počítá -->
-<div class="modal fade" id="modalTipJak" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title">Kalkulačka spropitného – princip</h5>
+      <h5 class="modal-title">BMI – jak přepsat vzorec do Pythonu</h5>
       <button class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
     </div>
     <div class="modal-body">
       <ol>
-        <li>Převeď procenta na koeficient: <code>koef = 1 + (sprop / 100)</code>.</li>
-        <li>Spropitné připočti k účtu: <code>celkem = ucet * koef</code>.</li>
-        <li>Rozděl mezi osoby: <code>podil = celkem / osoby</code>.</li>
-        <li>Zobraz 2 desetinná místa: <code>f"{podil:.2f}"</code>.</li>
+        <li>
+          <strong>Napiš vzorec „na papír“:</strong><br>
+          <code>BMI = hmotnost / výška²</code>
+        </li>
+        <li>
+          <strong>Zvol si názvy proměnných:</strong><br>
+          <code>hmotnost</code>, <code>vyska</code>, <code>bmi</code>.
+        </li>
+        <li>
+          <strong>„Na druhou“ přepiš jako <code>** 2</code>:</strong><br>
+          <code>vyska²</code> → <code>vyska ** 2</code>
+        </li>
+        <li>
+          <strong>Slož to dohromady:</strong><br>
+          <code>bmi = hmotnost / (vyska ** 2)</code>
+        </li>
+        <li>
+          <strong>Na vstupu použij <code>float()</code>:</strong><br>
+          aby Python uměl desetinná čísla (1.75, 68.5…)
+        </li>
       </ol>
-      <div class="alert alert-info mb-0">Alternativa CZK/ Kč: můžeš zaokrouhlit na celé koruny: <code>round(podil)</code>.</div>
+      <div class="alert alert-info mb-0">
+        <strong>Typická chyba:</strong> výšku zadat v cm a nevydělit 100. <br>
+        175 cm musíš přepsat na <strong>1.75 m</strong>, jinak je BMI úplně mimo.
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- BMI: F-string vysvětlení + použití i pro peníze -->
+<div class="modal fade" id="modalF" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">F-řetězce a formátování: co znamená <code>f"{bmi:.1f}"</code>?</h5>
+      <button class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <p>Řetězec začínající <code>f"</code> se jmenuje <strong>f-string</strong> (formátovací řetězec).</p>
+      <ul>
+        <li><code>f"BMI: {bmi:.1f}"</code> – písmeno <code>f</code> říká Pythonu: „uvnitř <code>{ }</code> budou proměnné“.</li>
+        <li><code>{bmi:.1f}</code> – do složených závorek se vloží hodnota proměnné <code>bmi</code>.</li>
+        <li><code>.1f</code> – říká „zobraz to jako desetinné číslo („float“) s <strong>1 desetinným místem</strong>“.</li>
+      </ul>
+      <p>Příklad:</p>
+      <pre><code>bmi = 22.4444
+print(f"BMI: {bmi:.1f}")   # → BMI: 22.4
+print(f"BMI: {bmi:.2f}")   # → BMI: 22.44</code></pre>
+
+      <h5 class="mt-3">💰 Stejný princip pro peníze</h5>
+      <p>U peněz obvykle chceme dvě desetinná místa:</p>
+      <pre><code>podil = 123.456
+print(f"Každý zaplatí: {podil:.2f} Kč")  # → Každý zaplatí: 123.46 Kč</code></pre>
+
+      <div class="alert alert-info mb-0">
+        <strong>Shrnutí:</strong> <code>:.1f</code> = 1 desetinné místo, <code>:.2f</code> = 2 desetinná místa atd.
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- Tip: Jak se počítá + matem. odvození -->
+<div class="modal fade" id="modalTipJak" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Kalkulačka spropitného – matematické odvození</h5>
+      <button class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <ol>
+        <li>
+          <strong>Procenta → desetinné číslo:</strong><br>
+          <code>sprop = 10</code> znamená 10&nbsp;%.<br>
+          Jako číslo to je <code>10 / 100 = 0.10</code>.
+        </li>
+        <li>
+          <strong>Výpočet spropitného:</strong><br>
+          <code>spropitne = ucet * (sprop / 100)</code><br>
+          Např. účet 500 Kč a 10&nbsp;% → <code>500 * 0.10 = 50</code> Kč.
+        </li>
+        <li>
+          <strong>Přičtení spropitného:</strong><br>
+          <code>celkem = ucet + spropitne</code><br>
+          Dosadíme: <code>celkem = ucet + ucet * (sprop / 100)</code>
+        </li>
+        <li>
+          <strong>Vytkneme <code>ucet</code>:</strong><br>
+          <code>celkem = ucet * (1 + sprop / 100)</code><br>
+          To je přesně důvod, proč v kódu píšeme:<br>
+          <code>koef = 1 + (sprop / 100)</code><br>
+          <code>celkem = ucet * koef</code>
+        </li>
+        <li>
+          <strong>Rozdělení mezi osoby:</strong><br>
+          <code>podil = celkem / osoby</code>
+        </li>
+      </ol>
+      <div class="alert alert-info mb-0">
+        <strong>Intuice:</strong> <code>koef</code> říká, kolikrát se účet zvětší. <br>
+        1.10 = +10 %, 1.12 = +12 %, 1.50 = +50 %, 2.00 = +100 % (dvojnásobek).
+      </div>
     </div>
   </div></div>
 </div>
@@ -178,7 +315,7 @@ print(f"BMI: {bmi:.1f}")</code></pre>
 <div class="modal fade" id="modalTipChyby" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title">Časté chyby & tipy</h5>
+      <h5 class="modal-title">Časté chyby &amp; tipy</h5>
       <button class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
     </div>
     <div class="modal-body">
@@ -187,6 +324,7 @@ print(f"BMI: {bmi:.1f}")</code></pre>
         <li><b>Dělení nulou:</b> Ošetři <code>osoby &lt; 1</code> → minimálně 1 osoba.</li>
         <li><b>Formát peněz:</b> Pro zobrazení používej <code>:.2f</code>; pro výpočty uchovávej v číslech, ne jako text.</li>
         <li><b>Desetinná tečka vs čárka:</b> V Pythonu používej <b>tečku</b> <code>1.75</code>, ne čárku.</li>
+        <li><b>Špatně spočítané procento:</b> častá chyba je napsat <code>ucet * sprop</code> místo <code>ucet * (sprop / 100)</code>.</li>
       </ul>
     </div>
   </div></div>
@@ -208,12 +346,3 @@ print(f"BMI: {bmi:.1f}")</code></pre>
       `Každý zaplatí: ${share.toFixed(2)} Kč\n(Celkem: ${total.toFixed(2)} Kč; Osob: ${ppl})`;
   }
 </script>
-<section id="section4-1-2b" class="container my-5 no-copy">
-  <h3 class="mb-4">4.1.2b Opakování podmínky, If Statementy (tvorba testu)</h3>
-
-  <!-- Úvodní přehled -->
-  <div class="container my-4 p-4 border rounded bg-light">
-    <h3 class="mb-3">Co se naučíš?</h3>
-    <p>V této kapitole si vyzkoušíš tvorbu jednoduchého <strong>testu s otázkami a vyhodnocením</strong> pomocí podmínek <code>if/elif/else</code>. Navazuje to na teorii o podmínkách.</p>
-    <ul class="list-group list-group-flush mb-3">
-      <li class="list-group
