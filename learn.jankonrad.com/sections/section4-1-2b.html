@@ -2,6 +2,39 @@
 <section id="section4-1-2b" class="container my-5 no-copy">
   <h3 class="mb-4">4.1.2b Datové typy v praxi – BMI a kalkulačka spropitného</h3>
 
+  <!-- Lokální styl pro matematické vzorce -->
+  <style>
+    .math-card{
+      background:#ffffff;
+      border:1px solid rgba(0,0,0,.1);
+      border-radius:.5rem;
+      padding:1rem 1.25rem;
+      margin:1rem 0;
+    }
+    .math-label{
+      font-weight:600;
+      margin-bottom:.25rem;
+    }
+    .fraction{
+      display:inline-flex;
+      flex-direction:column;
+      align-items:center;
+      line-height:1.1;
+      margin:0 .15em;
+    }
+    .fraction .f-num{
+      padding:0 .25em;
+    }
+    .fraction .f-bar{
+      border-top:1px solid #000;
+      width:100%;
+      margin:0;
+    }
+    .fraction .f-den{
+      padding:0 .25em;
+    }
+  </style>
+
   <!-- Úvodní přehled -->
   <div class="container my-4 p-4 border rounded bg-light">
     <h3 class="mb-3">Co se naučíš?</h3>
@@ -13,7 +46,7 @@
       <li class="list-group-item">Vytvořit <strong>BMI kalkulátor</strong> a <strong>kalkulačku spropitného</strong>.</li>
     </ul>
     <div class="alert alert-info" role="alert">
-      <strong>Tip:</strong> Přemýšlej takhle: <em>„Jak bych vzorec napsal na tabuli?“</em> → a teprve potom ho přepiš do Pythonu.
+      <strong>Tip:</strong> Nejdřív si vzorec napiš <strong>běžným matematickým zápisem</strong>, teprve potom ho přepiš do Pythonu.
     </div>
   </div>
 
@@ -26,31 +59,41 @@
     <div class="accordion-item">
       <h2 class="accordion-header" id="h-bmi">
         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c-bmi" aria-expanded="true" aria-controls="c-bmi">
-          🎯 Cvičení: BMI kalkulátor – od tabule k Pythonu
+          🎯 Cvičení: BMI kalkulátor – od vzorce k Pythonu
         </button>
       </h2>
       <div id="c-bmi" class="accordion-collapse collapse show" aria-labelledby="h-bmi" data-bs-parent="#acc-day2">
         <div class="accordion-body">
 
-          <p>
-            Budeme počítat BMI podle vzorce, který bys napsal na tabuli:
-          </p>
-          <p class="text-center fs-5 mb-3">
-            <code>BMI = \(\dfrac{\text{hmotnost}}{\text{výška}^2}\)</code><br>
-            neboli zjednodušeně: <code>BMI = m / h²</code>
-          </p>
+          <p>Výpočet BMI vychází z klasického matematického vzorce:</p>
+
+          <div class="math-card text-center">
+            <div class="math-label">Matematický vzorec pro BMI</div>
+            <div class="fs-5 mb-1">
+              BMI =
+              <span class="fraction">
+                <span class="f-num">hmotnost&nbsp;(kg)</span>
+                <span class="f-bar"></span>
+                <span class="f-den">výška<sup>2</sup>&nbsp;(m<sup>2</sup>)</span>
+              </span>
+            </div>
+            <div class="text-muted small">zkráceně: <code>BMI = m / h²</code></div>
+          </div>
 
           <h5 class="mt-3">1️⃣ Matematický zápis → jména proměnných</h5>
           <ul>
-            <li><code>m</code> (hmotnost) → v kódu pojmenujeme <code>hmotnost</code></li>
+            <li><code>m</code> (hmotnost) → v kódu použijeme jméno <code>hmotnost</code></li>
             <li><code>h</code> (výška v metrech) → v kódu <code>vyska</code></li>
-            <li><code>BMI</code> → v kódu prostě <code>bmi</code></li>
+            <li><code>BMI</code> → v kódu <code>bmi</code></li>
           </ul>
-          <p>Vzorec z tabule: <code>BMI = m / h²</code> přepíšeme pomocí těchto jmen:</p>
-          <p class="text-center mb-3"><code>bmi = hmotnost / (vyska²)</code></p>
+          <p>Vzorec tedy přepíšeme logikou „matematika → kód“:</p>
+          <ul>
+            <li><code>BMI = m / h²</code></li>
+            <li><code>bmi = hmotnost / (vyska²)</code> – stejný tvar, jen jiná jména</li>
+          </ul>
 
           <h5>2️⃣ Jak zapsat „na druhou“ v Pythonu</h5>
-          <p>V matematice se píše <code>h²</code>. V Pythonu žádný horní index nemáme, proto používáme mocninu pomocí <code>**</code>:</p>
+          <p>V matematice píšeme <code>h²</code>. V Pythonu používáme pro mocniny operátor <code>**</code>:</p>
           <ul>
             <li><code>h²</code> → <code>h ** 2</code></li>
             <li><code>vyska²</code> → <code>vyska ** 2</code></li>
@@ -59,7 +102,7 @@
           <p class="text-center fs-5 mb-3"><code>bmi = hmotnost / (vyska ** 2)</code></p>
 
           <h5>3️⃣ Kompletní program</h5>
-          <p>Teď už jen doplníme vstupy a výstup:</p>
+          <p>Teď jen doplníme vstupy a formátovaný výstup:</p>
 
 <pre><code class="language-python"># 1) Vstupy z klávesnice (převedeme na float, protože jde o desetinná čísla)
 vyska = float(input("Zadej výšku v metrech (např. 1.75): "))
@@ -88,7 +131,7 @@ print(f"BMI: {bmi:.1f}")  # např. BMI: 22.4</code></pre>
     <div class="accordion-item">
       <h2 class="accordion-header" id="h-tip">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-tip" aria-expanded="false" aria-controls="c-tip">
-          🧮 Projekt: Kalkulačka spropitného – proč tam je ten koeficient?
+          🧮 Projekt: Kalkulačka spropitného – matematicky po krocích
         </button>
       </h2>
       <div id="c-tip" class="accordion-collapse collapse" aria-labelledby="h-tip" data-bs-parent="#acc-day2">
@@ -97,40 +140,31 @@ print(f"BMI: {bmi:.1f}")  # např. BMI: 22.4</code></pre>
           <p>Program vypočítá, kolik má <b>každý člověk zaplatit</b>, když známe celkový účet, procento
             spropitného a počet lidí.</p>
 
+          <div class="math-card text-center">
+            <div class="math-label">Matematický zápis výpočtu</div>
+            <div class="mb-1 text-start d-inline-block text-nowrap">
+              <code>U</code> … účet (bez spropitného) <br>
+              <code>p</code> … spropitné v % <br>
+              <code>n</code> … počet osob
+            </div>
+            <div class="mt-2">
+              <div><code>spropitné = U · (p / 100)</code></div>
+              <div><code>celkem = U + spropitné</code></div>
+              <div><code>podíl = celkem / n</code></div>
+            </div>
+          </div>
+
           <h5>1️⃣ Co počítáme matematicky</h5>
-          <p>Řekněme, že:</p>
-          <ul>
-            <li><code>U</code> = celková cena účtu (bez spropitného)</li>
-            <li><code>p</code> = spropitné v procentech (např. 10, 12, 15)</li>
-            <li><code>n</code> = počet osob</li>
-          </ul>
-          <p>Nejprve sečteme účet + spropitné:</p>
-          <p class="text-center mb-2">
-            <code>spropitné = U · (p / 100)</code><br>
-            <code>celkem = U + spropitné</code>
-          </p>
-          <p>Dosadíme za <code>spropitné</code>:</p>
-          <p class="text-center mb-2">
-            <code>celkem = U + U · (p / 100)</code>
-          </p>
-          <p>A teď vytkneme <code>U</code> (známý trik z algebry):</p>
-          <p class="text-center mb-3">
-            <code>celkem = U · (1 + p / 100)</code>
-          </p>
-          <p>Výsledná částka na osobu je:</p>
-          <p class="text-center fs-5 mb-3">
-            <code>podíl = celkem / n = U · (1 + p / 100) / n</code>
-          </p>
+          <p>Postup je:</p>
+          <ol>
+            <li>z procent udělat desetinné číslo: <code>p / 100</code>,</li>
+            <li>vypočítat samotné spropitné: <code>spropitné = U · (p / 100)</code>,</li>
+            <li>sečíst účet + spropitné: <code>celkem = U + spropitné</code>,</li>
+            <li>rozdělit na osoby: <code>podíl = celkem / n</code>.</li>
+          </ol>
 
-          <h5>2️⃣ Jak z toho vznikne <code>koef = 1 + (sprop / 100)</code>?</h5>
-          <p>V Pythonu si tu část <code>(1 + p / 100)</code> uložíme do proměnné <code>koef</code> (koeficient):</p>
-          <ul>
-            <li><code>koef</code> říká, kolikrát se účet zvětší.</li>
-            <li>Např. <code>p = 10</code> → <code>koef = 1 + 10/100 = 1.1</code> → účet se násobí číslem <strong>1,1</strong>.</li>
-            <li><code>p = 15</code> → <code>koef = 1.15</code> atd.</li>
-          </ul>
-
-          <h5>3️⃣ Kompletní program v Pythonu</h5>
+          <h5>2️⃣ Jak z toho uděláme Python</h5>
+          <p>Každý krok dáme do samostatné řádky v kódu:</p>
 
 <pre><code class="language-python">print("Vítej v kalkulačce spropitného!")
 
@@ -139,15 +173,16 @@ ucet = float(input("Jaká byla celková cena účtu? Kč: "))
 sprop = int(input("Kolik dáš spropitného? (např. 10 / 12 / 15): "))
 osoby = int(input("Mezi kolik lidí se účet dělí? "))
 
-# 2) Převod procent na koeficient
-# Matematicky: celkem = U · (1 + p / 100)
-koef = 1 + (sprop / 100)
+# 2) Výpočet spropitného (procenta -> desetinné číslo)
+spropitne = ucet * (sprop / 100)
 
-# 3) Celková částka a podíl na osobu
-celkem = ucet * koef
+# 3) Celková částka (účet + spropitné)
+celkem = ucet + spropitne
+
+# 4) Podíl na osobu
 podil = celkem / osoby
 
-# 4) Výstup na 2 desetinná místa
+# 5) Výstup na 2 desetinná místa
 print(f"Každý zaplatí: {podil:.2f} Kč")</code></pre>
 
           <div class="d-flex flex-wrap gap-2 mb-3">
@@ -162,7 +197,7 @@ print(f"Každý zaplatí: {podil:.2f} Kč")</code></pre>
             </button>
           </div>
 
-          <!-- Simulace (ponechán vzhled jako dříve) -->
+          <!-- Simulace (stejné kroky jako v Pythonu) -->
           <div class="bg-dark text-light p-3 rounded" style="max-width: 640px;">
             <p><strong>Simulace kalkulačky:</strong></p>
             <div>Účet (Kč):</div>
@@ -208,24 +243,24 @@ print(f"Každý zaplatí: {podil:.2f} Kč")</code></pre>
     <div class="modal-body">
       <ol>
         <li>
-          <strong>Napiš vzorec „na papír“:</strong><br>
+          <strong>Krok 1: matematický tvar vzorce</strong><br>
           <code>BMI = hmotnost / výška²</code>
         </li>
         <li>
-          <strong>Zvol si názvy proměnných:</strong><br>
+          <strong>Krok 2: zvol jména proměnných</strong><br>
           <code>hmotnost</code>, <code>vyska</code>, <code>bmi</code>.
         </li>
         <li>
-          <strong>„Na druhou“ přepiš jako <code>** 2</code>:</strong><br>
+          <strong>Krok 3: „na druhou“ pomocí <code>**</code></strong><br>
           <code>vyska²</code> → <code>vyska ** 2</code>
         </li>
         <li>
-          <strong>Slož to dohromady:</strong><br>
+          <strong>Krok 4: přepiš celý vzorec</strong><br>
           <code>bmi = hmotnost / (vyska ** 2)</code>
         </li>
         <li>
-          <strong>Na vstupu použij <code>float()</code>:</strong><br>
-          aby Python uměl desetinná čísla (1.75, 68.5…)
+          <strong>Krok 5: vstupy jako desetinná čísla</strong><br>
+          použití <code>float()</code> pro výšku i hmotnost.
         </li>
       </ol>
       <div class="alert alert-info mb-0">
@@ -236,7 +271,7 @@ print(f"Každý zaplatí: {podil:.2f} Kč")</code></pre>
   </div></div>
 </div>
 
-<!-- BMI: F-string vysvětlení + použití i pro peníze -->
+<!-- F-řetězce a formátování -->
 <div class="modal fade" id="modalF" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
     <div class="modal-header">
@@ -267,7 +302,7 @@ print(f"Každý zaplatí: {podil:.2f} Kč")  # → Každý zaplatí: 123.46 Kč<
   </div></div>
 </div>
 
-<!-- Tip: Jak se počítá + matem. odvození -->
+<!-- Tip: Jak se počítá + matematické odvození -->
 <div class="modal fade" id="modalTipJak" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
     <div class="modal-header">
@@ -288,15 +323,7 @@ print(f"Každý zaplatí: {podil:.2f} Kč")  # → Každý zaplatí: 123.46 Kč<
         </li>
         <li>
           <strong>Přičtení spropitného:</strong><br>
-          <code>celkem = ucet + spropitne</code><br>
-          Dosadíme: <code>celkem = ucet + ucet * (sprop / 100)</code>
-        </li>
-        <li>
-          <strong>Vytkneme <code>ucet</code>:</strong><br>
-          <code>celkem = ucet * (1 + sprop / 100)</code><br>
-          To je přesně důvod, proč v kódu píšeme:<br>
-          <code>koef = 1 + (sprop / 100)</code><br>
-          <code>celkem = ucet * koef</code>
+          <code>celkem = ucet + spropitne</code>
         </li>
         <li>
           <strong>Rozdělení mezi osoby:</strong><br>
@@ -304,8 +331,8 @@ print(f"Každý zaplatí: {podil:.2f} Kč")  # → Každý zaplatí: 123.46 Kč<
         </li>
       </ol>
       <div class="alert alert-info mb-0">
-        <strong>Intuice:</strong> <code>koef</code> říká, kolikrát se účet zvětší. <br>
-        1.10 = +10 %, 1.12 = +12 %, 1.50 = +50 %, 2.00 = +100 % (dvojnásobek).
+        <strong>Později:</strong> stejný výsledek lze zapsat i zkráceně<br>
+        <code>celkem = ucet * (1 + sprop / 100)</code> – v této lekci ale používáme přehlednou verzi po krocích.
       </div>
     </div>
   </div></div>
@@ -330,7 +357,7 @@ print(f"Každý zaplatí: {podil:.2f} Kč")  # → Každý zaplatí: 123.46 Kč<
   </div></div>
 </div>
 
-<!-- JS simulace pro kalkulačku spropitného -->
+<!-- JS simulace pro kalkulačku spropitného (stejně jako Python verze) -->
 <script>
   function runSimTip(){
     const bill = parseFloat(document.getElementById('tipBill').value || '0');
@@ -340,8 +367,10 @@ print(f"Každý zaplatí: {podil:.2f} Kč")  # → Každý zaplatí: 123.46 Kč<
       document.getElementById('tipResult').textContent = "Zadej nezáporné hodnoty.";
       return;
     }
-    const total = bill * (1 + pct/100);
-    const share = total / ppl;
+    // Stejné kroky jako v Pythonu:
+    const tip   = bill * (pct / 100);   // spropitné
+    const total = bill + tip;           // účet + spropitné
+    const share = total / ppl;          // částka na osobu
     document.getElementById('tipResult').textContent =
       `Každý zaplatí: ${share.toFixed(2)} Kč\n(Celkem: ${total.toFixed(2)} Kč; Osob: ${ppl})`;
   }
