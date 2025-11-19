@@ -179,6 +179,23 @@ Mám rád: banán
 Mám rád: třešeň</code></pre>
   </div>
 
+ <!-- Podrobné vysvětlení z originálního kurzu (for + list, sum/max, range) -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">📘 Podrobně</h4>
+    <p>Pokud chceš jít více do hloubky, otevři si tyto detailní rozbory:</p>
+    <div class="d-flex flex-wrap gap-2">
+      <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalFruitsTranscript">
+        🍎 For + list (fruits)
+      </button>
+      <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalSumMaxTranscript">
+        ➕ Součet a maximum bodů
+      </button>
+      <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalRangeGaussTranscript">
+        🔢 range() + Gauss 1–100
+      </button>
+    </div>
+  </div>
+
 <!-- DALŠÍ OBSAH KAPITOLY ZDE POKRAČUJE ... -->
   <!-- Teorie: N-tice -->
    <!-- Teorie: N-tice -->
@@ -348,205 +365,217 @@ Kolik nohou má pes? 4
 Test dokončen. Získal jsi 2 bodů z 3
       </pre>
     </div>
-<div class="container my-4 p-4 border rounded bg-light">
-  <h4 class="mb-3">🎼 Samostatné cvičení: Přehled durových stupnic a jejich předznamenání</h4>
-  <p>
-    Tvým úkolem je vytvořit program, který vypíše přehled všech běžných durových tónin a počet jejich křížků nebo béček (předznamenání).<br>
-    <b>Postupuj podle těchto kroků:</b>
-    <ol class="list-group list-group-numbered mb-3">
-      <li class="list-group-item">
-        Vytvoř si dva seznamy (listy) dvojic: jeden pro tóniny s křížky, druhý pro tóniny s béčky.<br>
-        Každý prvek v seznamu bude dvojice (n-tice) <code>(název_tóniny, počet_předznamenání)</code>.<br>
-        <span class="text-muted">Například: <code>("G", 1)</code> znamená „G dur má 1 křížek“.</span>
-      </li>
-      <li class="list-group-item">
-        Pomocí cyklu <code>for</code> projdi oba seznamy.<br>
-        Pro každou tóninu vypiš na obrazovku, kolik má křížků nebo béček.<br>
-        Pokud má tónina žádné předznamenání, vypiš místo čísla text „žádné předznamenání“.
-      </li>
-      <li class="list-group-item">
-        Zamysli se, kde se může hodit podmínka <code>if</code> a kde bude stačit prosté vypisování.<br>
-        <b>Bonus:</b> Přemýšlej, jak by šlo program rozšířit, aby správně vypisoval „křížek“/„křížky“ nebo „béčko“/„béčka“ podle počtu.
-      </li>
-    </ol>
-    <b>Příklad výstupu programu:</b>
-    <pre class="bg-light border rounded p-2">
-C - dur: žádné předznamenání
-G - dur: 1 křížek/křížky
-D - dur: 2 křížek/křížky
-...
-F - dur: 1 béčko/béčka
-B - dur: 2 béčko/béčka
-</pre>
-    <b>Tip:</b> Výsledek nezapomeň uzavřít pomocí <code>input()</code>, aby okno po spuštění hned nezmizelo.
-  </p>
-  <div class="alert alert-warning mb-0">
-    <b>Pomůcka:</b>
-    Připomeň si práci s cyklem <code>for</code> a podmínkou <code>if</code>.  
-    Přemýšlej, jak nejlépe uložit a projít dvojice (n-tice) v seznamu.
+  </div>
+
+    <!-- CVIČENÍ: FizzBuzz -->
+  <div class="container my-5 p-4 border rounded">
+    <h4 class="mb-3">🎮 Cvičení: FizzBuzz (for + range + podmínky)</h4>
+    <p>Toto je stejné cvičení, jaké vidíš v Udemy editoru. Procvičíš si cyklus <code>for</code>, funkci <code>range()</code> a podmínky <code>if / elif / else</code>.</p>
+
+    <h5>Zadání:</h5>
+    <ul>
+      <li>Vypiš čísla od 1 do 100 (včetně).</li>
+      <li>Pokud je číslo dělitelné 3, místo čísla vypiš <code>"Fizz"</code>.</li>
+      <li>Pokud je číslo dělitelné 5, vypiš <code>"Buzz"</code>.</li>
+      <li>Pokud je dělitelné 3 i 5 zároveň (např. 15), vypiš <code>"FizzBuzz"</code>.</li>
+      <li>V ostatních případech vypiš samotné číslo.</li>
+    </ul>
+
+    <p>Jako základ můžeš použít tento kód:</p>
+<pre><code class="language-python">for number in range(1, 101):
+    # sem doplň podmínky
+    print(number)</code></pre>
+
+    <div class="alert alert-info">
+      <strong>Tip:</strong> Nejprve otestuj podmínku „3 a 5 zároveň“,
+      teprve potom samostatně 3 nebo 5. Jinak se k ní program nikdy nedostane.
+    </div>
+
+    <details class="mt-3">
+      <summary class="text-muted">📎 Ukázkové řešení (rozklikni až po vlastním pokusu)</summary>
+<pre><code class="language-python">for number in range(1, 101):
+    if number % 3 == 0 and number % 5 == 0:
+        print("FizzBuzz")
+    elif number % 3 == 0:
+        print("Fizz")
+    elif number % 5 == 0:
+        print("Buzz")
+    else:
+        print(number)</code></pre>
+    </details>
+  </div>
+
+
+
+
+  
+
+  </section>
+<!-- MODAL: For + list fruits (detailní vysvětlení) -->
+<div class="modal fade" id="modalFruitsTranscript" tabindex="-1" aria-labelledby="modalFruitsTranscriptLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalFruitsTranscriptLabel">For + list (fruits) a co znamená „uvnitř“ cyklu</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Podívejme se na jednoduchý příklad se seznamem ovoce, na kterém je dobře vidět, jak <code>for</code> projde všechny položky jedna po druhé.</p>
+
+<pre><code class="language-python">fruits = ["Apple", "Peach", "Pear"]
+
+for fruit in fruits:
+    print(fruit)</code></pre>
+
+        <ul>
+          <li><code>fruits</code> je list tří řetězců.</li>
+          <li>Proměnná <code>fruit</code> je při každém průchodu cyklu jiná položka:
+            <ul>
+              <li>1. průchod: <code>fruit == "Apple"</code></li>
+              <li>2. průchod: <code>fruit == "Peach"</code></li>
+              <li>3. průchod: <code>fruit == "Pear"</code></li>
+            </ul>
+          </li>
+        </ul>
+
+        <p>Uvnitř cyklu můžeme dělat víc věcí, ne jen jeden <code>print()</code>:</p>
+
+<pre><code class="language-python">fruits = ["Apple", "Peach", "Pear"]
+
+for fruit in fruits:
+    print(fruit)
+    print(fruit + " pie")</code></pre>
+
+        <p>Výstup:</p>
+<pre><code>Apple
+Apple pie
+Peach
+Peach pie
+Pear
+Pear pie</code></pre>
+
+        <h6 class="mt-3">🔍 „Uvnitř“ vs „mimo“ cyklu (odsazení)</h6>
+        <p>Klíčový je rozdíl mezi kódem <em>uvnitř</em> a <em>mimo</em> cyklus. Rozhoduje <strong>odsazení</strong>:</p>
+
+<pre><code class="language-python">fruits = ["Apple", "Peach", "Pear"]
+
+for fruit in fruits:
+    print(fruit)
+    print(fruit + " pie")
+
+print(fruits)</code></pre>
+
+        <ul>
+          <li>Dva <code>print()</code> uvnitř cyklu (odsazené) se provedou třikrát – pro každé ovoce.</li>
+          <li><code>print(fruits)</code> už není odsazený → spustí se jen jednou, až cyklus skončí.</li>
+        </ul>
+
+        <div class="alert alert-info">
+          <strong>Tip:</strong> Pokud si nejsi jistý, co se v každém kroku děje, zkus si program pustit ve „step-by-step“ debuggeru (např. v Thonny). Uvidíš, jak se mění proměnná <code>fruit</code> při průchodech cyklem.
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
+<!-- MODAL: Součet a maximum v seznamu (sum() a max() „ručně“) -->
+<div class="modal fade" id="modalSumMaxTranscript" tabindex="-1" aria-labelledby="modalSumMaxTranscriptLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalSumMaxTranscriptLabel">Součet a maximum v seznamu (sum() a max() „ručně“)</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Python má hotové funkce <code>sum()</code> a <code>max()</code>, ale je dobré pochopit, jak by šly napsat „ručně“ pomocí <code>for</code> cyklu. Díky tomu lépe porozumíš tomu, co se v pozadí děje.</p>
 
+        <h6>Součet bodů – akumulátor</h6>
+<pre><code class="language-python">student_scores = [150, 142, 185, 120, 171, 199, 145, 168, 199]
 
-  <!-- Teoretický blok -->
- <div class="container my-4 p-4 border rounded bg-light">
-  <h4 class="mb-3">🔄 Cyklus <code>while</code> – podrobná teorie a procvičování</h4>
+total_score = 0
+for score in student_scores:
+    total_score += score
 
-  <h5>Co je cyklus <code>while</code>?</h5>
-  <p>
-    Cyklus <code>while</code> opakuje určitou část programu (blok příkazů) tak dlouho, dokud platí podmínka.<br>
-    Jinými slovy: <b>Stále dokola kontroluje, jestli je podmínka splněná. Pokud ano, provede příkazy uvnitř cyklu. Pokud ne, pokračuje dál.</b>
-  </p>
+print(total_score)</code></pre>
 
-  <pre><code>
-# Základní struktura:
-while podmínka:
-    příkazy uvnitř cyklu (odsazené)
-  </code></pre>
+        <ul>
+          <li><code>total_score</code> začíná na 0 a v každém průchodu se k němu přičte aktuální <code>score</code>.</li>
+          <li>Na konci cyklu obsahuje součet všech čísel – totéž, co by vrátilo <code>sum(student_scores)</code>.</li>
+        </ul>
 
-  <div class="alert alert-info">
-    <b>Jakmile se podmínka stane nepravdivou, cyklus skončí!</b>
+        <h6 class="mt-3">Hledání maxima – vlastní verze max()</h6>
+<pre><code class="language-python">student_scores = [150, 142, 185, 120, 171, 199, 145, 168, 199]
+
+max_score = 0
+for score in student_scores:
+    if score &gt; max_score:
+        max_score = score
+
+print(max_score)</code></pre>
+
+        <p>Logika je následující:</p>
+        <ol>
+          <li>Na začátku předpokládáme, že maximum je 0.</li>
+          <li>Procházíme všechna skóre. U každého testujeme, jestli je <code>score &gt; max_score</code>.</li>
+          <li>Pokud ANO, přepíšeme <code>max_score</code> na aktuální <code>score</code>.</li>
+          <li>Po průchodu seznamem zůstane v <code>max_score</code> největší hodnota.</li>
+        </ol>
+
+        <div class="alert alert-warning">
+          <strong>Poznámka pro pokročilejší:</strong> v ukázce se používá <code>max_score = 0</code>, protože všechna skóre jsou kladná. Pokud by list mohl obsahovat záporná čísla, je lepší inicializovat <code>max_score</code> na první prvek seznamu (např. <code>max_score = student_scores[0]</code>).
+        </div>
+
+        <p>Princip je stejný jako u vestavěných funkcí: tyhle „malé programy“ (součet, maximum…) jsou složené jen ze základních stavebních kamenů – proměnných, cyklů a podmínek.</p>
+      </div>
+    </div>
   </div>
+</div>
 
-  <h5>Příklad – Počítání do pěti</h5>
-  <pre><code>
-i = 1
-while i <= 5:
-    print(i)
-    i += 1
-  </code></pre>
-  <ul>
-    <li><b>Začínáš od jedničky:</b> <code>i = 1</code></li>
-    <li><b>Podmínka <code>i &lt;= 5</code></b>: cyklus běží, dokud je i menší nebo rovno pěti.</li>
-    <li><b>Při každém průchodu</b> vypíšeš hodnotu a počitadlo zvýšíš.</li>
-    <li><b>Když je i větší než 5, cyklus skončí.</b></li>
-  </ul>
+<!-- MODAL: range() + Gauss 1–100 -->
+<div class="modal fade" id="modalRangeGaussTranscript" tabindex="-1" aria-labelledby="modalRangeGaussTranscriptLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalRangeGaussTranscriptLabel">range() + Gaussův součet 1–100</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Funkce <code>range()</code> se často ukazuje na klasickém příkladu s matematikem Gaussem, který jako dítě spočítal součet 1 + 2 + ... + 100. Podívejme se, jak totéž udělá program.</p>
 
-  <div class="alert alert-warning mb-3">
-    <b>Tip:</b> Nezapomeň proměnnou v cyklu vždy správně měnit – jinak vznikne nekonečný cyklus!
+        <h6>Jak funguje range()</h6>
+<pre><code class="language-python">for number in range(1, 11):
+    print(number)</code></pre>
+
+        <ul>
+          <li><code>range(1, 11)</code> generuje čísla 1 až 10 – horní hranice se <strong>nepočítá</strong>.</li>
+          <li>Proměnná <code>number</code> postupně bere hodnoty 1, 2, 3, ..., 10.</li>
+        </ul>
+
+        <p>Range umí i „krok“ (step):</p>
+<pre><code class="language-python">for number in range(1, 11, 3):
+    print(number)</code></pre>
+        <p>Výstup: <code>1, 4, 7, 10</code> – začínáme na 1 a přičítáme 3.</p>
+
+        <h6 class="mt-3">Gaussova úloha: součet 1–100</h6>
+        <p>Součet čísel 1–100 můžeme spočítat přímo v kódu:</p>
+
+<pre><code class="language-python">total = 0
+for number in range(1, 101):  # 1 až 100 včetně
+    total += number
+
+print(total)  # 5050</code></pre>
+
+        <ul>
+          <li><code>range(1, 101)</code> vytvoří všechna čísla 1–100.</li>
+          <li><code>total</code> je akumulátor – v každém průchodu přičteme aktuální <code>number</code>.</li>
+          <li>Na konci vyjde 5050 – stejný výsledek, ke kterému Gauss došel matematickým trikem.</li>
+        </ul>
+
+        <div class="alert alert-success">
+          <strong>Mini–úkol:</strong> Uprav si kód tak, aby horní hranici načetl z <code>input()</code> (např. <code>n = int(input("Do jakého čísla mám sčítat? "))</code>) a sečetl čísla 1–n.
+        </div>
+      </div>
+    </div>
   </div>
+</div>
 
-  <hr>
-
-  <h5 class="mt-4">Cvičení 1 – Opakované výpisy ("Ahoj")</h5>
-  <p>
-    <b>Zadání:</b> Napiš program, který desetkrát vypíše slovo "Ahoj".<br>
-    <b>Jak na to?</b>
-    <ul>
-      <li>Použij proměnnou jako počitadlo (např. <code>pocet = 1</code>).</li>
-      <li>Nastav cyklus <code>while</code>, který poběží, dokud je počitadlo menší nebo rovno 10.</li>
-      <li>Po každém výpisu počitadlo zvětši (<code>pocet += 1</code>).</li>
-      <li>Zkus si do výpisu přidat i číslo aktuálního opakování (např. <code>Ahoj 1</code>, <code>Ahoj 2</code>...).</li>
-    </ul>
-    <div class="alert alert-info">Nápověda: Pokud si nevíš rady, napiš si na papír, jak se počitadlo mění v každém kole cyklu.</div>
-  </p>
-
-  <hr>
-
-  <h5 class="mt-4">Cvičení 2 – Odpočítávání (10 až 1)</h5>
-  <p>
-    <b>Zadání:</b> Napiš program, který odpočítá čísla od 10 do 1 a na konci vypíše "Start!".<br>
-    <b>Jak na to?</b>
-    <ul>
-      <li>Vytvoř proměnnou, která začíná na 10 (<code>odpocet = 10</code>).</li>
-      <li>Cyklus <code>while</code> poběží, dokud je <code>odpocet</code> větší nebo roven 1.</li>
-      <li>Po každém výpisu proměnnou zmenši o 1 (<code>odpocet -= 1</code>).</li>
-      <li>Po skončení cyklu vypiš <code>print("Start!")</code>.</li>
-    </ul>
-    <div class="alert alert-info">Nápověda: Zkus změnit výchozí hodnotu a podmínku – uvidíš, jak se výstup změní!</div>
-  </p>
-
-  <hr>
-
-  <h5 class="mt-4">Cvičení 3 – Zadání správného hesla</h5>
-  <p>
-    <b>Zadání:</b> Napiš program, který se stále dokola ptá na heslo, dokud uživatel nezadá správné heslo <b>"tajne"</b>. Pokud zadá správně, vypiš "Vítej!".<br>
-    <b>Jak na to?</b>
-    <ul>
-      <li>Před cyklem vytvoř proměnnou <code>heslo</code>, do které dáš např. prázdný řetězec.</li>
-      <li>Cyklem <code>while</code> opakuj dotaz na vstup, dokud heslo není "tajne".</li>
-      <li>Uvnitř cyklu vždy znovu načti hodnotu z <code>input()</code>.</li>
-      <li>Když je heslo správné, cyklus skončí a vypíšeš "Vítej!".</li>
-    </ul>
-    <div class="alert alert-info">Nápověda: Ověř si, že podmínka cyklu je správně – má běžet, když je heslo špatně!</div>
-  </p>
-
-  <hr>
-<!-- Doplnit spíš cvičení s menu-->
-  <h5 class="mt-4">Cvičení 4 – Dotaz na jméno s ukončením</h5>
-  <p>
-    <b>Zadání:</b> Napiš program, který se opakovaně ptá na jméno uživatele a vždy jej vypíše zpět. Program skončí, když uživatel zadá "konec".<br>
-    <b>Jak na to?</b>
-    <ul>
-      <li>Před cyklem vytvoř proměnnou <code>jmeno</code> s prázdným textem.</li>
-      <li>Cyklem <code>while</code> opakuj dotaz, dokud jméno není "konec".</li>
-      <li>Po zadání jména ho vypiš zpět na obrazovku (<code>print("Zadal jsi:", jmeno)</code>).</li>
-      <li>Jakmile uživatel zadá "konec", program skončí.</li>
-    </ul>
-    <div class="alert alert-info">Nápověda: Pozor na pořadí příkazů – nejprve zeptej se na vstup, až potom kontroluj podmínku!</div>
-  </p>
-
-  <hr>
-
-  <h5 class="mt-4">Cvičení 5 – Ověření správného vstupu</h5>
-  <p>
-    <b>Zadání:</b> Program se ptá uživatele na číslo mezi 1 a 10, dokud opravdu nezadá číslo v tomto rozsahu. Potom poděkuje a skončí.<br>
-    <b>Jak na to?</b>
-    <ul>
-      <li>Nejprve načti číslo od uživatele (<code>int(input(...))</code>).</li>
-      <li>Cyklus <code>while</code> má podmínku, že číslo není mezi 1 a 10 (<code>not (1 <= cislo <= 10)</code>).</li>
-      <li>Když číslo není v rozsahu, ptej se dál.</li>
-      <li>Jakmile je správné, vypiš poděkování a skonči.</li>
-    </ul>
-    <div class="alert alert-info">Nápověda: Pokud nefunguje, zkus si napsat na papír, jak vypadá proměnná cislo v každém průchodu cyklem.</div>
-  </p>
-
-  <hr>
-
-   <h5>❗ Nejčastější chyby s while cyklem</h5>
-  <ul>
-    <li>
-      <b>Nekonečný cyklus:</b> Pokud v těle cyklu <b>nezměníš hodnotu, na které závisí podmínka</b>, cyklus nikdy neskončí!<br>
-      <span class="text-danger">Například:</span>
-      <pre><code>
-x = 1
-while x < 5:
-    print(x)  # x se nikdy nezmění!
-      </code></pre>
-      <span class="text-muted">Cyklus nikdy neskončí, program se „zasekne“.</span>
-    </li>
-    <li>
-      <b>Pozor na správné porovnání:</b> <code>==</code> pro rovnost, <code>!=</code> pro nerovnost.
-    </li>
-    <li>
-      <b>Porovnávání špatných typů:</b>  
-      Pokud se pokusíš porovnávat text s číslem, Python vypíše chybu.<br>
-    
-      <pre><code>
-slovo = "Ahoj"
-while slovo <= 10:  # nelze porovnat text a číslo!
-    print(slovo)
-    slovo = slovo
-      </code></pre>
-      <span class="text-muted">Výsledek: <b>TypeError</b> – Python neví, jak porovnat text a číslo.</span>
-    </li>
-    <li>
-      <b>Špatná podmínka cyklu – cyklus se nikdy nespustí:</b><br>
-      Když podmínka není splněná hned na začátku, cyklus ani nezačne.
-      <pre><code>
-odpocet = 10
-while odpocet <= 0:   # 10 není <= 0, cyklus vůbec neběží
-    print(odpocet)
-    odpocet -= 1
-      </code></pre>
-      <span class="text-muted">Výsledek: Program nic nevypíše, protože cyklus nezačne.</span>
-    </li>
-    <li>
-      <b>Zapomenuté zvětšování/zmenšování počitadla:</b>  
-      Pokud v cyklu nezměníš hodnotu počitadla, cyklus nikdy neskončí (viz první příklad).
-    </li>
-  </ul>
-
-  </section>
-  
