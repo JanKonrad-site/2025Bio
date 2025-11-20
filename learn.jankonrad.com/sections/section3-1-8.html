@@ -2,167 +2,341 @@
 <!-- 3.1.7 – ČÁST 1: ŠÍŘKA/VÝŠKA, JEDNOTKY, PARENT–CHILD -->
 <section id="css-317-part1" class="container my-5">
 
+  <!-- ========================================= -->
+<!-- 3.1.7 (1/6) Rozměry prvků: width, height, px vs % – verze pro výstup studentů -->
+<section id="css-317-part1" class="container my-5">
+
   <h3 class="mb-4">3.1.7 (1/6) Rozměry prvků: width, height, px vs %</h3>
 
   <!-- Teorie (krátce) -->
   <div class="container my-4 p-4 border rounded bg-white">
     <p>
-      Blokové prvky (např. <code>&lt;div&gt;</code>) bez stylů vyplní šířku kontejneru (řádku) a výška se přizpůsobí obsahu.
-      Rozměry řídí <code>width</code> (šířka) a <code>height</code> (výška). Jednotky:
-      <strong>px</strong> (pevné) a <strong>%</strong> (relativní k rodiči).
+      Blokové prvky (např. <code>&lt;div&gt;</code>) bez stylů vyplní šířku řádku; výška se přizpůsobí obsahu.
+      Rozměry řídí <code>width</code> (šířka) a <code>height</code> (výška).
+      Jednotky: <strong>px</strong> (pevné) a <strong>%</strong> (relativní k rodiči).
     </p>
     <button class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#modalUnits">📏 Jednotky</button>
-    <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalParentChild">👨‍👧 Parent–Child</button>
+    <button class="btn btn-outline-secondary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#modalParentChild">👨‍👧 Parent–Child</button>
+    <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalGridCenter">🎯 Grid: place-items</button>
   </div>
 
-  <!-- Modal: Jednotky -->
-  <div class="modal fade" id="modalUnits" tabindex="-1" aria-labelledby="modalUnitsLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header"><h5 class="modal-title" id="modalUnitsLabel">Jednotky v CSS</h5>
-          <button class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-          <ul class="mb-3">
-            <li><strong>px</strong> – pevná velikost (nemění se se šířkou okna).</li>
-            <li><strong>%</strong> – relativní k rozměru <em>rodiče</em> (u <code>height:%</code> musí mít rodič výšku).</li>
-          </ul>
-          <p><strong>Příklad:</strong> <code>.box { width: 400px; height: 400px; }</code> → čtverec 400×400 px.  
-             <code>.box { width: 50%; }</code> → polovina šířky svého rodiče.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal: Parent–Child -->
-  <div class="modal fade" id="modalParentChild" tabindex="-1" aria-labelledby="modalParentChildLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header"><h5 class="modal-title" id="modalParentChildLabel">Vztah rodič–dítě (Parent–Child)</h5>
-          <button class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-<pre><code>&lt;div class="parent"&gt;
-  &lt;div class="child"&gt;Dítě&lt;/div&gt;
-&lt;/div&gt;</code></pre>
-          <ul>
-            <li>Procenta (<code>%</code>) se vztahují k rozměrům <strong>parenta</strong>.</li>
-            <li>U <code>height:%</code> musí mít parent výšku (jinak není z čeho počítat).</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Akordeony: postup práce -->
-  <h4 class="mt-5 mb-3">Praktická cvičení (krok za krokem)</h4>
+  <!-- ========================= -->
+  <!-- Akordeony: krok za krokem -->
+  <h4 class="mt-5 mb-3">Praktická cvičení (HTML → CSS)</h4>
   <div class="accordion" id="acc-317-p1">
 
-    <!-- Krok 1: HTML základ -->
+    <!-- 1) Pevný box 400×400 px (HTML) -->
     <div class="accordion-item">
       <h2 class="accordion-header" id="p1-h1">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#p1-c1">1️⃣ Vytvoř základní HTML</button>
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#p1-c1">
+          1️⃣ HTML: Pevný box v px (400 × 400)
+        </button>
       </h2>
       <div id="p1-c1" class="accordion-collapse collapse show" data-bs-parent="#acc-317-p1">
         <div class="accordion-body">
-          <p>Otevři <code>index.html</code> a do <code>&lt;body&gt;</code> vlož:</p>
+          <p>Do <code>index.html</code> vlož část „výstupu studentů“:</p>
 <pre><code>&lt;section class="demo-wrap"&gt;
-  &lt;h4&gt;Šířka a výška – px vs %&lt;/h4&gt;
 
-  &lt;div class="example-1"&gt;Pevný box v px&lt;/div&gt;
+  &lt;h3&gt;1) Pevný box v px&lt;/h3&gt;
+  &lt;div class="example-1"&gt;400 × 400 px&lt;/div&gt;
 
-  &lt;div class="parent"&gt;
-    &lt;div class="child"&gt;Dítě (výška v %)&lt;/div&gt;
-  &lt;/div&gt;
-&lt;/section&gt;
-</code></pre>
+&lt;/section&gt;</code></pre>
         </div>
       </div>
     </div>
 
-    <!-- Krok 2: CSS pro pevné rozměry -->
+    <!-- 2) Pevný box 400×400 px (CSS) -->
     <div class="accordion-item">
       <h2 class="accordion-header" id="p1-h2">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p1-c2">2️⃣ Styl: pevné px (400×400)</button>
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p1-c2">
+          2️⃣ CSS: Pevný box v px (400 × 400)
+        </button>
       </h2>
       <div id="p1-c2" class="accordion-collapse collapse" data-bs-parent="#acc-317-p1">
         <div class="accordion-body">
-          <p>Otevři <code>style.css</code> a přidej:</p>
-<pre><code>body { margin: 0; padding: 0; font-family: system-ui, sans-serif; }
+          <p>Do <code>styles.css</code> přidej základ a box:</p>
+<pre><code>body { 
+  margin: 0; 
+  padding: 0; 
+  font-family: system-ui, sans-serif;
+}
+
 .demo-wrap { padding: 16px; }
 
+/* 1) Pevná velikost */
 .example-1 {
   width: 400px;
   height: 400px;
   background: steelblue;
   color: white;
-  display: grid; place-items: center;   /* jen aby byl text uprostřed */
+  display: grid; 
+  place-items: center;    /* zarovnání textu doprostřed (X i Y) */
   margin-bottom: 16px;
 }</code></pre>
-          <p>Výsledek: modrý čtverec 400×400 px bez ohledu na velikost okna.</p>
+          <p class="small mb-0">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#modalGridCenter">Co dělá <code>display:grid; place-items:center;</code>?</a>
+          </p>
         </div>
       </div>
     </div>
 
-    <!-- Krok 3: CSS pro parent 50% a child 50% výšky -->
+    <!-- 3) Parent–Child: dítě s výškou 50 % (HTML) -->
     <div class="accordion-item">
       <h2 class="accordion-header" id="p1-h3">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p1-c3">3️⃣ Styl: % relativní k rodiči</button>
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p1-c3">
+          3️⃣ HTML: Parent–Child (dítě má 50 % výšky rodiče)
+        </button>
       </h2>
       <div id="p1-c3" class="accordion-collapse collapse" data-bs-parent="#acc-317-p1">
         <div class="accordion-body">
-          <p>Přidej styly pro parent/child. Pozor: aby <code>height: %</code> fungovala, musí mít parent výšku.</p>
-<pre><code>.parent {
-  width: 50%;           /* polovina šířky okna (rodič je body/section) */
-  height: 200px;        /* pevná výška → dítě může mít % výšku */
-  background: lightgreen;
-  margin-bottom: 12px;
-}
-
-.child  {
-  width: 150px;         /* pevná šířka dítěte */
-  height: 50%;          /* polovina výšky parenta = 100 px */
-  background: lightskyblue;
-  display: grid; place-items: center;
-}</code></pre>
-          <p>Zúž okno prohlížeče: <code>.parent</code> reaguje (50&nbsp;% šířky), <code>.child</code> drží 150&nbsp;px šířku a 50&nbsp;% výšky parenta.</p>
+          <p>Do <code>index.html</code> dál přidej:</p>
+<pre><code>&lt;h3&gt;2) Dítě s výškou 50 %&lt;/h3&gt;
+&lt;div class="parent"&gt;
+  &lt;div class="child"&gt;50 % = 100 px&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          <div class="alert alert-info mt-3">
+            <strong>Vysvětlení:</strong> Pro <code>height: 50%</code> u dítěte musí mít <em>rodič</em> definovanou výšku (např. 200 px).
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Krok 4: Mini kontrola pochopení -->
+    <!-- 4) Parent–Child: dítě s výškou 50 % (CSS) -->
     <div class="accordion-item">
       <h2 class="accordion-header" id="p1-h4">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p1-c4">4️⃣ Kontrola: proč někdy % výška „nefunguje“?</button>
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p1-c4">
+          4️⃣ CSS: Parent–Child (50 % výšky)
+        </button>
       </h2>
       <div id="p1-c4" class="accordion-collapse collapse" data-bs-parent="#acc-317-p1">
         <div class="accordion-body">
+          <p>Do <code>styles.css</code> přidej:</p>
+<pre><code>/* 2) Parent s pevnou výškou, dítě s výškou v % */
+.parent {
+  width: 50%;
+  height: 200px;          /* pevná výška → dítě může mít % výšku */
+  background: lightgreen;
+  margin-bottom: 16px;
+}
+
+/* Child s výškou 50 % → = 100 px */
+.child {
+  width: 150px;           /* pevná šířka dítěte */
+  height: 50%;            /* 50 % z výšky parenta = 100 px */
+  background: lightskyblue;
+  display: grid; 
+  place-items: center;
+}</code></pre>
+          <p class="small">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#modalParentChild">Proč je výška v % závislá na rodiči?</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5) Box v boxu: 100 % × 100 % (HTML) -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p1-h5">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p1-c5">
+          5️⃣ HTML: Box uvnitř boxu (100 % × 100 %)
+        </button>
+      </h2>
+      <div id="p1-c5" class="accordion-collapse collapse" data-bs-parent="#acc-317-p1">
+        <div class="accordion-body">
+          <p>Do <code>index.html</code> přidej třetí blok:</p>
+<pre><code>&lt;h3&gt;3) Box uvnitř boxu: 100 % &lt;/h3&gt;
+&lt;div class="example-2"&gt;
+  &lt;div class="example-3"&gt;100 %&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          <div class="alert alert-info mt-3">
+            <strong>Idea:</strong> <code>.example-3</code> má vyplnit rodiče <code>.example-2</code> na 100 % šířky i výšky.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6) Box v boxu: 100 % × 100 % (CSS) -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p1-h6">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p1-c6">
+          6️⃣ CSS: Box uvnitř boxu (100 % × 100 %)
+        </button>
+      </h2>
+      <div id="p1-c6" class="accordion-collapse collapse" data-bs-parent="#acc-317-p1">
+        <div class="accordion-body">
+          <p>Do <code>styles.css</code> přidej:</p>
+<pre><code>/* 3) Rodič pro 100 % */
+.example-2 {
+  width: 400px;
+  height: 400px;
+  background: #447aa4;
+  color: white;
+}
+
+/* Dítě: vyplň rodiče na 100 % */
+.example-3 {
+  width: 100%;
+  height: 100%;
+  background: lightgreen;
+  display: grid; 
+  place-items: center;
+}</code></pre>
+          <p class="small mb-0">
+            💡 100 % šířka/výška dítěte se odvíjí od <em>aktuálního content boxu</em> rodiče.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7) Grid — zarovnání obsahu (HTML) -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p1-h7">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p1-c7">
+          7️⃣ HTML: Grid – ukázka vertikálního zarovnání
+        </button>
+      </h2>
+      <div id="p1-c7" class="accordion-collapse collapse" data-bs-parent="#acc-317-p1">
+        <div class="accordion-body">
+          <p>Do <code>index.html</code> přidej dvě ukázky gridu (jen pro <em>zarovnání textu</em>):</p>
+<pre><code>&lt;h3&gt;Grid systém&lt;/h3&gt;
+&lt;div class="grid-example1"&gt;Y nahoře, X uprostřed&lt;/div&gt;
+&lt;div class="grid-example2"&gt;Y dole, X uprostřed&lt;/div&gt;</code></pre>
+          <p class="small mb-0">
+            Grid tu nepoužíváme pro layout stránky, ale jen pro <em>pohodlné zarovnání obsahu</em>.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8) Grid — zarovnání obsahu (CSS) -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p1-h8">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p1-c8">
+          8️⃣ CSS: Grid – place-items: start/end center
+        </button>
+      </h2>
+      <div id="p1-c8" class="accordion-collapse collapse" data-bs-parent="#acc-317-p1">
+        <div class="accordion-body">
+          <p>Do <code>styles.css</code> přidej:</p>
+<pre><code>/* Grid systém – jen pro zarovnání obsahu (ne layout stránky) */
+.grid-example1 {
+  width: 400px;
+  height: 400px;
+  background: #b4dc3c;
+  display: grid;
+  place-items: start center;  /* Y nahoru, X doprostřed */
+  margin-bottom: 16px;
+}
+
+.grid-example2 {
+  width: 400px;
+  height: 400px;
+  background: #b4dc3c;
+  display: grid;
+  place-items: end center;    /* Y dolů, X doprostřed */
+  margin-bottom: 16px;
+}</code></pre>
+          <p class="small mb-0">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#modalGridCenter">Více o <code>place-items</code> v modálu</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9) Kontrolní otázky k parent–child -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="p1-h9">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#p1-c9">
+          9️⃣ Rychlá kontrola: proč někdy výška v % „nefunguje“?
+        </button>
+      </h2>
+      <div id="p1-c9" class="accordion-collapse collapse" data-bs-parent="#acc-317-p1">
+        <div class="accordion-body">
           <ul class="mb-2">
             <li><strong>Protože rodič nemá výšku.</strong> Procentuální výška musí z něčeho počítat.</li>
-            <li>Řešení: dej rodiči <code>height</code> v px (nebo v % až od kořene s definovanou výškou).</li>
+            <li>Řešení: nastav rodiči <code>height</code> (px) nebo <code>html, body { height: 100%; }</code> a řetěz procent navrch.</li>
           </ul>
-          <p class="small text-muted mb-0">Tip: <code>html, body { height: 100%; }</code> umožní později pracovat s výškami v % od celé stránky.</p>
         </div>
       </div>
     </div>
 
   </div>
 
-  <!-- Shrnutí části 1 -->
+  <!-- Shrnutí -->
   <div class="container my-4 p-4 border rounded bg-light">
     <h5 class="mb-2">📘 Shrnutí (část 1)</h5>
     <ul class="mb-0">
-      <li><code>width/height</code> řídí rozměry; <strong>px</strong> = pevné, <strong>%</strong> = relativní k rodiči.</li>
+      <li><code>width/height</code>: <strong>px</strong> = pevné, <strong>%</strong> = relativní k rodiči.</li>
       <li>U <code>height:%</code> musí mít parent výšku.</li>
-      <li>Vyzkoušeli jsme: pevný box 400×400 px a parent (50&nbsp;% šířky) s child (50&nbsp;% výšky).</li>
+      <li>Vyzkoušeno: pevný box 400×400 px, parent (50 % šířky) s child (50 % výšky), a dítě vyplňující rodiče na 100 %.</li>
+      <li><code>display:grid; place-items: …</code> používáme jen pro <em>zarovnání obsahu</em>.</li>
     </ul>
   </div>
-
 </section>
-<!-- ========================================= -->
-<!-- 3.1.7 – ČÁST 2: RÁMEČKY (BORDER) -->
-<section id="css-317-part2" class="container my-5">
 
+<!-- =============================== -->
+<!-- MODAL: Jednotky -->
+<div class="modal fade" id="modalUnits" tabindex="-1" aria-labelledby="modalUnitsLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title" id="modalUnitsLabel">Jednotky v CSS</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="mb-3">
+          <li><strong>px</strong> – pevná velikost (stabilní, nereaguje na šířku okna).</li>
+          <li><strong>%</strong> – relativní k <em>rodiči</em> (u <code>height:%</code> musí mít rodič výšku).</li>
+        </ul>
+        <p><strong>Příklad:</strong> <code>.box { width: 400px; height: 400px; }</code> → 400×400 px.  
+           <code>.box { width: 50%; }</code> → polovina šířky rodiče.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Parent–Child -->
+<div class="modal fade" id="modalParentChild" tabindex="-1" aria-labelledby="modalParentChildLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title" id="modalParentChildLabel">Vztah rodič–dítě (Parent–Child)</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+<pre><code>&lt;div class="parent"&gt;
+  &lt;div class="child"&gt;Dítě&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        <ul class="mb-2">
+          <li><strong>%</strong> se vztahují k rozměrům <em>parenta</em>.</li>
+          <li>U <code>height:%</code> musí být výška parenta známa (px, rem, nebo řetězec % od kořene).</li>
+        </ul>
+        <p class="small mb-0">Pozn.: Šířka v % se obvykle odvíjí od šířky parenta automaticky (proto 50 % funguje hned), ale výška nikoli.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Grid centrování -->
+<div class="modal fade" id="modalGridCenter" tabindex="-1" aria-labelledby="modalGridCenterLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title" id="modalGridCenterLabel">🎯 Grid: rychlé zarovnání obsahu</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p><code>display: grid;</code> + <code>place-items</code> slouží k pohodlnému zarovnání vnitřku prvku (ne k rozvržení celé stránky):</p>
+<pre><code>/* X i Y doprostřed */
+.box { display: grid; place-items: center; }
+
+/* Y nahoru, X doprostřed */
+.box { display: grid; place-items: start center; }
+
+/* Y dolů, X doprostřed */
+.box { display: grid; place-items: end center; }</code></pre>
+        <p class="small mb-0">Alternativa: <code>display:flex; align-items:center; justify-content:center;</code></p>
+      </div>
+    </div>
+  </div>
+</div>
   <h3 class="mb-4">3.1.7 (2/6) Rámečky – tloušťka, styl, barva + různé strany</h3>
 
   <!-- Teorie (krátce) -->

@@ -1,6 +1,6 @@
 <!-- ========================================= 
-     4.1.7 Funkce – učebnice pro začátečníky
-     (končí bezpečným načtením celého čísla)
+     4.4.1 Funkce, parametry, návratové hodnoty,
+           bloky kódu, odsazení + Reeborg
      ========================================= -->
 <section id="section4-4-1" class="container my-5">
   <style>
@@ -14,221 +14,398 @@
     pre code{white-space:pre}
   </style>
 
-  <h3 class="mb-4">4.4.1 Funkce krok za krokem</h3>
+  <h3 class="mb-4">4.4.1 Funkce, parametry, bloky kódu a odsazení</h3>
 
+  <!-- Úvod / co se naučíš -->
   <div class="container my-4 p-4 border rounded bg-light">
     <h4 class="mb-3">Co se naučíš?</h4>
     <ul class="mb-3">
-      <li>Co je to <b>funkce</b>, co dělají <b>závorky</b> při volání.</li>
-      <li><b>Parametry</b> a <b>argumenty</b>, pojmenované argumenty a výchozí hodnoty.</li>
-      <li><b>Návratová hodnota</b>, rozdíl <code>return</code> vs. <code>print</code>.</li>
-      <li>Co je <b>n-tice (tuple)</b>, jak ji <em>zabalit</em> a <em>rozbalit</em> (unpacking).</li>
-      <li>Funkce jako <b>hodnoty</b> (uložit → předat → zavolat).</li>
-      <li>Bezpečné načítání čísel: <code>try</code> / <code>except</code> / <code>continue</code> a validace pro <b>celé číslo</b>.</li>
+      <li>Co je <strong>funkce</strong>, jak se <strong>definuje</strong> a jak se <strong>volá</strong>.</li>
+      <li>Co jsou <strong>parametry</strong> a <strong>argumenty</strong> (včetně pojmenovaných a výchozích).</li>
+      <li>Rozdíl mezi <strong>return</strong> a <strong>print</strong> a jak pracovat s <strong>n-ticí (tuple)</strong>.</li>
+      <li>Co je <strong>blok kódu</strong> v Pythonu a proč je kritické správné <strong>odsazení</strong>.</li>
+      <li>Jak si pomocí funkcí zkrátit opakující se kód (např. s robotem Reeborg).</li>
+      <li>Jak fungují <strong>4 mezery</strong> podle PEP8 a proč nepoužívat tabulátory.</li>
     </ul>
-    <div class="tip"><strong>Tip:</strong> Čti pomalu, zkoušej kódy v malých krocích a hned si je uprav podle sebe.</div>
+    <div class="tip mb-2">
+      <strong>Tip:</strong> Funkce jsou „stavební kostky“ programování. V dalších kapitolách už je budeš používat pořád.
+    </div>
   </div>
 
-  <!-- =================================
-       1) Definice a volání – závorky
-       ================================= -->
-  <div class="container my-4 p-4 border rounded">
-    <h4 class="mb-3">1) Co je funkce a co dělají závorky</h4>
+  <!-- Rychlé odkazy na teorii v modálech -->
+  <div class="d-flex flex-wrap gap-2 mb-4">
+    <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalFunctionsBasics">
+      🔍 Co je funkce
+    </button>
+    <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalParameters">
+      🔡 Parametry a argumenty
+    </button>
+    <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalReturn">
+      🔁 Return vs. Print (tuple)
+    </button>
+    <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalIndent">
+      📐 Odsazení a bloky kódu
+    </button>
+    <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalReeborg">
+      🤖 Reeborg
+    </button>
+  </div>
 
-    <p><b>Funkce</b> je pojmenovaný blok kódu. <em>Definice</em> funkce ji vytvoří. <em>Volání</em> funkce ji spustí.</p>
-<pre><code class="language-python"># definice
-def ahoj():
+  <!-- ================================
+       AKORDEON – praktická cvičení
+       ================================ -->
+  <div class="accordion" id="acc441">
+
+    <!-- 1) Základy funkcí -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h441-1">
+        <button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#c441-1">
+          1) Základní funkce – definice vs. volání
+        </button>
+      </h2>
+      <div id="c441-1" class="accordion-collapse collapse show" data-bs-parent="#acc441">
+        <div class="accordion-body">
+          <p>Funkce je pojmenovaný blok kódu. Nejprve ji <strong>definuješ</strong>, pak <strong>voláš</strong>.</p>
+
+<pre><code class="language-python">def ahoj():
     print("Ahoj!")
+    print("Vítej ve funkcích.")
 
-# volání (závorky spouští kód uvnitř)
-ahoj()</code></pre>
+ahoj()   # volání funkce (spustí kód uvnitř)
+</code></pre>
 
-    <ul class="mb-3">
-      <li><span class="mono">def ahoj():</span> &rarr; vznikne „krabička“ s kódem.</li>
-      <li><span class="mono">ahoj()</span> &rarr; krabičku použiji (spustí se <span class="mono">print</span>).</li>
-      <li><span class="mono">ahoj</span> (bez závorek) je jen <em>odkaz</em> na funkci, nic nespouští.</li>
-    </ul>
+          <div class="ok">
+            <strong>Mini-úkol:</strong> Napiš funkci <span class="mono">uvod()</span>, která vypíše 2 různé hlášky. Zavolej ji dvakrát.
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <div class="ok"><b>Mini-úkol:</b> Napiš funkci <span class="mono">program_bezi()</span>, která dvakrát vytiskne „Program běží“, a zavolej ji.</div>
-  </div>
+    <!-- 2) Parametry a argumenty -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h441-2">
+        <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#c441-2">
+          2) Parametry a argumenty – funkce se vstupy
+        </button>
+      </h2>
+      <div id="c441-2" class="accordion-collapse collapse" data-bs-parent="#acc441">
+        <div class="accordion-body">
 
-  <!-- =========================================
-       2) Parametry × argumenty, pojmenované, výchozí
-       ========================================= -->
-  <div class="container my-4 p-4 border rounded bg-light">
-    <h4 class="mb-3">2) Parametry a argumenty (+ pojmenované a výchozí)</h4>
-
-<pre><code class="language-python">def soucet(a, b):    # a, b = parametry (místo pro hodnoty)
-    print(a + b)
-
-soucet(2, 3)         # poziční argumenty
-soucet(a=2, b=3)     # pojmenované argumenty
-soucet(b=10, a=1)    # pořadí teď nevadí
-
-def pozdrav(jmeno="Student"):   # výchozí argument
+<pre><code class="language-python">def pozdrav(jmeno):
     print("Ahoj", jmeno)
 
-pozdrav()                         # Ahoj Student
-pozdrav("Jan")                    # Ahoj Jan
-pozdrav(jmeno=input("Zadejte své jméno: "))</code></pre>
+pozdrav("Anna")         # argument
+pozdrav(jmeno="Jan")    # pojmenovaný argument
 
-    <ul class="mb-3">
-      <li><b>Parametr</b> = název „škatulky“ ve funkci. <b>Argument</b> = hodnota při volání.</li>
-      <li><b>Pojmenované</b> argumenty zvyšují čitelnost a brání záměnám.</li>
-      <li><b>Výchozí</b> hodnota dělá parametr volitelný.</li>
-    </ul>
+def info(jmeno="Student", vek=16):
+    print(jmeno, "má", vek, "let")
 
-    <div class="warn"><b>Pozor:</b> Jako výchozí hodnotu nepoužívej měnitelná data (<span class="mono">list</span>, <span class="mono">dict</span>). Místo toho použij <span class="mono">None</span> a uvnitř vytvoř novou instanci.</div>
+info()
+info("Pavel", 19)
+info(vek=25)
+</code></pre>
 
-    <div class="ok mt-3"><b>Mini-úkol:</b> Vytvoř <span class="mono">pozdrav_podruhe(jmeno, vek)</span> a zavolej ji jak pozičně, tak pojmenovaně.</div>
-  </div>
-
-  <!-- =========================================
-       3) Return vs print, n-tice a rozbalování
-       ========================================= -->
-  <div class="container my-4 p-4 border rounded">
-    <h4 class="mb-3">3) Návratová hodnota, n-tice (tuple) a rozbalování</h4>
-
-    <p><code>print()</code> jen zobrazí. <code>return</code> <em>vrací data</em> zpět volajícímu (lze je uložit, počítat s nimi, předat dál).</p>
-<pre><code class="language-python">def soucet_podruhe(a, b):
-    return a + b          # vracím výsledek
-
-x = soucet_podruhe(5, 7)
-y = soucet_podruhe(10, 15)
-print(x + y)</code></pre>
-
-    <h5 class="mt-3">Co je n-tice (tuple)?</h5>
-    <p>N-tice je <b>neměnitelná</b> (immutable) seřazená kolekce hodnot, zapisuje se např. <span class="mono">(1, "A", True)</span>.</p>
-<pre><code class="language-python">def min_max(a, b):
-    # při 'return A, B' Python vrací JEDNU hodnotu typu tuple: (A, B)
-    return min(a, b), max(a, b)
-
-mensi, vetsi = min_max(8, 3)   # rozbalení (unpacking)
-print(mensi, vetsi)</code></pre>
-
-    <div class="tip">
-      <b>N-tice – důležité detaily:</b>
-      <ul class="mb-0 mono">
-        <li><b>Zabalení:</b> <code>return a, b</code> ≡ <code>return (a, b)</code> (vrací se tuple).</li>
-        <li><b>Rozbalení:</b> <code>x, y = min_max(...)</code> – počet položek musí sedět, jinak <code>ValueError</code>.</li>
-        <li><b>Jednoprvková n-tice:</b> <code>(42,)</code> – čárka je povinná, jinak je to jen číslo 42.</li>
-        <li><b>Hvězdička:</b> <code>a, *stred, z = (1,2,3,4,5)</code> → <code>a=1</code>, <code>stred=[2,3,4]</code>, <code>z=5</code>.</li>
-        <li><b>N-tice je neměnitelná:</b> měníš až novou n-tici, ne „uvnitř“ staré.</li>
-      </ul>
+          <div class="ok">
+            <strong>Mini-úkol:</strong> Napiš funkci <span class="mono">soucin(a, b)</span>, která vypíše součin dvou čísel.
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="ok mt-3"><b>Mini-úkol:</b> Napiš <span class="mono">kalkulacka()</span>, která z <span class="mono">input()</span> načte <span class="mono">a</span> a <span class="mono">b</span>, vrátí n-tici <span class="mono">(součet, rozdíl, součin, podíl)</span> a rozbal ji do <span class="mono">s, r, c, p</span>. (Pro jednoduchost předpokládej, že <span class="mono">b != 0</span>.)</div>
+    <!-- 3) Return + tuple -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h441-3">
+        <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#c441-3">
+          3) Návratová hodnota a n-tice
+        </button>
+      </h2>
+      <div id="c441-3" class="accordion-collapse collapse" data-bs-parent="#acc441">
+        <div class="accordion-body">
 
-<pre class="mt-2"><code class="language-python">def kalkulacka():
-    a = int(input("Zadejte první číslo: "))
-    b = int(input("Zadejte druhé číslo: "))
+<pre><code class="language-python">def vypocet(a, b):
     soucet = a + b
     rozdil = a - b
-    soucin = a * b
-    podil = a / b
-    return soucet, rozdil, soucin, podil   # zabalení do tuple
+    return soucet, rozdil   # tuple
 
-s, r, c, p = kalkulacka()                  # rozbalení
-print(f"Součet: {s}")
-print(f"Rozdíl: {r}")
-print(f"Součin: {c}")
-print(f"Podíl: {p}")</code></pre>
-  </div>
+s, r = vypocet(10, 4)
+print("Součet:", s)
+print("Rozdíl:", r)
+</code></pre>
 
-  <!-- =========================================
-       4) Funkce jako hodnoty (uložit, předat, zavolat)
-       ========================================= -->
-  <div class="container my-4 p-4 border rounded bg-light">
-    <h4 class="mb-3">4) Funkce jako hodnoty</h4>
+        <div class="ok"><strong>Mini-úkol:</strong> Napiš funkci <span class="mono">statistika(x, y)</span>, která vrací n-tici: <span class="mono">(součet, průměr)</span>.</div>
 
-    <p>Jméno funkce bez závorek je <em>hodnota</em> (odkaz). Lze uložit do proměnné nebo struktury a zavolat později.</p>
-<pre><code class="language-python">def soucet_po_treti(a, b): return a + b
-def rozdil_po_treti(a, b): return a - b
-
-Soucet = soucet_po_treti        # uložím odkaz (bez závorek!)
-Rozdil = rozdil_po_treti
-
-operace = {"plus": Soucet, "minus": Rozdil}
-print( operace["plus"](3, 9) )    # 12
-print( operace["minus"](3, 9) )   # -6</code></pre>
-
-    <div class="ok"><b>Mini-úkol:</b> Přidej funkci <span class="mono">soucin(a,b)</span> a registruj ji jako <span class="mono">"krat"</span>.</div>
-  </div>
-
-  <!-- =========================================
-       5) Try / Except / Continue – načtení čísla (float)
-       ========================================= -->
-  <div class="container my-4 p-4 border rounded">
-    <h4 class="mb-3">5) Bezpečné načtení čísla (float) – <code>try</code> / <code>except</code> / <code>continue</code></h4>
-
-<pre><code class="language-python">def nacti_cislo():
-    while True:
-        try:
-            cislo = float(input("Zadejte číslo: "))
-            return cislo            # úspěch → konec funkce
-        except ValueError:
-            print("Neplatný vstup, zadejte prosím číslo.")
-            # smyčka pokračuje dál (efekt 'continue') a zeptá se znovu
-
-cislo_uzivatele = nacti_cislo()
-print(f"Zadal jste číslo: {cislo_uzivatele}")</code></pre>
-
-    <div class="tip"><b>Co se děje krok za krokem:</b>
-      <ol class="mb-0 mono">
-        <li><b>try</b>: pokus o převod <code>float(input(...))</code>.</li>
-        <li>Úspěch → <code>return</code> vrátí hodnotu a funkce skončí.</li>
-        <li>Chyba → vyvolá se <code>ValueError</code>, přeskočí se do <b>except</b>.</li>
-        <li><b>except</b>: vypíšu hlášku, smyčka jede dál a ptá se znovu (efektivně <code>continue</code>).</li>
-      </ol>
+        </div>
+      </div>
     </div>
 
-    <div class="ok mt-3"><b>Cvičení:</b> Vytvoř <span class="mono">nacti_dve_cisla()</span>, která volá <span class="mono">nacti_cislo()</span> dvakrát a vrátí n-tici <span class="mono">(x, y)</span>. N-tici rozbal do <span class="mono">x, y</span> a vypiš.</div>
+    <!-- 4) Odsazení a bloky -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h441-4">
+        <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#c441-4">
+          4) Odsazení, bloky kódu a časté chyby
+        </button>
+      </h2>
+      <div id="c441-4" class="accordion-collapse collapse" data-bs-parent="#acc441">
+        <div class="accordion-body">
+
+<pre><code class="language-python">def pocasi(sky):
+    if sky == "clear":
+        print("Je jasno.")
+    else:
+        print("Není jasno.")
+
+print("Hotovo.")  # mimo funkci (žádné odsazení)
+</code></pre>
+
+          <div class="warn">
+            Pozor! Směšování mezer a tabů způsobí chybu:<br>
+            <span class="mono">IndentationError: unexpected indent</span>
+          </div>
+
+          <div class="ok mt-2">
+            <strong>Mini-úkol:</strong> Oprav následující kód tak, aby fungoval:<br>
+<pre><code class="language-python">def test():
+print("Ahoj")
+  print("Svět")
+</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5) Reeborg – krátká cvičení -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h441-5">
+        <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#c441-5">
+          5) Reeborg – mini projekty s funkcemi
+        </button>
+      </h2>
+      <div id="c441-5" class="accordion-collapse collapse" data-bs-parent="#acc441">
+        <div class="accordion-body">
+          <p>Otevři si:  
+          <a href="https://reeborg.ca/reeborg.html" target="_blank">https://reeborg.ca/reeborg.html</a></p>
+
+          <h5>A) turn_right() a turn_around()</h5>
+<pre><code class="language-python">def turn_right():
+    turn_left()
+    turn_left()
+    turn_left()
+</code></pre>
+
+          <h5>B) Čtverec</h5>
+<pre><code class="language-python">def turn_right():
+    turn_left()
+    turn_left()
+    turn_left()
+
+for i in range(4):
+    move()
+    turn_right()
+</code></pre>
+
+          <h5>C) Hurdle 1 – jump()</h5>
+          <a href="https://reeborg.ca/reeborg.html?world=hurdles1" target="_blank">Otevřít Hurdle 1 →</a>
+
+<pre><code class="language-python">def turn_right():
+    turn_left()
+    turn_left()
+    turn_left()
+
+def jump():
+    move()
+    turn_left()
+    move()
+    turn_right()
+    move()
+    turn_right()
+    move()
+    turn_left()
+
+for i in range(6):
+    jump()
+</code></pre>
+        </div>
+      </div>
+    </div>
+
   </div>
 
-  <!-- =========================================
-       6) Finále: bezpečné načtení CELÉHO čísla s validací
-       ========================================= -->
-  <div class="container my-4 p-4 border rounded bg-light">
-    <h4 class="mb-3">6) Bezpečné načtení <em>celého</em> čísla (min/max)</h4>
+  <!-- Kvíz – 3 otázky -->
+  <div class="card mt-4">
+    <div class="card-body">
+      <h4 class="card-title mb-3">🧠 Mini-kvíz: Funkce a odsazení</h4>
 
-<pre><code class="language-python">def nacti_int(min_value=None, max_value=None):
-    while True:
-        try:
-            hodnota = int(input("Zadejte číslo: "))
-        except ValueError:
-            print("Zadejte prosím celé číslo.")
-            continue                # skoč na další iteraci smyčky
-        if min_value is not None and hodnota &lt; min_value:
-            print(f"Hodnota musí být &gt;= {min_value}.")
-            continue
-        if max_value is not None and hodnota &gt; max_value:
-            print(f"Hodnota musí být &lt;= {max_value}.")
-            continue
-        return hodnota              # validní → vrať a skonči
+      <!-- Otázka 1 -->
+      <div class="quiz-question mb-4">
+        <p><strong>1. Která verze vyhodí <span class="mono">IndentationError</span>?</strong></p>
+<pre><code class="language-python">A)
+def my_function():
+    print("Hello")
 
-# příklad: věk v intervalu 0..130
-vek = nacti_int(min_value=0, max_value=130)
-print("Věk:", vek)</code></pre>
+B)
+def my_function():
+••print("Hello")
 
-    <div class="warn"><b>Časté chyby:</b>
-      <ul class="mb-0">
-        <li>Chybí <span class="mono">continue</span> po chybové hlášce → program by pokračoval s nevalidní hodnotou.</li>
-        <li>Chybí <span class="mono">return</span> uvnitř smyčky → funkce by nikdy neskončila.</li>
-        <li>Zapomenutá validace rozsahu (min/max) při zadávání věku, počtu kusů apod.</li>
-      </ul>
+C)
+def my_function():
+    print("Hello")
+
+D)
+def my_function():
+    print("Hello")
+print("Bye")</code></pre>
+
+        <div class="btn-group-vertical">
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this,false)">A</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this,true)">B</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this,false)">C</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this,false)">D</button>
+        </div>
+      </div>
+
+      <!-- Otázka 2 -->
+      <div class="quiz-question mb-4">
+        <p><strong>2. Který kód vytiskne <span class="mono">This will run</span>?</strong></p>
+<pre><code class="language-python">A)
+print("This will run")
+
+B)
+def f():
+    print("This will run")
+
+C)
+def f():
+    print("This will run")
+  f()
+
+D)
+def f():
+    print("This will run")
+f()</code></pre>
+
+        <div class="btn-group-vertical">
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this,false)">A</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this,false)">B</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this,false)">C</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this,true)">D</button>
+        </div>
+      </div>
+
+      <!-- Otázka 3 -->
+      <div class="quiz-question mb-2">
+        <p><strong>3. Ve které verzi se vytiskne <span class="mono">"This will run"</span>?</strong></p>
+<pre><code class="language-python">A)
+def f():
+    a = 3
+    if a > 2:
+        print("This will run")
+f()
+
+B)
+def f():
+    a = 3
+if a > 2:
+    print("This will run")
+f()
+
+C)
+def f():
+    a = 3
+    if a > 2:
+        print("This will run")
+        f()
+
+D)
+def f():
+a = 3
+    if a > 2:
+        print("This will run")
+f()</code></pre>
+
+        <div class="btn-group-vertical">
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this,true)">A</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this,false)">B</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this,false)">C</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this,false)">D</button>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <!-- Shrnutí -->
-  <div class="container my-4 p-4 border rounded">
-    <h4 class="mb-3">🔚 Shrnutí</h4>
-    <ul class="mb-0">
-      <li>Rozlišuješ <b>definici</b> × <b>volání</b> (závorky spouští).</li>
-      <li>Používáš <b>parametry</b>/<b>argumenty</b>, umíš pojmenované a výchozí argumenty.</li>
-      <li>Chápeš rozdíl <code>return</code> vs. <code>print</code>.</li>
-      <li>Umíš pracovat s <b>n-ticí</b> (tuple): <em>zabalit</em> více hodnot a <em>rozbalit</em> je do proměnných.</li>
-      <li>Víš, že funkce je <b>hodnota</b> (lze uložit/předat).</li>
-      <li>Umíš bezpečně načíst <b>celé číslo</b> s validací pomocí <code>try/except/continue</code>.</li>
-    </ul>
-  </div>
 </section>
+
+<!-- ===========================
+     MODÁLY – teorie do hloubky
+     =========================== -->
+
+<!-- Modal: Co je funkce -->
+<div class="modal fade" id="modalFunctionsBasics" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header"><h5 class="modal-title">Co je funkce</h5>
+      <button class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body">
+      <p>Funkce = pojmenovaný blok kódu, který můžeš volat opakovaně.</p>
+<pre><code class="language-python">def ahoj():
+    print("Ahoj!")
+
+ahoj()</code></pre>
+      <p>Funkce <strong>bez závorek</strong> = odkaz na funkci.</p>
+    </div></div></div>
+</div>
+
+<!-- Modal: Parametry -->
+<div class="modal fade" id="modalParameters" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header"><h5 class="modal-title">Parametry a argumenty</h5>
+      <button class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body">
+<pre><code class="language-python">def pozdrav(jmeno):
+    print("Ahoj", jmeno)
+
+pozdrav("Eva")        # argument
+pozdrav(jmeno="Eva") # pojmenovaný argument</code></pre>
+      <p>Výchozí hodnota:</p>
+<pre><code class="language-python">def info(jmeno="Student"):
+    print("Jmenuji se", jmeno)</code></pre>
+    </div></div></div>
+</div>
+
+<!-- Modal: Return -->
+<div class="modal fade" id="modalReturn" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header"><h5 class="modal-title">Return, print, n-tice</h5>
+      <button class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body">
+<pre><code class="language-python">def vypocet(a, b):
+    return a+b, a-b
+
+s, r = vypocet(8, 3)</code></pre>
+      <p><strong>print</strong> něco zobrazí, <strong>return</strong> něco vrátí programu.</p>
+    </div></div></div>
+</div>
+
+<!-- Modal: Odsazení -->
+<div class="modal fade" id="modalIndent" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header"><h5 class="modal-title">Odsazení a bloky kódu</h5>
+      <button class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body">
+      <p>Odsazení = 4 mezery. Nikdy nemíchej mezery a taby.</p>
+<pre><code class="language-python">def test():
+    if True:
+        print("OK")</code></pre>
+    </div></div></div>
+</div>
+
+<!-- Modal: Reeborg -->
+<div class="modal fade" id="modalReeborg" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header"><h5 class="modal-title">Reeborg – praktický trenažér</h5>
+      <button class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body">
+      <p>Odkaz: <a href="https://reeborg.ca/reeborg.html" target="_blank">https://reeborg.ca/reeborg.html</a></p>
+      <p>Příkazy: <span class="mono">move()</span>, <span class="mono">turn_left()</span> atd.</p>
+      <p>Tlačítko <strong>Step</strong> ukazuje, který řádek se právě provádí.</p>
+    </div></div></div>
+</div>
