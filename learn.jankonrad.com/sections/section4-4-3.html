@@ -1,551 +1,848 @@
-<!-- =========================================================
-     4.1.7a Datové struktury pomalu: Listy, n-tice a volání funkcí
-     (To-Do & Košík – od nuly po malé menu)
-     ========================================================= -->
-<section id="section4-4-3" class="container my-5">
+<!-- ========================================= 
+     4.2.1a Hangman – úvod a flowchart
+     ========================================= -->
+<section id="section4-4-3a" class="container my-5">
   <style>
-    .svg-line { stroke-dasharray: 300; stroke-dashoffset: 300; animation: draw 2s ease forwards; }
-    @keyframes draw { to { stroke-dashoffset: 0; } }
-    .tip{border-left:4px solid #0d6efd;background:#f8f9fa;padding:.75rem 1rem}
-    .warn{border-left:4px solid #dc3545;background:#fff5f5;padding:.75rem 1rem}
-    .ok{border-left:4px solid #198754;background:#f6fff8;padding:.75rem 1rem}
-    .mono{font-family:ui-monospace,Menlo,Consolas,monospace}
+    .code-note{font-size:.95rem}
+    .muted{color:#6c757d}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}
+    .tip{border-left:4px solid #0d6efd;padding:.75rem 1rem;background:#f8f9fa}
+    .warn{border-left:4px solid #dc3545;padding:.75rem 1rem;background:#fff5f5}
+    .ok{border-left:4px solid #198754;padding:.75rem 1rem;background:#f6fff8}
+    .kbd{padding:.1rem .35rem;background:#eee;border-radius:.25rem;border:1px solid #ddd;font-family:inherit}
     pre code{white-space:pre}
   </style>
 
-  <h3 class="mb-4">4.4.3 Datové struktury: Listy, n-tice a volání funkcí</h3>
+  <h3 class="mb-4">4.4.3a Hangman – úvod a logika hry</h3>
 
-  <!-- Úvodní přehled -->
+  <!-- Co se naučíš -->
   <div class="container my-4 p-4 border rounded bg-light">
-    <h4 class="mb-3">Co se naučíš?</h4>
-    <p>Tahle kapitola je pomalý MOST k pozdějšímu „menu programu“. Vše trénujeme na jednoduchých tématech <b>To-Do</b> a <b>Nákupního košíku</b>.</p>
-    <ul class="list-group list-group-flush mb-3">
-      <li class="list-group-item"><b>Funkce a volání</b>: jak vytvořit „krabičku“ kódu a spustit ji.</li>
-      <li class="list-group-item"><b>List (seznam)</b>: přidání, odebírání, procházení, indexy a bezpečí.</li>
-      <li class="list-group-item"><b>N-tice (tuple)</b>: jeden „řádek“ dat pohromadě + rozbalování.</li>
-      <li class="list-group-item"><b>Seznam n-tic</b>: jak z nich udělat jednoduché UI (výpis, To-Do).</li>
-      <li class="list-group-item"><b>Funkce jako hodnota</b> a <b>dispatcher</b> s <code>.get()</code> (bonus).</li>
-      <li class="list-group-item"><b>== vs is</b>: rovnost hodnot × identita objektu (lehký dotek).</li>
-      <li class="list-group-item"><b>Main guard</b>: správný vstupní bod programu.</li>
+    <h4 class="mb-3">Co se v projektu Hangman naučíš/procvičíš</h4>
+    <ul class="mb-3">
+      <li>Pravidla hry <b>Hangman</b> (šibenice) a převod do programu.</li>
+      <li>Návrh logiky pomocí <b>flowchartu</b>.</li>
+      <li>Práci s <b>řetězci</b> a <b>seznamy</b> (slovo, jednotlivá písmena, podtržítka).</li>
+      <li>Použití cyklů <b>for</b> a <b>while</b> v jedné aplikaci.</li>
+      <li>Podmínky <b>if / elif / else</b> v praxi (správné × špatné písmeno, výhra/prohra).</li>
+      <li>Práci s <b>moduly</b> (import vlastních souborů s daty a ASCII grafikou).</li>
+      <li>Jednoduché <b>UX v konzoli</b> (uživatelské hlášky, počet životů, odhalování slova).</li>
     </ul>
-    <div class="alert alert-info" role="alert">
-      <b>Princip kapitoly:</b> Každý krok → krátký kód → vysvětlení → mini-úkol → (volitelné) řešení.
+    <div class="tip">
+      <strong>Tip:</strong> Ber Hangman jako „výroční test“ všeho, co umíš: funkce, cykly, podmínky, stringy, seznamy i moduly.
     </div>
   </div>
 
-  <div class="accordion" id="acc-ds-slow">
+  <!-- Tlačítka na teoretické modály -->
+  <div class="d-flex flex-wrap gap-2 my-3">
+    <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalHangmanRules">
+      Pravidla hry Hangman
+    </button>
+    <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalHangmanFlow">
+      Flowchart hry
+    </button>
+    <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalHangmanConcepts">
+      Jaké koncepty Pythonu procvičíme
+    </button>
+  </div>
 
-    <!-- 0) Zahřátí: funkce + volání -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="ds0h">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#ds0" aria-expanded="true">
-          0) Zahřátí: funkce a volání (bez parametrů)
-        </button>
-      </h2>
-      <div id="ds0" class="accordion-collapse collapse show" data-bs-parent="#acc-ds-slow">
-        <div class="accordion-body">
-<pre><code class="language-python">def ahoj():
-    print("Ahoj!")
-
-ahoj()</code></pre>
-          <ul class="mb-2">
-            <li><span class="mono">def ahoj():</span> vytvoří funkci (krabičku s kódem).</li>
-            <li><span class="mono">ahoj()</span> tu krabičku spustí.</li>
+  <!-- Modal: pravidla hry -->
+  <div class="modal fade" id="modalHangmanRules" tabindex="-1" aria-labelledby="modalHangmanRulesLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalHangmanRulesLabel">Pravidla hry Hangman (šibenice)</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+        </div>
+        <div class="modal-body">
+          <p>V klasické hře Hangman máš za úkol uhodnout skryté slovo po jednotlivých písmenech.</p>
+          <ul>
+            <li>Program si vybere <b>tajné slovo</b> (např. <span class="mono">"mouse"</span>).</li>
+            <li>Hráč vidí jen <b>podtržítka</b>: <span class="mono">_ _ _ _ _</span> – každé podtržítko = jedno písmeno.</li>
+            <li>Hráč <b>hádat písmena</b> (např. <span class="mono">"o"</span>).</li>
+            <li>
+              Pokud písmeno <b>ve slově je</b>:  
+              → na správných pozicích se objeví (např. <span class="mono">_ o _ _ _</span>).
+            </li>
+            <li>
+              Pokud písmeno <b>ve slově není</b>:  
+              → hráč <b>ztratí jeden život</b> a „panáček“ se přikreslí o další část.
+            </li>
+            <li>Když hráč uhodne všechna písmena → <b>vyhrál</b>.</li>
+            <li>Když dojdou životy → panáček je celý nakreslený → <b>prohra</b>.</li>
           </ul>
-          <div class="tip mb-2">Mini-úkol: Napiš funkci <span class="mono">banner()</span>, která vytiskne dvě řádky: „Program startuje“ a „Hotovo načtení“. Zavolej ji.</div>
-          <details class="mt-2"><summary class="text-muted">Řešení (rozklikni)</summary>
-<pre><code class="language-python">def banner():
-    print("Program startuje")
-    print("Hotovo načtení")
-
-banner()</code></pre>
-          </details>
+          <p>V našem programu nebudeme kreslit grafiku, ale použijeme <b>ASCII obrázky</b> (textové obrázky) v seznamu <span class="mono">stages</span>.</p>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- 1) List: přidávání, procházení, indexy -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="ds1h">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ds1">
-          1) Seznam (list): přidávání, procházení, indexy
-        </button>
-      </h2>
-      <div id="ds1" class="accordion-collapse collapse" data-bs-parent="#acc-ds-slow">
-        <div class="accordion-body">
-<pre><code class="language-python">ukoly = []            # prázdný To-Do seznam
-ukoly.append("Uklidit stůl")
-ukoly.append("Napsat domácí úkol")
-
-print("V To-Do je:", len(ukoly), "položky")
-for polozka in ukoly:
-    print("-", polozka)
-
-# přístup přes index (0 = první)
-prvni = ukoly[0]
-print("První úkol je:", prvni)</code></pre>
-          <ul class="mb-2">
-            <li><span class="mono">.append()</span> přidá položku na konec.</li>
-            <li><span class="mono">len(ukoly)</span> vrátí počet prvků.</li>
-            <li>Indexy začínají od <b>0</b>.</li>
-          </ul>
-          <div class="mb-3">
-            <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#m-append-index">📘 Podrobně: .append(), indexy a rozsah</button>
+  <!-- Modal: flowchart -->
+  <div class="modal fade" id="modalHangmanFlow" tabindex="-1" aria-labelledby="modalHangmanFlowLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalHangmanFlowLabel">Flowchart logiky Hangmana</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+        </div>
+        <div class="modal-body">
+          <p>Programová logika vychází z tohoto postupného schématu:</p>
+          <ol>
+            <li>Vyber náhodné <b>tajné slovo</b>.</li>
+            <li>Vytvoř <b>display</b> – seznam/pole podtržítek (jedno podtržítko na jedno písmeno).</li>
+            <li>Nastav počet <b>životů</b> (např. 6) a příznak <span class="mono">game_over = False</span>.</li>
+            <li><b>While</b> hra neskončila:
+              <ol type="a">
+                <li>Hráč zadá písmeno (<span class="mono">guess</span>).</li>
+                <li>Pro každou pozici ve slově:
+                  <ul>
+                    <li>Pokud písmeno na pozici == <span class="mono">guess</span> → zapiš do <span class="mono">display</span>.</li>
+                    <li>Jinak nech stávající znak (<b>správně uhodnutá</b> písmena musí zůstat vidět).</li>
+                  </ul>
+                </li>
+                <li>Pokud <span class="mono">guess</span> v tajném slově <b>neexistuje</b> → sniž <span class="mono">lives -= 1</span>.</li>
+                <li>Vyhodnoť konec hry:
+                  <ul>
+                    <li>Pokud v <span class="mono">display</span> není žádné <span class="mono">"_"</span> → hráč uhodl celé slovo → <b>výhra</b>.</li>
+                    <li>Pokud <span class="mono">lives == 0</span> → došly životy → <b>prohra</b>.</li>
+                  </ul>
+                </li>
+                <li>Vypiš aktuální stav <span class="mono">display</span> a ASCII obrázek podle počtu životů.</li>
+              </ol>
+            </li>
+          </ol>
+          <div class="tip">
+            <b>Mentální mapa:</b>  
+            1) inicializace (slovo, display, lives)  
+            2) smyčka hádání (while)  
+            3) uvnitř smyčky: zpracuj guess, aktualizuj display, životy, zkontroluj výhru/prohru.
           </div>
-          <div class="tip">Mini-úkol: Přidej třetí úkol a vypiš seznam očíslovaně pomocí <span class="mono">enumerate(ukoly, start=1)</span>.</div>
-          <details class="mt-2"><summary class="text-muted">Řešení (rozklikni)</summary>
-<pre><code class="language-python">ukoly.append("Vyvenčit psa")
-for i, polozka in enumerate(ukoly, start=1):
-    print(f"{i}. {polozka}")</code></pre>
-          </details>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Modal: append/index -->
-    <div class="modal fade" id="m-append-index" tabindex="-1" aria-labelledby="m-append-indexLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
-        <div class="modal-header"><h5 id="m-append-indexLabel" class="modal-title">Jak funguje <code>.append()</code> a indexy</h5>
-          <button class="btn-close" data-bs-dismiss="modal"></button></div>
+  <!-- Modal: koncepty -->
+  <div class="modal fade" id="modalHangmanConcepts" tabindex="-1" aria-labelledby="modalHangmanConceptsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalHangmanConceptsLabel">Python koncepty v projektu Hangman</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+        </div>
         <div class="modal-body">
           <ul>
-            <li><code>seznam.append(x)</code> přidá <code>x</code> na KONEC seznamu (nezaměňuj s vkládáním doprostřed).</li>
-            <li>Indexy: <code>0</code> první, <code>1</code> druhý, … <code>len(seznam)-1</code> poslední.</li>
-            <li>Pozor na <code>IndexError</code> při přístupu mimo rozsah.</li>
+            <li><b>for cyklus:</b> průchod písmeny ve slově / indexy znaků.</li>
+            <li><b>while cyklus:</b> opakované hádání, dokud není výhra nebo prohra.</li>
+            <li><b>if / elif / else:</b> reakce na správné / špatné písmeno, konec hry.</li>
+            <li><b>Seznamy a stringy:</b> tajné slovo, display s podtržítky, seznam <span class="mono">stages</span> s ASCII obrázky.</li>
+            <li><b>Moduly:</b> import <span class="mono">random</span>, vlastních modulů <span class="mono">hangman_words</span> a <span class="mono">hangman_art</span>.</li>
+            <li><b>Proměnné stavu:</b> <span class="mono">lives</span>, <span class="mono">game_over</span>, zvolená slova, seznam už hádaných písmen.</li>
+            <li><b>UX v konzoli:</b> přehledné vypisování stavu, varování u opakovaného písmena, zobrazení cílového slova po prohře.</li>
           </ul>
+          <div class="ok">
+            <b>Cíl:</b> Na konci kapitoly bys měl(a) zvládnout napsat Hangman od nuly bez koukání do řešení.
+          </div>
         </div>
-      </div></div>
+      </div>
     </div>
+  </div>
+</section>
 
-    <!-- 1.5) Úpravy listu -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="ds15h">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ds15">
-          1.5) Úpravy listu: odebrat, hledat, vyčistit
-        </button>
-      </h2>
-      <div id="ds15" class="accordion-collapse collapse" data-bs-parent="#acc-ds-slow">
-        <div class="accordion-body">
-<pre><code class="language-python"># odeber poslední:
-posledni = ukoly.pop()     # vrátí odebranou položku
-print("Odebráno:", posledni)
+<!-- ========================================= 
+     4.2.1b Hangman – Krok 1: náhodné slovo a první kontrola
+     ========================================= -->
+<section id="section4-4-3b" class="container my-5">
+  <h3 class="mb-4">4.4.3b Hangman – Krok 1: náhodné slovo a první „Right / Wrong“</h3>
 
-# odeber konkrétní text (první výskyt):
-if "Uklidit stůl" in ukoly:
-    ukoly.remove("Uklidit stůl")
+  <div class="container my-4 p-4 border rounded bg-light">
+    <p>
+      V prvním kroku vytvoříme úplně nejjednodušší verzi:
+    </p>
+    <ol>
+      <li>Vybereme náhodné <b>tajné slovo</b> ze seznamu.</li>
+      <li>Necháme uživatele zadat <b>jedno písmeno</b>.</li>
+      <li>Projdeme slovo po písmenech a pro každé písmeno vypíšeme <span class="mono">"Right"</span> / <span class="mono">"Wrong"</span>.</li>
+    </ol>
+    <p>Tím si ověříme: výběr náhodného prvku, vstup uživatele, cyklus <span class="mono">for</span> přes string.</p>
+  </div>
 
-# vyprázdni vše:
-ukoly.clear()</code></pre>
-          <div class="warn">Když <span class="mono">remove()</span> nenajde položku, vyhodí chybu. Proto je dobré nejdřív ověřit <span class="mono">in</span>.</div>
-          <div class="tip">Mini-úkol: Odeber poslední položku jen když seznam není prázdný (nejdřív zkontroluj <span class="mono">len(ukoly) &gt; 0</span>).</div>
-          <details class="mt-2"><summary class="text-muted">Řešení (rozklikni)</summary>
-<pre><code class="language-python">if len(ukoly) > 0:
-    ukoly.pop()
+  <!-- Modal teorie Krok 1 -->
+  <button class="btn btn-outline-primary btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#modalHangmanStep1Theory">
+    Teorie Krok 1 – random slovo a průchod písmeny
+  </button>
+
+  <div class="modal fade" id="modalHangmanStep1Theory" tabindex="-1" aria-labelledby="modalHangmanStep1TheoryLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalHangmanStep1TheoryLabel">Teorie Krok 1 – náhodné slovo a kontrola písmen</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <h5>1) Výběr náhodného slova</h5>
+          <p>
+            Máme seznam slov, např.:
+          </p>
+<pre><code class="language-python">word_list = ["camel", "baboon", "aardvark"]</code></pre>
+          <p>
+            Pomocí <span class="mono">random.choice()</span> vybereme jedno slovo a uložíme ho do proměnné <span class="mono">chosen_word</span>.
+          </p>
+
+          <h5 class="mt-3">2) Vstup uživatele a normalizace</h5>
+          <p>
+            Uživatel zadá písmeno. Pro porovnávání je praktické si vše převést na <b>malá písmena</b>:
+          </p>
+          <ul>
+            <li>slova v seznamu necháme malá,</li>
+            <li>uživatelský vstup převedeme metodou <span class="mono">.lower()</span>.</li>
+          </ul>
+
+          <h5 class="mt-3">3) Průchod slovem a porovnání</h5>
+          <p>
+            String lze procházet přímo:
+          </p>
+<pre><code class="language-python">for letter in chosen_word:
+    # letter je jeden znak, např. 'a'</code></pre>
+          <p>
+            Pro každý znak porovnáme:
+          </p>
+<pre><code class="language-python">if letter == guess:
+    print("Right")
 else:
-    print("Seznam je prázdný, není co odstranit.")</code></pre>
-          </details>
+    print("Wrong")</code></pre>
+          <p>
+            Na začátku vypisujeme jen „Right/Wrong“ u každé pozice – později tuto logiku využijeme pro tvorbu <span class="mono">display</span>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Akordeon – úkol Krok 1 -->
+  <div class="accordion" id="accordionHangmanStep1">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingHStep1Task">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHStep1Task" aria-expanded="true">
+          Úkol 4.4.3b – implementuj Krok 1
+        </button>
+      </h2>
+      <div id="collapseHStep1Task" class="accordion-collapse collapse show" data-bs-parent="#accordionHangmanStep1">
+        <div class="accordion-body">
+          <ol>
+            <li>Vytvoř seznam <span class="mono">word_list</span> se 3–5 slovy.</li>
+            <li>Pomocí <span class="mono">random.choice()</span> vyber jedno slovo do <span class="mono">chosen_word</span>.</li>
+            <li>Vypiš <span class="mono">chosen_word</span> do konzole (zatím „debug mód“, aby bylo testování jednodušší).</li>
+            <li>Načti písmeno od uživatele do proměnné <span class="mono">guess</span> a převeď na <span class="mono">lower()</span>.</li>
+            <li>
+              Pomocí <span class="mono">for letter in chosen_word</span>:
+              <ul>
+                <li>pokud <span class="mono">letter == guess</span> → <span class="mono">print("Right")</span>,</li>
+                <li>jinak <span class="mono">print("Wrong")</span>.</li>
+              </ul>
+            </li>
+          </ol>
+          <div class="ok">
+            <b>Cíl:</b> Program po zadání písmena vypíše pro každou pozici ve slově „Right/ Wrong“, podle toho, jestli tam písmeno sedí.
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- 2) Tuple -->
+    <!-- Řešení -->
     <div class="accordion-item">
-      <h2 class="accordion-header" id="ds2h">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ds2">
-          2) N-tice (tuple): záznam To-Do (stav, text) + rozbalování
+      <h2 class="accordion-header" id="headingHStep1Solution">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHStep1Solution">
+          Řešení (ukázkový kód)
         </button>
       </h2>
-      <div id="ds2" class="accordion-collapse collapse" data-bs-parent="#acc-ds-slow">
+      <div id="collapseHStep1Solution" class="accordion-collapse collapse" data-bs-parent="#accordionHangmanStep1">
         <div class="accordion-body">
-<pre><code class="language-python"># úkol jako n-tice (done: bool, text: str)
-u1 = (False, "Uklidit stůl")
-done, text = u1   # rozbalení
-print("Hotovo?", done, "| Úkol:", text)</code></pre>
-          <ul class="mb-2">
-            <li>Tuple = „balíček“ dat k sobě (jeden řádek tabulky).</li>
-            <li>Unpacking = rychlé přiřazení do více proměnných najednou.</li>
+<pre><code class="language-python">import random
+
+word_list = ["camel", "baboon", "aardvark"]
+
+# 1) náhodné slovo
+chosen_word = random.choice(word_list)
+print(f"Zvolené slovo (debug): {chosen_word}")
+
+# 2) vstup uživatele
+guess = input("Hádej písmeno: ").lower()
+
+# 3) kontrola každé pozice
+for letter in chosen_word:
+    if letter == guess:
+        print("Right")
+    else:
+        print("Wrong")</code></pre>
+          <div class="tip">
+            <b>Tip:</b> Nech si zatím tajné slovo vytisknout – při ladění to šíleně pomáhá. Až později výpis smažeš.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================= 
+     4.2.1c Hangman – Krok 2: placeholder a display
+     ========================================= -->
+<section id="section4-4-3c" class="container my-5">
+  <h3 class="mb-4">4.4.3c Hangman – Krok 2: podtržítka a zobrazování správných písmen</h3>
+
+  <div class="container my-4 p-4 border rounded bg-light">
+    <p>Ve druhém kroku přejdeme od pouhého „Right/Wrong“ k vizuálnímu zobrazení slova:</p>
+    <ul>
+      <li>Vytvoříme <b>placeholder</b> s podtržítky pro celé slovo.</li>
+      <li>Vytvoříme <b>display</b>, který obsahuje podtržítka + správně uhodnutá písmena na správných pozicích.</li>
+    </ul>
+    <p>Tohle je základní mechanismus, kterým bude hráč vidět svůj pokrok.</p>
+  </div>
+
+  <!-- Modal teorie Krok 2 -->
+  <button class="btn btn-outline-primary btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#modalHangmanStep2Theory">
+    Teorie Krok 2 – placeholder a display
+  </button>
+
+  <div class="modal fade" id="modalHangmanStep2Theory" tabindex="-1" aria-labelledby="modalHangmanStep2TheoryLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalHangmanStep2TheoryLabel">Teorie Krok 2 – placeholder a display</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <h5>1) Placeholder s podtržítky</h5>
+          <p>
+            Potřebujeme řetězec (nebo seznam) podtržítek stejné délky jako tajné slovo.
+          </p>
+<pre><code class="language-python">chosen_word = "apple"
+word_length = len(chosen_word)
+
+placeholder = ""
+for _ in range(word_length):
+    placeholder += "_"
+
+print(placeholder)   # "_____"
+</code></pre>
+          <p><span class="mono">range(word_length)</span> zajistí, že cyklus proběhne přesně tolikrát, kolik má slovo písmen.</p>
+
+          <h5 class="mt-3">2) Display – kombinace písmen a podtržítek</h5>
+          <p>
+            Po prvním hádání nechceme jen Right/Wrong, ale <b>řetězec</b>, ve kterém:
+          </p>
+          <ul>
+            <li>správně uhodnutá písmena jsou na svých pozicích,</li>
+            <li>ostatní pozice zůstávají jako <span class="mono">"_"</span>.</li>
           </ul>
-          <div class="tip">Mini-úkol: <span class="mono">u2 = (True, "Zalít kytku")</span> → vytiskni „[x] Zalít kytku“ pokud je hotovo, jinak „[ ] …“.</div>
-          <details class="mt-2"><summary class="text-muted">Řešení (rozklikni)</summary>
-<pre><code class="language-python">u2 = (True, "Zalít kytku")
-hotovo, txt = u2
-box = "x" if hotovo else " "
-print(f"[{box}] {txt}")</code></pre>
-          </details>
-        </div>
-      </div>
-    </div>
+<pre><code class="language-python">display = ""
 
-    <!-- 3) Seznam n-tic: malý To-Do se stavem -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="ds3h">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ds3">
-          3) Seznam n-tic: malý To-Do se stavem
-        </button>
-      </h2>
-      <div id="ds3" class="accordion-collapse collapse" data-bs-parent="#acc-ds-slow">
-        <div class="accordion-body">
-<pre><code class="language-python">todo = []
-todo.append((False, "Uklidit stůl"))
-todo.append((True,  "Zalít kytku"))
-
-def tisk_todo(polozky):
-    if not polozky:
-        print("Seznam je prázdný.")
-        return
-    for i, (done, text) in enumerate(polozky, start=1):
-        box = "x" if done else " "
-        print(f"{i}. [{box}] {text}")
-
-tisk_todo(todo)</code></pre>
-          <div class="ok">List drží pořadí, tuple drží „sloupečky“ (stav + text).</div>
-          <div class="tip">Mini-úkol: Přidej třetí úkol <span class="mono">(False, "Cvičit")</span> a znovu zavolej <span class="mono">tisk_todo(todo)</span>.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 4) Čisté funkce: přidat, přepnout -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="ds4h">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ds4">
-          4) Čisté funkce: přidat úkol, přepnout hotovo
-        </button>
-      </h2>
-      <div id="ds4" class="accordion-collapse collapse" data-bs-parent="#acc-ds-slow">
-        <div class="accordion-body">
-<pre><code class="language-python">def pridej(todo, text):
-    todo.append((False, text))
-
-def prepnout(todo, index):
-    # index = 1-based z výpisu
-    i = index - 1
-    if 0 &lt;= i &lt; len(todo):
-        done, txt = todo[i]
-        todo[i] = (not done, txt)
+for letter in chosen_word:
+    if letter == guess:
+        display += letter     # správně uhodnuté písmeno
     else:
-        print("Neplatné číslo úkolu.")
+        display += "_"        # stále neuhodnuté písmeno
 
-# vyzkoušej:
-pridej(todo, "Procvičit Python")
-prepnout(todo, 1)   # přepne první úkol
-tisk_todo(todo)</code></pre>
-          <div class="warn">Měníme existující list (prvek na pozici) → hlídej hranice indexu.</div>
-          <div class="tip">Mini-úkol: Napiš funkci <span class="mono">odeber(todo, index)</span>, která odstraní zadaný úkol, pokud existuje.</div>
-          <details class="mt-2"><summary class="text-muted">Řešení (rozklikni)</summary>
-<pre><code class="language-python">def odeber(todo, index):
-    i = index - 1
-    if 0 <= i < len(todo):
-        todo.pop(i)
+print(display)</code></pre>
+          <p>
+            Později nahradíme „čerstvý“ <span class="mono">display</span> tak, aby si pamatoval i předchozí uhodnutá písmena.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Akordeon – úkol Krok 2 -->
+  <div class="accordion" id="accordionHangmanStep2">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingHStep2Task">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHStep2Task" aria-expanded="true">
+          Úkol 4.2.1c – vytvoř placeholder a display
+        </button>
+      </h2>
+      <div id="collapseHStep2Task" class="accordion-collapse collapse show" data-bs-parent="#accordionHangmanStep2">
+        <div class="accordion-body">
+          <ol>
+            <li>Na základě délky <span class="mono">chosen_word</span> vytvoř <span class="mono">placeholder</span> s podtržítky.</li>
+            <li>Nech uživatele hádat písmeno <span class="mono">guess</span>.</li>
+            <li>Vytvoř proměnnou <span class="mono">display = ""</span>.</li>
+            <li>
+              Pro každé písmeno ve <span class="mono">chosen_word</span>:
+              <ul>
+                <li>pokud se rovná <span class="mono">guess</span>, přidej do <span class="mono">display</span> písmeno,</li>
+                <li>jinak přidej <span class="mono">"_"</span>.</li>
+              </ul>
+            </li>
+            <li>Na konci vypiš <span class="mono">display</span> – uvidíš slovo s dosazeným písmenem.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- Řešení -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingHStep2Solution">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHStep2Solution">
+          Řešení (ukázkový kód)
+        </button>
+      </h2>
+      <div id="collapseHStep2Solution" class="accordion-collapse collapse" data-bs-parent="#accordionHangmanStep2">
+        <div class="accordion-body">
+<pre><code class="language-python">import random
+
+word_list = ["camel", "baboon", "aardvark"]
+chosen_word = random.choice(word_list)
+word_length = len(chosen_word)
+
+print(f"Zvolené slovo (debug): {chosen_word}")
+
+# 1) placeholder (zatím jen ukázka, klidně ho jen vypiš)
+placeholder = ""
+for _ in range(word_length):
+    placeholder += "_"
+print("Placeholder:", placeholder)
+
+# 2) hádání
+guess = input("Hádej písmeno: ").lower()
+
+# 3) display s písmeny a podtržítky
+display = ""
+for letter in chosen_word:
+    if letter == guess:
+        display += letter
     else:
-        print("Neplatné číslo úkolu.")</code></pre>
-          </details>
+        display += "_"
+
+print("Display:", display)</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================= 
+     4.2.1d Hangman – Krok 3: while smyčka a opakované hádání
+     ========================================= -->
+<section id="section4-2-1d" class="container my-5">
+  <h3 class="mb-4">4.2.1d Hangman – Krok 3: while smyčka a opakované hádání</h3>
+
+  <div class="container my-4 p-4 border rounded bg-light">
+    <p>Teď z jednorázového hádání uděláme skutečnou hru:</p>
+    <ul>
+      <li>zavedeme <b>nekonečnou smyčku</b> s podmínkou (<span class="mono">while not game_over</span>),</li>
+      <li>po každém hádání zobrazíme aktualizovaný <span class="mono">display</span>,</li>
+      <li>kontrolujeme, jestli ještě ve <span class="mono">display</span> existuje nějaké <span class="mono">"_"</span> – pokud ne, hráč vyhrál.</li>
+    </ul>
+  </div>
+
+  <!-- Modal teorie Krok 3 -->
+  <button class="btn btn-outline-primary btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#modalHangmanStep3Theory">
+    Teorie Krok 3 – while, game_over a uchování správných písmen
+  </button>
+
+  <div class="modal fade" id="modalHangmanStep3Theory" tabindex="-1" aria-labelledby="modalHangmanStep3TheoryLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalHangmanStep3TheoryLabel">Teorie Krok 3 – while smyčka a uchování stavu</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <h5>1) game_over a while cyklus</h5>
+<pre><code class="language-python">game_over = False
+display = ["_"] * len(chosen_word)   # doporučení: použij list místo stringu
+
+while not game_over:
+    guess = input("Hádej písmeno: ").lower()
+    # ... doplnění display ...
+    if "_" not in display:
+        print("Vyhrál jsi!")
+        game_over = True</code></pre>
+          <p>Podmínka <span class="mono">"_" not in display</span> znamená: žádné podtržítko → všechna písmena uhodnuta.</p>
+
+          <h5 class="mt-3">2) Uchování předchozích správných písmen</h5>
+          <p>Klíčová myšlenka: <b>display nesmíš přepisovat úplně znovu</b>, ale aktualizovat jen některé pozice.</p>
+<pre><code class="language-python"># display jako list znaků
+display = ["_"] * len(chosen_word)
+
+guess = input("Hádej písmeno: ").lower()
+
+for position in range(len(chosen_word)):
+    letter = chosen_word[position]
+    if letter == guess:
+        display[position] = letter
+
+print(" ".join(display))</code></pre>
+          <p>
+            Díky tomu zůstávají <b>staré správné</b> pokusy zachované, jen doplňujeme nová písmena.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Akordeon – úkol Krok 3 -->
+  <div class="accordion" id="accordionHangmanStep3">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingHStep3Task">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHStep3Task" aria-expanded="true">
+          Úkol 4.2.1d – převeď Hangman na opakovanou hru
+        </button>
+      </h2>
+      <div id="collapseHStep3Task" class="accordion-collapse collapse show" data-bs-parent="#accordionHangmanStep3">
+        <div class="accordion-body">
+          <ol>
+            <li>Překlop <span class="mono">display</span> na seznam znaků: <span class="mono">["_", "_", ...]</span>.</li>
+            <li>Zaveď proměnnou <span class="mono">game_over = False</span>.</li>
+            <li>
+              Celou logiku hádání vlož do smyčky:
+<pre><code class="language-python">while not game_over:
+    # 1) uživatel hádá
+    # 2) aktualizace display
+    # 3) kontrola "_" in display</code></pre>
+            </li>
+            <li>Pokud ve <span class="mono">display</span> není <span class="mono">"_"</span>, vypiš „Vyhrál jsi“ a nastav <span class="mono">game_over = True</span>.</li>
+          </ol>
         </div>
       </div>
     </div>
 
-    <!-- 5) Bezpečný vstup čísla -->
+    <!-- Řešení -->
     <div class="accordion-item">
-      <h2 class="accordion-header" id="ds5h">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ds5">
-          5) Vstup od uživatele: bezpečné celé číslo (znovupoužitelné)
+      <h2 class="accordion-header" id="headingHStep3Solution">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHStep3Solution">
+          Řešení (ukázkový kód)
         </button>
       </h2>
-      <div id="ds5" class="accordion-collapse collapse" data-bs-parent="#acc-ds-slow">
+      <div id="collapseHStep3Solution" class="accordion-collapse collapse" data-bs-parent="#accordionHangmanStep3">
         <div class="accordion-body">
-<pre><code class="language-python">def nacti_int(prompt="Zadej číslo: "):
-    while True:
-        try:
-            return int(input(prompt))
-        except ValueError:
-            print("Tohle není celé číslo. Zkus znovu.")</code></pre>
-          <div class="ok">Jedna funkce → použiješ všude, kde chceš celé číslo.</div>
-          <div class="tip">Mini-úkol: Uprav na <span class="mono">nacti_int_ge0(prompt)</span>, která nepovolí záporné číslo.</div>
-          <details class="mt-2"><summary class="text-muted">Řešení (rozklikni)</summary>
-<pre><code class="language-python">def nacti_int_ge0(prompt="Zadej nezáporné číslo: "):
-    while True:
-        try:
-            x = int(input(prompt))
-            if x < 0:
-                print("Číslo nesmí být záporné.")
-                continue
-            return x
-        except ValueError:
-            print("Tohle není celé číslo.")</code></pre>
-          </details>
+<pre><code class="language-python">import random
+
+word_list = ["camel", "baboon", "aardvark"]
+chosen_word = random.choice(word_list)
+word_length = len(chosen_word)
+
+display = ["_"] * word_length
+game_over = False
+
+print(f"Tajné slovo (debug): {chosen_word}")
+
+while not game_over:
+    guess = input("Hádej písmeno: ").lower()
+
+    # aktualizace display
+    for position in range(word_length):
+        letter = chosen_word[position]
+        if letter == guess:
+            display[position] = letter
+
+    print("Aktuální stav:", " ".join(display))
+
+    # kontrola výhry
+    if "_" not in display:
+        print("Vyhrál jsi!")
+        game_over = True</code></pre>
         </div>
       </div>
     </div>
+  </div>
+</section>
 
-    <!-- 6) Mini menu (bez dispatcheru) -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="ds6h">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ds6">
-          6) Mini-menu (bez „kouzel“): 4 volby pro To-Do
-        </button>
-      </h2>
-      <div id="ds6" class="accordion-collapse collapse" data-bs-parent="#acc-ds-slow">
-        <div class="accordion-body">
-<pre><code class="language-python">def mini_menu():
-    while True:
-        print("=== To-Do ===")
-        print("1) Přidat úkol")
-        print("2) Přepnout hotovo")
-        print("3) Vypsat")
-        print("4) Konec")
-        volba = input("Zadej volbu: ").strip()
+<!-- ========================================= 
+     4.2.1e Hangman – Krok 4: životy a ASCII panáček
+     ========================================= -->
+<section id="section4-2-1e" class="container my-5">
+  <h3 class="mb-4">4.2.1e Hangman – Krok 4: životy a ASCII panáček</h3>
 
-        if volba == "1":
-            txt = input("Text úkolu: ").strip()
-            pridej(todo, txt)
-        elif volba == "2":
-            tisk_todo(todo)
-            idx = nacti_int("Číslo úkolu: ")
-            prepnout(todo, idx)
-        elif volba == "3":
-            tisk_todo(todo)
-        elif volba == "4":
-            print("Konec To-Do.")
-            break
-        else:
-            print("Neplatná volba.")
+  <div class="container my-4 p-4 border rounded bg-light">
+    <p>Teď z Hangmana uděláme hru, kde se dá i prohrát:</p>
+    <ul>
+      <li>Zavedeme proměnnou <span class="mono">lives = 6</span> (počet životů).</li>
+      <li>Každé <b>špatné písmeno</b> = <span class="mono">lives -= 1</span>.</li>
+      <li>Při <span class="mono">lives == 0</span> → „Prohrál jsi“ a <span class="mono">game_over = True</span>.</li>
+      <li>Podle počtu životů zobrazíme ASCII obrázek z listu <span class="mono">stages</span>.</li>
+    </ul>
+  </div>
 
-# mini_menu()</code></pre>
-          <div class="ok">Zatím žádný dispatcher. Logika je přímočará a srozumitelná.</div>
-          <div class="tip">Mini-úkol: Doplň volbu „Odebrat úkol“ a použij svou funkci <span class="mono">odeber()</span>.</div>
-          <details class="mt-2"><summary class="text-muted">Řešení (rozklikni)</summary>
-<pre><code class="language-python"># do menu přidej:
-# print("4) Odebrat")
-# posuň Konec na "5"
-elif volba == "4":
-    tisk_todo(todo)
-    idx = nacti_int("Číslo úkolu k odebrání: ")
-    odeber(todo, idx)
-elif volba == "5":
-    print("Konec To-Do.")
-    break</code></pre>
-          </details>
+  <!-- Modal teorie Krok 4 -->
+  <button class="btn btn-outline-primary btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#modalHangmanStep4Theory">
+    Teorie Krok 4 – životy a list stages
+  </button>
+
+  <div class="modal fade" id="modalHangmanStep4Theory" tabindex="-1" aria-labelledby="modalHangmanStep4TheoryLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalHangmanStep4TheoryLabel">Teorie Krok 4 – životy a ASCII panáček</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
-      </div>
-    </div>
+        <div class="modal-body">
+          <h5>1) Počítadlo životů</h5>
+<pre><code class="language-python">lives = 6
 
-    <!-- 7) Nákupní košík -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="ds7h">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ds7">
-          7) Nákupní košík: tuple (název, ks, cena) + součet
-        </button>
-      </h2>
-      <div id="ds7" class="accordion-collapse collapse" data-bs-parent="#acc-ds-slow">
-        <div class="accordion-body">
-<pre><code class="language-python">kosik = []  # list n-tic (nazev:str, ks:int, cena_za_kus:int)
+if guess not in chosen_word:
+    lives -= 1
+    if lives == 0:
+        game_over = True
+        print("Prohrál jsi!")</code></pre>
 
-def pridej_polozku(kosik, nazev, ks, cena_za_kus):
-    kosik.append((nazev, ks, cena_za_kus))
-
-def mezisoucet(kosik):
-    return sum(ks * cena for _, ks, cena in kosik)
-
-def vypis_kosik(kosik):
-    if not kosik:
-        print("Košík je prázdný.")
-        return
-    for i, (nazev, ks, cena) in enumerate(kosik, start=1):
-        print(f"{i}. {nazev} × {ks} ks @ {cena} Kč = {ks*cena} Kč")
-    print("Celkem:", mezisoucet(kosik), "Kč")
-
-# vyzkoušej:
-pridej_polozku(kosik, "Jablko", 3, 10)
-pridej_polozku(kosik, "Mléko", 1, 25)
-vypis_kosik(kosik)</code></pre>
-          <div class="tip">Mini-úkol: Přidej funkci <span class="mono">sleva_procent(kosik, p)</span>, která vrátí <b>číslo</b> „celkem se slevou p %“ (např. 10).</div>
-          <details class="mt-2"><summary class="text-muted">Řešení (rozklikni)</summary>
-<pre><code class="language-python">def sleva_procent(kosik, p):
-    celkem = mezisoucet(kosik)
-    return int(round(celkem * (100 - p) / 100))</code></pre>
-          </details>
-        </div>
-      </div>
-    </div>
-
-    <!-- 8) BONUS: dispatcher s .get() -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="ds8h">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ds8">
-          8) BONUS: jednoduchý dispatcher se <code>.get()</code>
-        </button>
-      </h2>
-      <div id="ds8" class="accordion-collapse collapse" data-bs-parent="#acc-ds-slow">
-        <div class="accordion-body">
-<pre><code class="language-python"># akce jako samostatné funkce:
-def akce_pridat():
-    txt = input("Text úkolu: ").strip()
-    pridej(todo, txt)
-
-def akce_prepnout():
-    tisk_todo(todo)
-    idx = nacti_int("Číslo úkolu: ")
-    prepnout(todo, idx)
-
-def akce_vypsat():
-    tisk_todo(todo)
-
-def akce_odebrat():
-    tisk_todo(todo)
-    idx = nacti_int("Číslo úkolu k odebrání: ")
-    odeber(todo, idx)
-
-VOLBY = [
-    ("1", "Přidat",   akce_pridat),
-    ("2", "Přepnout", akce_prepnout),
-    ("3", "Vypsat",   akce_vypsat),
-    ("4", "Odebrat",  akce_odebrat),
-    ("5", "Konec",    None),
+          <h5 class="mt-3">2) ASCII obrázky podle počtu životů</h5>
+          <p>List <span class="mono">stages</span> obsahuje obrázky od „úplně pověšený“ po „prázdná šibenice“.</p>
+<pre><code class="language-python">stages = [
+    "obrázek pro 0 životů",
+    "obrázek pro 1 život",
+    "obrázek pro 2 životy",
+    "obrázek pro 3 životy",
+    "obrázek pro 4 životy",
+    "obrázek pro 5 životů",
+    "obrázek pro 6 životů",
 ]
-DISPATCH = {k: (popis, fn) for k, popis, fn in VOLBY}
 
-def menu_dispatch():
-    while True:
-        print("=== To-Do (dispatcher) ===")
-        for k, popis, _ in VOLBY:
-            print(f"{k}) {popis}")
-        volba = input("Zadej volbu: ").strip()
-
-        par = DISPATCH.get(volba)    # žádný KeyError při neznámém klíči
-        if par is None:
-            print("Neplatná volba.")
-            continue
-
-        popis, fn = par
-        if fn is None:
-            print("Konec.")
-            break
-        fn()
-
-# menu_dispatch()</code></pre>
-          <div class="ok"><span class="mono">.get()</span> vrátí <span class="mono">None</span>, když klíč neexistuje → program nespadne, můžeme slušně upozornit.</div>
-          <div class="tip">Mini-úkol: Přidej volbu „Vyčistit“ (vyprázdnit seznam) a dodej <span class="mono">akce_vycistit()</span>.</div>
+print(stages[lives])</code></pre>
+          <p>Index v listu <span class="mono">stages</span> je přímo počet životů – žádné další výpočty nejsou potřeba.</p>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- 9) == vs is -->
+  <!-- Akordeon – úkol Krok 4 -->
+  <div class="accordion" id="accordionHangmanStep4">
     <div class="accordion-item">
-      <h2 class="accordion-header" id="ds9h">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ds9">
-          9) Lehký dotek: <code>==</code> vs <code>is</code>
+      <h2 class="accordion-header" id="headingHStep4Task">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHStep4Task" aria-expanded="true">
+          Úkol 4.2.1e – přidej životy a ASCII stages
         </button>
       </h2>
-      <div id="ds9" class="accordion-collapse collapse" data-bs-parent="#acc-ds-slow">
+      <div id="collapseHStep4Task" class="accordion-collapse collapse show" data-bs-parent="#accordionHangmanStep4">
         <div class="accordion-body">
-<pre><code class="language-python">def podil(a,b): return a/b
-f = podil
-g = podil
-print(f == g)  # True – stejné „hodnoty“ funkce
-print(f is g)  # True – v CPythonu ukazuje na stejný objekt</code></pre>
-          <div class="warn">Pro čísla/řetězce používej <span class="mono">==</span>. <span class="mono">is</span> řeší identitu objektu (zda je to tentýž objekt v paměti).</div>
-          <div class="tip">Mini-úkol: <span class="mono">akce = akce_vypsat</span> → ověř <span class="mono">akce is akce_vypsat</span>.</div>
+          <ol>
+            <li>Před while smyčkou inicializuj <span class="mono">lives = 6</span>.</li>
+            <li>Po vyhodnocení písmen přidej podmínku:
+              <ul>
+                <li>pokud <span class="mono">guess</span> <b>není</b> v <span class="mono">chosen_word</span> → <span class="mono">lives -= 1</span>,</li>
+                <li>pokud <span class="mono">lives == 0</span> → nastav <span class="mono">game_over = True</span> a vypiš „Prohrál jsi“.</li>
+              </ul>
+            </li>
+            <li>Před koncem iterace while cyklu vypiš <span class="mono">stages[lives]</span>.</li>
+          </ol>
         </div>
       </div>
     </div>
 
-    <!-- 10) Main guard -->
+    <!-- Řešení -->
     <div class="accordion-item">
-      <h2 class="accordion-header" id="ds10h">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ds10">
-          10) Main guard: vstupní bod programu
+      <h2 class="accordion-header" id="headingHStep4Solution">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHStep4Solution">
+          Řešení (ukázkový kód – zjednodušený)
         </button>
       </h2>
-      <div id="ds10" class="accordion-collapse collapse" data-bs-parent="#acc-ds-slow">
+      <div id="collapseHStep4Solution" class="accordion-collapse collapse" data-bs-parent="#accordionHangmanStep4">
         <div class="accordion-body">
-<pre><code class="language-python">def start():
-    # Vyber, co chceš spouštět:
-    # mini_menu()
-    # menu_dispatch()
-    print("Sem přijde volání menu.")
+<pre><code class="language-python">import random
 
-if __name__ == "__main__":
-    start()</code></pre>
-          <div class="ok">Při importu se skript nespustí sám – hodí se u větších projektů i testování.</div>
-          <div class="tip">Mini-úkol: Nech <span class="mono">start()</span> spustit tvé <span class="mono">mini_menu()</span> a otestuj.</div>
+word_list = ["camel", "baboon", "aardvark"]
+stages = ["obrázek0", "obrázek1", "obrázek2",
+          "obrázek3", "obrázek4", "obrázek5", "obrázek6"]
+
+chosen_word = random.choice(word_list)
+word_length = len(chosen_word)
+
+display = ["_"] * word_length
+game_over = False
+lives = 6
+
+print(f"Tajné slovo (debug): {chosen_word}")
+
+while not game_over:
+    guess = input("Hádej písmeno: ").lower()
+
+    # aktualizace display
+    for position in range(word_length):
+        letter = chosen_word[position]
+        if letter == guess:
+            display[position] = letter
+
+    print(" ".join(display))
+
+    # špatné písmeno → život dolů
+    if guess not in chosen_word:
+        lives -= 1
+        if lives == 0:
+            game_over = True
+            print("Prohrál jsi!")
+
+    # ASCII obrázek
+    print(stages[lives])
+
+    # výhra
+    if "_" not in display:
+        game_over = True
+        print("Vyhrál jsi!")</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================= 
+     4.2.1f Hangman – Krok 5: moduly a UX vyladění
+     ========================================= -->
+<section id="section4-2-1f" class="container my-5">
+  <h3 class="mb-4">4.2.1f Hangman – Krok 5: import modulů a UX vylepšení</h3>
+
+  <div class="container my-4 p-4 border rounded bg-light">
+    <p>Poslední krok: strukturovat kód do modulů a doladit uživatelské zážitky.</p>
+    <ul>
+      <li>Použijeme samostatné soubory <span class="mono">hangman_words.py</span> a <span class="mono">hangman_art.py</span>.</li>
+      <li>Importujeme <b>seznam slov</b>, <b>ASCII obrázky</b> a <b>logo</b>.</li>
+      <li>Přidáme přátelské hlášky:
+        <ul>
+          <li>už jsi tohle písmeno zkoušel,</li>
+          <li>tohle písmeno ve slově není, ztrácíš život,</li>
+          <li>kolik životů zbývá.</li>
+        </ul>
+      </li>
+      <li>Po prohře zobrazíme, jaké slovo bylo správné.</li>
+    </ul>
+  </div>
+
+  <!-- Modal teorie Krok 5 -->
+  <button class="btn btn-outline-primary btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#modalHangmanStep5Theory">
+    Teorie Krok 5 – moduly a UX
+  </button>
+
+  <div class="modal fade" id="modalHangmanStep5Theory" tabindex="-1" aria-labelledby="modalHangmanStep5TheoryLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalHangmanStep5TheoryLabel">Teorie Krok 5 – moduly a UX vyladění</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <h5>1) Moduly s daty</h5>
+<pre><code class="language-python"># hangman_words.py
+word_list = ["ardvark", "baboon", "camel", ...]  # delší seznam
+
+# hangman_art.py
+stages = [ ..., ..., ... ]       # ASCII obrázky
+logo = "..."                     # ASCII logo hry</code></pre>
+<pre><code class="language-python"># main.py
+from hangman_words import word_list
+from hangman_art import stages, logo
+
+print(logo)</code></pre>
+
+          <h5 class="mt-3">2) UX – opakované písmeno a chybné písmeno</h5>
+          <p>Zavedeme si seznam již hádaných písmen, aby se hráč zbytečně netrápil:</p>
+<pre><code class="language-python">guessed_letters = []
+
+while not game_over:
+    guess = input("Hádej písmeno: ").lower()
+
+    if guess in guessed_letters:
+        print(f"Písmeno '{guess}' už jsi hádal.")
+        continue
+    else:
+        guessed_letters.append(guess)</code></pre>
+          <p>Při chybě:</p>
+<pre><code class="language-python">if guess not in chosen_word:
+    print(f"Písmeno '{guess}' ve slově není. Ztrácíš život.")
+    lives -= 1</code></pre>
+
+          <h5 class="mt-3">3) Zobrazení životů a cílového slova</h5>
+<pre><code class="language-python">print(f"Životy: {lives} / 6")
+
+if lives == 0:
+    print(f"Prohrál jsi. Hledané slovo bylo: {chosen_word}")</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Akordeon – závěrečný úkol: celý Hangman -->
+  <div class="accordion" id="accordionHangmanStep5">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingHStep5Task">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHStep5Task" aria-expanded="true">
+          Úkol 4.2.1f – poskládej kompletní Hangman
+        </button>
+      </h2>
+      <div id="collapseHStep5Task" class="accordion-collapse collapse show" data-bs-parent="#accordionHangmanStep5">
+        <div class="accordion-body">
+          <ol>
+            <li>Vytvoř soubory <span class="mono">hangman_words.py</span> a <span class="mono">hangman_art.py</span> se seznamy <span class="mono">word_list</span>, <span class="mono">stages</span> a <span class="mono">logo</span>.</li>
+            <li>V <span class="mono">main.py</span> je importuj pomocí <span class="mono">from ... import ...</span>.</li>
+            <li>Před while smyčkou vypiš <span class="mono">logo</span>.</li>
+            <li>Zaveď <span class="mono">guessed_letters</span> a kontrolu opakovaného písmena.</li>
+            <li>Při chybě zobraz varovnou hlášku a vypiš, kolik životů zbývá.</li>
+            <li>Po prohře vypiš správné slovo.</li>
+          </ol>
+          <div class="tip">
+            <b>Volitelně:</b> Přidej barvy (colorama), časovač, počítání skóre nebo možnost hrát znovu.
+          </div>
         </div>
       </div>
     </div>
 
-  </div>
+    <!-- Řešení – zhuštěný final main.py -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingHStep5Solution">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHStep5Solution">
+          Řešení (kompletní main.py – zjednodušená verze)
+        </button>
+      </h2>
+      <div id="collapseHStep5Solution" class="accordion-collapse collapse" data-bs-parent="#accordionHangmanStep5">
+        <div class="accordion-body">
+<pre><code class="language-python">import random
+from hangman_words import word_list
+from hangman_art import stages, logo
 
-  <!-- Praktický mini-projekt -->
-  <div class="card mt-4">
-    <div class="card-body">
-      <h5 class="card-title">💼 Praktický mini-projekt: To-Do + Košík</h5>
-      <p class="mb-2">Zkombinuj znalosti: vytvoř malý program, který nabídne dvě „aplikace“ – <b>To-Do</b> a <b>Košík</b> – a po skončení se vrátí do hlavního menu.</p>
-<pre><code class="language-python">def menu_hlavni():
-    while True:
-        print("=== Hlavní menu ===")
-        print("1) To-Do")
-        print("2) Košík")
-        print("3) Konec")
-        v = input("Zadej volbu: ").strip()
+print(logo)
 
-        if v == "1":
-            mini_menu()       # nebo menu_dispatch()
-        elif v == "2":
-            # jednoduché košíkové mini-menu
-            while True:
-                print("--- Košík ---")
-                print("1) Přidat položku")
-                print("2) Vypsat košík")
-                print("3) Zpět")
-                k = input("Zadej volbu: ").strip()
-                if k == "1":
-                    nazev = input("Název: ").strip()
-                    ks = nacti_int_ge0("Ks: ")
-                    cena = nacti_int_ge0("Cena/ks: ")
-                    pridej_polozku(kosik, nazev, ks, cena)
-                elif k == "2":
-                    vypis_kosik(kosik)
-                elif k == "3":
-                    break
-                else:
-                    print("Neplatná volba.")
-        elif v == "3":
-            print("Ukončuji program.")
-            break
-        else:
-            print("Neplatná volba.")
+chosen_word = random.choice(word_list)
+word_length = len(chosen_word)
 
-if __name__ == "__main__":
-    menu_hlavni()</code></pre>
-      <div class="tip">Rozšíření: přidej do Košíku volbu „Sleva %“ (použij <span class="mono">sleva_procent()</span>), do To-Do volbu „Vyčistit“.</div>
-    </div>
-  </div>
+display = ["_"] * word_length
+game_over = False
+lives = 6
+guessed_letters = []
 
-  <!-- Mini-kvíz -->
-  <div class="card mt-4">
-    <div class="card-body">
-      <h5 class="card-title">🧠 Mini-kvíz</h5>
-      <ol class="mb-0">
-        <li>Jaký je rozdíl mezi listem a n-ticí v našem To-Do?</li>
-        <li>Proč se hodí mít úkol jako n-tici <span class="mono">(done, text)</span> místo samotného textu?</li>
-        <li>Co nám dává <span class="mono">DISPATCH.get(volba)</span> oproti <span class="mono">DISPATCH[volba]</span>?</li>
-        <li>Co dělá <span class="mono">if __name__ == "__main__":</span> a proč je to užitečné?</li>
-      </ol>
-    </div>
-  </div>
+# debug:
+# print(f"Tajné slovo: {chosen_word}")
 
-  <!-- Shrnutí -->
-  <div class="card mt-4">
-    <div class="card-body">
-      <h5 class="card-title">🔚 Shrnutí (co teď umíš)</h5>
-      <ul class="mb-0">
-        <li>Pracovat s listem: přidat, odebrat, projít, hlídat indexy a chyby.</li>
-        <li>Navrhnout „řádek“ dat jako n-tici a umět ji rozbalit (unpacking).</li>
-        <li>Napsat drobné čisté funkce pro To-Do/Košík a znovupoužít je.</li>
-        <li>Validovat vstup jednou funkcí a používat ji napříč programem.</li>
-        <li>Poskládat mini-menu; bonusově i dispatcher se <span class="mono">.get()</span>.</li>
-        <li>Rozumět rozdílu <span class="mono">==</span> × <span class="mono">is</span> (na úrovni objektů).</li>
-        <li>Spustit program přes <b>main guard</b> a mít čistý vstupní bod.</li>
-      </ul>
-      <div class="ok mt-2">Připraveno na další kapitolu (kalkulačka s menu) nebo rozšíření To-Do/Košíku (filtrování, ukládání do souboru).</div>
+while not game_over:
+    guess = input("Hádej písmeno: ").lower()
+
+    if guess in guessed_letters:
+        print(f"Písmeno '{guess}' už jsi hádal.")
+        continue
+    else:
+        guessed_letters.append(guess)
+
+    # aktualizace display
+    for position in range(word_length):
+        letter = chosen_word[position]
+        if letter == guess:
+            display[position] = letter
+
+    print("Slovo:", " ".join(display))
+
+    # špatné písmeno
+    if guess not in chosen_word:
+        print(f"Písmeno '{guess}' ve slově není. Ztrácíš život.")
+        lives -= 1
+        if lives == 0:
+            game_over = True
+            print("Prohrál jsi.")
+            print(f"Hledané slovo bylo: {chosen_word}")
+
+    print(stages[lives])
+    print(f"Životy: {lives} / 6")
+
+    # výhra
+    if "_" not in display:
+        game_over = True
+        print("Vyhrál jsi!")</code></pre>
+        </div>
+      </div>
     </div>
   </div>
 </section>
