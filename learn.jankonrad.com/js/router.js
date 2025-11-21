@@ -23,7 +23,7 @@ const sections = ['section1',
             
 
                   'section5',
-                  'section7-1-1', 'section7-1-2', 'section7-1-3', 'section7-1-4', 'section7-1-5', 'section7-1-6','section7-1-7',
+                  'section7-1-1', 'section7-1-2', 'section7-1-3', 'section7-1-4', 'section7-1-5', 'section7-1-6','section7-1-7', 'section7-1-8', 
                   'section8-1-1'
                 ];
 let currentSectionIndex = 0;
