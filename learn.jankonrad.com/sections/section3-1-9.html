@@ -1,0 +1,785 @@
+<!-- ========================================================= -->
+<!-- 3.1.8 CSS – Display, zaoblení, text, fonty a centrování -->
+  <style>
+    .nocopy {
+  user-select: none;
+}
+  </style>
+<section id="section3-1-8" class="container my-5, nocopy">
+  <h3 class="mb-4">3.1.8 Display, border-radius, text, fonty a centrování</h3>
+
+  <!-- Co se naučíš -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Co se naučíš?</h4>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Rozlišit <strong>block</strong> a <strong>inline</strong> prvky.</li>
+      <li class="list-group-item">Používat <strong>display</strong> a chápat <code>block</code>, <code>inline</code>, <code>inline-block</code>.</li>
+      <li class="list-group-item">Vytvářet <strong>zaoblené rohy</strong> pomocí <code>border-radius</code>.</li>
+      <li class="list-group-item">Stylovat text přes <code>text-align</code>, <code>text-decoration</code>, <code>text-transform</code>.</li>
+      <li class="list-group-item">Pracovat s fonty: <code>font-size</code>, <code>font-family</code>, <code>font-weight</code>.</li>
+      <li class="list-group-item">Vycentrovat prvek <strong>horizontálně</strong> pomocí <code>margin: 0 auto</code>.</li>
+      <li class="list-group-item">Vycentrovat obsah <strong>vertikálně</strong> pomocí <code>align-content: center</code> (na rodiči).</li>
+    </ul>
+  </div>
+
+  <!-- ===================================================== -->
+  <!-- 1) BLOCK vs INLINE -->
+  <h4 class="mt-5 mb-3">1️⃣ Block vs Inline prvky</h4>
+
+  <div class="container my-4 p-4 border rounded bg-white">
+    <p class="mb-2">
+      HTML prvky se chovají dvěma základními způsoby: <strong>block</strong> a <strong>inline</strong>.
+      To určuje, jestli prvek začne na novém řádku a kolik zabere místa.
+    </p>
+    <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalBlockInline">
+      Teorie: Block vs Inline
+    </button>
+  </div>
+
+  <!-- Modal: Block vs Inline -->
+  <div class="modal fade" id="modalBlockInline" tabindex="-1" aria-labelledby="modalBlockInlineLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalBlockInlineLabel">Block vs Inline – co to znamená</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <h6>Block (blokové prvky)</h6>
+          <ul>
+            <li>Zabírají <strong>celou dostupnou šířku</strong> rodiče (typicky celý řádek).</li>
+            <li>Vždy začínají na <strong>novém řádku</strong>.</li>
+            <li>Příklady: <code>h1–h6</code>, <code>p</code>, <code>div</code>, <code>ul</code>, <code>li</code>.</li>
+          </ul>
+          <hr>
+          <h6>Inline (řádkové prvky)</h6>
+          <ul>
+            <li>Nezačínají na novém řádku.</li>
+            <li>Zaberou jen <strong>tolik místa, kolik potřebují</strong> (jako text).</li>
+            <li>Příklady: <code>a</code>, <code>span</code>, <code>strong</code>, <code>button</code>, <code>img</code>.</li>
+          </ul>
+          <div class="alert alert-secondary mt-3 mb-0">
+            Inline prvky se „chovají jako text“ – proto se řadí vedle sebe.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion mb-4" id="acc-318-1">
+    <!-- HTML -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h318-1a">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c318-1a">
+          HTML: připrav ukázku block a inline
+        </button>
+      </h2>
+      <div id="c318-1a" class="accordion-collapse collapse show" data-bs-parent="#acc-318-1">
+        <div class="accordion-body">
+          <p>Do <code>index.html</code> vlož do <code>&lt;body&gt;</code>:</p>
+<pre><code>&lt;section class="demo-wrap"&gt;
+  &lt;h3&gt;Block prvky (začnou na novém řádku)&lt;/h3&gt;
+
+  &lt;h2&gt;Nadpis H2 #1&lt;/h2&gt;
+  &lt;h2&gt;Nadpis H2 #2&lt;/h2&gt;
+  &lt;h2&gt;Nadpis H2 #3&lt;/h2&gt;
+
+  &lt;div&gt;DIV je také block prvek&lt;/div&gt;
+  &lt;p&gt;Odstavec P je také block prvek&lt;/p&gt;
+
+  &lt;ul&gt;
+    &lt;li&gt;LI je block prvek&lt;/li&gt;
+    &lt;li&gt;LI je block prvek&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;hr&gt;
+
+  &lt;h3&gt;Inline prvky (řadí se vedle sebe)&lt;/h3&gt;
+  &lt;a href="#"&gt;Odkaz 1&lt;/a&gt;
+  &lt;a href="#"&gt;Odkaz 2&lt;/a&gt;
+  &lt;a href="#"&gt;Odkaz 3&lt;/a&gt;
+
+  &lt;button&gt;Tlačítko&lt;/button&gt;
+  &lt;span&gt;Span&lt;/span&gt;
+  &lt;strong&gt;Strong&lt;/strong&gt;
+&lt;/section&gt;</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- CSS -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h318-1b">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c318-1b">
+          CSS: zvýrazni šířku a chování (pozadí)
+        </button>
+      </h2>
+      <div id="c318-1b" class="accordion-collapse collapse" data-bs-parent="#acc-318-1">
+        <div class="accordion-body">
+          <p>Do <code>styles.css</code> přidej:</p>
+<pre><code>body { margin: 0; padding: 0; font-family: system-ui, sans-serif; }
+.demo-wrap { padding: 16px; }
+
+h2 { background: #dbeafe; }          /* uvidíš, že vyplní šířku řádku */
+a, button, span, strong { background: #dcfce7; }</code></pre>
+          <div class="alert alert-info mt-3 mb-0">
+            <strong>Sleduj:</strong> H2 má pozadí přes celý řádek (block). Odkazy a span mají pozadí jen kolem textu (inline).
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================== -->
+  <!-- 2) DISPLAY -->
+  <h4 class="mt-5 mb-3">2️⃣ Display: změna chování prvku</h4>
+
+  <div class="container my-4 p-4 border rounded bg-white">
+    <p class="mb-2">
+      Vlastnost <code>display</code> umí přepnout prvek mezi <strong>block</strong>, <strong>inline</strong> a <strong>inline-block</strong>.
+      Díky tomu můžeme inline prvku dát výšku/šířku a svislé marginy.
+    </p>
+    <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalDisplay">
+      Teorie: display a proč některé věci nefungují u inline
+    </button>
+  </div>
+
+  <!-- Modal: display -->
+  <div class="modal fade" id="modalDisplay" tabindex="-1" aria-labelledby="modalDisplayLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalDisplayLabel">Display: block / inline / inline-block</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Inline prvky tečou v řádku jako text. Proto běžně:
+          </p>
+          <ul>
+            <li><strong>ignorují</strong> <code>width</code> a <code>height</code></li>
+            <li><strong>ignorují</strong> svislé okraje <code>margin-top</code> a <code>margin-bottom</code></li>
+            <li>vodorovné okraje (<code>margin-left</code>, <code>margin-right</code>) fungují</li>
+          </ul>
+          <hr>
+          <p>
+            <code>inline-block</code> je kompromis: prvek je v řádku (vedle dalších),
+            ale <strong>respektuje</strong> <code>width</code>, <code>height</code> i svislé marginy.
+          </p>
+          <div class="alert alert-secondary mb-0">
+            <strong>Prakticky:</strong> když chceš „inline prvek, který jde velikostně stylovat“, často použiješ <code>display: inline-block</code>.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion mb-4" id="acc-318-2">
+    <!-- HTML -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h318-2a">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c318-2a">
+          HTML: div + span ukázka (stejné styly)
+        </button>
+      </h2>
+      <div id="c318-2a" class="accordion-collapse collapse show" data-bs-parent="#acc-318-2">
+        <div class="accordion-body">
+<pre><code>&lt;section class="demo-wrap"&gt;
+  &lt;h3&gt;Display – pokus se o margin/width u span&lt;/h3&gt;
+
+  &lt;div class="d1"&gt;DIV #1&lt;/div&gt;
+  &lt;div class="d1"&gt;DIV #2&lt;/div&gt;
+
+  &lt;span class="s1"&gt;SPAN #1&lt;/span&gt;
+  &lt;span class="s1"&gt;SPAN #2&lt;/span&gt;
+&lt;/section&gt;</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- CSS -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h318-2b">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c318-2b">
+          CSS: stejné styly + pozorování (inline ignoruje výšku a svislý margin)
+        </button>
+      </h2>
+      <div id="c318-2b" class="accordion-collapse collapse" data-bs-parent="#acc-318-2">
+        <div class="accordion-body">
+<pre><code>.d1, .s1 {
+  border: 2px solid #111827;
+  margin: 12px;
+  padding: 10px;
+  background: #fef3c7;
+}
+
+/* zkusíme „násilím“ span zvětšit */
+.s1 {
+  width: 180px;
+  height: 80px;
+  margin-top: 80px;   /* u inline prvku neuvidíš efekt */
+}</code></pre>
+          <div class="alert alert-info mt-3">
+            <strong>Sleduj:</strong> U DIV se projeví margin-top a velikost. U SPAN typicky ne.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CSS: přepnutí display -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h318-2c">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c318-2c">
+          CSS: přepni display (span → block, div → inline, a pak inline-block)
+        </button>
+      </h2>
+      <div id="c318-2c" class="accordion-collapse collapse" data-bs-parent="#acc-318-2">
+        <div class="accordion-body">
+          <p>Teď postupně zkoušej tyto varianty (vždy jednu, ostatní zakomentuj):</p>
+
+          <div class="alert alert-secondary">
+            <strong>A) SPAN jako block</strong> – začne na novém řádku a začne respektovat width/height/margins.
+          </div>
+<pre><code>/* A) span začne fungovat jako block */
+.s1 { display: block; }</code></pre>
+
+          <div class="alert alert-secondary">
+            <strong>B) DIV jako inline</strong> – začne se chovat jako text.
+          </div>
+<pre><code>/* B) div se začne chovat jako inline */
+.d1 { display: inline; }</code></pre>
+
+          <div class="alert alert-secondary">
+            <strong>C) inline-block</strong> – zůstane v řádku, ale jde velikostně stylovat.
+          </div>
+<pre><code>/* C) kompromis */
+.s1 { display: inline-block; }</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================== -->
+  <!-- 3) BORDER RADIUS -->
+  <h4 class="mt-5 mb-3">3️⃣ Rounded corners: border-radius</h4>
+
+  <div class="container my-4 p-4 border rounded bg-white">
+    <p class="mb-2">
+      Zaoblené rohy dělá <code>border-radius</code>. Čím vyšší hodnota, tím kulatější rohy.
+      Když je <code>border-radius</code> 50 %, z čtverce vznikne kruh.
+    </p>
+    <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalRadius">
+      Teorie: border-radius (včetně rohů zvlášť + shorthand)
+    </button>
+  </div>
+
+  <div class="modal fade" id="modalRadius" tabindex="-1" aria-labelledby="modalRadiusLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalRadiusLabel">border-radius – jak funguje</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <ul>
+            <li><code>border-radius: 20px;</code> zaoblí všechny rohy stejně.</li>
+            <li>Čím větší číslo, tím víc kulaté rohy.</li>
+            <li><code>border-radius: 50%;</code> udělá kruh, pokud je <code>width</code> = <code>height</code>.</li>
+            <li>Rohy lze nastavit zvlášť: <code>border-top-left-radius</code> apod.</li>
+            <li>Shorthand pro 4 rohy jde po směru hodin: TL → TR → BR → BL.</li>
+          </ul>
+<pre><code>/* 4 hodnoty: TL, TR, BR, BL */
+.box { border-radius: 90px 60px 30px 5%; }</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion mb-4" id="acc-318-3">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h318-3a">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c318-3a">
+          HTML: připrav čtverec
+        </button>
+      </h2>
+      <div id="c318-3a" class="accordion-collapse collapse show" data-bs-parent="#acc-318-3">
+        <div class="accordion-body">
+<pre><code>&lt;section class="demo-wrap"&gt;
+  &lt;h3&gt;border-radius demo&lt;/h3&gt;
+  &lt;div class="radius-box"&gt;200 × 200&lt;/div&gt;
+&lt;/section&gt;</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h318-3b">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c318-3b">
+          CSS: postupně měň border-radius (20px → 50px → 100px → 50%)
+        </button>
+      </h2>
+      <div id="c318-3b" class="accordion-collapse collapse" data-bs-parent="#acc-318-3">
+        <div class="accordion-body">
+<pre><code>.radius-box{
+  width: 200px;
+  height: 200px;
+  background: steelblue;
+  color: white;
+  display: grid;
+  place-items: center;
+  border-radius: 20px;   /* zkus 5px, 50px, 100px, 50% */
+}</code></pre>
+          <div class="alert alert-info mt-3 mb-0">
+            <strong>Úkol:</strong> změň hodnotu <code>border-radius</code> a sleduj, kdy se z čtverce stane kruh.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================== -->
+  <!-- 4) TEXT PROPERTIES -->
+  <h4 class="mt-5 mb-3">4️⃣ Text: text-align, text-decoration, text-transform</h4>
+
+  <div class="container my-4 p-4 border rounded bg-white">
+    <p class="mb-2">
+      Text se dá zarovnat (<code>text-align</code>), dekorovat čarou (<code>text-decoration</code>)
+      a převést na velká/malá písmena (<code>text-transform</code>).
+    </p>
+    <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalTextProps">
+      Teorie: vlastnosti textu
+    </button>
+  </div>
+
+  <div class="modal fade" id="modalTextProps" tabindex="-1" aria-labelledby="modalTextPropsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalTextPropsLabel">Text properties: align / decoration / transform</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <h6>text-align</h6>
+          <ul>
+            <li><code>left</code> (výchozí), <code>center</code>, <code>right</code>, <code>justify</code></li>
+            <li><strong>justify</strong> dorovnává řádky na stejnou délku (jako noviny)</li>
+          </ul>
+          <hr>
+          <h6>text-decoration</h6>
+          <ul>
+            <li>čára: <code>underline</code>, <code>overline</code>, <code>line-through</code></li>
+            <li>jde nastavit i barva, styl a tloušťka (shorthand, pořadí nevadí)</li>
+            <li><code>text-decoration: none;</code> často používáme na odkazy, abychom odstranili podtržení</li>
+          </ul>
+          <hr>
+          <h6>text-transform</h6>
+          <ul>
+            <li><code>uppercase</code>, <code>lowercase</code>, <code>capitalize</code></li>
+            <li>užitečné, když text přichází z databáze/API a nemáš kontrolu nad formátem</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion mb-4" id="acc-318-4">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h318-4a">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c318-4a">
+          HTML: připrav nadpisy a odstavec
+        </button>
+      </h2>
+      <div id="c318-4a" class="accordion-collapse collapse show" data-bs-parent="#acc-318-4">
+        <div class="accordion-body">
+<pre><code>&lt;section class="demo-wrap"&gt;
+  &lt;h4 class="left"&gt;Text vlevo&lt;/h4&gt;
+  &lt;h4 class="center"&gt;Text na střed&lt;/h4&gt;
+  &lt;h4 class="right"&gt;Text vpravo&lt;/h4&gt;
+
+  &lt;p class="justify"&gt;
+    Tohle je delší text, na kterém uvidíš rozdíl mezi běžným zarovnáním a justify.
+    Přidej pár vět, ať je to na více řádků.
+  &lt;/p&gt;
+
+  &lt;a href="#" class="link"&gt;Odkaz (bez podtržení)&lt;/a&gt;
+&lt;/section&gt;</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h318-4b">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c318-4b">
+          CSS: text-align + text-decoration + text-transform
+        </button>
+      </h2>
+      <div id="c318-4b" class="accordion-collapse collapse" data-bs-parent="#acc-318-4">
+        <div class="accordion-body">
+<pre><code>.left   { text-align: left; }
+.center { text-align: center; }
+.right  { text-align: right; }
+
+.justify { text-align: justify; }
+
+.center{
+  text-decoration: underline;
+}
+
+/* shorthand: line + color + style + thickness */
+.right{
+  text-decoration: underline #2563eb wavy 4px;
+}
+
+.link{
+  text-decoration: none;     /* odstraní výchozí podtržení odkazu */
+}
+
+.justify{
+  text-transform: capitalize;
+}</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================== -->
+  <!-- 5) FONTS + UNITS -->
+  <h4 class="mt-5 mb-3">5️⃣ Fonty: font-size (px/pt/em/rem) a proč je rem praktické</h4>
+
+  <div class="container my-4 p-4 border rounded bg-white">
+    <p class="mb-2">
+      Pro fonty jsou klíčové: <code>font-size</code>, <code>font-family</code>, <code>font-style</code>, <code>font-weight</code>.
+      U velikosti se často používá <code>rem</code>, protože měníš vše z jednoho místa (root).
+    </p>
+    <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalFontUnits">
+      Teorie: pt vs px vs em vs rem
+    </button>
+  </div>
+
+  <div class="modal fade" id="modalFontUnits" tabindex="-1" aria-labelledby="modalFontUnitsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalFontUnitsLabel">Velikost fontu: px / pt / em / rem</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <ul>
+            <li><strong>px</strong> – absolutní jednotka (pevná velikost).</li>
+            <li><strong>pt</strong> – body (znáš z Wordu; výchozí velikost bývá 12 pt ≈ 16 px).</li>
+            <li><strong>em</strong> – násobek velikosti písma rodiče (1em = 100 % parent font-size).</li>
+            <li><strong>rem</strong> – násobek velikosti písma kořene (<code>html</code>) → „řídím celý web z jednoho místa“.</li>
+          </ul>
+<pre><code>html { font-size: 12pt; }    /* root */
+
+h1 { font-size: 3rem; }      /* 3 × root */
+p  { font-size: 1rem; }      /* 1 × root */</code></pre>
+          <div class="alert alert-secondary mb-0">
+            Když změníš <code>html { font-size: ... }</code>, změní se proporčně vše, co je v <code>rem</code>.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion mb-4" id="acc-318-5">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h318-5a">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c318-5a">
+          HTML: nadpisy + odstavec pro rem ukázku
+        </button>
+      </h2>
+      <div id="c318-5a" class="accordion-collapse collapse show" data-bs-parent="#acc-318-5">
+        <div class="accordion-body">
+<pre><code>&lt;section class="demo-wrap"&gt;
+  &lt;h1&gt;H1 – 3rem&lt;/h1&gt;
+  &lt;h2&gt;H2 – 2rem&lt;/h2&gt;
+  &lt;h3&gt;H3 – 1.5rem&lt;/h3&gt;
+  &lt;p&gt;Odstavec – 1rem&lt;/p&gt;
+&lt;/section&gt;</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h318-5b">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c318-5b">
+          CSS: nastav root a rem velikosti
+        </button>
+      </h2>
+      <div id="c318-5b" class="accordion-collapse collapse" data-bs-parent="#acc-318-5">
+        <div class="accordion-body">
+<pre><code>html { font-size: 12pt; }   /* výchozí logika z transkriptu */
+
+h1 { font-size: 3rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.5rem; }
+p  { font-size: 1rem; }</code></pre>
+          <div class="alert alert-info mt-3 mb-0">
+            <strong>Úkol:</strong> změň <code>html { font-size: 18pt; }</code> a sleduj, že se zvětší vše proporčně.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================== -->
+  <!-- 6) FONT FAMILY + WEIGHT -->
+  <h4 class="mt-5 mb-3">6️⃣ Font-family a font-weight (včetně fallbacků)</h4>
+
+  <div class="container my-4 p-4 border rounded bg-white">
+    <p class="mb-2">
+      <code>font-family</code> vybírá font. Vždy dávej <strong>fallback</strong> (záložní fonty).
+      <code>font-weight</code> určuje „tučnost“ (normal/bold nebo 100–900).
+    </p>
+    <button class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#modalFontFamily">
+      Teorie: font-family + fallback
+    </button>
+    <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalFontWeight">
+      Teorie: font-weight (100–900, lighter/bolder)
+    </button>
+  </div>
+
+  <div class="modal fade" id="modalFontFamily" tabindex="-1" aria-labelledby="modalFontFamilyLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalFontFamilyLabel">font-family: výběr fontu + fallback</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Font může být na počítači nedostupný, proto se píše seznam náhrad:</p>
+<pre><code>p { 
+  font-family: "Segoe UI", Arial, Verdana, sans-serif;
+}</code></pre>
+          <ul class="mb-0">
+            <li>Pokud není první font, použije se další.</li>
+            <li>Poslední bývá obecný typ, typicky <code>sans-serif</code>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalFontWeight" tabindex="-1" aria-labelledby="modalFontWeightLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalFontWeightLabel">font-weight: tučnost</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <ul>
+            <li><code>normal</code> ≈ 400</li>
+            <li><code>bold</code> ≈ 700</li>
+            <li>Čísla: 100–900 (čím vyšší, tím tučnější) – záleží na tom, co font podporuje.</li>
+            <li><code>lighter</code> a <code>bolder</code> jsou relativní k rodiči (v transkriptu: ±300).</li>
+          </ul>
+<pre><code>p { font-weight: 700; }    /* bold */
+h1{ font-weight: normal; } </code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion mb-4" id="acc-318-6">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h318-6a">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c318-6a">
+          HTML: ukázka textu pro font-family a weight
+        </button>
+      </h2>
+      <div id="c318-6a" class="accordion-collapse collapse show" data-bs-parent="#acc-318-6">
+        <div class="accordion-body">
+<pre><code>&lt;section class="demo-wrap"&gt;
+  &lt;h3 class="fw-normal"&gt;Nadpis (normal)&lt;/h3&gt;
+  &lt;p class="fw-bold"&gt;Odstavec (bold)&lt;/p&gt;
+  &lt;p class="fw-100"&gt;Odstavec (100)&lt;/p&gt;
+  &lt;p class="fw-700"&gt;Odstavec (700)&lt;/p&gt;
+&lt;/section&gt;</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h318-6b">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c318-6b">
+          CSS: nastav font-family + různé font-weight
+        </button>
+      </h2>
+      <div id="c318-6b" class="accordion-collapse collapse" data-bs-parent="#acc-318-6">
+        <div class="accordion-body">
+<pre><code>body{
+  font-family: "Segoe UI", Arial, Verdana, sans-serif;
+}
+
+.fw-normal { font-weight: normal; }  /* 400 */
+.fw-bold   { font-weight: bold; }    /* 700 */
+
+.fw-100    { font-weight: 100; }
+.fw-700    { font-weight: 700; }</code></pre>
+          <div class="alert alert-info mt-3 mb-0">
+            <strong>Pozor:</strong> některé fonty neumí všechny váhy (100–900). Výsledek záleží na fontu.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================== -->
+  <!-- 7) CENTERING -->
+  <h4 class="mt-5 mb-3">7️⃣ Centrovaní: margin: 0 auto + align-content: center</h4>
+
+  <div class="container my-4 p-4 border rounded bg-white">
+    <p class="mb-2">
+      Horizontálně vycentruješ blokový prvek pomocí <code>margin: 0 auto</code>.
+      Vertikální centrování obsahu v rodiči uděláš přes <code>align-content: center</code> (aplikuje se na rodiče).
+    </p>
+    <button class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#modalCenterHoriz">
+      Teorie: margin: 0 auto (horizontálně)
+    </button>
+    <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalCenterVert">
+      Teorie: align-content: center (vertikálně)
+    </button>
+  </div>
+
+  <div class="modal fade" id="modalCenterHoriz" tabindex="-1" aria-labelledby="modalCenterHorizLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalCenterHorizLabel">Horizontální centrování: margin: 0 auto</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Když nastavíš <code>margin-left</code> i <code>margin-right</code> na <code>auto</code>,
+            prohlížeč rozděluje volné místo na obě strany stejně → prvek je uprostřed.
+          </p>
+<pre><code>.box{
+  width: 50%;
+  height: 300px;
+  margin: 0 auto;   /* top/bottom 0, left/right auto */
+}</code></pre>
+          <div class="alert alert-secondary mb-0">
+            Tohle funguje na <strong>blokové</strong> prvky s definovanou šířkou (ne na inline).
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalCenterVert" tabindex="-1" aria-labelledby="modalCenterVertLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalCenterVertLabel">Vertikální centrování obsahu: align-content: center</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            <code>align-content: center;</code> dáš na <strong>rodiče</strong>, aby jeho děti byly vertikálně uprostřed.
+          </p>
+          <p class="mb-2">
+            Pozor: aby to fungovalo přes celou obrazovku, musí mít rodič skutečnou výšku.
+            V transkriptu se to řeší <code>html, body { height: 100%; }</code> a odstraněním default marginu.
+          </p>
+<pre><code>html, body{
+  height: 100%;
+  margin: 0;
+}
+
+body{
+  align-content: center;
+}</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion mb-4" id="acc-318-7">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h318-7a">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c318-7a">
+          HTML: box + odstavec uvnitř (centrování)
+        </button>
+      </h2>
+      <div id="c318-7a" class="accordion-collapse collapse show" data-bs-parent="#acc-318-7">
+        <div class="accordion-body">
+<pre><code>&lt;section class="demo-wrap"&gt;
+  &lt;div class="center-box"&gt;
+    &lt;p class="center-text"&gt;Text uprostřed&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h318-7b">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c318-7b">
+          CSS: horizontálně margin: 0 auto + text-align + align-content
+        </button>
+      </h2>
+      <div id="c318-7b" class="accordion-collapse collapse" data-bs-parent="#acc-318-7">
+        <div class="accordion-body">
+<pre><code>.center-box{
+  width: 50%;
+  height: 300px;
+  background: steelblue;
+  margin: 0 auto;        /* horizontálně uprostřed */
+}
+
+.center-text{
+  width: 50%;
+  height: 150px;
+  background: #93c5fd;
+  margin: 0 auto;        /* horizontálně uprostřed uvnitř boxu */
+  text-align: center;    /* text na střed (vodorovně) */
+  align-content: center; /* text vertikálně uprostřed (na rodiči prvků uvnitř) */
+}</code></pre>
+          <div class="alert alert-info mt-3">
+            <strong>Úkol z transkriptu:</strong> vycentruj i celý box vertikálně v rámci stránky.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h318-7c">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c318-7c">
+          CSS: vycentruj celý obsah stránky vertikálně (html/body height: 100% + align-content)
+        </button>
+      </h2>
+      <div id="c318-7c" class="accordion-collapse collapse" data-bs-parent="#acc-318-7">
+        <div class="accordion-body">
+          <p>Přidej (nebo uprav) tyto styly přesně podle logiky z transkriptu:</p>
+<pre><code>html, body{
+  height: 100%;
+  margin: 0;        /* odstraní výchozí okraj a scrollbar */
+}
+
+body{
+  align-content: center;  /* vertikálně centruje děti body */
+}</code></pre>
+          <div class="alert alert-secondary mt-3 mb-0">
+            <strong>Proč je potřeba height: 100% i na html?</strong><br>
+            Protože body počítá procenta z rodiče – a rodičem body je html.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">📘 Shrnutí kapitoly</h4>
+    <ul class="mb-0">
+      <li><strong>Block</strong> = nový řádek + plná šířka; <strong>Inline</strong> = jako text, jen potřebné místo.</li>
+      <li><code>display</code> umí měnit chování: <code>block</code>, <code>inline</code>, <code>inline-block</code>.</li>
+      <li><code>border-radius</code> dělá zaoblené rohy, <code>50%</code> dělá kruh (u čtverce).</li>
+      <li>Text: <code>text-align</code>, <code>text-decoration</code>, <code>text-transform</code>.</li>
+      <li>Fonty: <code>rem</code> je praktické pro jednotné měřítko, fallbacky u <code>font-family</code>.</li>
+      <li>Centrování: <code>margin: 0 auto</code> pro bloky horizontálně; <code>align-content: center</code> na rodiči pro vertikální centrování.</li>
+    </ul>
+  </div>
+</section>

@@ -12,7 +12,7 @@ const sections = ['section1',
 
            
 
-                  'section3-1-1', 'section3-1-2', 'section3-1-3','section3-1-4','section3-1-5', 'section3-1-6','section3-1-7','section3-1-8',
+                  'section3-1-1', 'section3-1-2', 'section3-1-3','section3-1-4','section3-1-5', 'section3-1-6','section3-1-7','section3-1-8','section3-1-9',
                   
                   'section4-1-základy-pythonu','section4-1-1','section4-1-2', 'section4-1-3','section4-1-4','section4-1-5','section4-1-6','section4-1-7final','section4-1-8test',
                   'section4-2-1','section4-2-2','section4-2-3final',
