@@ -783,4 +783,65 @@ body{
       <li>Centrování: <code>margin: 0 auto</code> pro bloky horizontálně; <code>align-content: center</code> na rodiči pro vertikální centrování.</li>
     </ul>
   </div>
+  <section id="css-317-test" class="container my-5">
+  <h3 class="mb-4">🧩 Test – Display, border-radius, text, fonty a centrování </h3>
+  <p>Vyber správnou odpověď. Po kliknutí se dozvíš, zda byla volba správná ✅ nebo chybná ❌.</p>
+
+  <div class="list-group">
+
+    <!-- 1. otázka -->
+    <div class="list-group-item my-3 p-4 border rounded">
+      <h5>1️⃣ Která hodnota se v CSS používá pro změnu rohů (zaoblení) objektu?</h5>
+      <div class="btn-group-vertical w-100">
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">corner-radius</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">round-border</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)">border-radius</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">padding</button>
+      </div>
+    </div>
+
+    <!-- 2. otázka -->
+    <div class="list-group-item my-3 p-4 border rounded">
+      <h5>2️⃣ Jak vytvoříš kruh za použití <strong>border-radius</strong> na čtvercovém elementu ?</h5>
+      <div class="btn-group-vertical w-100">
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)">border-radius: 50%;</button>
+        
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">border-radius: 25%;</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">border-radius: circle;</button>
+      </div>
+    </div>
+
+    <!-- 3. otázka -->
+    <div class="list-group-item my-3 p-4 border rounded">
+      <h5>3️⃣ Jak můžeme vycentrovat blokový element horizontálně?</h5>
+      <div class="btn-group-vertical w-100">
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">text-align: center;</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">margin- center;</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)">margin: 0 auto;</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">margin: auto 0;</button>
+      </div>
+    </div>
+
+    <!-- 4. otázka -->
+    <div class="list-group-item my-3 p-4 border rounded">
+      <h5>4️⃣ Jakou vlastnost použiješ, pokud by jsi chtěl vycentrovat text horizontálně?</h5>
+      <div class="btn-group-vertical w-100">
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">text-transform</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)">text-align</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">align-content</button>
+       
+      </div>
+    </div>
+     <!-- 5. otázka -->
+    <div class="list-group-item my-3 p-4 border rounded">
+      <h5>4️⃣ Jak můžeme odstranit podtržení u a tagu (odkazu) </h5>
+      <div class="btn-group-vertical w-100">
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">text-decoration: no-underline;</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)">text-transform: none;</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)">text-decoration: none;</button>
+       
+      </div>
+    </div>
+
+  </div>
 </section>
