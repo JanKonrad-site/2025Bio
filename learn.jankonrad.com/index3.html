@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    img-src 'self' https: data: blob: raw.githubusercontent.com user-images.githubusercontent.com res.cloudinary.com *.cloudinary.com learn.jankonrad.com;
+    script-src 'self' 'unsafe-inline' https:;
+    style-src  'self' 'unsafe-inline' https:;
+    font-src   'self' https: data:;
+    connect-src 'self' https:;
+    media-src  'self' https:;
+    frame-src  'self' https:;
+    object-src 'none';
+    base-uri 'self';
+    upgrade-insecure-requests;
+  ">
+
+  <title>Výuka – Jan Konrád</title>
+
+  <!-- Tvoje externí CSS nechávám -->
+  <link rel="stylesheet" href="./CSS/animace.css">
+  <link rel="stylesheet" href="./CSS/carousel.css">
+  <link rel="stylesheet" href="./CSS/carousel.rtl.css">
+
+  <style>
+    /* =========================================================
+       1) Základní „dark-only“ design (bez Bootstrapu)
+       ========================================================= */
+    :root{
+      --site-nav-h: 64px;      /* JS zpřesní */
+      --doc-toolbar-h: 56px;   /* JS zpřesní */
+
+      --bg: #070b16;
+      --bg2: #0b1020;
+      --surface: rgba(17, 24, 39, .78);
+      --surface-2: rgba(15, 23, 42, .86);
+      --border: rgba(255,255,255,.10);
+      --border-2: rgba(255,255,255,.14);
+
+      --text: #e8eefc;
+      --muted: rgba(232, 238, 252, .72);
+
+      --accent: #60a5fa;
+      --accent-2: #22c55e;
+      --danger: #fb7185;
+
+      --shadow: 0 18px 55px rgba(0,0,0,.45);
+      --shadow-soft: 0 10px 28px rgba(0,0,0,.35);
+
+      --radius: 16px;
+      --radius-sm: 12px;
+
+      --nav-w: 340px;
+      --gap: 14px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+
+    body{
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 700px at 15% -5%, rgba(96,165,250,.22), transparent 60%),
+        radial-gradient(900px 520px at 85% 0%, rgba(34,197,94,.12), transparent 55%),
+        radial-gradient(1200px 900px at 50% 115%, rgba(251,113,133,.10), transparent 60%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      padding-top: calc(var(--site-nav-h) + var(--doc-toolbar-h));
+      overflow: hidden; /* scrolluje jen obsah + sidebar */
+    }
+
+    a{ color: inherit; text-decoration: none; }
+    a:focus-visible, button:focus-visible, input:focus-visible{
+      outline: 3px solid rgba(96,165,250,.55);
+      outline-offset: 2px;
+      border-radius: 10px;
+    }
+
+    /* =========================================================
+       Header: 2 řádky (sitebar + toolbar)
+       ========================================================= */
+    .header{
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 3000;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .sitebar{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: rgba(9, 12, 24, .68);
+    }
+
+    .brand{
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 760;
+      letter-spacing: .3px;
+      white-space: nowrap;
+    }
+    .brand .dot{
+      width: 10px; height: 10px;
+      border-radius: 99px;
+      background: var(--accent);
+      box-shadow: 0 0 0 6px rgba(96,165,250,.15);
+    }
+
+    .siteLinks{
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .siteLink{
+      padding: 10px 12px;
+      border-radius: 999px;
+      color: var(--muted);
+      border: 1px solid transparent;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease, color .15s ease;
+      will-change: transform;
+    }
+    .siteLink:hover{
+      color: var(--text);
+      background: rgba(96,165,250,.10);
+      border-color: rgba(96,165,250,.24);
+      transform: translateY(-1px);
+    }
+
+    .siteMenuBtn{
+      display: none;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 12px;
+      cursor: pointer;
+    }
+
+    .docbar{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      background: rgba(13, 18, 35, .72);
+      border-top: 1px solid rgba(255,255,255,.06);
+    }
+
+    .docMenuBtn{
+      display: none;
+      border: 1px solid rgba(96,165,250,.28);
+      background: rgba(96,165,250,.10);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 12px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .docMenuBtn:hover{
+      background: rgba(96,165,250,.14);
+      border-color: rgba(96,165,250,.40);
+    }
+
+    .searchWrap{
+      flex: 1;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      box-shadow: 0 12px 30px rgba(0,0,0,.25);
+    }
+
+    .searchWrap input{
+      width: 100%;
+      border: 0;
+      outline: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 15px;
+    }
+    .searchWrap input::placeholder{
+      color: rgba(232,238,252,.55);
+    }
+
+    .iconBtn{
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 9px 11px;
+      cursor: pointer;
+      transition: background .15s ease, border-color .15s ease, transform .15s ease;
+    }
+    .iconBtn:hover{
+      background: rgba(255,255,255,.09);
+      border-color: rgba(255,255,255,.18);
+      transform: translateY(-1px);
+    }
+    .iconBtn:disabled{
+      opacity: .45;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* =========================================================
+       Layout: sidebar + obsah (scroll uvnitř)
+       ========================================================= */
+    .layout{
+      height: calc(100dvh - var(--site-nav-h) - var(--doc-toolbar-h));
+      display: grid;
+      grid-template-columns: var(--nav-w) 1fr;
+      gap: var(--gap);
+      padding: var(--gap);
+      overflow: hidden;
+    }
+
+    .card{
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .sidebar{
+      position: sticky;
+      top: calc(var(--site-nav-h) + var(--doc-toolbar-h) + var(--gap));
+      height: calc(100dvh - var(--site-nav-h) - var(--doc-toolbar-h) - (var(--gap) * 2));
+      overflow: auto;
+      padding: 10px;
+    }
+
+    .content{
+      height: calc(100dvh - var(--site-nav-h) - var(--doc-toolbar-h) - (var(--gap) * 2));
+      overflow: auto;
+      padding: 18px 18px;
+      scroll-behavior: smooth;
+    }
+
+    /* anchor offset v rámci scroll containeru */
+    [id]{
+      scroll-margin-top: 14px;
+    }
+
+    /* =========================================================
+       Navigace: hierarchie + hover rozbalování
+       ========================================================= */
+    .navTitle{
+      font-weight: 760;
+      letter-spacing: .2px;
+      padding: 10px 10px 12px;
+      color: rgba(232,238,252,.92);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .navTitle small{ color: var(--muted); font-weight: 600; }
+
+    .navRoot{
+      display: grid;
+      gap: 8px;
+      padding: 0 6px 10px;
+    }
+
+    details.navGroup{
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 14px;
+      overflow: hidden;
+      background: rgba(255,255,255,.04);
+      transition: border-color .15s ease, background .15s ease;
+    }
+    details.navGroup:hover{
+      border-color: rgba(96,165,250,.22);
+      background: rgba(96,165,250,.06);
+    }
+
+    summary.navGroupHeader{
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 10px;
+      user-select: none;
+    }
+    summary.navGroupHeader::-webkit-details-marker{ display: none; }
+
+    .gLeft{
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .chev{
+      width: 22px;
+      height: 22px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 9px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color: rgba(232,238,252,.80);
+      flex: 0 0 auto;
+    }
+    details[open] .chev{ transform: rotate(90deg); transition: transform .15s ease; }
+
+    .gTitle{
+      font-weight: 720;
+      color: rgba(232,238,252,.92);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .gMeta{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex: 0 0 auto;
+    }
+
+    .jump{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: rgba(232,238,252,.88);
+      transition: background .15s ease, border-color .15s ease, transform .15s ease;
+    }
+    .jump:hover{
+      background: rgba(96,165,250,.12);
+      border-color: rgba(96,165,250,.30);
+      transform: translateY(-1px);
+    }
+
+    .navBody{
+      display: grid;
+      gap: 6px;
+      padding: 8px 10px 10px;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+
+    .navLink{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 10px;
+      border-radius: 12px;
+      color: rgba(232,238,252,.78);
+      border: 1px solid transparent;
+      transition: background .12s ease, border-color .12s ease, color .12s ease, transform .12s ease;
+    }
+
+    .navLink:hover{
+      color: rgba(232,238,252,.95);
+      background: rgba(255,255,255,.06);
+      border-color: rgba(255,255,255,.10);
+      transform: translateY(-1px);
+    }
+
+    .navLink.is-active{
+      color: rgba(232,238,252,.98);
+      background: rgba(96,165,250,.14);
+      border-color: rgba(96,165,250,.28);
+      box-shadow: 0 10px 26px rgba(0,0,0,.25);
+    }
+
+    .depth-1{ margin-left: 10px; }
+    .depth-2{ margin-left: 20px; }
+
+    .is-hidden{ display: none !important; }
+
+    /* =========================================================
+       Responsivita: mobil = drawer sidebar + burger menu
+       ========================================================= */
+    .overlay{
+      display: none;
+      position: fixed;
+      inset: calc(var(--site-nav-h) + var(--doc-toolbar-h)) 0 0 0;
+      background: rgba(0,0,0,.55);
+      z-index: 2500;
+    }
+
+    @media (max-width: 980px){
+      :root{ --nav-w: 360px; }
+
+      .siteMenuBtn{ display: inline-flex; align-items: center; gap: 8px; }
+      .siteLinks{
+        display: none;
+        position: absolute;
+        top: var(--site-nav-h);
+        right: 10px;
+        left: 10px;
+        padding: 10px;
+        border-radius: 16px;
+        background: rgba(12, 16, 32, .92);
+        border: 1px solid rgba(255,255,255,.12);
+        box-shadow: var(--shadow);
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+      }
+      body.site-open .siteLinks{ display: flex; }
+
+      .docMenuBtn{ display: inline-flex; }
+
+      .layout{
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar{
+        position: fixed;
+        z-index: 2600;
+        left: 10px;
+        right: auto;
+        top: calc(var(--site-nav-h) + var(--doc-toolbar-h) + 10px);
+        height: calc(100dvh - var(--site-nav-h) - var(--doc-toolbar-h) - 20px);
+        width: min(92vw, var(--nav-w));
+        transform: translateX(-110%);
+        transition: transform .18s ease;
+      }
+      body.nav-open .sidebar{
+        transform: translateX(0);
+      }
+
+      .overlay{ display: none; }
+      body.nav-open .overlay{ display: block; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{ scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+    }
+
+    /* =========================================================
+       Obrázky – zachovávám tvoje původní pravidlo
+       ========================================================= */
+    .img-natural {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 80vh;
+      display: inline-block;
+    }
+
+    /* =========================================================
+       2) „Bootstrap-lite“ (volitelné, ale užitečné pro starší obsah)
+          - není to Bootstrap, jen kompatibilní třídy + collapse/modal runtime
+       ========================================================= */
+
+    /* Typografie pro vložený obsah */
+    #content{
+      line-height: 1.6;
+      color: rgba(232,238,252,.92);
+    }
+    #content h1, #content h2, #content h3, #content h4{
+      line-height: 1.25;
+      margin: 1.1em 0 .45em;
+    }
+    #content p{ margin: .65em 0; color: rgba(232,238,252,.86); }
+    #content code, #content pre{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    }
+    #content pre{
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: rgba(0,0,0,.35);
+      border: 1px solid rgba(255,255,255,.10);
+      overflow: auto;
+    }
+    #content code{
+      padding: .12em .35em;
+      border-radius: 10px;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+
+    /* Základní „container“ */
+    .container{
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 0 14px;
+    }
+
+    /* Border / rounded / bg-light (v dark-only mapujeme na surface) */
+    .border{ border: 1px solid rgba(255,255,255,.12) !important; }
+    .rounded{ border-radius: 16px !important; }
+    .bg-light{ background: rgba(255,255,255,.05) !important; }
+
+    /* Spacing (nejpoužívanější subset) */
+    .mb-3{ margin-bottom: 1rem !important; }
+    .mb-4{ margin-bottom: 1.5rem !important; }
+    .my-4{ margin-top: 1.5rem !important; margin-bottom: 1.5rem !important; }
+    .my-5{ margin-top: 3rem !important; margin-bottom: 3rem !important; }
+    .p-4{ padding: 1.5rem !important; }
+    .py-2{ padding-top: .5rem !important; padding-bottom: .5rem !important; }
+
+    /* List group */
+    .list-group{ display: grid; gap: 8px; padding: 0; margin: 0; }
+    .list-group-flush{ gap: 6px; }
+    .list-group-item{
+      list-style: none;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      color: rgba(232,238,252,.86);
+    }
+
+    /* Buttons (subset) */
+    .btn{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: rgba(232,238,252,.92);
+      cursor: pointer;
+      text-decoration: none;
+      transition: background .15s ease, border-color .15s ease, transform .15s ease;
+      user-select: none;
+    }
+    .btn:hover{ background: rgba(255,255,255,.09); border-color: rgba(255,255,255,.18); transform: translateY(-1px); }
+    .btn:disabled{ opacity: .55; cursor: not-allowed; transform: none; }
+
+    .btn-outline-secondary{ border-color: rgba(255,255,255,.18); }
+    .btn-outline-primary{ border-color: rgba(96,165,250,.36); background: rgba(96,165,250,.10); }
+    .btn-outline-primary:hover{ border-color: rgba(96,165,250,.55); background: rgba(96,165,250,.14); }
+
+    /* Forms (subset) */
+    .form-control{
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color: rgba(232,238,252,.92);
+      outline: none;
+    }
+
+    .input-group{ display: flex; align-items: stretch; gap: 10px; width: 100%; }
+
+    /* Collapse (compat) */
+    .collapse{ display: none; }
+    .collapse.show{ display: block; }
+    .collapsing{
+      height: 0;
+      overflow: hidden;
+      transition: height .18s ease;
+    }
+
+    /* Accordion (subset) */
+    .accordion{ display: grid; gap: 10px; }
+    .accordion-item{
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 14px;
+      overflow: hidden;
+      background: rgba(255,255,255,.04);
+    }
+    .accordion-button{
+      width: 100%;
+      text-align: left;
+      padding: 12px 14px;
+      cursor: pointer;
+      background: rgba(255,255,255,.03);
+      border: 0;
+      color: rgba(232,238,252,.92);
+      font-weight: 700;
+    }
+    .accordion-body{
+      padding: 12px 14px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      color: rgba(232,238,252,.86);
+    }
+
+    /* Modal (subset) */
+    .modal{
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 5000;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+    .modal.show{ display: flex; }
+    .modal-dialog{
+      width: min(920px, 100%);
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: var(--shadow);
+      background: rgba(12, 16, 32, .96);
+    }
+    .modal-content{ display: grid; }
+    .modal-header, .modal-footer{
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+    }
+    .modal-footer{ border-top: 1px solid rgba(255,255,255,.10); border-bottom: 0; }
+    .modal-body{ padding: 14px; }
+    .btn-close{
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: rgba(232,238,252,.92);
+      cursor: pointer;
+    }
+    .modal-backdrop{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.62);
+      z-index: 4900;
+    }
+    body.modal-open{ overflow: hidden; }
+  </style>
+</head>
+
+<body>
+
+  <header class="header">
+    <!-- Horní navigace webu -->
+    <div class="sitebar" id="siteNavbar">
+      <a class="brand" href="#">
+        <span class="dot" aria-hidden="true"></span>
+        Jan Konrád
+      </a>
+
+      <button class="siteMenuBtn" id="siteMenuBtn" type="button" aria-controls="siteMenu" aria-expanded="false" aria-label="Otevřít menu">
+        ☰ Menu
+      </button>
+
+      <nav class="siteLinks" id="siteMenu" aria-label="Hlavní menu">
+        <a class="siteLink" href="../index.html">Domů</a>
+        <a class="siteLink" href="./index.html">Výuka</a>
+        <a class="siteLink" href="#">3D grafika</a>
+        <a class="siteLink" href="#">Webové stránky</a>
+        <a class="siteLink" href="#">Kontakt</a>
+      </nav>
+    </div>
+
+    <!-- Toolbar: hledání + tlačítko kapitol (mobil) -->
+    <div class="docbar" id="docToolbar">
+      <button class="docMenuBtn" id="docMenuBtn" type="button" aria-controls="docNavCol" aria-expanded="false">
+        ☰ Kapitoly
+      </button>
+
+      <div class="searchWrap" role="search" aria-label="Hledání v menu">
+        <input id="navSearch" type="search" placeholder="Hledat v menu… (tip: / pro fokus)" autocomplete="off" aria-label="Hledat v menu">
+        <button id="clearSearchBtn" class="iconBtn" type="button" aria-label="Vymazat hledání" title="Vymazat">
+          ×
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="overlay" id="overlay" aria-hidden="true"></div>
+
+  <div class="layout">
+    <!-- Sidebar navigace -->
+    <aside class="sidebar card" id="docNavCol" aria-label="Navigace kapitol">
+      <div class="navTitle">
+        <span>Kapitoly</span>
+        <small id="navHint">hover = rozbalit</small>
+      </div>
+      <nav id="docNav" class="navRoot"></nav>
+    </aside>
+
+    <!-- Obsah (scrollovatelný) -->
+    <main class="content card" id="scrollspyContent" role="main" aria-label="Obsah dokumentace" tabindex="0">
+      <div id="content"></div>
+    </main>
+  </div>
+
+  <script>
+    (() => {
+      const html = document.documentElement;
+
+      /* =========================================================
+         A) Výšky sticky headeru (pro mobile overlay + výpočty)
+         ========================================================= */
+      const siteNavbar = document.getElementById('siteNavbar');
+      const docToolbar = document.getElementById('docToolbar');
+
+      function updateHeights() {
+        const navH = siteNavbar?.offsetHeight || 64;
+        const toolH = docToolbar?.offsetHeight || 56;
+        html.style.setProperty('--site-nav-h', navH + 'px');
+        html.style.setProperty('--doc-toolbar-h', toolH + 'px');
+      }
+      window.addEventListener('resize', updateHeights, { passive: true });
+      window.addEventListener('load', updateHeights);
+      updateHeights();
+
+      /* =========================================================
+         B) Mobilní menu (sitebar)
+         ========================================================= */
+      const siteMenuBtn = document.getElementById('siteMenuBtn');
+      siteMenuBtn?.addEventListener('click', () => {
+        const open = document.body.classList.toggle('site-open');
+        siteMenuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+
+      /* =========================================================
+         C) Mobilní drawer pro kapitoly
+         ========================================================= */
+      const docMenuBtn = document.getElementById('docMenuBtn');
+      const overlay = document.getElementById('overlay');
+
+      function setNavOpen(open){
+        document.body.classList.toggle('nav-open', !!open);
+        docMenuBtn?.setAttribute('aria-expanded', open ? 'true' : 'false');
+        overlay?.setAttribute('aria-hidden', open ? 'false' : 'true');
+      }
+
+      docMenuBtn?.addEventListener('click', () => {
+        const open = !document.body.classList.contains('nav-open');
+        setNavOpen(open);
+      });
+
+      overlay?.addEventListener('click', () => setNavOpen(false));
+
+      /* =========================================================
+         D) Struktura navigace (hierarchicky)
+         ========================================================= */
+      const NAV = [
+        {
+          title: "1. Základy práce s počítačem",
+          href: "#section1",
+          children: [
+            { title: "1.1 Úvod do práce s počítačem", href: "#section1-1" },
+            { title: "1.2 Co je počítač a jak funguje (základní principy výpočetní techniky)", href: "#section1-2" },
+            { title: "1.3 Typy počítačů a zařízení (notebook, PC, tablet, mobil, periferie)", href: "#section1-3" },
+            { title: "1.4 Firmware počítače (BIOS a UEFI)", href: "#section1-4" },
+            { title: "1.5 Struktura a funkce systému Windows", href: "#section1-5" },
+            { title: "1.6 Práce se soubory a složkami", href: "#section1-6" },
+            { title: "1.7 Příkazový řádek (CMD) – základy práce s textovým rozhraním", href: "#section1-7" },
+            { title: "1.8 Základy bezpečnosti a údržby systému", href: "#section1-8" },
+          ]
+        },
+        {
+          title: "2. Kancelářské informační systémy",
+          href: "#section2",
+          children: [
+            {
+              title: "2.1 Textové editory – Word, LibreOffice Writer, Google Dokumenty",
+              href: "#section2-1",
+              children: [
+                { title: "2.1.1 Typografická pravidla", href: "#section2-1-1a" },
+                { title: "2.1.1 Formát písma", href: "#section2-1-1" },
+                { title: "2.1.2 Formát odstavce", href: "#section2-1-2" },
+                { title: "2.1.3 Vzhled stránky, sloupce", href: "#section2-1-3" },
+                { title: "2.1.4 Návrh stránky", href: "#section2-1-4" },
+                { title: "2.1.5 Najít, Nahradit", href: "#section2-1-5" },
+                { title: "2.1.6 Styly", href: "#section2-1-6" },
+                { title: "2.1.7 Obsah, osnova", href: "#section2-1-7" },
+                { title: "2.1.8 Odkazy, seznamy a tabulátory", href: "#section2-1-8" },
+                { title: "2.1.9 Celkové opakování - cvičení tvorba testu", href: "#section2-1-9" },
+                { title: "2.1.10 Vkládání a úprava obrázků", href: "#section2-1-10" },
+                { title: "2.1.11 Vzorce, tabulky a textová pole", href: "#section2-1-11" },
+                { title: "2.1.12 Titulek, seznam obrázků a tabulek, křížové odkazy, citace a bibliografie, rejstřík", href: "#section2-1-12" },
+              ]
+            },
+            {
+              title: "2.2 Tabulkové procesory – Excel, LibreOffice Calc, Google Sheets",
+              href: "#section2-2",
+              children: [
+                { title: "2.2.1 Vzorce, funkce, filtrování", href: "#section2-2-1" },
+                { title: "2.2.2 Tvorba grafů, analýza dat", href: "#section2-2-2" },
+                { title: "2.2.1 Číselné řady, matematické fce, datové typy - Rozpočet", href: "#2-2-1" },
+                { title: "2.2.2 Funkce z pohledu matematiky vs Excel - Lineární funkce", href: "#2-2-2" },
+                { title: "2.2.3 Kvadratické funkce", href: "#2-2-3" },
+                { title: "2.2.4 Absolutní hodnota", href: "#2-2-4" },
+                { title: "2.2.5 SIN, COS, TANG", href: "#2-2-5" },
+              ]
+            },
+            {
+              title: "2.3 Prezentační software – PowerPoint, Impress, Canva",
+              href: "#section2-3",
+              children: [
+                { title: "2.3.1 Principy efektivní prezentace", href: "#section2-3-1" },
+                { title: "2.3.2 Figma jako moderní nástroj vizuální prezentace", href: "#section2-3-2" },
+              ]
+            },
+          ]
+        },
+        {
+          title: "3. HTML / Web – základy a data v prohlížeči",
+          href: "#section3",
+          children: [
+            { title: "3.1.1 Úvod do HTML, VS Code a nadpisová hierarchie", href: "#section3-1-1" },
+            { title: "3.1.2 Odstavce a „void“ prvky: <p>, <br>, <hr>", href: "#section3-1-2" },
+            { title: "3.1.3 Seznamy v HTML + vnořování a odsazování <ul>, <ol>, <li>", href: "#section3-1-3" },
+            { title: "3.1.4 Odkazy a obrázky v HTML <a>, <img>", href: "#section3-1-4" },
+            { title: "3.1.5 GitHub - nasazení projektů na web", href: "#section3-1-5" },
+            { title: "3.1.6 Základy CSS", href: "#section3-1-6" },
+            { title: "3.1.7 Základy CSS (pokračování)", href: "#section3-1-7" },
+            { title: "3.1.8 Základní stavební kameny CSS - selektory, vlastnosti, hodnoty", href: "#section3-1-8" },
+
+            { title: "3.3 Uložení dat v prohlížeči – localStorage, sessionStorage", href: "#section3-3" },
+            { title: "3.4 JSON – formát pro výměnu dat", href: "#section3-4" },
+            { title: "3.5 Vizualizace dat – jednoduché grafy pomocí Chart.js", href: "#section3-5" },
+            { title: "3.6 Práce s IndexedDB – databáze v prohlížeči", href: "#section3-6" },
+            { title: "3.7 Načítání dat z API pomocí fetch", href: "#section3-7" },
+            { title: "3.8 Jednoduchý backend v Node.js – Express a ukládání dat", href: "#section3-8" },
+            { title: "3.9 JSON jako databáze – simulace", href: "#section3-9" },
+            { title: "3.10 Cloudové databáze – Firebase jako IS školy / podniku", href: "#section3-10" },
+          ]
+        },
+        {
+          title: "4. Python – základy programování",
+          href: "#section4-1-základy-pythonu",
+          children: [
+            { title: "4.1.1 Proměnné, podmínky a datové typy", href: "#section4-1-1" },
+            { title: "4.1.2 Jednoduchá textová adventura (větvení pomocí if)", href: "#section4-1-2" },
+            { title: "4.1.3 Samostatné cvičení – mini-kvíz bez cyklů", href: "#section4-1-3" },
+            { title: "4.1.4 Podmínky v praxi (BMI, spropitné)", href: "#section4-1-4" },
+            { title: "4.1.5 Základní podmínky – if/else a horská dráha", href: "#section4-1-5" },
+            { title: "4.1.6 Vnořené podmínky, více větví a logické operátory", href: "#section4-1-6" },
+            { title: "4.1.7 Final Project – Treasure Island", href: "#section4-1-7final" },
+            { title: "4.1.8 Závěrečný test – podmínky, porovnání a logické operátory", href: "#section4-1-8test" },
+
+            { title: "4.2.1 Podmínka while - tvorba menu", href: "#section4-2-1" },
+            { title: "4.2.2 Indexování a řezání řetězců", href: "#section4-2-2" },
+            { title: "4.2.3 Final Project – Kámen, nůžky, papír", href: "#section4-2-3final" },
+
+            { title: "4.3.1 Cykly – for a while", href: "#section4-3-1for" },
+            { title: "4.3.2 Cyklus while – podruhé", href: "#section4-3-2while" },
+            { title: "4.3.3 Menu a příběh pomocí vnořených while", href: "#section4-3-3" },
+
+            { title: "4.4.1 Funkce krok za krokem", href: "#section4-4-1" },
+            { title: "4.4.2 Tvorba menu – for, while, seznamy a „dispatcher“", href: "#section4-4-2" },
+            { title: "4.4.3 Datové struktury: Listy, n-tice a volání funkcí", href: "#section4-4-3" },
+          ]
+        },
+        {
+          title: "5. Práce s daty a informační systémy",
+          href: "#section5",
+          children: [
+            { title: "5.1 Vnitřní stavba počítače – CPU, RAM, HDD, SSD", href: "#section5-1" },
+            { title: "5.2 Vstupní a výstupní zařízení", href: "#section5-2" },
+            { title: "5.3 Síťové komponenty – router, switch, Wi-Fi", href: "#section5-3" },
+            { title: "5.4 Instalace a konfigurace základního hardwaru", href: "#section5-4" },
+            { title: "5.5 Správa systému a údržba (aktualizace, ovladače)", href: "#section5-5" },
+          ]
+        },
+        {
+          title: "6. Internet, komunikace a bezpečnost",
+          href: "#section6",
+          children: [
+            { title: "6.1 Co je internet, IP adresa, DNS", href: "#section6-1" },
+            { title: "6.2 Webové prohlížeče a vyhledávače", href: "#section6-2" },
+            { title: "6.3 E-mail a digitální komunikace", href: "#section6-3" },
+            { title: "6.4 Základy kybernetické bezpečnosti (hesla, phishing)", href: "#section6-4" },
+            { title: "6.5 Právní a etické aspekty – GDPR, autorský zákon, fake news", href: "#section6-5" },
+            { title: "6.6 Základy práce s VPN, dvoufázové ověření, digitální identita", href: "#section6-6" },
+          ]
+        },
+        {
+          title: "7. Rastrová grafika – GIMP",
+          href: "#section7-1-1",
+          children: [
+            { title: "7.1.1 Rastrová grafika (Lekce 1) – GIMP", href: "#section7-1-1" },
+            { title: "7.1.2 Vrstvy (Lekce 2) – GIMP", href: "#section7-1-2" },
+            { title: "7.1.3 Koláž (Lekce 3) – GIMP", href: "#section7-1-3" },
+            { title: "7.1.4 Změna pozadí (Lekce 4) – GIMP", href: "#section7-1-4" },
+            { title: "7.1.5 Rychlá maska (Lekce 5) – GIMP", href: "#section7-1-5" },
+            { title: "7.1.6 Výběrové nástroje (Lekce 6) – GIMP", href: "#section7-1-6" },
+            { title: "7.1.7 Crop Tool (ořez) (Lekce 7) – GIMP", href: "#section7-1-7" },
+            { title: "7.1.8 Barvy (Lekce 8) – GIMP", href: "#section7-1-8" },
+          ]
+        },
+        {
+          title: "8. 3D grafika – Blender",
+          href: "#section8-1-1",
+          children: [
+            { title: "8.1.1 Blender – Kapitola 1: Co znamená modelovat", href: "#section8-1-1" },
+          ]
+        }
+      ];
+
+      const docNav = document.getElementById('docNav');
+
+      function createLink(title, href, depth){
+        const a = document.createElement('a');
+        a.className = `navLink depth-${depth || 0}`;
+        a.href = href;
+        a.dataset.search = (title || "").toLowerCase();
+        a.innerHTML = title; // title může obsahovat <code> apod.
+        a.addEventListener('click', (e) => {
+          if (!href.startsWith('#')) return;
+
+          e.preventDefault();
+          const id = href.slice(1);
+          const target = document.getElementById(id);
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+          // na mobilu zavři drawer
+          if (window.matchMedia('(max-width: 980px)').matches) setNavOpen(false);
+        });
+        return a;
+      }
+
+      function createGroup(node, depth = 0){
+        const details = document.createElement('details');
+        details.className = `navGroup`;
+        details.dataset.search = (node.title || "").toLowerCase();
+
+        const summary = document.createElement('summary');
+        summary.className = 'navGroupHeader';
+
+        const left = document.createElement('div');
+        left.className = 'gLeft';
+
+        const chev = document.createElement('span');
+        chev.className = 'chev';
+        chev.textContent = '›';
+
+        const title = document.createElement('span');
+        title.className = 'gTitle';
+        title.textContent = node.title || '';
+
+        left.appendChild(chev);
+        left.appendChild(title);
+
+        const meta = document.createElement('div');
+        meta.className = 'gMeta';
+
+        const jump = document.createElement('a');
+        jump.className = 'jump';
+        jump.href = node.href || '#';
+        jump.title = 'Přejít na kapitolu';
+        jump.setAttribute('aria-label', `Přejít: ${node.title}`);
+        jump.textContent = '↗';
+        jump.addEventListener('click', (e) => {
+          if (!jump.href) return;
+          const url = jump.getAttribute('href') || '';
+          if (!url.startsWith('#')) return;
+          e.preventDefault();
+          const id = url.slice(1);
+          const target = document.getElementById(id);
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (window.matchMedia('(max-width: 980px)').matches) setNavOpen(false);
+        });
+
+        meta.appendChild(jump);
+
+        summary.appendChild(left);
+        summary.appendChild(meta);
+
+        const body = document.createElement('div');
+        body.className = 'navBody';
+
+        // děti: buď linky nebo další groupy
+        (node.children || []).forEach(child => {
+          if (child.children && child.children.length){
+            body.appendChild(createGroup(child, Math.min(depth + 1, 2)));
+          }else{
+            body.appendChild(createLink(child.title, child.href, Math.min(depth + 1, 2)));
+          }
+        });
+
+        details.appendChild(summary);
+        details.appendChild(body);
+
+        // Hover-open pouze na desktopu: otevřít, pokud nebylo otevřeno klikem
+        details.addEventListener('mouseenter', () => {
+          if (window.matchMedia('(max-width: 980px)').matches) return;
+          if (!details.open){
+            details.open = true;
+            details.dataset.hoveropen = "1";
+          }
+        });
+        details.addEventListener('mouseleave', () => {
+          if (window.matchMedia('(max-width: 980px)').matches) return;
+          if (details.dataset.hoveropen === "1"){
+            details.open = false;
+            delete details.dataset.hoveropen;
+          }
+        });
+        details.addEventListener('toggle', () => {
+          // když user otevře klikem, zruš hoveropen flag (tím se "připne")
+          if (details.open && details.dataset.hoveropen === "1") return;
+          delete details.dataset.hoveropen;
+        });
+
+        return details;
+      }
+
+      function renderNav(){
+        docNav.innerHTML = '';
+        NAV.forEach(group => docNav.appendChild(createGroup(group, 0)));
+      }
+
+      renderNav();
+
+      /* =========================================================
+         E) Hledání v menu (včetně kontextu rodičů)
+         ========================================================= */
+      const searchInput = document.getElementById('navSearch');
+      const clearBtn = document.getElementById('clearSearchBtn');
+
+      function setHidden(el, hidden){
+        el.classList.toggle('is-hidden', !!hidden);
+      }
+
+      function filterGroup(detailsEl, q){
+        const groupMatch = (detailsEl.dataset.search || '').includes(q);
+
+        const body = detailsEl.querySelector(':scope > .navBody');
+        const children = Array.from(body?.children || []);
+
+        let anyChildVisible = false;
+
+        if (groupMatch){
+          // ukaž všechno uvnitř
+          children.forEach(ch => setHidden(ch, false));
+          detailsEl.open = true;
+          anyChildVisible = children.length > 0;
+        }else{
+          children.forEach(ch => {
+            if (ch.tagName === 'DETAILS'){
+              const ok = filterGroup(ch, q);
+              setHidden(ch, !ok);
+              if (ok) anyChildVisible = true;
+            }else{
+              const txt = (ch.dataset.search || '');
+              const ok = txt.includes(q);
+              setHidden(ch, !ok);
+              if (ok) anyChildVisible = true;
+            }
+          });
+          if (anyChildVisible) detailsEl.open = true;
+        }
+
+        // group je viditelný, když matchne nebo má viditelné dítě
+        setHidden(detailsEl, !(groupMatch || anyChildVisible));
+        return (groupMatch || anyChildVisible);
+      }
+
+      function filterNav(query){
+        const q = (query || '').trim().toLowerCase();
+        clearBtn.disabled = !q;
+
+        const groups = Array.from(docNav.querySelectorAll(':scope > details.navGroup'));
+
+        if (!q){
+          // reset
+          groups.forEach(g => {
+            setHidden(g, false);
+            // defaultně nech zavřené (přehlednější); klidně změň na true
+            g.open = false;
+            g.querySelectorAll('.is-hidden').forEach(x => x.classList.remove('is-hidden'));
+          });
+          return;
+        }
+
+        groups.forEach(g => filterGroup(g, q));
+
+        // na mobilu při hledání otevři drawer
+        if (window.matchMedia('(max-width: 980px)').matches) setNavOpen(true);
+      }
+
+      searchInput?.addEventListener('input', () => filterNav(searchInput.value));
+      clearBtn?.addEventListener('click', () => {
+        searchInput.value = '';
+        filterNav('');
+        // na mobilu po vymazání zavřít
+        if (window.matchMedia('(max-width: 980px)').matches) setNavOpen(false);
+      });
+      clearBtn.disabled = true;
+
+      // "/" fokus do hledání
+      document.addEventListener('keydown', (e) => {
+        if (e.key === '/' && !e.ctrlKey && !e.metaKey && !e.altKey){
+          const tag = (document.activeElement?.tagName || '').toLowerCase();
+          if (tag !== 'input' && tag !== 'textarea'){
+            e.preventDefault();
+            searchInput?.focus();
+          }
+        }
+        if (e.key === 'Escape'){
+          // Escape zavře drawer / vymaže hledání
+          if (document.body.classList.contains('nav-open')) setNavOpen(false);
+          if (searchInput && searchInput.value){
+            searchInput.value = '';
+            filterNav('');
+          }
+          document.body.classList.remove('site-open');
+        }
+      });
+
+      /* =========================================================
+         F) ScrollSpy (bez Bootstrapu) – aktivní odkaz podle scrollu
+         ========================================================= */
+      const scrollspyContent = document.getElementById('scrollspyContent');
+
+      function getAllNavLinks(){
+        return Array.from(docNav.querySelectorAll('a.navLink, a.jump'))
+          .filter(a => (a.getAttribute('href') || '').startsWith('#'));
+      }
+
+      let spyTargets = [];
+
+      function bindScrollSpy(){
+        const links = Array.from(docNav.querySelectorAll('a.navLink')).filter(a => (a.getAttribute('href') || '').startsWith('#'));
+        spyTargets = links.map(a => {
+          const id = (a.getAttribute('href') || '').slice(1);
+          const el = document.getElementById(id);
+          return { a, el, id };
+        }).filter(x => x.el);
+
+        // okamžitý refresh
+        requestAnimationFrame(updateActiveLink);
+      }
+
+      function clearActive(){
+        docNav.querySelectorAll('.navLink.is-active').forEach(a => a.classList.remove('is-active'));
+      }
+
+      function updateActiveLink(){
+        if (!spyTargets.length) return;
+
+        const st = scrollspyContent.scrollTop;
+        // vyber poslední sekci, která je "nad" horní hranou scrollu
+        let best = null;
+        for (const t of spyTargets){
+          const top = t.el.offsetTop;
+          if (top <= st + 20) best = t;
+          else break;
+        }
+
+        if (!best) best = spyTargets[0];
+
+        clearActive();
+        best.a.classList.add('is-active');
+      }
+
+      let raf = 0;
+      scrollspyContent.addEventListener('scroll', () => {
+        if (raf) return;
+        raf = requestAnimationFrame(() => {
+          raf = 0;
+          updateActiveLink();
+        });
+      }, { passive: true });
+
+      window.addEventListener('load', bindScrollSpy);
+
+      // router / dynamické doplňování obsahu
+      document.addEventListener('content:updated', () => {
+        bindScrollSpy();
+      });
+
+      /* =========================================================
+         G) Bootstrap-lite runtime: collapse + modal (data-bs-*)
+         ========================================================= */
+      function getElFromTarget(selector){
+        if (!selector) return null;
+        try { return document.querySelector(selector); } catch { return null; }
+      }
+
+      function collapseShow(el){
+        if (!el || el.classList.contains('show')) return;
+
+        el.classList.remove('collapse');
+        el.classList.add('collapsing');
+        el.style.height = '0px';
+
+        requestAnimationFrame(() => {
+          el.style.height = el.scrollHeight + 'px';
+        });
+
+        el.addEventListener('transitionend', () => {
+          el.classList.remove('collapsing');
+          el.classList.add('collapse', 'show');
+          el.style.height = '';
+        }, { once: true });
+      }
+
+      function collapseHide(el){
+        if (!el || !el.classList.contains('show')) return;
+
+        el.style.height = el.scrollHeight + 'px';
+        el.classList.remove('collapse', 'show');
+        el.classList.add('collapsing');
+
+        requestAnimationFrame(() => {
+          el.style.height = '0px';
+        });
+
+        el.addEventListener('transitionend', () => {
+          el.classList.remove('collapsing');
+          el.classList.add('collapse');
+          el.style.height = '';
+        }, { once: true });
+      }
+
+      function collapseToggle(el){
+        if (!el) return;
+        if (el.classList.contains('show')) collapseHide(el);
+        else collapseShow(el);
+      }
+
+      let backdropEl = null;
+      function ensureBackdrop(){
+        if (backdropEl) return backdropEl;
+        backdropEl = document.createElement('div');
+        backdropEl.className = 'modal-backdrop';
+        backdropEl.addEventListener('click', () => {
+          const openModal = document.querySelector('.modal.show');
+          if (openModal) hideModal(openModal);
+        });
+        return backdropEl;
+      }
+
+      function showModal(modal){
+        if (!modal || modal.classList.contains('show')) return;
+        document.body.classList.add('modal-open');
+        document.body.appendChild(ensureBackdrop());
+        modal.classList.add('show');
+        modal.setAttribute('aria-hidden', 'false');
+      }
+
+      function hideModal(modal){
+        if (!modal || !modal.classList.contains('show')) return;
+        modal.classList.remove('show');
+        modal.setAttribute('aria-hidden', 'true');
+
+        // když nejsou další modaly, zruš backdrop
+        if (!document.querySelector('.modal.show')){
+          document.body.classList.remove('modal-open');
+          backdropEl?.remove();
+          backdropEl = null;
+        }
+      }
+
+      document.addEventListener('click', (e) => {
+        const t = e.target;
+
+        // collapse
+        const collapseBtn = t.closest?.('[data-bs-toggle="collapse"]');
+        if (collapseBtn){
+          e.preventDefault();
+          const targetSel = collapseBtn.getAttribute('data-bs-target') || collapseBtn.getAttribute('href');
+          const targetEl = getElFromTarget(targetSel);
+
+          // accordion: data-bs-parent
+          const parentSel = targetEl?.getAttribute('data-bs-parent');
+          const parentEl = getElFromTarget(parentSel);
+
+          if (parentEl){
+            parentEl.querySelectorAll('.collapse.show').forEach(openEl => {
+              if (openEl !== targetEl) collapseHide(openEl);
+            });
+          }
+
+          collapseToggle(targetEl);
+
+          // aria-expanded
+          const expanded = targetEl?.classList.contains('show');
+          collapseBtn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+          return;
+        }
+
+        // modal open
+        const modalBtn = t.closest?.('[data-bs-toggle="modal"]');
+        if (modalBtn){
+          e.preventDefault();
+          const targetSel = modalBtn.getAttribute('data-bs-target') || modalBtn.getAttribute('href');
+          const modal = getElFromTarget(targetSel);
+          showModal(modal);
+          return;
+        }
+
+        // modal dismiss
+        const dismissBtn = t.closest?.('[data-bs-dismiss="modal"]') || t.closest?.('.btn-close');
+        if (dismissBtn){
+          const modal = dismissBtn.closest?.('.modal');
+          if (modal) hideModal(modal);
+          return;
+        }
+      });
+
+      // ESC zavírá modal
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape'){
+          const openModal = document.querySelector('.modal.show');
+          if (openModal) hideModal(openModal);
+        }
+      });
+
+      // Klik na pozadí modalu (pokud modal struktura kliknutí „prosákne“)
+      document.addEventListener('mousedown', (e) => {
+        const modal = e.target?.classList?.contains('modal') ? e.target : null;
+        if (modal && modal.classList.contains('show')){
+          hideModal(modal);
+        }
+      });
+
+    })();
+  </script>
+
+  <!-- Tvoje externí skripty ponechávám -->
+  <script src="/learn.jankonrad.com/js/copy.js"></script>
+  <script src="./fullsreenImg.js"></script>
+  <script src="./js/router.js"></script>
+  <script src="./js/testy.js"></script>
+  <script src="./js/progGame.js"></script>
+  <script src="/learn.jankonrad.com/js/progsim1-2.js"></script>
+  <script src="/learn.jankonrad.com/js/progsim3.js"></script>
+  <script src="./js/Fce.js"></script>
+  <script src="/learn.jankonrad.com/js/imgViewer.js"></script>
+  <script src="/learn.jankonrad.com/js/Scripts/3-3-2.js"></script>
+
+  <script>
+    function runSimTip() {
+      const bill = parseFloat(document.getElementById('tipBill')?.value || '0');
+      const pct  = parseFloat(document.getElementById('tipPct')?.value  || '0');
+      const ppl  = Math.max(1, parseInt(document.getElementById('tipPeople')?.value || '1'));
+
+      if (bill < 0 || pct < 0) {
+        const el = document.getElementById('tipResult');
+        if (el) el.textContent = "Zadej nezáporné hodnoty.";
+        return;
+      }
+      const total = bill * (1 + pct / 100);
+      const share = total / ppl;
+
+      const out = document.getElementById('tipResult');
+      if (out) {
+        out.textContent = `Každý zaplatí: ${share.toFixed(2)} Kč\n(Celkem: ${total.toFixed(2)} Kč; Osob: ${ppl})`;
+      }
+    }
+  </script>
+
+</body>
+</html>
