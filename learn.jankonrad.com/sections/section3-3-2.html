@@ -1,7 +1,7 @@
-<section id="3-3-2" class="container my-5 no-copy">
+<section id="3-3-2" class="container my-5, nocopy">
 
   <header class="mb-4">
-    <h2 class="mb-1">3.3.2 Základy programování v JavaScriptu – proměnné, datové typy, typeof</h2>
+    <h2 class="mb-1">3.3.2 (1 Část) Základy programování v JavaScriptu – proměnné, datové typy, typeof, operátory</h2>
     <p class="text-muted mb-0">
       V této kapitole se naučíš úplné základy „gramatiky“ JavaScriptu: proměnné (<code>let</code>, <code>const</code>),
       datové typy (string, number, boolean) a nástroj <code>typeof</code> pro kontrolu typu hodnoty.
@@ -837,6 +837,394 @@ name = "Tom";</code></pre>
 
      <button class="btn btn-outline-secondary" type="button" onclick="resetQuiz(this)">Reset kvízu</button>
 
+<!-- =========================================================
+     3.3.2 – Základy programování v JavaScriptu (pokračování)
+     Téma: Operátory, aritmetika, přepisování hodnot, typování a coercion
+========================================================= -->
+
+<section id="3-3-2" class="container my-5, nocopy">
+
+  <h3 class="mb-4">3.3.2 (2 Část) Základy programování v JavaScriptu – operátory, výrazy a typy</h3>
+
+  <!-- Co se naučíš? -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co se naučíš?</h3>
+    <p>
+      V této části navážeme na proměnné a datové typy a přidáme další základní stavební kameny, bez kterých
+      se v programování neobejdeš: operátory, výrazy, přepisování hodnot a důležité chování JavaScriptu při práci
+      s typy (tzv. coercion).
+    </p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Operátor</strong>: symbol, který provádí akci nad hodnotami (operand(y)).</li>
+      <li class="list-group-item"><strong>Aritmetika</strong>: +, -, *, /, %, ** a priority operací.</li>
+      <li class="list-group-item"><strong>Aktualizace proměnných</strong>: +=, -=, *=, /=, %=, ++, --.</li>
+      <li class="list-group-item"><strong>Typy v JS</strong>: JavaScript je „volně typovaný“ – typ se může měnit za běhu.</li>
+      <li class="list-group-item"><strong>Coercion</strong>: automatické převody typů (někdy užitečné, často zrádné).</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Vždy testuj v konzoli. Když výsledek „nedává smysl“, je to často typem hodnot (string vs number)
+      nebo pořadím vyhodnocování výrazu.
+    </div>
+  </div>
+
+  <!-- Citát + osobnost (grafika) -->
+  <div class="row align-items-center mb-4">
+    <div class="col-md-2 text-center">
+      <!-- Nahraď si src vlastním obrázkem -->
+      <img class="img-fluid rounded-circle shadow resize-mobile"
+        src="https://upload.wikimedia.org/wikipedia/commons/9/9d/Brendan_Eich_Mozilla_Foundation_official_photo.jpg"
+        alt="Brendan Eich">
+      <p class="mt-2 text-muted small">Brendan Eich (autor JavaScriptu)</p>
+    </div>
+    <div class="col-md-10">
+      <blockquote class="blockquote">
+        <p class="mb-0">„Kód čteme častěji, než ho píšeme. Dělej ho proto co nejčitelnější.“</p>
+        <footer class="blockquote-footer mt-2">
+          <a href="https://en.wikipedia.org/wiki/Brendan_Eich" target="_blank" rel="noopener">(zdroj)</a>
+        </footer>
+      </blockquote>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       1) OPERÁTORY – TEORIE
+  ========================================================== -->
+  <h5 class="mt-5">1) Operátory – co to je a proč jsou všude</h5>
+  <p>
+    Operátory jsou základ skoro každého programátorského úkolu:
+    počítání skóre, kontrola hesla, vyhodnocení podmínky, výpočet ceny produktu.
+    Operátor je <strong>symbol</strong>, který říká počítači, jakou akci má provést nad hodnotami.
+  </p>
+
+  <ul class="list-group mb-4">
+    <li class="list-group-item">
+      <strong>Operátor vs. operand</strong>:
+      Operátor je symbol (např. <code>+</code>), operandy jsou hodnoty, se kterými pracuje (např. <code>5</code> a <code>10</code>).
+      <button class="btn btn-sm btn-outline-primary ms-2" data-bs-toggle="modal" data-bs-target="#modalOperator">
+        Více
+      </button>
+    </li>
+
+    <li class="list-group-item">
+      <strong>Binární / unární / ternární</strong>:
+      většina operátorů pracuje se 2 operand(y) (binární),
+      některé jen s 1 (unární, např. <code>++</code> / <code>--</code>),
+      existuje i ternární operátor (3 operandy), ten přijde později.
+    </li>
+
+    <li class="list-group-item">
+      <strong>🧠 Kategorie operátorů</strong>:
+      při základním programování si vystačíš hlavně se 4 skupinami.
+      <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse"
+        data-bs-target="#operatorsSubmenu" aria-expanded="false" aria-controls="operatorsSubmenu">
+        &#9660;
+      </button>
+
+      <ul class="list-group list-group-flush collapse mt-2" id="operatorsSubmenu">
+        <li class="list-group-item"><strong>Assign (přiřazovací)</strong>: <code>=</code>, <code>+=</code>, <code>-=</code>…</li>
+        <li class="list-group-item"><strong>Arithmetic (aritmetické)</strong>: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code>, <code>**</code></li>
+        <li class="list-group-item"><strong>Comparison (porovnávací)</strong>: <code>&gt;</code>, <code>&lt;</code>, <code>===</code>, <code>!==</code>…</li>
+        <li class="list-group-item"><strong>Logical (logické)</strong>: <code>&amp;&amp;</code>, <code>||</code>, <code>!</code></li>
+      </ul>
+    </li>
+  </ul>
+
+  <p class="mb-4">
+    Zatím si odnes hlavně to, že operátory vrací výsledek. Výsledek buď hned použiješ (např. vypíšeš do konzole),
+    nebo si ho uložíš do proměnné a použiješ později.
+  </p>
+
+  <!-- =========================================================
+       2) ARITMETIKA + AKTUALIZACE PROMĚNNÝCH
+  ========================================================== -->
+  <h5 class="mt-4">2) Aritmetické operátory – výpočty, priorita a „zkratky“</h5>
+  <p>
+    Aritmetické operátory dělají klasickou matematiku. Přidáme ale i dvě věci, které jsou v praxi velmi časté:
+    <strong>modulo</strong> (zbytek po dělení) a <strong>umocňování</strong>.
+  </p>
+
+  <ul class="list-group mb-4">
+    <li class="list-group-item">
+      <strong>Modulo <code>%</code></strong>: vrací zbytek po dělení (užitečné pro sudé/liché).
+      <button class="btn btn-sm btn-outline-primary ms-2" data-bs-toggle="modal" data-bs-target="#modalModulo">
+        Více
+      </button>
+    </li>
+    <li class="list-group-item"><strong>Umocňování <code>**</code></strong>: např. <code>4 ** 3</code> je 64.</li>
+    <li class="list-group-item">
+      <strong>Priorita operací</strong>: násobení/dělení má vyšší prioritu než sčítání/odčítání.
+      Změna pořadí = závorky.
+    </li>
+    <li class="list-group-item">
+      <strong>Aktualizace proměnné</strong>: místo <code>age = age + 1</code> často použiješ <code>age += 1</code> nebo <code>age++</code>.
+    </li>
+  </ul>
+
+  <!-- Praktická část – VS Code -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Prakticky ve VS Code (nový projekt)</h3>
+    <p>
+      Udělej si vždy čistý mini-projekt: nová složka, v ní <code>index.html</code>.
+      JavaScript budeme pro jednoduchost psát do <code>&lt;script&gt;</code> na konci stránky
+      a výsledky sledovat v konzoli (Inspect → Console). Některé řádky používají <code>alert()</code> – ty uvidíš jako pop-up.
+    </p>
+
+    <ol class="mb-3">
+      <li>Vytvoř složku například <code>3.3.2</code> a v ní soubor <code>index.html</code>.</li>
+      <li>Vlož základní HTML šablonu a na konec <code>&lt;body&gt;</code> přidej <code>&lt;script&gt;</code>.</li>
+      <li>Vlož kód podle „Hotového výstupu“ níže.</li>
+      <li>Otevři stránku v prohlížeči a zkontroluj Console (výpisy) + alerty.</li>
+    </ol>
+
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Pokud se nic nevypisuje, nejčastěji je problém v tom, že nemáš otevřenou konzoli,
+      nebo jsi stránku po úpravě neobnovil(a).
+    </div>
+  </div>
+
+  <h5 class="mt-4">Hotový výstup (index.html)</h5>
+  <p class="text-muted">
+    Níže je kompletní referenční verze. Je záměrně delší – cílem je vidět co nejvíc příkladů a výstupů v konzoli.
+  </p>
+
+  <pre class="bg-light p-3 rounded border"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;3.3.2&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;script&gt;
+  // Proměnné + typy (navázání)
+  let userName = "Tom";
+  console.log(userName);
+  userName = "John";
+  console.log(userName);
+
+  let name = "abc123.?!"; // string – písmena, čísla, speciální znaky
+  let age = 31;           // number
+
+  alert(7 + 4);           // 11
+  alert("7" + "4");       // "74"
+  alert("7" + 4);         // "74"
+
+  let isLoggedIn = false; // boolean
+  console.log(age &gt; 20);   // true
+
+  console.log(typeof name); // "string"
+
+  // =========================================================
+  // Arithmetic Operations
+  // =========================================================
+  let a = 10;
+  let b = 5;
+
+  console.log(a + b);   // 15
+  console.log(a - b);   // 5
+  console.log(a * b);   // 50
+  console.log(a / b);   // 2
+  console.log(a % b);   // 0  (modulo)
+  console.log(4 ** 3);  // 64 (umocňování)
+
+  console.log(a + b * b);     // 35 (priorita: nejdřív násobení)
+  console.log((a + b) * b);   // 75 (závorky mění pořadí)
+
+  let product = a * b;
+  console.log(product); // 50
+
+  // Aktualizace proměnné (přiřazovací operátory)
+  let number = 18;
+  number = number + 1;  // 19
+  number += 1;          // 20
+  number -= 2;          // 18
+  number *= 4;          // 72
+  number /= 6;          // 12
+  number %= 3;          // 0
+  number++;             // 1 (increment)
+  number--;             // 0 (decrement)
+  console.log(number);  // 0
+
+  // =========================================================
+  // Typování a coercion (automatické převody)
+  // =========================================================
+  let text = "Hello, ";
+  console.log(typeof text); // "string"
+  text = 123;
+  console.log(typeof text); // "number"
+
+  console.log("10" + 2); // "102"  (+ se stringem skládá text)
+  console.log("10" - 2); // 8      (- nutí čísla)
+  console.log("10" * 2); // 20
+  console.log("10" / 2); // 5
+  console.log("abc" - 2); // NaN (Not a Number)
+
+  console.log(true + true);     // 2 (true =&gt; 1)
+  console.log(false + false);   // 0
+  console.log(true + false);    // 1
+  console.log(true + 5 + "10"); // "610"
+  console.log("10" + true + 5); // "10true5"
+
+  // Explicitní převody (doporučený styl)
+  let text2 = "1234";
+  text2 = Number(text2);
+  console.log(typeof text2); // "number"
+  console.log(text2);
+
+  text2 = String(text2);
+  console.log(typeof text2); // "string"
+  console.log(text2);
+
+  text2 = Boolean(text2);
+  console.log(typeof text2); // "boolean"
+  console.log(text2);
+
+  // Rychlý trik: unární plus převede string na number
+  console.log("5" + 10);         // "510"
+  console.log(+"5" + 10);        // 15
+  console.log(+"15" + +"10");    // 25
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+  <!-- =========================================================
+       3) COERCION – TEORIE (lepší grafika přes collapse + modal)
+  ========================================================== -->
+  <h5 class="mt-5">3) Typování v JS a „coercion“ (automatické převody)</h5>
+  <p>
+    Některé jazyky jsou striktně typované (typ proměnné je pevně daný), jiné volně typované.
+    JavaScript patří mezi volně typované jazyky: typ hodnoty se určuje podle toho, co do proměnné přiřadíš,
+    a může se měnit za běhu programu.
+  </p>
+
+  <ul class="list-group mb-4">
+    <li class="list-group-item">
+      <strong>Volně typovaný jazyk</strong>: typ proměnné se může změnit (např. nejdřív string, pak number).
+    </li>
+    <li class="list-group-item">
+      <strong>Coercion</strong>: JavaScript někdy sám automaticky převede typ (implicitní převod).
+      <button class="btn btn-sm btn-outline-primary ms-2" data-bs-toggle="modal" data-bs-target="#modalCoercion">
+        Více
+      </button>
+    </li>
+    <li class="list-group-item">
+      <strong>NaN</strong>: „Not a Number“ – výsledek, když se převod na číslo nepovede.
+    </li>
+    <li class="list-group-item">
+      <strong>Doporučení</strong>: pokud typ měníš záměrně, dělej to explicitně (<code>Number()</code>, <code>String()</code>, <code>Boolean()</code>).
+    </li>
+  </ul>
+
+  <p class="mb-4">
+    Coercion se hodně projevuje u operátoru <code>+</code>, který může znamenat „sčítání“ i „spojování textu“.
+    Přesně proto v ukázkách vidíš rozdíl mezi <code>7 + 4</code>, <code>"7" + "4"</code> a <code>"7" + 4</code>.
+  </p>
+
+  
+
+</section>
+
+<!-- =========================================================
+     MODÁLY (teorie do hloubky)
+========================================================= -->
+
+<!-- Modal: Operátor/operand -->
+<div class="modal fade" id="modalOperator" tabindex="-1" aria-labelledby="modalOperatorLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalOperatorLabel">Operátor a operand – rychlé vysvětlení</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Operátor</strong> je symbol, který provede akci. <strong>Operand</strong> je hodnota (nebo proměnná), nad kterou operátor pracuje.</p>
+        <h6>Příklad</h6>
+        <pre class="bg-light p-3 rounded border"><code>5 + 10
+// 5 a 10 = operandy
+// + = operátor</code></pre>
+        <h6>💡 Shrnutí</h6>
+        <p class="mb-0">Operátor „zpracuje“ operand(y) a vrátí výsledek (ten pak můžeš vypsat nebo uložit do proměnné).</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Modulo -->
+<div class="modal fade" id="modalModulo" tabindex="-1" aria-labelledby="modalModuloLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalModuloLabel">Modulo (%) – zbytek po dělení</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Modulo</strong> vrací zbytek po dělení. Je to jeden z nejpraktičtějších operátorů pro základní logiku.</p>
+        <h6>Příklady</h6>
+        <pre class="bg-light p-3 rounded border"><code>10 % 5  // 0  (bez zbytku)
+10 % 6  // 4  (10 děleno 6 => zbytek 4)</code></pre>
+        <h6>Sudé / liché</h6>
+        <pre class="bg-light p-3 rounded border"><code>let n = 7;
+console.log(n % 2); // 1 => liché
+
+n = 8;
+console.log(n % 2); // 0 => sudé</code></pre>
+        <p class="text-muted text-center mb-0"><small><em>Tip:</em> Modulo se hodí i na cyklické věci: střídání, opakování po N krocích, indexy v polích.</small></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Coercion -->
+<div class="modal fade" id="modalCoercion" tabindex="-1" aria-labelledby="modalCoercionLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalCoercionLabel">Coercion – automatické převody typů</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          JavaScript někdy automaticky převádí typy, aby „nějak“ provedl operaci. Tomu se říká <strong>implicitní převod</strong> (coercion).
+          Může to být užitečné, ale také zrádné, když nečekáš výsledek.
+        </p>
+
+        <h6>Klasická zrada: plus a string</h6>
+        <pre class="bg-light p-3 rounded border"><code>console.log("10" + 2); // "102"
+console.log("10" - 2); // 8</code></pre>
+
+        <h6>NaN (Not a Number)</h6>
+        <pre class="bg-light p-3 rounded border"><code>console.log("abc" - 2); // NaN</code></pre>
+
+        <h6>Doporučený přístup: explicitní převod</h6>
+        <pre class="bg-light p-3 rounded border"><code>let x = "15";
+let y = "10";
+console.log(Number(x) + Number(y)); // 25</code></pre>
+
+        <p class="text-muted text-center mb-0"><small><em>Tip:</em> Coercion znát = méně bugů. Nespoléhat se na ni = čitelnější a předvídatelnější kód.</small></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Reusable modal pro „Vysvětlit podrobněji“ v kvízu -->
+<div class="modal fade" id="quizExplainModal" tabindex="-1" aria-labelledby="quizExplainModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="quizExplainModalLabel">Vysvětlení</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body" id="quizExplainModalBody">
+        <!-- doplní JS -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =========================================================
+     KONEC SEKCE
 
     </div>
   </div>
