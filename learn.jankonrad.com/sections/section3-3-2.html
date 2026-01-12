@@ -1,0 +1,843 @@
+<section id="3-3-2" class="container my-5 no-copy">
+
+  <header class="mb-4">
+    <h2 class="mb-1">3.3.2 Základy programování v JavaScriptu – proměnné, datové typy, typeof</h2>
+    <p class="text-muted mb-0">
+      V této kapitole se naučíš úplné základy „gramatiky“ JavaScriptu: proměnné (<code>let</code>, <code>const</code>),
+      datové typy (string, number, boolean) a nástroj <code>typeof</code> pro kontrolu typu hodnoty.
+      Vše budeme psát ve VS Code jako nový <code>index.html</code> a výsledek budeme kontrolovat v prohlížeči přes konzoli.
+    </p>
+  </header>
+
+  <!-- Rychlé zadání + workflow -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Zadání (workflow)</h3>
+    <ol class="mb-3">
+      <li>Vytvoř novou složku projektu (např. <code>3-3-2</code>).</li>
+      <li>Vytvoř nový soubor <code>index.html</code>.</li>
+      <li>Vlož JavaScript do stránky přes <code>&lt;script&gt;...&lt;/script&gt;</code> (na konec souboru).</li>
+      <li>Soubor otevři v prohlížeči a sleduj:
+        <ul class="mb-0">
+          <li>vyskakovací okna (<code>alert</code>),</li>
+          <li>konzoli (Inspect → Console) pro <code>console.log</code> a chyby.</li>
+        </ul>
+      </li>
+    </ol>
+
+    <div class="alert alert-info mb-0" role="alert">
+      <strong>Tip:</strong> JavaScript se čte shora dolů. Když něco „nefunguje“, první kontrola je Console (chyby + řádek).
+    </div>
+  </div>
+
+  <div class="accordion" id="acc-3-3-2">
+
+    <!-- LESSON 1: Kontext sekce -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="js332-l1-head">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#js332-l1" aria-expanded="true" aria-controls="js332-l1">
+          1) Jak budeme v této části pracovat (VS Code + prohlížeč + konzole)
+        </button>
+      </h2>
+      <div id="js332-l1" class="accordion-collapse collapse show" aria-labelledby="js332-l1-head" data-bs-parent="#acc-3-3-2">
+        <div class="accordion-body">
+
+          <div class="card mb-3">
+            <div class="card-body">
+              <h3 class="h5">Co je cílem této části</h3>
+              <p class="mb-0">
+                Než začneme stavět větší webové věci, potřebujeme ovládnout úplné základy jazyka – podobně jako se nejdřív učí slovíčka a gramatika.
+                Budeme psát krátké úseky kódu, hned je spouštět v prohlížeči a kontrolovat výstupy v Console.
+              </p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-body">
+              <h3 class="h5">Jak si ověříš, že kód funguje</h3>
+              <ul class="mb-3">
+                <li><strong><code>alert(...)</code>:</strong> rychlá vizuální kontrola (pop-up).</li>
+                <li><strong><code>console.log(...)</code>:</strong> „výpis“ do konzole – nejčastější nástroj při učení i ladění.</li>
+                <li><strong>Console pro chyby:</strong> když uděláš překlep nebo chybí znak, prohlížeč obvykle ukáže chybu a řádek.</li>
+              </ul>
+
+              <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#js332ModalConsole">
+                Dovysvětlit: proč je konzole tak důležitá
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- LESSON 2: Variables -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="js332-l2-head">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#js332-l2" aria-expanded="false" aria-controls="js332-l2">
+          2) Proměnné: <code>let</code>, <code>const</code>, deklarace, inicializace, přepis hodnoty
+        </button>
+      </h2>
+      <div id="js332-l2" class="accordion-collapse collapse" aria-labelledby="js332-l2-head" data-bs-parent="#acc-3-3-2">
+        <div class="accordion-body">
+
+          <div class="card mb-3">
+            <div class="card-body">
+              <h3 class="h5">Co je proměnná (jednoduše)</h3>
+              <p>
+                Proměnná je „pojmenované místo“, kam si program ukládá hodnotu (třeba jméno, věk, stav přihlášení).
+                Představ si ji jako krabičku se štítkem – štítek je <strong>název proměnné</strong>, obsah je <strong>hodnota</strong>.
+              </p>
+              <p class="mb-0">
+                V praxi proměnné používáš pořád: hodnoty si ukládáš, později je čteš, a často je v průběhu programu měníš.
+              </p>
+            </div>
+          </div>
+
+          <div class="card mb-3">
+            <div class="card-body">
+              <h3 class="h5">Deklarace a inicializace</h3>
+              <ul class="mb-3">
+                <li><strong>Deklarace</strong> = vytvoříš proměnnou (rezervuješ místo v paměti) a dáš jí jméno.</li>
+                <li><strong>Inicializace</strong> = dáš proměnné první hodnotu.</li>
+              </ul>
+
+              <pre class="bg-light p-3 rounded mb-0"><code>let userName;          // deklarace (zatím bez hodnoty)
+userName = "Tom";      // inicializace (přiřazení hodnoty)</code></pre>
+            </div>
+          </div>
+
+          <div class="card mb-3">
+            <div class="card-body">
+              <h3 class="h5">Přiřazení není porovnání</h3>
+              <p class="mb-0">
+                Znak <code>=</code> v JavaScriptu znamená <strong>přiřazení</strong> (dát hodnotu do proměnné), ne „rovná se“ ve smyslu matematiky.
+                K porovnávání se používají jiné operátory (např. <code>&gt;</code>, později <code>===</code>).
+              </p>
+              <hr class="my-3">
+              <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#js332ModalAssign">
+                Dovysvětlit: co přesně dělá <code>=</code>
+              </button>
+            </div>
+          </div>
+
+          <div class="card mb-3">
+            <div class="card-body">
+              <h3 class="h5">Přepis hodnoty (reassign)</h3>
+              <p>
+                Hodnotu v proměnné vytvořené přes <code>let</code> můžeš změnit kdykoli.
+                JavaScript čte kód shora dolů – takže když hodnotu přepíšeš a hned potom ji vypíšeš, uvidíš nový stav.
+              </p>
+              <pre class="bg-light p-3 rounded mb-0"><code>let userName = "Tom";
+console.log(userName);
+
+userName = "John";
+console.log(userName);</code></pre>
+            </div>
+          </div>
+
+          <div class="card mb-3">
+            <div class="card-body">
+              <h3 class="h5">Konstanty: <code>const</code></h3>
+              <p>
+                Někdy nechceš, aby se hodnota měnila (např. URL endpoint, pevná konstanta, nastavení).
+                V tom případě použiješ <code>const</code>.
+              </p>
+              <ul class="mb-3">
+                <li><code>const</code> musí být <strong>deklarované i inicializované na stejném řádku</strong>.</li>
+                <li>Pokud se ho pokusíš přepsat, dostaneš chybu.</li>
+              </ul>
+              <pre class="bg-light p-3 rounded mb-0"><code>const apiUrl = "https://example.com/api";
+// apiUrl = "https://other.com"; // TypeError: Assignment to constant variable</code></pre>
+
+              <hr class="my-3">
+              <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#js332ModalConst">
+                Dovysvětlit: kdy volit <code>let</code> vs <code>const</code>
+              </button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-body">
+              <h3 class="h5">Pravidla a zvyklosti pro názvy proměnných</h3>
+              <ul class="mb-3">
+                <li>Začíná písmenem, <code>$</code> nebo <code>_</code> (ne číslem).</li>
+                <li>Bez mezer (jeden „kus“ textu).</li>
+                <li>Nepoužívej rezervovaná slova (<code>const</code>, <code>function</code>, <code>class</code>…).</li>
+                <li>U více slov používej <strong>camelCase</strong> (např. <code>userName</code>, <code>isLoggedIn</code>).</li>
+                <li>Vol smysluplné názvy (krátké, ale výstižné).</li>
+              </ul>
+
+              <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#js332ModalNaming">
+                Dovysvětlit: příklady dobrých a špatných názvů
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- LESSON 3: Data types -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="js332-l3-head">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#js332-l3" aria-expanded="false" aria-controls="js332-l3">
+          3) Datové typy: string, number, boolean (a proč na tom záleží)
+        </button>
+      </h2>
+      <div id="js332-l3" class="accordion-collapse collapse" aria-labelledby="js332-l3-head" data-bs-parent="#acc-3-3-2">
+        <div class="accordion-body">
+
+          <div class="card mb-3">
+            <div class="card-body">
+              <h3 class="h5">String (text)</h3>
+              <p>
+                String je text – posloupnost znaků. Může obsahovat písmena, čísla, interpunkci i speciální znaky.
+                Text v JavaScriptu zapisuješ do uvozovek (jednoduché, dvojité) nebo do backticků.
+              </p>
+              <pre class="bg-light p-3 rounded mb-0"><code>let name = "abc123.?!"; // string s písmeny, čísly a symboly</code></pre>
+            </div>
+          </div>
+
+          <div class="card mb-3">
+            <div class="card-body">
+              <h3 class="h5">Number (číslo)</h3>
+              <p>
+                Čísla zapisuješ bez uvozovek. JavaScript nerozlišuje zvlášť „int“ a „float“ typem – oboje je prostě <code>number</code>.
+              </p>
+              <pre class="bg-light p-3 rounded mb-0"><code>let age = 31;   // celé číslo
+let price = 5.5; // desetinné číslo (stále number)</code></pre>
+            </div>
+          </div>
+
+          <div class="card mb-3">
+            <div class="card-body">
+              <h3 class="h5">Proč je rozdíl mezi string a number důležitý</h3>
+              <p>
+                Stejný operátor se může chovat jinak podle typu hodnot. Typický příklad je <code>+</code>:
+              </p>
+              <ul class="mb-3">
+                <li><strong>number + number</strong> → matematika</li>
+                <li><strong>string + string</strong> → spojování textu</li>
+                <li><strong>string + number</strong> → často se převede na text a spojí</li>
+              </ul>
+              <pre class="bg-light p-3 rounded mb-0"><code>alert(7 + 4);       // 11
+alert("7" + "4");   // "74"
+alert("7" + 4);     // "74"</code></pre>
+
+              <hr class="my-3">
+              <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#js332ModalPlus">
+                Dovysvětlit: proč <code>"7" + 4</code> není 11
+              </button>
+            </div>
+          </div>
+
+          <div class="card mb-3">
+            <div class="card-body">
+              <h3 class="h5">Boolean (true / false)</h3>
+              <p>
+                Boolean má jen dvě hodnoty: <code>true</code> nebo <code>false</code>.
+                Používá se hlavně pro rozhodování (později v <code>if</code> a cyklech).
+              </p>
+              <pre class="bg-light p-3 rounded mb-0"><code>let isLoggedIn = false; // typicky „výrokový“ název</code></pre>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-body">
+              <h3 class="h5">Booleany často vznikají porovnáním</h3>
+              <p>
+                Porovnáním hodnot získáš boolean. Například:
+              </p>
+              <pre class="bg-light p-3 rounded mb-0"><code>let age = 31;
+console.log(age &gt; 20); // true (porovnání → boolean)</code></pre>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- LESSON 4: typeof, undefined, null -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="js332-l4-head">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#js332-l4" aria-expanded="false" aria-controls="js332-l4">
+          4) <code>typeof</code>, <code>undefined</code> a <code>null</code>
+        </button>
+      </h2>
+      <div id="js332-l4" class="accordion-collapse collapse" aria-labelledby="js332-l4-head" data-bs-parent="#acc-3-3-2">
+        <div class="accordion-body">
+
+          <div class="card mb-3">
+            <div class="card-body">
+              <h3 class="h5">K čemu je <code>typeof</code></h3>
+              <p>
+                Ne vždy kontroluješ typ dat ty sám – často data přijdou „zvenku“ (API, databáze, formulář).
+                <code>typeof</code> ti pomůže zjistit, jaký typ má aktuální hodnota.
+              </p>
+              <pre class="bg-light p-3 rounded mb-0"><code>let name = "abc123.?!";
+console.log(typeof name); // "string"</code></pre>
+            </div>
+          </div>
+
+          <div class="card mb-3">
+            <div class="card-body">
+              <h3 class="h5"><code>undefined</code> = deklarováno, ale bez hodnoty</h3>
+              <p class="mb-0">
+                Když proměnnou vytvoříš, ale nic do ní nedáš, je její hodnota <code>undefined</code>.
+                Je to jako krabička se štítkem, ale zatím prázdná.
+              </p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-body">
+              <h3 class="h5"><code>null</code> = záměrně „nic“</h3>
+              <p class="mb-3">
+                <code>null</code obvykle nastavíš vědomě, aby bylo jasné: „tady má být prázdno“.
+                (Poznámka: <code>typeof null</code> vrací <code>"object"</code>, což je historicky matoucí, ale <code>null</code> se běžně bere jako primitivní hodnota.)
+              </p>
+
+              <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#js332ModalUndefNull">
+                Dovysvětlit: rozdíl <code>undefined</code> vs <code>null</code>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- PRACTICE: výsledný soubor -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="js332-practice-head">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#js332-practice" aria-expanded="false" aria-controls="js332-practice">
+          Praktická část: vytvoř <code>index.html</code> a ověř výstupy (finální výstup níže)
+        </button>
+      </h2>
+      <div id="js332-practice" class="accordion-collapse collapse" aria-labelledby="js332-practice-head" data-bs-parent="#acc-3-3-2">
+        <div class="accordion-body">
+
+          <div class="card mb-3">
+            <div class="card-body">
+              <h3 class="h5">Kroky</h3>
+              <ol class="mb-0">
+                <li>Vytvoř <code>index.html</code> a vygeneruj šablonu (<code>!</code> + Enter).</li>
+                <li>Nastav <code>&lt;title&gt;3.3.2&lt;/title&gt;</code>.</li>
+                <li>Na konec souboru vlož <code>&lt;script&gt;</code> a napiš kód přesně v tomto pořadí.</li>
+                <li>Otevři soubor v prohlížeči:
+                  <ul class="mb-0">
+                    <li>vyskakovací okna se zobrazí postupně,</li>
+                    <li>v Console uvidíš výpisy <code>console.log</code>.</li>
+                  </ul>
+                </li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="container my-4 p-4 border rounded bg-light">
+            <h4 class="mb-3">✅ Finální výstup (soubor <code>index.html</code>)</h4>
+            <pre class="bg-white p-3 rounded border mb-0"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;3.3.2&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;script&gt;
+    let userName = "Tom";
+    console.log(userName);
+    userName = "John";
+    console.log(userName);
+    let name = "abc123.?!" // String with letters, digits, and special characters
+
+    let age = 31; // Number representing age
+
+    alert(7 + 4);
+    alert("7" + "4");
+    alert("7" + 4);
+
+    let isLoggedIn = false; // Boolean value
+
+    console.log(age &gt; 20);
+
+    console.log(typeof name); // Outputs: string
+&lt;/script&gt;
+&lt;/html&gt;</code></pre>
+          </div>
+
+          <div class="container my-4 p-4 border rounded bg-light">
+            <h4 class="mb-3">✅ Kontrolní checklist</h4>
+            <ul class="list-group list-group-flush mb-0">
+              <li class="list-group-item">Po otevření stránky se zobrazí tři <code>alert</code> okna (11, "74", "74).</li>
+              <li class="list-group-item">V Console se vypíše <code>Tom</code> a potom <code>John</code> (po přepsání proměnné).</li>
+              <li class="list-group-item">V Console se vypíše výsledek porovnání <code>age &gt; 20</code> (true).</li>
+              <li class="list-group-item">V Console se vypíše <code>typeof name</code> jako <code>"string"</code>.</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="js332-quiz-head">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#js332-quiz" aria-expanded="false" aria-controls="js332-quiz">
+          Kvíz: proměnné, datové typy a <code>typeof</code> (5 otázek)
+        </button>
+      </h2>
+      <div id="js332-quiz" class="accordion-collapse collapse" aria-labelledby="js332-quiz-head" data-bs-parent="#acc-3-3-2">
+        <div class="accordion-body">
+
+          <div class="alert alert-secondary">
+            <strong>Instrukce:</strong> Vyber odpovědi a klikni na <em>Vyhodnotit</em>. U každé otázky se zobrazí vysvětlení.
+          </div>
+
+          <div id="js332QuizWrap" class="d-grid gap-3">
+
+            <!-- Q1 -->
+            <div class="card quiz-q" data-correct="q1b">
+              <div class="card-body">
+                <h4 class="h6 mb-3">Question 1: How do you declare a variable in JavaScript?</h4>
+
+                <div class="form-check border rounded p-3 mb-2">
+                  <input class="form-check-input" type="radio" name="q1" id="q1a">
+                  <label class="form-check-label" for="q1a"><code>v name;</code></label>
+                </div>
+
+                <div class="form-check border rounded p-3 mb-2">
+                  <input class="form-check-input" type="radio" name="q1" id="q1b">
+                  <label class="form-check-label" for="q1b"><code>let name;</code></label>
+                </div>
+
+                <div class="form-check border rounded p-3 mb-2">
+                  <input class="form-check-input" type="radio" name="q1" id="q1c">
+                  <label class="form-check-label" for="q1c"><code>var: name;</code></label>
+                </div>
+
+                <div class="form-check border rounded p-3">
+                  <input class="form-check-input" type="radio" name="q1" id="q1d">
+                  <label class="form-check-label" for="q1d"><code>create name = "John";</code></label>
+                </div>
+
+                <div class="mt-3 d-none quiz-explain">
+                  <div class="p-3 rounded border bg-light">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <strong>Vysvětlení</strong>
+                      <span class="badge text-bg-success quiz-badge d-none">Correct</span>
+                    </div>
+                    <p class="mb-0">
+                      <code>let</code> je moderní klíčové slovo pro deklaraci proměnné. Středník na konci je volitelný,
+                      ale mnoho vývojářů ho používá pro konzistenci.
+                    </p>
+                    <button class="btn btn-link px-0 mt-2" type="button" data-bs-toggle="modal" data-bs-target="#js332ModalLet">
+                      Explain this further
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Q2 -->
+            <div class="card quiz-q" data-correct="q2c">
+              <div class="card-body">
+                <h4 class="h6 mb-3">Question 2: How do you declare and initialize a variable in one line of code?</h4>
+
+                <div class="form-check border rounded p-3 mb-2">
+                  <input class="form-check-input" type="radio" name="q2" id="q2a">
+                  <label class="form-check-label" for="q2a"><code>var firstname;</code></label>
+                </div>
+
+                <div class="form-check border rounded p-3 mb-2">
+                  <input class="form-check-input" type="radio" name="q2" id="q2b">
+                  <label class="form-check-label" for="q2b"><code>const firstname: "John";</code></label>
+                </div>
+
+                <div class="form-check border rounded p-3 mb-2">
+                  <input class="form-check-input" type="radio" name="q2" id="q2c">
+                  <label class="form-check-label" for="q2c"><code>let firstname = "John";</code></label>
+                </div>
+
+                <div class="form-check border rounded p-3">
+                  <input class="form-check-input" type="radio" name="q2" id="q2d">
+                  <label class="form-check-label" for="q2d"><code>let firstname:</code></label>
+                </div>
+
+                <div class="mt-3 d-none quiz-explain">
+                  <div class="p-3 rounded border bg-light">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <strong>Vysvětlení</strong>
+                      <span class="badge text-bg-success quiz-badge d-none">Correct</span>
+                    </div>
+                    <p class="mb-0">
+                      Tohle je správný zápis deklarace + inicializace v jednom řádku: vytvoříš proměnnou <code>firstname</code>
+                      a přiřadíš jí hodnotu <code>"John"</code>.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Q3 -->
+            <div class="card quiz-q" data-correct="q3c">
+              <div class="card-body">
+                <h4 class="h6 mb-3">Question 3: What data type is used to store text like a name, a sentence or a password etc.?</h4>
+
+                <div class="form-check border rounded p-3 mb-2">
+                  <input class="form-check-input" type="radio" name="q3" id="q3a">
+                  <label class="form-check-label" for="q3a"><code>number</code></label>
+                </div>
+
+                <div class="form-check border rounded p-3 mb-2">
+                  <input class="form-check-input" type="radio" name="q3" id="q3b">
+                  <label class="form-check-label" for="q3b"><code>boolean</code></label>
+                </div>
+
+                <div class="form-check border rounded p-3">
+                  <input class="form-check-input" type="radio" name="q3" id="q3c">
+                  <label class="form-check-label" for="q3c"><code>string</code></label>
+                </div>
+
+                <div class="mt-3 d-none quiz-explain">
+                  <div class="p-3 rounded border bg-light">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <strong>Vysvětlení</strong>
+                      <span class="badge text-bg-success quiz-badge d-none">Correct</span>
+                    </div>
+                    <p class="mb-0">
+                      <strong>Strings</strong> ukládají text – tedy sekvenci znaků v uvozovkách (např. <code>"Hello World"</code>).
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Q4 -->
+            <div class="card quiz-q" data-correct="q4b">
+              <div class="card-body">
+                <h4 class="h6 mb-3">Question 4: What does the <code>typeof</code> operator do?</h4>
+
+                <div class="form-check border rounded p-3 mb-2">
+                  <input class="form-check-input" type="radio" name="q4" id="q4a">
+                  <label class="form-check-label" for="q4a">Changes the type of a variable</label>
+                </div>
+
+                <div class="form-check border rounded p-3 mb-2">
+                  <input class="form-check-input" type="radio" name="q4" id="q4b">
+                  <label class="form-check-label" for="q4b">Tells you the data type of a value</label>
+                </div>
+
+                <div class="form-check border rounded p-3 mb-2">
+                  <input class="form-check-input" type="radio" name="q4" id="q4c">
+                  <label class="form-check-label" for="q4c">Checks if a variable is declared successfully</label>
+                </div>
+
+                <div class="form-check border rounded p-3">
+                  <input class="form-check-input" type="radio" name="q4" id="q4d">
+                  <label class="form-check-label" for="q4d">Converts numbers into strings</label>
+                </div>
+
+                <div class="mt-3 d-none quiz-explain">
+                  <div class="p-3 rounded border bg-light">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <strong>Vysvětlení</strong>
+                      <span class="badge text-bg-success quiz-badge d-none">Correct</span>
+                    </div>
+                    <p class="mb-0">
+                      <code>typeof</code> vrátí datový typ hodnoty (např. <code>"string"</code>, <code>"number"</code>).
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Q5 -->
+            <div class="card quiz-q" data-correct="q5a">
+              <div class="card-body">
+                <h4 class="h6 mb-3">Question 5: What is the result of <code>typeof 5</code>?</h4>
+
+                <div class="form-check border rounded p-3 mb-2">
+                  <input class="form-check-input" type="radio" name="q5" id="q5a">
+                  <label class="form-check-label" for="q5a"><code>"number"</code></label>
+                </div>
+
+                <div class="form-check border rounded p-3 mb-2">
+                  <input class="form-check-input" type="radio" name="q5" id="q5b">
+                  <label class="form-check-label" for="q5b"><code>"string"</code></label>
+                </div>
+
+                <div class="form-check border rounded p-3 mb-2">
+                  <input class="form-check-input" type="radio" name="q5" id="q5c">
+                  <label class="form-check-label" for="q5c"><code>"undefined"</code></label>
+                </div>
+
+                <div class="form-check border rounded p-3">
+                  <input class="form-check-input" type="radio" name="q5" id="q5d">
+                  <label class="form-check-label" for="q5d"><code>"boolean"</code></label>
+                </div>
+
+                <div class="mt-3 d-none quiz-explain">
+                  <div class="p-3 rounded border bg-light">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <strong>Vysvětlení</strong>
+                      <span class="badge text-bg-success quiz-badge d-none">Correct</span>
+                    </div>
+                    <p class="mb-0">
+                      <code>5</code> je číslo a <code>typeof</code> vrací řetězec <code>"number"</code>.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="d-flex flex-wrap gap-2 mt-3">
+            <button id="js332CheckQuiz" class="btn btn-primary" type="button">Vyhodnotit</button>
+            <button id="js332ResetQuiz" class="btn btn-outline-secondary" type="button">Reset</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CO JSME SE NAUČILI -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co jsme se naučili</h3>
+    <ul class="mb-0">
+      <li>Co je proměnná a proč je užitečná (pojmenované uložení hodnoty).</li>
+      <li>Rozdíl mezi <strong>deklarací</strong> a <strong>inicializací</strong>.</li>
+      <li>Jak pracovat s <code>let</code> (hodnotu lze měnit) a <code>const</code> (hodnota se nepřepisuje).</li>
+      <li>Základní primitivní typy: <strong>string</strong>, <strong>number</strong>, <strong>boolean</strong>.</li>
+      <li>Proč se operátory chovají jinak podle typu (např. <code>+</code> u stringů vs čísla).</li>
+      <li>Jak zjistit typ hodnoty pomocí <code>typeof</code> a co znamená <code>undefined</code> a <code>null</code>.</li>
+      <li>Jak ověřovat chování programu přes <code>console.log</code> a řešit chyby přes Console.</li>
+    </ul>
+  </div>
+
+</section>
+
+<!-- ===================== MODÁLY (dovysvětlení) ===================== -->
+
+<div class="modal fade" id="js332ModalConsole" tabindex="-1" aria-labelledby="js332ModalConsoleLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="js332ModalConsoleLabel">Proč je Console základní nástroj vývojáře</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <ul class="mb-0">
+        <li><strong>Okamžitý feedback:</strong> vidíš výpisy z programu bez toho, aby ses „hrabal“ do stránky.</li>
+        <li><strong>Chyby a řádky:</strong> prohlížeč často ukáže přesně soubor a řádek, kde problém vznikl.</li>
+        <li><strong>Testování nápadů:</strong> můžeš rychle zkusit výraz nebo řádek kódu a teprve pak ho přepsat do souboru.</li>
+      </ul>
+    </div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="js332ModalAssign" tabindex="-1" aria-labelledby="js332ModalAssignLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="js332ModalAssignLabel">Přiřazení (<code>=</code>) vs porovnání</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <p>
+        <code>=</code> znamená: „vezmi hodnotu vpravo a ulož ji do proměnné vlevo“.
+        Neptej se tím, jestli jsou dvě věci stejné.
+      </p>
+      <pre class="bg-light p-3 rounded mb-0"><code>let x = 10;     // přiřazení
+console.log(x &gt; 5); // porovnání (výsledek je boolean)</code></pre>
+    </div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="js332ModalConst" tabindex="-1" aria-labelledby="js332ModalConstLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="js332ModalConstLabel"><code>let</code> vs <code>const</code> v praxi</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <ul class="mb-0">
+        <li><strong><code>const</code>:</strong> výchozí volba – když nechceš hodnotu přepisovat (bezpečnější).</li>
+        <li><strong><code>let</code>:</strong> když víš, že se hodnota bude měnit (např. skóre, jméno uživatele, stav).</li>
+      </ul>
+    </div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="js332ModalNaming" tabindex="-1" aria-labelledby="js332ModalNamingLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="js332ModalNamingLabel">Pojmenování proměnných – rychlé příklady</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <p class="mb-2"><strong>Dobré:</strong> výstižné a čitelné</p>
+      <pre class="bg-light p-3 rounded mb-3"><code>let userName = "Tom";
+let age = 31;
+let isLoggedIn = false;</code></pre>
+
+      <p class="mb-2"><strong>Slabé:</strong> nic neříkají (po týdnu nevíš, co to je)</p>
+      <pre class="bg-light p-3 rounded mb-0"><code>let a = 31;
+let x = "Tom";</code></pre>
+    </div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="js332ModalPlus" tabindex="-1" aria-labelledby="js332ModalPlusLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="js332ModalPlusLabel">Proč <code>"7" + 4</code> není 11</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <p>
+        Operátor <code>+</code> má dva „režimy“: s čísly počítá, se stringy spojuje.
+        Jakmile je na jedné straně string, JavaScript často převede druhou hodnotu na string a provede spojení.
+      </p>
+      <pre class="bg-light p-3 rounded mb-0"><code>console.log(7 + 4);     // 11 (number)
+console.log("7" + "4"); // "74" (string)
+console.log("7" + 4);   // "74" (string + number → spojení)</code></pre>
+    </div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="js332ModalUndefNull" tabindex="-1" aria-labelledby="js332ModalUndefNullLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="js332ModalUndefNullLabel"><code>undefined</code> vs <code>null</code></h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <ul class="mb-3">
+        <li><strong><code>undefined</code>:</strong> proměnná existuje, ale ještě nemá přiřazenou hodnotu.</li>
+        <li><strong><code>null</code>:</strong> hodnotu nastavíš záměrně na „nic“ (záměrná prázdnota).</li>
+      </ul>
+      <pre class="bg-light p-3 rounded mb-0"><code>let a;
+console.log(a);            // undefined
+let b = null;
+console.log(b);            // null
+console.log(typeof a);     // "undefined"
+console.log(typeof b);     // "object" (historická zvláštnost)</code></pre>
+    </div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="js332ModalLet" tabindex="-1" aria-labelledby="js332ModalLetLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="js332ModalLetLabel">Explain this further: <code>let</code> a středníky</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <p>
+        V moderním JavaScriptu se nejčastěji používají <code>let</code> a <code>const</code> (od ES6).
+        Středníky jsou technicky často volitelné, protože existuje automatické vkládání středníků,
+        ale konzistentní používání středníků snižuje šanci na „divné“ chyby při spojování řádků.
+      </p>
+      <pre class="bg-light p-3 rounded mb-0"><code>let name;
+name = "Tom";</code></pre>
+    </div>
+  </div></div>
+</div>
+
+<!-- ===================== MINI JS PRO KVÍZ ===================== -->
+   <div class="alert alert-secondary">
+    <h2>Test z kapitol 3.3.1 a 3.3.2</h2>
+        <strong>Instrukce:</strong> Klikni na odpověď. Hned se dozvíš, jestli je správně, a uvidíš krátké vysvětlení.
+      </div>
+
+   <div class="quiz-question mb-4">
+        <p><strong>1. Co je to proměnná v Pythonu?</strong></p>
+        <div class="btn-group-vertical">
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Místo pro uložení hodnoty</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Název funkce</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Značka pro podmínku</button>
+        </div>
+      </div>
+      <!-- KVÍZ -->
+
+
+
+    
+
+      <!-- Q1 -->
+      <div class="quiz-question mb-4"
+           data-explain="Správně: <code>let</code> je moderní klíčové slovo pro deklaraci proměnné. Středník je volitelný, ale často se používá pro konzistenci.">
+        <p><strong>1. Jak v JavaScriptu deklaruješ proměnnou?</strong></p>
+        <div class="btn-group-vertical w-100">
+          <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">v name;</button>
+          <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)">let name;</button>
+          <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">var: name;</button>
+          <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">create name = "John";</button>
+        </div>
+        <div class="quiz-feedback mt-2 small"></div>
+        <button class="btn btn-link px-0 mt-1 d-none quiz-more" type="button" data-bs-toggle="modal" data-bs-target="#js332ModalLet">
+          Vysvětlit podrobněji
+        </button>
+      </div>
+
+      <!-- Q2 -->
+      <div class="quiz-question mb-4"
+           data-explain="Deklarace + inicializace v jednom řádku: vytvoříš proměnnou a rovnou jí přiřadíš hodnotu (tady řetězec <code>&quot;John&quot;</code>).">
+        <p><strong>2. Jak v jednom řádku proměnnou deklaruješ i inicializuješ (nastavíš hodnotu)?</strong></p>
+        <div class="btn-group-vertical w-100">
+          <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">var firstname;</button>
+          <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">const firstname: "John";</button>
+          <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)">let firstname = "John";</button>
+          <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">let firstname:</button>
+        </div>
+        <div class="quiz-feedback mt-2 small"></div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="quiz-question mb-4"
+           data-explain="Text ukládáme jako <strong>string</strong> (řetězec). Řetězce jsou sekvence znaků v uvozovkách, např. <code>&quot;Ahoj&quot;</code>.">
+        <p><strong>3. Jaký datový typ slouží k uložení textu (jméno, věta, heslo…)?</strong></p>
+        <div class="btn-group-vertical w-100">
+          <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">number (číslo)</button>
+          <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">boolean (pravda/nepravda)</button>
+          <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)">string (řetězec)</button>
+        </div>
+        <div class="quiz-feedback mt-2 small"></div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="quiz-question mb-4"
+           data-explain="<code>typeof</code> vrátí typ hodnoty jako text (např. <code>&quot;string&quot;</code>, <code>&quot;number&quot;</code>).">
+        <p><strong>4. Co dělá operátor <code>typeof</code>?</strong></p>
+        <div class="btn-group-vertical w-100">
+          <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">Změní datový typ proměnné</button>
+          <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)">Řekne, jaký datový typ má hodnota</button>
+          <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">Ověří, že proměnná byla úspěšně deklarována</button>
+          <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">Převede čísla na řetězce</button>
+        </div>
+        <div class="quiz-feedback mt-2 small"></div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="quiz-question mb-4"
+           data-explain="<code>5</code> je číslo, takže <code>typeof 5</code> vrátí <code>&quot;number&quot;</code>.">
+        <p><strong>5. Jaký je výsledek výrazu <code>typeof 5</code>?</strong></p>
+        <div class="btn-group-vertical w-100">
+          <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)">"number"</button>
+          <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">"string"</button>
+          <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">"undefined"</button>
+          <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">"boolean"</button>
+        </div>
+        <div class="quiz-feedback mt-2 small"></div>
+      </div>
+
+     <button class="btn btn-outline-secondary" type="button" onclick="resetQuiz(this)">Reset kvízu</button>
+
+
+    </div>
+  </div>
+</div>
