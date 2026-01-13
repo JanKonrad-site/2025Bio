@@ -1,0 +1,338 @@
+/* components.css
+   Karty, navigace, tlačítka, menu, modaly, accordion...
+-------------------------------------------------- */
+
+.card{
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+}
+
+/* --- Top links + menu button --- */
+.siteLink{
+  padding: 10px 12px;
+  border-radius: 999px;
+  color: var(--muted);
+  border: 1px solid transparent;
+  transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+.siteLink:active, .siteLink[aria-current="page"]{
+  color: var(--text);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+/* --- Buttons (unifikované) --- */
+.btn, .iconBtn, .siteMenuBtn, .docMenuBtn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--btn-border);
+  background: var(--btn-bg);
+  color: var(--text);
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+  transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+.btn:active, .iconBtn:active, .siteMenuBtn:active, .docMenuBtn:active{
+  background: var(--btn-bg-hover);
+  border-color: color-mix(in srgb, var(--btn-border) 70%, var(--accent) 30%);
+}
+.btn:disabled, .iconBtn:disabled, .siteMenuBtn:disabled, .docMenuBtn:disabled{
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+/* Odstranění „hover bordelu“ – žádné posuny/transform */
+.btn:hover, .iconBtn:hover, .siteMenuBtn:hover, .docMenuBtn:hover{
+  background: var(--btn-bg-hover);
+  border-color: color-mix(in srgb, var(--btn-border) 80%, var(--accent) 20%);
+}
+
+/* --- Theme switch (menu) --- */
+.theme{
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.themeBtn svg{ width: 18px; height: 18px; flex: 0 0 auto; }
+.themeLabel{ font-weight: 700; font-size: 13px; color: var(--muted); }
+
+.menu{
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 200px;
+  padding: 8px;
+  border-radius: 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-soft);
+  z-index: 3100;
+}
+.menu[hidden]{ display: none; }
+
+.menu .menuItem{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 10px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  font-weight: 650;
+}
+.menu .menuItem:hover{
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 20%, transparent);
+}
+.menu .menuItem[aria-checked="true"]{
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+/* --- Nav --- */
+.navTitle{
+  font-weight: 760;
+  letter-spacing: .2px;
+  padding: 10px 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.navTitle small{ color: var(--muted); font-weight: 600; }
+
+.navRoot{
+  display: grid;
+  gap: 8px;
+  padding: 0 6px 10px;
+}
+
+details.navGroup{
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--surface-2) 55%, transparent);
+}
+
+summary.navGroupHeader{
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 10px;
+  user-select: none;
+}
+summary.navGroupHeader::-webkit-details-marker{ display:none; }
+
+.gLeft{
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.chev{
+  width: 22px;
+  height: 22px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--btn-bg);
+  color: var(--muted);
+  flex: 0 0 auto;
+}
+details[open] .chev{
+  transform: rotate(90deg);
+  transition: transform .15s ease;
+}
+
+.gTitle{
+  font-weight: 720;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.gMeta{ display: inline-flex; align-items: center; gap: 8px; flex: 0 0 auto; }
+
+.jump{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  border: 1px solid var(--btn-border);
+  background: var(--btn-bg);
+  color: var(--text);
+}
+.jump:hover{
+  background: var(--btn-bg-hover);
+  border-color: color-mix(in srgb, var(--btn-border) 80%, var(--accent) 20%);
+}
+
+.navBody{
+  display: grid;
+  gap: 6px;
+  padding: 8px 10px 10px;
+  border-top: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
+}
+
+.navLink{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 12px;
+  color: color-mix(in srgb, var(--text) 78%, transparent);
+  border: 1px solid transparent;
+  transition: background .12s ease, border-color .12s ease, color .12s ease;
+}
+.navLink:hover{ background: transparent; border-color: transparent; color: color-mix(in srgb, var(--text) 78%, transparent); }
+.navLink:focus-visible{ background: color-mix(in srgb, var(--accent) 10%, transparent); border-color: color-mix(in srgb, var(--accent) 22%, transparent); color: var(--text); }
+.navLink.is-active{
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+  color: var(--text);
+}
+
+.depth-1{ margin-left: 10px; }
+.depth-2{ margin-left: 20px; }
+
+/* --- Forms --- */
+.form-control{
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--field-border);
+  background: var(--field-bg);
+  color: var(--text);
+  outline: none;
+}
+.form-control::placeholder{ color: var(--muted); }
+
+.input-group{ display:flex; align-items:stretch; gap:10px; width:100%; }
+
+/* --- Collapse / Accordion (compat) --- */
+.collapse{ display:none; }
+.collapse.show{ display:block; }
+
+.accordion{ display:grid; gap:10px; }
+.accordion-item{
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--surface-2) 55%, transparent);
+}
+.accordion-button{
+  width: 100%;
+  text-align: left;
+  padding: 12px 14px;
+  cursor: pointer;
+  background: color-mix(in srgb, var(--surface-2) 40%, transparent);
+  border: 0;
+  color: var(--text);
+  font-weight: 700;
+}
+.accordion-body{
+  padding: 12px 14px;
+  border-top: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
+  color: color-mix(in srgb, var(--text) 86%, transparent);
+}
+
+/* --- Modal (neprůhledné + čitelné pro dark i light) --- */
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:5000;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+}
+.modal.show{ display:flex; }
+.modal-dialog{
+  width: min(920px, 100%);
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--border-2);
+  box-shadow: var(--shadow);
+  background: var(--surface-2); /* neprůhledné tokeny */
+}
+.modal-content{ display:grid; }
+.modal-header, .modal-footer{
+  padding: 12px 14px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface-2) 88%, transparent);
+}
+.modal-footer{ border-top: 1px solid var(--border); border-bottom:0; }
+
+.modal-body{
+  padding: 14px;
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.btn-close{
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid var(--btn-border);
+  background: var(--btn-bg);
+  color: var(--text);
+  cursor:pointer;
+  display:inline-grid;
+  place-items:center;
+}
+.btn-close:hover{
+  background: var(--btn-bg-hover);
+  border-color: color-mix(in srgb, var(--btn-border) 80%, var(--accent) 20%);
+}
+.btn-close svg{ width: 18px; height: 18px; }
+
+.modal-backdrop{
+  position: fixed;
+  inset: 0;
+  background: var(--backdrop);
+  z-index: 4900;
+}
+body.modal-open{ overflow:hidden; }
+
+/* Helpers */
+.is-hidden{ display:none !important; }
+
+/* Křížek i bez SVG (override bootstrap btn-close background-image) */
+.btn-close{
+  position: relative;
+  background-image: none !important;
+}
+.btn-close::before,
+.btn-close::after{
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+}
+.btn-close::before{ transform: rotate(45deg); }
+.btn-close::after{ transform: rotate(-45deg); }

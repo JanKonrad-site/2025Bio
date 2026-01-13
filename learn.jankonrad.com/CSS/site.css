@@ -1,0 +1,722 @@
+/* ==========================================================================
+   site.css — sjednocený design (bez Bootstrapu)
+   - dark/light témata přes CSS proměnné (data-theme / data-bs-theme alias)
+   - sjednocené komponenty (cards, buttons, alerts, accordions, modals)
+   - galerie/obrázky: responzivní, klik = fullscreen (styling pro lightbox)
+   - moderní mikro-animace + respektování prefers-reduced-motion
+   ========================================================================== */
+
+/* ===== 0) Theme tokens (DARK default) ===== */
+:root{
+  color-scheme: dark;
+
+  /* background */
+  --bg:        #0b1020;
+  --bg-2:      #0a1328;
+  --surface:   rgba(255,255,255,.06);
+  --surface-2: rgba(255,255,255,.09);
+  --surface-3: rgba(255,255,255,.13);
+
+  /* text */
+  --text:      rgba(255,255,255,.92);
+  --text-2:    rgba(255,255,255,.72);
+  --muted:     rgba(255,255,255,.58);
+
+  /* borders / shadows */
+  --border:    rgba(255,255,255,.14);
+  --border-2:  rgba(255,255,255,.18);
+  --shadow:    0 14px 34px rgba(0,0,0,.34);
+
+  /* accents */
+  --accent:        #7c3aed; /* violet */
+  --accent-2:      #22c55e; /* green */
+  --danger:        #ef4444;
+  --warning:       #f59e0b;
+  --info:          #38bdf8;
+
+  /* components */
+  --radius:        16px;
+  --radius-sm:     12px;
+  --radius-xs:     10px;
+
+  --ring:          0 0 0 3px rgba(124,58,237,.35);
+
+  --btn-bg:        rgba(255,255,255,.10);
+  --btn-bg-hover:  rgba(255,255,255,.14);
+  --btn-text:      var(--text);
+  --btn-border:    var(--border);
+
+  --primary-bg:    rgba(124,58,237,.20);
+  --primary-bg-hover: rgba(124,58,237,.28);
+  --primary-border: rgba(124,58,237,.55);
+
+  --outline-bg:    transparent;
+  --outline-bg-hover: rgba(255,255,255,.08);
+
+  --code-bg:       rgba(0,0,0,.28);
+  --code-border:   rgba(255,255,255,.14);
+
+  /* spacing scale */
+  --space-1: 6px;
+  --space-2: 10px;
+  --space-3: 14px;
+  --space-4: 18px;
+  --space-5: 24px;
+  --space-6: 32px;
+
+  /* typography */
+  --font: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+
+  --h1: clamp(24px, 2.4vw, 34px);
+  --h2: clamp(20px, 2.0vw, 28px);
+  --h3: clamp(18px, 1.6vw, 22px);
+  --base: 16px;
+  --small: 13px;
+}
+
+/* ===== 0b) Theme aliasing (data-bs-theme = bootstrap compat) ===== */
+html[data-theme="dark"],
+html[data-bs-theme="dark"]{
+  color-scheme: dark;
+}
+
+html[data-theme="light"],
+html[data-bs-theme="light"]{
+  color-scheme: light;
+
+  --bg:        #f6f7fb;
+  --bg-2:      #eef1f8;
+  --surface:   rgba(0,0,0,.04);
+  --surface-2: rgba(0,0,0,.06);
+  --surface-3: rgba(0,0,0,.09);
+
+  --text:      rgba(10,12,18,.92);
+  --text-2:    rgba(10,12,18,.72);
+  --muted:     rgba(10,12,18,.58);
+
+  --border:    rgba(10,12,18,.14);
+  --border-2:  rgba(10,12,18,.18);
+  --shadow:    0 14px 34px rgba(12,14,20,.12);
+
+  --btn-bg:        rgba(0,0,0,.04);
+  --btn-bg-hover:  rgba(0,0,0,.06);
+  --btn-text:      var(--text);
+  --btn-border:    var(--border);
+
+  --outline-bg-hover: rgba(0,0,0,.05);
+
+  --code-bg:       rgba(10,12,18,.05);
+  --code-border:   rgba(10,12,18,.14);
+}
+
+/* Auto theme (optional) */
+@media (prefers-color-scheme: light){
+  html[data-theme="auto"],
+  html[data-bs-theme="auto"]{
+    color-scheme: light;
+
+    --bg:        #f6f7fb;
+    --bg-2:      #eef1f8;
+    --surface:   rgba(0,0,0,.04);
+    --surface-2: rgba(0,0,0,.06);
+    --surface-3: rgba(0,0,0,.09);
+
+    --text:      rgba(10,12,18,.92);
+    --text-2:    rgba(10,12,18,.72);
+    --muted:     rgba(10,12,18,.58);
+
+    --border:    rgba(10,12,18,.14);
+    --border-2:  rgba(10,12,18,.18);
+    --shadow:    0 14px 34px rgba(12,14,20,.12);
+
+    --btn-bg:        rgba(0,0,0,.04);
+    --btn-bg-hover:  rgba(0,0,0,.06);
+    --outline-bg-hover: rgba(0,0,0,.05);
+
+    --code-bg:       rgba(10,12,18,.05);
+    --code-border:   rgba(10,12,18,.14);
+  }
+}
+
+/* ===== 1) Reset & base ===== */
+*{ box-sizing: border-box; }
+html, body { height: 100%; }
+body{
+  margin: 0;
+  font: 400 var(--base)/1.55 var(--font);
+  color: var(--text);
+  background:
+    radial-gradient(1200px 600px at 20% -10%, rgba(124,58,237,.22), transparent 55%),
+    radial-gradient(900px 500px at 80% 0%, rgba(56,189,248,.12), transparent 55%),
+    linear-gradient(180deg, var(--bg), var(--bg-2));
+  overflow-x: hidden;
+}
+
+a{ color: inherit; text-underline-offset: 3px; }
+a:hover{ color: var(--text); }
+p{ margin: 0 0 var(--space-3); color: var(--text-2); }
+
+h1,h2,h3,h4{ margin: 0 0 var(--space-3); line-height: 1.15; letter-spacing: .2px; }
+h1{ font-size: var(--h1); }
+h2{ font-size: var(--h2); }
+h3{ font-size: var(--h3); }
+small{ font-size: var(--small); color: var(--muted); }
+
+code, pre, kbd{
+  font-family: var(--mono);
+}
+pre{
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3);
+  overflow: auto;
+}
+code{
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
+  border-radius: 10px;
+  padding: 2px 6px;
+}
+kbd{
+  display:inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  box-shadow: 0 2px 0 rgba(0,0,0,.25);
+  font-size: .92em;
+}
+
+/* Images */
+img{ max-width: 100%; height: auto; }
+img[loading="lazy"]{ content-visibility: auto; }
+
+/* Selection */
+::selection{ background: rgba(124,58,237,.35); }
+
+/* ===== 2) Layout primitives ===== */
+.container{
+  width: min(1100px, calc(100% - 2*var(--space-5)));
+  margin-inline: auto;
+}
+
+.section{
+  padding: var(--space-6) 0;
+}
+
+.hr{
+  height: 1px;
+  border: 0;
+  background: var(--border);
+  margin: var(--space-5) 0;
+}
+
+/* ===== 3) Utility classes (Bootstrap-like compat, but bez BS) ===== */
+/* spacing */
+.mt-0{ margin-top:0!important; } .mb-0{ margin-bottom:0!important; }
+.mb-2{ margin-bottom: var(--space-2)!important; }
+.mb-3{ margin-bottom: var(--space-3)!important; }
+.mb-4{ margin-bottom: var(--space-4)!important; }
+.my-4{ margin-block: var(--space-4)!important; }
+.my-5{ margin-block: calc(var(--space-6) + 6px)!important; }
+.p-2{ padding: var(--space-2)!important; }
+.p-3{ padding: var(--space-3)!important; }
+.p-4{ padding: var(--space-4)!important; }
+
+.border{ border: 1px solid var(--border)!important; }
+.rounded{ border-radius: var(--radius)!important; }
+.rounded-sm{ border-radius: var(--radius-sm)!important; }
+
+.bg-light{ background: var(--surface-2)!important; }
+.bg-surface{ background: var(--surface)!important; }
+
+.text-muted{ color: var(--muted)!important; }
+.text-center{ text-align:center!important; }
+
+/* flex helpers */
+.d-flex{ display:flex!important; }
+.flex-wrap{ flex-wrap:wrap!important; }
+.gap-2{ gap: var(--space-2)!important; }
+.gap-3{ gap: var(--space-3)!important; }
+.align-items-center{ align-items:center!important; }
+.justify-content-between{ justify-content:space-between!important; }
+
+/* list groups (compat) */
+.list-group{ padding-left: 0; margin: 0; list-style: none; }
+.list-group-item{
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--text-2);
+}
+.list-group-flush .list-group-item{
+  border-radius: 0;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+  background: transparent;
+}
+.list-group-flush .list-group-item:last-child{ border-bottom: 0; }
+
+/* ===== 4) Buttons ===== */
+.btn{
+  appearance: none;
+  border: 1px solid var(--btn-border);
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border-radius: 14px;
+  padding: 10px 14px;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: .2px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  user-select: none;
+  transition: transform .15s ease, background .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+.btn:hover{ background: var(--btn-bg-hover); transform: translateY(-1px); }
+.btn:active{ transform: translateY(0); }
+.btn:focus-visible{ outline: none; box-shadow: var(--ring); }
+
+.btn-sm{ padding: 8px 12px; border-radius: 12px; font-size: 13px; }
+
+.btn-primary{
+  background: var(--primary-bg);
+  border-color: var(--primary-border);
+}
+.btn-primary:hover{ background: var(--primary-bg-hover); }
+
+.btn-outline-secondary{
+  background: var(--outline-bg);
+}
+.btn-outline-secondary:hover{ background: var(--outline-bg-hover); }
+
+/* ===== 5) Cards / blocks ===== */
+.card{
+  background: linear-gradient(180deg, var(--surface-2), var(--surface));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.card-body{ padding: var(--space-4); }
+
+.block{
+  background: linear-gradient(180deg, var(--surface-2), var(--surface));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  box-shadow: var(--shadow);
+}
+
+.block-title{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+}
+.block-title h3{ margin: 0; }
+.block-subtitle{ margin: 0; color: var(--muted); }
+
+/* ===== 6) Alerts ===== */
+.alert{
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 14px;
+  background: var(--surface-2);
+  color: var(--text-2);
+}
+.alert strong{ color: var(--text); }
+.alert-info{
+  border-color: rgba(56,189,248,.35);
+  background: rgba(56,189,248,.12);
+}
+.alert-warning{
+  border-color: rgba(245,158,11,.35);
+  background: rgba(245,158,11,.12);
+}
+.alert-danger{
+  border-color: rgba(239,68,68,.35);
+  background: rgba(239,68,68,.12);
+}
+
+/* ===== 7) Accordion (Bootstrap class compat + modern UX) ===== */
+.accordion{
+  display: grid;
+  gap: var(--space-3);
+}
+
+.accordion-item{
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, var(--surface-2), var(--surface));
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.accordion-header{ margin: 0; }
+
+.accordion-button{
+  width: 100%;
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: 14px 16px;
+  background: transparent;
+  border: 0;
+  color: var(--text);
+  font-weight: 700;
+  cursor: pointer;
+  text-align: left;
+}
+
+.accordion-button::after{
+  content: "";
+  width: 18px; height: 18px;
+  flex: 0 0 18px;
+  background:
+    conic-gradient(from 45deg, transparent 0 25%, var(--text) 0 50%, transparent 0 100%);
+  mask: linear-gradient(#000 0 0);
+  border-radius: 4px;
+  opacity: .9;
+  transform: rotate(45deg);
+  transition: transform .18s ease, opacity .18s ease;
+}
+
+/* rotate arrow when opened */
+.accordion-button[aria-expanded="true"]::after,
+.accordion-item.is-open .accordion-button::after{
+  transform: rotate(135deg);
+  opacity: 1;
+}
+
+.accordion-button:hover{ background: rgba(255,255,255,.04); }
+html[data-theme="light"] .accordion-button:hover,
+html[data-bs-theme="light"] .accordion-button:hover{ background: rgba(0,0,0,.04); }
+
+.accordion-collapse{
+  border-top: 1px solid var(--border);
+}
+.accordion-body{
+  padding: var(--space-4);
+  color: var(--text-2);
+}
+
+/* collapse show/hide (bez BS JS: kompat se třídami .collapse/.show) */
+.collapse{ display: none; }
+.collapse.show{ display: block; }
+
+/* ===== 8) Media / images (sjednocení) ===== */
+.ratio{ position: relative; width: 100%; }
+.ratio::before{ content:""; display:block; padding-top: 56.25%; } /* 16:9 default */
+.ratio-16x9::before{ padding-top: 56.25%; }
+.ratio-4x3::before{ padding-top: 75%; }
+.ratio-1x1::before{ padding-top: 100%; }
+
+.ratio > *{
+  position: absolute; inset: 0;
+}
+
+.media{
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: rgba(0,0,0,.18);
+  box-shadow: 0 10px 26px rgba(0,0,0,.22);
+}
+html[data-theme="light"] .media,
+html[data-bs-theme="light"] .media{
+  background: rgba(0,0,0,.04);
+}
+
+.media img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display:block;
+}
+
+/* clickable images */
+.media--clickable,
+.img-click{
+  cursor: zoom-in;
+  position: relative;
+}
+.media--clickable::after,
+.img-click::after{
+  content: "⤢";
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 34px;
+  height: 34px;
+  display:grid;
+  place-items: center;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,.45);
+  color: rgba(255,255,255,.92);
+  font-weight: 800;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity .16s ease, transform .16s ease;
+}
+.media--clickable:hover::after,
+.img-click:hover::after{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* helper for existing classes */
+.img-fluid{ display:block; width:100%; height:auto; }
+.img-natural{ display:block; max-width:100%; height:auto; margin-inline:auto; }
+
+/* ===== 9) Lightbox / fullscreen viewer =====
+   Pozn.: tohle je CSS pro existující viewer z app.css:
+   - overlay: .img-viewer
+   - aktivní: .img-viewer.is-open
+*/
+.img-viewer{
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 9999;
+  background: rgba(0,0,0,.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 16px;
+}
+.img-viewer.is-open{ display: grid; place-items: center; }
+
+.img-viewer__panel{
+  width: min(1200px, 96vw);
+  height: min(88dvh, 760px);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 10px;
+  background: rgba(0,0,0,.40);
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0,0,0,.55);
+  transform: translateY(8px) scale(.99);
+  opacity: 0;
+  animation: modalIn .18s ease forwards;
+}
+
+.img-viewer__bar{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+}
+.img-viewer__title{
+  min-width: 0;
+  color: rgba(255,255,255,.92);
+  font-weight: 700;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow:hidden;
+  text-overflow: ellipsis;
+}
+.img-viewer__actions{
+  display:flex;
+  align-items:center;
+  gap: 8px;
+}
+.img-viewer__btn{
+  border: 1px solid rgba(255,255,255,.16);
+  background: rgba(255,255,255,.08);
+  color: rgba(255,255,255,.92);
+  border-radius: 12px;
+  padding: 8px 10px;
+  cursor:pointer;
+  transition: transform .15s ease, background .15s ease, border-color .15s ease;
+}
+.img-viewer__btn:hover{
+  background: rgba(255,255,255,.12);
+  border-color: rgba(255,255,255,.22);
+  transform: translateY(-1px);
+}
+.img-viewer__btn:focus-visible{ outline:none; box-shadow: 0 0 0 3px rgba(124,58,237,.35); }
+
+.img-viewer__stage{
+  position: relative;
+  display:grid;
+  place-items:center;
+  padding: 10px;
+  overflow: hidden;
+}
+.img-viewer__img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 14px;
+  background: rgba(0,0,0,.12);
+}
+
+/* bottom nav */
+.img-viewer__nav{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-top: 1px solid rgba(255,255,255,.12);
+}
+.img-viewer__counter{
+  color: rgba(255,255,255,.72);
+  font-size: 13px;
+}
+
+/* Mobile = skutečný fullscreen (bez "karty") */
+@media (max-width: 640px){
+  .img-viewer{ padding: 0; }
+  .img-viewer__panel{
+    width: 100vw;
+    height: 100dvh;
+    border-radius: 0;
+  }
+  .img-viewer__img{ border-radius: 0; }
+}
+
+/* ===== 10) Modal (obecný) ===== */
+.modal{
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 9000;
+  background: rgba(0,0,0,.64);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 16px;
+}
+.modal.show{ display: grid; place-items: center; }
+.modal-dialog{
+  width: min(860px, 96vw);
+  max-height: min(88dvh, 860px);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background: linear-gradient(180deg, var(--surface-2), var(--surface));
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0,0,0,.45);
+  animation: modalIn .18s ease both;
+}
+.modal-header, .modal-footer{
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.modal-footer{ border-bottom: 0; border-top: 1px solid var(--border); }
+.modal-title{ font-weight: 800; }
+.modal-body{
+  padding: 16px;
+  overflow: auto;
+}
+.btn-close{
+  width: 38px; height: 38px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--btn-bg);
+  cursor:pointer;
+}
+.btn-close:hover{ background: var(--btn-bg-hover); }
+
+/* ===== 11) Micro animations ===== */
+@keyframes modalIn{
+  from{ opacity: 0; transform: translateY(10px) scale(.99); }
+  to{ opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes fadeIn{
+  from{ opacity:0; }
+  to{ opacity:1; }
+}
+@keyframes slideUp{
+  from{ opacity:0; transform: translateY(10px); }
+  to{ opacity:1; transform: translateY(0); }
+}
+
+.reveal{ animation: slideUp .22s ease both; }
+.fade-in{ animation: fadeIn .22s ease both; }
+.hover-lift{ transition: transform .16s ease, box-shadow .16s ease; }
+.hover-lift:hover{ transform: translateY(-2px); box-shadow: 0 18px 44px rgba(0,0,0,.34); }
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{
+    animation-duration: .01ms!important;
+    animation-iteration-count: 1!important;
+    transition-duration: .01ms!important;
+    scroll-behavior: auto!important;
+  }
+}
+
+/* ===== 12) Legacy / conflict shields =====
+   Pokud někde zůstalo staré carousel.css (Bootstrap ukázka), tak tohle minimalizuje škody.
+   Doporučení: carousel.css/carousel.rtl.css úplně vyhoď z projektu.
+*/
+.carousel, .carousel *{ box-sizing: border-box; }
+body[style*="padding-top"]{ padding-top: 0 !important; } /* nouzovka */
+
+/* ===== 13) Specifické bloky z animace.css (převlečeno do theme) ===== */
+.von-neumann-animation{
+  background: linear-gradient(180deg, var(--surface-2), var(--surface));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  color: var(--text);
+  box-shadow: var(--shadow);
+}
+.von-neumann-animation h2{
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.step{
+  background: rgba(0,0,0,.18);
+  border: 1px solid var(--border);
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: var(--radius-sm);
+  position: relative;
+}
+html[data-theme="light"] .step,
+html[data-bs-theme="light"] .step{
+  background: rgba(0,0,0,.03);
+}
+.step-title{
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+.step-desc{ color: var(--text-2); margin-bottom: 10px; }
+.step-line{
+  height: 2px;
+  background-color: rgba(124,58,237,.45);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  transition: width 1s ease;
+}
+.step.active .step-line{ width: 100%; }
+
+.animation-controls button{
+  border: 1px solid var(--btn-border);
+  background: var(--btn-bg);
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: 14px;
+  cursor: pointer;
+  font-weight: 700;
+}
+.animation-controls button:hover{ background: var(--btn-bg-hover); }
