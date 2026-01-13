@@ -1,1721 +1,1016 @@
+<!-- 1.1 Úvod do práce s počítačem (převedeno na TEMPLATE A, bez Bootstrapu) -->
+<section id="section1-1" class="lesson">
 
-
-  <!-- Sekce 1.1 -->
-
-  <section id="section1-1" class="container my-5">
-    <h3 class="mb-4">1.1 Úvod do práce s počítačem</h3>
-    
-
-    <div class="row align-items-center mb-4">
-      <div class="col-md-2 text-center">
-        <img class="img-fluid rounded-circle shadow resize-mobile"
-          src="./Assets/osobnosti/SRI_Douglas_Engelbart_1968_(cropped).jpg" alt="Douglas Engelbart"
-          class="img-fluid rounded-circle shadow">
-        <p class="mt-2 text-muted small">Douglas Engelbart</p>
-      </div>
-      <div class="col-md-10">
-        <blockquote class="blockquote">
-          <p class="mb-0">„Největší hodnotou počítače je jeho schopnost rozšiřovat lidské
-            myšlení.“</p>
-          <footer class="blockquote-footer mt-2">
-            <a href="https://www.dougengelbart.org/content/view/138/000/" target="_blank">
-              Douglas Engelbart, 1962 (zdroj)
-            </a>
-          </footer>
-        </blockquote>
-      </div>
-    </div>
-
-    <h5 class="mt-5">Co je to počítač?</h5>
-    <p>
-      Počítač je elektronické zařízení navržené pro zpracování dat podle předem definovaných
-      instrukcí. Skládá se z <strong>hardwaru</strong> (fyzických komponent) a
-      <strong>softwaru</strong> (programového vybavení), které společně umožňují provádět různé úkoly,
-      od jednoduchých výpočtů po komplexní simulace.
-    </p>
-
-    <h5 class="mt-4">Komponenty počítače</h5>
-    <ul class="list-group mb-4">
-      <li class="list-group-item"><strong>🏠 Case - počítačová skříň</strong>: Skříň, ve které jsou
-        součásti PC <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
-          data-bs-target="#modalCase">
-          Více
-        </button></li>
-
-      <li class="list-group-item"><strong>🔌 Napájecí zdroj</strong>: Zajišťuje přísun elektrické energie
-        pro všechny části počítače. <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
-          data-bs-target="#modalPSU">
-          Více
-        </button></li>
-
-      <li class="list-group-item"><strong>🛠️ Základní deska</strong>: Spojuje všechny komponenty a
-        umožňuje jejich komunikaci.<button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
-          data-bs-target="#modalMotherboard">
-          Více
-        </button></li>
-
-      <li class="list-group-item"><strong>⚙️ Procesor (CPU)</strong>: Centrální jednotka, která provádí
-        instrukce programů.
-        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalCPU">
-          Jak funguje CPU?
-        </button>
-      </li>
-
-
-
-
-      <li class="list-group-item">
-        <strong>🧠 Paměť</strong>: Hierarchie úložišť pro zpracování dat.
-        <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse"
-          data-bs-target="#memorySubmenu" aria-expanded="false" aria-controls="memorySubmenu">
-          &#9660;
-        </button>
-
-        <ul class="list-group list-group-flush collapse mt-2" id="memorySubmenu">
-          <li class="list-group-item">
-            <strong>Registry CPU</strong>: Nejrychlejší paměť přímo v jádře procesoru.
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
-              data-bs-target="#modalRegistry">
-              Více
-            </button>
-          </li>
-          <li class="list-group-item">
-            <strong>Cache paměť</strong>: Mezipaměť mezi RAM a CPU (L1, L2, L3).
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalCache">
-              Více
-            </button>
-          </li>
-          <li class="list-group-item">
-            <strong>Operační paměť (RAM)</strong>: Volatilní paměť pro aktuální data a
-            instrukce.
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalRAM">
-              Více
-            </button>
-          </li>
-          <li class="list-group-item">
-            <strong>Pevný disk / SSD</strong>: Nevolatilní úložiště dat a programů.
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalDisk">
-              Více
-            </button>
-          </li>
-        </ul>
-      </li>
-
-      <li class="list-group-item">
-        <strong>🖧 Rozšiřující karty</strong>: Hierarchie rozšiřujících karet.
-        <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse"
-          data-bs-target="#cardsSubmenu" aria-expanded="false" aria-controls="cardsSubmenu">
-          &#9660;
-        </button>
-
-        <ul class="list-group list-group-flush collapse mt-2" id="cardsSubmenu">
-          <li class="list-group-item">
-            <strong>Grafická karta (GPU)</strong>: Zpracování obrazu a 3D akcelerace.
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalGPU">
-              Více
-            </button>
-          </li>
-          <li class="list-group-item">
-            <strong>Zvuková karta</strong>: Vstup a výstup zvuku, analog-digital převod.
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
-              data-bs-target="#modalSoundCard">
-              Více
-            </button>
-          </li>
-          <li class="list-group-item">
-            <strong>Síťová karta</strong>: Připojení k síti (LAN, Wi-Fi).
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalNIC">
-              Více
-            </button>
-          </li>
-        </ul>
-      </li>
-      <li class="list-group-item">
-        <strong>⌨️ Vstupní zařízení</strong>: Zařízení pro zadávání informací do počítače.
-        <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse"
-          data-bs-target="#inputDevicesSubmenu" aria-expanded="false" aria-controls="inputDevicesSubmenu">
-          &#9660;
-        </button>
-
-        <ul class="list-group list-group-flush collapse mt-2" id="inputDevicesSubmenu">
-          <li class="list-group-item">
-            <strong>Klávesnice</strong>: Zadávání textu a příkazů pomocí kláves.
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
-              data-bs-target="#modalKeyboard">
-              Více
-            </button>
-          </li>
-          <li class="list-group-item">
-            <strong>Myš</strong>: Ovládání kurzoru a výběr objektů.
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalMouse">
-              Více
-            </button>
-          </li>
-          <li class="list-group-item">
-            <strong>Mikrofon</strong>: Zachycení zvuku, hlasové ovládání.
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalMic">
-              Více
-            </button>
-          </li>
-          <li class="list-group-item">
-            <strong>Skener</strong>: Digitalizace tištěných dokumentů a obrázků.
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
-              data-bs-target="#modalScanner">
-              Více
-            </button>
-          </li>
-        </ul>
-      </li>
-      <li class="list-group-item">
-        <strong>🖥️ Výstupní zařízení</strong>: Zařízení poskytující informace uživateli.
-        <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse"
-          data-bs-target="#outputDevicesSubmenu" aria-expanded="false" aria-controls="outputDevicesSubmenu">
-          &#9660;
-        </button>
-
-        <ul class="list-group list-group-flush collapse mt-2" id="outputDevicesSubmenu">
-          <li class="list-group-item">
-            <strong>Monitor</strong>: Zobrazuje vizuální výstup počítače.
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
-              data-bs-target="#modalMonitor">
-              Více
-            </button>
-          </li>
-          <li class="list-group-item">
-            <strong>Tiskárna</strong>: Převádí digitální dokumenty na fyzickou podobu.
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
-              data-bs-target="#modalPrinter">
-              Více
-            </button>
-          </li>
-          <li class="list-group-item">
-            <strong>Reproduktory / Sluchátka</strong>: Produkují zvukový výstup.
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
-              data-bs-target="#modalSpeakers">
-              Více
-            </button>
-          </li>
-        </ul>
-      </li>
-      <li class="list-group-item">
-        <strong>🧩 Kombinovaná zařízení (Input/Output)</strong>: Zařízení, která kombinují vstupní i výstupní
-        funkce.
-        <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse"
-          data-bs-target="#comboDevicesSubmenu" aria-expanded="false" aria-controls="comboDevicesSubmenu">
-          &#9660;
-        </button>
-
-        <ul class="list-group list-group-flush collapse mt-2" id="comboDevicesSubmenu">
-          <li class="list-group-item">
-            <strong>💽 Externí disky</strong>: USB/Thunderbolt SSD a HDD pro přenosná úložiště.
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
-              data-bs-target="#modalExternalDrives">
-              Více
-            </button>
-          </li>
-          <li class="list-group-item">
-            <strong>🔑 USB klíčenky</strong>: Malé přenosné flash paměti.
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
-              data-bs-target="#modalUSBKeys">
-              Více
-            </button>
-          </li>
-          <li class="list-group-item">
-            <strong>🖨️ Multifunkční tiskárny</strong>: Tisk, skenování, kopírování v jednom zařízení.
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalMFP">
-              Více
-            </button>
-          </li>
-          <li class="list-group-item">
-            <strong>🕶️ VR/AR brýle</strong>: Virtuální a rozšířená realita.
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalVR">
-              Více
-            </button>
-          </li>
-          <li class="list-group-item">
-            <strong>🎧 Headsety</strong>: Sluchátka se zabudovaným mikrofonem pro obousměrnou komunikaci.
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
-              data-bs-target="#modalHeadsets">
-              Více
-            </button>
-          </li>
-        </ul>
-      </li>
-      <li class="list-group-item">
-        <strong>💨 Chlazení a ventilace</strong>: Zajištění tepelného komfortu komponent.
-        <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse"
-          data-bs-target="#coolingSubmenu" aria-expanded="false" aria-controls="coolingSubmenu">
-          &#9660;
-        </button>
-
-        <ul class="list-group list-group-flush collapse mt-2" id="coolingSubmenu">
-          <li class="list-group-item">
-            <strong>🧊 Chladiče CPU</strong>: Vzduchové a vodní chlazení pro procesory.
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
-              data-bs-target="#modalCPUCoolers">
-              Více
-            </button>
-          </li>
-          <li class="list-group-item">
-            <strong>🧊 Chladiče GPU</strong>: Aktivní chlazení grafických karet.
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
-              data-bs-target="#modalGPUCoolers">
-              Více
-            </button>
-          </li>
-          <li class="list-group-item">
-            <strong>🌬️ Skříňové ventilátory</strong>: Regulace proudění vzduchu v PC skříni.
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
-              data-bs-target="#modalCaseFans">
-              Více
-            </button>
-          </li>
-          <li class="list-group-item">
-            <strong>🔥 Tepelná pasta, airflow, heatpipe</strong>: Efektivní přenos tepla.
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
-              data-bs-target="#modalThermal">
-              Více
-            </button>
-          </li>
-        </ul>
-      </li>
-      <li class="list-group-item">
-        <strong>🔌 Konektory a porty</strong>: Připojení zařízení a přenos dat.
-        <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse"
-          data-bs-target="#portsSubmenu" aria-expanded="false" aria-controls="portsSubmenu">
-          &#9660;
-        </button>
-
-        <ul class="list-group list-group-flush collapse mt-2" id="portsSubmenu">
-          <li class="list-group-item">
-            <strong>⚡ Napájecí konektory</strong>: Přivádí energii k základní desce a komponentám.
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
-              data-bs-target="#modalPowerConnectors">
-              Více
-            </button>
-          </li>
-          <li class="list-group-item">
-            <strong>🧵 SATA a M.2</strong>: Připojení pevných disků a SSD.
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalSATA">
-              Více
-            </button>
-          </li>
-          <li class="list-group-item">
-            <strong>🔌 USB, HDMI, DisplayPort</strong>: Připojení periferií, monitorů a dalších zařízení.
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
-              data-bs-target="#modalUSBHDMI">
-              Více
-            </button>
-          </li>
-          <li class="list-group-item">
-            <strong>🌐 Ethernet, audio jack</strong>: Síťové a zvukové konektory.
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
-              data-bs-target="#modalEthernetAudio">
-              Více
-            </button>
-          </li>
-        </ul>
-      </li>
-
-    </ul>
-    <!-- Operační systémy -->
-
-    <h5 class="mt-4">Operační systémy</h5>
-    <p>
-      Operační systém (OS) je software, který umožňuje komunikaci mezi uživatelem a hardwarem
-      počítače. Mezi nejrozšířenější OS patří:
-    </p>
-    <ul class="list-group mb-4">
-
-      <!-- Microsoft Wundows -->
-      <li class="list-group-item">
-        <strong>Microsoft Windows</strong>
-        <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse"
-          data-bs-target="#windowsSubmenu" aria-expanded="false" aria-controls="windowsSubmenu">
-          &#9660;
-        </button>
-
-        <ul class="list-group list-group-flush collapse mt-2" id="windowsSubmenu">
-          <li class="list-group-item">
-
-            <div class="row align-items-center mb-4">
-              <h1>Microsoft Windows</h1>
-              <div class="col-md-2 text-center">
-                <img class="img-fluid rounded-circle shadow resize-mobile"
-                  src="./Assets/osobnosti/Bill_Gates_-_2023_-_P062021-967902_(cropped).jpg"
-                  alt="Douglas Engelbart" class="img-fluid rounded-circle shadow">
-                <p class="mt-2 text-muted small">Bill Gates</p>
-              </div>
-              <div class="col-md-10">
-                <blockquote class="blockquote">
-                  <p class="mb-0">"A computer on every desk and in every home."
-                    (Počítač na každém stole a v každé domácnosti.)</p>
-                  <footer class="blockquote-footer mt-2">
-                    <a href="https://news.microsoft.com" target="_blank">
-                      Microsoft Newsroom Archives
-                    </a>
-                  </footer>
-                </blockquote>
-              </div>
-            </div>
-            <div class="container mt-5">
-              <div class="row justify-content-center">
-                <div class="col-md-8">
-                  <div class="card shadow-sm">
-                    <div class="card-header bg-primary text-white">
-                      🪟 Microsoft Windows
-                    </div>
-                    <div class="card-body">
-                      <h5 class="card-title">Základní informace</h5>
-                      <ul>
-                        <li><strong>Výrobce:</strong> Microsoft</li>
-                        <li><strong>První verze:</strong> Windows 1.0 (1985)</li>
-                        <li><strong>Aktuální verze:</strong> Windows 11</li>
-                        <li><strong>Typ systému:</strong> Komerční operační systém (OS) pro osobní počítače</li>
-                      </ul>
-
-                      <h5 class="mt-4">Historie a vývoj</h5>
-                      <ul>
-                        <li><strong>1985 – Windows 1.0:</strong> První verze s grafickým rozhraním.</li>
-                        <li><strong>1995 – Windows 95:</strong> Zavedení nabídky Start a hlavního panelu.</li>
-                        <li><strong>2001 – Windows XP:</strong> Stabilní a široce používaný systém.</li>
-                        <li><strong>2009 – Windows 7:</strong> Rychlý a oblíbený mezi uživateli.</li>
-                        <li><strong>2015 – Windows 10:</strong> Koncepce „Windows jako služba“.</li>
-                        <li><strong>2021 – Windows 11:</strong> Moderní design, vyšší nároky na hardware.</li>
-                      </ul>
-
-                      <h5 class="mt-4">Zaměření a vhodnost</h5>
-                      <table class="table table-bordered">
-                        <thead class="table-light">
-                          <tr>
-                            <th>Oblast použití</th>
-                            <th>Vhodnost</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>Domácí uživatelé</td>
-                            <td>✅ Vysoká</td>
-                          </tr>
-                          <tr>
-                            <td>Školství</td>
-                            <td>✅ Běžně využívaný</td>
-                          </tr>
-                          <tr>
-                            <td>Firmy</td>
-                            <td>✅ Vysoká</td>
-                          </tr>
-                          <tr>
-                            <td>Vývojáři</td>
-                            <td>✅ Dobrá</td>
-                          </tr>
-                          <tr>
-                            <td>Umělci a designéři</td>
-                            <td>➖ Průměrná</td>
-                          </tr>
-                          <tr>
-                            <td>Servery</td>
-                            <td>➖ Méně častý než Linux</td>
-                          </tr>
-                        </tbody>
-                      </table>
-
-                      <h5 class="mt-4">Pro koho je Windows vhodný?</h5>
-                      <ul>
-                        <li>Začátečníky – intuitivní rozhraní.</li>
-                        <li>Studenty – výukový software, Office.</li>
-                        <li>Hráče – nejširší nabídka her.</li>
-                        <li>Firmy – správa uživatelů, síťové funkce.</li>
-                        <li>Běžné uživatele – každodenní práce, internet.</li>
-                      </ul>
-
-                      <h5 class="mt-4">Zdroje</h5>
-                      <ul>
-                        <li><a href="https://www.microsoft.com/windows" target="_blank">Oficiální web Microsoft
-                            Windows</a></li>
-                        <li><a href="https://cs.wikipedia.org/wiki/Microsoft_Windows" target="_blank">Wikipedia –
-                            Microsoft Windows</a></li>
-                        <li><a href="https://www.howtogeek.com/775015/a-visual-history-of-windows/"
-                            target="_blank">Windows Timeline – HowToGeek</a></li>
-                        <li><a href="https://learn.microsoft.com" target="_blank">Microsoft Learn</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </li>
-        </ul>
-
-        <!-- Apple macOS-->
-
-
-      <li class="list-group-item">
-        <strong>Apple Mac OS</strong>
-        <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse"
-          data-bs-target="#appleMacOsSubmenu" aria-expanded="false" aria-controls="appleMacOsSubmenu">
-          &#9660;
-        </button>
-
-        <ul class="list-group list-group-flush collapse mt-2" id="appleMacOsSubmenu">
-          <li class="list-group-item">
-            <div class="row align-items-center mb-4">
-              <h1>Apple macOS</h1>
-              <div class="col-md-2 text-center">
-                <img src="./Assets/osobnosti/Steve Jobs.jpeg" alt="Steve Jobs"
-                  class="img-fluid rounded-circle shadow resize-mobile">
-                <p class="mt-2 text-muted small">Steve Jobs</p>
-              </div>
-              <div class="col-md-10">
-                <blockquote class="blockquote">
-                  <p class="mb-0">"The people who are crazy enough to think they can change the world
-                    are the ones who do."
-                    (Ti, kteří jsou dost blázniví na to, aby si mysleli, že mohou změnit svět, jsou
-                    ti, kdo ho skutečně mění.)</p>
-                  <footer class="blockquote-footer mt-2">
-                    <a href="https://www.apple.com/stevejobs/" target="_blank">
-                      Oficiální stránka Apple o Stevu Jobsovi
-                    </a>
-                  </footer>
-                </blockquote>
-              </div>
-            </div>
-            <div class="container mt-5">
-              <div class="row justify-content-center">
-                <div class="col-md-8">
-                  <div class="card shadow-sm">
-                    <div class="card-header bg-dark text-white">
-                      🍏 Apple macOS
-                    </div>
-                    <div class="card-body">
-                      <h5 class="card-title">Základní informace</h5>
-                      <ul>
-                        <li><strong>Výrobce:</strong> Apple Inc.</li>
-                        <li><strong>První verze:</strong> Mac OS System 1 (1984), macOS jako značka od roku 2016
-                        </li>
-                        <li><strong>Aktuální verze:</strong> macOS Sonoma (2023)</li>
-                        <li><strong>Typ systému:</strong> Unixový operační systém pro počítače Mac</li>
-                      </ul>
-
-                      <h5 class="mt-4">Historie a vývoj</h5>
-                      <ul>
-                        <li><strong>1984 – System 1:</strong> První Mac OS s GUI.</li>
-                        <li><strong>2001 – Mac OS X:</strong> Přechod na Unix, moderní základ systému.</li>
-                        <li><strong>2012 – OS X Mountain Lion:</strong> První výrazné přiblížení k iOS.</li>
-                        <li><strong>2016 – macOS Sierra:</strong> Přechod na nový název „macOS“.</li>
-                        <li><strong>2020 – macOS Big Sur:</strong> Přechod na Apple Silicon (M1 čipy).</li>
-                        <li><strong>2023 – macOS Sonoma:</strong> Nejnovější verze s podporou widgetů a
-                          optimalizací výkonu.</li>
-                      </ul>
-
-                      <h5 class="mt-4">Zaměření a vhodnost</h5>
-                      <table class="table table-bordered">
-                        <thead class="table-light">
-                          <tr>
-                            <th>Oblast použití</th>
-                            <th>Vhodnost</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>Domácí uživatelé</td>
-                            <td>✅ Vysoká</td>
-                          </tr>
-                          <tr>
-                            <td>Školství</td>
-                            <td>✅ Výborná, především v uměleckých oborech</td>
-                          </tr>
-                          <tr>
-                            <td>Firmy</td>
-                            <td>➖ Spíše specifické profese (grafici, vývojáři)</td>
-                          </tr>
-                          <tr>
-                            <td>Vývojáři</td>
-                            <td>✅ Výborná (UNIX, Xcode, iOS development)</td>
-                          </tr>
-                          <tr>
-                            <td>Umělci a designéři</td>
-                            <td>✅ Velmi vysoká (Adobe, Logic Pro, Final Cut)</td>
-                          </tr>
-                          <tr>
-                            <td>Servery</td>
-                            <td>❌ Nevhodné</td>
-                          </tr>
-                        </tbody>
-                      </table>
-
-                      <h5 class="mt-4">Pro koho je macOS vhodný?</h5>
-                      <ul>
-                        <li>Kreativce – hudba, video, grafika.</li>
-                        <li>Vývojáře – iOS/macOS aplikace.</li>
-                        <li>Uživatelé Apple ekosystému – propojení s iPhone, iPad, Watch.</li>
-                        <li>Studenty uměleckých oborů – práce s médii a vizuálem.</li>
-                        <li>Pokročilé uživatele – stabilní a bezpečný systém.</li>
-                      </ul>
-
-                      <h5 class="mt-4">Zdroje</h5>
-                      <ul>
-                        <li><a href="https://www.apple.com/macos" target="_blank">Oficiální web Apple macOS</a>
-                        </li>
-                        <li><a href="https://cs.wikipedia.org/wiki/MacOS" target="_blank">Wikipedia – macOS</a>
-                        </li>
-                        <li><a href="https://developer.apple.com/macos/" target="_blank">Apple Developer –
-                            macOS</a></li>
-                        <li><a href="https://www.macworld.com/" target="_blank">Macworld – informace a recenze</a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </li>
-        </ul>
-
-        <!-- Linux-->
-
-
-      <li class="list-group-item">
-        <strong>Linux</strong>
-        <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse"
-          data-bs-target="#linuxSubmenu" aria-expanded="false" aria-controls="linuxSubmenu">
-          &#9660;
-        </button>
-
-        <ul class="list-group list-group-flush collapse mt-2" id="linuxSubmenu">
-          <li class="list-group-item">
-
-            <div class="row align-items-center mb-4">
-              <h1>Linux</h1>
-              <div class="col-md-2 text-center">
-                <img class="img-fluid rounded-circle shadow resize-mobile"
-                  src="./Assets/osobnosti/LinuxCon_Europe_Linus_Torvalds_03_(cropped).jpg" alt="Steve Jobs"
-                  class="img-fluid rounded-circle shadow">
-                <p class="mt-2 text-muted small">Linus Torvalds</p>
-              </div>
-              <div class="col-md-10">
-                <blockquote class="blockquote">
-                  <p class="mb-0">"Talk is cheap. Show me the code."
-                    (Mluvit je snadné. Ukaž mi kód.)</p>
-                  <footer class="blockquote-footer mt-2">
-                    <a href="https://www.linux.org/" target="_blank">
-                      Oficiální stránka Linux
-                    </a>
-                  </footer>
-                </blockquote>
-              </div>
-            </div>
-            <div class="container mt-5">
-              <div class="row justify-content-center">
-                <div class="col-md-8">
-                  <div class="card shadow-sm">
-                    <div class="card-header bg-success text-white">
-                      🐧 Linux
-                    </div>
-                    <div class="card-body">
-                      <h5 class="card-title">Základní informace</h5>
-                      <ul>
-                        <li><strong>Výrobce:</strong> Komunita open source vývojářů (jádro spravováno pod Linux
-                          Foundation)</li>
-                        <li><strong>První verze:</strong> 1991 (Linus Torvalds)</li>
-                        <li><strong>Typ systému:</strong> Unix-like, open source operační systém</li>
-                        <li><strong>Distribuce:</strong> Ubuntu, Debian, Fedora, Arch Linux, Linux Mint, a další
-                        </li>
-                      </ul>
-
-                      <h5 class="mt-4">Historie a vývoj</h5>
-                      <ul>
-                        <li><strong>1991 – První verze Linuxového jádra:</strong> Linus Torvalds zveřejňuje první
-                          verzi jádra.</li>
-                        <li><strong>1990s – Vznik distribucí:</strong> Debian, Slackware, Red Hat atd.</li>
-                        <li><strong>2000s – Stabilizace desktopových prostředí:</strong> GNOME, KDE.</li>
-                        <li><strong>2020s – Mainstream:</strong> Linux se běžně používá v cloudu, serverech a
-                          vývoji.</li>
-                      </ul>
-
-                      <h5 class="mt-4">Zaměření a vhodnost</h5>
-                      <table class="table table-bordered">
-                        <thead class="table-light">
-                          <tr>
-                            <th>Oblast použití</th>
-                            <th>Vhodnost</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>Domácí uživatelé</td>
-                            <td>➖ Závisí na distribuci (např. Ubuntu ano)</td>
-                          </tr>
-                          <tr>
-                            <td>Školství</td>
-                            <td>✅ Výborná pro výuku programování</td>
-                          </tr>
-                          <tr>
-                            <td>Firmy</td>
-                            <td>✅ Vysoká (hlavně servery, vývoj, cloud)</td>
-                          </tr>
-                          <tr>
-                            <td>Vývojáři</td>
-                            <td>✅ Skvělá (flexibilita, přístup ke kódu)</td>
-                          </tr>
-                          <tr>
-                            <td>Umělci a designéři</td>
-                            <td>➖ Omezené nástroje, záleží na potřebách</td>
-                          </tr>
-                          <tr>
-                            <td>Servery</td>
-                            <td>✅ Standard (web, databáze, cloud)</td>
-                          </tr>
-                        </tbody>
-                      </table>
-
-                      <h5 class="mt-4">Pro koho je Linux vhodný?</h5>
-                      <ul>
-                        <li>Studenty a vývojáře – učení se operačním systémům a programování.</li>
-                        <li>Správce systémů – serverová a síťová správa.</li>
-                        <li>Technologické nadšence – přizpůsobitelnost a otevřenost.</li>
-                        <li>Firmy – stabilní serverové řešení, levnější provoz.</li>
-                        <li>Výzkum – vysoká kontrola nad prostředím.</li>
-                      </ul>
-
-                      <h5 class="mt-4">Zdroje</h5>
-                      <ul>
-                        <li><a href="https://www.kernel.org" target="_blank">Oficiální web Linuxového jádra</a>
-                        </li>
-                        <li><a href="https://ubuntu.com" target="_blank">Ubuntu – populární linuxová
-                            distribuce</a></li>
-                        <li><a href="https://cs.wikipedia.org/wiki/Linux" target="_blank">Wikipedia – Linux</a>
-                        </li>
-                        <li><a href="https://linuxjourney.com/" target="_blank">Linux Journey – výukové
-                            materiály</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </li>
-      </li>
-      </li>
-    </ul>
-
-
-
-    <p>
-
+  <header class="lesson__header">
+    <h2 class="lesson__title">1.1 Úvod do práce s počítačem</h2>
+    <p class="lesson__lead">
       💡 Každý z těchto systémů má své specifické vlastnosti a uživatelské rozhraní, které ovlivňují
       způsob práce s počítačem.
     </p>
+  </header>
 
+  <!-- Co se naučíš -->
+  <article class="card">
+    <h3 class="card__title">Co se naučíš?</h3>
 
-
-
-
-
-
-    <h5 class="mt-4">Význam počítačové gramotnosti</h5>
-    <p>
-      V dnešní digitální době je schopnost ovládat počítač nezbytná. Počítačová gramotnost zahrnuje:
-    </p>
-    <ul>
-      <li>Základní ovládání počítače a operačního systému.</li>
-      <li>Používání kancelářských aplikací (textový editor, tabulkový procesor).</li>
-      <li>Bezpečné a efektivní využívání internetu.</li>
+    <ul class="checklist">
+      <li><strong>Co je to počítač?</strong> – základní definice hardwaru a softwaru.</li>
+      <li><strong>Komponenty počítače</strong> – přehled hlavních částí a jejich účelu.</li>
+      <li><strong>Operační systémy</strong> – Windows, macOS a Linux (základní charakteristika).</li>
+      <li><strong>Počítačová gramotnost</strong> – proč je důležitá a co zahrnuje.</li>
     </ul>
-    <p>
-      Podle <a
-        href="https://www.kurzy.sk/kurzy/389252/it-start-zakladny-kurz-zaklady-prace-s-pc-windows-word-bratislava"
-        target="_blank">kurzu IT ŠTART</a> je počítačová gramotnost klíčová pro osobní i profesní
-      rozvoj.
-    </p>
 
-  </section>
-
-  <!-- MODÁL – Počítačová skříň -->
-  <div class="modal fade" id="modalCase" tabindex="-1" aria-labelledby="modalCaseLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalCaseLabel">Počítačová skříň (Case)</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-
-          <p><strong>Počítačová skříň</strong> slouží jako ochranný obal pro všechny vnitřní komponenty počítače:
-            základní desku, procesor, grafickou kartu, pevné disky, RAM atd. Správná skříň ovlivňuje nejen vzhled,
-            ale hlavně <strong>cirkulaci vzduchu, hlučnost a možnost budoucích úprav nebo rozšíření</strong>.</p>
-
-          <h6>🌀 Proudění vzduchu a chlazení</h6>
-          <ul>
-            <li>Dobře navržená skříň má <strong>strategicky umístěné větráky</strong> (vstupní vpředu, výstupní
-              vzadu nebo nahoře).</li>
-            <li><strong>Mesh panely</strong> (děrovaný kov) vpředu a nahoře výrazně zlepšují přívod vzduchu.</li>
-            <li>Skříň ovlivňuje efektivitu <strong>chlazení vzduchem i vodního chlazení</strong>.</li>
-          </ul>
-
-          <h6>📏 Typy skříní podle velikosti</h6>
-          <ul>
-            <li><strong>Full Tower:</strong> Velká skříň pro náročné sestavy, více disků, velké chladiče, vodní
-              okruhy. Doporučeno pro herní a pracovní stanice.</li>
-            <li><strong>Mid Tower:</strong> Nejčastější typ. Vhodná pro většinu běžných i herních PC.</li>
-            <li><strong>Mini Tower:</strong> Kompaktní, omezené možnosti rozšíření. Hodí se do kanceláře nebo pro
-              HTPC.</li>
-            <li><strong>Small Form Factor (SFF):</strong> Velmi malá skříň, často s externím napájením a
-              speciálními deskami (Mini ITX).</li>
-          </ul>
-
-          <h6>🔧 Důležité vlastnosti kvalitní skříně</h6>
-          <ul>
-            <li><strong>Správa kabelů:</strong> Otvory a prostor za deskou pro vedení kabelů zlepšují proudění
-              vzduchu a vzhled.</li>
-            <li><strong>Antivibrační prvky:</strong> Např. gumové podložky pro disky zamezují hluku.</li>
-            <li><strong>Filtry proti prachu:</strong> Na vstupních otvorech výrazně zvyšují životnost a čistotu.
-            </li>
-            <li><strong>Modulární prvky:</strong> Možnost odebrat klece na disky, posunovat pozice větráků atd.
-            </li>
-          </ul>
-
-          <h6>💡 Shrnutí</h6>
-          <p>Správná skříň není jen designový doplněk – je to základ stabilního, chladného a tichého systému.
-            Výběr by měl reflektovat účel použití (hraní, práce, ticho, rozměry) i plán do budoucna (např. upgrade
-            GPU, přidání vodního chlazení).</p>
-
-          <hr>
-          <h6>📚 Zdroje a doporučená četba</h6>
-          <ul>
-            <li><a href="https://www.tomshardware.com/reviews/best-pc-cases,6026.html" target="_blank"
-                rel="noopener">Tom's Hardware – Best PC Cases</a></li>
-            <li><a href="https://www.howtogeek.com/367731/how-to-choose-the-right-pc-case/" target="_blank"
-                rel="noopener">HowToGeek – How to Choose the Right PC Case</a></li>
-            <li><a href="https://www.coolermaster.com/" target="_blank" rel="noopener">Cooler Master – Průvodce
-                výběrem skříně</a></li>
-            <li><a href="https://cz.alza.cz/jak-vybrat-pocitacovou-skrin" target="_blank" rel="noopener">Alza.cz –
-                Jak vybrat počítačovou skříň</a></li>
-          </ul>
-
-          <p class="text-muted text-center"><small><em>Tip:</em> Nešetři na skříni – kvalitní case může sloužit
-              roky i přes několik upgradů komponent.</small></p>
-
-        </div>
-      </div>
+    <div class="note note--info">
+      <strong>Tip:</strong> Otevírej si modály „Více“ postupně – jsou psané jako rychlé referenční karty.
     </div>
+  </article>
+
+  <!-- Akce / odkazy -->
+  <div class="actions">
+    <a class="btn btn--primary" href="https://www.dougengelbart.org/content/view/138/000/" target="_blank" rel="noopener">
+      Zdroj citátu (Douglas Engelbart)
+    </a>
+
+    <a class="btn btn--ghost"
+       href="https://www.kurzy.sk/kurzy/389252/it-start-zakladny-kurz-zaklady-prace-s-pc-windows-word-bratislava"
+       target="_blank" rel="noopener">
+      Kurz IT ŠTART (odkaz v textu)
+    </a>
   </div>
 
-  <!-- MODÁL – Napájecí zdroj -->
-  <div class="modal fade" id="modalPSU" tabindex="-1" aria-labelledby="modalPSULabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalPSULabel">Napájecí zdroj (PSU)</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
+  <!-- Akordeony -->
+  <div class="accordion">
 
-          <p><strong>Napájecí zdroj</strong> (Power Supply Unit, PSU) převádí elektrickou energii ze sítě (230 V
-            střídavý proud) na <strong>nízkonapěťový stejnosměrný proud</strong>, který je bezpečný a vhodný pro
-            jednotlivé komponenty počítače – základní desku, grafickou kartu, disky apod.</p>
+    <!-- 1) Úvodní citát -->
+    <details class="acc" open>
+      <summary class="acc__sum">1) Úvodní citát</summary>
+      <div class="acc__body">
 
-          <h6>⚙️ Jak funguje PSU</h6>
-          <ul>
-            <li>Uvnitř je <strong>měnič napětí</strong> (tzv. spínaný zdroj), který reguluje napětí na výstupu
-              (např. 12 V, 5 V, 3.3 V).</li>
-            <li>PSU musí být <strong>dostatečně výkonný</strong> pro všechny komponenty (měřeno ve wattech – W).
-            </li>
-            <li>Obsahuje <strong>ventilátor</strong> pro chlazení a někdy i <strong>aktivní PFC</strong> pro
-              stabilizaci napětí.</li>
-          </ul>
+        <article class="card">
+          <h3 class="card__title">Douglas Engelbart</h3>
 
-          <h6>🔌 Typy podle kabeláže</h6>
-          <ul>
-            <li><strong>Modulární:</strong> Kabely se připojují podle potřeby – výborné pro pořádek a airflow.
-            </li>
-            <li><strong>Polomodulární:</strong> Hlavní kabely jsou napevno, zbytek připojitelný.</li>
-            <li><strong>Nemodulární:</strong> Všechny kabely jsou napevno – levnější, ale méně přehledné.</li>
-          </ul>
-
-          <h6>💡 Na co si dát pozor při výběru</h6>
-          <ul>
-            <li><strong>Výkon (W):</strong> Musí pokrýt spotřebu celé sestavy + rezerva 20–30 % (pro upgrade,
-              vyšší zatížení).</li>
-            <li><strong>Certifikace 80 PLUS:</strong> Určuje účinnost zdroje. Např. Bronze, Silver, Gold,
-              Platinum, Titanium. Vyšší = méně ztrát tepla a nižší spotřeba.</li>
-            <li><strong>Kvalitní značka:</strong> Např. Seasonic, Corsair, be quiet!, EVGA, Fractal Design.</li>
-            <li><strong>Ochranné funkce:</strong> OVP, SCP, UVP, OCP atd. chrání komponenty při poruše.</li>
-          </ul>
-
-          <h6>🔄 Příklady použití podle sestavy</h6>
-          <ul>
-            <li>🏢 <strong>Kancelářské PC:</strong> 300–450 W, bez potřeby 80+ certifikace.</li>
-            <li>🎮 <strong>Herní PC (střední třída):</strong> 550–650 W, ideálně 80+ Bronze/Gold.</li>
-            <li>🔧 <strong>Workstation nebo high-end gaming:</strong> 750 W a více, 80+ Gold nebo vyšší, modulární
-              kabeláž.</li>
-          </ul>
-
-          <hr>
-          <h6>📚 Zdroje a doporučená četba</h6>
-          <ul>
-            <li><a href="https://www.tomshardware.com/reviews/best-psus,4229.html" target="_blank"
-                rel="noopener">Tom's Hardware – Best PSUs</a></li>
-            <li><a href="https://www.techpowerup.com/review/" target="_blank" rel="noopener">TechPowerUp – PSU
-                Reviews</a></li>
-            <li><a href="https://cz.alza.cz/jak-vybrat-zdroj" target="_blank" rel="noopener">Alza.cz – Jak vybrat
-                zdroj</a></li>
-            <li><a href="https://www.corsair.com/us/en/blog/how-to-choose-the-right-power-supply" target="_blank"
-                rel="noopener">Corsair Blog – How to Choose a PSU</a></li>
-          </ul>
-
-          <p class="text-muted text-center"><small><em>Tip:</em> Zdroj se nekupuje na doraz. Vyber si takový,
-              který bude v běžném provozu zatížený maximálně na 50–70 %, což zaručí tichý chod a delší
-              životnost.</small></p>
-
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- MODÁL – Základní deska -->
-  <div class="modal fade" id="modalMotherboard" tabindex="-1" aria-labelledby="modalMotherboardLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalMotherboardLabel">Základní deska (Motherboard)</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-
-          <p><strong>Základní deska</strong> (motherboard, mainboard) je centrální součást počítače, která
-            propojuje všechny komponenty – procesor, paměti, grafickou kartu, disky, napájení i rozšiřující karty.
-            Funguje jako <strong>komunikační uzel a rozvodová deska</strong>.</p>
-
-          <h6>🧩 Hlavní části základní desky</h6>
-          <ul>
-            <li><strong>Socket CPU:</strong> Fyzický konektor pro procesor – musí odpovídat konkrétnímu modelu CPU
-              (např. Intel LGA1700, AMD AM5).</li>
-            <li><strong>Čipová sada (chipset):</strong> Řídí komunikaci mezi CPU, RAM, PCIe a disky. Např. Intel
-              Z790, AMD B650.</li>
-            <li><strong>Sloty RAM:</strong> Obvykle 2–4 sloty pro paměti DDR4/DDR5.</li>
-            <li><strong>Sloty PCIe:</strong> Pro grafické karty a rozšiřující karty. Různé verze (x16, x4, x1).
-            </li>
-            <li><strong>SATA konektory:</strong> Pro připojení pevných disků a SSD.</li>
-            <li><strong>M.2 sloty:</strong> Pro moderní NVMe SSD disky – vysoká rychlost přenosu.</li>
-            <li><strong>Napájecí konektory:</strong> ATX 24-pin pro desku, 4/8-pin EPS pro CPU.</li>
-            <li><strong>BIOS / UEFI:</strong> Firmware desky, který řídí spuštění systému a základní konfiguraci.
-            </li>
-            <li><strong>Interní header konektory:</strong> Např. USB, RGB, ventilátory, přední panel.</li>
-          </ul>
-
-          <h6>🔌 Formáty základních desek</h6>
-          <ul>
-            <li><strong>ATX:</strong> Plná velikost, běžné pro herní a výkonné sestavy (305 × 244 mm).</li>
-            <li><strong>microATX:</strong> Kompaktnější (244 × 244 mm), ale stále dostatečné pro většinu sestav.
-            </li>
-            <li><strong>Mini-ITX:</strong> Velmi malá (170 × 170 mm), vhodná pro malé počítače (HTPC, kompaktní
-              herní PC).</li>
-          </ul>
-
-          <h6>⚙️ Co určuje základní deska</h6>
-          <ul>
-            <li><strong>Typ a výkon procesoru</strong> (podle socketu a čipsetu).</li>
-            <li><strong>Počet a typ RAM</strong> (např. DDR4/DDR5, dual channel).</li>
-            <li><strong>Možnosti rozšíření</strong> – grafické karty, síťové karty, záznamové karty aj.</li>
-            <li><strong>Možnosti přetaktování (overclocking):</strong> U čipsetů vyšší třídy (např. Intel Z, AMD
-              X).</li>
-            <li><strong>Konektivita:</strong> Počet USB portů, síťové karty (1 Gb/s nebo 2.5 Gb/s LAN, Wi-Fi),
-              Bluetooth, Audio výstupy.</li>
-          </ul>
-
-          <h6>🎯 Jak vybrat základní desku</h6>
-          <ul>
-            <li><strong>Kompatibilita:</strong> Zkontroluj socket a čipset vůči CPU, RAM i velikosti skříně.</li>
-            <li><strong>Účel sestavy:</strong> Pro herní PC jiný výběr než pro kancelář.</li>
-            <li><strong>Napájecí kaskáda (VRM):</strong> Důležitá pro stabilitu při zátěži a přetaktování.</li>
-            <li><strong>Počet konektorů:</strong> Kolik disků, USB, ventilátorů a dalších zařízení budeš
-              připojovat?</li>
-            <li><strong>Kvalitní značky:</strong> ASUS, MSI, Gigabyte, ASRock.</li>
-          </ul>
-
-          <h6>💡 Zajímavosti</h6>
-          <ul>
-            <li>Některé základní desky mají <strong>vestavěnou Wi-Fi, Bluetooth a zvukovou kartu</strong> vyšší
-              kvality.</li>
-            <li>Moderní desky podporují <strong>RGB podsvícení a synchronizaci</strong> komponent (Aura Sync,
-              Mystic Light apod.).</li>
-            <li><strong>BIOS/UEFI</strong> lze často aktualizovat i bez CPU pomocí funkce Q-Flash/Flashback.</li>
-          </ul>
-
-          <hr>
-          <h6>📚 Zdroje a doporučená četba</h6>
-          <ul>
-            <li><a href="https://www.tomshardware.com/reviews/best-motherboards,3984.html" target="_blank"
-                rel="noopener">Tom's Hardware – Best Motherboards</a></li>
-            <li><a href="https://cz.alza.cz/jak-vybrat-zakladni-desku" target="_blank" rel="noopener">Alza.cz –
-                Jak vybrat základní desku</a></li>
-            <li><a href="https://www.msi.com/blog/how-to-choose-a-motherboard" target="_blank" rel="noopener">MSI
-                – How to Choose a Motherboard</a></li>
-            <li><a href="https://www.asus.com/support/FAQ/1042662" target="_blank" rel="noopener">ASUS – Základní
-                desky FAQ</a></li>
-          </ul>
-
-          <p class="text-muted text-center"><small><em>Tip:</em> Kvalitní základní deska je základ stabilního
-              systému. I když nevypadá jako „výkonná“ komponenta, její výběr zásadně ovlivňuje celkovou funkčnost
-              a rozšiřitelnost sestavy.</small></p>
-
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- MODÁL – Jak funguje CPU -->
-  <div class="modal fade" id="modalCPU" tabindex="-1" aria-labelledby="modalCPULabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalCPULabel">Jak funguje procesor (CPU)</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-          <p>
-            Procesor (Central Processing Unit) je <strong>ústřední výpočetní jednotka</strong> počítače. Řídí a
-            zpracovává instrukce programů podle tzv. <strong>instrukčního cyklu</strong>.
-          </p>
-
-          <h6>Instrukční cyklus</h6>
-          <ul>
-            <li><strong>Fetch (Načtení):</strong> Získání instrukce z operační paměti (RAM).</li>
-            <li><strong>Decode (Dekódování):</strong> Rozbor instrukce, zjištění typu a parametrů.</li>
-            <li><strong>Execute (Vykonání):</strong> Provedení operace (aritmetické, logické, přesuny dat).</li>
-          </ul>
-
-          <!-- ANIMACE – Instrukční cyklus CPU -->
-          <div class="sequence-animation mx-auto my-4 cpu-cycle-animation">
-            <div class="cpu-box">CPU</div>
-            <div class="instruction-step step1">Fetch</div>
-            <div class="instruction-step step2">Decode</div>
-            <div class="instruction-step step3">Execute</div>
-          </div>
-          <p class="text-muted text-center"><small><em>Animace:</em> Procesor vykonává instrukce v cyklu: načtení,
-              dekódování a vykonání.</small></p>
-
-          <h6>Hlavní části procesoru</h6>
-          <ul>
-            <li><strong>ALU (Aritmeticko-logická jednotka):</strong> Provádí matematické a logické operace.</li>
-            <li><strong>CU (Řadič):</strong> Řídí tok dat a činnost ostatních částí CPU.</li>
-            <li><strong>Registry:</strong> Velmi rychlá paměť pro uložení dat/instrukcí při výpočtech.</li>
-            <li><strong>Cache:</strong> Malá, rychlá paměť pro často používaná data, blíže CPU než RAM.</li>
-            <li><strong>Taktovací jednotka:</strong> Udává rychlost vykonávání instrukcí (např. 3,5 GHz = 3,5
-              miliardy cyklů/s).</li>
-            <li><strong>Jádra (Cores):</strong> Moderní CPU mají více výpočetních jednotek pro paralelní
-              zpracování.</li>
-          </ul>
-
-          <h6>Další vlastnosti moderních CPU</h6>
-          <ul>
-            <li><strong>Hyper-Threading:</strong> Simulace více vláken na jednom jádru.</li>
-            <li><strong>Turbo Boost:</strong> Dočasné zvýšení taktu pro náročné výpočty.</li>
-            <li><strong>Integrované GPU:</strong> Základní grafické jádro přímo v CPU (např. Intel UHD Graphics).
-            </li>
-          </ul>
-
-          <h6>Zdroje a doporučené odkazy:</h6>
-          <ul>
-            <li><a href="https://cs.wikipedia.org/wiki/Procesor" target="_blank">Wikipedia – Procesor</a></li>
-            <li><a href="https://www.intel.com/content/www/us/en/processors/what-is-a-processor.html"
-                target="_blank">Intel – What is a Processor?</a></li>
-            <li><a href="https://www.amd.com/en/products/processors-desktop" target="_blank">AMD – Desktop
-                Processors</a></li>
-            <li><a href="https://www.khanacademy.org/computing/computer-science/logic-gates#cpu"
-                target="_blank">Khan Academy – CPU overview</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- MODÁL – Registry CPU -->
-  <div class="modal fade" id="modalRegistry" tabindex="-1" aria-labelledby="modalRegistryLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalRegistryLabel">Registry procesoru (CPU)</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-          <p>
-            Registry jsou <strong>nejrychlejší paměťové buňky</strong> uvnitř samotného
-            procesoru (CPU). Slouží k okamžitému uchovávání dat a instrukcí, které CPU právě
-            zpracovává.
-          </p>
-
-          <ul>
-            <li><strong>Velmi malá kapacita</strong> – obvykle jen několik desítek bajtů.</li>
-            <li><strong>Extrémně rychlý přístup</strong> – rychlejší než cache a RAM.</li>
-            <li>Obsahují např. akumulátory, čítače instrukcí nebo ukazatele zásobníku.</li>
-          </ul>
-
-          <!-- ANIMACE – Registry CPU -->
-          <div class="sequence-animation mx-auto my-4 registry-animation">
-            <div class="instruction-step step1">Registry</div>
-            <div class="cpu-box">CPU</div>
-          </div>
-          <p class="text-muted text-center"><small><em>Animace:</em> Data z registrů jsou okamžitě
-              zpracovávána CPU.</small></p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- MODÁL – Cache paměť -->
-  <div class="modal fade" id="modalCache" tabindex="-1" aria-labelledby="modalCacheLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalCacheLabel">Cache paměť procesoru</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-          <p>
-            Cache paměť je <strong>velmi rychlá paměť</strong>, která slouží k uchovávání často
-            používaných instrukcí a dat, aby je procesor (CPU) nemusel znovu hledat v pomalejší
-            operační paměti (RAM).
-          </p>
-
-          <p>
-            Umístěním cache blízko nebo přímo uvnitř CPU se výrazně <strong>zvyšuje rychlost
-              zpracování</strong> dat a zkracuje doba čekání. CPU při každém přístupu k datům
-            nejdřív kontroluje cache.
-          </p>
-
-          <h6>Úrovně cache paměti:</h6>
-          <ul>
-            <li><strong>L1 (Level 1):</strong> Nejrychlejší, ale nejmenší. Je přímo v jádru
-              procesoru. Obsahuje data a instrukce, které jsou právě potřeba.</li>
-            <li><strong>L2 (Level 2):</strong> Větší než L1, ale pomalejší. Nachází se buď v
-              jádře, nebo těsně vedle něj. Slouží jako další zásobník dat, pokud L1 nestačí.
-            </li>
-            <li><strong>L3 (Level 3):</strong> Největší, ale nejpomalejší z cache vrstev.
-              Obvykle sdílena mezi všemi jádry CPU. Pomáhá synchronizaci a zajišťuje přístup k
-              datům mezi více jádry.</li>
-          </ul>
-
-          <h6>Kdy CPU použije kterou cache?</h6>
-          <p>
-            CPU postupuje hierarchicky – při každém požadavku na data:
-          </p>
-          <ol>
-            <li>Nejprve se podívá do <strong>L1 cache</strong>.</li>
-            <li>Pokud tam data nejsou (<em>L1 miss</em>), zkouší <strong>L2 cache</strong>.</li>
-            <li>Pokud ani tam data nejsou, pokračuje do <strong>L3 cache</strong>.</li>
-            <li>Pokud data nenajde ani tam, teprve potom sahá do <strong>RAM</strong>, což je
-              výrazně pomalejší.</li>
-          </ol>
-
-          <p>
-            Tento proces výrazně šetří čas – přístup do L1 trvá jen několik cyklů CPU, zatímco
-            přístup do RAM může trvat i desítky až stovky cyklů.
-          </p>
-
-          <h6>Cache hit vs miss:</h6>
-          <ul>
-            <li><strong>Cache hit:</strong> Požadovaná data jsou nalezena v cache (rychlý
-              přístup).</li>
-            <li><strong>Cache miss:</strong> Data nejsou nalezena – CPU musí sáhnout hlouběji do
-              paměťové hierarchie.</li>
-          </ul>
-
-          <!-- ANIMACE – Cache paměť -->
-          <div class="sequence-animation mx-auto my-4 cache-animation">
-            <div class="instruction-step step1">L1 cache</div>
-            <div class="instruction-step step2">L2 cache</div>
-            <div class="instruction-step step3">L3 cache</div>
-            <div class="cpu-box">CPU</div>
-          </div>
-          <p class="text-muted text-center"><small><em>Animace:</em> CPU nejdříve kontroluje L1
-              cache → L2 → L3 → RAM.</small></p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- MODÁL – Jak funguje operační paměť (RAM) -->
-  <div class="modal fade" id="modalRAM" tabindex="-1" aria-labelledby="modalRAMLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalRAMLabel">Jak funguje operační paměť (RAM)</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-
-          <p>
-            Operační paměť (RAM) je <strong>volatilní paměť</strong>, kterou procesor používá
-            pro <strong>rychlý přístup k datům a instrukcím</strong> během běhu programů.
-            Po vypnutí počítače se její obsah ztratí.
-          </p>
-
-          <hr>
-
-          <h6>1. Hierarchie rychlého přístupu – Registry, Cache, RAM</h6>
-          <p>
-            Počítač pracuje s více úrovněmi paměti, které se liší <strong>rychlostí, velikostí a
-              dostupností</strong>.
-          </p>
-          <ul>
-            <li><strong>Registry CPU:</strong> nejmenší a nejrychlejší paměť uvnitř procesoru –
-              obsahuje data aktuální instrukce.</li>
-            <li><strong>Cache paměť:</strong> velmi rychlá mezipaměť (L1, L2, L3) – zrychluje
-              přístup k často používaným datům z RAM.</li>
-            <li><strong>RAM:</strong> větší paměť, kam se načítají aktivní programy a data z
-              disku – rychlejší než disk, ale pomalejší než cache.</li>
-          </ul>
-
-          <div class="sequence-animation mx-auto my-3 ram-cpu-animation">
-            <div class="instruction-step step1">Registry</div>
-            <div class="instruction-step step2">Cache</div>
-            <div class="instruction-step step3">RAM</div>
-            <div class="cpu-box">CPU</div>
+          <div class="note note--info">
+            <p class="bullets">
+              <strong>„Největší hodnotou počítače je jeho schopnost rozšiřovat lidské myšlení.“</strong>
+            </p>
+            <p>
+              <a href="https://www.dougengelbart.org/content/view/138/000/" target="_blank" rel="noopener">
+                Douglas Engelbart, 1962 (zdroj)
+              </a>
+            </p>
           </div>
 
-        </div>
+          <div class="actions">
+            <a class="btn btn--ghost" href="./Assets/osobnosti/SRI_Douglas_Engelbart_1968_(cropped).jpg" target="_blank" rel="noopener">
+              Otevřít obrázek osobnosti
+            </a>
+          </div>
+        </article>
+
       </div>
-    </div>
-  </div>
-  <!-- MODÁL – Grafická karta (GPU) -->
-  <div class="modal fade" id="modalGPU" tabindex="-1" aria-labelledby="modalGPULabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalGPULabel">
-            <i class="bi bi-gpu-card me-2"></i>Grafická karta (GPU)
-          </h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-          <p>
-            <strong>Grafická karta</strong> je specializovaná komponenta počítače, která zpracovává a vykresluje
-            obrazové informace. Její srdcem je <strong>GPU</strong> (Graphics Processing Unit), což je procesor
-            optimalizovaný pro paralelní výpočty, které jsou nezbytné pro generování grafiky.
-          </p>
-          <p>
-            Existují dva hlavní typy grafických karet:
-          </p>
-          <ul>
-            <li><strong>Integrovaná GPU</strong>: Zabudovaná přímo v procesoru nebo základní desce. Sdílí paměť s
-              operační pamětí (RAM) a je vhodná pro běžné úkoly jako kancelářská práce nebo prohlížení webu.</li>
-            <li><strong>Dedikovaná GPU</strong>: Samostatná karta s vlastní pamětí (VRAM). Nabízí vyšší výkon pro
-              náročné aplikace jako hraní her, 3D modelování nebo práci s videem.</li>
-          </ul>
-          <p>
-            <strong>Klíčové komponenty grafické karty:</strong>
-          </p>
-          <ul>
-            <li><strong>GPU</strong>: Hlavní výpočetní jednotka pro zpracování grafiky.</li>
-            <li><strong>VRAM</strong>: Rychlá paměť pro ukládání obrazových dat.</li>
-            <li><strong>Chladicí systém</strong>: Zajišťuje optimální teplotu během provozu.</li>
-            <li><strong>Výstupní porty</strong>: HDMI, DisplayPort, DVI pro připojení monitorů.</li>
-          </ul>
-          <p>
-            <strong>Využití GPU:</strong> Kromě her a multimédií se GPU používají i pro výpočty v oblasti umělé
-            inteligence, vědeckých simulací nebo těžby kryptoměn.
-          </p>
-          <p class="mt-4"><strong>Zdroje:</strong></p>
-          <ul>
-            <li><a href="https://cs.wikipedia.org/wiki/GPU" target="_blank">Wikipedie – GPU</a></li>
-            <li><a href="https://www.alza.cz/tv-foto-audio-video/jak-funguje-graficka-karta" target="_blank">Alza
-                – Jak funguje grafická karta</a></li>
-          </ul>
-        </div>
+    </details>
+
+    <!-- 2) Co je to počítač -->
+    <details class="acc">
+      <summary class="acc__sum">2) Co je to počítač?</summary>
+      <div class="acc__body">
+
+        <p>
+          Počítač je elektronické zařízení navržené pro zpracování dat podle předem definovaných
+          instrukcí. Skládá se z <strong>hardwaru</strong> (fyzických komponent) a
+          <strong>softwaru</strong> (programového vybavení), které společně umožňují provádět různé úkoly,
+          od jednoduchých výpočtů po komplexní simulace.
+        </p>
+
       </div>
-    </div>
+    </details>
+
+    <!-- 3) Komponenty počítače -->
+    <details class="acc">
+      <summary class="acc__sum">3) Komponenty počítače</summary>
+      <div class="acc__body">
+
+        <ul class="bullets">
+          <li>
+            <strong>🏠 Case - počítačová skříň</strong>: Skříň, ve které jsou součásti PC
+            <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalCase">Více</button>
+          </li>
+
+          <li>
+            <strong>🔌 Napájecí zdroj</strong>: Zajišťuje přísun elektrické energie
+            pro všechny části počítače.
+            <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalPSU">Více</button>
+          </li>
+
+          <li>
+            <strong>🛠️ Základní deska</strong>: Spojuje všechny komponenty a
+            umožňuje jejich komunikaci.
+            <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalMotherboard">Více</button>
+          </li>
+
+          <li>
+            <strong>⚙️ Procesor (CPU)</strong>: Centrální jednotka, která provádí
+            instrukce programů.
+            <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalCPU">Jak funguje CPU?</button>
+          </li>
+        </ul>
+
+        <!-- Paměť (vnořený akordeon) -->
+        <div class="accordion">
+          <details class="acc" open>
+            <summary class="acc__sum">🧠 Paměť: Hierarchie úložišť pro zpracování dat</summary>
+            <div class="acc__body">
+
+              <ul class="bullets">
+                <li>
+                  <strong>Registry CPU</strong>: Nejrychlejší paměť přímo v jádře procesoru.
+                  <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalRegistry">Více</button>
+                </li>
+                <li>
+                  <strong>Cache paměť</strong>: Mezipaměť mezi RAM a CPU (L1, L2, L3).
+                  <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalCache">Více</button>
+                </li>
+                <li>
+                  <strong>Operační paměť (RAM)</strong>: Volatilní paměť pro aktuální data a
+                  instrukce.
+                  <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalRAM">Více</button>
+                </li>
+                <li>
+                  <strong>Pevný disk / SSD</strong>: Nevolatilní úložiště dat a programů.
+                  <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalDisk">Více</button>
+                </li>
+              </ul>
+
+            </div>
+          </details>
+        </div>
+
+        <!-- Rozšiřující karty (vnořený akordeon) -->
+        <div class="accordion">
+          <details class="acc">
+            <summary class="acc__sum">🖧 Rozšiřující karty: Hierarchie rozšiřujících karet</summary>
+            <div class="acc__body">
+
+              <ul class="bullets">
+                <li>
+                  <strong>Grafická karta (GPU)</strong>: Zpracování obrazu a 3D akcelerace.
+                  <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalGPU">Více</button>
+                </li>
+                <li>
+                  <strong>Zvuková karta</strong>: Vstup a výstup zvuku, analog-digital převod.
+                  <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalSoundCard">Více</button>
+                </li>
+                <li>
+                  <strong>Síťová karta</strong>: Připojení k síti (LAN, Wi-Fi).
+                  <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalNIC">Více</button>
+                </li>
+              </ul>
+
+            </div>
+          </details>
+        </div>
+
+        <!-- Vstupní zařízení (vnořený akordeon) -->
+        <div class="accordion">
+          <details class="acc">
+            <summary class="acc__sum">⌨️ Vstupní zařízení: Zařízení pro zadávání informací do počítače</summary>
+            <div class="acc__body">
+
+              <ul class="bullets">
+                <li>
+                  <strong>Klávesnice</strong>: Zadávání textu a příkazů pomocí kláves.
+                  <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalKeyboard">Více</button>
+                </li>
+                <li>
+                  <strong>Myš</strong>: Ovládání kurzoru a výběr objektů.
+                  <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalMouse">Více</button>
+                </li>
+                <li>
+                  <strong>Mikrofon</strong>: Zachycení zvuku, hlasové ovládání.
+                  <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalMic">Více</button>
+                </li>
+                <li>
+                  <strong>Skener</strong>: Digitalizace tištěných dokumentů a obrázků.
+                  <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalScanner">Více</button>
+                </li>
+              </ul>
+
+            </div>
+          </details>
+        </div>
+
+        <!-- Výstupní zařízení (vnořený akordeon) -->
+        <div class="accordion">
+          <details class="acc">
+            <summary class="acc__sum">🖥️ Výstupní zařízení: Zařízení poskytující informace uživateli</summary>
+            <div class="acc__body">
+
+              <ul class="bullets">
+                <li>
+                  <strong>Monitor</strong>: Zobrazuje vizuální výstup počítače.
+                  <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalMonitor">Více</button>
+                </li>
+                <li>
+                  <strong>Tiskárna</strong>: Převádí digitální dokumenty na fyzickou podobu.
+                  <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalPrinter">Více</button>
+                </li>
+                <li>
+                  <strong>Reproduktory / Sluchátka</strong>: Produkují zvukový výstup.
+                  <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalSpeakers">Více</button>
+                </li>
+              </ul>
+
+            </div>
+          </details>
+        </div>
+
+        <!-- Kombinovaná zařízení (vnořený akordeon) -->
+        <div class="accordion">
+          <details class="acc">
+            <summary class="acc__sum">🧩 Kombinovaná zařízení (Input/Output): Zařízení, která kombinují vstupní i výstupní funkce</summary>
+            <div class="acc__body">
+
+              <ul class="bullets">
+                <li>
+                  <strong>💽 Externí disky</strong>: USB/Thunderbolt SSD a HDD pro přenosná úložiště.
+                  <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalExternalDrives">Více</button>
+                </li>
+                <li>
+                  <strong>🔑 USB klíčenky</strong>: Malé přenosné flash paměti.
+                  <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalUSBKeys">Více</button>
+                </li>
+                <li>
+                  <strong>🖨️ Multifunkční tiskárny</strong>: Tisk, skenování, kopírování v jednom zařízení.
+                  <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalMFP">Více</button>
+                </li>
+                <li>
+                  <strong>🕶️ VR/AR brýle</strong>: Virtuální a rozšířená realita.
+                  <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalVR">Více</button>
+                </li>
+                <li>
+                  <strong>🎧 Headsety</strong>: Sluchátka se zabudovaným mikrofonem pro obousměrnou komunikaci.
+                  <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalHeadsets">Více</button>
+                </li>
+              </ul>
+
+            </div>
+          </details>
+        </div>
+
+        <!-- Chlazení (vnořený akordeon) -->
+        <div class="accordion">
+          <details class="acc">
+            <summary class="acc__sum">💨 Chlazení a ventilace: Zajištění tepelného komfortu komponent</summary>
+            <div class="acc__body">
+
+              <ul class="bullets">
+                <li>
+                  <strong>🧊 Chladiče CPU</strong>: Vzduchové a vodní chlazení pro procesory.
+                  <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalCPUCoolers">Více</button>
+                </li>
+                <li>
+                  <strong>🧊 Chladiče GPU</strong>: Aktivní chlazení grafických karet.
+                  <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalGPUCoolers">Více</button>
+                </li>
+                <li>
+                  <strong>🌬️ Skříňové ventilátory</strong>: Regulace proudění vzduchu v PC skříni.
+                  <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalCaseFans">Více</button>
+                </li>
+                <li>
+                  <strong>🔥 Tepelná pasta, airflow, heatpipe</strong>: Efektivní přenos tepla.
+                  <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalThermal">Více</button>
+                </li>
+              </ul>
+
+            </div>
+          </details>
+        </div>
+
+        <!-- Konektory a porty (vnořený akordeon) -->
+        <div class="accordion">
+          <details class="acc">
+            <summary class="acc__sum">🔌 Konektory a porty: Připojení zařízení a přenos dat</summary>
+            <div class="acc__body">
+
+              <ul class="bullets">
+                <li>
+                  <strong>⚡ Napájecí konektory</strong>: Přivádí energii k základní desce a komponentám.
+                  <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalPowerConnectors">Více</button>
+                </li>
+                <li>
+                  <strong>🧵 SATA a M.2</strong>: Připojení pevných disků a SSD.
+                  <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalSATA">Více</button>
+                </li>
+                <li>
+                  <strong>🔌 USB, HDMI, DisplayPort</strong>: Připojení periferií, monitorů a dalších zařízení.
+                  <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalUSBHDMI">Více</button>
+                </li>
+                <li>
+                  <strong>🌐 Ethernet, audio jack</strong>: Síťové a zvukové konektory.
+                  <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modalEthernetAudio">Více</button>
+                </li>
+              </ul>
+
+            </div>
+          </details>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 4) Operační systémy -->
+    <details class="acc">
+      <summary class="acc__sum">4) Operační systémy</summary>
+      <div class="acc__body">
+
+        <p>
+          Operační systém (OS) je software, který umožňuje komunikaci mezi uživatelem a hardwarem
+          počítače. Mezi nejrozšířenější OS patří:
+        </p>
+
+        <div class="accordion">
+
+          <!-- Windows -->
+          <details class="acc" open>
+            <summary class="acc__sum">Microsoft Windows</summary>
+            <div class="acc__body">
+
+              <h1>Microsoft Windows</h1>
+
+              <blockquote>
+                <p class="mb-0">"A computer on every desk and in every home."
+                  (Počítač na každém stole a v každé domácnosti.)</p>
+                <footer class="blockquote-footer mt-2">
+                  <a href="https://news.microsoft.com" target="_blank" rel="noopener">
+                    Microsoft Newsroom Archives
+                  </a>
+                </footer>
+              </blockquote>
+
+              <h5 class="card__title">Základní informace</h5>
+              <ul class="bullets">
+                <li><strong>Výrobce:</strong> Microsoft</li>
+                <li><strong>První verze:</strong> Windows 1.0 (1985)</li>
+                <li><strong>Aktuální verze:</strong> Windows 11</li>
+                <li><strong>Typ systému:</strong> Komerční operační systém (OS) pro osobní počítače</li>
+              </ul>
+
+              <h5>Historie a vývoj</h5>
+              <ul class="bullets">
+                <li><strong>1985 – Windows 1.0:</strong> První verze s grafickým rozhraním.</li>
+                <li><strong>1995 – Windows 95:</strong> Zavedení nabídky Start a hlavního panelu.</li>
+                <li><strong>2001 – Windows XP:</strong> Stabilní a široce používaný systém.</li>
+                <li><strong>2009 – Windows 7:</strong> Rychlý a oblíbený mezi uživateli.</li>
+                <li><strong>2015 – Windows 10:</strong> Koncepce „Windows jako služba“.</li>
+                <li><strong>2021 – Windows 11:</strong> Moderní design, vyšší nároky na hardware.</li>
+              </ul>
+
+              <h5>Zaměření a vhodnost</h5>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Oblast použití</th>
+                    <th>Vhodnost</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Domácí uživatelé</td>
+                    <td>✅ Vysoká</td>
+                  </tr>
+                  <tr>
+                    <td>Školství</td>
+                    <td>✅ Běžně využívaný</td>
+                  </tr>
+                  <tr>
+                    <td>Firmy</td>
+                    <td>✅ Vysoká</td>
+                  </tr>
+                  <tr>
+                    <td>Vývojáři</td>
+                    <td>✅ Dobrá</td>
+                  </tr>
+                  <tr>
+                    <td>Umělci a designéři</td>
+                    <td>➖ Průměrná</td>
+                  </tr>
+                  <tr>
+                    <td>Servery</td>
+                    <td>➖ Méně častý než Linux</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <h5>Pro koho je Windows vhodný?</h5>
+              <ul class="bullets">
+                <li>Začátečníky – intuitivní rozhraní.</li>
+                <li>Studenty – výukový software, Office.</li>
+                <li>Hráče – nejširší nabídka her.</li>
+                <li>Firmy – správa uživatelů, síťové funkce.</li>
+                <li>Běžné uživatele – každodenní práce, internet.</li>
+              </ul>
+
+              <h5>Zdroje</h5>
+              <ul class="bullets">
+                <li><a href="https://www.microsoft.com/windows" target="_blank" rel="noopener">Oficiální web Microsoft Windows</a></li>
+                <li><a href="https://cs.wikipedia.org/wiki/Microsoft_Windows" target="_blank" rel="noopener">Wikipedia – Microsoft Windows</a></li>
+                <li><a href="https://www.howtogeek.com/775015/a-visual-history-of-windows/" target="_blank" rel="noopener">Windows Timeline – HowToGeek</a></li>
+                <li><a href="https://learn.microsoft.com" target="_blank" rel="noopener">Microsoft Learn</a></li>
+              </ul>
+
+            </div>
+          </details>
+
+          <!-- macOS -->
+          <details class="acc">
+            <summary class="acc__sum">Apple Mac OS</summary>
+            <div class="acc__body">
+
+              <h1>Apple macOS</h1>
+
+              <blockquote>
+                <p class="mb-0">"The people who are crazy enough to think they can change the world
+                  are the ones who do."
+                  (Ti, kteří jsou dost blázniví na to, aby si mysleli, že mohou změnit svět, jsou
+                  ti, kdo ho skutečně mění.)</p>
+                <footer class="blockquote-footer mt-2">
+                  <a href="https://www.apple.com/stevejobs/" target="_blank" rel="noopener">
+                    Oficiální stránka Apple o Stevu Jobsovi
+                  </a>
+                </footer>
+              </blockquote>
+
+              <h5 class="card__title">Základní informace</h5>
+              <ul class="bullets">
+                <li><strong>Výrobce:</strong> Apple Inc.</li>
+                <li><strong>První verze:</strong> Mac OS System 1 (1984), macOS jako značka od roku 2016
+                </li>
+                <li><strong>Aktuální verze:</strong> macOS Sonoma (2023)</li>
+                <li><strong>Typ systému:</strong> Unixový operační systém pro počítače Mac</li>
+              </ul>
+
+              <h5>Historie a vývoj</h5>
+              <ul class="bullets">
+                <li><strong>1984 – System 1:</strong> První Mac OS s GUI.</li>
+                <li><strong>2001 – Mac OS X:</strong> Přechod na Unix, moderní základ systému.</li>
+                <li><strong>2012 – OS X Mountain Lion:</strong> První výrazné přiblížení k iOS.</li>
+                <li><strong>2016 – macOS Sierra:</strong> Přechod na nový název „macOS“.</li>
+                <li><strong>2020 – macOS Big Sur:</strong> Přechod na Apple Silicon (M1 čipy).</li>
+                <li><strong>2023 – macOS Sonoma:</strong> Nejnovější verze s podporou widgetů a
+                  optimalizací výkonu.</li>
+              </ul>
+
+              <h5>Zaměření a vhodnost</h5>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Oblast použití</th>
+                    <th>Vhodnost</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Domácí uživatelé</td>
+                    <td>✅ Vysoká</td>
+                  </tr>
+                  <tr>
+                    <td>Školství</td>
+                    <td>✅ Výborná, především v uměleckých oborech</td>
+                  </tr>
+                  <tr>
+                    <td>Firmy</td>
+                    <td>➖ Spíše specifické profese (grafici, vývojáři)</td>
+                  </tr>
+                  <tr>
+                    <td>Vývojáři</td>
+                    <td>✅ Výborná (UNIX, Xcode, iOS development)</td>
+                  </tr>
+                  <tr>
+                    <td>Umělci a designéři</td>
+                    <td>✅ Velmi vysoká (Adobe, Logic Pro, Final Cut)</td>
+                  </tr>
+                  <tr>
+                    <td>Servery</td>
+                    <td>❌ Nevhodné</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <h5>Pro koho je macOS vhodný?</h5>
+              <ul class="bullets">
+                <li>Kreativce – hudba, video, grafika.</li>
+                <li>Vývojáře – iOS/macOS aplikace.</li>
+                <li>Uživatelé Apple ekosystému – propojení s iPhone, iPad, Watch.</li>
+                <li>Studenty uměleckých oborů – práce s médii a vizuálem.</li>
+                <li>Pokročilé uživatele – stabilní a bezpečný systém.</li>
+              </ul>
+
+              <h5>Zdroje</h5>
+              <ul class="bullets">
+                <li><a href="https://www.apple.com/macos" target="_blank" rel="noopener">Oficiální web Apple macOS</a></li>
+                <li><a href="https://cs.wikipedia.org/wiki/MacOS" target="_blank" rel="noopener">Wikipedia – macOS</a></li>
+                <li><a href="https://developer.apple.com/macos/" target="_blank" rel="noopener">Apple Developer – macOS</a></li>
+                <li><a href="https://www.macworld.com/" target="_blank" rel="noopener">Macworld – informace a recenze</a></li>
+              </ul>
+
+            </div>
+          </details>
+
+          <!-- Linux -->
+          <details class="acc">
+            <summary class="acc__sum">Linux</summary>
+            <div class="acc__body">
+
+              <h1>Linux</h1>
+
+              <blockquote>
+                <p class="mb-0">"Talk is cheap. Show me the code."
+                  (Mluvit je snadné. Ukaž mi kód.)</p>
+                <footer class="blockquote-footer mt-2">
+                  <a href="https://www.linux.org/" target="_blank" rel="noopener">
+                    Oficiální stránka Linux
+                  </a>
+                </footer>
+              </blockquote>
+
+              <h5 class="card__title">Základní informace</h5>
+              <ul class="bullets">
+                <li><strong>Výrobce:</strong> Komunita open source vývojářů (jádro spravováno pod Linux
+                  Foundation)</li>
+                <li><strong>První verze:</strong> 1991 (Linus Torvalds)</li>
+                <li><strong>Typ systému:</strong> Unix-like, open source operační systém</li>
+                <li><strong>Distribuce:</strong> Ubuntu, Debian, Fedora, Arch Linux, Linux Mint, a další
+                </li>
+              </ul>
+
+              <h5 class="mt-4">Historie a vývoj</h5>
+              <ul class="bullets">
+                <li><strong>1991 – První verze Linuxového jádra:</strong> Linus Torvalds zveřejňuje první
+                  verzi jádra.</li>
+                <li><strong>1990s – Vznik distribucí:</strong> Debian, Slackware, Red Hat atd.</li>
+                <li><strong>2000s – Stabilizace desktopových prostředí:</strong> GNOME, KDE.</li>
+                <li><strong>2020s – Mainstream:</strong> Linux se běžně používá v cloudu, serverech a
+                  vývoji.</li>
+              </ul>
+
+              <h5 class="mt-4">Zaměření a vhodnost</h5>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Oblast použití</th>
+                    <th>Vhodnost</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Domácí uživatelé</td>
+                    <td>➖ Závisí na distribuci (např. Ubuntu ano)</td>
+                  </tr>
+                  <tr>
+                    <td>Školství</td>
+                    <td>✅ Výborná pro výuku programování</td>
+                  </tr>
+                  <tr>
+                    <td>Firmy</td>
+                    <td>✅ Vysoká (hlavně servery, vývoj, cloud)</td>
+                  </tr>
+                  <tr>
+                    <td>Vývojáři</td>
+                    <td>✅ Skvělá (flexibilita, přístup ke kódu)</td>
+                  </tr>
+                  <tr>
+                    <td>Umělci a designéři</td>
+                    <td>➖ Omezené nástroje, záleží na potřebách</td>
+                  </tr>
+                  <tr>
+                    <td>Servery</td>
+                    <td>✅ Standard (web, databáze, cloud)</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <h5 class="mt-4">Pro koho je Linux vhodný?</h5>
+              <ul class="bullets">
+                <li>Studenty a vývojáře – učení se operačním systémům a programování.</li>
+                <li>Správce systémů – serverová a síťová správa.</li>
+                <li>Technologické nadšence – přizpůsobitelnost a otevřenost.</li>
+                <li>Firmy – stabilní serverové řešení, levnější provoz.</li>
+                <li>Výzkum – vysoká kontrola nad prostředím.</li>
+              </ul>
+
+              <h5 class="mt-4">Zdroje</h5>
+              <ul class="bullets">
+                <li><a href="https://www.kernel.org" target="_blank" rel="noopener">Oficiální web Linuxového jádra</a></li>
+                <li><a href="https://ubuntu.com" target="_blank" rel="noopener">Ubuntu – populární linuxová distribuce</a></li>
+                <li><a href="https://cs.wikipedia.org/wiki/Linux" target="_blank" rel="noopener">Wikipedia – Linux</a></li>
+                <li><a href="https://linuxjourney.com/" target="_blank" rel="noopener">Linux Journey – výukové materiály</a></li>
+              </ul>
+
+            </div>
+          </details>
+
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 5) Význam počítačové gramotnosti -->
+    <details class="acc">
+      <summary class="acc__sum">5) Význam počítačové gramotnosti</summary>
+      <div class="acc__body">
+
+        <p>
+          V dnešní digitální době je schopnost ovládat počítač nezbytná. Počítačová gramotnost zahrnuje:
+        </p>
+        <ul class="bullets">
+          <li>Základní ovládání počítače a operačního systému.</li>
+          <li>Používání kancelářských aplikací (textový editor, tabulkový procesor).</li>
+          <li>Bezpečné a efektivní využívání internetu.</li>
+        </ul>
+        <p>
+          Podle <a
+            href="https://www.kurzy.sk/kurzy/389252/it-start-zakladny-kurz-zaklady-prace-s-pc-windows-word-bratislava"
+            target="_blank" rel="noopener">kurzu IT ŠTART</a> je počítačová gramotnost klíčová pro osobní i profesní
+          rozvoj.
+        </p>
+
+      </div>
+    </details>
+
   </div>
 
-  <!-- MODÁL – Zvuková karta -->
-  <div class="modal fade" id="modalSoundCard" tabindex="-1" aria-labelledby="modalSoundCardLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalSoundCardLabel">Zvuková karta</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-          <p><strong>Zvuková karta</strong> zajišťuje převod digitálního zvuku na analogový signál (DA převodník)
-            a naopak pro záznam (AD převodník).</p>
+  <!-- Shrnutí -->
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
 
-          <p><strong>Typy zvukových karet:</strong></p>
-          <ul>
-            <li><strong>Integrovaná:</strong> Zabudovaná na základní desce. Vhodná pro běžné používání (poslech,
-              videohovory).</li>
-            <li><strong>Dedikovaná (interní PCIe):</strong> Lepší odstup signál/šum, více výstupů, vhodná pro
-              náročné uživatele.</li>
-            <li><strong>Externí (USB):</strong> Pro hudebníky, podcasty, studiové nahrávání. Obsahují kvalitní
-              předzesilovače a konektory.</li>
-          </ul>
+    <ul class="checklist">
+      <li>Rozlišíš hardware a software a vysvětlíš, co je počítač.</li>
+      <li>Pojmenuješ hlavní komponenty PC a k čemu slouží.</li>
+      <li>Znáš základní rozdíly mezi Windows, macOS a Linuxem.</li>
+      <li>Vysvětlíš, co je počítačová gramotnost a proč je důležitá.</li>
+    </ul>
+  </article>
 
-          <p><strong>Specifikace:</strong></p>
-          <ul>
-            <li>Vzorkovací frekvence (44.1 kHz – 192 kHz)</li>
-            <li>Bitová hloubka (16, 24, 32 bitů)</li>
-            <li>Odstup signál/šum (SNR)</li>
-            <li>Počet vstupů a výstupů (Jack, XLR, RCA...)</li>
-          </ul>
+  <!-- Zdroje (přímo z obsahu) -->
+  <article class="card">
+    <h3 class="card__title">Odkazy na použité zdroje</h3>
+    <ol class="steps">
+      <li><a href="https://www.dougengelbart.org/content/view/138/000/" target="_blank" rel="noopener">Douglas Engelbart, 1962 (zdroj)</a></li>
+      <li><a href="https://news.microsoft.com" target="_blank" rel="noopener">Microsoft Newsroom Archives</a></li>
+      <li><a href="https://www.apple.com/stevejobs/" target="_blank" rel="noopener">Oficiální stránka Apple o Stevu Jobsovi</a></li>
+      <li><a href="https://www.linux.org/" target="_blank" rel="noopener">Oficiální stránka Linux</a></li>
+      <li><a href="https://www.kurzy.sk/kurzy/389252/it-start-zakladny-kurz-zaklady-prace-s-pc-windows-word-bratislava" target="_blank" rel="noopener">Kurz IT ŠTART</a></li>
+    </ol>
+  </article>
 
-          <p class="mt-4"><strong>Zdroje:</strong></p>
-          <ul>
-            <li><a href="https://www.soundguys.com/sound-card-explained-23550/" target="_blank">SoundGuys – What
-                is a sound card?</a></li>
-            <li><a href="https://www.sweetwater.com/insync/audio-interface-vs-sound-card/"
-                target="_blank">Sweetwater – Audio Interfaces vs. Sound Cards</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- MODÁL – Síťová karta -->
-  <div class="modal fade" id="modalNIC" tabindex="-1" aria-labelledby="modalNICLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalNICLabel">Síťová karta (NIC)</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-          <p><strong>Síťová karta (Network Interface Card, NIC)</strong> zprostředkovává komunikaci počítače s
-            počítačovou sítí.</p>
+</section>
 
-          <p><strong>Druhy:</strong></p>
-          <ul>
-            <li><strong>Integrovaná:</strong> Běžná součást základní desky (LAN, Wi-Fi).</li>
-            <li><strong>Dedikovaná (PCIe):</strong> Pro profesionální nebo serverové použití. Nabízí vyšší
-              přenosové rychlosti (např. 10 Gbps), více portů, nižší latenci.</li>
-            <li><strong>Externí (USB):</strong> Praktické řešení pro notebooky nebo opravy síťového připojení.
-            </li>
-          </ul>
 
-          <p><strong>Typy rozhraní:</strong></p>
-          <ul>
-            <li><strong>Ethernet:</strong> RJ-45 (Fast Ethernet 100 Mbps, Gigabit Ethernet 1 Gbps, 10G)</li>
-            <li><strong>Wi-Fi:</strong> Bezdrátové připojení (802.11ac, ax)</li>
-            <li><strong>Optické:</strong> Pro vysokorychlostní servery (SFP moduly)</li>
-          </ul>
+<!-- ========================= -->
+<!-- MODALY (umísti na konec stránky, mimo sekci) -->
+<!-- ========================= -->
 
-          <p class="mt-4"><strong>Zdroje:</strong></p>
-          <ul>
-            <li><a href="https://www.computerhope.com/jargon/n/nic.htm" target="_blank">ComputerHope – NIC</a>
-            </li>
-            <li><a href="https://www.hp.com/us-en/shop/tech-takes/what-is-a-network-interface-card"
-                target="_blank">HP – What is a NIC?</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Modal: Klávesnice -->
-  <div class="modal fade" id="modalKeyboard" tabindex="-1" aria-labelledby="modalKeyboardLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalKeyboardLabel">⌨️ Klávesnice</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-          <p>
-            Klávesnice je základní vstupní zařízení pro zadávání <strong>textu, čísel a příkazů</strong> pomocí
-            stisku kláves.
-          </p>
-          <ul>
-            <li><strong>QWERTY rozložení</strong> – nejpoužívanější v ČR i ve světě.</li>
-            <li><strong>Multimediální klávesy</strong> – pro ovládání hlasitosti, hudby, internetu.</li>
-            <li><strong>Mechanická vs. membránová</strong> – rozdíl ve způsobu stisku a odezvě.</li>
-          </ul>
-          <p><strong>Připojení:</strong> USB, PS/2, bezdrátově (Bluetooth, RF).</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Modal: Myš -->
-  <div class="modal fade" id="modalMouse" tabindex="-1" aria-labelledby="modalMouseLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalMouseLabel">🖱️ Myš</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-          <p>
-            Myš je zařízení pro <strong>ovládání kurzoru</strong> a výběr objektů na obrazovce pomocí klikání a
-            pohybu.
-          </p>
-          <ul>
-            <li><strong>Optická / laserová</strong> – fungují na základě snímání povrchu.</li>
-            <li><strong>Ergonomická / herní</strong> – speciálně tvarované pro pohodlí nebo výkon.</li>
-            <li><strong>Gesta, kolečko, boční tlačítka</strong> – pokročilé funkce.</li>
-          </ul>
-          <p><strong>Připojení:</strong> USB, bezdrátově (RF dongle, Bluetooth).</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Modal: Mikrofon -->
-  <div class="modal fade" id="modalMic" tabindex="-1" aria-labelledby="modalMicLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalMicLabel">🎙️ Mikrofon</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-          <p>
-            Mikrofon slouží k <strong>záznamu zvuku</strong> – hlasu, hudby nebo okolních zvuků.
-          </p>
-          <ul>
-            <li><strong>Kondenzátorový mikrofon</strong> – vysoká citlivost, vhodný pro studio.</li>
-            <li><strong>Dynamicý mikrofon</strong> – robustní, vhodný pro živé vysílání.</li>
-            <li><strong>Integrovaný vs. externí</strong> – součást notebooku nebo samostatný.</li>
-          </ul>
-          <p>
-            Používá se i pro <strong>hlasové ovládání</strong> nebo <strong>komunikaci</strong> přes internet.
-          </p>
-          <p><strong>Připojení:</strong> Jack 3.5mm, USB, XLR (profesionální).</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Modal: Skener -->
-  <div class="modal fade" id="modalScanner" tabindex="-1" aria-labelledby="modalScannerLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalScannerLabel">📠 Skener</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-          <p>
-            Skener slouží k <strong>digitalizaci tištěných předloh</strong> – obrázků, dokumentů, fotografií.
-          </p>
-          <ul>
-            <li><strong>Plochý skener</strong> – běžný typ pro domácnosti a kanceláře.</li>
-            <li><strong>Ruční a 3D skenery</strong> – přenosné nebo specializované na 3D objekty.</li>
-            <li><strong>OCR (Optické rozpoznávání znaků)</strong> – převod naskenovaného textu na editovatelný.
-            </li>
-          </ul>
-          <p><strong>Připojení:</strong> USB, někdy síťově (u multifunkčních zařízení).</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Modal: Monitor -->
-  <div class="modal fade" id="modalMonitor" tabindex="-1" aria-labelledby="modalMonitorLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalMonitorLabel">Monitor</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-          <p>Monitor je základní výstupní zařízení, které zobrazuje informace vizuálně pomocí technologie LCD, LED
-            nebo OLED.</p>
-          <ul>
-            <li><strong>Rozlišení:</strong> Počet pixelů ve vodorovném a svislém směru (např. Full HD, 4K).</li>
-            <li><strong>Obnovovací frekvence:</strong> Počet snímků za sekundu (např. 60 Hz, 144 Hz) – důležité
-              pro plynulé zobrazení, zejména u her.</li>
-            <li><strong>Typy panelů:</strong> TN (rychlé, ale horší barvy), IPS (kvalitní barvy a pozorovací
-              úhly), VA (dobrý kontrast).</li>
-            <li><strong>Připojení:</strong> HDMI, DisplayPort, USB-C, VGA – různé konektory podle typu zařízení.
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
+<!-- MODÁL – Počítačová skříň -->
+<div class="modal" id="modalCase" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
 
-  <!-- Modal: Tiskárna -->
-  <div class="modal fade" id="modalPrinter" tabindex="-1" aria-labelledby="modalPrinterLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalPrinterLabel">Tiskárna</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-          <p>Tiskárna je zařízení, které převádí digitální informace na papír. Existují různé typy, např.
-            inkoustové, laserové nebo 3D tiskárny. Moderní tiskárny často obsahují i funkce skeneru, kopírky a
-            faxu (tzv. multifunkční zařízení).</p>
-        </div>
+      <div class="modal-header">
+        <h3 class="modal-title">Počítačová skříň (Case)</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
       </div>
-    </div>
-  </div>
-  <!-- Modal: Reproduktory / Sluchátka -->
-  <div class="modal fade" id="modalSpeakers" tabindex="-1" aria-labelledby="modalSpeakersLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalSpeakersLabel">Reproduktory / Sluchátka</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-          <p>Reproduktory a sluchátka slouží k výstupu zvuku z počítače. Reproduktory poskytují prostorový zvuk,
-            zatímco sluchátka umožňují soukromý poslech. Kvalita výstupu závisí na frekvenčním rozsahu, impedanci
-            a konstrukci zařízení.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Modál Externí disky -->
-  <div class="modal fade" id="modalExternalDrives" tabindex="-1" aria-labelledby="modalExternalDrivesLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalExternalDrivesLabel">💽 Externí disky</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-          USB a Thunderbolt SSD a HDD slouží jako přenosná úložiště dat. Jsou vhodné pro zálohy, rychlé přenášení
-          velkých souborů a rozšiřování kapacity.
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Modál USB klíčenky -->
-  <div class="modal fade" id="modalUSBKeys" tabindex="-1" aria-labelledby="modalUSBKeysLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalUSBKeysLabel">🔑 USB klíčenky</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-          Malé přenosné flash paměti používané pro rychlý přenos a ukládání dat. Jsou kompaktní a snadno přenosné.
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
-        </div>
-      </div>
-    </div>
-  </div>
+      <div class="modal-body">
 
-  <!-- Modál Multifunkční tiskárny -->
-  <div class="modal fade" id="modalMFP" tabindex="-1" aria-labelledby="modalMFPLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalMFPLabel">🖨️ Multifunkční tiskárny</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-          Zařízení, která kombinují tisk, skenování a kopírování v jednom přístroji, vhodné pro domácí i
-          kancelářské použití.
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
-        </div>
-      </div>
-    </div>
-  </div>
+        <p><strong>Počítačová skříň</strong> slouží jako ochranný obal pro všechny vnitřní komponenty počítače:
+          základní desku, procesor, grafickou kartu, pevné disky, RAM atd. Správná skříň ovlivňuje nejen vzhled,
+          ale hlavně <strong>cirkulaci vzduchu, hlučnost a možnost budoucích úprav nebo rozšíření</strong>.</p>
 
-  <!-- Modál VR/AR brýle -->
-  <div class="modal fade" id="modalVR" tabindex="-1" aria-labelledby="modalVRLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalVRLabel">🕶️ VR/AR brýle</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-          Zařízení pro virtuální a rozšířenou realitu, která umožňují interaktivní zážitky v digitálním prostředí.
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
-        </div>
-      </div>
-    </div>
-  </div>
+        <h6>🌀 Proudění vzduchu a chlazení</h6>
+        <ul class="bullets">
+          <li>Dobře navržená skříň má <strong>strategicky umístěné větráky</strong> (vstupní vpředu, výstupní
+            vzadu nebo nahoře).</li>
+          <li><strong>Mesh panely</strong> (děrovaný kov) vpředu a nahoře výrazně zlepšují přívod vzduchu.</li>
+          <li>Skříň ovlivňuje efektivitu <strong>chlazení vzduchem i vodního chlazení</strong>.</li>
+        </ul>
 
-  <!-- Modál Headsety -->
-  <div class="modal fade" id="modalHeadsets" tabindex="-1" aria-labelledby="modalHeadsetsLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalHeadsetsLabel">🎧 Headsety</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-          Sluchátka se zabudovaným mikrofonem pro obousměrnou komunikaci – vhodná pro hry, videohovory a práci.
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
-        </div>
-      </div>
-    </div>
-  </div>
+        <h6>📏 Typy skříní podle velikosti</h6>
+        <ul class="bullets">
+          <li><strong>Full Tower:</strong> Velká skříň pro náročné sestavy, více disků, velké chladiče, vodní
+            okruhy. Doporučeno pro herní a pracovní stanice.</li>
+          <li><strong>Mid Tower:</strong> Nejčastější typ. Vhodná pro většinu běžných i herních PC.</li>
+          <li><strong>Mini Tower:</strong> Kompaktní, omezené možnosti rozšíření. Hodí se do kanceláře nebo pro
+            HTPC.</li>
+          <li><strong>Small Form Factor (SFF):</strong> Velmi malá skříň, často s externím napájením a
+            speciálními deskami (Mini ITX).</li>
+        </ul>
 
-  <!-- Modál Chladiče CPU -->
-  <div class="modal fade" id="modalCPUCoolers" tabindex="-1" aria-labelledby="modalCPUCoolersLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalCPUCoolersLabel">🧊 Chladiče CPU</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-          Vzduchové a vodní chlazení procesorů zajišťuje optimální teploty pro stabilní výkon.
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
-        </div>
-      </div>
-    </div>
-  </div>
+        <h6>🔧 Důležité vlastnosti kvalitní skříně</h6>
+        <ul class="bullets">
+          <li><strong>Správa kabelů:</strong> Otvory a prostor za deskou pro vedení kabelů zlepšují proudění
+            vzduchu a vzhled.</li>
+          <li><strong>Antivibrační prvky:</strong> Např. gumové podložky pro disky zamezují hluku.</li>
+          <li><strong>Filtry proti prachu:</strong> Na vstupních otvorech výrazně zvyšují životnost a čistotu.
+          </li>
+          <li><strong>Modulární prvky:</strong> Možnost odebrat klece na disky, posunovat pozice větráků atd.
+          </li>
+        </ul>
 
-  <!-- Modál Chladiče GPU -->
-  <div class="modal fade" id="modalGPUCoolers" tabindex="-1" aria-labelledby="modalGPUCoolersLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalGPUCoolersLabel">🧊 Chladiče GPU</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-          Aktivní chlazení grafických karet pomáhá udržovat nízké teploty i při náročné grafické práci.
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
-        </div>
-      </div>
-    </div>
-  </div>
+        <h6>💡 Shrnutí</h6>
+        <p>Správná skříň není jen designový doplněk – je to základ stabilního, chladného a tichého systému.
+          Výběr by měl reflektovat účel použití (hraní, práce, ticho, rozměry) i plán do budoucna (např. upgrade
+          GPU, přidání vodního chlazení).</p>
 
-  <!-- Modál Skříňové ventilátory -->
-  <div class="modal fade" id="modalCaseFans" tabindex="-1" aria-labelledby="modalCaseFansLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalCaseFansLabel">🌬️ Skříňové ventilátory</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-          Regulace proudění vzduchu uvnitř PC skříně pomáhá efektivnímu chlazení komponent.
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
-        </div>
-      </div>
-    </div>
-  </div>
+        <hr>
+        <h6>📚 Zdroje a doporučená četba</h6>
+        <ul class="bullets">
+          <li><a href="https://www.tomshardware.com/reviews/best-pc-cases,6026.html" target="_blank"
+              rel="noopener">Tom's Hardware – Best PC Cases</a></li>
+          <li><a href="https://www.howtogeek.com/367731/how-to-choose-the-right-pc-case/" target="_blank"
+              rel="noopener">HowToGeek – How to Choose the Right PC Case</a></li>
+          <li><a href="https://www.coolermaster.com/" target="_blank" rel="noopener">Cooler Master – Průvodce
+              výběrem skříně</a></li>
+          <li><a href="https://cz.alza.cz/jak-vybrat-pocitacovou-skrin" target="_blank" rel="noopener">Alza.cz –
+              Jak vybrat počítačovou skříň</a></li>
+        </ul>
 
-  <!-- Modál Tepelná pasta, airflow, heatpipe -->
-  <div class="modal fade" id="modalThermal" tabindex="-1" aria-labelledby="modalThermalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalThermalLabel">🔥 Tepelná pasta, airflow, heatpipe</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-          Materiály a technologie pro efektivní přenos tepla mezi komponentami a chladiči.
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
-        </div>
-      </div>
-    </div>
-  </div>
+        <p class="text-muted text-center"><small><em>Tip:</em> Nešetři na skříni – kvalitní case může sloužit
+            roky i přes několik upgradů komponent.</small></p>
 
-  <!-- Modál Napájecí konektory -->
-  <div class="modal fade" id="modalPowerConnectors" tabindex="-1" aria-labelledby="modalPowerConnectorsLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalPowerConnectorsLabel">⚡ Napájecí konektory</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-          Přivádí elektrickou energii k základní desce a dalším komponentám v počítači.
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
-        </div>
       </div>
-    </div>
-  </div>
 
-  <!-- Modál SATA a M.2 -->
-  <div class="modal fade" id="modalSATA" tabindex="-1" aria-labelledby="modalSATALabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalSATALabel">🧵 SATA a M.2</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-          Rozhraní pro připojení pevných disků a SSD zařízení k základní desce.
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
-        </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cz.alza.cz/jak-vybrat-pocitacovou-skrin" target="_blank" rel="noopener">Odkaz</a>
       </div>
-    </div>
-  </div>
 
-  <!-- Modál USB, HDMI, DisplayPort -->
-  <div class="modal fade" id="modalUSBHDMI" tabindex="-1" aria-labelledby="modalUSBHDMILabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalUSBHDMILabel">🔌 USB, HDMI, DisplayPort</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-          Standardy připojení periferií, monitorů a dalších zařízení pro přenos dat a obrazu.
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
-        </div>
-      </div>
     </div>
   </div>
+</div>
 
-  <!-- Modál Ethernet, audio jack -->
-  <div class="modal fade" id="modalEthernetAudio" tabindex="-1" aria-labelledby="modalEthernetAudioLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalEthernetAudioLabel">🌐 Ethernet, audio jack</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-          Síťové a zvukové konektory používané pro připojení k internetu a audio zařízením.
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>
-        </div>
+
+<!-- MODÁL – Napájecí zdroj -->
+<div class="modal" id="modalPSU" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Napájecí zdroj (PSU)</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
       </div>
+
+      <div class="modal-body">
+
+        <p><strong>Napájecí zdroj</strong> (Power Supply Unit, PSU) převádí elektrickou energii ze sítě (230 V
+          střídavý proud) na <strong>nízkonapěťový stejnosměrný proud</strong>, který je bezpečný a vhodný pro
+          jednotlivé komponenty počítače – základní desku, grafickou kartu, disky apod.</p>
+
+        <h6>⚙️ Jak funguje PSU</h6>
+        <ul class="bullets">
+          <li>Uvnitř je <strong>měnič napětí</strong> (tzv. spínaný zdroj), který reguluje napětí na výstupu
+            (např. 12 V, 5 V, 3.3 V).</li>
+          <li>PSU musí být <strong>dostatečně výkonný</strong> pro všechny komponenty (měřeno ve wattech – W).
+          </li>
+          <li>Obsahuje <strong>ventilátor</strong> pro chlazení a někdy i <strong>aktivní PFC</strong> pro
+            stabilizaci napětí.</li>
+        </ul>
+
+        <h6>🔌 Typy podle kabeláže</h6>
+        <ul class="bullets">
+          <li><strong>Modulární:</strong> Kabely se připojují podle potřeby – výborné pro pořádek a airflow.
+          </li>
+          <li><strong>Polomodulární:</strong> Hlavní kabely jsou napevno, zbytek připojitelný.</li>
+          <li><strong>Nemodulární:</strong> Všechny kabely jsou napevno – levnější, ale méně přehledné.</li>
+        </ul>
+
+        <h6>💡 Na co si dát pozor při výběru</h6>
+        <ul class="bullets">
+          <li><strong>Výkon (W):</strong> Musí pokrýt spotřebu celé sestavy + rezerva 20–30 % (pro upgrade,
+            vyšší zatížení).</li>
+          <li><strong>Certifikace 80 PLUS:</strong> Určuje účinnost zdroje. Např. Bronze, Silver, Gold,
+            Platinum, Titanium. Vyšší = méně ztrát tepla a nižší spotřeba.</li>
+          <li><strong>Kvalitní značka:</strong> Např. Seasonic, Corsair, be quiet!, EVGA, Fractal Design.</li>
+          <li><strong>Ochranné funkce:</strong> OVP, SCP, UVP, OCP atd. chrání komponenty při poruše.</li>
+        </ul>
+
+        <h6>🔄 Příklady použití podle sestavy</h6>
+        <ul class="bullets">
+          <li>🏢 <strong>Kancelářské PC:</strong> 300–450 W, bez potřeby 80+ certifikace.</li>
+          <li>🎮 <strong>Herní PC (střední třída):</strong> 550–650 W, ideálně 80+ Bronze/Gold.</li>
+          <li>🔧 <strong>Workstation nebo high-end gaming:</strong> 750 W a více, 80+ Gold nebo vyšší, modulární
+            kabeláž.</li>
+        </ul>
+
+        <hr>
+        <h6>📚 Zdroje a doporučená četba</h6>
+        <ul class="bullets">
+          <li><a href="https://www.tomshardware.com/reviews/best-psus,4229.html" target="_blank"
+              rel="noopener">Tom's Hardware – Best PSUs</a></li>
+          <li><a href="https://www.techpowerup.com/review/" target="_blank" rel="noopener">TechPowerUp – PSU
+              Reviews</a></li>
+          <li><a href="https://cz.alza.cz/jak-vybrat-zdroj" target="_blank" rel="noopener">Alza.cz – Jak vybrat
+              zdroj</a></li>
+          <li><a href="https://www.corsair.com/us/en/blog/how-to-choose-the-right-power-supply" target="_blank"
+              rel="noopener">Corsair Blog – How to Choose a PSU</a></li>
+        </ul>
+
+        <p class="text-muted text-center"><small><em>Tip:</em> Zdroj se nekupuje na doraz. Vyber si takový,
+            který bude v běžném provozu zatížený maximálně na 50–70 %, což zaručí tichý chod a delší
+            životnost.</small></p>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cz.alza.cz/jak-vybrat-zdroj" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+
     </div>
   </div>
-  
+</div>
+
+
+<!-- MODÁL – Základní deska -->
+<div class="modal" id="modalMotherboard" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Základní deska (Motherboard)</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <p><strong>Základní deska</strong> (motherboard, mainboard) je centrální součást počítače, která
+          propojuje všechny komponenty – procesor, paměti, grafickou kartu, disky, napájení i rozšiřující karty.
+          Funguje jako <strong>komunikační uzel a rozvodová deska</strong>.</p>
+
+        <h6>🧩 Hlavní části základní desky</h6>
+        <ul class="bullets">
+          <li><strong>Socket CPU:</strong> Fyzický konektor pro procesor – musí odpovídat konkrétnímu modelu CPU
+            (např. Intel LGA1700, AMD AM5).</li>
+          <li><strong>Čipová sada (chipset):</strong> Řídí komunikaci mezi CPU, RAM, PCIe a disky. Např. Intel
+            Z790, AMD B650.</li>
+          <li><strong>Sloty RAM:</strong> Obvykle 2–4 sloty pro paměti DDR4/DDR5.</li>
+          <li><strong>Sloty PCIe:</strong> Pro grafické karty a rozšiřující karty. Různé verze (x16, x4, x1).
+          </li>
+          <li><strong>SATA konektory:</strong> Pro připojení pevných disků a SSD.</li>
+          <li><strong>M.2 sloty:</strong> Pro moderní NVMe SSD disky – vysoká rychlost přenosu.</li>
+          <li><strong>Napájecí konektory:</strong> ATX 24-pin pro desku, 4/8-pin EPS pro CPU.</li>
+          <li><strong>BIOS / UEFI:</strong> Firmware desky, který řídí spuštění systému a základní konfiguraci.
+          </li>
+          <li><strong>Interní header konektory:</strong> Např. USB, RGB, ventilátory, přední panel.</li>
+        </ul>
+
+        <h6>🔌 Formáty základních desek</h6>
+        <ul class="bullets">
+          <li><strong>ATX:</strong> Plná velikost, běžné pro herní a výkonné sestavy (305 × 244 mm).</li>
+          <li><strong>microATX:</strong> Kompaktnější (244 × 244 mm), ale stále dostatečné pro většinu sestav.
+          </li>
+          <li><strong>Mini-ITX:</strong> Velmi malá (170 × 170 mm), vhodná pro malé počítače (HTPC, kompaktní
+            herní PC).</li>
+        </ul>
+
+        <h6>⚙️ Co určuje základní deska</h6>
+        <ul class="bullets">
+          <li><strong>Typ a výkon procesoru</strong> (podle socketu a čipsetu).</li>
+          <li><strong>Počet a typ RAM</strong> (např. DDR4/DDR5, dual channel).</li>
+          <li><strong>Možnosti rozšíření</strong> – grafické karty, síťové karty, záznamové karty aj.</li>
+          <li><strong>Možnosti přetaktování (overclocking):</strong> U čipsetů vyšší třídy (např. Intel Z, AMD
+            X).</li>
+          <li><strong>Konektivita:</strong> Počet USB portů, síťové karty (1 Gb/s nebo 2.5 Gb/s LAN, Wi-Fi),
+            Bluetooth, Audio výstupy.</li>
+        </ul>
+
+        <h6>🎯 Jak vybrat základní desku</h6>
+        <ul class="bullets">
+          <li><strong>Kompatibilita:</strong> Zkontroluj socket a čipset vůči CPU, RAM i velikosti skříně.</li>
+          <li><strong>Účel sestavy:</strong> Pro herní PC jiný výběr než pro kancelář.</li>
+          <li><strong>Napájecí kaskáda (VRM):</strong> Důležitá pro stabilitu při zátěži a přetaktování.</li>
+          <li><strong>Počet konektorů:</strong> Kolik disků, USB, ventilátorů a dalších zařízení budeš
+            připojovat?</li>
+          <li><strong>Kvalitní značky:</strong> ASUS, MSI, Gigabyte, ASRock.</li>
+        </ul>
+
+        <h6>💡 Zajímavosti</h6>
+        <ul class="bullets">
+          <li>Některé základní desky mají <strong>vestavěnou Wi-Fi, Bluetooth a zvukovou kartu</strong> vyšší
+            kvality.</li>
+          <li>Moderní desky podporují <strong>RGB podsvícení a synchronizaci</strong> komponent (Aura Sync,
+            Mystic Light apod.).</li>
+          <li><strong>BIOS/UEFI</strong> lze často aktualizovat i bez CPU pomocí funkce Q-Flash/Flashback.</li>
+        </ul>
+
+        <hr>
+        <h6>📚 Zdroje a doporučená četba</h6>
+        <ul class="bullets">
+          <li><a href="https://www.tomshardware.com/reviews/best-motherboards,3984.html" target="_blank"
+              rel="noopener">Tom's Hardware – Best Motherboards</a></li>
+          <li><a href="https://cz.alza.cz/jak-vybrat-zakladni-desku" target="_blank" rel="noopener">Alza.cz –
+              Jak vybrat základní desku</a></li>
+          <li><a href="https://www.msi.com/blog/how-to-choose-a-motherboard" target="_blank" rel="noopener">MSI
+              – How to Choose a Motherboard</a></li>
+          <li><a href="https://www.asus.com/support/FAQ/1042662" target="_blank" rel="noopener">ASUS – Základní
+              desky FAQ</a></li>
+        </ul>
+
+        <p class="text-muted text-center"><small><em>Tip:</em> Kvalitní základní deska je základ stabilního
+            systému. I když nevypadá jako „výkonná“ komponenta, její výběr zásadně ovlivňuje celkovou funkčnost
+            a rozšiřitelnost sestavy.</small></p>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cz.alza.cz/jak-vybrat-zakladni-desku" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- MODÁL – Jak funguje CPU -->
+<div class="modal" id="modalCPU" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Jak funguje procesor (CPU)</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <p>
+          Procesor (Central Processing Unit) je <strong>ústřední výpočetní jednotka</strong> počítače. Řídí a
+          zpracovává instrukce programů podle tzv. <strong>instrukčního cyklu</strong>.
+        </p>
+
+        <h6>Instrukční cyklus</h6>
+        <ul class="bullets">
+          <li><strong>Fetch (Načtení):</strong> Získání instrukce z operační paměti (RAM).</li>
+          <li><strong>Decode (Dekódování):</strong> Rozbor instrukce, zjištění typu a parametrů.</li>
+          <li><strong>Execute (Vykonání):</strong> Provedení operace (aritmetické, logické, přesuny dat).</li>
+        </ul>
+
+        <!-- ANIMACE – Instrukční cyklus CPU -->
+        <div class="sequence-animation cpu-cycle-animation">
+          <div class="cpu-box">CPU</div>
+          <div class="instruction-step step1">Fetch</div>
+          <div class="instruction-step step2">Decode</div>
+          <div class="instruction-step step3">Execute</div>
+        </div>
+        <p><small><em>Animace:</em> Procesor vykonává instrukce v cyklu: načtení,
+            dekódování a vykonání.</small></p>
+
+        <h6>Hlavní části procesoru</h6>
+        <ul class="bullets">
+          <li><strong>ALU (Aritmeticko-logická jednotka):</strong> Provádí matematické a logické operace.</li>
+          <li><strong>CU (Řadič):</strong> Řídí tok dat a činnost ostatních částí CPU.</li>
+          <li><strong>Registry:</strong> Velmi rychlá paměť pro uložení dat/instrukcí při výpočtech.</li>
+          <li><strong>Cache:</strong> Malá, rychlá paměť pro často používaná data, blíže CPU než RAM.</li>
+          <li><strong>Taktovací jednotka:</strong> Udává rychlost vykonávání instrukcí (např. 3,5 GHz = 3,5
+            miliardy cyklů/s).</li>
+          <li><strong>Jádra (Cores):</strong> Moderní CPU mají více výpočetních jednotek pro paralelní
+            zpracování.</li>
+        </ul>
+
+        <h6>Další vlastnosti moderních CPU</h6>
+        <ul class="bullets">
+          <li><strong>Hyper-Threading:</strong> Simulace více vláken na jednom jádru.</li>
+          <li><strong>Turbo Boost:</strong> Dočasné zvýšení taktu pro náročné výpočty.</li>
+          <li><strong>Integrované GPU:</strong> Základní grafické jádro přímo v CPU (např. Intel UHD Graphics).
+          </li>
+        </ul>
+
+        <h6>Zdroje a doporučené odkazy:</h6>
+        <ul class="bullets">
+          <li><a href="https://cs.wikipedia.org/wiki/Procesor" target="_blank" rel="noopener">Wikipedia – Procesor</a></li>
+          <li><a href="https://www.intel.com/content/www/us/en/processors/what-is-a-processor.html"
+              target="_blank" rel="noopener">Intel – What is a Processor?</a></li>
+          <li><a href="https://www.amd.com/en/products/processors-desktop" target="_blank" rel="noopener">AMD – Desktop
+              Processors</a></li>
+          <li><a href="https://www.khanacademy.org/computing/computer-science/logic-gates#cpu"
+              target="_blank" rel="noopener">Khan Academy – CPU overview</a></li>
+        </ul>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cs.wikipedia.org/wiki/Procesor" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- POZNÁMKA:
+  V původním HTML jsou ještě další modály (Registry, Cache, RAM, GPU, Zvuková karta, NIC, Klávesnice, Myš, Mikrofon,
+  Skener, Monitor, Tiskárna, Reproduktory, Externí disky, USB klíčenky, MFP, VR, Headsety, CPU/GPU coolery, CaseFans,
+  Thermal, PowerConnectors, SATA, USBHDMI, EthernetAudio + Disk).
+  Když chceš, dodám je ve stejné nové struktuře taky – jen mi napiš "pošli zbytek modálů 1.1".
+-->

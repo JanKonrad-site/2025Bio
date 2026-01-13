@@ -98,13 +98,15 @@ async function safeImport(path, exportName) {
 
   // loader — TADY je pro tebe klíčová cesta:
   // kapitoly existují na: /learn.jankonrad.com/sections/section1-1.html
-  const loader = createLoader({
-    mount: contentMount,
-    basePaths: ["../learn.jankonrad.com/sections"],
-    extension: ".html",
-    wrapperClass: "section-wrapper",
-    placeholderOnError: true,
-  });
+ const sectionsBase = new URL("./sections/", document.baseURI).toString();
+
+const loader = createLoader({
+  mount: contentMount,
+  basePaths: [sectionsBase],
+  extension: ".html",
+  wrapperClass: "section-wrapper",
+  placeholderOnError: true,
+});
 
   const router = createRouter({
     normalize: normalizeSectionId,
