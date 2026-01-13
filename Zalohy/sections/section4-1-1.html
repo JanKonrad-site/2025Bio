@@ -1,0 +1,562 @@
+<style>
+  .svg-line {
+    stroke-dasharray: 300;
+    stroke-dashoffset: 300;
+    animation: draw 2s ease forwards;
+  }
+
+  @keyframes draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+    #sim1Result,
+  #sim2Result {
+    color: white !important;
+    margin-top: 1rem;
+  }
+   .no-copy-overlay {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: auto;
+      background: transparent; /* neviditelný */
+    }
+</style>
+
+<section id="section4-1-1" class="container my-5, no-copy">
+  <h3 class="mb-4">4.1.1 - Proměnné a datové typy</h3>
+
+  <!-- Úvodní přehled -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co se naučíš?</h3>
+    <p>V této kapitole se naučíš, jak v Pythonu ukládat hodnoty do proměnných a jak pomocí podmínek rozhodovat o toku programu. Také si vytvoříš jednoduchou textovou kalkulačku.</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Proměnná</strong>: Co to je a jak ji vytvořit.</li>
+      <li class="list-group-item"><strong>Datové typy</strong>: Čísla, text, desetinná čísla.</li>
+      <li class="list-group-item"><strong>Podmínky</strong>: Rozhodování pomocí if, elif a else.</li>
+      <li class="list-group-item"><strong>Vlastní program</strong>: Vytvoříš si textovou kalkulačku.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Program umí být chytrý jen tehdy, když se umí rozhodovat.
+    </div>
+  </div>
+
+  <!-- Citát osobnosti -->
+  <div class="row align-items-center mb-4">
+    <div class="col-md-2 text-center">
+      <img class="img-fluid rounded-circle shadow" src="https://upload.wikimedia.org/wikipedia/commons/d/d9/Dennis_Ritchie_2011.jpg" alt="Dennis Ritchie">
+      <p class="mt-2 text-muted small">Dennis Ritchie</p>
+    </div>
+    <div class="col-md-10">
+      <blockquote class="blockquote">
+        <p class="mb-0">„The only way to learn a new programming language is by writing programs in it.“</p>
+        <footer class="blockquote-footer mt-2">
+          <a href="https://en.wikipedia.org/wiki/Dennis_Ritchie" target="_blank">(zdroj)</a>
+        </footer>
+      </blockquote>
+    </div>
+  </div>
+
+  <!-- Teoretický blok -->
+  <h5 class="mt-5">🎒 Co je proměnná</h5>
+  <p>Proměnná je pojmenované místo v paměti, kam ukládáme hodnotu, kterou budeme později používat.</p>
+  <pre><code>jmeno = "Petr"
+vek = 18</code></pre>
+  <p>Proměnná má <strong>název</strong> a <strong>hodnotu</strong>. Python si typ odvodí automaticky.</p>
+  <div class="d-flex flex-wrap gap-2 my-3">
+  <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalNaming">Pojmenování proměnných</button>
+  <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalDebugging">Debugging chyb</button>
+  <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalStrings">Řetězce: nový řádek &amp; spojování</button>
+</div>
+
+  <!-- Rozbalovací část -->
+  <ul class="list-group mb-4">
+    <li class="list-group-item">
+      <strong>Datové typy</strong>
+      <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDatatypes">
+        &#9660;
+      </button>
+
+      <ul class="list-group list-group-flush collapse mt-2" id="collapseDatatypes">
+        <li class="list-group-item">
+          <p>V Pythonu běžně používáme tyto typy:</p>
+          <ul>
+            <li><code>int</code> – celá čísla (např. 5)</li>
+            <li><code>float</code> – desetinná čísla (např. 3.14)</li>
+            <li><code>str</code> – texty (např. "Python")</li>
+          </ul>
+          <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalDatatypes">
+            Více
+          </button>
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+  <!-- Teoretický blok: Proč musím převádět číslo na text? -->
+
+<div class="container my-4 p-4 border rounded bg-light">
+  <h4 class="mb-3">❓ Proč nemůžu spojit text a číslo pomocí +</h4>
+  <p>
+    V Pythonu (a v mnoha jiných jazycích) má každá proměnná svůj <strong>datový typ</strong>. Například:
+    <ul>
+      <li><code>str</code> (řetězec, text) – např. <code>"Petr"</code></li>
+      <li><code>int</code> (celé číslo) – např. <code>18</code></li>
+    </ul>
+  </p>
+  <p>
+    <strong>Text</strong> a <strong>číslo</strong> jsou pro počítač úplně jiné věci – stejně jako dílek puzzle a LEGO kostka. 
+    Pokud se pokusíš spojit text a číslo pomocí <code>+</code>, Python neví, jestli má číslo převést na text, nebo to spočítat jako čísla, a proto vypíše chybu:
+  </p>
+  <pre class="bg-danger text-light p-2 rounded mb-2"><code>
+TypeError: can only concatenate str (not "int") to str
+  </code></pre>
+  <p>
+    <strong>Chceš-li spojit text a číslo dohromady, musíš obě hodnoty nejprve převést na stejný typ!</strong>
+  </p>
+  <ul>
+    <li><b>Převod čísla na text:</b> Pomocí <code>str(vek)</code> změníš číslo na text.</li>
+    <li><b>Použití čárky v <code>print()</code>:</b> Python vše převede na text automaticky a oddělí je mezerou.</li>
+    <li><b>F-string:</b> Nejmodernější způsob, kdy Python proměnnou sám převede na text ve složených závorkách <code>f"Věk: {vek}"</code>.</li>
+  </ul>
+  <p>
+    <strong>Proč to tak je?</strong> <br>
+    <ul>
+      <li>Každý datový typ se v paměti ukládá jinak a Python to má rád přehledné.</li>
+      <li>Python tě raději upozorní na chybu, než aby automaticky měnil typy (na rozdíl od některých jiných jazyků, např. JavaScript).</li>
+      <li>Díky tomu je kód přehlednější a méně náchylný na nechtěné chyby.</li>
+    </ul>
+  </p>
+  <div class="alert alert-info">
+    <strong>Příklad chyby:</strong> <code>print("Věk: " + vek)</code> ⟶ <b>chyba!</b><br>
+    <strong>Správně:</strong>
+    <ul>
+      <li><code>print("Věk: " + str(vek))</code></li>
+      <li><code>print("Věk:", vek)</code></li>
+      <li><code>print(f"Věk: {vek}")</code></li>
+    </ul>
+  </div>
+  <p>
+    Proto se vždy ujisti, že spojované hodnoty mají stejný typ – <b>nejčastěji text</b> (<code>str</code>).
+  </p>
+</div>
+
+  
+
+<!-- Podrobný teoretický blok: Podmínky v Pythonu (if, elif, else) -->
+
+<div class="container my-4 p-4 border rounded bg-light">
+  <h4 class="mb-3">🔀 Podmínky v Pythonu: <code>if</code>, <code>elif</code>, <code>else</code></h4>
+
+  <p>
+    <strong>Podmínka</strong> v Pythonu umožňuje rozhodnout, zda se určitý blok kódu provede, podle toho, jestli je nějaké tvrzení pravdivé nebo ne.<br>
+    Nejčastěji používáme klíčová slova <code>if</code>, <code>elif</code> a <code>else</code>:
+  </p>
+
+  <pre><code>
+x = 10
+if x > 5:
+    print("x je větší než 5")
+elif x == 5:
+    print("x je rovno 5")
+else:
+    print("x je menší než 5")
+  </code></pre>
+
+  <ul>
+    <li><code>if</code> znamená „pokud“. Když je podmínka za <code>if</code> pravdivá, vykoná se blok kódu pod ním.</li>
+    <li><code>elif</code> znamená „jinak, pokud“. Je to zkratka pro <b>else if</b>. Používáme ho, když chceme více různých možností. Python je projde shora dolů a provede první blok, jehož podmínka platí.</li>
+    <li><code>else</code> znamená „jinak“. Spustí se jen tehdy, když neplatila žádná předchozí podmínka.</li>
+  </ul>
+
+  <h5 class="mt-4">📏 Odsazení (mezery na začátku řádku)</h5>
+  <p>
+    Odsazení je v Pythonu povinné! Říká, které příkazy patří „pod“ podmínku. Je to obdoba závorek v jiných jazycích.<br>
+    <b>Doporučení:</b> používej <b>4 mezery</b> pro každou úroveň.<br>
+    <b>Chybný zápis (chybí odsazení):</b>
+  </p>
+  <pre class="bg-danger text-light p-2 rounded"><code>
+if x > 5:
+print("x je větší než 5")    # Chyba! Není odsazeno.
+  </code></pre>
+  <p>
+    <strong>Správně:</strong>
+  </p>
+  <pre><code>
+if x > 5:
+    print("x je větší než 5")  # Správně – řádek podmínky je odsazený
+  </code></pre>
+  <div class="alert alert-warning mb-3">
+    <strong>Tip:</strong> <u>Odsazení určuje, co patří do bloku</u> (za if/elif/else). Všechny řádky se stejným odsazením patří do jednoho bloku. Pokud chceš víc příkazů v podmínce, všechny musejí být odsazené stejně.
+  </div>
+
+  <h5 class="mt-4">📍 Proč se píše <code>:</code> (dvojtečka)?</h5>
+  <p>
+    Dvojtečka na konci řádku za <code>if</code>, <code>elif</code> nebo <code>else</code> říká Pythonu: <b>„teď začíná blok příkazů“</b>.<br>
+    Musí tam být vždy – je to součást syntaxe.<br>
+    <b>Příklad:</b>
+    <code>if x > 5:</code>
+    <br>
+    Pokud dvojtečku zapomeneš, Python vypíše chybu syntaxe.
+  </p>
+
+  <h5 class="mt-4">📌 Proč u podmínky nejsou závorky?</h5>
+  <p>
+    Python je jednoduchý – <strong>nepotřebuješ kulaté závorky kolem podmínky</strong>. Prostě napíšeš podmínku rovnou za <code>if</code>, např. <code>if x > 5:</code>.
+  </p>
+
+  <h5 class="mt-4">🤔 Co znamená <code>==</code> a proč nestačí jedno rovnítko?</h5>
+  <p>
+    <ul>
+      <li><code>=</code> (jedno rovnítko) znamená <b>přiřazení</b> – použiješ ho, když do proměnné ukládáš hodnotu. (např. <code>x = 5</code>)</li>
+      <li><code>==</code> (dvojité rovnítko) znamená <b>porovnání</b> – ptáš se, jestli má <code>x</code> určitou hodnotu. (např. <code>x == 5</code>)</li>
+    </ul>
+    <strong>Příklad:</strong>
+    <pre><code>
+x = 10       # přiřazení
+if x == 10:  # porovnání
+    print("x je 10")
+    </code></pre>
+    <b>Pozor:</b> Pokud místo <code>==</code> omylem použiješ <code>=</code> v podmínce, Python vypíše chybu (<code>SyntaxError</code>).
+  </p>
+
+  <h5 class="mt-4">🧠 Jak to celé funguje v programu?</h5>
+  <ol>
+    <li>Python vyhodnotí podmínku za <code>if</code> – pokud je pravda, provede blok podmínky a dál už pokračuje za celou podmínku.</li>
+    <li>Pokud <code>if</code> nebyla pravda, zkusí <code>elif</code> (můžeš mít i víc elif za sebou).</li>
+    <li>Pokud nebyla pravda ani žádná <code>elif</code>, provede se <code>else</code> (pokud je uveden).</li>
+    <li>Provede se vždy jen <b>jeden blok</b> – první, jehož podmínka je splněná.</li>
+  </ol>
+
+  <div class="alert alert-success mb-0">
+    <b>Rychlý přehled:</b>
+    <ul class="mb-1">
+      <li>Odsazení určuje, co patří do bloku (4 mezery = 1 úroveň).</li>
+      <li>Dvojtečka <code>:</code> vždy za <code>if</code>, <code>elif</code>, <code>else</code>!</li>
+      <li><code>if</code> – když platí podmínka, <code>elif</code> – další možnost, <code>else</code> – všechno ostatní.</li>
+      <li><code>==</code> = porovnání, <code>=</code> = přiřazení.</li>
+    </ul>
+  </div>
+</div>
+
+  <!-- Úkoly -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Úkoly</h4>
+
+    <h5 class="mb-2">🎯 Úkol 1: Ověření věku (krok za krokem)</h5>
+    <ol class="list-group list-group-numbered mb-3">
+      <li class="list-group-item">Vytvoř soubor <code>vek.py</code></li>
+      <li class="list-group-item">Zeptej se uživatele na jméno:
+        <pre><code>jmeno = input("Zadej své jméno: ")</code></pre></li>
+      <li class="list-group-item">Zeptej se na věk a převeď na číslo:
+        <pre><code>vek = int(input("Zadej svůj věk: "))</code></pre></li>
+      <li class="list-group-item">Podmínka:
+        <pre><code>if vek >= 18:
+    print("Jsi plnoletý/á")
+else:
+    print("Ještě ti není 18")</code></pre></li>
+      <li class="list-group-item">Zastav program:
+        <pre><code>input("Stiskni Enter pro ukončení")</code></pre></li>
+    </ol>
+
+    <!-- Simulace 1 -->
+    <div class="bg-dark text-light p-3 rounded mt-4" style="max-width: 500px;">
+      <p><strong>Simulace programu:</strong></p>
+      <div>Zadej své jméno:</div>
+      <input type="text" id="sim1Name" class="form-control mb-2" />
+      <div>Zadej svůj věk:</div>
+      <input type="number" id="sim1Age" class="form-control mb-2" />
+      <button onclick="runSim1()" class="btn btn-sm btn-light">Spustit</button>
+      <div class="mt-3" id="sim1Result" style="white-space: pre-line; color: white;"></div>
+    </div>
+
+    <hr class="my-4">
+
+    <h5 class="mb-2">💻 Úkol 2: Textová kalkulačka</h5>
+    <p>Napiš program, který funguje jako jednoduchá kalkulačka. Použij:</p>
+    <ul>
+      <li><code>input()</code> – pro vstupy</li>
+      <li><code>float()</code> – pro čísla</li>
+      <li><code>if / elif / else</code> – pro rozhodnutí</li>
+    </ul>
+
+    <!-- Simulace 2 -->
+    <div class="bg-dark text-light p-3 rounded mt-4" style="max-width: 600px;">
+      <p><strong>Simulace kalkulačky:</strong></p>
+      <div>Zadej první číslo:</div>
+      <input type="number" id="sim2Num1" class="form-control mb-2" step="any" />
+      <div>Zadej druhé číslo:</div>
+      <input type="number" id="sim2Num2" class="form-control mb-2" step="any" />
+      <div>Zadej operaci (+, -, *, /):</div>
+      <input type="text" id="sim2Op" class="form-control mb-2" />
+      <button onclick="runSim2()" class="btn btn-sm btn-light">Spustit</button>
+      <div class="mt-3" id="sim2Result" style="white-space: pre-line; color: white;"></div>
+    </div>
+  </div>
+
+  <hr class="my-4">
+
+<h5 class="mb-2">🎵 Úkol 3: Band Name Generator</h5>
+<p>Vytvoř program, který pozdraví uživatele, zeptá se na <strong>město</strong> a <strong>jméno zvířete</strong> a vypíše návrh názvu kapely.</p>
+
+<ol class="list-group list-group-numbered mb-3">
+  <li class="list-group-item">Uvítání:
+    <pre><code>print("Welcome to the Band Name Generator.")</code></pre>
+  </li>
+  <li class="list-group-item">Vstupy (kurzor na novém řádku – použij <code>\n</code>):
+<pre><code>city = input("Which city did you grow up in?\n")
+pet  = input("What is the name of a pet?\n")</code></pre>
+  </li>
+  <li class="list-group-item">Výstup (zvol jednu variantu):
+<pre><code># A) konkatenace
+print("Your band name could be: " + city + " " + pet)
+
+# B) f-string (doporučeno)
+print(f"Your band name could be: {city} {pet}")</code></pre>
+  </li>
+</ol>
+
+<div class="alert alert-info">
+  <strong>Časté chyby:</strong> <code>NameError</code> (překlep v <code>city</code>/<code>pet</code>), slepený text bez mezery, nebo <code>IndentationError</code> kvůli odsazení.
+</div>
+
+
+
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Shrnutí kapitoly</h3>
+    <ul class="list-group">
+      <li class="list-group-item"><strong>Proměnná</strong>: ukládá hodnotu</li>
+      <li class="list-group-item"><strong>Podmínky</strong>: rozhodování v programu</li>
+      <li class="list-group-item"><strong>Cvičení</strong>: Ověření věku, kalkulačka</li>
+    </ul>
+    <div class="alert alert-info mt-3">
+      <strong>Tip:</strong> Uč se psaním vlastního kódu!
+    </div>
+  </div>
+    
+    <!-- Hint + editor -->
+    <div class="alert alert-warning">
+      <strong>💡 Tip:</strong> Pokud si nevíš rady, vyzkoušej si kód v našem <a href="/learn.jankonrad.com/sections/progGames/2proggame/index.html" target="_blank">editoru</a>.
+    </div>
+
+  <section id="quiz" class="container my-5">
+    <h3 class="mb-4">🎓 Test: Ověř si své znalosti</h3>
+
+  
+    <!-- Otázky -->
+    <div id="quizContainer">
+  
+      <div class="quiz-question mb-4">
+        <p><strong>1. Co je to proměnná v Pythonu?</strong></p>
+        <div class="btn-group-vertical">
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Místo pro uložení hodnoty</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Název funkce</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Značka pro podmínku</button>
+        </div>
+      </div>
+  
+      <div class="quiz-question mb-4">
+        <p><strong>2. Jaký datový typ má hodnota <code>"Python"</code>?</strong></p>
+        <div class="btn-group-vertical">
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">int</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">float</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">str</button>
+        </div>
+      </div>
+  
+      <div class="quiz-question mb-4">
+        <p><strong>3. Co udělá příkaz <code>int("5")</code>?</strong></p>
+        <div class="btn-group-vertical">
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Převede text "5" na číslo</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Zobrazí chybu</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Převede číslo na text</button>
+        </div>
+      </div>
+  
+      <div class="quiz-question mb-4">
+        <p><strong>4. Jaký znak používáme pro větvení programu?</strong></p>
+        <div class="btn-group-vertical">
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">=</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">if</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">print</button>
+        </div>
+      </div>
+  
+      <div class="quiz-question mb-4">
+        <p><strong>5. Co vypíše program, když <code>x = 10</code> a následuje <code>if x &lt; 5: print("Malé") else: print("Velké")</code>?</strong></p>
+        <div class="btn-group-vertical">
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Malé</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Velké</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Chyba</button>
+        </div>
+      </div>
+  
+      <div class="quiz-question mb-4">
+        <p><strong>6. Jaká funkce převede vstup na desetinné číslo?</strong></p>
+        <div class="btn-group-vertical">
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">int()</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">float()</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">str()</button>
+        </div>
+      </div>
+  
+      <div class="quiz-question mb-4">
+        <p><strong>7. K čemu slouží příkaz <code>input()</code>?</strong></p>
+        <div class="btn-group-vertical">
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Pro zadání hodnoty od uživatele</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Pro výpočet</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Pro cyklus</button>
+        </div>
+      </div>
+  
+      <div class="quiz-question mb-4">
+        <p><strong>8. Co je výsledek výrazu <code>3 + 2 * 2</code>?</strong></p>
+        <div class="btn-group-vertical">
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">10</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">7</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">9</button>
+        </div>
+      </div>
+  
+      <div class="quiz-question mb-4">
+        <p><strong>9. Jak Python pozná, co patří do bloku podmínky?</strong></p>
+        <div class="btn-group-vertical">
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Podle odsazení</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Podle závorek</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Podle uvozovek</button>
+        </div>
+      </div>
+  
+      <div class="quiz-question mb-4">
+        <p><strong>10. Jaká je správná syntaxe větvení?</strong></p>
+        <div class="btn-group-vertical">
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">if { x > 5 }</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">if x > 5 then:</button>
+          <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">if x > 5:</button>
+        </div>
+      </div>
+    </div>
+  
+
+  </section>
+
+  <!-- Odkazy -->
+  <hr>
+  <h6>Odkazy na použité zdroje</h6>
+  <ol class="small">
+    <li><a href="https://www.itnetwork.cz/python/zaklady/python-tutorial-promenne-zakladni-datove-typy-a-funkce" target="_blank">ITnetwork – Proměnné</a></li>
+    <li><a href="https://www.itnetwork.cz/python/zaklady/python-tutorial-podminky-a-vetveni" target="_blank">ITnetwork – Podmínky</a></li>
+  </ol>
+</section>
+
+<!-- Modal -->
+<div class="modal fade" id="modalDatatypes" tabindex="-1" aria-labelledby="modalDatatypesLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalDatatypesLabel">Datové typy</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Python je dynamicky typovaný jazyk – typ určuje hodnota, nikoli deklarace.</p>
+        <pre><code>a = 10       # int
+b = 3.14     # float
+c = \"Python\" # str</code></pre>
+        <p>Typ zjistíš pomocí <code>type()</code>:</p>
+        <pre><code>print(type(a))</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal: Pojmenování proměnných -->
+<div class="modal fade" id="modalNaming" tabindex="-1" aria-labelledby="modalNamingLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalNamingLabel">Pojmenování proměnných (naming)</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="mb-3">
+          <li>Preferuj <strong>čitelnost</strong>: <code>user_name</code> &gt; <code>n</code>.</li>
+          <li>Víceslovné názvy: <strong>snake_case</strong> (<code>user_name</code>), <em>ne</em> mezery ani pomlčky.</li>
+          <li>Číslice mohou být na konci (<code>version2</code>), <em>ne</em> na začátku (<code>2version</code> ⟶ <code>SyntaxError</code>).</li>
+          <li>Nestínuj vestavěné názvy: <code>print</code>, <code>input</code>, <code>len</code> apod. nepoužívat jako proměnné.</li>
+          <li><code>NameError</code> = překlep v názvu (např. <code>name</code> vs. <code>nama</code>). Python neřeší „pravopis”, jen <strong>konzistenci</strong>.</li>
+        </ul>
+        <pre><code># OK
+user_name = "Petr"
+length1 = 6
+
+# ŠPATNĚ
+user name = "Petr"   # mezera
+1length = 6          # číslo na začátku
+print = "text"       # stínování vestavěné funkce</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Debugging chyb -->
+<div class="modal fade" id="modalDebugging" tabindex="-1" aria-labelledby="modalDebuggingLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalDebuggingLabel">Debugging: nejčastější chyby a jak je číst</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="mb-3">
+          <li><code>SyntaxError</code> – chybí uvozovka/závorka/dvojtečka.</li>
+          <li><code>IndentationError</code> – špatné odsazení (4 mezery na úroveň).</li>
+          <li><code>NameError</code> – proměnná neexistuje (překlep, jiný název).</li>
+          <li><code>TypeError</code> – míchání typů (např. <code>"věk: " + 18</code>).</li>
+        </ul>
+        <pre><code># SyntaxError – chybí uvozovka
+print("Hello)
+
+# IndentationError – chybí odsazení
+if x > 0:
+print(x)
+
+# NameError – jiný název
+user_name = "Petr"
+print(username)
+
+# TypeError – míchání typů
+vek = 18
+print("Věk: " + vek)  # -> použij str(vek) nebo f-string</code></pre>
+        <div class="alert alert-info">
+          <strong>Tip:</strong> Zkopíruj text chyby do Google / StackOverflow. Sleduj <em>červené</em> a <em>žluté</em> vlnovky editoru.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Řetězce – nový řádek & spojování -->
+<div class="modal fade" id="modalStrings" tabindex="-1" aria-labelledby="modalStringsLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalStringsLabel">Řetězce: <code>\n</code> (nový řádek) a spojování</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Nový řádek:</strong> <code>\n</code> vloží zalomení řádku uvnitř textu.</p>
+        <pre><code>print("Ahoj\nsvěte")</code></pre>
+        <p class="mt-3"><strong>Spojení textu:</strong></p>
+        <pre><code>mesto = "Praha"
+zvire = "Kočka"
+print("Kapela: " + mesto + " " + zvire)         # konkatenace
+print(f"Kapela: {mesto} {zvire}")               # f-string (doporučeno)</code></pre>
+        <div class="alert alert-warning">
+          <strong>Pozor:</strong> Nepřidávej náhodné mezery/odsazení před <code>print</code> ⟶ <code>IndentationError</code>.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

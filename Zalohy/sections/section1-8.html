@@ -1,0 +1,113 @@
+<section id="section1-8" class="container my-5">
+  <h3 class="mb-4">🛡️ Základy bezpečnosti a údržby systému</h3>
+
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co se naučíš?</h3>
+    <ul class="list-group">
+      <li class="list-group-item">Jak fungují antivirové programy</li>
+      <li class="list-group-item">K čemu slouží firewall</li>
+      <li class="list-group-item">Jaké hrozby číhají na internetu – viry, červi, spyware, adware, ransomware...</li>
+      <li class="list-group-item">Jak rozpoznat infekci v systému</li>
+      <li class="list-group-item">Jak provést seriózní údržbu systému pomocí nástrojů Windows</li>
+    </ul>
+  </div>
+
+  <h4 class="mt-5">🔒 Antivirová ochrana</h4>
+  <p>Antivirový program je základní obrana každého počítače. Chrání tvůj systém před různými druhy malwaru:</p>
+  <ul>
+    <li><strong>Malware</strong> – škodlivý software obecně</li>
+    <li><strong>Viry</strong> – připojují se k souborům, ničí data</li>
+    <li><strong>Červi</strong> – šíří se sami po síti</li>
+    <li><strong>Trojské koně</strong> – tváří se jako legitimní programy</li>
+    <li><strong>Ransomware</strong> – zašifruje data a požaduje výkupné</li>
+    <li><strong>Spyware</strong> – sleduje činnost uživatele</li>
+    <li><strong>Adware</strong> – zobrazuje nechtěné reklamy</li>
+  </ul>
+
+  <p>Moderní antiviry (např. Windows Defender, Avast, ESET) využívají databáze signatur, heuristiku a sledování chování v reálném čase.</p>
+
+  <h4 class="mt-4">🧱 Co je to firewall?</h4>
+  <p>Firewall je brána mezi počítačem a sítí. Chrání systém před neautorizovaným přístupem a aplikacemi, které se pokoušejí komunikovat bez svolení uživatele.</p>
+  <p>Windows má vlastní firewall aktivovaný ve výchozím nastavení.</p>
+
+  <h4 class="mt-4">🦠 Druhy hrozeb – podrobně</h4>
+  <table class="table table-bordered table-striped mt-3">
+    <thead class="table-light">
+      <tr>
+        <th>Typ hrozby</th>
+        <th>Popis</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Virus</td><td>Připojuje se k souborům, aktivuje se při jejich spuštění</td></tr>
+      <tr><td>Červ</td><td>Šíří se samostatně po síti, zatěžuje připojení</td></tr>
+      <tr><td>Trojský kůň</td><td>Vypadá jako legitimní program, ale obsahuje škodlivý kód</td></tr>
+      <tr><td>Spyware</td><td>Sleduje činnost uživatele bez jeho vědomí</td></tr>
+      <tr><td>Adware</td><td>Zobrazuje reklamy, často zpomaluje systém</td></tr>
+      <tr><td>Ransomware</td><td>Zašifruje data a požaduje výkupné</td></tr>
+      <tr><td>Keylogger</td><td>Zaznamenává vše, co uživatel napíše</td></tr>
+      <tr><td>Rootkit</td><td>Skrývá přítomnost jiného malwaru, obtížně zjistitelný</td></tr>
+      <tr><td>Botnet</td><td>Promění PC v dálkově ovladatelného "zombíka"</td></tr>
+    </tbody>
+  </table>
+
+  <h4 class="mt-4">🔍 Jak poznat, že máš virus?</h4>
+  <ul>
+    <li>Zpomalený počítač</li>
+    <li>Časté chyby, padání programů</li>
+    <li>Neznámé procesy v „Správci úloh“</li>
+    <li>Náhlé vyskakovací reklamy</li>
+    <li>Ztráta připojení k internetu</li>
+    <li>Nefunkční antivir nebo aktualizace</li>
+  </ul>
+
+  <h4 class="mt-4">🛠️ Údržba systému pomocí nástrojů Windows</h4>
+  <p>Pomocí těchto příkazů lze provést kontrolu a údržbu systému bez nutnosti internetu:</p>
+
+  <pre><code class="language-batch">@echo off
+echo Spoustím nástroj Vyčištění disku...
+cleanmgr /sagerun:1
+
+echo Spouštím kontrolu systémových souborů...
+sfc /scannow
+
+echo Kontrola integrity systému...
+DISM /Online /Cleanup-Image /ScanHealth
+
+echo Oprava obrazu systému (pokud byly nalezeny chyby)...
+DISM /Online /Cleanup-Image /RestoreHealth
+
+echo Údržba dokončena. Stiskni libovolnou klávesu pro ukončení.
+pause</code></pre>
+
+  <p><strong>Jak skript použít:</strong> Ulož jej jako <code>udrzba.bat</code> a spusť jako správce.</p>
+
+  <h4 class="mt-5">🧠 Test – prověř své znalosti</h4>
+  <p><strong>1. Co je úkolem antivirového programu?</strong></p>
+  <ul>
+    <li>A) Zobrazovat reklamy</li>
+    <li>B) Urychlovat internet</li>
+    <li><strong>C) Detekovat a odstraňovat škodlivý software</strong></li>
+  </ul>
+
+  <p><strong>2. Co dělá ransomware?</strong></p>
+  <ul>
+    <li>A) Skenuje síť</li>
+    <li><strong>B) Zašifruje data a žádá výkupné</strong></li>
+    <li>C) Opravuje registry</li>
+  </ul>
+
+  <p><strong>3. K čemu slouží firewall?</strong></p>
+  <ul>
+    <li>A) Ukládá zálohy</li>
+    <li><strong>B) Brání neautorizovanému síťovému přístupu</strong></li>
+    <li>C) Vypíná počítač</li>
+  </ul>
+
+  <p><strong>4. Který příkaz opravuje systémové soubory?</strong></p>
+  <ul>
+    <li>A) diskpart</li>
+    <li><strong>B) sfc /scannow</strong></li>
+    <li>C) format</li>
+  </ul>
+</section>

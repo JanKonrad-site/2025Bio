@@ -1,0 +1,490 @@
+<!-- =========================================================
+     4.1.7a.1 Booleany & rozhodování – ULTRA POMALU (most k To-Do/Košíku)
+     (True/False, truthiness, if/else, not, ternární výraz, tuple, unpacking, enumerate, early return)
+     ========================================================= -->
+<section id="section4-1-7a-ultra" class="container my-5">
+  <style>
+    .tip{border-left:4px solid #0d6efd;background:#f8f9fa;padding:.75rem 1rem}
+    .warn{border-left:4px solid #dc3545;background:#fff5f5;padding:.75rem 1rem}
+    .ok{border-left:4px solid #198754;background:#f6fff8;padding:.75rem 1rem}
+    .mono{font-family:ui-monospace,Menlo,Consolas,monospace}
+    pre code{white-space:pre}
+    .exa{background:#0b1324;color:#e6edf3;border-radius:.5rem;padding:1rem;white-space:pre;overflow:auto}
+    .mini{font-size:.95rem}
+  </style>
+
+  <h3 class="mb-3">4.1.7a.1 Booleany & rozhodování – krok po kroku, opravdu pomalu</h3>
+  <p class="lead">
+    Cílem je <b>umět číst a psát</b> malé kousky logiky, které pak použijeme v To-Do a v Košíku.
+    Vždy: mikro-příklad → co to dělá → <b>mini-úkol</b> → (volitelně) <b>modál s vysvětlením</b>.
+  </p>
+
+  <div class="accordion" id="acc-ultra-boolean">
+
+    <!-- 0) Co je pravda/nepravda v programu -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="ultra0h">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#ultra0" aria-expanded="true">
+          0) Co je „pravda“ a „nepravda“ (boolean) – úplný start
+        </button>
+      </h2>
+      <div id="ultra0" class="accordion-collapse collapse show" data-bs-parent="#acc-ultra-boolean">
+        <div class="accordion-body">
+<pre class="exa"><code># boolean = typ pro logiku
+pravda = True
+nepravda = False
+print(pravda)    # True
+print(nepravda)  # False
+</code></pre>
+          <ul class="mb-2">
+            <li><b>Boolean</b> má jen dvě hodnoty: <span class="mono">True</span> a <span class="mono">False</span>.</li>
+            <li>V podmínkách (<span class="mono">if</span>) rozhoduje, která větev se spustí.</li>
+          </ul>
+          <div class="d-flex gap-2 mb-2">
+            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#m-ultra-boolean-real">📘 Reálné příklady „pravda/nepravda“</button>
+            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#m-ultra-bool-type">📘 Jak to bere Python: datový typ bool</button>
+          </div>
+          <div class="tip mini">Mini-úkol: Vytvoř <span class="mono">sviti = False</span>. Když bude <span class="mono">True</span>, znamená to „světlo je zapnuté“; když <span class="mono">False</span>, „zhasnuto“. Jen si to vypiš <span class="mono">print(sviti)</span>.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1) První if -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="ultra1h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ultra1">
+          1) První rozhodnutí: <code>if</code> – udělej něco jen když „platí“
+        </button>
+      </h2>
+      <div id="ultra1" class="accordion-collapse collapse" data-bs-parent="#acc-ultra-boolean">
+        <div class="accordion-body">
+<pre class="exa"><code>hotovo = False
+
+if hotovo:
+    print("✅ Úkol splněn!")
+print("Konec programu.")</code></pre>
+          <ul class="mb-2">
+            <li>Vytiskne se jen <span class="mono">"Konec programu."</span>, protože <span class="mono">hotovo</span> je <span class="mono">False</span>.</li>
+            <li>Kdyby bylo <span class="mono">hotovo = True</span>, vytiskne se i první řádek se „✅“.</li>
+          </ul>
+          <div class="d-flex gap-2 mb-2">
+            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#m-ultra-if-flow">📘 Jak krok za krokem funguje <code>if</code></button>
+          </div>
+          <div class="tip mini">Mini-úkol: Změň <span class="mono">hotovo</span> na <span class="mono">True</span> a spusť. Co se změnilo?</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2) if/else -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="ultra2h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ultra2">
+          2) Dvě možnosti: <code>if</code> / <code>else</code>
+        </button>
+      </h2>
+      <div id="ultra2" class="accordion-collapse collapse" data-bs-parent="#acc-ultra-boolean">
+        <div class="accordion-body">
+<pre class="exa"><code>hotovo = False
+
+if hotovo:
+    print("✅ Úkol splněn!")
+else:
+    print("⌛ Ještě pracuji…")</code></pre>
+          <ul class="mb-2">
+            <li>Spustí se přesně jedna větev. Buď „splněno“, nebo „ještě pracuji“.</li>
+          </ul>
+          <div class="tip mini">Mini-úkol: Nastav <span class="mono">hotovo = True</span> a ověř, že se vytiskne jen první větev.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3) not -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="ultra3h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ultra3">
+          3) Negace <code>not</code>: otoč pravdu na nepravdu a naopak
+        </button>
+      </h2>
+      <div id="ultra3" class="accordion-collapse collapse" data-bs-parent="#acc-ultra-boolean">
+        <div class="accordion-body">
+<pre class="exa"><code>sviti = False
+sviti = not sviti   # přepínač: False -> True
+print(sviti)        # True</code></pre>
+          <ul class="mb-2">
+            <li><span class="mono">not</span> je „ne“ – neguje hodnotu (<span class="mono">True</span> ↔ <span class="mono">False</span>).</li>
+            <li>Často použijeme na přepnutí stavu („hotovo ↔ nehotovo“).</li>
+          </ul>
+          <div class="d-flex gap-2 mb-2">
+            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#m-ultra-not-visual">📘 Vizualizace přepínače <code>not</code></button>
+          </div>
+          <div class="tip mini">Mini-úkol: Vytvoř <span class="mono">hotovo = False</span>, pak dvakrát za sebou udělej <span class="mono">hotovo = not hotovo</span>. Jaká je výsledná hodnota?</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4) Truthiness -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="ultra4h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ultra4">
+          4) „Prázdno“ je nepravdivé: <em>truthiness</em> (důležité pro <code>if not polozky</code>)
+        </button>
+      </h2>
+      <div id="ultra4" class="accordion-collapse collapse" data-bs-parent="#acc-ultra-boolean">
+        <div class="accordion-body">
+<pre class="exa"><code>prazdny = []   # prázdný seznam
+if not prazdny:
+    print("Seznam je prázdný.")  # vypíše se
+
+neprazdny = [1]
+if neprazdny:
+    print("Seznam má prvky.")    # vypíše se</code></pre>
+          <div class="ok mini"><b>Pravidlo:</b> prázdné struktury (<span class="mono">[]</span>, <span class="mono">()</span>, <span class="mono">""</span>, <span class="mono">{}</span>, <span class="mono">set()</span>), <span class="mono">0</span>, <span class="mono">None</span> jsou „False“. Neprázdné a nenulové jsou „True“.</div>
+          <div class="d-flex gap-2 mb-2">
+            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#m-ultra-truth-table">📘 Tabulka truthiness</button>
+            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#m-ultra-not-detail">📘 Proč <code>if not seznam</code> funguje</button>
+          </div>
+          <div class="tip mini">Mini-úkol: Napiš funkci <span class="mono">je_prazdny(xs)</span>, která vytiskne „prázdný“/„neprázdný“ podle obsahu.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5) Ternární -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="ultra5h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ultra5">
+          5) Zkrácený zápis: <code>VýrazKdyžTrue if podmínka else VýrazKdyžFalse</code>
+        </button>
+      </h2>
+      <div id="ultra5" class="accordion-collapse collapse" data-bs-parent="#acc-ultra-boolean">
+        <div class="accordion-body">
+<pre class="exa"><code>hotovo = True
+box = "x" if hotovo else " "
+print(f"[{box}] Zalít kytku")</code></pre>
+<pre class="exa"><code># je to totéž jako:
+hotovo = True
+if hotovo:
+    box = "x"
+else:
+    box = " "</code></pre>
+          <div class="d-flex gap-2 mb-2">
+            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#m-ultra-ternary-when">📘 Kdy použít ternární a kdy radši if/else</button>
+          </div>
+          <div class="tip mini">Mini-úkol: Nastav <span class="mono">hotovo = False</span>. Co se vytiskne?</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6) Tuple + unpacking -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="ultra6h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ultra6">
+          6) N-tice (tuple) a rozbalování (unpacking)
+        </button>
+      </h2>
+      <div id="ultra6" class="accordion-collapse collapse" data-bs-parent="#acc-ultra-boolean">
+        <div class="accordion-body">
+<pre class="exa"><code># jeden úkol jako dvojice (hotovo, text)
+u2 = (True, "Zalít kytku")
+
+# rozbalování: první prvek do 'hotovo', druhý do 'txt'
+hotovo, txt = u2
+box = "x" if hotovo else " "
+print(f"[{box}] {txt}")</code></pre>
+          <ul class="mb-2">
+            <li>Tuple = „balíček“ hodnot k sobě (jako řádek tabulky).</li>
+            <li>Počet proměnných vlevo musí odpovídat počtu prvků v n-tici.</li>
+          </ul>
+          <div class="d-flex gap-2 mb-2">
+            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#m-ultra-unpack-detail">📘 Co přesně dělá rozbalování, krok za krokem</button>
+          </div>
+          <div class="tip mini">Mini-úkol: Zkus <span class="mono">u3 = (False, "Cvičit")</span> a vytiskni řádek se správným boxem.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7) Seznam n-tic + enumerate -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="ultra7h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ultra7">
+          7) Seznam n-tic + očíslovaný výpis: <code>enumerate(..., start=1)</code>
+        </button>
+      </h2>
+      <div id="ultra7" class="accordion-collapse collapse" data-bs-parent="#acc-ultra-boolean">
+        <div class="accordion-body">
+<pre class="exa"><code>todo = []
+todo.append((False, "Uklidit stůl"))
+todo.append((True,  "Zalít kytku"))
+
+for i, (done, text) in enumerate(todo, start=1):
+    box = "x" if done else " "
+    print(f"{i}. [{box}] {text}")</code></pre>
+          <ul class="mb-2">
+            <li><span class="mono">enumerate(xs, start=1)</span> dává dvojice <span class="mono">(poradi, prvek)</span> – pro lidi číslujeme od 1.</li>
+          </ul>
+          <div class="d-flex gap-2 mb-2">
+            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#m-ultra-enumerate">📘 Jak funguje <code>enumerate</code> uvnitř</button>
+          </div>
+          <div class="tip mini">Mini-úkol: Přidej třetí úkol <span class="mono">(False, "Domácí úkol")</span> a ověř číslování.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8) Funkce tisk_todo + early return -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="ultra8h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ultra8">
+          8) Funkce <code>tisk_todo(polozky)</code>, <code>if not</code> + „early return“
+        </button>
+      </h2>
+      <div id="ultra8" class="accordion-collapse collapse" data-bs-parent="#acc-ultra-boolean">
+        <div class="accordion-body">
+<pre class="exa"><code>def tisk_todo(polozky):
+    if not polozky:                 # prázdný list je False → not False = True
+        print("Seznam je prázdný.")
+        return                      # ukončíme funkci dřív (nemá smysl pokračovat)
+    for i, (done, text) in enumerate(polozky, start=1):
+        box = "x" if done else " "
+        print(f"{i}. [{box}] {text}")</code></pre>
+          <div class="ok mini">„Early return“ zjednoduší zbytek funkce – dál řešíme už jen neprázdný případ.</div>
+          <div class="d-flex gap-2 mb-2">
+            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#m-ultra-early">📘 Proč je „early return“ čitelný vzor</button>
+          </div>
+          <div class="tip mini">Mini-úkol: Zavolej <span class="mono">tisk_todo([])</span> a <span class="mono">tisk_todo([(True,"Test")])</span> a porovnej.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9) Mini To-Do operace (jen pro fixaci booleanů) -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="ultra9h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ultra9">
+          9) Mini To-Do: přidat a přepnout hotovo (boolean v akci)
+        </button>
+      </h2>
+      <div id="ultra9" class="accordion-collapse collapse" data-bs-parent="#acc-ultra-boolean">
+        <div class="accordion-body">
+<pre class="exa"><code>todo = [(False, "Uklidit stůl"), (True, "Zalít kytku")]
+
+def pridej(todo, text):
+    todo.append((False, text))   # nový úkol = zatím nehotový
+
+def prepnout(todo, index_1based):
+    i = index_1based - 1
+    if 0 <= i < len(todo):
+        done, txt = todo[i]
+        todo[i] = (not done, txt)   # ← přepínač booleanu
+    else:
+        print("Neplatné číslo.")
+
+tisk_todo(todo)
+pridej(todo, "Cvičit")
+prepnout(todo, 1)
+tisk_todo(todo)</code></pre>
+          <div class="warn mini">Hlídáme hranice indexu – ať nesáhneme mimo seznam.</div>
+          <div class="tip mini">Mini-úkol: Napiš <span class="mono">odeber(todo, index_1based)</span>, které smaže úkol s kontrolou hranic.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10) BONUS: Proč „krok 1.5“ v jiných kapitolách -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="ultra10h">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ultra10">
+          FAQ: Proč někde máme „krok 1.5“ (mezikrok)?
+        </button>
+      </h2>
+      <div id="ultra10" class="accordion-collapse collapse" data-bs-parent="#acc-ultra-boolean">
+        <div class="accordion-body">
+          <p>„1.5“ označuje <b>mezikrok</b>: mezi „1) co je list“ a „2) tuple“ se vloží krátké procvičení (např. <span class="mono">pop()</span>, <span class="mono">remove()</span>, <span class="mono">in</span>…), aby žáci nebyli zahlceni a měli jistotu v předchozím konceptu. Můžeš ho přejmenovat na „2a“, pokud ti to líp sedí do osnov.</p>
+        </div>
+      </div>
+    </div>
+
+  </div> <!-- /accordion -->
+
+  <!-- 🧩 Mikroskládanka: od booleanu k úplnému řádku To-Do -->
+  <div class="card mt-4">
+    <div class="card-body">
+      <h5 class="card-title">🧩 Slož to dohromady (od jedné hodnoty k řádku seznamu)</h5>
+<pre class="exa"><code># 1) boolean -> znak do boxu
+done = False
+box = "x" if done else " "
+print(f"[{box}] Uklidit stůl")
+
+# 2) tuple (balíček) -> rozbal -> box
+radek = (True, "Zalít kytku")
+d, t = radek
+box = "x" if d else " "
+print(f"[{box}] {t}")
+
+# 3) list n-tic -> vypiš očíslovaně
+todo = [(False, "Uklidit stůl"), (True, "Zalít kytku")]
+def tisk_todo(xs):
+    if not xs:
+        print("Seznam je prázdný.")
+        return
+    for i, (dd, tt) in enumerate(xs, start=1):
+        box = "x" if dd else " "
+        print(f"{i}. [{box}] {tt}")
+
+tisk_todo(todo)</code></pre>
+      <div class="tip mini">Rozšíření: Zkus přidat 3.–4. položku a ověř číslování i boxy.</div>
+    </div>
+  </div>
+
+  <!-- 🧠 Mini-kvíz -->
+  <div class="card mt-4">
+    <div class="card-body">
+      <h5 class="card-title">🧠 Mini-kvíz (rychlá kontrola porozumění)</h5>
+      <ol class="mb-0">
+        <li>Jakou „pravdivost“ má prázdný seznam v podmínce? A neprázdný?</li>
+        <li>Co přesně dělá <span class="mono">not</span> v zápisu <span class="mono">if not polozky</span>?</li>
+        <li>Přepiš <span class="mono">box = "x" if done else " "</span> do klasického <span class="mono">if/else</span>.</li>
+        <li>Co je <em>unpacking</em> (rozbalování) u n-tic? Co se stane, když vlevo a vpravo nesedí počet prvků?</li>
+        <li>Proč dává smysl <span class="mono">enumerate(..., start=1)</span> při výpisu seznamů pro lidi?</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ===================== MODÁLY – vysvětlivky ===================== -->
+
+  <!-- Real booleans -->
+  <div class="modal fade" id="m-ultra-boolean-real" tabindex="-1" aria-labelledby="m-ultra-boolean-realLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+      <div class="modal-header"><h5 id="m-ultra-boolean-realLabel" class="modal-title">Reálné příklady booleanů</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body mini">
+        <ul>
+          <li>„Svítí světlo?“ → <span class="mono">True/False</span></li>
+          <li>„Mám v košíku aspoň 1 položku?“ → <span class="mono">True/False</span></li>
+          <li>„Je heslo správné?“ → <span class="mono">True/False</span></li>
+        </ul>
+        Počítač potřebuje taková <b>ano/ne</b> rozhodnutí pro větvení programu.
+      </div>
+    </div></div>
+  </div>
+
+  <!-- Bool type -->
+  <div class="modal fade" id="m-ultra-bool-type" tabindex="-1" aria-labelledby="m-ultra-bool-typeLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+      <div class="modal-header"><h5 id="m-ultra-bool-typeLabel" class="modal-title">Typ <code>bool</code> v Pythonu</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body mini">
+        <p><span class="mono">True</span> a <span class="mono">False</span> jsou hodnoty typu <span class="mono">bool</span>. Vznikají i jako výsledek porovnání, např. <span class="mono">5 &gt; 3</span> je <span class="mono">True</span>.</p>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- if flow -->
+  <div class="modal fade" id="m-ultra-if-flow" tabindex="-1" aria-labelledby="m-ultra-if-flowLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+      <div class="modal-header"><h5 id="m-ultra-if-flowLabel" class="modal-title">Jak <code>if</code> rozhoduje krok za krokem</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body mini">
+        <ol>
+          <li>Vyhodnotí výraz v závorce/za <span class="mono">if</span> → boolean.</li>
+          <li>Když je <span class="mono">True</span> → spustí blok podmínky.</li>
+          <li>Když <span class="mono">False</span> → blok přeskočí.</li>
+        </ol>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- not visual -->
+  <div class="modal fade" id="m-ultra-not-visual" tabindex="-1" aria-labelledby="m-ultra-not-visualLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+      <div class="modal-header"><h5 id="m-ultra-not-visualLabel" class="modal-title">Negace <code>not</code> – obrazně</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body mini">
+        <p>Představ si vypínač: <em>zapnuto</em> ↔ <em>vypnuto</em>. <span class="mono">not</span> překlápí stav na opačný.</p>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- truthiness table -->
+  <div class="modal fade" id="m-ultra-truth-table" tabindex="-1" aria-labelledby="m-ultra-truth-tableLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+      <div class="modal-header"><h5 id="m-ultra-truth-tableLabel" class="modal-title">Tabulka „truthiness“</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body mini">
+        <table class="table table-sm">
+          <thead><tr><th>Hodnota</th><th>V podmínce</th></tr></thead>
+          <tbody>
+            <tr><td><span class="mono">False</span>, <span class="mono">None</span></td><td>False</td></tr>
+            <tr><td><span class="mono">0</span>, <span class="mono">0.0</span></td><td>False</td></tr>
+            <tr><td>prázdné <span class="mono">[]</span>, <span class="mono">()</span>, <span class="mono">""</span>, <span class="mono">{}</span>, <span class="mono">set()</span></td><td>False</td></tr>
+            <tr><td>neprázdné struktury, nenulová čísla</td><td>True</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- not detail -->
+  <div class="modal fade" id="m-ultra-not-detail" tabindex="-1" aria-labelledby="m-ultra-not-detailLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+      <div class="modal-header"><h5 id="m-ultra-not-detailLabel" class="modal-title">Proč funguje <code>if not seznam</code>?</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body mini">
+        <p>Protože prázdný seznam má „pravdivost“ <span class="mono">False</span>. Negace <span class="mono">not False</span> je <span class="mono">True</span> → větev se spustí. U neprázdného seznamu je to naopak.</p>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- ternary when -->
+  <div class="modal fade" id="m-ultra-ternary-when" tabindex="-1" aria-labelledby="m-ultra-ternary-whenLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+      <div class="modal-header"><h5 id="m-ultra-ternary-whenLabel" class="modal-title">Ternární vs. klasický <code>if/else</code></h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body mini">
+        <ul>
+          <li><b>Ternární</b> použij, když přiřazuješ <em>jednu</em> hodnotu (krátké rozhodnutí).</li>
+          <li><b>If/else</b> použij, když uvnitř děláš víc kroků (tisky, volání funkcí, další logika).</li>
+        </ul>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- unpack detail -->
+  <div class="modal fade" id="m-ultra-unpack-detail" tabindex="-1" aria-labelledby="m-ultra-unpack-detailLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+      <div class="modal-header"><h5 id="m-ultra-unpack-detailLabel" class="modal-title">Rozbalování n-tic (unpacking)</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body mini">
+<pre><code># Musí sedět počet prvků:
+(u_done, u_text) = (False, "Uklidit")
+# (u_done, u_text, extra) = (False, "Uklidit")  # ValueError – moc proměnných
+</code></pre>
+        <p>V cyklu funguje také: <span class="mono">for done, text in seznam_n_tic:</span> – každý řádek (n-tice) se rozbalí.</p>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- enumerate -->
+  <div class="modal fade" id="m-ultra-enumerate" tabindex="-1" aria-labelledby="m-ultra-enumerateLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+      <div class="modal-header"><h5 id="m-ultra-enumerateLabel" class="modal-title">Co dělá <code>enumerate</code> uvnitř</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body mini">
+<pre><code>seznam = ["A", "B", "C"]
+for poradi, prvek in enumerate(seznam, start=1):
+    print(poradi, prvek)
+# Vracené dvojice jsou (1,"A"), (2,"B"), (3,"C")
+</code></pre>
+        <p>Bez <span class="mono">start=1</span> by číslování začínalo od nuly.</p>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- early return -->
+  <div class="modal fade" id="m-ultra-early" tabindex="-1" aria-labelledby="m-ultra-earlyLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+      <div class="modal-header"><h5 id="m-ultra-earlyLabel" class="modal-title">„Early return“ – proč to zlepšuje čitelnost</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body mini">
+        <p>Vyřešíš „okrajový případ“ hned na začátku a zbytek funkce není zanořený v <span class="mono">else</span>. Vznikne kratší a čistší kód.</p>
+      </div>
+    </div></div>
+  </div>
+
+</section>

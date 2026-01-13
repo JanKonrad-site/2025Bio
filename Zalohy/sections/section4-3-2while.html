@@ -1,0 +1,345 @@
+<!-- =========================================
+     4.1.3 Cyklus WHILE – kapitola na míru
+     ========================================= -->
+<section id="section4-3-2while" class="container my-5 no-copy">
+  <style>
+    .code-note{font-size:.95rem}
+    .muted{color:#6c757d}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}
+    .tip{border-left:4px solid #0d6efd;padding:.75rem 1rem;background:#f8f9fa}
+    .warn{border-left:4px solid #dc3545;padding:.75rem 1rem;background:#fff5f5}
+    .ok{border-left:4px solid #198754;padding:.75rem 1rem;background:#f6fff8}
+    .kbd{padding:.1rem .35rem;background:#eee;border-radius:.25rem;border:1px solid #ddd;font-family:inherit}
+    pre code{white-space:pre}
+  </style>
+
+  <h3 class="mb-4">4.3.2 Cyklus <code>while</code> – krok za krokem</h3>
+
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Co se naučíš?</h4>
+    <ul class="mb-3">
+      <li>Co dělá <code>while</code> a kdy ho použít.</li>
+      <li>Jak správně nastavit <em>řídicí proměnnou</em> a podmínku, aby nevznikl nekonečný cyklus.</li>
+      <li>Prakticky: počítání do 5, 10× „Ahoj“, odpočítávání, kontrola hesla, a jednoduché menu hry.</li>
+    </ul>
+    <div class="tip"><strong>Tip:</strong> <code>while</code> používáme, když <em>nevíme dopředu</em>, kolikrát se bude blok opakovat. O všem rozhoduje <b>podmínka</b>.</div>
+  </div>
+
+  <!-- ===============================
+       BLOK 0: Základ while
+       =============================== -->
+  <div class="container my-4 p-4 border rounded">
+    <h4 class="mb-3">1) Základní vzor</h4>
+
+    <div class="accordion" id="accWhileIntro">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="w0h1">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#w0c1">
+            Krok 1 – Co znamená řádek <span class="mono">while podmínka:</span>?
+          </button>
+        </h2>
+        <div id="w0c1" class="accordion-collapse collapse show" data-bs-parent="#accWhileIntro">
+          <div class="accordion-body">
+            <p>Cyklus <code>while</code> opakuje blok kódu tak dlouho, jak dlouho je <b>podmínka</b> pravdivá (vyhodnotí se na <code>True</code>).</p>
+<pre><code class="language-python">while podmínka:
+    # příkazy uvnitř cyklu (odsazené)
+# sem se program vrátí, když podmínka přestane platit</code></pre>
+            <div class="ok"><b>Dobrá praxe:</b> uvnitř cyklu měň proměnné, které podmínka používá (např. přičti 1), jinak hrozí nekonečný cyklus.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="w0h2">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#w0c2">
+            Krok 2 – Řídicí proměnná: proč ji potřebujeme?
+          </button>
+        </h2>
+        <div id="w0c2" class="accordion-collapse collapse" data-bs-parent="#accWhileIntro">
+          <div class="accordion-body">
+            <p><em>Řídicí proměnná</em> (např. <code>i</code>, <code>pocet</code>) je číslo nebo jiná hodnota, kterou <b>měníme</b>, aby se podmínka jednou stala nepravdivou a cyklus skončil.</p>
+            <div class="warn"><b>Pozor:</b> Zapomenuté <code>i += 1</code> → cyklus nikdy neskončí.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-3">
+      <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalTruthiness">📘 Jak Python vyhodnocuje „pravdivost“</button>
+    </div>
+
+    <div class="modal fade" id="modalTruthiness" tabindex="-1" aria-labelledby="modalTruthinessLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 id="modalTruthinessLabel" class="modal-title">Co je „pravdivé“ a „nepravdivé“ v Pythonu?</h5>
+            <button class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+          </div>
+          <div class="modal-body">
+            <p>Podmínky používají logické hodnoty <code>True</code>/<code>False</code>. Některé hodnoty se chovají „nepravdivě“:</p>
+            <ul>
+              <li><code>0</code>, <code>0.0</code>, prázdný text <code>""</code>, prázdný seznam <code>[]</code>, <code>None</code> → <b>False</b></li>
+              <li>Všechno ostatní → <b>True</b></li>
+            </ul>
+            <p>Tj. <code>while i:</code> běží, dokud <code>i</code> není nula.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===============================
+       BLOK 1: Počítání do 5
+       =============================== -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">1) Počítání do 5</h4>
+
+    <div class="accordion" id="accCount5">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="c5h1">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c5c1">
+            Krok 1 – Nastartuj čítač a podmínku
+          </button>
+        </h2>
+        <div id="c5c1" class="accordion-collapse collapse show" data-bs-parent="#accCount5">
+          <div class="accordion-body">
+<pre><code class="language-python">i = 1               # začínáme od 1
+while i &lt;= 5:       # dokud je i menší nebo rovno 5
+    print(i)        # vypiš i
+    i += 1          # nezapomeň i zvětšit</code></pre>
+            <p><b>Proč to funguje:</b> Po každém průchodu se <code>i</code> zvětší. Až přeskočí 5, podmínka <code>i &lt;= 5</code> bude nepravdivá a cyklus skončí.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <!-- ===============================
+       BLOK 2: „Ahoj“ desetkrát
+       =============================== -->
+  <div class="container my-4 p-4 border rounded">
+    <h4 class="mb-3">2) Cvičení – „Ahoj“ 10× s pořadím</h4>
+
+    <div class="accordion" id="accAhoj10">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="a10h1">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#a10c1">
+            Krok 1 – Inicializace a výpis
+          </button>
+        </h2>
+        <div id="a10c1" class="accordion-collapse collapse show" data-bs-parent="#accAhoj10">
+          <div class="accordion-body">
+<pre><code class="language-python">pocet = 1
+while pocet &lt;= 10:
+    print(f"{pocet} Ahoj")   # f-řetězec: vloží číslo do textu
+    pocet += 1</code></pre>
+            <div class="tip"><b>f-řetězce:</b> stiskni <span class="kbd">f</span> před uvozovku a můžeš vkládat proměnné jako <code>{pocet}</code>. Více v modalu níže.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-3">
+      <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalFstrings">ℹ️ Co je <code>f"..."</code>?</button>
+    </div>
+    <div class="modal fade" id="modalFstrings" tabindex="-1" aria-labelledby="modalFstringsLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 id="modalFstringsLabel" class="modal-title">f-řetězce (formátované řetězce)</h5>
+            <button class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+          </div>
+          <div class="modal-body">
+            <p>Napiš <code>f"Text {promenna}"</code> a Python při výpisu dosadí hodnotu proměnné. Např. <code>name="Anna"</code> → <code>print(f"Ahoj {name}")</code> vypíše <i>Ahoj Anna</i>.</p>
+            <p>Umí i výrazy: <code>f"{a+b}"</code>, zaokrouhlení: <code>f"{pi:.2f}"</code> .</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <!-- ===============================
+       BLOK 3: Odpočítávání 10→1 + Start
+       =============================== -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">3) Odpočítávání 10 → 1 a „Start“</h4>
+
+    <div class="accordion" id="accCountdown">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="cdh1">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#cdc1">
+            Krok 1 – Čítač dolů a formát výstupu
+          </button>
+        </h2>
+        <div id="cdc1" class="accordion-collapse collapse show" data-bs-parent="#accCountdown">
+          <div class="accordion-body">
+<pre><code class="language-python">odpocet = 10
+while odpocet &gt;= 1:
+    print(f"Odpočet: {odpocet}")
+    odpocet -= 1
+print("Start")</code></pre>
+            <p><b>Proč to funguje:</b> Po každém průchodu se <code>odpocet</code> sníží o 1. Jakmile klesne pod 1, cyklus skončí a vytiskne se „Start“.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <!-- ===============================
+       BLOK 4: Kontrola hesla "Dvorak"
+       =============================== -->
+  <div class="container my-4 p-4 border rounded">
+    <h4 class="mb-3">4) Opakuj dotaz na heslo, dokud není správně</h4>
+
+    <div class="accordion" id="accPassword">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="ph1">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#pc1">
+            Krok 1 – První načtení a smyčka s nerovností
+          </button>
+        </h2>
+        <div id="pc1" class="accordion-collapse collapse show" data-bs-parent="#accPassword">
+          <div class="accordion-body">
+<pre><code class="language-python">heslo = input("Zadejte heslo: ")
+while heslo != "Dvorak":
+    print("Špatně")
+    heslo = input("Zadejte heslo: ")
+print("Gratuluji")</code></pre>
+            <ul class="mb-0">
+              <li>Nejprve načteme první pokus (mimo cyklus).</li>
+              <li><code>while heslo != "Dvorak"</code> běží, dokud je heslo chybné.</li>
+              <li>Uvnitř cyklu znovu načteme další pokus.</li>
+            </ul>
+            <div class="warn mt-3"><b>Pozor:</b> Záleží na velkých/malých písmenech. <code>"Dvorak"</code> není totéž co <code>"dvorak"</code> nebo <code>"Dvořák"</code>.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <!-- ===============================
+       BLOK 5: Menu aplikace (smyčky, break, exit)
+       =============================== -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">5) Menu aplikace (vnořené smyčky)</h4>
+
+    <div class="accordion" id="accMenu">
+      <!-- Krok 1 -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="mh1">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#mc1">
+            Krok 1 – Hlavní nekonečná smyčka menu (<code>while True</code>)
+          </button>
+        </h2>
+        <div id="mc1" class="accordion-collapse collapse show" data-bs-parent="#accMenu">
+          <div class="accordion-body">
+<pre><code class="language-python">while True:
+    print("=================Menu================")
+    print("1) Start Game")
+    print("2) Exit")
+    volba = input("Zadejte jednu z možností: ")
+    # ... reakce na volbu doplníme v dalším kroku</code></pre>
+            <div class="tip"><b>while True</b> znamená: smyčka běží stále. Ukončujeme ji vědomě (např. <code>break</code> nebo <code>exit()</code>).</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Krok 2 -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="mh2">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#mc2">
+            Krok 2 – Obsluha voleb a vnořená lokace s návratem přes <code>break</code>
+          </button>
+        </h2>
+        <div id="mc2" class="accordion-collapse collapse" data-bs-parent="#accMenu">
+          <div class="accordion-body">
+<pre><code class="language-python">while True:
+    print("=================Menu================")
+    print("1) Start Game")
+    print("2) Exit")
+    volba = input("Zadejte jednu z možností: ")
+    if volba == "1":
+        while True:
+            print("=======První lokace========")
+            print("===========================")
+            print("===========================")
+            print("===========================")
+            print("===========================")
+            volba = input("1) Zpět")
+            if volba == "1":
+                break          # návrat do hlavního menu
+    elif volba == "2":
+        exit()                  # ukončí program</code></pre>
+            <ul class="mb-0">
+              <li><code>if volba == "1":</code> → vstoupíme do <b>vnořené</b> smyčky „lokace“.</li>
+              <li><code>break</code> ukončí <em>pouze</em> tu aktuální (vnořenou) smyčku → návrat do hlavního menu.</li>
+              <li><code>exit()</code> okamžitě ukončí celý program (vhodné pro „Exit“).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-3">
+      <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalBreakExit">📘 Rozdíl: <code>break</code> vs. <code>exit()</code></button>
+      <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalWhileTrue">ℹ️ Proč používat <code>while True</code>?</button>
+    </div>
+
+    <!-- Modal: break vs exit -->
+    <div class="modal fade" id="modalBreakExit" tabindex="-1" aria-labelledby="modalBreakExitLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 id="modalBreakExitLabel" class="modal-title">Rozdíl mezi <code>break</code> a <code>exit()</code></h5>
+            <button class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+          </div>
+          <div class="modal-body">
+            <ul>
+              <li><code>break</code> ukončí <em>aktuální</em> smyčku a pokračuje se dalším kódem za ní.</li>
+              <li><code>exit()</code> (z <code>sys</code>) ukončí <em>celý</em> program ihned. V některých prostředích může fungovat jako <code>SystemExit</code> výjimka.</li>
+            </ul>
+            <p>Do malých menu je <code>exit()</code> OK. V rozsáhlejších aplikacích se častěji řídí tok programu návratovými hodnotami, výjimkami nebo stavovým automatem.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: while True -->
+    <div class="modal fade" id="modalWhileTrue" tabindex="-1" aria-labelledby="modalWhileTrueLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 id="modalWhileTrueLabel" class="modal-title">Proč <code>while True</code> + řízený odchod?</h5>
+            <button class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+          </div>
+          <div class="modal-body">
+            <p><code>while True</code> je jednoduché pro menu: opakuj donekonečna, dokud uživatel nevybere „Exit“. Přehledné a čitelné. Alternativou je hlídat logickou proměnnou, např. <code>running = True</code> a měnit ji na <code>False</code> při ukončení.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <!-- ===============================
+       Nejčastější chyby
+       =============================== -->
+  <div class="container my-4 p-4 border rounded">
+    <h4 class="mb-3">Nejčastější chyby u <code>while</code></h4>
+    <ul>
+      <li><b>Nekonečný cyklus:</b> zapomenuté <code>+= 1</code> nebo špatná podmínka.</li>
+      <li><b>Cyklus se nikdy nespustí:</b> podmínka je nepravdivá hned na začátku.</li>
+      <li><b>Typové chyby:</b> porovnáváš číslo s textem (<span class="mono">TypeError</span>).</li>
+      <li><b>Citlivost na velikost písmen:</b> <code>"Dvorak"</code> ≠ <code>"dvorak"</code>.</li>
+    </ul>
+  </div>
+</section>

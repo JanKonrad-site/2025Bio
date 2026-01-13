@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cvičení: Myšlenky → Kód</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    h2, h4 {
+      margin-top: 40px;
+    }
+    .section {
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      padding: 15px;
+    }
+    .section-header {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .draggable {
+      background: #f8f9fa;
+      border: 1px solid #aaa;
+      padding: 10px;
+      cursor: grab;
+      border-radius: 5px;
+      min-width: 140px;
+      text-align: center;
+      margin: 5px;
+    }
+    .draggable.dragging {
+      opacity: 0.5;
+    }
+    .drop-zone {
+      border: 2px dashed #aaa;
+      min-height: 80px;
+      padding: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 10px;
+      background: #fff;
+      border-radius: 6px;
+    }
+    .idea-group {
+      background-color: #dceeff;
+    }
+    .idea-tools {
+      background-color: #fef7dc;
+    }
+    .idea-finish {
+      background-color: #e2fbd7;
+    }
+    .tools-container {
+      display: none;
+    }
+    #resultCode {
+      background: #d4edda;
+      border: 1px solid #c3e6cb;
+      color: #155724;
+      padding: 15px;
+      border-radius: 6px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<h2>🧩 Myšlenkový rozklad úlohy: Získání jména a věku</h2>
+
+<!-- Myšlenky -->
+<div class="section idea-group">
+  <div class="section-header">1️⃣ Seřaď myšlenky ve správném pořadí</div>
+  <div class="drop-zone" id="ideaDrop"></div>
+  <div id="ideaPool" class="drop-zone">
+    <div class="draggable" draggable="true" data-order="1">💬 Vypsat: Zadej své jméno</div>
+    <div class="draggable" draggable="true" data-order="2">🧾 Vytvořit vstup pro jméno</div>
+    <div class="draggable" draggable="true" data-order="3">💾 Uložit vstup do proměnné <code>jmeno</code></div>
+    <div class="draggable" draggable="true" data-order="4">💬 Vypsat: Zadej svůj věk</div>
+    <div class="draggable" draggable="true" data-order="5">🧾 Vytvořit vstup pro věk</div>
+    <div class="draggable" draggable="true" data-order="6">💾 Uložit vstup do proměnné <code>vek</code></div>
+    <div class="draggable" draggable="true" data-order="7">📢 Vypsat: jméno + věk</div>
+  </div>
+</div>
+
+<!-- Nástroje -->
+<div class="section idea-tools tools-container" id="toolsSection">
+  <div class="section-header">🧰 Nástroje podle myšlenek – seřaď správně kód</div>
+  <div class="drop-zone" id="toolsDrop"></div>
+  <div class="drop-zone" id="toolsPool">
+    <div class="draggable" draggable="true" data-order="1">print("Zadej své jméno")</div>
+    <div class="draggable" draggable="true" data-order="2">jmeno = input()</div>
+    <div class="draggable" draggable="true" data-order="3">print("Zadej svůj věk")</div>
+    <div class="draggable" draggable="true" data-order="4">vek = input()</div>
+    <div class="draggable" draggable="true" data-order="5">print(jmeno + " " + vek)</div>
+  </div>
+</div>
+
+<!-- Výsledek -->
+<div id="resultCode">
+  <p><strong>✅ Hotovo!</strong> Tady je výsledek:</p>
+  <pre><code id="finalCode">
+print("Zadej své jméno")
+jmeno = input()
+print("Zadej svůj věk")
+vek = input()
+print(jmeno + " " + vek)</code></pre>
+</div>
+
+<script>
+let draggedItem = null;
+
+function initDrags() {
+  document.querySelectorAll('.draggable').forEach(item => {
+    item.addEventListener('dragstart', (e) => {
+      draggedItem = item;
+      item.classList.add('dragging');
+      e.dataTransfer.setData('text/plain', '');
+    });
+    item.addEventListener('dragend', () => {
+      item.classList.remove('dragging');
+      draggedItem = null;
+    });
+  });
+}
+
+function handleDropZones() {
+  document.querySelectorAll('.drop-zone').forEach(zone => {
+    zone.addEventListener('dragover', e => e.preventDefault());
+    zone.addEventListener('drop', e => {
+      e.preventDefault();
+      if (draggedItem && !zone.contains(draggedItem)) {
+        zone.appendChild(draggedItem);
+        checkIdeaOrder();
+        checkCodeOrder();
+      }
+    });
+  });
+}
+
+function checkIdeaOrder() {
+  const ideaDrop = document.getElementById('ideaDrop');
+  const items = Array.from(ideaDrop.querySelectorAll('.draggable'));
+  const order = items.map(el => el.dataset.order);
+  const expected = ['1', '2', '3', '4', '5', '6', '7'];
+  if (order.join(',') === expected.join(',')) {
+    document.getElementById('toolsSection').style.display = 'block';
+  }
+}
+
+function checkCodeOrder() {
+  const toolsDrop = document.getElementById('toolsDrop');
+  const items = Array.from(toolsDrop.querySelectorAll('.draggable'));
+  const order = items.map(el => el.textContent.trim());
+  const expected = [
+    'print("Zadej své jméno")',
+    'jmeno = input()',
+    'print("Zadej svůj věk")',
+    'vek = input()',
+    'print(jmeno + " " + vek)'
+  ];
+  if (order.join('|') === expected.join('|')) {
+    document.getElementById('resultCode').style.display = 'block';
+  }
+}
+
+initDrags();
+handleDropZones();
+</script>
+
+</body>
+</html>

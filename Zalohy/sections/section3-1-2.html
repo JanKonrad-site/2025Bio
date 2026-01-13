@@ -1,0 +1,505 @@
+<section id="section3-1-2" class="container my-5">
+  <h3 class="mb-4">
+    3.1.2 Odstavce a „void“ prvky: &lt;p&gt;, &lt;br&gt;, &lt;hr&gt;
+  </h3>
+  <!-- Cíl lekce -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Co se naučíš?</h4>
+    <p>
+      Správně oddělovat text do odstavců a používat elementy bez obsahu (void)
+      pro zalomení řádku a oddělení témat.
+    </p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">
+        <strong>&lt;p&gt;</strong> – vytváří logické odstavce (důležité i pro
+        čtečky obrazovky).
+      </li>
+      <li class="list-group-item">
+        <strong>&lt;br /&gt;</strong> – zalomení řádku uvnitř
+        <em>téhož</em> odstavce (poezie, adresy).
+      </li>
+      <li class="list-group-item">
+        <strong>&lt;hr /&gt;</strong> – tematický oddělovač (horizontální čára).
+      </li>
+      <li class="list-group-item">
+        <strong>HTML5</strong> – <code>&lt;br&gt;</code> a
+        <code>&lt;hr&gt;</code> jsou validní i bez lomítka, ale se
+        <code>/</code> jsou čitelnější.
+      </li>
+    </ul>
+
+    <div class="alert alert-info" role="alert">
+      <i class="bi bi-lightbulb"></i>
+      <strong>Tip:</strong> Nepoužívej <code>&lt;br&gt;</code> k vytváření
+      „mezer“ mezi odstavci. Nové téma = nový <code>&lt;p&gt;</code>.
+    </div>
+  </div>
+  <!-- Teorie -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <h4 class="mb-3">Teorie: Odstavce a void elementy</h4>
+    <p>
+      Bez značek se text v HTML slévá. <strong>&lt;p&gt;</strong> jednoznačně
+      vymezuje začátek a konec odstavce, což je klíčové pro čitelnost i
+      přístupnost.
+    </p>
+    <p>
+      <i class="bi bi-eye"></i> <strong>Void elementy</strong> nemají obsah ani
+      párový uzavírací tag: <code>&lt;br /&gt;</code> (nový řádek),
+      <code>&lt;hr /&gt;</code> (oddělovač). V HTML5 lze psát i
+      <code>&lt;br&gt;</code>, <code>&lt;hr&gt;</code>.
+    </p>
+    <ul>
+      <li>
+        <code>&lt;br /&gt;</code> – použij, když logicky
+        <em>zůstáváš ve stejném odstavci</em>, ale potřebuješ nový řádek (např.
+        verše, adresa).
+      </li>
+      <li>
+        <code>&lt;hr /&gt;</code> – vizuálně i sémanticky odděluje sekce obsahu.
+      </li>
+      <li>
+        Přístupnost: čtečky umí mezi <code>&lt;p&gt;</code> skákat; řetězení
+        <code>&lt;br&gt;</code> místo <code>&lt;p&gt;</code> zhoršuje orientaci.
+      </li>
+      <li>
+        Na vzhled (mezery, barvy) použijeme později CSS, ne řetězení
+        <code>&lt;br&gt;</code>.
+      </li>
+    </ul>
+  </div>
+  <!-- Ukázkový text -->
+  <h5 class="mt-5">Ukázkový text k formátování</h5>
+  <p>
+    Vlož do <code>index.html</code> následující obsah a přiřaď správné tagy:
+  </p>
+  <div class="container my-4 p-4 border rounded bg-light">
+  
+<pre><code>Bedřich Smetana
+Jiráskova 133
+Litomyšl, Česká republika
+
+Bedřich Smetana (1824–1884) byl český hudební skladatel.
+Je považován za zakladatele české národní hudby a autora cyklu Má vlast.
+</code></pre>
+</div>
+
+  <!-- Úkoly -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Úkoly k textu</h4>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">
+        1) Jméno autora vlož jako <code>&lt;h1&gt;</code>.
+      </li>
+      <li class="list-group-item">
+        2) Adresu dej do jednoho <code>&lt;p&gt;</code> a řádky rozděl pomocí
+        <code>&lt;br /&gt;</code>.
+      </li>
+      <li class="list-group-item">
+        3) Přidej <code>&lt;hr /&gt;</code> a pod něj dva samostatné odstavce s
+        popisem autora.
+      </li>
+      <li class="list-group-item">
+        4) Přidej ještě jeden <code>&lt;p&gt;</code> s jednou větou „čím je pro
+        tebe zajímavý“.
+      </li>
+    </ul>
+  </div>
+  <!-- Akordeon -->
+  <div class="accordion mb-5" id="accordion3-1-2">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingOne3-1-2">
+        <button
+          class="accordion-button"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#collapseOne3-1-2"
+        >
+          1. Tvořím odstavce správně
+        </button>
+      </h2>
+      <div
+        id="collapseOne3-1-2"
+        class="accordion-collapse collapse show"
+        data-bs-parent="#accordion3-1-2"
+      >
+        <div class="accordion-body">
+          <p><strong>Postup:</strong></p>
+          <ol>
+            <li>
+              Každou logickou myšlenku dej do vlastního
+              <code>&lt;p&gt;…&lt;/p&gt;</code>.
+            </li>
+            <li>
+              Adresu ponech v jednom <code>&lt;p&gt;</code> a rozděl řádky
+              <code>&lt;br /&gt;</code>.
+            </li>
+            <li>
+              Mezi hlavičku (jméno+adresa) a popis vlož
+              <code>&lt;hr /&gt;</code>.
+            </li>
+          </ol>
+          <hr />
+          <p>
+            <strong>Proč ne &lt;br&gt; místo nového odstavce?</strong> Kvůli
+            přístupnosti a sémantice – čtečky chápou <code>&lt;p&gt;</code> jako
+            samostatné jednotky obsahu.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingTwo3-1-2">
+        <button
+          class="accordion-button collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#collapseTwo3-1-2"
+        >
+          2. Bonus: Lorem ipsum a práce s náhledem
+        </button>
+      </h2>
+      <div
+        id="collapseTwo3-1-2"
+        class="accordion-collapse collapse"
+        data-bs-parent="#accordion3-1-2"
+      >
+        <div class="accordion-body">
+          <p>
+            Pro testování rozvržení použij „Lorem ipsum“ generátor a sleduj
+            změny v náhledu (Live Server) – ukládej
+            <kbd>Ctrl</kbd>+<kbd>S</kbd>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+ <div>
+<a href="https://jankonrad-site.github.io/web-Development/3.Lekce/index.html" 
+   class="btn btn-primary" target="_blank">
+  Zobrazit vzor
+</a>
+  </div>
+
+<!-- Shrnutí kapitoly -->
+<div class="container my-4 p-4 border rounded bg-light">
+  <h3 class="mb-3">Shrnutí</h3>
+  <p>
+    Naučil/a ses vytvářet správné odstavce a používat void elementy
+    <code>&lt;br /&gt;</code> a <code>&lt;hr /&gt;</code> tam, kde dávají smysl.
+  </p>
+  <ul class="list-group list-group-flush mb-3">
+    <li class="list-group-item">
+      <strong>&lt;p&gt;</strong>: nový odstavec = nová myšlenka.
+    </li>
+    <li class="list-group-item">
+      <strong>&lt;br /&gt;</strong>: nový řádek v rámci <em>téhož</em> odstavce
+      (poezie, adresa).
+    </li>
+    <li class="list-group-item">
+      <strong>&lt;hr /&gt;</strong>: oddělení témat/sekcí obsahu.
+    </li>
+  </ul>
+  <div class="alert alert-info" role="alert">
+    <strong>Tip:</strong> Znak <code>/</code> v <code>&lt;br /&gt;</code> a
+    <code>&lt;hr /&gt;</code> usnadňuje čtení kódu (uvidíš hned, že je prvek
+    „samostatně uzavřený“).
+  </div>
+</div>
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="imageModalKap-3-1-2"
+  tabindex="-1"
+  aria-labelledby="imageModalLabelKap-3-1-2"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="imageModalLabelKap-3-1-2">
+          Vzorový obrázek – odstavec, adresa, oddělovač
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Zavřít"
+        ></button>
+      </div>
+      <div class="modal-body text-center">
+        <img
+          src="[img/paragraph-address-hr.png]"
+          alt="Odstavce a oddělovač"
+          class="img-fluid rounded shadow"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+<section id="section3-1-2-test" class="container my-5">
+  <h4>📝 Test: Odstavce a void prvky (kapitola 3.1.2)</h4>
+  <div class="quiz-question mb-4">
+    <p><strong>1. K čemu slouží &lt;p&gt;?</strong></p>
+    <div class="btn-group-vertical">
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, true)"
+      >
+        K vytvoření nového odstavce
+      </button>
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, false)"
+      >
+        K vložení obrázku
+      </button>
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, false)"
+      >
+        K vytvoření odkazu
+      </button>
+    </div>
+  </div>
+  <div class="quiz-question mb-4">
+    <p><strong>2. Co je „void“ element?</strong></p>
+    <div class="btn-group-vertical">
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, true)"
+      >
+        Element bez obsahu a bez párového uzavíracího tagu
+      </button>
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, false)"
+      >
+        Element s prázdným textem
+      </button>
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, false)"
+      >
+        Komentář v HTML
+      </button>
+    </div>
+  </div>
+  <div class="quiz-question mb-4">
+    <p><strong>3. Kdy použít &lt;br /&gt;?</strong></p>
+    <div class="btn-group-vertical">
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, true)"
+      >
+        K zalomení řádku v rámci stejného odstavce
+      </button>
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, false)"
+      >
+        K vytvoření nového odstavce
+      </button>
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, false)"
+      >
+        K oddělení témat stránky
+      </button>
+    </div>
+  </div>
+  <!-- 4–10 -->
+  <div class="quiz-question mb-4">
+    <p><strong>4. Co dělá &lt;hr /&gt;?</strong></p>
+    <div class="btn-group-vertical">
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, false)"
+      >
+        Zalomení řádku
+      </button>
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, true)"
+      >
+        Vloží horizontální oddělovací čáru (tematický předěl)
+      </button>
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, false)"
+      >
+        Vloží obrázek
+      </button>
+    </div>
+  </div>
+  <div class="quiz-question mb-4">
+    <p>
+      <strong
+        >5. Jak se projeví nahrazení nového odstavce řadou &lt;br&gt;?</strong
+      >
+    </p>
+    <div class="btn-group-vertical">
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, true)"
+      >
+        Zhorší přístupnost a sémantiku
+      </button>
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, false)"
+      >
+        Zrychlí načítání stránky
+      </button>
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, false)"
+      >
+        Nemá žádný efekt
+      </button>
+    </div>
+  </div>
+  <div class="quiz-question mb-4">
+    <p><strong>6. Který zápis je u HTML5 platný?</strong></p>
+    <div class="btn-group-vertical">
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, true)"
+      >
+        &lt;br&gt; i &lt;br /&gt;
+      </button>
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, false)"
+      >
+        &lt;br&gt; pouze s koncovým lomítkem
+      </button>
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, false)"
+      >
+        Ani jeden
+      </button>
+    </div>
+  </div>
+  <div class="quiz-question mb-4">
+    <p><strong>7. Kam patří adresa na více řádků?</strong></p>
+    <div class="btn-group-vertical">
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, true)"
+      >
+        Do jednoho &lt;p&gt; se zalomením &lt;br /&gt;
+      </button>
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, false)"
+      >
+        Do tří samostatných &lt;p&gt; bez &lt;br&gt;
+      </button>
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, false)"
+      >
+        Do &lt;h3&gt;
+      </button>
+    </div>
+  </div>
+  <div class="quiz-question mb-4">
+    <p><strong>8. Co je správně o &lt;hr /&gt;?</strong></p>
+    <div class="btn-group-vertical">
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, true)"
+      >
+        Je to void element, slouží k oddělení částí obsahu
+      </button>
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, false)"
+      >
+        Je to nadpis čtvrté úrovně
+      </button>
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, false)"
+      >
+        Vkládá hypertextový odkaz
+      </button>
+    </div>
+  </div>
+  <div class="quiz-question mb-4">
+    <p>
+      <strong>9. Co pomáhá čtečkám obrazovky pochopit strukturu textu?</strong>
+    </p>
+    <div class="btn-group-vertical">
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, true)"
+      >
+        Správné použití &lt;p&gt; a nadpisů
+      </button>
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, false)"
+      >
+        Pouze barvy textu
+      </button>
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, false)"
+      >
+        Dlouhé řetězce &lt;br&gt;
+      </button>
+    </div>
+  </div>
+  <div class="quiz-question mb-4">
+    <p><strong>10. Které tvrzení je nejlepší praxe?</strong></p>
+    <div class="btn-group-vertical">
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, true)"
+      >
+        Nový odstavec = &lt;p&gt;; nový řádek uvnitř odstavce = &lt;br /&gt;
+      </button>
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, false)"
+      >
+        Vždy používej &lt;br&gt; místo &lt;p&gt;
+      </button>
+      <button
+        class="btn btn-outline-secondary"
+        onclick="checkAnswer(this, false)"
+      >
+        Odstavce značíme &lt;div&gt;
+      </button>
+    </div>
+  </div>
+</section>
+<hr />
+<h6>Odkazy na použité zdroje</h6>
+<ol class="small">
+  <li>
+    <a
+      href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/p"
+      target="_blank"
+      >MDN – &lt;p&gt;: The Paragraph element</a
+    >
+  </li>
+  <li>
+    <a
+      href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/br"
+      target="_blank"
+      >MDN – &lt;br&gt;: The Line Break element</a
+    >
+  </li>
+  <li>
+    <a
+      href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/hr"
+      target="_blank"
+      >MDN – &lt;hr&gt;: The Thematic Break element</a
+    >
+  </li>
+</ol>

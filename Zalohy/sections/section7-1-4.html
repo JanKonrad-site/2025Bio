@@ -1,0 +1,197 @@
+<!-- 7.1.3 Rastrová grafika — GIMP (Změna pozadí — slečna; dle sešitu) -->
+<section id="section7-1-4" class="container my-5">
+  <h3 class="mb-4">7.1.4 GIMP — Změna pozadí (slečna)</h3>
+
+  <!-- Co se naučíš -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co se naučíš?</h3>
+    <p>Ne-destruktivně vyměnit pozadí portrétu pomocí <em>masky vrstvy</em>, výběrů a jejich doostření/zjemnění. Vše přesně podle sešitu, s vysvětlením pojmů.</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Maska vrstvy</strong>: princip a ovládání (bílá/černá/šedá).</li>
+      <li class="list-group-item"><strong>Výběry</strong>: Free Select / Paths, Quick Mask, Feather, Grow/Shrink, Feather radius.</li>
+      <li class="list-group-item"><strong>Prolínání</strong>: štětec na masce, gradient na masce, jemné okraje (vlasy).</li>
+      <li class="list-group-item"><strong>Kompozice</strong>: pořadí vrstev (Model nahoře, Pozadí dole), zarovnání a měřítko.</li>
+      <li class="list-group-item"><strong>Export</strong>: zachování průhlednosti (PNG) vs. sloučení (JPG).</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Pracuj <em>na masce</em>, ne na obrázku. Je to vratné – obraz zůstává nedotčený.
+    </div>
+  </div>
+
+  <!-- Materiály (uprav si cestu podle svých souborů) -->
+  <div class="d-flex flex-wrap gap-2 align-items-center mb-4">
+    <a class="btn btn-primary" href="https://github.com/JanKonrad-site/GimpAssets.git" target="_blank" rel="noopener">⬇️ Soubory ke cvičení (slečna + pozadí)</a>
+  </div>
+
+  <!-- Akordeon kapitoly -->
+  <div class="accordion" id="gimpGirlBG">
+
+    <!-- 1) Teorie: Maska vrstvy + pracovní nastavení -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-girl-theory">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c-girl-theory" aria-expanded="true" aria-controls="c-girl-theory">
+          1) Teorie: Maska vrstvy + příprava pracovního prostředí & Změna pozadí: nástroje Paintbrush, a masky vrstvy & Uložení projektu  (1. Úkol)
+        </button>
+      </h2>
+      <div id="c-girl-theory" class="accordion-collapse collapse show" aria-labelledby="h-girl-theory" data-bs-parent="#gimpGirlBG">
+        <div class="accordion-body">
+          <div class="alert alert-secondary mb-3">
+            <strong>🧠 Co je maska vrstvy?</strong><br>
+            Maska řídí <em>viditelnost</em> vrstvy: <strong>bílá</strong> = viditelné, <strong>černá</strong> = průhledné, <strong>šedá</strong> = poloprůhledné. Malujeme na masku (ne do obrázku), takže úprava je <em>nedestruktivní</em>.
+          </div>
+          <ol class="mb-3">
+            <li><kbd>File</kbd> → <kbd>Open</kbd> → otevři <strong>obrázek model-in-red-chair</strong> (vrstva <em>Model</em>.</li>
+            <li><kbd>File</kbd> → <kbd>Open as Layers</kbd> → otevři <strong>obrázek Canyon</strong> (vrstva <em>Canyon</em>.</li>
+            <li>Přesuň vrstvu <strong>model-in-red-chair</strong>, na první pořadí v kompozici.</li>
+            <li>Přidej masku vrstvy u obrázku <strong>model-in-red-chair</strong> -> full opacity.</li>
+            <li>Ujisti se, že máš kolem náhledu zelené ohraničení, to signalizuje, že praciješ s vrstvou, né s obrázkem. (žluté ohraničení)</li>
+            <li>Vyberte nástroj <strong>PaintBrush Tool</strong></li>
+            <li>Nastavte <strong>Foreground color</strong> na Černou, a začněte malovat na masku tak, abychom vybrali černou na masce vše, kde není slečna na červené židli.</li>
+            <li>Podrobné nastavení nástrojů, nalezneme na pod výběrem nástrojů viz. obrázek </li>
+            <li>Změnu přiblížení, můžeme změnit na dolním okraji šipky směřující dolů, nebo <kbd>CONTROL + Kolečko (nahoru, dolů)</kbd></li>
+            <li>Změnu náhledu vrstev a masky vrstvy, můžeme změnit v pravém rohu vedle pole vrstev, viz. obrázek.</li>
+            <li>Uložte projekt jako 3-1 do projektové složky.</li>
+          </ol>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-girl-theory" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/1.png"
+                 alt="Vrstvy: Model nad Background, příprava pracovního prostředí">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-girl-theory">◀</button>
+            <small class="text-muted">Model + Background</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-girl-theory">▶</button>
+          </div>
+          <div data-gallery-src="img-girl-theory"
+               data-images='[
+             
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/2.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/3.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/4.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/5.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/6.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/7.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/8.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/9.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/10.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/11.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/12.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/13.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/14.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/15.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/16.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/17.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/18.png",
+                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/19.png"
+                    
+                              
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2) Výběr postavy (Free Select / Paths / Quick Mask) -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-girl-select">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-girl-select" aria-expanded="false" aria-controls="c-girl-select">
+          2) Vytvoření efektu Grandient, mezi dvěma vrstvy (2. úkol)
+        </button>
+      </h2>
+      <div id="c-girl-select" class="accordion-collapse collapse" aria-labelledby="h-girl-select" data-bs-parent="#gimpGirlBG">
+        <div class="accordion-body">
+          <div class="alert alert-secondary mb-3">
+            <strong>Grandient Tool</strong><br>
+            <em>Gradient Tool</em> na masce vytvoří plynulý přechod mezi vrstvami. Hodí se u rozmazaného pozadí, kouře, vlasů apod. Nastav <em>FG → BG</em>, podle potřeby <em>Reverse</em>, tvar <em>Linear</em> nebo <em>Radial</em>.
+          </div>
+          <ol class="mb-3">
+            <li>Otevřete novou kompozici 4-1</li>
+        <li>Vyber nástroj Grandient</li>
+        <li>NAstav nástroj následovně:
+          <ul>
+            <li>Foreground To Background</li>
+            <li>Shaoe: Radial</li>
+            <li>Někdy je potřeba prokliknout možnost reverse.</li>
+          </ul>
+        </li>
+            <li>Nastavte v kompozici <strong>Grandient</strong> do středu slečny, a táhněte směrem do dolního okraje.</li>
+            <li>Nastavte mid a end pointy. (Jak moc se bude vrstva plynule měnit z bíle do černé)</li>
+            <li>Potvrďte klávesou Enter</li>
+            <li>Uložte projekt jako 3-2</li>
+          </ol>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-girl-select" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/20.png"
+                 alt="Tvorba a jemnění výběru postavy">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-girl-select">◀</button>
+            <small class="text-muted">Výběr & Feather</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-girl-select">▶</button>
+          </div>
+          <div data-gallery-src="img-girl-select"
+               data-images='[
+                   "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/21.png",
+                    "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/22.png",
+                    "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/23.png",
+                    "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/24.png"
+                   
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+   
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Shrnutí</h3>
+    <ul class="list-group list-group-flush mb-0">
+      <li class="list-group-item">Porozumíš principu <strong>masky vrstvy</strong> – bílá = viditelné, černá = skryté, šedá = poloprůhledné – a chápeš, že úprava je <em>nedestruktivní</em>.</li>
+      <li class="list-group-item">Naučíš se <strong>správně vrstvit obrázky</strong> (model nahoře, pozadí dole) a přidat masku k horní vrstvě.</li>
+      <li class="list-group-item">Pomocí <strong>štětce (Paintbrush)</strong> odstraníš původní pozadí tak, že na masce maluješ černou barvou mimo postavu.</li>
+      <li class="list-group-item">Zvládneš orientaci v <strong>Tool Options</strong>, přepínání mezi vrstvou a maskou, a práci s <strong>přiblížením</strong> (Ctrl + kolečko).</li>
+      <li class="list-group-item">Použiješ <strong>Gradient Tool</strong> na masce k vytvoření plynulého přechodu mezi dvěma vrstvami (např. postava ↔ pozadí).</li>
+      <li class="list-group-item">Pochopíš, jak <strong>prolínání</strong> a přechody vytvářejí přirozené spojení mezi vrstvami.</li>
+      <li class="list-group-item">Uložíš projekt jako <strong>.XCF</strong> (pro úpravy) a vyexportuješ finální výsledek do <strong>PNG nebo JPG</strong>.</li>
+    </ul>
+  </div>
+   <div>
+<a href="https://www.figma.com/proto/o4Sesbpg3vRamXzaMQw1fp/Gimp3?page-id=0%3A1&node-id=1-2&viewport=12%2C361%2C0.61&t=jpwisNk10mqd8qJE-1&scaling=contain&content-scaling=fixed" 
+   class="btn btn-primary" target="_blank">
+  Zobrazit vzor 4-1
+</a>
+  </div>
+  <hr>
+   <div>
+<a href="https://www.figma.com/proto/Lv01iRkWHnAPVrk9wyeF1C/Gimp3-2?page-id=0%3A1&node-id=1-2&viewport=12%2C361%2C0.61&t=mG4SmcLUupPeaaAN-1&scaling=contain&content-scaling=fixed" 
+   class="btn btn-primary" target="_blank">
+  Zobrazit vzor 4-2
+</a>
+  </div>
+</section>
+
+<!-- Galerie helper (stejný jako u předchozích lekcí) -->
+<style>
+  .img-contained { width:100%; height:100%; object-fit:contain; object-position:center; }
+</style>
+<script>
+(function(){
+  function parseImages(el){ try { return JSON.parse(el.getAttribute('data-images')||'[]'); } catch(e){ return []; } }
+  function setImg(id, src){ const img = document.getElementById(id); if(img){ img.src = src; } }
+  function move(dir, btn){
+    const id = btn.getAttribute(dir===-1?'data-gallery-prev':'data-gallery-next'); if(!id) return;
+    const holder = document.querySelector('[data-gallery-src="'+id+'"]'); if(!holder) return;
+    const list = parseImages(holder); if(!list.length) return;
+    const img = document.getElementById(id);
+    const current = img.src.split('/').pop();
+    let idx = list.findIndex(x => x.split('/').pop() === current); if(idx===-1) idx = 0;
+    const next = (idx + dir + list.length) % list.length;
+    setImg(id, list[next]);
+  }
+  document.addEventListener('click', e => {
+    if(e.target.matches('[data-gallery-prev]')) { e.preventDefault(); move(-1, e.target); }
+    if(e.target.matches('[data-gallery-next]')) { e.preventDefault(); move(1, e.target); }
+  });
+})();
+</script>

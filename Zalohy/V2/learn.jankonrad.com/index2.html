@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="cs" data-bs-theme="light">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    img-src 'self' https: data: blob: raw.githubusercontent.com user-images.githubusercontent.com res.cloudinary.com *.cloudinary.com learn.jankonrad.com;
+    script-src 'self' 'unsafe-inline' https:;
+    style-src  'self' 'unsafe-inline' https:;
+    font-src   'self' https: data:;
+    connect-src 'self' https:;
+    media-src  'self' https:;
+    frame-src  'self' https:;
+    object-src 'none';
+    base-uri 'self';
+    upgrade-insecure-requests;
+  ">
+
+  <title>Dokumentace s vyhledáváním a přepínačem režimu</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="./CSS/animace.css">
+  <link rel="stylesheet" href="./CSS/carousel.css">
+  <link rel="stylesheet" href="./CSS/carousel.rtl.css">
+
+  <style>
+    :root{
+      --site-nav-h: 56px;     /* fallback, JS to zpřesní */
+      --doc-toolbar-h: 52px;  /* fallback, JS to zpřesní */
+
+      --doc-bg: #f8f9fa;
+      --doc-surface: #ffffff;
+      --doc-border: #dddddd;
+      --doc-active-bg: #e9f5ff;
+      --doc-text: #212529;
+    }
+
+    html[data-bs-theme="dark"]{
+      --doc-bg: #121212;
+      --doc-surface: #1e1e1e;
+      --doc-border: #333333;
+      --doc-active-bg: #333333;
+      --doc-text: #e1e1e1;
+    }
+
+    body{
+      padding-top: var(--site-nav-h);
+      padding-bottom: 0.5rem;
+      background: var(--doc-bg);
+      color: var(--doc-text);
+      transition: background-color .25s, color .25s;
+      scroll-behavior: smooth;
+    }
+
+    /* Sticky toolbar pod hlavní navbar */
+    #docToolbar{
+      position: sticky;
+      top: var(--site-nav-h);
+      z-index: 1020;
+      background: var(--doc-surface);
+      border-bottom: 1px solid var(--doc-border);
+    }
+
+    /* Layout */
+    #layoutRow{
+      padding-top: .75rem;
+    }
+
+    /* Sidebar / navigace */
+    #docNavCol{
+      position: sticky;
+      top: calc(var(--site-nav-h) + var(--doc-toolbar-h) + .75rem);
+      align-self: flex-start;
+      max-height: calc(100dvh - var(--site-nav-h) - var(--doc-toolbar-h) - 1.5rem);
+      overflow: auto;
+      border-right: 1px solid transparent; /* jen kvůli optice, můžeš pryč */
+    }
+
+    #docNavWrap{
+      background: var(--doc-surface);
+      border: 1px solid var(--doc-border);
+      border-radius: .5rem;
+      padding: .5rem .75rem;
+    }
+
+    /* Aktivní odkaz */
+    #docNav .nav-link.active{
+      font-weight: 600;
+      background: var(--doc-active-bg);
+      border-radius: .25rem;
+    }
+
+    /* Odsazení podkapitol v navigaci */
+    #docNav .nav-link.ms-1 { margin-left: .8rem !important; }
+    #docNav .nav-link.ms-2 { margin-left: 1.4rem !important; }
+
+    /* Scrollovatelný obsah */
+    #scrollspyContent{
+      position: relative;
+      height: calc(100dvh - var(--site-nav-h) - var(--doc-toolbar-h) - 1.5rem);
+      overflow-y: auto;
+      padding: 1rem 1.5rem;
+      background: var(--doc-surface);
+      border-radius: .5rem;
+      border: 1px solid var(--doc-border);
+      font-size: 1rem;
+    }
+
+    /* Aby anchor scroll nelezl pod fixní prvky */
+    .section-wrapper{
+      scroll-margin-top: calc(var(--site-nav-h) + var(--doc-toolbar-h) + 16px);
+    }
+
+    /* Vyhledávání + tlačítka */
+    #navSearch{
+      background: transparent;
+      color: inherit;
+    }
+
+    .img-natural {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 80vh;
+      display: inline-block;
+    }
+
+    @media (max-width: 576px){
+      .resize-mobile{
+        max-width: 200px;
+        width: 100%;
+        margin: 0 auto;
+      }
+    }
+
+    /* Na mobilu: navigace je sbalitelná a sidebar se chová jako blok */
+    @media (max-width: 767.98px){
+      #docNavCol{
+        position: static;
+        max-height: none;
+        overflow: visible;
+      }
+      #docNavCollapse{
+        max-height: 70dvh;
+        overflow: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Hlavní navbar webu -->
+  <header>
+    <nav id="siteNavbar" class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Jan Konrád</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+          aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav me-auto mb-2 mb-md-0">
+            <li class="nav-item"><a class="nav-link" href="../index.html">Domů</a></li>
+            <li class="nav-item"><a class="nav-link" href="./index.html">Výuka</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">3D grafika</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Webové stránky</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Kontakt</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Sticky toolbar: vyhledávání + toggle téma + (na mobilu) tlačítko menu -->
+    <div id="docToolbar" class="py-2">
+      <div class="container-fluid">
+        <div class="d-flex gap-2 align-items-center">
+
+          <!-- Toggler navigace (viditelný primárně na mobilu) -->
+          <button id="docNavToggleBtn"
+            class="btn btn-outline-primary d-md-none"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#docNavCollapse"
+            aria-expanded="false"
+            aria-controls="docNavCollapse"
+            title="Otevřít menu"
+            aria-label="Otevřít menu">
+            &#9776;
+          </button>
+
+          <!-- Vyhledávání (jedno pro všechny režimy) -->
+          <div class="input-group">
+            <input id="navSearch" type="search" class="form-control" placeholder="Hledat v menu..."
+              aria-label="Hledat v menu" autocomplete="off">
+            <button id="clearSearchBtn" class="btn btn-outline-secondary" type="button" aria-label="Vymazat vyhledávání" title="Vymazat">
+              ×
+            </button>
+          </div>
+
+          <!-- Theme toggle -->
+          <button id="themeToggleBtn" class="btn btn-outline-secondary" type="button"
+            title="Přepnout téma: auto / tmavý / světlý"
+            aria-label="Přepnout téma: auto / tmavý / světlý">
+            🌗
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container-fluid">
+    <div id="layoutRow" class="row g-3">
+
+      <!-- Jediná navigace: na mobilu collapse, na desktopu sticky sidebar -->
+      <aside class="col-12 col-md-3" id="docNavCol" aria-label="Navigace">
+        <div id="docNavWrap">
+          <div class="collapse" id="docNavCollapse">
+            <nav id="docNav" class="nav flex-column">
+
+              <!-- ===== NAV (sloučeno do jedné verze) ===== -->
+              <a class="nav-link" href="#section1" data-section="section1">1. Základy práce s počítačem</a>
+              <a class="nav-link ms-1" href="#section1-1" data-section="section1-1">1.1 Úvod do práce s počítačem</a>
+              <a class="nav-link ms-1" href="#section1-2" data-section="section1-2">1.2 Co je počítač a jak funguje (základní principy výpočetní techniky)</a>
+              <a class="nav-link ms-1" href="#section1-3" data-section="section1-3">1.3 Typy počítačů a zařízení (notebook, PC, tablet, mobil, periferie)</a>
+              <a class="nav-link ms-1" href="#section1-4" data-section="section1-4">1.4 Firmware počítače (BIOS a UEFI)</a>
+              <a class="nav-link ms-1" href="#section1-5" data-section="section1-5">1.5 Struktura a funkce systému Windows</a>
+              <a class="nav-link ms-1" href="#section1-6" data-section="section1-6">1.6 Práce se soubory a složkami</a>
+              <a class="nav-link ms-1" href="#section1-7" data-section="section1-7">1.7 Příkazový řádek (CMD) – základy práce s textovým rozhraním</a>
+              <a class="nav-link ms-1" href="#section1-8" data-section="section1-8">1.8 Základy bezpečnosti a údržby systému</a>
+
+              <a class="nav-link" href="#section2" data-section="section2">2. Kancelářské informační systémy</a>
+              <a class="nav-link ms-1" href="#section2-1" data-section="section2-1">2.1 Textové editory – Word, LibreOffice Writer, Google Dokumenty</a>
+              <a class="nav-link ms-2" href="#section2-1-1a" data-section="section2-1-1a">2.1.1 Typografická pravidla</a>
+              <a class="nav-link ms-2" href="#section2-1-1" data-section="section2-1-1">2.1.1 Formát písma</a>
+              <a class="nav-link ms-2" href="#section2-1-2" data-section="section2-1-2">2.1.2 Formát odstavce</a>
+              <a class="nav-link ms-2" href="#section2-1-3" data-section="section2-1-3">2.1.3 Vzhled stránky, sloupce</a>
+              <a class="nav-link ms-2" href="#section2-1-4" data-section="section2-1-4">2.1.4 Návrh stránky</a>
+              <a class="nav-link ms-2" href="#section2-1-5" data-section="section2-1-5">2.1.5 Najít, Nahradit</a>
+              <a class="nav-link ms-2" href="#section2-1-6" data-section="section2-1-6">2.1.6 Styly</a>
+              <a class="nav-link ms-2" href="#section2-1-7" data-section="section2-1-7">2.1.7 Obsah, osnova</a>
+              <a class="nav-link ms-2" href="#section2-1-8" data-section="section2-1-8">2.1.8 Odkazy, seznamy a tabulátory</a>
+              <a class="nav-link ms-2" href="#section2-1-9" data-section="section2-1-9">2.1.9 Celkové opakování - cvičení tvorba testu</a>
+              <a class="nav-link ms-2" href="#section2-1-10" data-section="section2-1-10">2.1.10 Vkládání a úprava obrázků</a>
+              <a class="nav-link ms-2" href="#section2-1-11" data-section="section2-1-11">2.1.11 Vzorce, tabulky a textová pole</a>
+              <a class="nav-link ms-2" href="#section2-1-12" data-section="section2-1-12">2.1.12 Titulek, seznam obrázků a tabulek, křížové odkazy, citace a bibliografie, rejstřík</a>
+
+              <a class="nav-link ms-1" href="#section2-2" data-section="section2-2">2.2 Tabulkové procesory – Excel, LibreOffice Calc, Google Sheets</a>
+              <a class="nav-link ms-2" href="#section2-2-1" data-section="section2-2-1">2.2.1 Vzorce, funkce, filtrování</a>
+              <a class="nav-link ms-2" href="#section2-2-2" data-section="section2-2-2">2.2.2 Tvorba grafů, analýza dat</a>
+              <a class="nav-link ms-2" href="#2-2-1" data-section="2-2-1">2.2.1 Číselné řady, matematické fce, datové typy - Rozpočet</a>
+              <a class="nav-link ms-2" href="#2-2-2" data-section="2-2-2">2.2.2 Funkce z pohledu matematiky vs Excel - Lineární funkce</a>
+              <a class="nav-link ms-2" href="#2-2-3" data-section="2-2-3">2.2.3 Kvadratické funkce</a>
+              <a class="nav-link ms-2" href="#2-2-4" data-section="2-2-4">2.2.4 Absolutní hodnota</a>
+              <a class="nav-link ms-2" href="#2-2-5" data-section="2-2-5">2.2.5 SIN, COS, TANG</a>
+
+              <a class="nav-link ms-1" href="#section2-3" data-section="section2-3">2.3 Prezentační software – PowerPoint, Impress, Canva</a>
+              <a class="nav-link ms-2" href="#section2-3-1" data-section="section2-3-1">2.3.1 Principy efektivní prezentace</a>
+              <a class="nav-link ms-2" href="#section2-3-2" data-section="section2-3-2">2.3.2 Figma jako moderní nástroj vizuální prezentace</a>
+
+              <a class="nav-link" href="#section3" data-section="section3">3 HTML: co to je, historie a první dokument</a>
+              <a class="nav-link ms-1" href="#section3-1-1" data-section="section3-1-1">3.1.1 Úvod do HTML, VS Code a nadpisová hierarchie</a>
+              <a class="nav-link ms-1" href="#section3-1-2" data-section="section3-1-2">3.1.2 Odstavce a „void“ prvky: <code>&lt;p&gt;</code>, <code>&lt;br&gt;</code>, <code>&lt;hr&gt;</code></a>
+              <a class="nav-link ms-1" href="#section3-1-3" data-section="section3-1-3">3.1.3 Seznamy v HTML + vnořování a odsazování <code>&lt;ul&gt;</code>, <code>&lt;ol&gt;</code>, <code>&lt;li&gt;</code></a>
+              <a class="nav-link ms-1" href="#section3-1-4" data-section="section3-1-4">3.1.4 Odkazy a obrázky v HTML <code>&lt;a&gt;</code>, <code>&lt;img&gt;</code></a>
+              <a class="nav-link ms-1" href="#section3-1-5" data-section="section3-1-5">3.1.5 GitHub - nasazení projektů na web</a>
+              <a class="nav-link ms-1" href="#section3-1-6" data-section="section3-1-6">3.1.6 Základy CSS</a>
+              <a class="nav-link ms-1" href="#section3-1-7" data-section="section3-1-7">3.1.7 Základy CSS (pokračování)</a>
+              <a class="nav-link ms-1" href="#section3-1-8" data-section="section3-1-8">3.1.8 Základní stavební kameny CSS - selektory, vlastnosti, hodnoty</a>
+
+              <a class="nav-link ms-1" href="#section3-3" data-section="section3-3">3.3 Uložení dat v prohlížeči – localStorage, sessionStorage</a>
+              <a class="nav-link ms-1" href="#section3-4" data-section="section3-4">3.4 JSON – formát pro výměnu dat</a>
+              <a class="nav-link ms-1" href="#section3-5" data-section="section3-5">3.5 Vizualizace dat – jednoduché grafy pomocí Chart.js</a>
+              <a class="nav-link ms-1" href="#section3-6" data-section="section3-6">3.6 Práce s IndexedDB – databáze v prohlížeči</a>
+              <a class="nav-link ms-1" href="#section3-7" data-section="section3-7">3.7 Načítání dat z API pomocí fetch</a>
+              <a class="nav-link ms-1" href="#section3-8" data-section="section3-8">3.8 Jednoduchý backend v Node.js – Express a ukládání dat</a>
+              <a class="nav-link ms-1" href="#section3-9" data-section="section3-9">3.9 JSON jako databáze – simulace</a>
+              <a class="nav-link ms-1" href="#section3-10" data-section="section3-10">3.10 Cloudové databáze – Firebase jako IS školy / podniku</a>
+
+              <a class="nav-link" href="#section4-1-základy-pythonu" data-section="section4-1-základy-pythonu">4.1 Základy programování v Pythonu</a>
+              <a class="nav-link ms-1" href="#section4-1-1" data-section="4-1-1">4.1.1 Proměnné, podmínky a datové typy</a>
+              <a class="nav-link ms-1" href="#section4-1-2" data-section="4-1-2">4.1.2 Jednoduchá textová adventura (větvení pomocí if)</a>
+              <a class="nav-link ms-1" href="#section4-1-3" data-section="4-1-3">4.1.3 Samostatné cvičení – mini-kvíz bez cyklů</a>
+              <a class="nav-link ms-1" href="#section4-1-4" data-section="4-1-4">4.1.4 Podmínky v praxi (BMI, spropitné)</a>
+              <a class="nav-link ms-1" href="#section4-1-5" data-section="4-1-5">4.1.5 Základní podmínky – if/else a horská dráha</a>
+              <a class="nav-link ms-1" href="#section4-1-6" data-section="4-1-6">4.1.6 Vnořené podmínky, více větví a logické operátory</a>
+              <a class="nav-link ms-1" href="#section4-1-7final" data-section="4-1-7final">4.1.7 Final Project – Treasure Island</a>
+              <a class="nav-link ms-1" href="#section4-1-8test" data-section="4-1-8test">4.1.8 Závěrečný test – podmínky, porovnání a logické operátory</a>
+              <a class="nav-link ms-1" href="#section4-2-1" data-section="4-2-1">4.2.1 Podmínka while - tvorba menu</a>
+              <a class="nav-link ms-1" href="#section4-2-2" data-section="4-2-2">4.2.2 Indexování a řezání řetězců</a>
+              <a class="nav-link ms-1" href="#section4-2-3final" data-section="4-2-3final">4.2.3 Final Project – Kámen, nůžky, papír</a>
+              <a class="nav-link ms-1" href="#section4-3-1for" data-section="4-3-1for">4.3.1 Cykly – for a while</a>
+              <a class="nav-link ms-1" href="#section4-3-2while" data-section="4-3-2while">4.3.2 Cyklus <code>while</code> – podruhé</a>
+              <a class="nav-link ms-1" href="#section4-3-3" data-section="4-3-3">4.3.3 Menu a příběh pomocí vnořených <code>while</code></a>
+              <a class="nav-link ms-1" href="#section4-4-1" data-section="4-4-1">4.4.1 Funkce krok za krokem</a>
+              <a class="nav-link ms-1" href="#section4-4-2" data-section="4-4-2">4.4.2 Tvorba menu – <code>for</code>, <code>while</code>, seznamy a „dispatcher“</a>
+              <a class="nav-link ms-1" href="#section4-4-3" data-section="4-4-3">4.4.3 Datové struktury: Listy, n-tice a volání funkcí</a>
+
+              <a class="nav-link" href="#section5" data-section="section5">5. Práce s daty a informační systémy</a>
+              <a class="nav-link ms-1" href="#section5-1" data-section="section5-1">5.1 Vnitřní stavba počítače – CPU, RAM, HDD, SSD</a>
+              <a class="nav-link ms-1" href="#section5-2" data-section="section5-2">5.2 Vstupní a výstupní zařízení</a>
+              <a class="nav-link ms-1" href="#section5-3" data-section="section5-3">5.3 Síťové komponenty – router, switch, Wi-Fi</a>
+              <a class="nav-link ms-1" href="#section5-4" data-section="section5-4">5.4 Instalace a konfigurace základního hardwaru</a>
+              <a class="nav-link ms-1" href="#section5-5" data-section="section5-5">5.5 Správa systému a údržba (aktualizace, ovladače)</a>
+
+              <a class="nav-link" href="#section6" data-section="section6">6. Internet, komunikace a bezpečnost</a>
+              <a class="nav-link ms-1" href="#section6-1" data-section="section6-1">6.1 Co je internet, IP adresa, DNS</a>
+              <a class="nav-link ms-1" href="#section6-2" data-section="section6-2">6.2 Webové prohlížeče a vyhledávače</a>
+              <a class="nav-link ms-1" href="#section6-3" data-section="section6-3">6.3 E-mail a digitální komunikace</a>
+              <a class="nav-link ms-1" href="#section6-4" data-section="section6-4">6.4 Základy kybernetické bezpečnosti (hesla, phishing)</a>
+              <a class="nav-link ms-1" href="#section6-5" data-section="section6-5">6.5 Právní a etické aspekty – GDPR, autorský zákon, fake news</a>
+              <a class="nav-link ms-1" href="#section6-6" data-section="section6-6">6.6 Základy práce s VPN, dvoufázové ověření, digitální identita</a>
+
+              <a class="nav-link ms-1" href="#section7-1-1" data-section="section7-1-1">7.1.1 Rastrová grafika (Lekce 1) – GIMP</a>
+              <a class="nav-link ms-1" href="#section7-1-2" data-section="section7-1-2">7.1.2 Vrstvy (Lekce 2) – GIMP</a>
+              <a class="nav-link ms-1" href="#section7-1-3" data-section="section7-1-3">7.1.3 Koláž (Lekce 3) – GIMP</a>
+              <a class="nav-link ms-1" href="#section7-1-4" data-section="section7-1-4">7.1.4 Změna pozadí (Lekce 4) – GIMP</a>
+              <a class="nav-link ms-1" href="#section7-1-5" data-section="section7-1-5">7.1.5 Rychlá maska (Lekce 5) – GIMP</a>
+              <a class="nav-link ms-1" href="#section7-1-6" data-section="section7-1-6">7.1.6 Výběrové nástroje (Lekce 6) – GIMP</a>
+              <a class="nav-link ms-1" href="#section7-1-7" data-section="section7-1-7">7.1.7 Crop Tool (ořez) (Lekce 7) – GIMP</a>
+              <a class="nav-link ms-1" href="#section7-1-8" data-section="section7-1-8">7.1.8 Barvy (Lekce 8) – GIMP</a>
+
+              <a class="nav-link ms-1" href="#section8-1-1" data-section="section8-1-1">8.1.1 Blender – Kapitola 1: Co znamená modelovat</a>
+              <!-- ===== /NAV ===== -->
+
+            </nav>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Hlavní obsah -->
+      <main id="scrollspyContent"
+        class="col-12 col-md-9"
+        role="main"
+        aria-label="Obsah dokumentace"
+        tabindex="0"
+        data-bs-spy="scroll"
+        data-bs-target="#docNav"
+        data-bs-offset="10">
+        <div id="content"></div>
+      </main>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    (() => {
+      const html = document.documentElement;
+
+      // ---------- Helper: výšky pro sticky + scroll ----------
+      const siteNavbar = document.getElementById('siteNavbar');
+      const docToolbar = document.getElementById('docToolbar');
+      const scrollspyContent = document.getElementById('scrollspyContent');
+
+      function updateHeights() {
+        const navH = siteNavbar?.offsetHeight || 56;
+        const toolH = docToolbar?.offsetHeight || 52;
+        html.style.setProperty('--site-nav-h', navH + 'px');
+        html.style.setProperty('--doc-toolbar-h', toolH + 'px');
+      }
+      window.addEventListener('resize', updateHeights, { passive: true });
+      window.addEventListener('load', updateHeights);
+      updateHeights();
+
+      // ---------- Theme: auto / dark / light (Bootstrap 5.3 data-bs-theme) ----------
+      const THEME_KEY = 'preferredTheme';
+      const themeToggleBtn = document.getElementById('themeToggleBtn');
+      const mqlDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+      function iconFor(mode) {
+        if (mode === 'auto') return '🌗';
+        if (mode === 'dark') return '🌙';
+        return '☀️';
+      }
+
+      function applyTheme(mode) {
+        // mode: auto|dark|light
+        localStorage.setItem(THEME_KEY, mode);
+        themeToggleBtn.textContent = iconFor(mode);
+
+        const effective = (mode === 'auto') ? (mqlDark.matches ? 'dark' : 'light') : mode;
+        html.setAttribute('data-bs-theme', effective);
+      }
+
+      function getSavedTheme() {
+        return localStorage.getItem(THEME_KEY) || 'auto';
+      }
+
+      // Reaguj na změnu systému, jen pokud jsme v auto režimu
+      mqlDark.addEventListener?.('change', () => {
+        if (getSavedTheme() === 'auto') applyTheme('auto');
+      });
+
+      applyTheme(getSavedTheme());
+
+      themeToggleBtn.addEventListener('click', () => {
+        const current = getSavedTheme();
+        const next = (current === 'auto') ? 'dark' : (current === 'dark') ? 'light' : 'auto';
+        applyTheme(next);
+      });
+
+      // ---------- Jedna navigace + responsive collapse ----------
+      const navCollapseEl = document.getElementById('docNavCollapse');
+      const navCollapse = bootstrap.Collapse.getOrCreateInstance(navCollapseEl, { toggle: false });
+      const desktopMql = window.matchMedia('(min-width: 768px)');
+
+      function syncNavToViewport() {
+        if (desktopMql.matches) navCollapse.show();
+        else navCollapse.hide();
+      }
+      desktopMql.addEventListener?.('change', syncNavToViewport);
+      syncNavToViewport();
+
+      // ---------- Vyhledávání v menu (jedno pole) ----------
+      const searchInput = document.getElementById('navSearch');
+      const clearSearchBtn = document.getElementById('clearSearchBtn');
+      const navLinks = Array.from(document.querySelectorAll('#docNav a.nav-link'));
+
+      function levelOf(link) {
+        if (link.classList.contains('ms-2')) return 2;
+        if (link.classList.contains('ms-1')) return 1;
+        return 0;
+      }
+
+      function filterNav(query) {
+        const q = (query || '').trim().toLowerCase();
+        clearSearchBtn.disabled = !q;
+
+        if (!q) {
+          navLinks.forEach(a => a.style.display = '');
+          refreshScrollSpy();
+          return;
+        }
+
+        const levels = navLinks.map(levelOf);
+        const matches = navLinks.map(a => a.textContent.toLowerCase().includes(q));
+
+        // Zachovej kontext: pokud matchne dítě, ukaž i rodiče (úrovně 0..n-1)
+        const visible = new Array(navLinks.length).fill(false);
+        const lastAtLevel = [];
+
+        for (let i = 0; i < navLinks.length; i++) {
+          const lvl = levels[i];
+          lastAtLevel[lvl] = i;
+
+          if (matches[i]) {
+            visible[i] = true;
+            for (let up = lvl - 1; up >= 0; up--) {
+              const idx = lastAtLevel[up];
+              if (typeof idx === 'number') visible[idx] = true;
+            }
+          }
+        }
+
+        navLinks.forEach((a, i) => {
+          a.style.display = visible[i] ? '' : 'none';
+        });
+
+        // Na mobilu při hledání menu automaticky otevři
+        if (!desktopMql.matches) navCollapse.show();
+
+        refreshScrollSpy();
+      }
+
+      searchInput.addEventListener('input', () => filterNav(searchInput.value));
+
+      clearSearchBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        filterNav('');
+        // volitelně: na mobilu po vymazání zase zavřít
+        if (!desktopMql.matches) navCollapse.hide();
+        scrollspyContent.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // default: clear tlačítko aktivní jen když je co mazat
+      clearSearchBtn.disabled = true;
+
+      // ---------- Klik na položku menu: smooth scroll + na mobilu zavři ----------
+      navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          const href = link.getAttribute('href') || '';
+          if (!href.startsWith('#')) return;
+
+          e.preventDefault();
+          const id = href.slice(1);
+          const target = document.getElementById(id);
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+          if (!desktopMql.matches) navCollapse.hide();
+        });
+      });
+
+      // ---------- ScrollSpy (bootstrap) ----------
+      function refreshScrollSpy() {
+        const existing = bootstrap.ScrollSpy.getInstance(scrollspyContent);
+        if (existing) existing.refresh();
+      }
+
+      // Inicializace scrollspy až po načtení (kvůli routeru/dynamickému obsahu)
+      window.addEventListener('load', () => {
+        bootstrap.ScrollSpy.getOrCreateInstance(scrollspyContent, {
+          target: '#docNav'
+        });
+        refreshScrollSpy();
+      });
+
+      // Pokud router doplňuje obsah později, můžeš z něj vyvolat:
+      // document.dispatchEvent(new Event('content:updated'));
+      document.addEventListener('content:updated', () => {
+        refreshScrollSpy();
+      });
+
+    })();
+  </script>
+
+  <!-- Tvoje externí skripty nechávám -->
+  <script src="/learn.jankonrad.com/js/copy.js"></script>
+  <script src="./fullsreenImg.js"></script>
+  <script src="./js/router.js"></script>
+  <script src="./js/testy.js"></script>
+  <script src="./js/progGame.js"></script>
+  <script src="/learn.jankonrad.com/js/progsim1-2.js"></script>
+  <script src="/learn.jankonrad.com/js/progsim3.js"></script>
+  <script src="./js/Fce.js"></script>
+  <script src="/learn.jankonrad.com/js/imgViewer.js"></script>
+  <script src="/learn.jankonrad.com/js/Scripts/3-3-2.js"></script>
+
+  <script>
+    function runSimTip() {
+      const bill = parseFloat(document.getElementById('tipBill')?.value || '0');
+      const pct  = parseFloat(document.getElementById('tipPct')?.value  || '0');
+      const ppl  = Math.max(1, parseInt(document.getElementById('tipPeople')?.value || '1'));
+
+      if (bill < 0 || pct < 0) {
+        const el = document.getElementById('tipResult');
+        if (el) el.textContent = "Zadej nezáporné hodnoty.";
+        return;
+      }
+      const total = bill * (1 + pct / 100);
+      const share = total / ppl;
+
+      const out = document.getElementById('tipResult');
+      if (out) {
+        out.textContent = `Každý zaplatí: ${share.toFixed(2)} Kč\n(Celkem: ${total.toFixed(2)} Kč; Osob: ${ppl})`;
+      }
+    }
+  </script>
+
+</body>
+</html>

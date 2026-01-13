@@ -1,0 +1,77 @@
+<!-- 7.1.x Rastrová grafika — GIMP (Layer Groups — Skupiny vrstev) -->
+<section id="section7-1-x" class="container my-5">
+  <h3 class="mb-4">7.1.3 GIMP — Skupiny vrstev (Layer Groups)</h3>
+
+  <!-- Co se naučíš -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co se naučíš?</h3>
+    <p>Pochopíš princip <em>skupin vrstev</em> v GIMPu, jejich výhody při organizaci projektu i při aplikaci společných efektů. Naučíš se vytvářet, vnořovat (nested) a maskovat celé skupiny vrstev, což ti umožní tvořit složitější a přehlednější kompozice.</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Vytvoření skupiny vrstev</strong>: jak založit, přejmenovat a vkládat vrstvy dovnitř skupiny.</li>
+      <li class="list-group-item"><strong>Organizace kompozice</strong>: přetahování vrstev dovnitř i ven, změna pořadí, zobrazení/skrývání všech vrstev najednou.</li>
+      <li class="list-group-item"><strong>Masky vrstev uvnitř skupiny</strong>: přidání samostatných masek k jednotlivým vrstvám.</li>
+      <li class="list-group-item"><strong>Maska celé skupiny</strong>: aplikace efektů a výřezů na všechny vrstvy ve skupině.</li>
+      <li class="list-group-item"><strong>Kombinované efekty</strong>: jak se masky jednotlivých vrstev a maska skupiny navzájem ovlivňují.</li>
+      <li class="list-group-item"><strong>Nested Layer Groups</strong>: vnořené skupiny vrstev (skupina ve skupině) a jejich využití pro složité kompozice.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Skupiny vrstev slouží nejen pro pořádek, ale i pro <em>sdílené efekty</em> – například jedna maska ovlivní všechny vrstvy uvnitř.
+    </div>
+  </div>
+
+  <!-- Výukové video -->
+  <div class="ratio ratio-16x9 mb-4">
+    <iframe src="https://www.youtube.com/embed/K_oKPFBSWUw" 
+            title="GIMP Layer Groups Tutorial" 
+            allowfullscreen 
+            class="rounded border"></iframe>
+       
+  </div>
+
+  <!-- Teorie + textový výklad -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <h3 class="mb-3">Teorie a postup krok za krokem</h3>
+    <ol class="mb-3">
+      <li>Vytvoř nový projekt (prázdné plátno) a přetáhni obrázek do GIMPu. Vrstva se objeví v panelu vrstev – přejmenuj ji například na <em>Sunflowers</em>.</li>
+      <li>V panelu vrstev klikni na <strong>Create a new layer group</strong> (ikona složky) a přejmenuj ji na <em>Nature Photos</em>.</li>
+      <li>Přetáhni vrstvu <strong>Sunflowers</strong> do této skupiny. Dotted obrys kolem celé skupiny potvrzuje, že ji vkládáš dovnitř.</li>
+      <li>Do stejné kompozice přidej další vrstvy – např. <em>Hiker</em> a <em>Wheat</em> – a umísti je do skupiny. Můžeš měnit pořadí přetažením.</li>
+      <li>Ikona <strong>minus</strong> u skupiny umožňuje její <em>sbalení/rozbalení</em>. Kliknutím na „oko“ u skupiny skryješ/zobrazíš všechny vrstvy naráz.</li>
+      <li>Všimni si, že náhled skupiny (thumbnail) zobrazuje kombinovaný obsah všech vrstev uvnitř.</li>
+      <li>Přidej masku k jednotlivým vrstvám (<em>Hiker</em>, <em>Wheat</em>) — volba <strong>Add Layer Mask → White (Full Opacity)</strong>.</li>
+      <li>Použij <strong>Gradient Tool</strong> (např. <em>Linear</em> nebo <em>Bilinear</em>) k vytvoření přechodu mezi vrstvami.</li>
+      <li>Přidej masku ke <strong>skupině vrstev</strong> – například obdélníkový výběr, invertuj jej (<kbd>Ctrl+I</kbd>) a zvol <em>Add Layer Mask → Selection (Inverted)</em>.</li>
+      <li>Tímto se skryje vše mimo vybranou oblast, a vznikne <strong>spojený efekt masek</strong> – jednotlivé vrstvy mají své masky a skupina má navíc vlastní.</li>
+      <li>Vytvoř novou vrstvu <em>Background</em>, přetáhni ji pod skupinu a vyplň černou barvou (<kbd>Shift+B</kbd>, <kbd>X</kbd> přepne FG/BG).</li>
+      <li>Pomocí <strong>Move Tool (M)</strong> uprav pozice obrázků ve skupině – přesuň „Hiker“ a „Sunflowers“ pro lepší kompozici.</li>
+      <li>Vyzkoušej vytvořit <strong>vnořenou skupinu (Nested Group)</strong> – klikni znovu na „New Layer Group“ uvnitř již existující skupiny a vlož do ní nové vrstvy. Tento proces lze opakovat neomezeně (výkon závisí na počítači).</li>
+    </ol>
+
+    <div class="alert alert-secondary">
+      <strong>🧠 Shrnutí principu:</strong> 
+      Skupiny vrstev umožňují kombinovat více masek a efektů do jedné struktury. 
+      Každá vrstva může mít vlastní masku, ale i skupina jako celek může být maskovaná. 
+      To poskytuje obrovskou flexibilitu pro složité kompozice.
+    </div>
+  </div>
+
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Shrnutí</h3>
+    <ul class="list-group list-group-flush mb-0">
+      <li class="list-group-item">Umíš vytvořit <strong>skupinu vrstev</strong> a organizovat do ní více obrázků.</li>
+      <li class="list-group-item">Zvládneš přetahovat vrstvy dovnitř i ven a měnit jejich pořadí.</li>
+      <li class="list-group-item">Rozumíš principu <strong>masek</strong> – můžeš je použít na jednotlivé vrstvy i na celou skupinu.</li>
+      <li class="list-group-item">Dokážeš kombinovat (skládat) efekty masek pro složitější kompozici.</li>
+      <li class="list-group-item">Umíš vytvořit <strong>vnořené skupiny</strong> pro přehlednější práci a komplexní úpravy.</li>
+      <li class="list-group-item">Zvládneš přidat pozadí a přesně doladit rozmístění vrstev pro čistý finální výsledek.</li>
+    </ul>
+  </div>
+ <div>
+<a href="  https://www.figma.com/proto/gLCHk1r3VFPW3STlil8C7k/Gimp4?page-id=0%3A1&node-id=4-3&p=f&viewport=495%2C30%2C1&t=MEuB47bJnweyFME6-1&scaling=min-zoom&content-scaling=fixed" 
+   class="btn btn-primary" target="_blank">
+  Zobrazit vzor 3-1
+</a>
+  </div>
+
+</section>

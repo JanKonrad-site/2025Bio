@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gamifikace: Hello World</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  .section {
+    margin-bottom: 40px;
+  }
+  .zone {
+    border: 2px dashed #ccc;
+    padding: 15px;
+    min-height: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+  }
+  .zone-title {
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  .draggable {
+    background: #ffffff;
+    border: 1px solid #aaa;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: grab;
+    user-select: none;
+    min-width: 100px;
+    text-align: center;
+  }
+  .draggable.dragging {
+    opacity: 0.5;
+    cursor: grabbing;
+  }
+  .idea {
+    background-color: #fffde7
+  }
+  .tool {
+    background-color: #fffde7;
+  }
+  .func {
+    color: #c792ea;
+    font-weight: bold;
+  }
+  .str {
+    color: #ecc48d;
+  }
+  #resultCode {
+    display: none;
+    margin-top: 20px;
+    background: #d4edda;
+    padding: 15px;
+    border: 1px solid #c3e6cb;
+    border-radius: 6px;
+  }
+  pre {
+    background: #2d2d2d;
+    color: #eee;
+    padding: 10px;
+    border-radius: 4px;
+  }
+  button {
+    margin-top: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 7px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<h2>🧠 Gamifikace: Sestav Hello World</h2>
+
+<div class="section">
+  <div class="zone-title">1. Fáze – Myšlenka</div>
+  <div id="ideaZone" class="zone">
+    <div class="draggable idea" draggable="true" data-step="idea">Vypsat textový řetězec "Hello World"</div>
+  </div>
+  <div class="zone-title">Zvolené myšlenky</div>
+  <div id="selectedIdeas" class="zone"></div>
+</div>
+
+<div class="section" id="toolsSection" style="display:none;">
+  <div class="zone-title">2. Fáze – Nástroje k myšlence</div>
+  <div id="toolZone" class="zone">
+    <div class="draggable tool" draggable="true" data-order="1"><span class="func">print(</span><br><small>funkce pro výstup</small></div>
+    <div class="draggable tool" draggable="true" data-order="2"><span class="str">"Hello world"</span><br><small>řetězec</small></div>
+    <div class="draggable tool" draggable="true" data-order="3"><span class="func">)</span><br><small>uzavření funkce</small></div>
+  </div>
+  <div class="zone-title">Sestavení kódu</div>
+  <div id="codeZone" class="zone"></div>
+</div>
+
+<div id="resultCode">
+  <p><strong>✅ Výborně!</strong> Tady je výsledek:</p>
+  <pre><code id="finalCode">print("Hello world")</code></pre>
+  <button onclick="copyCode()">📋 Kopírovat</button>
+</div>
+
+<script>
+let draggedItem = null;
+let ideaChosen = false;
+
+function checkCode() {
+  const items = Array.from(document.querySelectorAll('#codeZone .draggable'));
+  const order = items.map(el => el.dataset.order);
+  if (order.join(',') === '1,2,3') {
+    document.getElementById('resultCode').style.display = 'block';
+  } else {
+    document.getElementById('resultCode').style.display = 'none';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const draggables = document.querySelectorAll('.draggable');
+  const ideaZone = document.getElementById('ideaZone');
+  const selectedIdeas = document.getElementById('selectedIdeas');
+  const toolZone = document.getElementById('toolZone');
+  const codeZone = document.getElementById('codeZone');
+
+  document.querySelectorAll('.zone').forEach(zone => {
+    zone.addEventListener('dragover', (e) => e.preventDefault());
+    zone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      if (!draggedItem) return;
+      zone.appendChild(draggedItem);
+      if (draggedItem.dataset.step === 'idea' && !ideaChosen) {
+        ideaChosen = true;
+        document.getElementById('toolsSection').style.display = 'block';
+      }
+      checkCode();
+    });
+  });
+
+  draggables.forEach(item => {
+    item.addEventListener('dragstart', (e) => {
+      draggedItem = item;
+      item.classList.add('dragging');
+    });
+    item.addEventListener('dragend', () => {
+      draggedItem.classList.remove('dragging');
+      draggedItem = null;
+    });
+  });
+});
+
+function copyCode() {
+  const code = document.getElementById('finalCode').innerText;
+  navigator.clipboard.writeText(code)
+    .then(() => alert('Kód byl zkopírován do schránky.'));
+}
+</script>
+
+</body>
+</html>

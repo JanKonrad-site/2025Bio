@@ -1,0 +1,581 @@
+<!-- ZAČÁTEK CELÉ KAPITOLY: Cykly v Pythonu (for, while) -->
+
+<style>
+    .svg-line {
+      stroke-dasharray: 300;
+      stroke-dashoffset: 300;
+      animation: draw 2s ease forwards;
+    }
+  
+    @keyframes draw {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+    #sim1Result, #sim2Result {
+      color: white !important;
+      margin-top: 1rem;
+      white-space: pre-line;
+    }
+     .no-copy-overlay {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: auto;
+      background: transparent; /* neviditelný */
+    }
+  </style>
+  
+  <section id="section4-3-1for" class="container my-5, no-copy">
+    <h3 class="mb-4">4.3.1 Cykly – for a while</h3>
+  
+    <!-- Úvodní přehled -->
+    <div class="container my-4 p-4 border rounded bg-light">
+      <h3 class="mb-3">Co se naučíš?</h3>
+      <p>V této kapitole se naučíš, jak pomocí cyklů v Pythonu opakovat části kódu. Vysvětlíme si cyklus <code>for</code> a <code>while</code> a použijeme je v praxi – například při bodování testu nebo rozšířené kalkulačce.</p>
+      <ul class="list-group list-group-flush mb-3">
+        <li class="list-group-item"><strong>Cyklus for</strong>: Procházení opakování pomocí rozsahu nebo seznamu (pole).</li>
+        <li class="list-group-item"><strong>Cyklus while</strong>: Opakování, dokud platí podmínka.</li>
+        <li class="list-group-item"><strong>Pole (seznamy)</strong>: Kolekce prvků v Pythonu.</li>
+        <li class="list-group-item"><strong>Praktické úkoly</strong>: Test s bodováním, opakovaná kalkulačka.</li>
+      </ul>
+      <div class="alert alert-info" role="alert">
+        <strong>Tip:</strong> Cyklus ti umožní, aby program něco prováděl opakovaně.
+      </div>
+    </div>
+  
+    <!-- Teorie: Cyklus for -->
+    <h5 class="mt-5">🔁 Cyklus for</h5>
+    <p>Cyklus <code>for</code> používáme, když chceme něco opakovat daný početkrát nebo procházet prvky seznamu.</p>
+  
+    <pre><code>for i in range(5):
+      print("Ahoj")</code></pre>
+  
+    <p>Výsledkem bude 5x vypsání <code>Ahoj</code>.</p>
+    <ul>
+      <li><code>range(5)</code> vytvoří posloupnost čísel: 0, 1, 2, 3, 4</li>
+      <li><code>i</code> je tzv. iterátor – proměnná, která při každém opakování získá další hodnotu z rozsahu</li>
+    </ul>
+  
+    <!-- Vizualizace cyklu for -->
+    <div class="text-center my-4">
+      <img src="/mnt/data/A_2D_digital_instructional_diagram_illustrates_how.png" class="img-fluid" alt="Vizualizace cyklu for">
+    </div>
+  
+    <div class="mb-3">
+      <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalForExplain">📘 Podrobně: Co je i v cyklu for?</button>
+    </div>
+    <div class="modal fade" id="modalForExplain" tabindex="-1" aria-labelledby="modalForExplainLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalForExplainLabel">Jak funguje proměnná <code>i</code> v cyklu <code>for</code></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+          </div>
+          <div class="modal-body">
+            <p>Když napíšeme <code>for i in range(5):</code>, Python postupně vezme každé číslo z posloupnosti (0 až 4) a přiřadí ho do proměnné <code>i</code>.</p>
+            <p><code>i</code> je jen název – můžeš použít jakýkoli jiný, např. <code>cislo</code>, <code>index</code>, <code>x</code>, apod.:</p>
+  
+            <pre><code>for cislo in range(3):
+      print(cislo)</code></pre>
+  
+            <p>Výstup bude:</p>
+            <pre><code>0
+  1
+  2</code></pre>
+  
+            <p><strong>range(n)</strong> je funkce, která vytvoří posloupnost čísel od 0 do n-1. Můžeš použít i dva parametry:</p>
+  
+            <pre><code>for x in range(2, 5):
+      print(x)</code></pre>
+            <p>To vypíše:</p>
+            <pre><code>2
+  3
+  4</code></pre>
+  
+            <p>Takže konstrukce <code>for název in range()</code> vždy znamená: „Opakuj pro každou hodnotu v rozsahu a ulož ji do proměnné“.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Zkus si to -->
+    <div class="container my-4 p-4 border rounded bg-light">
+      <h4 class="mb-3">🎯 Zkus si to: výpis čísel pomocí for</h4>
+      <p>Vytvoř soubor <code>cyklus.py</code> a zapiš následující kód:</p>
+      <pre><code>for i in range(5):
+      print("Číslo:", i)</code></pre>
+      <p>Spuštěním programu se vypíše:</p>
+      <pre><code>Číslo: 0
+  Číslo: 1
+  Číslo: 2
+  Číslo: 3
+  Číslo: 4</code></pre>
+      <p>Změň název <code>i</code> třeba na <code>cislo</code> a sleduj, že program funguje stejně.</p>
+    </div>
+  
+  <!-- DALŠÍ OBSAH KAPITOLY ZDE POKRAČUJE ... -->
+  <!-- Teorie: Seznamy / pole -->
+  <h5 class="mt-5">📦 Seznamy (pole)</h5>
+  <p>Seznam (v jiných jazycích pole) je kolekce více hodnot. Každý prvek je oddělen čárkou a celý seznam je uzavřen ve <code>[]</code>.</p>
+  <pre><code>ovoce = ["jablko", "banán", "třešeň"]</code></pre>
+  <p>Pokud by jsme chtěli vypsat celý seznam ovoce, vypíšeme <code>print(ovoce)</code></p>
+  <p>Pokud bychom chtěli vypsat jen nějakou konkrétní položku, přidáme [], a do nich napíšeme číslo položky. Například pokud bych chtěl z pole vypsat druhou položku použiji <code>print([1])</code>, protože 0 v programování znamená první.</p>
+  <p>Seznam můžeme procházet cyklem:</p>
+  <pre><code>for polozka in ovoce:
+    print(polozka)</code></pre>
+  <p>Proměnná <code>polozka</code> se v každém průchodu rovná jednomu prvku seznamu <code>ovoce</code>.</p>
+
+  <!-- Vizualizace pole -->
+  <div class="text-center my-4">
+    <img src="/mnt/data/A_2D_digital_instructional_diagram_illustrates_how.png" class="img-fluid" alt="Vizualizace seznamu">
+  </div>
+
+  <!-- Modální vysvětlení -->
+  <div class="mb-3">
+    <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalSeznamFor">🔍 Jak funguje cyklus for se seznamem</button>
+  </div>
+  <div class="modal fade" id="modalSeznamFor" tabindex="-1" aria-labelledby="modalSeznamForLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalSeznamForLabel">Jak funguje cyklus for se seznamem</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+        </div>
+        <div class="modal-body">
+          <p><strong>Kód:</strong></p>
+          <pre><code>ovoce = ["jablko", "banán", "třešeň"]
+
+for polozka in ovoce:
+    print(polozka)</code></pre>
+
+          <p>1️⃣ <code>ovoce</code> je seznam tří hodnot.</p>
+          <p>2️⃣ Cyklus <code>for</code> projde každou hodnotu.</p>
+          <p>3️⃣ Proměnná <code>polozka</code> obsahuje vždy jednu hodnotu:</p>
+          <ul>
+            <li>1. průchod: <code>polozka = "jablko"</code></li>
+            <li>2. průchod: <code>polozka = "banán"</code></li>
+            <li>3. průchod: <code>polozka = "třešeň"</code></li>
+          </ul>
+          <p>4️⃣ Každý prvek je vypsán pomocí <code>print()</code>.</p>
+          <p>🔁 Cyklus běží tolikrát, kolik je položek v seznamu.</p>
+          <p>💬 Poznámka: <code>polozka</code> je jen jméno – můžeš si ho zvolit sám (např. <code>ovoce_jedno</code>).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Zkus si to -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">🎯 Zkus si to: výpis ovoce pomocí seznamu</h4>
+    <p>Vytvoř soubor <code>seznam.py</code> a napiš:</p>
+    <pre><code>ovoce = ["jablko", "banán", "třešeň"]
+
+for kus in ovoce:
+    print("Mám rád:", kus)</code></pre>
+    <p>Spuštěním programu se vypíše:</p>
+    <pre><code>Mám rád: jablko
+Mám rád: banán
+Mám rád: třešeň</code></pre>
+  </div>
+
+ <!-- Podrobné vysvětlení z originálního kurzu (for + list, sum/max, range) -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">📘 Podrobně</h4>
+    <p>Pokud chceš jít více do hloubky, otevři si tyto detailní rozbory:</p>
+    <div class="d-flex flex-wrap gap-2">
+      <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalFruitsTranscript">
+        🍎 For + list (fruits)
+      </button>
+      <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalSumMaxTranscript">
+        ➕ Součet a maximum bodů
+      </button>
+      <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalRangeGaussTranscript">
+        🔢 range() + Gauss 1–100
+      </button>
+    </div>
+  </div>
+
+<!-- DALŠÍ OBSAH KAPITOLY ZDE POKRAČUJE ... -->
+  <!-- Teorie: N-tice -->
+   <!-- Teorie: N-tice -->
+   <h5 class="mt-5">🔗 N-tice a více proměnných v cyklu</h5>
+   <p>N-tice (anglicky <em>tuples</em>) jsou datové struktury podobné seznamům (listům), ale jsou <strong>neměnné</strong> – tedy nelze měnit jejich obsah po vytvoření. Používají se pro seskupení více hodnot dohromady a zapisují se pomocí závorek <code>()</code>.</p>
+ 
+   <p><strong>Jednoduchý příklad:</strong></p>
+   <pre><code>student = ("Anna", 17)</code></pre>
+   <p>Tato n-tice obsahuje dvě hodnoty: jméno a věk. K jednotlivým hodnotám můžeme přistoupit pomocí indexů:</p>
+   <pre><code>print(student[0])  # Vypíše: Anna
+ print(student[1])  # Vypíše: 17</code></pre>
+ 
+   <p>Pokud máme seznam více n-tic, můžeme je procházet pomocí cyklu <code>for</code>:</p>
+   <pre><code>studenti = [("Anna", 17), ("Jan", 18), ("Eliška", 16)]</code></pre>
+ 
+   <p><strong>Procházení s rozbalováním proměnných:</strong></p>
+   <pre><code>for jmeno, vek in studenti:
+     print(jmeno, "má", vek, "let")</code></pre>
+ 
+   <p>Python každou n-tici automaticky rozdělí – první prvek přiřadí do <code>jmeno</code>, druhý do <code>vek</code>.</p>
+ 
+   <p>Tento způsob je zkrácená verze tohoto zápisu:</p>
+   <pre><code>for student in studenti:
+     jmeno = student[0]
+     vek = student[1]
+     print(jmeno, "má", vek, "let")</code></pre>
+ 
+   <p>Tímto způsobem se dá elegantně pracovat s více hodnotami zároveň.</p>
+ 
+   <!-- Ukázka se třemi hodnotami -->
+   <div class="container my-4 p-4 border rounded bg-light">
+     <h5 class="mb-3">🎯 Zkus si to: Trojice dat</h5>
+     <p>Vytvoř si nový soubor <code>n_tice.py</code> a zapiš:</p>
+     <pre><code>data = [
+     ("Anna", 17, "Praha"),
+     ("Jan", 18, "Brno"),
+     ("Eliška", 16, "Ostrava")
+ ]
+ 
+for jmeno, vek, mesto in data:
+     print(jmeno, "má", vek, "let a bydlí v", mesto)</code></pre>
+   </div>
+ 
+   <div class="mb-3">
+     <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalTupleExplain">📘 Podrobně: Co znamená <code>otazka, spravna in otazky</code></button>
+   </div>
+   <div class="modal fade" id="modalTupleExplain" tabindex="-1" aria-labelledby="modalTupleExplainLabel" aria-hidden="true">
+     <div class="modal-dialog modal-lg modal-dialog-centered">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="modalTupleExplainLabel">Jak fungují n-tice a rozbalování proměnných</h5>
+           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+         </div>
+         <div class="modal-body">
+           <p>Seznam <code>otazky</code> může obsahovat n-tice (např. dvojice), kde každá položka má dva prvky – např. text otázky a správnou odpověď:</p>
+           <pre><code>otazky = [
+     ("Kolik je 3 + 4?", "7"),
+     ("Kolik je 2 * 6?", "12")
+ ]</code></pre>
+ 
+           <p>Když použijeme konstrukci:</p>
+           <pre><code>for otazka, spravna in otazky:</code></pre>
+ 
+           <p>Python každou n-tici automaticky <strong>rozbalí</strong> – první prvek přiřadí do proměnné <code>otazka</code>, druhý do <code>spravna</code>.</p>
+ 
+           <p>Stejné chování bychom dosáhli např. takto:</p>
+           <pre><code>for dvojice in otazky:
+     otazka = dvojice[0]
+     spravna = dvojice[1]</code></pre>
+ 
+           <p>Díky rozbalování je ale kód kratší a přehlednější. Funguje to i pro trojice, čtveřice atd., pokud odpovídá počet proměnných.</p>
+ 
+           <p>Toto se hodí nejen pro otázky, ale třeba i pro seznam souřadnic, bodů, jmen a věků, atd.</p>
+         </div>
+       </div>
+     </div>
+   </div>
+<!-- PRAKTICKÝ ÚKOL 1: TEST S BODOVÁNÍM -->
+<div class="container my-5 p-4 border rounded bg-light">
+    <h4 class="mb-3">🧪 Úkol 1: Vytvoř si vlastní test s bodováním</h4>
+    <p>V tomto úkolu si krok za krokem vytvoříme jednoduchý test, který:</p>
+    <ul>
+      <li>položí několik otázek,</li>
+      <li>vyhodnotí odpovědi,</li>
+      <li>na konci vypíše celkový počet bodů.</li>
+    </ul>
+
+    <div class="accordion" id="testAccordion">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="heading1">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+            1️⃣ Vytvoř si seznam otázek a odpovědí
+          </button>
+        </h2>
+        <div id="collapse1" class="accordion-collapse collapse show" data-bs-parent="#testAccordion">
+          <div class="accordion-body">
+            <p>Použijeme seznam n-tic, kde každá dvojice obsahuje otázku a správnou odpověď:</p>
+            <pre><code>otazky = [
+  ("Kolik je 3 + 4?", "7"),
+  ("Jaké je hlavní město Francie?", "Paříž"),
+  ("Kolik nohou má pes?", "4")
+]</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="heading2">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
+            2️⃣ Vytvoř proměnnou pro body
+          </button>
+        </h2>
+        <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#testAccordion">
+          <div class="accordion-body">
+            <p>Na začátku testu potřebujeme mít počet bodů nastavený na nulu:</p>
+            <pre><code>body = 0</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="heading3">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
+            3️⃣ Použij cyklus for a vyhodnocení odpovědí
+          </button>
+        </h2>
+        <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#testAccordion">
+          <div class="accordion-body">
+            <p>Pomocí cyklu projdeme každou dvojici <code>otazka, spravna</code> v seznamu a požádáme uživatele o vstup:</p>
+            <pre><code>for otazka, spravna in otazky:
+  odpoved = input(otazka + " ")
+  if odpoved == spravna:
+    print("✅ Správně!")
+    body += 1
+  else:
+    print("❌ Špatně! Správná odpověď byla:", spravna)</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="heading4">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4">
+            4️⃣ Zobraz výsledek
+          </button>
+        </h2>
+        <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#testAccordion">
+          <div class="accordion-body">
+            <p>Po skončení cyklu vypíšeme celkový počet bodů:</p>
+            <pre><code>print("\nTest dokončen. Získal jsi", body, "bodů z", len(otazky))</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Závěrečná simulace -->
+    <div class="mt-4">
+      <h5 class="mb-3">💻 Simulace výstupu programu</h5>
+      <pre class="bg-dark p-3 rounded text-white">
+Kolik je 3 + 4? 7
+✅ Správně!
+Jaké je hlavní město Francie? Berlin
+❌ Špatně! Správná odpověď byla: Paříž
+Kolik nohou má pes? 4
+✅ Správně!
+
+Test dokončen. Získal jsi 2 bodů z 3
+      </pre>
+    </div>
+  </div>
+
+    <!-- CVIČENÍ: FizzBuzz -->
+  <div class="container my-5 p-4 border rounded">
+    <h4 class="mb-3">🎮 Cvičení: FizzBuzz (for + range + podmínky)</h4>
+    <p>Toto je stejné cvičení, jaké vidíš v Udemy editoru. Procvičíš si cyklus <code>for</code>, funkci <code>range()</code> a podmínky <code>if / elif / else</code>.</p>
+
+    <h5>Zadání:</h5>
+    <ul>
+      <li>Vypiš čísla od 1 do 100 (včetně).</li>
+      <li>Pokud je číslo dělitelné 3, místo čísla vypiš <code>"Fizz"</code>.</li>
+      <li>Pokud je číslo dělitelné 5, vypiš <code>"Buzz"</code>.</li>
+      <li>Pokud je dělitelné 3 i 5 zároveň (např. 15), vypiš <code>"FizzBuzz"</code>.</li>
+      <li>V ostatních případech vypiš samotné číslo.</li>
+    </ul>
+
+    <p>Jako základ můžeš použít tento kód:</p>
+<pre><code class="language-python">for number in range(1, 101):
+    # sem doplň podmínky
+    print(number)</code></pre>
+
+    <div class="alert alert-info">
+      <strong>Tip:</strong> Nejprve otestuj podmínku „3 a 5 zároveň“,
+      teprve potom samostatně 3 nebo 5. Jinak se k ní program nikdy nedostane.
+    </div>
+
+    <details class="mt-3">
+      <summary class="text-muted">📎 Ukázkové řešení (rozklikni až po vlastním pokusu)</summary>
+<pre><code class="language-python">for number in range(1, 101):
+    if number % 3 == 0 and number % 5 == 0:
+        print("FizzBuzz")
+    elif number % 3 == 0:
+        print("Fizz")
+    elif number % 5 == 0:
+        print("Buzz")
+    else:
+        print(number)</code></pre>
+    </details>
+  </div>
+
+
+
+
+  
+
+  </section>
+<!-- MODAL: For + list fruits (detailní vysvětlení) -->
+<div class="modal fade" id="modalFruitsTranscript" tabindex="-1" aria-labelledby="modalFruitsTranscriptLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalFruitsTranscriptLabel">For + list (fruits) a co znamená „uvnitř“ cyklu</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Podívejme se na jednoduchý příklad se seznamem ovoce, na kterém je dobře vidět, jak <code>for</code> projde všechny položky jedna po druhé.</p>
+
+<pre><code class="language-python">fruits = ["Apple", "Peach", "Pear"]
+
+for fruit in fruits:
+    print(fruit)</code></pre>
+
+        <ul>
+          <li><code>fruits</code> je list tří řetězců.</li>
+          <li>Proměnná <code>fruit</code> je při každém průchodu cyklu jiná položka:
+            <ul>
+              <li>1. průchod: <code>fruit == "Apple"</code></li>
+              <li>2. průchod: <code>fruit == "Peach"</code></li>
+              <li>3. průchod: <code>fruit == "Pear"</code></li>
+            </ul>
+          </li>
+        </ul>
+
+        <p>Uvnitř cyklu můžeme dělat víc věcí, ne jen jeden <code>print()</code>:</p>
+
+<pre><code class="language-python">fruits = ["Apple", "Peach", "Pear"]
+
+for fruit in fruits:
+    print(fruit)
+    print(fruit + " pie")</code></pre>
+
+        <p>Výstup:</p>
+<pre><code>Apple
+Apple pie
+Peach
+Peach pie
+Pear
+Pear pie</code></pre>
+
+        <h6 class="mt-3">🔍 „Uvnitř“ vs „mimo“ cyklu (odsazení)</h6>
+        <p>Klíčový je rozdíl mezi kódem <em>uvnitř</em> a <em>mimo</em> cyklus. Rozhoduje <strong>odsazení</strong>:</p>
+
+<pre><code class="language-python">fruits = ["Apple", "Peach", "Pear"]
+
+for fruit in fruits:
+    print(fruit)
+    print(fruit + " pie")
+
+print(fruits)</code></pre>
+
+        <ul>
+          <li>Dva <code>print()</code> uvnitř cyklu (odsazené) se provedou třikrát – pro každé ovoce.</li>
+          <li><code>print(fruits)</code> už není odsazený → spustí se jen jednou, až cyklus skončí.</li>
+        </ul>
+
+        <div class="alert alert-info">
+          <strong>Tip:</strong> Pokud si nejsi jistý, co se v každém kroku děje, zkus si program pustit ve „step-by-step“ debuggeru (např. v Thonny). Uvidíš, jak se mění proměnná <code>fruit</code> při průchodech cyklem.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Součet a maximum v seznamu (sum() a max() „ručně“) -->
+<div class="modal fade" id="modalSumMaxTranscript" tabindex="-1" aria-labelledby="modalSumMaxTranscriptLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalSumMaxTranscriptLabel">Součet a maximum v seznamu (sum() a max() „ručně“)</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Python má hotové funkce <code>sum()</code> a <code>max()</code>, ale je dobré pochopit, jak by šly napsat „ručně“ pomocí <code>for</code> cyklu. Díky tomu lépe porozumíš tomu, co se v pozadí děje.</p>
+
+        <h6>Součet bodů – akumulátor</h6>
+<pre><code class="language-python">student_scores = [150, 142, 185, 120, 171, 199, 145, 168, 199]
+
+total_score = 0
+for score in student_scores:
+    total_score += score
+
+print(total_score)</code></pre>
+
+        <ul>
+          <li><code>total_score</code> začíná na 0 a v každém průchodu se k němu přičte aktuální <code>score</code>.</li>
+          <li>Na konci cyklu obsahuje součet všech čísel – totéž, co by vrátilo <code>sum(student_scores)</code>.</li>
+        </ul>
+
+        <h6 class="mt-3">Hledání maxima – vlastní verze max()</h6>
+<pre><code class="language-python">student_scores = [150, 142, 185, 120, 171, 199, 145, 168, 199]
+
+max_score = 0
+for score in student_scores:
+    if score &gt; max_score:
+        max_score = score
+
+print(max_score)</code></pre>
+
+        <p>Logika je následující:</p>
+        <ol>
+          <li>Na začátku předpokládáme, že maximum je 0.</li>
+          <li>Procházíme všechna skóre. U každého testujeme, jestli je <code>score &gt; max_score</code>.</li>
+          <li>Pokud ANO, přepíšeme <code>max_score</code> na aktuální <code>score</code>.</li>
+          <li>Po průchodu seznamem zůstane v <code>max_score</code> největší hodnota.</li>
+        </ol>
+
+        <div class="alert alert-warning">
+          <strong>Poznámka pro pokročilejší:</strong> v ukázce se používá <code>max_score = 0</code>, protože všechna skóre jsou kladná. Pokud by list mohl obsahovat záporná čísla, je lepší inicializovat <code>max_score</code> na první prvek seznamu (např. <code>max_score = student_scores[0]</code>).
+        </div>
+
+        <p>Princip je stejný jako u vestavěných funkcí: tyhle „malé programy“ (součet, maximum…) jsou složené jen ze základních stavebních kamenů – proměnných, cyklů a podmínek.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: range() + Gauss 1–100 -->
+<div class="modal fade" id="modalRangeGaussTranscript" tabindex="-1" aria-labelledby="modalRangeGaussTranscriptLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalRangeGaussTranscriptLabel">range() + Gaussův součet 1–100</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Funkce <code>range()</code> se často ukazuje na klasickém příkladu s matematikem Gaussem, který jako dítě spočítal součet 1 + 2 + ... + 100. Podívejme se, jak totéž udělá program.</p>
+
+        <h6>Jak funguje range()</h6>
+<pre><code class="language-python">for number in range(1, 11):
+    print(number)</code></pre>
+
+        <ul>
+          <li><code>range(1, 11)</code> generuje čísla 1 až 10 – horní hranice se <strong>nepočítá</strong>.</li>
+          <li>Proměnná <code>number</code> postupně bere hodnoty 1, 2, 3, ..., 10.</li>
+        </ul>
+
+        <p>Range umí i „krok“ (step):</p>
+<pre><code class="language-python">for number in range(1, 11, 3):
+    print(number)</code></pre>
+        <p>Výstup: <code>1, 4, 7, 10</code> – začínáme na 1 a přičítáme 3.</p>
+
+        <h6 class="mt-3">Gaussova úloha: součet 1–100</h6>
+        <p>Součet čísel 1–100 můžeme spočítat přímo v kódu:</p>
+
+<pre><code class="language-python">total = 0
+for number in range(1, 101):  # 1 až 100 včetně
+    total += number
+
+print(total)  # 5050</code></pre>
+
+        <ul>
+          <li><code>range(1, 101)</code> vytvoří všechna čísla 1–100.</li>
+          <li><code>total</code> je akumulátor – v každém průchodu přičteme aktuální <code>number</code>.</li>
+          <li>Na konci vyjde 5050 – stejný výsledek, ke kterému Gauss došel matematickým trikem.</li>
+        </ul>
+
+        <div class="alert alert-success">
+          <strong>Mini–úkol:</strong> Uprav si kód tak, aby horní hranici načetl z <code>input()</code> (např. <code>n = int(input("Do jakého čísla mám sčítat? "))</code>) a sečetl čísla 1–n.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

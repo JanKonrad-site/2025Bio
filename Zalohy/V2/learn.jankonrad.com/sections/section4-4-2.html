@@ -1,0 +1,848 @@
+<!-- ========================================= 
+     4.4.2a Hangman – úvod a flowchart
+     ========================================= -->
+<section id="section4-4-2a" class="container my-5">
+  <style>
+    .code-note{font-size:.95rem}
+    .muted{color:#6c757d}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}
+    .tip{border-left:4px solid #0d6efd;padding:.75rem 1rem;background:#f8f9fa}
+    .warn{border-left:4px solid #dc3545;padding:.75rem 1rem;background:#fff5f5}
+    .ok{border-left:4px solid #198754;padding:.75rem 1rem;background:#f6fff8}
+    .kbd{padding:.1rem .35rem;background:#eee;border-radius:.25rem;border:1px solid #ddd;font-family:inherit}
+    pre code{white-space:pre}
+  </style>
+
+  <h3 class="mb-4">4.4.2a Hangman – úvod a logika hry</h3>
+
+  <!-- Co se naučíš -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Co se v projektu Hangman naučíš/procvičíš</h4>
+    <ul class="mb-3">
+      <li>Pravidla hry <b>Hangman</b> (šibenice) a převod do programu.</li>
+      <li>Návrh logiky pomocí <b>flowchartu</b>.</li>
+      <li>Práci s <b>řetězci</b> a <b>seznamy</b> (slovo, jednotlivá písmena, podtržítka).</li>
+      <li>Použití cyklů <b>for</b> a <b>while</b> v jedné aplikaci.</li>
+      <li>Podmínky <b>if / elif / else</b> v praxi (správné × špatné písmeno, výhra/prohra).</li>
+      <li>Práci s <b>moduly</b> (import vlastních souborů s daty a ASCII grafikou).</li>
+      <li>Jednoduché <b>UX v konzoli</b> (uživatelské hlášky, počet životů, odhalování slova).</li>
+    </ul>
+    <div class="tip">
+      <strong>Tip:</strong> Ber Hangman jako „výroční test“ všeho, co umíš: funkce, cykly, podmínky, stringy, seznamy i moduly.
+    </div>
+  </div>
+
+  <!-- Tlačítka na teoretické modály -->
+  <div class="d-flex flex-wrap gap-2 my-3">
+    <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalHangmanRules">
+      Pravidla hry Hangman
+    </button>
+    <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalHangmanFlow">
+      Flowchart hry
+    </button>
+    <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalHangmanConcepts">
+      Jaké koncepty Pythonu procvičíme
+    </button>
+  </div>
+
+  <!-- Modal: pravidla hry -->
+  <div class="modal fade" id="modalHangmanRules" tabindex="-1" aria-labelledby="modalHangmanRulesLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalHangmanRulesLabel">Pravidla hry Hangman (šibenice)</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+        </div>
+        <div class="modal-body">
+          <p>V klasické hře Hangman máš za úkol uhodnout skryté slovo po jednotlivých písmenech.</p>
+          <ul>
+            <li>Program si vybere <b>tajné slovo</b> (např. <span class="mono">"mouse"</span>).</li>
+            <li>Hráč vidí jen <b>podtržítka</b>: <span class="mono">_ _ _ _ _</span> – každé podtržítko = jedno písmeno.</li>
+            <li>Hráč <b>hádat písmena</b> (např. <span class="mono">"o"</span>).</li>
+            <li>
+              Pokud písmeno <b>ve slově je</b>:  
+              → na správných pozicích se objeví (např. <span class="mono">_ o _ _ _</span>).
+            </li>
+            <li>
+              Pokud písmeno <b>ve slově není</b>:  
+              → hráč <b>ztratí jeden život</b> a „panáček“ se přikreslí o další část.
+            </li>
+            <li>Když hráč uhodne všechna písmena → <b>vyhrál</b>.</li>
+            <li>Když dojdou životy → panáček je celý nakreslený → <b>prohra</b>.</li>
+          </ul>
+          <p>V našem programu nebudeme kreslit grafiku, ale použijeme <b>ASCII obrázky</b> (textové obrázky) v seznamu <span class="mono">stages</span>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: flowchart -->
+  <div class="modal fade" id="modalHangmanFlow" tabindex="-1" aria-labelledby="modalHangmanFlowLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalHangmanFlowLabel">Flowchart logiky Hangmana</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+        </div>
+        <div class="modal-body">
+          <p>Programová logika vychází z tohoto postupného schématu:</p>
+          <ol>
+            <li>Vyber náhodné <b>tajné slovo</b>.</li>
+            <li>Vytvoř <b>display</b> – seznam/pole podtržítek (jedno podtržítko na jedno písmeno).</li>
+            <li>Nastav počet <b>životů</b> (např. 6) a příznak <span class="mono">game_over = False</span>.</li>
+            <li><b>While</b> hra neskončila:
+              <ol type="a">
+                <li>Hráč zadá písmeno (<span class="mono">guess</span>).</li>
+                <li>Pro každou pozici ve slově:
+                  <ul>
+                    <li>Pokud písmeno na pozici == <span class="mono">guess</span> → zapiš do <span class="mono">display</span>.</li>
+                    <li>Jinak nech stávající znak (<b>správně uhodnutá</b> písmena musí zůstat vidět).</li>
+                  </ul>
+                </li>
+                <li>Pokud <span class="mono">guess</span> v tajném slově <b>neexistuje</b> → sniž <span class="mono">lives -= 1</span>.</li>
+                <li>Vyhodnoť konec hry:
+                  <ul>
+                    <li>Pokud v <span class="mono">display</span> není žádné <span class="mono">"_"</span> → hráč uhodl celé slovo → <b>výhra</b>.</li>
+                    <li>Pokud <span class="mono">lives == 0</span> → došly životy → <b>prohra</b>.</li>
+                  </ul>
+                </li>
+                <li>Vypiš aktuální stav <span class="mono">display</span> a ASCII obrázek podle počtu životů.</li>
+              </ol>
+            </li>
+          </ol>
+          <div class="tip">
+            <b>Mentální mapa:</b>  
+            1) inicializace (slovo, display, lives)  
+            2) smyčka hádání (while)  
+            3) uvnitř smyčky: zpracuj guess, aktualizuj display, životy, zkontroluj výhru/prohru.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: koncepty -->
+  <div class="modal fade" id="modalHangmanConcepts" tabindex="-1" aria-labelledby="modalHangmanConceptsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalHangmanConceptsLabel">Python koncepty v projektu Hangman</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+        </div>
+        <div class="modal-body">
+          <ul>
+            <li><b>for cyklus:</b> průchod písmeny ve slově / indexy znaků.</li>
+            <li><b>while cyklus:</b> opakované hádání, dokud není výhra nebo prohra.</li>
+            <li><b>if / elif / else:</b> reakce na správné / špatné písmeno, konec hry.</li>
+            <li><b>Seznamy a stringy:</b> tajné slovo, display s podtržítky, seznam <span class="mono">stages</span> s ASCII obrázky.</li>
+            <li><b>Moduly:</b> import <span class="mono">random</span>, vlastních modulů <span class="mono">hangman_words</span> a <span class="mono">hangman_art</span>.</li>
+            <li><b>Proměnné stavu:</b> <span class="mono">lives</span>, <span class="mono">game_over</span>, zvolená slova, seznam už hádaných písmen.</li>
+            <li><b>UX v konzoli:</b> přehledné vypisování stavu, varování u opakovaného písmena, zobrazení cílového slova po prohře.</li>
+          </ul>
+          <div class="ok">
+            <b>Cíl:</b> Na konci kapitoly bys měl(a) zvládnout napsat Hangman od nuly bez koukání do řešení.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================= 
+     4.2.1b Hangman – Krok 1: náhodné slovo a první kontrola
+     ========================================= -->
+<section id="section4-4-2b" class="container my-5">
+  <h3 class="mb-4">4.4.2b Hangman – Krok 1: náhodné slovo a první „Right / Wrong“</h3>
+
+  <div class="container my-4 p-4 border rounded bg-light">
+    <p>
+      V prvním kroku vytvoříme úplně nejjednodušší verzi:
+    </p>
+    <ol>
+      <li>Vybereme náhodné <b>tajné slovo</b> ze seznamu.</li>
+      <li>Necháme uživatele zadat <b>jedno písmeno</b>.</li>
+      <li>Projdeme slovo po písmenech a pro každé písmeno vypíšeme <span class="mono">"Right"</span> / <span class="mono">"Wrong"</span>.</li>
+    </ol>
+    <p>Tím si ověříme: výběr náhodného prvku, vstup uživatele, cyklus <span class="mono">for</span> přes string.</p>
+  </div>
+
+  <!-- Modal teorie Krok 1 -->
+  <button class="btn btn-outline-primary btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#modalHangmanStep1Theory">
+    Teorie Krok 1 – random slovo a průchod písmeny
+  </button>
+
+  <div class="modal fade" id="modalHangmanStep1Theory" tabindex="-1" aria-labelledby="modalHangmanStep1TheoryLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalHangmanStep1TheoryLabel">Teorie Krok 1 – náhodné slovo a kontrola písmen</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <h5>1) Výběr náhodného slova</h5>
+          <p>
+            Máme seznam slov, např.:
+          </p>
+<pre><code class="language-python">word_list = ["camel", "baboon", "aardvark"]</code></pre>
+          <p>
+            Pomocí <span class="mono">random.choice()</span> vybereme jedno slovo a uložíme ho do proměnné <span class="mono">chosen_word</span>.
+          </p>
+
+          <h5 class="mt-3">2) Vstup uživatele a normalizace</h5>
+          <p>
+            Uživatel zadá písmeno. Pro porovnávání je praktické si vše převést na <b>malá písmena</b>:
+          </p>
+          <ul>
+            <li>slova v seznamu necháme malá,</li>
+            <li>uživatelský vstup převedeme metodou <span class="mono">.lower()</span>.</li>
+          </ul>
+
+          <h5 class="mt-3">3) Průchod slovem a porovnání</h5>
+          <p>
+            String lze procházet přímo:
+          </p>
+<pre><code class="language-python">for letter in chosen_word:
+    # letter je jeden znak, např. 'a'</code></pre>
+          <p>
+            Pro každý znak porovnáme:
+          </p>
+<pre><code class="language-python">if letter == guess:
+    print("Right")
+else:
+    print("Wrong")</code></pre>
+          <p>
+            Na začátku vypisujeme jen „Right/Wrong“ u každé pozice – později tuto logiku využijeme pro tvorbu <span class="mono">display</span>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Akordeon – úkol Krok 1 -->
+  <div class="accordion" id="accordionHangmanStep1">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingHStep1Task">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHStep1Task" aria-expanded="true">
+          Úkol 4.4.2b – implementuj Krok 1
+        </button>
+      </h2>
+      <div id="collapseHStep1Task" class="accordion-collapse collapse show" data-bs-parent="#accordionHangmanStep1">
+        <div class="accordion-body">
+          <ol>
+            <li>Vytvoř seznam <span class="mono">word_list</span> se 3–5 slovy.</li>
+            <li>Pomocí <span class="mono">random.choice()</span> vyber jedno slovo do <span class="mono">chosen_word</span>.</li>
+            <li>Vypiš <span class="mono">chosen_word</span> do konzole (zatím „debug mód“, aby bylo testování jednodušší).</li>
+            <li>Načti písmeno od uživatele do proměnné <span class="mono">guess</span> a převeď na <span class="mono">lower()</span>.</li>
+            <li>
+              Pomocí <span class="mono">for letter in chosen_word</span>:
+              <ul>
+                <li>pokud <span class="mono">letter == guess</span> → <span class="mono">print("Right")</span>,</li>
+                <li>jinak <span class="mono">print("Wrong")</span>.</li>
+              </ul>
+            </li>
+          </ol>
+          <div class="ok">
+            <b>Cíl:</b> Program po zadání písmena vypíše pro každou pozici ve slově „Right/ Wrong“, podle toho, jestli tam písmeno sedí.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Řešení -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingHStep1Solution">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHStep1Solution">
+          Řešení (ukázkový kód)
+        </button>
+      </h2>
+      <div id="collapseHStep1Solution" class="accordion-collapse collapse" data-bs-parent="#accordionHangmanStep1">
+        <div class="accordion-body">
+<pre><code class="language-python">import random
+
+word_list = ["camel", "baboon", "aardvark"]
+
+# 1) náhodné slovo
+chosen_word = random.choice(word_list)
+print(f"Zvolené slovo (debug): {chosen_word}")
+
+# 2) vstup uživatele
+guess = input("Hádej písmeno: ").lower()
+
+# 3) kontrola každé pozice
+for letter in chosen_word:
+    if letter == guess:
+        print("Right")
+    else:
+        print("Wrong")</code></pre>
+          <div class="tip">
+            <b>Tip:</b> Nech si zatím tajné slovo vytisknout – při ladění to šíleně pomáhá. Až později výpis smažeš.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================= 
+     4.2.1c Hangman – Krok 2: placeholder a display
+     ========================================= -->
+<section id="section4-4-2c" class="container my-5">
+  <h3 class="mb-4">4.4.2c Hangman – Krok 2: podtržítka a zobrazování správných písmen</h3>
+
+  <div class="container my-4 p-4 border rounded bg-light">
+    <p>Ve druhém kroku přejdeme od pouhého „Right/Wrong“ k vizuálnímu zobrazení slova:</p>
+    <ul>
+      <li>Vytvoříme <b>placeholder</b> s podtržítky pro celé slovo.</li>
+      <li>Vytvoříme <b>display</b>, který obsahuje podtržítka + správně uhodnutá písmena na správných pozicích.</li>
+    </ul>
+    <p>Tohle je základní mechanismus, kterým bude hráč vidět svůj pokrok.</p>
+  </div>
+
+  <!-- Modal teorie Krok 2 -->
+  <button class="btn btn-outline-primary btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#modalHangmanStep2Theory">
+    Teorie Krok 2 – placeholder a display
+  </button>
+
+  <div class="modal fade" id="modalHangmanStep2Theory" tabindex="-1" aria-labelledby="modalHangmanStep2TheoryLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalHangmanStep2TheoryLabel">Teorie Krok 2 – placeholder a display</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <h5>1) Placeholder s podtržítky</h5>
+          <p>
+            Potřebujeme řetězec (nebo seznam) podtržítek stejné délky jako tajné slovo.
+          </p>
+<pre><code class="language-python">chosen_word = "apple"
+word_length = len(chosen_word)
+
+placeholder = ""
+for _ in range(word_length):
+    placeholder += "_"
+
+print(placeholder)   # "_____"
+</code></pre>
+          <p><span class="mono">range(word_length)</span> zajistí, že cyklus proběhne přesně tolikrát, kolik má slovo písmen.</p>
+
+          <h5 class="mt-3">2) Display – kombinace písmen a podtržítek</h5>
+          <p>
+            Po prvním hádání nechceme jen Right/Wrong, ale <b>řetězec</b>, ve kterém:
+          </p>
+          <ul>
+            <li>správně uhodnutá písmena jsou na svých pozicích,</li>
+            <li>ostatní pozice zůstávají jako <span class="mono">"_"</span>.</li>
+          </ul>
+<pre><code class="language-python">display = ""
+
+for letter in chosen_word:
+    if letter == guess:
+        display += letter     # správně uhodnuté písmeno
+    else:
+        display += "_"        # stále neuhodnuté písmeno
+
+print(display)</code></pre>
+          <p>
+            Později nahradíme „čerstvý“ <span class="mono">display</span> tak, aby si pamatoval i předchozí uhodnutá písmena.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Akordeon – úkol Krok 2 -->
+  <div class="accordion" id="accordionHangmanStep2">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingHStep2Task">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHStep2Task" aria-expanded="true">
+          Úkol 4.2.1c – vytvoř placeholder a display
+        </button>
+      </h2>
+      <div id="collapseHStep2Task" class="accordion-collapse collapse show" data-bs-parent="#accordionHangmanStep2">
+        <div class="accordion-body">
+          <ol>
+            <li>Na základě délky <span class="mono">chosen_word</span> vytvoř <span class="mono">placeholder</span> s podtržítky.</li>
+            <li>Nech uživatele hádat písmeno <span class="mono">guess</span>.</li>
+            <li>Vytvoř proměnnou <span class="mono">display = ""</span>.</li>
+            <li>
+              Pro každé písmeno ve <span class="mono">chosen_word</span>:
+              <ul>
+                <li>pokud se rovná <span class="mono">guess</span>, přidej do <span class="mono">display</span> písmeno,</li>
+                <li>jinak přidej <span class="mono">"_"</span>.</li>
+              </ul>
+            </li>
+            <li>Na konci vypiš <span class="mono">display</span> – uvidíš slovo s dosazeným písmenem.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- Řešení -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingHStep2Solution">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHStep2Solution">
+          Řešení (ukázkový kód)
+        </button>
+      </h2>
+      <div id="collapseHStep2Solution" class="accordion-collapse collapse" data-bs-parent="#accordionHangmanStep2">
+        <div class="accordion-body">
+<pre><code class="language-python">import random
+
+word_list = ["camel", "baboon", "aardvark"]
+chosen_word = random.choice(word_list)
+word_length = len(chosen_word)
+
+print(f"Zvolené slovo (debug): {chosen_word}")
+
+# 1) placeholder (zatím jen ukázka, klidně ho jen vypiš)
+placeholder = ""
+for _ in range(word_length):
+    placeholder += "_"
+print("Placeholder:", placeholder)
+
+# 2) hádání
+guess = input("Hádej písmeno: ").lower()
+
+# 3) display s písmeny a podtržítky
+display = ""
+for letter in chosen_word:
+    if letter == guess:
+        display += letter
+    else:
+        display += "_"
+
+print("Display:", display)</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================= 
+     4.2.1d Hangman – Krok 3: while smyčka a opakované hádání
+     ========================================= -->
+<section id="section4-4-2d" class="container my-5">
+  <h3 class="mb-4">4.4.2d Hangman – Krok 3: while smyčka a opakované hádání</h3>
+
+  <div class="container my-4 p-4 border rounded bg-light">
+    <p>Teď z jednorázového hádání uděláme skutečnou hru:</p>
+    <ul>
+      <li>zavedeme <b>nekonečnou smyčku</b> s podmínkou (<span class="mono">while not game_over</span>),</li>
+      <li>po každém hádání zobrazíme aktualizovaný <span class="mono">display</span>,</li>
+      <li>kontrolujeme, jestli ještě ve <span class="mono">display</span> existuje nějaké <span class="mono">"_"</span> – pokud ne, hráč vyhrál.</li>
+    </ul>
+  </div>
+
+  <!-- Modal teorie Krok 3 -->
+  <button class="btn btn-outline-primary btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#modalHangmanStep3Theory">
+    Teorie Krok 3 – while, game_over a uchování správných písmen
+  </button>
+
+  <div class="modal fade" id="modalHangmanStep3Theory" tabindex="-1" aria-labelledby="modalHangmanStep3TheoryLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalHangmanStep3TheoryLabel">Teorie Krok 3 – while smyčka a uchování stavu</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <h5>1) game_over a while cyklus</h5>
+<pre><code class="language-python">game_over = False
+display = ["_"] * len(chosen_word)   # doporučení: použij list místo stringu
+
+while not game_over:
+    guess = input("Hádej písmeno: ").lower()
+    # ... doplnění display ...
+    if "_" not in display:
+        print("Vyhrál jsi!")
+        game_over = True</code></pre>
+          <p>Podmínka <span class="mono">"_" not in display</span> znamená: žádné podtržítko → všechna písmena uhodnuta.</p>
+
+          <h5 class="mt-3">2) Uchování předchozích správných písmen</h5>
+          <p>Klíčová myšlenka: <b>display nesmíš přepisovat úplně znovu</b>, ale aktualizovat jen některé pozice.</p>
+<pre><code class="language-python"># display jako list znaků
+display = ["_"] * len(chosen_word)
+
+guess = input("Hádej písmeno: ").lower()
+
+for position in range(len(chosen_word)):
+    letter = chosen_word[position]
+    if letter == guess:
+        display[position] = letter
+
+print(" ".join(display))</code></pre>
+          <p>
+            Díky tomu zůstávají <b>staré správné</b> pokusy zachované, jen doplňujeme nová písmena.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Akordeon – úkol Krok 3 -->
+  <div class="accordion" id="accordionHangmanStep3">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingHStep3Task">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHStep3Task" aria-expanded="true">
+          Úkol 4.4.2d – převeď Hangman na opakovanou hru
+        </button>
+      </h2>
+      <div id="collapseHStep3Task" class="accordion-collapse collapse show" data-bs-parent="#accordionHangmanStep3">
+        <div class="accordion-body">
+          <ol>
+            <li>Překlop <span class="mono">display</span> na seznam znaků: <span class="mono">["_", "_", ...]</span>.</li>
+            <li>Zaveď proměnnou <span class="mono">game_over = False</span>.</li>
+            <li>
+              Celou logiku hádání vlož do smyčky:
+<pre><code class="language-python">while not game_over:
+    # 1) uživatel hádá
+    # 2) aktualizace display
+    # 3) kontrola "_" in display</code></pre>
+            </li>
+            <li>Pokud ve <span class="mono">display</span> není <span class="mono">"_"</span>, vypiš „Vyhrál jsi“ a nastav <span class="mono">game_over = True</span>.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- Řešení -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingHStep3Solution">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHStep3Solution">
+          Řešení (ukázkový kód)
+        </button>
+      </h2>
+      <div id="collapseHStep3Solution" class="accordion-collapse collapse" data-bs-parent="#accordionHangmanStep3">
+        <div class="accordion-body">
+<pre><code class="language-python">import random
+
+word_list = ["camel", "baboon", "aardvark"]
+chosen_word = random.choice(word_list)
+word_length = len(chosen_word)
+
+display = ["_"] * word_length
+game_over = False
+
+print(f"Tajné slovo (debug): {chosen_word}")
+
+while not game_over:
+    guess = input("Hádej písmeno: ").lower()
+
+    # aktualizace display
+    for position in range(word_length):
+        letter = chosen_word[position]
+        if letter == guess:
+            display[position] = letter
+
+    print("Aktuální stav:", " ".join(display))
+
+    # kontrola výhry
+    if "_" not in display:
+        print("Vyhrál jsi!")
+        game_over = True</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================= 
+     4.2.1e Hangman – Krok 4: životy a ASCII panáček
+     ========================================= -->
+<section id="section4-2-1e" class="container my-5">
+  <h3 class="mb-4">4.2.1e Hangman – Krok 4: životy a ASCII panáček</h3>
+
+  <div class="container my-4 p-4 border rounded bg-light">
+    <p>Teď z Hangmana uděláme hru, kde se dá i prohrát:</p>
+    <ul>
+      <li>Zavedeme proměnnou <span class="mono">lives = 6</span> (počet životů).</li>
+      <li>Každé <b>špatné písmeno</b> = <span class="mono">lives -= 1</span>.</li>
+      <li>Při <span class="mono">lives == 0</span> → „Prohrál jsi“ a <span class="mono">game_over = True</span>.</li>
+      <li>Podle počtu životů zobrazíme ASCII obrázek z listu <span class="mono">stages</span>.</li>
+    </ul>
+  </div>
+
+  <!-- Modal teorie Krok 4 -->
+  <button class="btn btn-outline-primary btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#modalHangmanStep4Theory">
+    Teorie Krok 4 – životy a list stages
+  </button>
+
+  <div class="modal fade" id="modalHangmanStep4Theory" tabindex="-1" aria-labelledby="modalHangmanStep4TheoryLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalHangmanStep4TheoryLabel">Teorie Krok 4 – životy a ASCII panáček</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <h5>1) Počítadlo životů</h5>
+<pre><code class="language-python">lives = 6
+
+if guess not in chosen_word:
+    lives -= 1
+    if lives == 0:
+        game_over = True
+        print("Prohrál jsi!")</code></pre>
+
+          <h5 class="mt-3">2) ASCII obrázky podle počtu životů</h5>
+          <p>List <span class="mono">stages</span> obsahuje obrázky od „úplně pověšený“ po „prázdná šibenice“.</p>
+<pre><code class="language-python">stages = [
+    "obrázek pro 0 životů",
+    "obrázek pro 1 život",
+    "obrázek pro 2 životy",
+    "obrázek pro 3 životy",
+    "obrázek pro 4 životy",
+    "obrázek pro 5 životů",
+    "obrázek pro 6 životů",
+]
+
+print(stages[lives])</code></pre>
+          <p>Index v listu <span class="mono">stages</span> je přímo počet životů – žádné další výpočty nejsou potřeba.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Akordeon – úkol Krok 4 -->
+  <div class="accordion" id="accordionHangmanStep4">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingHStep4Task">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHStep4Task" aria-expanded="true">
+          Úkol 4.4.2e – přidej životy a ASCII stages
+        </button>
+      </h2>
+      <div id="collapseHStep4Task" class="accordion-collapse collapse show" data-bs-parent="#accordionHangmanStep4">
+        <div class="accordion-body">
+          <ol>
+            <li>Před while smyčkou inicializuj <span class="mono">lives = 6</span>.</li>
+            <li>Po vyhodnocení písmen přidej podmínku:
+              <ul>
+                <li>pokud <span class="mono">guess</span> <b>není</b> v <span class="mono">chosen_word</span> → <span class="mono">lives -= 1</span>,</li>
+                <li>pokud <span class="mono">lives == 0</span> → nastav <span class="mono">game_over = True</span> a vypiš „Prohrál jsi“.</li>
+              </ul>
+            </li>
+            <li>Před koncem iterace while cyklu vypiš <span class="mono">stages[lives]</span>.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- Řešení -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingHStep4Solution">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHStep4Solution">
+          Řešení (ukázkový kód – zjednodušený)
+        </button>
+      </h2>
+      <div id="collapseHStep4Solution" class="accordion-collapse collapse" data-bs-parent="#accordionHangmanStep4">
+        <div class="accordion-body">
+<pre><code class="language-python">import random
+
+word_list = ["camel", "baboon", "aardvark"]
+stages = ["obrázek0", "obrázek1", "obrázek2",
+          "obrázek3", "obrázek4", "obrázek5", "obrázek6"]
+
+chosen_word = random.choice(word_list)
+word_length = len(chosen_word)
+
+display = ["_"] * word_length
+game_over = False
+lives = 6
+
+print(f"Tajné slovo (debug): {chosen_word}")
+
+while not game_over:
+    guess = input("Hádej písmeno: ").lower()
+
+    # aktualizace display
+    for position in range(word_length):
+        letter = chosen_word[position]
+        if letter == guess:
+            display[position] = letter
+
+    print(" ".join(display))
+
+    # špatné písmeno → život dolů
+    if guess not in chosen_word:
+        lives -= 1
+        if lives == 0:
+            game_over = True
+            print("Prohrál jsi!")
+
+    # ASCII obrázek
+    print(stages[lives])
+
+    # výhra
+    if "_" not in display:
+        game_over = True
+        print("Vyhrál jsi!")</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================= 
+     4.2.1f Hangman – Krok 5: moduly a UX vyladění
+     ========================================= -->
+<section id="section4-4-2f" class="container my-5">
+  <h3 class="mb-4">4.4.2f Hangman – Krok 5: import modulů a UX vylepšení</h3>
+
+  <div class="container my-4 p-4 border rounded bg-light">
+    <p>Poslední krok: strukturovat kód do modulů a doladit uživatelské zážitky.</p>
+    <ul>
+      <li>Použijeme samostatné soubory <span class="mono">hangman_words.py</span> a <span class="mono">hangman_art.py</span>.</li>
+      <li>Importujeme <b>seznam slov</b>, <b>ASCII obrázky</b> a <b>logo</b>.</li>
+      <li>Přidáme přátelské hlášky:
+        <ul>
+          <li>už jsi tohle písmeno zkoušel,</li>
+          <li>tohle písmeno ve slově není, ztrácíš život,</li>
+          <li>kolik životů zbývá.</li>
+        </ul>
+      </li>
+      <li>Po prohře zobrazíme, jaké slovo bylo správné.</li>
+    </ul>
+  </div>
+
+  <!-- Modal teorie Krok 5 -->
+  <button class="btn btn-outline-primary btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#modalHangmanStep5Theory">
+    Teorie Krok 5 – moduly a UX
+  </button>
+
+  <div class="modal fade" id="modalHangmanStep5Theory" tabindex="-1" aria-labelledby="modalHangmanStep5TheoryLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalHangmanStep5TheoryLabel">Teorie Krok 5 – moduly a UX vyladění</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <h5>1) Moduly s daty</h5>
+<pre><code class="language-python"># hangman_words.py
+word_list = ["ardvark", "baboon", "camel", ...]  # delší seznam
+
+# hangman_art.py
+stages = [ ..., ..., ... ]       # ASCII obrázky
+logo = "..."                     # ASCII logo hry</code></pre>
+<pre><code class="language-python"># main.py
+from hangman_words import word_list
+from hangman_art import stages, logo
+
+print(logo)</code></pre>
+
+          <h5 class="mt-3">2) UX – opakované písmeno a chybné písmeno</h5>
+          <p>Zavedeme si seznam již hádaných písmen, aby se hráč zbytečně netrápil:</p>
+<pre><code class="language-python">guessed_letters = []
+
+while not game_over:
+    guess = input("Hádej písmeno: ").lower()
+
+    if guess in guessed_letters:
+        print(f"Písmeno '{guess}' už jsi hádal.")
+        continue
+    else:
+        guessed_letters.append(guess)</code></pre>
+          <p>Při chybě:</p>
+<pre><code class="language-python">if guess not in chosen_word:
+    print(f"Písmeno '{guess}' ve slově není. Ztrácíš život.")
+    lives -= 1</code></pre>
+
+          <h5 class="mt-3">3) Zobrazení životů a cílového slova</h5>
+<pre><code class="language-python">print(f"Životy: {lives} / 6")
+
+if lives == 0:
+    print(f"Prohrál jsi. Hledané slovo bylo: {chosen_word}")</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Akordeon – závěrečný úkol: celý Hangman -->
+  <div class="accordion" id="accordionHangmanStep5">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingHStep5Task">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHStep5Task" aria-expanded="true">
+          Úkol 4.4.2f – poskládej kompletní Hangman
+        </button>
+      </h2>
+      <div id="collapseHStep5Task" class="accordion-collapse collapse show" data-bs-parent="#accordionHangmanStep5">
+        <div class="accordion-body">
+          <ol>
+            <li>Vytvoř soubory <span class="mono">hangman_words.py</span> a <span class="mono">hangman_art.py</span> se seznamy <span class="mono">word_list</span>, <span class="mono">stages</span> a <span class="mono">logo</span>.</li>
+            <li>V <span class="mono">main.py</span> je importuj pomocí <span class="mono">from ... import ...</span>.</li>
+            <li>Před while smyčkou vypiš <span class="mono">logo</span>.</li>
+            <li>Zaveď <span class="mono">guessed_letters</span> a kontrolu opakovaného písmena.</li>
+            <li>Při chybě zobraz varovnou hlášku a vypiš, kolik životů zbývá.</li>
+            <li>Po prohře vypiš správné slovo.</li>
+          </ol>
+          <div class="tip">
+            <b>Volitelně:</b> Přidej barvy (colorama), časovač, počítání skóre nebo možnost hrát znovu.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Řešení – zhuštěný final main.py -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingHStep5Solution">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHStep5Solution">
+          Řešení (kompletní main.py – zjednodušená verze)
+        </button>
+      </h2>
+      <div id="collapseHStep5Solution" class="accordion-collapse collapse" data-bs-parent="#accordionHangmanStep5">
+        <div class="accordion-body">
+<pre><code class="language-python">import random
+from hangman_words import word_list
+from hangman_art import stages, logo
+
+print(logo)
+
+chosen_word = random.choice(word_list)
+word_length = len(chosen_word)
+
+display = ["_"] * word_length
+game_over = False
+lives = 6
+guessed_letters = []
+
+# debug:
+# print(f"Tajné slovo: {chosen_word}")
+
+while not game_over:
+    guess = input("Hádej písmeno: ").lower()
+
+    if guess in guessed_letters:
+        print(f"Písmeno '{guess}' už jsi hádal.")
+        continue
+    else:
+        guessed_letters.append(guess)
+
+    # aktualizace display
+    for position in range(word_length):
+        letter = chosen_word[position]
+        if letter == guess:
+            display[position] = letter
+
+    print("Slovo:", " ".join(display))
+
+    # špatné písmeno
+    if guess not in chosen_word:
+        print(f"Písmeno '{guess}' ve slově není. Ztrácíš život.")
+        lives -= 1
+        if lives == 0:
+            game_over = True
+            print("Prohrál jsi.")
+            print(f"Hledané slovo bylo: {chosen_word}")
+
+    print(stages[lives])
+    print(f"Životy: {lives} / 6")
+
+    # výhra
+    if "_" not in display:
+        game_over = True
+        print("Vyhrál jsi!")</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

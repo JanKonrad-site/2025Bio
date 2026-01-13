@@ -1,0 +1,323 @@
+<!-- ========================================= 
+     4.4.3 Tvorba menu – For, While, „pole“ (list), dispatcher
+     (praktické cvičení od nulového menu k chytrému dispatchi)
+     ========================================= -->
+<section id="section4-4-2" class="container my-5">
+  <style>
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}
+    .tip{border-left:4px solid #0d6efd;padding:.75rem 1rem;background:#f8f9fa}
+    .warn{border-left:4px solid #dc3545;padding:.75rem 1rem;background:#fff5f5}
+    .ok{border-left:4px solid #198754;padding:.75rem 1rem;background:#f6fff8}
+    pre code{white-space:pre}
+  </style>
+
+  <h3 class="mb-4">4.4.2 Tvorba menu – <code>for</code>, <code>while</code>, seznamy a „dispatcher“</h3>
+
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Cíl kapitoly</h4>
+    <ul class="mb-0">
+      <li>Vytisknout nabídku z dat (žádné ruční kopírování řádků).</li>
+      <li>Vybrat akci podle volby uživatele a spustit správnou funkci.</li>
+      <li>Pochopit vzor <b>dispatcher</b> – mapování <em>volba → funkce</em>.</li>
+      <li>Postavit malé, ale reálné menu, které půjde snadno rozšiřovat.</li>
+    </ul>
+  </div>
+
+  <!-- =================================
+       Blok 1 – Menu z listu pomocí for
+       ================================= -->
+  <div class="container my-4 p-4 border rounded">
+    <h4 class="mb-3">1) Začínáme: menu z dat pomocí <code>for</code></h4>
+    <p>Nejprve si připravíme „pole“ (v Pythonu <b>list</b>) s položkami menu. Každá položka je n-tice <span class="mono">(číslo, text)</span>.</p>
+
+<pre><code class="language-python"># data menu (číslo, text)
+MENU = [
+    ("1", "Pozdrav"),
+    ("2", "Součet dvou čísel"),
+    ("3", "Konec")
+]
+
+def vytiskni_menu():
+    print("\n=== MENU ===")
+    for cislo, text in MENU:      # projdeme data a tiskneme
+        print(f"{cislo}) {text}")
+
+vytiskni_menu()</code></pre>
+
+    <div class="ok"><b>Mini-úkol 1:</b> Přidej položku <span class="mono">("9", "Nápověda")</span> a ověř, že se zobrazí bez úprav funkce.</div>
+  </div>
+
+  <!-- =================================
+       Blok 2 – Výběr volby ve while smyčce
+       ================================= -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">2) Volba uživatele a smyčka <code>while</code></h4>
+    <p>Menu chceme opakovaně. Vytvoříme nekonečnou smyčku a ukončíme ji volbou „Konec“.</p>
+
+<pre><code class="language-python">def pozdrav():
+    print("Ahoj!")
+
+def soucet_dvou():
+    a = int(input("První číslo: "))
+    b = int(input("Druhé číslo: "))
+    print("Součet je:", a + b)
+
+while True:
+    vytiskni_menu()
+    volba = input("Vyber možnost: ").strip()
+    if volba == "1":
+        pozdrav()
+    elif volba == "2":
+        soucet_dvou()
+    elif volba == "3":
+        print("Ukončuji…")
+        break
+    else:
+        print("Neplatná volba.")</code></pre>
+
+    <div class="tip"><b>Proč <code>while True</code>?</b> Menu běží, dokud uživatel neukončí. Jednoduché a čitelné.</div>
+    <div class="ok"><b>Mini-úkol 2:</b> Přidej do <span class="mono">elif</span> větev pro „Nápovědu“ (tisk krátké nápovědy) a přidej ji i do <span class="mono">MENU</span>.</div>
+  </div>
+
+  <!-- =================================
+       Blok 3 – Oddělíme data od chování
+       ================================= -->
+  <div class="container my-4 p-4 border rounded">
+    <h4 class="mb-3">3) Čistěji: seznam n-tic <code>(klíč, název, funkce)</code></h4>
+    <p>Místo if/elif vytvoříme u každé položky <em>přímo</em> odkaz na funkci. Jméno funkce bez závorek je hodnota, kterou můžeme uložit.</p>
+
+<pre><code class="language-python">def pozdrav():
+    print("Ahoj!")
+
+def soucet_dvou():
+    a = int(input("První číslo: "))
+    b = int(input("Druhé číslo: "))
+    print("Součet je:", a + b)
+
+def konec():
+    print("Ukončuji…")
+    return "EXIT"
+
+# (klíč, název, funkce nebo None)
+MENU_ITEMS = [
+    ("1", "Pozdrav",       pozdrav),
+    ("2", "Součet dvou",   soucet_dvou),
+    ("3", "Konec",         konec),
+]
+
+def vytiskni_menu_items():
+    print("\n=== MENU ===")
+    for k, nazev, _ in MENU_ITEMS:
+        print(f"{k}) {nazev}")
+
+while True:
+    vytiskni_menu_items()
+    volba = input("Vyber možnost: ").strip()
+    # najdeme odpovídající položku v datech
+    akce = None
+    for k, nazev, f in MENU_ITEMS:
+        if volba == k:
+            akce = f
+            break
+    if akce is None:
+        print("Neplatná volba.")
+        continue
+    if akce() == "EXIT":
+        break</code></pre>
+
+    <div class="tip"><b>Co jsme získali?</b> Nepíšeme nový <span class="mono">elif</span> pro každou akci. Data → menu, logika → funkce.</div>
+    <div class="ok"><b>Mini-úkol 3:</b> Přidej novou akci „Rozdíl dvou čísel“ jen doplněním jedné n-tice a jedné funkce.</div>
+  </div>
+
+  <!-- =================================
+       Blok 4 – Dispatcher přes slovník
+       ================================= -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">4) „Skutečný“ dispatcher: slovník <code>{klíč: (název, funkce)}</code></h4>
+    <p>Vyhledávání v seznamu nahradíme přímým přístupem podle klíče. Elegantní a rychlé.</p>
+
+<pre><code class="language-python">def pozdrav(): print("Ahoj!")
+def soucet_dvou():
+    a = int(input("První číslo: "))
+    b = int(input("Druhé číslo: "))
+    print("Součet je:", a + b)
+def rozdil_dvou():
+    a = int(input("První číslo: "))
+    b = int(input("Druhé číslo: "))
+    print("Rozdíl je:", a - b)
+def konec(): 
+    print("Ukončuji…"); 
+    return "EXIT"
+
+DISPATCH = {
+    "1": ("Pozdrav",      pozdrav),
+    "2": ("Součet dvou",  soucet_dvou),
+    "3": ("Rozdíl dvou",  rozdil_dvou),
+    "4": ("Konec",        konec),
+}
+
+def vytiskni_menu_dispatch():
+    print("\n=== MENU ===")
+    for k, (nazev, _) in DISPATCH.items():
+        print(f"{k}) {nazev}")
+
+while True:
+    vytiskni_menu_dispatch()
+    volba = input("Vyber možnost: ").strip()
+    nazev, funkce = DISPATCH.get(volba, (None, None))
+    if funkce is None:
+        print("Neplatná volba.")
+        continue
+    if funkce() == "EXIT":
+        break</code></pre>
+
+    <div class="tip"><b>Proč <span class="mono">dict.get()</span>?</b> Když klíč neexistuje, dostaneme výchozí hodnotu místo chyby <span class="mono">KeyError</span>.</div>
+    <div class="ok"><b>Mini-úkol 4:</b> Přidej akci „Nápověda“, která vytiskne stručné instrukce. Stačí doplnit jednu položku do <span class="mono">DISPATCH</span> a jednu funkci.</div>
+  </div>
+
+  <!-- =================================
+       Blok 5 – Validace vstupu elegantně
+       ================================= -->
+  <div class="container my-4 p-4 border rounded">
+    <h4 class="mb-3">5) Přidej bezpečné načítání čísel</h4>
+    <p>Vyčleníme univerzální funkci, aby výpočtové akce byly čisté a bez opakování kódu.</p>
+
+<pre><code class="language-python">def nacti_int(vyzva, min_value=None, max_value=None):
+    while True:
+        try:
+            hodnota = int(input(vyzva))
+        except ValueError:
+            print("Zadejte prosím celé číslo."); 
+            continue
+        if min_value is not None and hodnota &lt; min_value:
+            print(f"Hodnota musí být ≥ {min_value}."); 
+            continue
+        if max_value is not None and hodnota &gt; max_value:
+            print(f"Hodnota musí být ≤ {max_value}."); 
+            continue
+        return hodnota
+
+def soucet_dvou_safe():
+    a = nacti_int("První číslo: ")
+    b = nacti_int("Druhé číslo: ")
+    print("Součet je:", a + b)</code></pre>
+
+    <div class="ok"><b>Mini-úkol 5:</b> Uprav <span class="mono">soucet_dvou</span> a <span class="mono">rozdil_dvou</span> na bezpečné varianty s <span class="mono">nacti_int</span>.</div>
+  </div>
+
+  <!-- =================================
+       Blok 6 – Bonus: podmenu (vnořené menu)
+       ================================= -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">6) Bonus: jednoduché podmenu</h4>
+    <p>Někdy se hodí dělit akce do kategorií. Postavíme podmenu „Kalkulačka“.</p>
+
+<pre><code class="language-python">def kalk_soucet(): 
+    a = nacti_int("A: "); b = nacti_int("B: "); print("A+B =", a+b)
+def kalk_rozdil(): 
+    a = nacti_int("A: "); b = nacti_int("B: "); print("A-B =", a-b)
+
+KALK_DISPATCH = {
+    "1": ("Součet",  kalk_soucet),
+    "2": ("Rozdíl",  kalk_rozdil),
+    "3": ("Zpět",    None),
+}
+
+def menu_kalkulacka():
+    while True:
+        print("\n=== KALKULAČKA ===")
+        for k,(n,_) in KALK_DISPATCH.items():
+            print(f"{k}) {n}")
+        v = input("Vyber: ").strip()
+        n, f = KALK_DISPATCH.get(v, (None, None))
+        if f is None:
+            if v == "3": return        # návrat „nahoru“
+            print("Neplatná volba."); 
+            continue
+        f()
+
+# přidej do hlavního DISPATCHu:
+# "5": ("Kalkulačka", menu_kalkulacka)</code></pre>
+
+    <div class="ok"><b>Mini-úkol 6:</b> Přidej do podmenu ještě „Součin“ a „Podíl (s kontrolou dělení nulou)“.</div>
+  </div>
+
+  <!-- =================================
+       Blok 7 – Kompletní malý projekt menu
+       ================================= -->
+  <div class="container my-4 p-4 border rounded">
+    <h4 class="mb-3">7) Kompletní miniprojekt: menu s dispatcherem</h4>
+    <p>Hotové jádro, do kterého snadno přidáš další akce.</p>
+
+<pre><code class="language-python">def nacti_int(vyzva, min_value=None, max_value=None):
+    while True:
+        try:
+            hodnota = int(input(vyzva))
+        except ValueError:
+            print("Zadejte prosím celé číslo."); continue
+        if min_value is not None and hodnota &lt; min_value:
+            print(f"Hodnota musí být ≥ {min_value}."); continue
+        if max_value is not None and hodnota &gt; max_value:
+            print(f"Hodnota musí být ≤ {max_value}."); continue
+        return hodnota
+
+def akce_pozdrav(): print("Ahoj!")
+def akce_soucet():
+    a = nacti_int("A: "); b = nacti_int("B: "); print("A+B =", a+b)
+def akce_rozdil():
+    a = nacti_int("A: "); b = nacti_int("B: "); print("A-B =", a-b)
+def akce_napoveda():
+    print("Zadej číslo volby. Přidej akce do DISPATCH a máš rozšiřitelné menu.")
+def akce_konec():
+    print("Ukončuji…"); return "EXIT"
+
+DISPATCH = {
+    "1": ("Pozdrav",    akce_pozdrav),
+    "2": ("Součet",     akce_soucet),
+    "3": ("Rozdíl",     akce_rozdil),
+    "9": ("Nápověda",   akce_napoveda),
+    "0": ("Konec",      akce_konec),
+}
+
+def vytiskni_menu():
+    print("\n=== MENU ===")
+    # řazení podle klíče kvůli konzistentnímu pořadí
+    for k in sorted(DISPATCH.keys(), key=lambda x: (len(x), x)):
+        print(f"{k}) {DISPATCH[k][0]}")
+
+def main():
+    while True:
+        vytiskni_menu()
+        v = input("Vyber: ").strip()
+        nazev, f = DISPATCH.get(v, (None, None))
+        if f is None:
+            print("Neplatná volba."); continue
+        if f() == "EXIT": break
+
+# Odkomentuj pro spuštění:
+# main()</code></pre>
+
+    <div class="ok"><b>Mini-úkol 7:</b> Přidej akci „Kalkulačka (podmenu)“ a zapoj <span class="mono">menu_kalkulacka()</span> z předchozího bloku.</div>
+  </div>
+
+  <!-- =================================
+       Nejčastější chyby a checklist
+       ================================= -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Nejčastější chyby</h4>
+    <ul class="mb-3">
+      <li><b>Zapomenuté závorky</b> při volání funkce: <span class="mono">f</span> vs. <span class="mono">f()</span>.</li>
+      <li><b>Smíchání textu a čísel</b> bez převodu → <span class="mono">TypeError</span>.</li>
+      <li><b>Chybějící validace</b> číselného vstupu, chybějící <span class="mono">continue</span> v <span class="mono">except</span>.</li>
+      <li><b>Pevné <span class="mono">if/elif</span> větvení</b> místo datově řízeného menu → těžké rozšiřování.</li>
+    </ul>
+
+    <h5>Checklist před odevzdáním</h5>
+    <ul class="mb-0">
+      <li>Menu se tiskne z dat (<span class="mono">for</span> nebo <span class="mono">dict</span>), ne ručně.</li>
+      <li>Volba „Konec“ korektně ukončí hlavní smyčku.</li>
+      <li>Všechny číselné vstupy jdou přes <span class="mono">nacti_int()</span>.</li>
+      <li>Přidání nové akce = přidám položku do <span class="mono">DISPATCH</span>, bez zásahu do hlavní smyčky.</li>
+    </ul>
+  </div>
+</section>

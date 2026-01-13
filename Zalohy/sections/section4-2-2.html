@@ -1,0 +1,132 @@
+<style>
+   .no-copy-overlay {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: auto;
+      background: transparent; /* neviditelný */
+    }
+</style>
+<!-- ======= KAPITOLA 4.3 ======= -->
+<section id="section4-2-2" class="section-wrapper container my-5, no-copy">
+  <h3 class="mb-3">4.2.2 Indexování a řezání řetězců</h3>
+  <p class="lead">Naučíme se, jak se v Pythonu dostat k jednotlivým znakům v textu (<em>indexování</em>) a jak z textu vyříznout jen část (<em>řezání</em>). Tyto základy budeme potřebovat pro kontrolu vstupů v kalkulačce a pro práci s funkcemi v další kapitole.</p>
+
+  <div class="row g-3">
+    <!-- Indexování -->
+    <div class="col-lg-6">
+      <div class="card h-100"><div class="card-body">
+        <h5 class="card-title">Co je indexování</h5>
+        <p>Každý znak v textu má své pořadové číslo (<strong>index</strong>). Indexování začíná od nuly:</p>
+<pre><code class="language-python">slovo = "Ahoj"
+# Indexy:  0   1   2   3
+# Znaky:  'A' 'h' 'o' 'j'
+
+print(slovo[0])  # A
+print(slovo[1])  # h
+print(slovo[3])  # j</code></pre>
+        <div class="alert alert-info small mb-0">⚠️ Pozor: pokud použiješ index, který neexistuje, program spadne s chybou.</div>
+      </div></div>
+    </div>
+
+    <!-- Délka řetězce -->
+    <div class="col-lg-6">
+      <div class="card h-100"><div class="card-body">
+        <h5 class="card-title">Jak zjistit délku textu</h5>
+        <p>Použij funkci <code>len()</code>, která vrátí počet znaků:</p>
+<pre><code class="language-python">slovo = "Ahoj"
+print(len(slovo))  # 4
+
+# Můžeme použít v cyklu:
+i = 0
+while i &lt; len(slovo):
+    print(slovo[i])
+    i = i + 1</code></pre>
+        <button class="btn btn-sm btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#modalLenExplain">
+          Vysvětli krok za krokem
+        </button>
+      </div></div>
+    </div>
+  </div>
+
+  <hr class="my-4">
+
+  <div class="row g-3">
+    <!-- Řezání -->
+    <div class="col-lg-6">
+      <div class="card h-100"><div class="card-body">
+        <h5 class="card-title">Řezání (slicing)</h5>
+        <p>Z textu můžeme „ukrojit“ část – tzv. <em>slice</em>:</p>
+<pre><code class="language-python">slovo = "Ahoj"
+
+print(slovo[0:2])  # Ah  (indexy 0 a 1)
+print(slovo[1:4])  # hoj (indexy 1, 2, 3)</code></pre>
+        <ul>
+          <li><code>start</code> = odkud začít (včetně)</li>
+          <li><code>stop</code> = kde skončit (bez tohoto znaku)</li>
+        </ul>
+      </div></div>
+    </div>
+
+    <!-- Kratší zápis -->
+    <div class="col-lg-6">
+      <div class="card h-100"><div class="card-body">
+        <h5 class="card-title">Kratší zápis</h5>
+<pre><code class="language-python">slovo = "Ahoj"
+
+print(slovo[:2])   # Ah (od začátku do indexu 2)
+print(slovo[1:])   # hoj (od indexu 1 do konce)</code></pre>
+        <div class="alert alert-secondary small mb-0">Pokud vynecháš <code>start</code>, bere se od začátku.<br>
+        Pokud vynecháš <code>stop</code>, bere se až do konce.</div>
+      </div></div>
+    </div>
+  </div>
+
+  <hr class="my-4">
+
+  <div class="row g-3">
+    <!-- Přeskočení znaku -->
+    <div class="col-lg-6">
+      <div class="card h-100"><div class="card-body">
+        <h5 class="card-title">Přeskočení prvního znaku</h5>
+        <p>Pokud má číslo znaménko <code>-</code>, můžeme ho přeskočit a zkontrolovat jen zbytek:</p>
+<pre><code class="language-python">cislo = "-123"
+print(cislo[1:])  # "123" (od druhého znaku dál)</code></pre>
+      </div></div>
+    </div>
+
+
+
+  <hr class="my-4">
+
+  <!-- Cvičení -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title">Cvičení (10 minut)</h5>
+      <ol>
+        <li>Vypiš všechny znaky z <code>"Program"</code> po jednom.</li>
+        <li>Vypiš první 3 znaky z <code>"Python"</code>.</li>
+        <li>Vypiš vše kromě prvního znaku z <code>"Banán"</code>.</li>
+       
+      </ol>
+    </div>
+  </div>
+
+ 
+</section>
+
+<!-- ======= MODÁL 1 ======= -->
+<div class="modal fade" id="modalLenExplain" tabindex="-1" aria-labelledby="modalLenExplainLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="modalLenExplainLabel" class="modal-title">Jak funguje <code>len()</code> a průchod textem v <code>while</code> (úplně polopatě)</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p><code>len(text)</code> vrátí počet znaků v řetězci. V cyklu <code>while</code> kontrolujeme, zda <code>i</code> není větší než délka textu. Každé kolo vypíšeme znak na pozici <code>i</code> a <code>i</code> zvětšíme o 1.</p>
+      </div>
+    </div>
+  </div>
+</div>
+

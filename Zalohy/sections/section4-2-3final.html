@@ -1,0 +1,365 @@
+<!-- KAPITOLA: 4.1.3 Final Project – Kámen, nůžky, papír -->
+<section id="section4-2-3final" class="container my-5 no-copy">
+  <h3 class="mb-4">4.2.3 Final Project – Kámen, nůžky, papír</h3>
+
+  <!-- Úvodní přehled -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co je cílem?</h3>
+    <p>
+      V tomhle finálním projektu kapitoly 4.1.3 vytvoříš vlastní hru
+      <strong>Kámen–papír–nůžky proti počítači</strong>.
+      Hráč zadá číslo (0 = kámen, 1 = papír, 2 = nůžky), počítač si náhodně vybere tah
+      a podle pravidel hry se vyhodnotí, kdo vyhrál.
+    </p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">procvičíš <strong>modul <code>random</code></strong> a náhodná čísla,</li>
+      <li class="list-group-item">využiješ <strong>seznam</strong> k uložení ASCII obrázků tahů,</li>
+      <li class="list-group-item">použiješ <strong>podmínky</strong> pro vyhodnocení výhry/prohry/remízy,</li>
+      <li class="list-group-item">ošetříš <strong>neplatný vstup</strong>, aby program nespadl na <code>IndexError</code>.</li>
+    </ul>
+    <p>
+      Výsledná hra bude fungovat podobně jako v kurzu 100 Days of Code –
+      jen v češtině a s tvým vlastním kódem.
+    </p>
+  </div>
+
+  <!-- AKORDEON -->
+  <div class="accordion" id="acc-4-1-3-final">
+
+    <!-- 1) Zadání hry a pravidla -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-413f-1">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                data-bs-target="#c-413f-1" aria-expanded="true" aria-controls="c-413f-1">
+          1) Zadání hry a pravidla Kámen–papír–nůžky
+        </button>
+      </h2>
+      <div id="c-413f-1" class="accordion-collapse collapse show"
+           aria-labelledby="h-413f-1" data-bs-parent="#acc-4-1-3-final">
+        <div class="accordion-body">
+          <p>Hra se hraje mezi <strong>hráčem</strong> a <strong>počítačem</strong>:</p>
+          <ul>
+            <li>0 → <strong>kámen</strong></li>
+            <li>1 → <strong>papír</strong></li>
+            <li>2 → <strong>nůžky</strong></li>
+          </ul>
+          <p>Pravidla:</p>
+          <ul>
+            <li>kámen tupí nůžky ⇒ kámen <strong>vyhrává nad nůžkami</strong>,</li>
+            <li>nůžky přestřihnou papír ⇒ nůžky <strong>vyhrávají nad papírem</strong>,</li>
+            <li>papír přikryje kámen ⇒ papír <strong>vyhrává nad kamenem</strong>,</li>
+            <li>stejný tah ⇒ <strong>remíza</strong>.</li>
+          </ul>
+          <p>
+            Hráč zadá číslo, počítač si <strong>náhodně vylosuje</strong> svůj tah a program
+            vypíše ASCII obrázky obou tahů + text s výsledkem.
+          </p>
+          <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal"
+                  data-bs-target="#modal-413f-rules">
+            Potřebuju ještě jednou vysvětlit pravidla
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2) ASCII art a seznam obrázků -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-413f-2">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#c-413f-2" aria-expanded="false" aria-controls="c-413f-2">
+          2) ASCII art a seznam <code>game_images</code>
+        </button>
+      </h2>
+      <div id="c-413f-2" class="accordion-collapse collapse"
+           aria-labelledby="h-413f-2" data-bs-parent="#acc-4-1-3-final">
+        <div class="accordion-body">
+          <p>
+            Nejprve si připravíme tři „obrázky“ (ASCII art) a uložíme je do proměnných
+            <code>rock</code>, <code>paper</code>, <code>scissors</code>.
+          </p>
+
+<pre><code class="language-python">rock = '''
+    _______
+---'   ____)
+      (_____)
+      (_____)
+      (____)
+---.__(___)
+'''
+
+paper = '''
+    _______
+---'   ____)____
+          ______)
+          _______)
+         _______)
+---.__________)
+'''
+
+scissors = '''
+    _______
+---'   ____)____
+          ______)
+       __________)
+      (____)
+---.__(___)
+'''</code></pre>
+
+          <p>
+            Teď z nich uděláme <strong>seznam</strong>, abychom je mohli vybírat podle čísla
+            (0 = rock, 1 = paper, 2 = scissors):
+          </p>
+
+<pre><code class="language-python">game_images = [rock, paper, scissors]</code></pre>
+
+          <p>
+            Díky tomu později použijeme <code>game_images[uživatelův_tah]</code>
+            nebo <code>game_images[computer_choice]</code> a dostaneme správný obrázek.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3) Vstup hráče + kontrola -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-413f-3">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#c-413f-3" aria-expanded="false" aria-controls="c-413f-3">
+          3) Vstup hráče: <code>input()</code>, <code>int()</code> a ošetření chyb
+        </button>
+      </h2>
+      <div id="c-413f-3" class="accordion-collapse collapse"
+           aria-labelledby="h-413f-3" data-bs-parent="#acc-4-1-3-final">
+        <div class="accordion-body">
+          <p>Zeptáme se hráče, co si vybírá, a převedeme vstup na celé číslo:</p>
+
+<pre><code class="language-python">user_choice = int(input(
+    "Co si vybereš? Napiš 0 pro kámen, 1 pro papír nebo 2 pro nůžky: "
+))</code></pre>
+
+          <p>
+            Hráč ale může zadat i nesmysl (např. 7 nebo -3). To musíme zkontrolovat,
+            jinak později spadneme na <code>IndexError</code>, až budeme sahat do
+            <code>game_images[user_choice]</code>.
+          </p>
+
+<pre><code class="language-python">if user_choice &lt; 0 or user_choice &gt; 2:
+    print("Zadal(a) jsi neplatné číslo. Prohráváš.")
+</code></pre>
+
+          <p>
+            Zatím program po neplatném vstupu skončí. Obsluha platného vstupu přijde
+            v dalších krocích.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4) Náhodná volba počítače -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-413f-4">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#c-413f-4" aria-expanded="false" aria-controls="c-413f-4">
+          4) Náhodný tah počítače s <code>random.randint()</code>
+        </button>
+      </h2>
+      <div id="c-413f-4" class="accordion-collapse collapse"
+           aria-labelledby="h-413f-4" data-bs-parent="#acc-4-1-3-final">
+        <div class="accordion-body">
+          <p>Nezapomeň nejdřív na začátek souboru přidat import:</p>
+
+<pre><code class="language-python">import random</code></pre>
+
+          <p>Počítač si náhodně vybere číslo 0, 1 nebo 2:</p>
+
+<pre><code class="language-python">computer_choice = random.randint(0, 2)
+</code></pre>
+
+          <p>Pro kontrolu si můžeš nechat čísla dočasně vypsat:</p>
+
+<pre><code class="language-python">print(f"Tvoje číslo: {user_choice}")
+print(f"Počítač zvolil číslo: {computer_choice}")</code></pre>
+
+          <p>
+            Až bude logika hotová, klidně tyto <code>print()</code> smaž nebo nech jen
+            obrázky.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5) Herní logika: výhra / prohra / remíza -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-413f-5">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#c-413f-5" aria-expanded="false" aria-controls="c-413f-5">
+          5) Vyhodnocení výsledku pomocí podmínek
+        </button>
+      </h2>
+      <div id="c-413f-5" class="accordion-collapse collapse"
+           aria-labelledby="h-413f-5" data-bs-parent="#acc-4-1-3-final">
+        <div class="accordion-body">
+          <p>Teď rozhodneme, kdo vyhrál.</p>
+          <p>Nejprve obsloužíme neplatný vstup a <strong>jen pokud je validní</strong>, hrajeme dál:</p>
+
+<pre><code class="language-python">if user_choice &lt; 0 or user_choice &gt; 2:
+    print("Zadal(a) jsi neplatné číslo. Prohráváš.")
+else:
+    # platný tah, můžeme použít seznam game_images
+    print("Tvoje volba:")
+    print(game_images[user_choice])
+
+    print("Počítač si vybral:")
+    print(game_images[computer_choice])
+
+    # vyhodnocení výsledku
+    if user_choice == computer_choice:
+        print("Remíza!")
+    elif user_choice == 0 and computer_choice == 2:
+        print("Kámen tupí nůžky. Vyhráváš!")
+    elif user_choice == 2 and computer_choice == 1:
+        print("Nůžky přestřihnou papír. Vyhráváš!")
+    elif user_choice == 1 and computer_choice == 0:
+        print("Papír přikryje kámen. Vyhráváš!")
+    else:
+        print("Prohráváš.")
+</code></pre>
+
+          <p>
+            Všimni si, že v posledním <code>else</code> zůstane už jen varianta, kdy vyhrává počítač
+            – všechny případy výhry hráče jsme pokryli výše.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6) Celý hotový kód + úkoly navíc -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-413f-6">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#c-413f-6" aria-expanded="false" aria-controls="c-413f-6">
+          6) Celý hotový kód hry + nápady na vylepšení
+        </button>
+      </h2>
+      <div id="c-413f-6" class="accordion-collapse collapse"
+           aria-labelledby="h-413f-6" data-bs-parent="#acc-4-1-3-final">
+        <div class="accordion-body">
+
+          <h5>Kompletní verze programu</h5>
+<pre><code class="language-python">import random
+
+rock = '''
+    _______
+---'   ____)
+      (_____)
+      (_____)
+      (____)
+---.__(___)
+'''
+
+paper = '''
+    _______
+---'   ____)____
+          ______)
+          _______)
+         _______)
+---.__________)
+'''
+
+scissors = '''
+    _______
+---'   ____)____
+          ______)
+       __________)
+      (____)
+---.__(___)
+'''
+
+game_images = [rock, paper, scissors]
+
+user_choice = int(input(
+    "Co si vybereš? Napiš 0 pro kámen, 1 pro papír nebo 2 pro nůžky: "
+))
+
+computer_choice = random.randint(0, 2)
+
+if user_choice &lt; 0 or user_choice &gt; 2:
+    print("Zadal(a) jsi neplatné číslo. Prohráváš.")
+else:
+    print("Tvoje volba:")
+    print(game_images[user_choice])
+
+    print("Počítač si vybral:")
+    print(game_images[computer_choice])
+
+    if user_choice == computer_choice:
+        print("Remíza!")
+    elif user_choice == 0 and computer_choice == 2:
+        print("Kámen tupí nůžky. Vyhráváš!")
+    elif user_choice == 2 and computer_choice == 1:
+        print("Nůžky přestřihnou papír. Vyhráváš!")
+    elif user_choice == 1 and computer_choice == 0:
+        print("Papír přikryje kámen. Vyhráváš!")
+    else:
+        print("Prohráváš.")
+</code></pre>
+
+          <h5>Úkoly navíc (pro šikovnější)</h5>
+          <ul>
+            <li>Přidej <strong>počítadlo skóre</strong> (hráč vs. počítač) a nech hru běžet ve smyčce, dokud hráč nechce skončit.</li>
+            <li>Nech hráče zadávat místo čísel text: <code>"kamen"</code>, <code>"papir"</code>, <code>"nuzky"</code> a vstup převáděj na čísla.</li>
+            <li>Přidej „tajný tah“ (např. <em>bombu</em>), který porazí všechno – ale jen když zadáš speciální heslo.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /accordion -->
+
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Shrnutí kapitoly 4.1.3 – Randomizace a seznamy</h4>
+    <ul>
+      <li>Umíš použít <code>import random</code> a funkci <code>random.randint()</code> k náhodné volbě.</li>
+      <li>Umíš uložit více hodnot do seznamu a přistupovat k nim přes index.</li>
+      <li>Umíš ošetřit neplatný vstup a vyhnout se chybě <code>IndexError</code>.</li>
+      <li>Dokážeš zkombinovat <strong>seznamy, random a podmínky</strong> do jednoduché hry.</li>
+    </ul>
+    <p>
+      Teď si dej pauzu – a až se vrátíš, čekají nás <strong>cykly</strong>, kde budeme podobné hry
+      a programy posouvat na další úroveň.
+    </p>
+  </div>
+
+  <!-- MODAL: vysvětlení pravidel -->
+  <div class="modal fade" id="modal-413f-rules" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Pravidla Kámen–papír–nůžky</h5>
+          <button class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+        </div>
+        <div class="modal-body">
+          <p>Oba hráči (ty a počítač) si najednou vyberou jeden tah:</p>
+          <ul>
+            <li><strong>kámen</strong> – pevný, tupí nůžky,</li>
+            <li><strong>papír</strong> – zakryje kámen,</li>
+            <li><strong>nůžky</strong> – přestřihnou papír.</li>
+          </ul>
+          <p>Výsledek:</p>
+          <ul>
+            <li>kámen poráží nůžky,</li>
+            <li>nůžky poráží papír,</li>
+            <li>papír poráží kámen,</li>
+            <li>stejný tah ⇒ remíza.</li>
+          </ul>
+          <p>
+            V programu reprezentujeme tahy čísly 0, 1, 2 a podle kombinace dvou čísel
+            (hráč vs. počítač) rozhodneme, kdo vyhrál.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>

@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Vizuální programování – proměnné, vstup, poznámky, mazání, pořadí</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+<style>
+  
+  body { font-family: Arial, sans-serif; padding: 20px; background:#fafafa;}
+  #blocks, #canvas {
+    border: 2px dashed #ccc;
+    min-height: 80px;
+    padding: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    background: white;
+    border-radius: 6px;
+  }
+  .block {
+    background: #f0f0f0;
+    border: 1px solid #aaa;
+    padding: 10px;
+    cursor: grab;
+    border-radius: 5px;
+    min-width: 160px;
+    text-align: center;
+    user-select: none;
+  }
+  .block.dragging {
+    opacity: 0.5;
+  }
+  #canvas {
+    flex-direction: column;
+    min-height: 150px;
+  }
+  .canvas-block {
+    border: 1px solid #777;
+    background: #e8f5e9;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+  }
+  .canvas-block-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .var-name, .note-text {
+    width: 120px;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+  }
+  .note-text {
+    font-style: italic;
+    color: #666;
+    background: #fff;
+    flex-grow: 1;
+  }
+  .value-field, .expression-editor {
+    min-height: 38px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 5px;
+    background: white;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    cursor: text;
+  }
+  .value-field.dragover, .expression-editor.dragover {
+    border-color: #007bff;
+    background: #e6f0ff;
+  }
+  .input-block {
+    background: #fff3e0;
+    border: 1px solid #ffb74d;
+    border-radius: 4px;
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    position: relative;
+    max-width: 250px;
+  }
+  .btn-remove {
+    cursor: pointer;
+    color: red;
+    font-weight: bold;
+    user-select: none;
+    position: absolute;
+    top: 70%;
+    right: 5px;
+    font-size: 18px;
+  }
+  .var-widget {
+    background: #4caf50;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 12px;
+    cursor: grab;
+    user-select: none;
+    font-size: 0.85em;
+    display: inline-block;
+  }
+  .var-widget.dragging {
+    opacity: 0.5;
+  }
+  .segment-text {
+    min-width: 60px;
+    padding: 2px 6px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-family: monospace;
+    user-select: text;
+  }
+  .segment-var {
+    background: #2196f3;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 12px;
+    cursor: grab;
+    user-select: none;
+    font-size: 0.85em;
+  }
+  .operator {
+    user-select: none;
+    padding: 0 6px;
+    font-weight: bold;
+    color: #555;
+  }
+  button.add-segment-btn, button.add-space-btn {
+    align-self: flex-start;
+    cursor: pointer;
+    padding: 5px 10px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    background: white;
+    margin-right: 8px;
+  }
+  #runBtn, #downloadBtn {
+    margin-top: 15px;
+    padding: 8px 15px;
+    font-size: 1em;
+    cursor: pointer;
+  }
+  #ideFrame {
+    margin-top: 20px;
+    width: 100%;
+    height: 500px;
+    border: 1px solid #aaa;
+    display: none;
+  }
+
+  .order-controls {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .order-controls button {
+    background: #ddd;
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    font-weight: bold;
+    user-select: none;
+  }
+  .order-controls button:hover {
+    background: #bbb;
+  }
+
+.block:hover {
+  opacity: 0.9;
+}
+#blocks {
+  height: 80vh;                     /* 80 % výšky viewportu */
+  overflow-y: auto;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.category-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+  .block {
+    background: #f0f0f0;
+    border: 1px solid #aaa;
+    padding: 10px;
+    cursor: grab;
+    border-radius: 5px;
+    min-width: 160px;
+    text-align: center;
+    user-select: none;
+  }
+  .sidebar {
+  min-width: 220px;   /* minimální pohodlná šířka */
+  max-width: 260px;   /* maximální podle textu */
+  flex: 0 0 auto;     /* neexpanduje */
+}
+.type-var {
+  background-color: #cfe2ff; /* modrá */
+}
+
+.type-input,
+.type-print {
+  background-color: #d1e7dd; /* zelená */
+}
+
+.type-if,
+.type-loop {
+  background-color: #fff3cd; /* žlutá */
+}
+
+.type-def,
+.type-call {
+  background-color: #f8d7da; /* červená */
+}
+
+.type-note {
+  background-color: #e2e3e5; /* šedá */
+}  
+</style>
+</head>
+<body>
+<div class="container-fluid mt-4">
+  <div class="row">
+    <!-- Levý sloupec: Bloky -->
+
+<div class="col-auto sidebar">
+  <h4 class="mb-3">Programovací bloky</h4>
+  <div id="blocks">
+
+    <div class="category-group">
+      <h5 class="text-primary">Proměnné</h5>
+      <div class="block bg-primary-subtle" draggable="true" data-type="var">Vytvoř proměnnou</div>
+    </div>
+
+    <div class="category-group">
+      <h5 class="text-success">Vstup / Výstup</h5>
+      <div class="block bg-success-subtle" draggable="true" data-type="input">Vstup uživatele</div>
+      <div class="block bg-success-subtle" draggable="true" data-type="print">Vypiš do konzole</div>
+    </div>
+
+    <div class="category-group">
+      <h5 class="text-warning">Řízení toku</h5>
+      <div class="block bg-warning-subtle" draggable="true" data-type="if">Podmínka (if)</div>
+      <div class="block bg-warning-subtle" draggable="true" data-type="loop">Cyklus (for)</div>
+    </div>
+
+    <div class="category-group">
+      <h5 class="text-danger">Funkce</h5>
+      <div class="block bg-danger-subtle" draggable="true" data-type="def">Vytvoř funkci</div>
+      <div class="block bg-danger-subtle" draggable="true" data-type="call">Zavolej funkci</div>
+    </div>
+
+    <div class="category-group">
+      <h5 class="text-secondary">Poznámky</h5>
+      <div class="block bg-secondary-subtle" draggable="true" data-type="note">Poznámka</div>
+    </div>
+
+  </div>
+</div>
+     
+
+    <!-- Střední sloupec: Canvas + výstup -->
+    <div class="col-md-6">
+      <h2>Vizuální programování</h2>
+
+      <h5 class="mt-4">Sestavený skript</h5>
+      <div id="canvas" class="border p-3 mb-3">
+        <p style="color:#999; text-align:center;">Sem přetáhni bloky...</p>
+      </div>
+
+      <h5>Generovaný Python kód</h5>
+      <pre id="output" class="bg-light p-2 border rounded"></pre>
+      <button class="btn btn-primary mb-2" id="runBtn">Spustit v online Python IDE</button>
+      <iframe id="ideFrame" src="" style="width: 100%; height: 300px;"></iframe>
+      <button class="btn btn-success mt-2" id="downloadBtn">Stáhnout jako .py</button>
+    </div>
+
+    <!-- Pravý sloupec: Úkoly -->
+    <div class="col-md-3">
+      <h4 class="mb-3">Úkoly</h4>
+      <div class="accordion" id="ukolyAccordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="ukol1-heading">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#ukol1">
+              Úkol 1: Vytvoř proměnnou
+            </button>
+          </h2>
+          <div id="ukol1" class="accordion-collapse collapse show" data-bs-parent="#ukolyAccordion">
+            <div class="accordion-body">
+              Přetáhni blok <code>Vytvoř proměnnou</code> do skriptovací plochy a nastav její název.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="ukol2-heading">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ukol2">
+              Úkol 2: Získej vstup od uživatele
+            </button>
+          </h2>
+          <div id="ukol2" class="accordion-collapse collapse" data-bs-parent="#ukolyAccordion">
+            <div class="accordion-body">
+              Použij blok <code>Vstup uživatele</code> pro získání hodnoty od uživatele.
+            </div>
+          </div>
+        </div>
+
+        <!-- Další úkoly sem -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  let dragged = null;
+  const blocks = document.querySelectorAll('#blocks .block');
+  const canvas = document.getElementById('canvas');
+  const output = document.getElementById('output');
+  const runBtn = document.getElementById('runBtn');
+
+  function createVarWidget(name) {
+    const widget = document.createElement('div');
+    widget.className = 'var-widget';
+    widget.textContent = name || 'x';
+    widget.draggable = true;
+
+    widget.addEventListener('dragstart', e => {
+      dragged = widget;
+      widget.classList.add('dragging');
+      e.dataTransfer.setData('text/plain', '');
+    });
+
+    widget.addEventListener('dragend', e => {
+      dragged = null;
+      widget.classList.remove('dragging');
+    });
+
+    return widget;
+  }
+
+  // --- Nově: kliknutím vložit blok do canvasu ---
+  blocks.forEach(block => {
+    block.addEventListener('click', () => {
+      insertBlock(block.dataset.type);
+    });
+  });
+
+  // --- Přidání drag & drop pro přesun bloků na canvasu ---
+
+canvas.addEventListener('dragover', e => {
+  e.preventDefault();
+
+  // Pokud přetahujeme jen proměnnou, neměň pořadí bloků
+  if (dragged && dragged.classList.contains('var-widget')) return;
+
+  const afterElement = getDragAfterElement(canvas, e.clientY);
+  const dragging = document.querySelector('.canvas-block.dragging');
+  if (!dragging) return;
+  if (afterElement == null) {
+    canvas.appendChild(dragging);
+  } else {
+    canvas.insertBefore(dragging, afterElement);
+  }
+});
+
+  function getDragAfterElement(container, y) {
+    const draggableElements = [...container.querySelectorAll('.canvas-block:not(.dragging)')];
+
+    return draggableElements.reduce((closest, child) => {
+      const box = child.getBoundingClientRect();
+      const offset = y - box.top - box.height / 2;
+      if (offset < 0 && offset > closest.offset) {
+        return { offset, element: child };
+      } else {
+        return closest;
+      }
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
+  }
+
+  function insertBlock(type) {
+  
+    if (!type) return;
+
+    // Odstranit placeholder
+    const placeholder = canvas.querySelector('p');
+    if (placeholder) placeholder.remove();
+
+    if (type === 'var') {
+      const newBlock = document.createElement('div');
+
+      newBlock.className = `canvas-block type-${type}`;
+      newBlock.draggable = true;
+
+      newBlock.innerHTML = `
+        <div class="canvas-block-header">
+          <label>Proměnná:</label>
+          <input class="var-name" type="text" value="x" />
+          =
+          <select class="value-type">
+            <option value="text" selected>Text</option>
+            <option value="number">Číslo</option>
+            <option value="input">Vstup od uživatele</option>
+          </select>
+          <span class="value-input-area"></span>
+          <span class="btn-remove" title="Odstranit blok">×</span>
+        </div>
+        <input class="note-text" placeholder="Poznámka (bude v kódu jako komentář)..." />
+        <div class="var-widget-container"></div>
+        <div class="order-controls">
+          <button class="move-up" title="Posunout nahoru">▲</button>
+          <button class="move-down" title="Posunout dolů">▼</button>
+        </div>
+      `;
+
+      // Drag & drop pro přesun
+      newBlock.addEventListener('dragstart', () => {
+        newBlock.classList.add('dragging');
+      });
+      newBlock.addEventListener('dragend', () => {
+        newBlock.classList.remove('dragging');
+        generateCode();
+      });
+
+      const varNameInput = newBlock.querySelector('.var-name');
+      const valueTypeSelect = newBlock.querySelector('.value-type');
+      const valueInputArea = newBlock.querySelector('.value-input-area');
+      const removeBtn = newBlock.querySelector('.btn-remove');
+      const noteInput = newBlock.querySelector('.note-text');
+      const widgetContainer = newBlock.querySelector('.var-widget-container');
+      const moveUpBtn = newBlock.querySelector('.move-up');
+      const moveDownBtn = newBlock.querySelector('.move-down');
+
+      function createValueInput(type) {
+        valueInputArea.innerHTML = '';
+
+        if (type === 'input') {
+          const div = document.createElement('div');
+          div.className = 'input-block';
+
+          const labelPrompt = document.createElement('label');
+          labelPrompt.textContent = 'Prompt:';
+          labelPrompt.style.fontWeight = 'bold';
+          div.appendChild(labelPrompt);
+
+          const input = document.createElement('input');
+          input.type = 'text';
+          input.placeholder = 'Napiš prompt (např. "Zadej jméno")...';
+          input.style.width = '200px';
+          input.classList.add('input-prompt');
+          input.addEventListener('input', generateCode);
+          div.appendChild(input);
+
+          const labelType = document.createElement('label');
+          labelType.textContent = ' Typ vstupu:';
+          labelType.style.marginLeft = '10px';
+          div.appendChild(labelType);
+
+          const select = document.createElement('select');
+          select.classList.add('input-subtype');
+          select.innerHTML = `
+            <option value="text" selected>Text</option>
+            <option value="number">Číslo</option>
+          `;
+          select.addEventListener('change', generateCode);
+          div.appendChild(select);
+
+          valueInputArea.appendChild(div);
+        }
+        else if (type === 'text') {
+          const input = document.createElement('input');
+          input.type = 'text';
+          input.placeholder = 'Zadej textovou hodnotu';
+          input.style.width = '200px';
+          input.addEventListener('input', generateCode);
+          valueInputArea.appendChild(input);
+        }
+        else if (type === 'number') {
+          const input = document.createElement('input');
+          input.type = 'number';
+          input.placeholder = 'Zadej číslo';
+          input.style.width = '200px';
+          input.addEventListener('input', generateCode);
+          valueInputArea.appendChild(input);
+        }
+      }
+
+      function updateVarWidget() {
+        widgetContainer.innerHTML = '';
+        const name = varNameInput.value.trim() || 'x';
+        const widget = createVarWidget(name);
+        widgetContainer.appendChild(widget);
+        generateCode();
+      }
+
+      valueTypeSelect.addEventListener('change', () => {
+        createValueInput(valueTypeSelect.value);
+        generateCode();
+      });
+
+      varNameInput.addEventListener('input', updateVarWidget);
+      noteInput.addEventListener('input', generateCode);
+      removeBtn.addEventListener('click', () => {
+        newBlock.remove();
+        generateCode();
+      });
+
+      moveUpBtn.addEventListener('click', () => {
+        const prev = newBlock.previousElementSibling;
+        if (prev) {
+          canvas.insertBefore(newBlock, prev);
+          generateCode();
+        }
+      });
+
+      moveDownBtn.addEventListener('click', () => {
+        const next = newBlock.nextElementSibling;
+        if (next) {
+          canvas.insertBefore(next, newBlock);
+          generateCode();
+        }
+      });
+
+      createValueInput(valueTypeSelect.value);
+
+      canvas.appendChild(newBlock);
+      updateVarWidget();
+      generateCode();
+
+    } else if (type === 'input') {
+      // Vstup uživatele (samostatný blok)
+      const newBlock = document.createElement('div');
+newBlock.className = `canvas-block type-${type}`;
+      newBlock.draggable = true;
+
+      newBlock.innerHTML = `
+        <label>Vstup uživatele (input):</label>
+        <div class="input-block">
+          <label>Prompt:</label>
+          <input type="text" placeholder="Napiš prompt (např. 'Zadej věk')..." style="width: 250px;" class="input-prompt" />
+          <label style="margin-left: 10px;">Typ vstupu:</label>
+          <select class="input-subtype">
+            <option value="text" selected>Text</option>
+            <option value="number">Číslo</option>
+          </select>
+        </div>
+        <span class="btn-remove" title="Odstranit blok">×</span>
+        <div class="order-controls">
+          <button class="move-up" title="Posunout nahoru">▲</button>
+          <button class="move-down" title="Posunout dolů">▼</button>
+        </div>
+      `;
+
+      newBlock.addEventListener('dragstart', () => {
+        newBlock.classList.add('dragging');
+      });
+      newBlock.addEventListener('dragend', () => {
+        newBlock.classList.remove('dragging');
+        generateCode();
+      });
+
+      const promptInput = newBlock.querySelector('.input-prompt');
+      const inputSubtype = newBlock.querySelector('.input-subtype');
+      const removeBtn = newBlock.querySelector('.btn-remove');
+      const moveUpBtn = newBlock.querySelector('.move-up');
+      const moveDownBtn = newBlock.querySelector('.move-down');
+
+      promptInput.addEventListener('input', generateCode);
+      inputSubtype.addEventListener('change', generateCode);
+      removeBtn.addEventListener('click', () => {
+        newBlock.remove();
+        generateCode();
+      });
+      moveUpBtn.addEventListener('click', () => {
+        const prev = newBlock.previousElementSibling;
+        if (prev) {
+          canvas.insertBefore(newBlock, prev);
+          generateCode();
+        }
+      });
+      moveDownBtn.addEventListener('click', () => {
+        const next = newBlock.nextElementSibling;
+        if (next) {
+          canvas.insertBefore(next, newBlock);
+          generateCode();
+        }
+      });
+
+      canvas.appendChild(newBlock);
+      generateCode();
+
+    } else if (type === 'print') {
+      const newBlock = document.createElement('div');
+ newBlock.className = `canvas-block type-${type}`;
+      newBlock.draggable = true;
+
+      newBlock.innerHTML = `
+        <label>Vypiš do konzole:</label>
+        <div class="expression-editor" title="Přetáhni sem název proměnné nebo napiš text"></div>
+        <div style="display:flex; gap: 10px; margin-top: 5px;">
+          <button class="add-segment-btn" type="button">+ Přidat textový segment</button>
+          <button class="add-space-btn" type="button">+ Přidat mezeru</button>
+        </div>
+        <span class="btn-remove" title="Odstranit blok">×</span>
+        <div class="order-controls">
+          <button class="move-up" title="Posunout nahoru">▲</button>
+          <button class="move-down" title="Posunout dolů">▼</button>
+        </div>
+      `;
+
+      newBlock.addEventListener('dragstart', () => {
+        newBlock.classList.add('dragging');
+      });
+      newBlock.addEventListener('dragend', () => {
+        newBlock.classList.remove('dragging');
+        generateCode();
+      });
+
+      const expressionEditor = newBlock.querySelector('.expression-editor');
+      const addSegmentBtn = newBlock.querySelector('.add-segment-btn');
+      const addSpaceBtn = newBlock.querySelector('.add-space-btn');
+      const removeBtn = newBlock.querySelector('.btn-remove');
+      const moveUpBtn = newBlock.querySelector('.move-up');
+      const moveDownBtn = newBlock.querySelector('.move-down');
+
+      removeBtn.addEventListener('click', () => {
+        newBlock.remove();
+        generateCode();
+      });
+
+      moveUpBtn.addEventListener('click', () => {
+        const prev = newBlock.previousElementSibling;
+        if (prev) {
+          canvas.insertBefore(newBlock, prev);
+          generateCode();
+        }
+      });
+
+      moveDownBtn.addEventListener('click', () => {
+        const next = newBlock.nextElementSibling;
+        if (next) {
+          canvas.insertBefore(next, newBlock);
+          generateCode();
+        }
+      });
+
+      function createTextSegment(value = '') {
+        const span = document.createElement('span');
+        span.className = 'segment-text';
+        span.contentEditable = true;
+        span.spellcheck = false;
+        span.textContent = value;
+        span.title = 'Textový segment (dvojklikem odstraníš)';
+        span.addEventListener('input', generateCode);
+        span.addEventListener('dblclick', () => removeSegmentWithOperator(span));
+        return span;
+      }
+
+      function createVarSegment(name) {
+        const span = document.createElement('span');
+        span.className = 'segment-var';
+        span.textContent = name;
+        span.draggable = true;
+        span.title = 'Proměnná (dvojklikem odstraníš)';
+
+        span.addEventListener('dragstart', e => {
+          dragged = span;
+          span.classList.add('dragging');
+          e.dataTransfer.setData('text/plain', '');
+        });
+        span.addEventListener('dragend', e => {
+          dragged = null;
+          span.classList.remove('dragging');
+        });
+        span.addEventListener('dblclick', () => removeSegmentWithOperator(span));
+        return span;
+      }
+
+      function createSpaceSegment() {
+        const span = document.createElement('span');
+        span.className = 'segment-text';
+        span.contentEditable = false;
+        span.textContent = ' ';
+        span.title = 'Mezera (dvojklikem odstraníš)';
+        span.style.userSelect = 'none';
+        span.style.backgroundColor = '#ddd';
+        span.style.border = '1px dashed #aaa';
+        span.style.minWidth = '10px';
+        span.style.display = 'inline-block';
+        span.addEventListener('dblclick', () => removeSegmentWithOperator(span));
+        return span;
+      }
+
+      function removeSegmentWithOperator(span) {
+        const parent = span.parentElement;
+        if (!parent) return;
+        const prev = span.previousSibling;
+        const next = span.nextSibling;
+        if (prev && prev.classList?.contains('operator')) prev.remove();
+        else if (next && next.classList?.contains('operator')) next.remove();
+        span.remove();
+        generateCode();
+      }
+
+      addSegmentBtn.addEventListener('click', () => {
+        const newSeg = createTextSegment('');
+        if (expressionEditor.children.length > 0) {
+          const lastChild = expressionEditor.lastElementChild;
+          if (lastChild && !lastChild.classList.contains('operator')) {
+            const op = document.createElement('span');
+            op.className = 'operator';
+            op.textContent = '+';
+            expressionEditor.appendChild(op);
+          }
+        }
+        expressionEditor.appendChild(newSeg);
+        generateCode();
+      });
+
+      addSpaceBtn.addEventListener('click', () => {
+        if (expressionEditor.children.length > 0) {
+          const lastChild = expressionEditor.lastElementChild;
+          if (lastChild && !lastChild.classList.contains('operator')) {
+            const op = document.createElement('span');
+            op.className = 'operator';
+            op.textContent = '+';
+            expressionEditor.appendChild(op);
+          }
+        }
+        const spaceSeg = createSpaceSegment();
+        expressionEditor.appendChild(spaceSeg);
+        generateCode();
+      });
+
+      // Drag and drop proměnných do expression editoru
+      expressionEditor.addEventListener('dragover', e => {
+        e.preventDefault();
+        expressionEditor.classList.add('dragover');
+      });
+      expressionEditor.addEventListener('dragleave', e => {
+        expressionEditor.classList.remove('dragover');
+      });
+      expressionEditor.addEventListener('drop', e => {
+        e.preventDefault();
+        expressionEditor.classList.remove('dragover');
+        if (dragged && dragged.classList.contains('var-widget')) {
+          const varName = dragged.textContent;
+          if (expressionEditor.children.length > 0) {
+            const lastChild = expressionEditor.lastElementChild;
+            if (lastChild && !lastChild.classList.contains('operator')) {
+              const op = document.createElement('span');
+              op.className = 'operator';
+              op.textContent = '+';
+              expressionEditor.appendChild(op);
+            }
+          }
+          const varSeg = createVarSegment(varName);
+          expressionEditor.appendChild(varSeg);
+          generateCode();
+        }
+      });
+
+      canvas.appendChild(newBlock);
+      generateCode();
+
+    } else if (type === 'note') {
+      const newBlock = document.createElement('div');
+    newBlock.className = `canvas-block type-${type}`;
+      newBlock.draggable = true;
+
+      newBlock.innerHTML = `
+        <label>Poznámka:</label>
+        <textarea rows="2" class="note-text" placeholder="Zadej poznámku, bude v kódu jako komentář..."></textarea>
+        <span class="btn-remove" title="Odstranit blok">×</span>
+        <div class="order-controls">
+          <button class="move-up" title="Posunout nahoru">▲</button>
+          <button class="move-down" title="Posunout dolů">▼</button>
+        </div>
+      `;
+
+      newBlock.addEventListener('dragstart', () => {
+        newBlock.classList.add('dragging');
+      });
+      newBlock.addEventListener('dragend', () => {
+        newBlock.classList.remove('dragging');
+        generateCode();
+      });
+
+      const noteTextarea = newBlock.querySelector('textarea');
+      const removeBtn = newBlock.querySelector('.btn-remove');
+      const moveUpBtn = newBlock.querySelector('.move-up');
+      const moveDownBtn = newBlock.querySelector('.move-down');
+
+      noteTextarea.addEventListener('input', generateCode);
+      removeBtn.addEventListener('click', () => {
+        newBlock.remove();
+        generateCode();
+      });
+
+      moveUpBtn.addEventListener('click', () => {
+        const prev = newBlock.previousElementSibling;
+        if (prev) {
+          canvas.insertBefore(newBlock, prev);
+          generateCode();
+        }
+      });
+      moveDownBtn.addEventListener('click', () => {
+        const next = newBlock.nextElementSibling;
+        if (next) {
+          canvas.insertBefore(next, newBlock);
+          generateCode();
+        }
+      });
+
+      canvas.appendChild(newBlock);
+      generateCode();
+    }
+  }
+
+  // --- Generování Python kódu z plátna ---
+
+  function generateCode() {
+    const blocks = canvas.querySelectorAll('.canvas-block');
+    let codeLines = [];
+    let usedVarNames = new Set();
+
+    function sanitizeVarName(name) {
+      name = name.trim();
+      if (!name.match(/^[a-zA-Z_][a-zA-Z0-9_]*$/)) return null;
+      if (usedVarNames.has(name)) return null;
+      usedVarNames.add(name);
+      return name;
+    }
+
+    blocks.forEach(block => {
+      if (block.querySelector('.var-name')) {
+        // Proměnná
+        const varNameRaw = block.querySelector('.var-name').value;
+        const varName = sanitizeVarName(varNameRaw);
+        if (!varName) {
+          codeLines.push(`# NEVALIDNÍ název proměnné: ${varNameRaw}`);
+          return;
+        }
+        const valueType = block.querySelector('.value-type').value;
+        const valueInputArea = block.querySelector('.value-input-area');
+        let valueCode = 'None';
+
+        if (valueType === 'input') {
+          const promptInput = valueInputArea.querySelector('.input-prompt');
+          const inputSubtype = valueInputArea.querySelector('.input-subtype');
+          const promptText = promptInput ? promptInput.value.trim() : '';
+          const subType = inputSubtype ? inputSubtype.value : 'text';
+
+          let inputCode = `input("${promptText.replace(/"/g, '\\"')}")`;
+
+          if (subType === 'number') {
+            inputCode = `int(${inputCode})`;
+          }
+
+          valueCode = inputCode;
+
+        } else if (valueType === 'text') {
+          const textInput = valueInputArea.querySelector('input[type="text"]');
+          if (textInput) {
+            const val = textInput.value.trim();
+            valueCode = `"${val.replace(/"/g, '\\"')}"`;
+          } else {
+            valueCode = '""';
+          }
+        } else if (valueType === 'number') {
+          const numInput = valueInputArea.querySelector('input[type="number"]');
+          if (numInput) {
+            const val = numInput.value.trim();
+            if (val.match(/^(\d+(\.\d+)?)$/)) {
+              valueCode = val;
+            } else {
+              valueCode = '0';
+            }
+          } else {
+            valueCode = '0';
+          }
+        }
+
+        // Poznámka
+        const noteText = block.querySelector('.note-text').value.trim();
+        if (noteText.length > 0) {
+          codeLines.push(`# ${noteText}`);
+        }
+
+        codeLines.push(`${varName} = ${valueCode}`);
+
+      } else if (block.querySelector('label')?.textContent.startsWith('Vstup uživatele (input):')) {
+        const promptInput = block.querySelector('.input-prompt');
+        const subtype = block.querySelector('.input-subtype')?.value || 'text';
+        const promptText = promptInput ? promptInput.value.trim() : '';
+        let inputCode = `input("${promptText.replace(/"/g, '\\"')}")`;
+        if (subtype === 'number') {
+          inputCode = `int(${inputCode})`;
+        }
+        codeLines.push(inputCode);
+
+      } else if (block.querySelector('label')?.textContent.startsWith('Vypiš do konzole:')) {
+        const exprEditor = block.querySelector('.expression-editor');
+        let exprParts = [];
+        const children = Array.from(exprEditor.children);
+
+        for (let i = 0; i < children.length; i++) {
+          const ch = children[i];
+          if (ch.classList.contains('operator')) continue;
+          if (ch.classList.contains('segment-text')) {
+            const txt = ch.textContent;
+            exprParts.push(`"${txt.replace(/"/g, '\\"')}"`);
+          } else if (ch.classList.contains('segment-var')) {
+            exprParts.push(ch.textContent);
+          }
+        }
+
+        if (exprParts.length === 0) {
+          codeLines.push('print()');
+        } else {
+          codeLines.push(`print(${exprParts.join(' + ')})`);
+        }
+
+      } else if (block.querySelector('label')?.textContent.startsWith('Poznámka:')) {
+        const txt = block.querySelector('textarea').value.trim();
+        if (txt.length > 0) {
+          codeLines.push(`# ${txt}`);
+        }
+      }
+    });
+
+    output.textContent = codeLines.join('\n') || '# Žádný kód';
+  }
+
+  // Run button - jen alert jak spustit kód externě
+  runBtn.addEventListener('click', () => {
+    alert('Pro spuštění kódu si jej zkopíruj a vlož do Python IDE, například https://replit.com/languages/python');
+  });
+
+  document.getElementById('downloadBtn').addEventListener('click', () => {
+    const blob = new Blob([output.textContent], {type: 'text/plain;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'script.py';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+});
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!-- KAPITOLA: 4.1.2 Závěrečný test – podmínky a logické operátory -->
+<section id="section4-1-8test" class="container my-5 no-copy">
+  <h3 class="mb-4">4.1.8 Závěrečný test – podmínky, porovnání a logické operátory</h3>
+
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Jak test funguje?</h4>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">Klikni na jednu odpověď u každé otázky.</li>
+      <li class="list-group-item">Správná odpověď se vyhodnotí pomocí funkce <code>checkAnswer(this, ...)</code> (stejně jako v CSS testu).</li>
+      <li class="list-group-item">Otázky vycházejí z kapitol 4.1.2a–d: podmínky, elif, modulo, logické operátory a pořadí vyhodnocování.</li>
+    </ul>
+    <div class="alert alert-info mb-0">
+      <strong>Doporučení:</strong> před testem si projdi „Treasure Island“ a příklady s horskou dráhou / pizzou.
+    </div>
+  </div>
+
+  <!-- Otázka 1 -->
+  <div class="mb-4">
+    <p><strong>Otázka 1:</strong> Co vyhodnotí následující výraz v Pythonu?</p>
+<pre><code class="language-python">not 5 == 5</code></pre>
+    <div class="btn-group-vertical">
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">A) <code>True</code></button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">B) <code>False</code></button>
+    </div>
+    <p class="small text-muted mt-1">
+      Nápověda: <code>==</code> má přednost před <code>not</code>.
+    </p>
+  </div>
+
+  <!-- Otázka 2 -->
+  <div class="mb-4">
+    <p><strong>Otázka 2:</strong> Co vyhodnotí následující výraz?</p>
+<pre><code class="language-python">False or True or False</code></pre>
+    <div class="btn-group-vertical">
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">A) <code>True</code></button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">B) <code>False</code></button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">C) Syntax error</button>
+    </div>
+  </div>
+
+  <!-- Otázka 3 -->
+  <div class="mb-4">
+    <p><strong>Otázka 3:</strong> Co vytiskne následující kód?</p>
+<pre><code class="language-python">a = 5
+b = 7
+ 
+if a >= b and a != b:
+    print("A")
+elif not a >= b and a != b:
+    print("B")
+else:
+    print("C")</code></pre>
+    <div class="btn-group-vertical">
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">A) <code>A</code></button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">B) <code>B</code></button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">C) <code>C</code></button>
+    </div>
+  </div>
+
+  <!-- Otázka 4 – modulo + sudá/lichá -->
+  <div class="mb-4">
+    <p><strong>Otázka 4:</strong> Co vytiskne tento kód?</p>
+<pre><code class="language-python">number_to_check = 12
+
+if number_to_check % 2 == 0:
+    print("even")
+else:
+    print("odd")</code></pre>
+    <div class="btn-group-vertical">
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">A) <code>even</code></button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">B) <code>odd</code></button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">C) Nic – program spadne na chybě</button>
+    </div>
+    <p class="small text-muted mt-1">
+      Nápověda: modulo <code>%</code> vrací <strong>zbytek po dělení</strong>.
+    </p>
+  </div>
+
+  <!-- Otázka 5 – if / elif / else a více podmínek -->
+  <div class="mb-4">
+    <p><strong>Otázka 5:</strong> Jaký bude výstup následujícího programu?</p>
+<pre><code class="language-python">age = 20
+bill = 0
+
+if age &lt; 12:
+    bill = 5
+    print("Dětský lístek.")
+elif age &lt;= 18:
+    bill = 7
+    print("Studentský lístek.")
+else:
+    bill = 12
+    print("Dospělý lístek.")
+
+if age >= 60:
+    bill = 6
+    print("Sleva pro seniory.")
+
+print(bill)</code></pre>
+    <div class="btn-group-vertical">
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">
+        A) Vytiskne: „Studentský lístek.“ a na konci <code>7</code>
+      </button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">
+        B) Vytiskne: „Dospělý lístek.“ a na konci <code>12</code>
+      </button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">
+        C) Vytiskne: „Dospělý lístek. Sleva pro seniory.“ a na konci <code>6</code>
+      </button>
+    </div>
+    <p class="small text-muted mt-1">
+      Nápověda: <code>if/elif/else</code> z bloku vybere <strong>jen jednu větev</strong>, ale další samostatné <code>if</code> se kontroluje zvlášť.
+    </p>
+  </div>
+
+  <!-- Otázka 6 – porozumění if/elif/else -->
+  <div class="mb-4">
+    <p><strong>Otázka 6:</strong> Které tvrzení o <code>if / elif / else</code> je správné?</p>
+    <div class="btn-group-vertical">
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">
+        A) Když jsou všechny podmínky True, vykonají se všechny větve postupně.
+      </button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">
+        B) Jakmile jedna podmínka v <code>if / elif / else</code> bloku vyjde True, ostatní se už nevyhodnocují.
+      </button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">
+        C) V Pythonu musí být vždy u <code>if</code> i <code>else</code>, jinak program spadne.
+      </button>
+    </div>
+  </div>
+
+  <!-- Shrnutí testu -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Co bys po tomto testu měl(a) umět?</h4>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">Rozhodnout, jak se vyhodnotí jednoduché i složené logické výrazy (<code>and</code>, <code>or</code>, <code>not</code>).</li>
+      <li class="list-group-item">Přečíst a pochopit kód s <code>if / elif / else</code> a vnořenými podmínkami.</li>
+      <li class="list-group-item">Použít <code>%</code> (modulo) k testu sudosti/lichosti.</li>
+      <li class="list-group-item">Vědět, jak funguje více nezávislých <code>if</code> za sebou.</li>
+    </ul>
+    <div class="alert alert-success mb-0">
+      Pokud většinu otázek zvládneš bez tipování, máš kapitolu 4.1.2 <strong>splněnou</strong> a můžeš dál na cykly.
+    </div>
+  </div>
+</section>

@@ -1,0 +1,344 @@
+<!-- =========================================
+     BLOK TEORIE – Blender (V1: úvod + Object Mode)
+     (ponechává „filozofii“, modály, ale bez edit-mode detailů)
+========================================= -->
+
+<section id="theory" class="mb-5">
+  <h1 class="h4 mb-3">8.1.1 3D grafika (úvod do 3D grafiky + orientace v Blenderu)</h1>
+
+  <!-- Krátký úvod: 3D grafika + filozofie -->
+  <div class="lesson-box mb-4">
+    <h3 class="h5 mb-2">Co je 3D grafika a co znamená „modelovat“</h3>
+    <p class="mb-2">
+      <strong>3D grafika</strong> je práce s virtuálním prostorem (XYZ), ve kterém existují objekty, světla a kamera.
+      Na rozdíl od 2D obrázku se tady díváš na „scénu“ – můžeš ji obejít, přiblížit, změnit úhel pohledu.
+    </p>
+    <p class="mb-3">
+      <strong>Modelování</strong> není jen „mačkání nástrojů“. Je to převod reálného nebo stylizovaného tvaru do digitální podoby tak,
+      aby dávala smysl pro další použití. Úplně nejdůležitější otázka na začátku je:
+      <strong>„K čemu ten model bude?“</strong>
+    </p>
+
+    <div class="callout tip mb-0">
+      <strong>Proč na tom záleží:</strong><br>
+      Model pro hru (low-poly), model na render (detail), model na 3D tisk (uzavřený objem) – každý cíl vede k trochu jinému přemýšlení.
+      Dnes ale začneme úplným základem: orientace ve scéně a práce s objekty v <strong>Object Mode</strong>.
+    </div>
+  </div>
+
+  <!-- Accordion: teorie pro začátek -->
+  <div class="accordion" id="blenderTheoryAccordion">
+
+    <!-- 1) Scéna + UI -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="th-scene">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#thc-scene">
+          1️⃣ Blender a scéna: co tu je (objekty, kamera, světlo)
+        </button>
+      </h2>
+      <div id="thc-scene" class="accordion-collapse collapse show" data-bs-parent="#blenderTheoryAccordion">
+        <div class="accordion-body">
+          <p><strong>Co dělá?</strong><br>
+            Blender pracuje se <strong>scénou</strong>. Ve scéně jsou objekty (např. kostka), kamera (pohled) a světla (osvětlení).
+            My se teď soustředíme hlavně na <strong>objekty</strong> a orientaci.
+          </p>
+
+          <p><strong>Co je dobré hned pochopit:</strong><br>
+            <strong>Viewport</strong> = prostor, kde scénu vidíš. <strong>Outliner</strong> = seznam všech objektů.
+            Když něco nevidíš nebo nevíš, co je vybrané, Outliner to často zachrání.
+          </p>
+
+          <p><strong>Okamžitě použitelné zkratky:</strong><br>
+            <span class="kbd">A</span> (vybrat vše / zrušit výběr), <span class="kbd">X</span> (smazat), <span class="kbd">Num .</span> (focus na objekt)
+          </p>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-bl-scene" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/Blender/Blender1.png"
+                 alt="Blender – scéna a rozhraní">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-bl-scene">◀</button>
+            <small class="text-muted">Scéna a rozhraní</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-bl-scene">▶</button>
+          </div>
+          <div data-gallery-src="img-bl-scene"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/Blender/Blender1.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/01-scene/scene-1.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/01-scene/scene-2.png"
+               ]'></div>
+
+          <div class="callout mt-3">
+            <strong>Mikro-vysvětlení pojmů (klikni):</strong><br>
+            <button class="btn btn-sm btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#m-sceneBasics">
+              3D scéna (XYZ, kamera, světlo)
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2) Pohyb ve Viewportu -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="th-nav">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#thc-nav">
+          2️⃣ Pohyb ve Viewportu (orbit / posun / zoom) – aby ses neztratil
+        </button>
+      </h2>
+      <div id="thc-nav" class="accordion-collapse collapse" data-bs-parent="#blenderTheoryAccordion">
+        <div class="accordion-body">
+          <p><strong>Co dělá?</strong><br>
+            Tohle je úplný základ. Když se naučíš pohyb, Blender začne být „přehledný“.
+          </p>
+
+          <p><strong>Ovládání myší:</strong><br>
+            <span class="kbd">MMB</span> orbit (otáčení), <span class="kbd">Shift</span>+<span class="kbd">MMB</span> pan (posun),
+            kolečko / <span class="kbd">Ctrl</span>+<span class="kbd">MMB</span> zoom.
+          </p>
+
+          <p><strong>Záchrana, když se ztratíš:</strong><br>
+            vyber objekt (klidně v Outlineru) a dej <span class="kbd">Num .</span> (přeskočíš na něj).
+          </p>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-bl-nav" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/02-navigation/nav-0.png"
+                 alt="Blender – pohyb ve Viewportu">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-bl-nav">◀</button>
+            <small class="text-muted">Pohyb ve Viewportu</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-bl-nav">▶</button>
+          </div>
+          <div data-gallery-src="img-bl-nav"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/02-navigation/nav-0.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/02-navigation/nav-1.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/02-navigation/nav-2.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3) Rychlé pohledy -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="th-views">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#thc-views">
+          3️⃣ Rychlé pohledy (NumPad) – proč jsou užitečné
+        </button>
+      </h2>
+      <div id="thc-views" class="accordion-collapse collapse" data-bs-parent="#blenderTheoryAccordion">
+        <div class="accordion-body">
+          <p><strong>Co dělá?</strong><br>
+            Rychlé pohledy ti umožní dívat se na scénu „rovně“ zepředu/boku/shora. Hodí se na zarovnání a kontrolu.
+          </p>
+
+          <p><strong>Nejpoužívanější:</strong><br>
+            <span class="kbd">Num 1</span> Front,
+            <span class="kbd">Num 3</span> Right,
+            <span class="kbd">Num 7</span> Top,
+            <span class="kbd">Num 5</span> Perspective/Ortho,
+            <span class="kbd">Num .</span> Focus.
+          </p>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-bl-views" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/03-views/views-0.png"
+                 alt="Blender – rychlé pohledy">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-bl-views">◀</button>
+            <small class="text-muted">Front / Right / Top</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-bl-views">▶</button>
+          </div>
+          <div data-gallery-src="img-bl-views"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/03-views/views-0.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/03-views/views-1.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/03-views/views-2.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4) Object Mode (bez edit detailů) -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="th-objectmode">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#thc-objectmode">
+          4️⃣ Object Mode: práce s objekty jako s celkem (zatím jen tohle)
+        </button>
+      </h2>
+      <div id="thc-objectmode" class="accordion-collapse collapse" data-bs-parent="#blenderTheoryAccordion">
+        <div class="accordion-body">
+          <p><strong>Co dělá?</strong><br>
+            V Object Mode pracuješ s objektem jako s „věcí“: posun, otočení, velikost, duplikace, pojmenování.
+            To je pro začátek přesně to, co potřebujeme.
+          </p>
+
+          <p><strong>Důležitá věta:</strong><br>
+            Teď se učíme <em>orientaci ve scéně</em> a <em>základní práci s objekty</em>. Detailní úpravy tvaru si necháme až na moment, kdy je budeme opravdu potřebovat.
+          </p>
+
+          <p><strong>Zkratky:</strong><br>
+            <span class="kbd">Tab</span> přepíná režimy (pro nás teď: zůstat v Object Mode), <span class="kbd">Ctrl</span>+<span class="kbd">Z</span> krok zpět.
+          </p>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-bl-objectmode" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/04-objectmode/objectmode-0.png"
+                 alt="Blender – Object Mode">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-bl-objectmode">◀</button>
+            <small class="text-muted">Object Mode</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-bl-objectmode">▶</button>
+          </div>
+          <div data-gallery-src="img-bl-objectmode"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/04-objectmode/objectmode-0.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/04-objectmode/objectmode-1.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5) Přidávání objektů (Shift+A explicitně) -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="th-add">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#thc-add">
+          5️⃣ Přidávání objektů (Shift + A) + výběr
+        </button>
+      </h2>
+      <div id="thc-add" class="accordion-collapse collapse" data-bs-parent="#blenderTheoryAccordion">
+        <div class="accordion-body">
+          <p><strong>Co dělá?</strong><br>
+            Přidáš do scény nový objekt (primitivum). To je start každého cvičení: vložíš tvar a pak s ním pracuješ.
+          </p>
+
+          <p><strong>Zkratka, kterou budeš používat pořád:</strong><br>
+            <strong><span class="kbd">Shift</span> + <span class="kbd">A</span></strong> = menu <strong>Add</strong> (Mesh → Cube/Cylinder/Sphere…)
+          </p>
+
+          <p><strong>Další užitečné:</strong><br>
+            <span class="kbd">LMB</span> výběr, <span class="kbd">Shift</span> + klik více objektů,
+            <span class="kbd">X</span> smazat,
+            <span class="kbd">Shift</span>+<span class="kbd">D</span> duplikovat.
+          </p>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-bl-add" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/05-add/add-0.png"
+                 alt="Blender – Add menu (Shift+A)">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-bl-add">◀</button>
+            <small class="text-muted">Add (Shift+A)</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-bl-add">▶</button>
+          </div>
+          <div data-gallery-src="img-bl-add"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/05-add/add-0.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/05-add/add-1.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6) Transformace -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="th-transform">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#thc-transform">
+          6️⃣ Transformace objektů: G / R / S + omezení na osu (X/Y/Z)
+        </button>
+      </h2>
+      <div id="thc-transform" class="accordion-collapse collapse" data-bs-parent="#blenderTheoryAccordion">
+        <div class="accordion-body">
+          <p><strong>Co dělá?</strong><br>
+            Základní práce s objekty: posun, otočení, změna velikosti.
+          </p>
+
+          <p><strong>Zkratky:</strong><br>
+            <span class="kbd">G</span> posun,
+            <span class="kbd">R</span> rotace,
+            <span class="kbd">S</span> škála.
+            Potom <span class="kbd">X</span>/<span class="kbd">Y</span>/<span class="kbd">Z</span> omezíš jen na osu.
+          </p>
+
+          <div class="callout tip mb-3">
+            <strong>Praktický příklad:</strong><br>
+            posun jen nahoru/dolů = <span class="kbd">G</span> → <span class="kbd">Z</span><br>
+            když se ti to nelíbí = <span class="kbd">Esc</span> zrušit akci
+          </div>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-bl-transform" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/06-transform/transform-0.png"
+                 alt="Blender – transformace G/R/S">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-bl-transform">◀</button>
+            <small class="text-muted">G / R / S + osy</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-bl-transform">▶</button>
+          </div>
+          <div data-gallery-src="img-bl-transform"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/06-transform/transform-0.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/06-transform/transform-1.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/06-transform/transform-2.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- =========================================
+     MODÁLY – stručné vysvětlení (bez edit-mode detailů)
+========================================= -->
+
+<!-- Modal: 3D scéna basics -->
+<div class="modal fade" id="m-sceneBasics" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content p-3">
+    <div class="modal-header border-0 pb-0">
+      <h5 class="modal-title">3D scéna: XYZ, objekt, kamera, světlo</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    </div>
+    <div class="modal-body">
+      <p class="mb-2">
+        Ve 3D je prostor popsaný osami <strong>X</strong>, <strong>Y</strong>, <strong>Z</strong>.
+        Objekt je „věc“ ve scéně. Kamera určuje, odkud se díváme. Světla určují, jak budou vypadat stíny a tvar.
+      </p>
+
+      <div class="stage">
+        <svg viewBox="0 0 220 120" aria-label="3D scene axes">
+          <g stroke="#64748b" stroke-width="2">
+            <line x1="20" y1="100" x2="20" y2="20"/>
+            <line x1="20" y1="100" x2="200" y2="100"/>
+            <line x1="20" y1="100" x2="90" y2="40"/>
+          </g>
+          <text x="10" y="20" font-size="10" fill="#64748b">Z</text>
+          <text x="205" y="105" font-size="10" fill="#64748b">X</text>
+          <text x="90" y="35" font-size="10" fill="#64748b">Y</text>
+
+          <!-- camera icon -->
+          <rect x="150" y="30" width="30" height="18" fill="#0ea5e9" rx="3"/>
+          <polygon points="180,33 200,39 200,39 180,45" fill="#0ea5e9"/>
+
+          <!-- object cube -->
+          <g fill="#93c5fd" opacity=".7" stroke="#64748b">
+            <rect x="60" y="60" width="40" height="30"/>
+            <path d="M60 60 L75 50 L115 50 L100 60 Z"/>
+            <path d="M100 60 L115 50 L115 80 L100 90 Z"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="callout tip mt-3 mb-0">
+        <strong>Zapamatuj si:</strong><br>
+        Dnes nepotřebuješ „modelovat do detailu“. Potřebuješ se umět ve scéně pohybovat a umět pracovat s objekty jako s celkem.
+      </div>
+    </div>
+  </div></div>
+</div>

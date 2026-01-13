@@ -1,0 +1,234 @@
+<!-- ========================================= 
+     4.1.7 Funkce – učebnice pro začátečníky
+     (končí bezpečným načtením celého čísla)
+     ========================================= -->
+<section id="section4-4-1" class="container my-5">
+  <style>
+    .code-note{font-size:.95rem}
+    .muted{color:#6c757d}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}
+    .tip{border-left:4px solid #0d6efd;padding:.75rem 1rem;background:#f8f9fa}
+    .warn{border-left:4px solid #dc3545;padding:.75rem 1rem;background:#fff5f5}
+    .ok{border-left:4px solid #198754;padding:.75rem 1rem;background:#f6fff8}
+    .kbd{padding:.1rem .35rem;background:#eee;border-radius:.25rem;border:1px solid #ddd;font-family:inherit}
+    pre code{white-space:pre}
+  </style>
+
+  <h3 class="mb-4">4.4.1 Funkce krok za krokem</h3>
+
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Co se naučíš?</h4>
+    <ul class="mb-3">
+      <li>Co je to <b>funkce</b>, co dělají <b>závorky</b> při volání.</li>
+      <li><b>Parametry</b> a <b>argumenty</b>, pojmenované argumenty a výchozí hodnoty.</li>
+      <li><b>Návratová hodnota</b>, rozdíl <code>return</code> vs. <code>print</code>.</li>
+      <li>Co je <b>n-tice (tuple)</b>, jak ji <em>zabalit</em> a <em>rozbalit</em> (unpacking).</li>
+      <li>Funkce jako <b>hodnoty</b> (uložit → předat → zavolat).</li>
+      <li>Bezpečné načítání čísel: <code>try</code> / <code>except</code> / <code>continue</code> a validace pro <b>celé číslo</b>.</li>
+    </ul>
+    <div class="tip"><strong>Tip:</strong> Čti pomalu, zkoušej kódy v malých krocích a hned si je uprav podle sebe.</div>
+  </div>
+
+  <!-- =================================
+       1) Definice a volání – závorky
+       ================================= -->
+  <div class="container my-4 p-4 border rounded">
+    <h4 class="mb-3">1) Co je funkce a co dělají závorky</h4>
+
+    <p><b>Funkce</b> je pojmenovaný blok kódu. <em>Definice</em> funkce ji vytvoří. <em>Volání</em> funkce ji spustí.</p>
+<pre><code class="language-python"># definice
+def ahoj():
+    print("Ahoj!")
+
+# volání (závorky spouští kód uvnitř)
+ahoj()</code></pre>
+
+    <ul class="mb-3">
+      <li><span class="mono">def ahoj():</span> &rarr; vznikne „krabička“ s kódem.</li>
+      <li><span class="mono">ahoj()</span> &rarr; krabičku použiji (spustí se <span class="mono">print</span>).</li>
+      <li><span class="mono">ahoj</span> (bez závorek) je jen <em>odkaz</em> na funkci, nic nespouští.</li>
+    </ul>
+
+    <div class="ok"><b>Mini-úkol:</b> Napiš funkci <span class="mono">program_bezi()</span>, která dvakrát vytiskne „Program běží“, a zavolej ji.</div>
+  </div>
+
+  <!-- =========================================
+       2) Parametry × argumenty, pojmenované, výchozí
+       ========================================= -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">2) Parametry a argumenty (+ pojmenované a výchozí)</h4>
+
+<pre><code class="language-python">def soucet(a, b):    # a, b = parametry (místo pro hodnoty)
+    print(a + b)
+
+soucet(2, 3)         # poziční argumenty
+soucet(a=2, b=3)     # pojmenované argumenty
+soucet(b=10, a=1)    # pořadí teď nevadí
+
+def pozdrav(jmeno="Student"):   # výchozí argument
+    print("Ahoj", jmeno)
+
+pozdrav()                         # Ahoj Student
+pozdrav("Jan")                    # Ahoj Jan
+pozdrav(jmeno=input("Zadejte své jméno: "))</code></pre>
+
+    <ul class="mb-3">
+      <li><b>Parametr</b> = název „škatulky“ ve funkci. <b>Argument</b> = hodnota při volání.</li>
+      <li><b>Pojmenované</b> argumenty zvyšují čitelnost a brání záměnám.</li>
+      <li><b>Výchozí</b> hodnota dělá parametr volitelný.</li>
+    </ul>
+
+    <div class="warn"><b>Pozor:</b> Jako výchozí hodnotu nepoužívej měnitelná data (<span class="mono">list</span>, <span class="mono">dict</span>). Místo toho použij <span class="mono">None</span> a uvnitř vytvoř novou instanci.</div>
+
+    <div class="ok mt-3"><b>Mini-úkol:</b> Vytvoř <span class="mono">pozdrav_podruhe(jmeno, vek)</span> a zavolej ji jak pozičně, tak pojmenovaně.</div>
+  </div>
+
+  <!-- =========================================
+       3) Return vs print, n-tice a rozbalování
+       ========================================= -->
+  <div class="container my-4 p-4 border rounded">
+    <h4 class="mb-3">3) Návratová hodnota, n-tice (tuple) a rozbalování</h4>
+
+    <p><code>print()</code> jen zobrazí. <code>return</code> <em>vrací data</em> zpět volajícímu (lze je uložit, počítat s nimi, předat dál).</p>
+<pre><code class="language-python">def soucet_podruhe(a, b):
+    return a + b          # vracím výsledek
+
+x = soucet_podruhe(5, 7)
+y = soucet_podruhe(10, 15)
+print(x + y)</code></pre>
+
+    <h5 class="mt-3">Co je n-tice (tuple)?</h5>
+    <p>N-tice je <b>neměnitelná</b> (immutable) seřazená kolekce hodnot, zapisuje se např. <span class="mono">(1, "A", True)</span>.</p>
+<pre><code class="language-python">def min_max(a, b):
+    # při 'return A, B' Python vrací JEDNU hodnotu typu tuple: (A, B)
+    return min(a, b), max(a, b)
+
+mensi, vetsi = min_max(8, 3)   # rozbalení (unpacking)
+print(mensi, vetsi)</code></pre>
+
+    <div class="tip">
+      <b>N-tice – důležité detaily:</b>
+      <ul class="mb-0 mono">
+        <li><b>Zabalení:</b> <code>return a, b</code> ≡ <code>return (a, b)</code> (vrací se tuple).</li>
+        <li><b>Rozbalení:</b> <code>x, y = min_max(...)</code> – počet položek musí sedět, jinak <code>ValueError</code>.</li>
+        <li><b>Jednoprvková n-tice:</b> <code>(42,)</code> – čárka je povinná, jinak je to jen číslo 42.</li>
+        <li><b>Hvězdička:</b> <code>a, *stred, z = (1,2,3,4,5)</code> → <code>a=1</code>, <code>stred=[2,3,4]</code>, <code>z=5</code>.</li>
+        <li><b>N-tice je neměnitelná:</b> měníš až novou n-tici, ne „uvnitř“ staré.</li>
+      </ul>
+    </div>
+
+    <div class="ok mt-3"><b>Mini-úkol:</b> Napiš <span class="mono">kalkulacka()</span>, která z <span class="mono">input()</span> načte <span class="mono">a</span> a <span class="mono">b</span>, vrátí n-tici <span class="mono">(součet, rozdíl, součin, podíl)</span> a rozbal ji do <span class="mono">s, r, c, p</span>. (Pro jednoduchost předpokládej, že <span class="mono">b != 0</span>.)</div>
+
+<pre class="mt-2"><code class="language-python">def kalkulacka():
+    a = int(input("Zadejte první číslo: "))
+    b = int(input("Zadejte druhé číslo: "))
+    soucet = a + b
+    rozdil = a - b
+    soucin = a * b
+    podil = a / b
+    return soucet, rozdil, soucin, podil   # zabalení do tuple
+
+s, r, c, p = kalkulacka()                  # rozbalení
+print(f"Součet: {s}")
+print(f"Rozdíl: {r}")
+print(f"Součin: {c}")
+print(f"Podíl: {p}")</code></pre>
+  </div>
+
+  <!-- =========================================
+       4) Funkce jako hodnoty (uložit, předat, zavolat)
+       ========================================= -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">4) Funkce jako hodnoty</h4>
+
+    <p>Jméno funkce bez závorek je <em>hodnota</em> (odkaz). Lze uložit do proměnné nebo struktury a zavolat později.</p>
+<pre><code class="language-python">def soucet_po_treti(a, b): return a + b
+def rozdil_po_treti(a, b): return a - b
+
+Soucet = soucet_po_treti        # uložím odkaz (bez závorek!)
+Rozdil = rozdil_po_treti
+
+operace = {"plus": Soucet, "minus": Rozdil}
+print( operace["plus"](3, 9) )    # 12
+print( operace["minus"](3, 9) )   # -6</code></pre>
+
+    <div class="ok"><b>Mini-úkol:</b> Přidej funkci <span class="mono">soucin(a,b)</span> a registruj ji jako <span class="mono">"krat"</span>.</div>
+  </div>
+
+  <!-- =========================================
+       5) Try / Except / Continue – načtení čísla (float)
+       ========================================= -->
+  <div class="container my-4 p-4 border rounded">
+    <h4 class="mb-3">5) Bezpečné načtení čísla (float) – <code>try</code> / <code>except</code> / <code>continue</code></h4>
+
+<pre><code class="language-python">def nacti_cislo():
+    while True:
+        try:
+            cislo = float(input("Zadejte číslo: "))
+            return cislo            # úspěch → konec funkce
+        except ValueError:
+            print("Neplatný vstup, zadejte prosím číslo.")
+            # smyčka pokračuje dál (efekt 'continue') a zeptá se znovu
+
+cislo_uzivatele = nacti_cislo()
+print(f"Zadal jste číslo: {cislo_uzivatele}")</code></pre>
+
+    <div class="tip"><b>Co se děje krok za krokem:</b>
+      <ol class="mb-0 mono">
+        <li><b>try</b>: pokus o převod <code>float(input(...))</code>.</li>
+        <li>Úspěch → <code>return</code> vrátí hodnotu a funkce skončí.</li>
+        <li>Chyba → vyvolá se <code>ValueError</code>, přeskočí se do <b>except</b>.</li>
+        <li><b>except</b>: vypíšu hlášku, smyčka jede dál a ptá se znovu (efektivně <code>continue</code>).</li>
+      </ol>
+    </div>
+
+    <div class="ok mt-3"><b>Cvičení:</b> Vytvoř <span class="mono">nacti_dve_cisla()</span>, která volá <span class="mono">nacti_cislo()</span> dvakrát a vrátí n-tici <span class="mono">(x, y)</span>. N-tici rozbal do <span class="mono">x, y</span> a vypiš.</div>
+  </div>
+
+  <!-- =========================================
+       6) Finále: bezpečné načtení CELÉHO čísla s validací
+       ========================================= -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">6) Bezpečné načtení <em>celého</em> čísla (min/max)</h4>
+
+<pre><code class="language-python">def nacti_int(min_value=None, max_value=None):
+    while True:
+        try:
+            hodnota = int(input("Zadejte číslo: "))
+        except ValueError:
+            print("Zadejte prosím celé číslo.")
+            continue                # skoč na další iteraci smyčky
+        if min_value is not None and hodnota &lt; min_value:
+            print(f"Hodnota musí být &gt;= {min_value}.")
+            continue
+        if max_value is not None and hodnota &gt; max_value:
+            print(f"Hodnota musí být &lt;= {max_value}.")
+            continue
+        return hodnota              # validní → vrať a skonči
+
+# příklad: věk v intervalu 0..130
+vek = nacti_int(min_value=0, max_value=130)
+print("Věk:", vek)</code></pre>
+
+    <div class="warn"><b>Časté chyby:</b>
+      <ul class="mb-0">
+        <li>Chybí <span class="mono">continue</span> po chybové hlášce → program by pokračoval s nevalidní hodnotou.</li>
+        <li>Chybí <span class="mono">return</span> uvnitř smyčky → funkce by nikdy neskončila.</li>
+        <li>Zapomenutá validace rozsahu (min/max) při zadávání věku, počtu kusů apod.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded">
+    <h4 class="mb-3">🔚 Shrnutí</h4>
+    <ul class="mb-0">
+      <li>Rozlišuješ <b>definici</b> × <b>volání</b> (závorky spouští).</li>
+      <li>Používáš <b>parametry</b>/<b>argumenty</b>, umíš pojmenované a výchozí argumenty.</li>
+      <li>Chápeš rozdíl <code>return</code> vs. <code>print</code>.</li>
+      <li>Umíš pracovat s <b>n-ticí</b> (tuple): <em>zabalit</em> více hodnot a <em>rozbalit</em> je do proměnných.</li>
+      <li>Víš, že funkce je <b>hodnota</b> (lze uložit/předat).</li>
+      <li>Umíš bezpečně načíst <b>celé číslo</b> s validací pomocí <code>try/except/continue</code>.</li>
+    </ul>
+  </div>
+</section>

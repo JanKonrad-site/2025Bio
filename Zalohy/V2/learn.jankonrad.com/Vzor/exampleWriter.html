@@ -1,0 +1,184 @@
+<section id="sectionX-Y-Z" class="container my-5">
+  <h3 class="mb-4">X.Y.Z Název kapitoly</h3>
+
+  <!-- Cíl lekce -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Co se naučíš?</h4>
+    <p>Stručný popis dovedností, které si žák osvojí – v bodech co umí, čemu rozumí, co zvládne nastavit, atd.</p>
+
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Bod 1</strong> – krátký popis.</li>
+      <li class="list-group-item"><strong>Bod 2</strong> – krátký popis.</li>
+      <li class="list-group-item"><strong>Bod 3</strong> – krátký popis.</li>
+      <!-- další body dle potřeby -->
+    </ul>
+
+    <div class="alert alert-info" role="alert">
+      <i class="bi bi-lightbulb"></i>
+      <strong>Tip:</strong> Doplň užitečný tip nebo upozornění s odkazem na nabídku, klávesovou zkratku nebo funkcionalitu.
+    </div>
+  </div>
+
+  <!-- Teorie -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <h4 class="mb-3">Teorie: Nadpis</h4>
+    <p>Vysvětlení pojmu nebo principu. Používej <kbd></kbd> pro klávesy, <strong></strong> pro důraz.</p>
+    <p>Druhý odstavec teorie s ikonou: <i class="bi bi-eye"></i> a opět zvýraznění důležitého.</p>
+    <ul>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+  </div>
+
+  <!-- Ukázkový text -->
+  <h5 class="mt-5">Ukázkový text k formátování</h5>
+  <p>Instrukce pro práci s textem: odkud pochází, co s ním udělat, kam ho uložit.</p>
+
+  <!-- Úkoly -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Úkoly k textu</h4>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">1. Úkol – jasně a výstižně.</li>
+      <li class="list-group-item">2. Úkol – bez zbytečného opakování.</li>
+      <!-- další úkoly -->
+    </ul>
+  </div>
+
+  <!-- Akordeon -->
+  <div class="accordion mb-5" id="accordionX-Y-Z">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingOneX-Y-Z">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOneX-Y-Z">
+          1. Nadpis kroku
+        </button>
+      </h2>
+      <div id="collapseOneX-Y-Z" class="accordion-collapse collapse show" data-bs-parent="#accordionX-Y-Z">
+        <div class="accordion-body">
+          <p><strong>Postup v LibreOffice Writer:</strong></p>
+          <ol>
+            <li>Krok 1 – stručně a jasně.</li>
+            <li>Krok 2 – název nabídky, nastavení.</li>
+          </ol>
+          <hr>
+          <p><strong>Postup v Microsoft Word:</strong></p>
+          <ol>
+            <li>Krok 1 – verze pro Word.</li>
+            <li>Krok 2 – odpovídající funkce, zkratka.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- Další accordion-item -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingTwoX-Y-Z">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwoX-Y-Z">
+          2. Druhý nadpis kroku
+        </button>
+      </h2>
+      <div id="collapseTwoX-Y-Z" class="accordion-collapse collapse" data-bs-parent="#accordionX-Y-Z">
+        <div class="accordion-body">
+          <p>Obsah druhého kroku – opět Writer i Word, klidně i s tipy.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Tlačítko pro otevření modálu -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#imageModalKap-X">
+  Zobrazit vzor
+</button>
+
+<!-- Shrnutí kapitoly -->
+<div class="container my-4 p-4 border rounded bg-light">
+  <h3 class="mb-3">Shrnutí</h3>
+  <p>[Stručný úvodní text shrnující hlavní myšlenku kapitoly. Např.: Tato kapitola se zaměřuje na ...]</p>
+  <ul class="list-group list-group-flush mb-3">
+    <li class="list-group-item"><strong>[Název klíčového pojmu]</strong>: [Vysvětlení pojmu nebo pravidla].</li>
+    <li class="list-group-item"><strong>[Další klíčový pojem]</strong>: [Krátké vysvětlení nebo příklad].</li>
+    <li class="list-group-item"><strong>[Další pojem]</strong>: [Doplňující informace k danému tématu].</li>
+    <!-- Přidej nebo odeber další položky dle potřeby -->
+  </ul>
+  <div class="alert alert-info" role="alert">
+    <strong>Tip:</strong> [Užitečný tip nebo upozornění související s tématem.]
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="imageModalKap-X" tabindex="-1" aria-labelledby="imageModalLabelKap-X" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="imageModalLabelKap-X">Vzorový obrázek</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body text-center">
+        <!-- Zde vlož obrázek vzoru -->
+        <img src="[cesta-k-obrazku.jpg]" alt="Vzorový obrázek" class="img-fluid rounded shadow">
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="sectionX-X-X-test" class="container my-5">
+  <h4>📝 Test: [Název kapitoly] (kapitola X.X.X)</h4>
+
+  <!-- Otázka 1 -->
+  <div class="quiz-question mb-4">
+    <p><strong>1. [Znění otázky 1]</strong></p>
+    <div class="btn-group-vertical">
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">[Správná odpověď]</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">[Nesprávná odpověď]</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">[Nesprávná odpověď]</button>
+    </div>
+  </div>
+
+  <!-- Otázka 2 -->
+  <div class="quiz-question mb-4">
+    <p><strong>2. [Znění otázky 2]</strong></p>
+    <div class="btn-group-vertical">
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">[Nesprávná odpověď]</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">[Správná odpověď]</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">[Nesprávná odpověď]</button>
+    </div>
+  </div>
+
+  <!-- Otázka 3 -->
+  <div class="quiz-question mb-4">
+    <p><strong>3. [Znění otázky 3]</strong></p>
+    <div class="btn-group-vertical">
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">[Správná odpověď]</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">[Nesprávná odpověď]</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">[Nesprávná odpověď]</button>
+    </div>
+  </div>
+
+  <!-- Další otázky (4 až 10) ve stejném formátu -->
+  <!-- ... -->
+
+  <!-- Otázka 10 -->
+  <div class="quiz-question mb-4">
+    <p><strong>10. [Znění otázky 10]</strong></p>
+    <div class="btn-group-vertical">
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">[Nesprávná odpověď]</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">[Správná odpověď]</button>
+      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">[Nesprávná odpověď]</button>
+    </div>
+  </div>
+</section>
+
+<!-- Odkazy na použité zdroje -->
+<hr>
+<h6>Odkazy na použité zdroje</h6>
+<ol class="small">
+  <li>
+    <a href="#" target="_blank">Název oficiální dokumentace nebo stránky související s tématem kapitoly</a>
+  </li>
+  <li>
+    <a href="#" target="_blank">Název doplňkového článku (např. Wikipedia, technický blog, video apod.)</a>
+  </li>
+  <!-- Můžeš přidat více položek podle potřeby -->
+</ol>

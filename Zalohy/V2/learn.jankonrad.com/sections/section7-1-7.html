@@ -1,0 +1,443 @@
+<!-- 7.x.y GIMP — Crop Tool (ořez) -->
+<section id="section7-1-7" class="container my-5">
+  <h3 class="mb-4">7.1.7 GIMP — Crop Tool (ořez obrázku a plátna)</h3>
+
+  <!-- Co se naučíš -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co se naučíš?</h3>
+    <p>Naučíš se používat <strong>Crop Tool</strong> (nástroj Ořez) v GIMPu tak, aby sis nepokazil původní fotku a uměl připravit bannery, koláže a přesné výřezy.</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Nedestruktivní vs. destruktivní ořez</strong>: volba <code>Delete cropped pixels</code>, hranice vrstvy (žluté čárkování) a funkce <em>Image → Fit Canvas to Layers</em>.</li>
+      <li class="list-group-item"><strong>Ořez plátna mimo fotku</strong>: <code>Allow growing</code>, volba <code>Fill with</code> (transparency, FG, BG, pattern).</li>
+      <li class="list-group-item"><strong>Přesné výřezy</strong>: <code>Fixed</code> (aspect ratio / width / height / size), <code>Expand from center</code>, <code>Position</code> (X, Y, šířka, výška).</li>
+      <li class="list-group-item"><strong>Kompoziční pomůcky</strong>: highlight mimo výběr, vodítka (Rule of thirds, Rule of fifths, Golden sections, diagonály).</li>
+      <li class="list-group-item"><strong>Auto ořez objektu</strong>: <code>Auto shrink</code> a <code>Shrink merged</code> pro přesný ořez tvaru.</li>
+      <li class="list-group-item"><strong>Ořez jen jedné vrstvy</strong>: <code>Current layer only</code>, stejné šířky fotek v koláži a omezení nedestruktivního ořezu.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Crop Tool najdeš v Toolboxu (ikona nože/obdélníku) nebo zkratkou
+      <kbd>Shift</kbd>+<kbd>C</kbd>. Hranici vrstvy ukazuje <strong>žlutá čárkovaná linie</strong>.
+    </div>
+  </div>
+
+  <div class="accordion" id="gimpCropTools">
+     <div class="d-flex flex-wrap gap-2 align-items-center mb-4">
+    <a class="btn btn-primary" href="../Assets/img/gimp/lekce5/slecna1.jpg" target="_blank" rel="noopener" download="7.1.7(1)">⬇️ Soubory ke cvičení (slečna + pozadí)</a>
+     <a class="btn btn-primary" href="../Assets/img/gimp/lekce5/slecna2.jpg" target="_blank" rel="noopener" download="7.1.7(2)" >⬇️ Soubory ke cvičení (slečna + pozadí)</a>
+  </div>
+
+    <!-- 1) Základy Crop Toolu a nedestruktivní ořez -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-crop-basics">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c-crop-basics" aria-expanded="true" aria-controls="c-crop-basics">
+          1) Základy Crop Toolu: nedestruktivní vs. destruktivní ořez (1. Úkol)
+        </button>
+      </h2>
+      <div id="c-crop-basics" class="accordion-collapse collapse show" aria-labelledby="h-crop-basics" data-bs-parent="#gimpCropTools">
+        <div class="accordion-body">
+          <div class="alert alert-secondary mb-3">
+            <strong>🧠 Princip:</strong> Crop Tool <em>nezmenšuje jen „okno“</em>, ale může buď
+            <strong>schovat</strong> pixely mimo výřez (nedestruktivně), nebo je <strong>nenávratně smazat</strong>.
+            O tom rozhoduje volba <code>Delete cropped pixels</code>.
+          </div>
+
+          <ol class="mb-3">
+            <li>Otevři libovolnou fotku v GIMPu (např. portrét nebo krajinu).</li>
+            <li>
+              Vyber <strong>Crop Tool</strong>:
+              <ul>
+                <li>v Toolboxu (ikona ořezu), nebo</li>
+                <li>klávesovou zkratkou <kbd>Shift</kbd>+<kbd>C</kbd>.</li>
+              </ul>
+            </li>
+            <li>
+              V <strong>Tool Options</strong> (dole):
+              <ul>
+                <li>Ujisti se, že <strong><code>Delete cropped pixels</code> je <u>NEZAŠKRTNUTÉ</u></strong> (nedestruktivní ořez).</li>
+              </ul>
+            </li>
+            <li>
+              Táhni myší přes obrázek a vytvoř ořezovou oblast:
+              <ul>
+                <li>Všimni si <strong>úchytů</strong> (handles) na stranách a v rozích – můžeš jimi výběr doladit.</li>
+                <li>Výběr se automaticky zastaví na hranici plátna (canvas).</li>
+              </ul>
+            </li>
+            <li>Klikni <strong>dovnitř výběru</strong> → GIMP provede ořez (crop).</li>
+            <li>
+              Podívej se na <strong>žlutou čárkovanou hranici</strong>:
+              <ul>
+                <li>Označuje hranici vrstvy (původní fotky), která je větší než aktuální plátno.</li>
+                <li>Přestože ořez „uřízl“ obraz, pixely mimo canvas jsou stále <em>uložené</em>.</li>
+              </ul>
+            </li>
+            <li>
+              Stiskni <kbd>M</kbd> (Move Tool) a zkus fotku <strong>posouvat</strong>:
+              <ul>
+                <li>Uvidíš, že můžeš „rámovat“ jinou část původní fotky, i když je plátno menší.</li>
+              </ul>
+            </li>
+            <li>
+              Obnov původní velikost plátna podle vrstvy:
+              <ul>
+                <li>Menu <kbd>Image</kbd> → <strong>Fit Canvas to Layers</strong>.</li>
+                <li>Plátno se přizpůsobí velikosti vrstvy → vidíš zase celou fotku.</li>
+              </ul>
+            </li>
+            <li>
+              Nyní zapni <strong>destruktivní ořez</strong>:
+              <ul>
+                <li>Vyber Crop Tool (<kbd>Shift</kbd>+<kbd>C</kbd>).</li>
+                <li><strong>Zaškrtni</strong> <code>Delete cropped pixels</code>.</li>
+                <li>Vytvoř nový ořez a klikni dovnitř.</li>
+                <li>Žlutá hranice vrstvy teď přesně kopíruje plátno – pixely mimo výřez jsou <strong>smazané</strong>.</li>
+              </ul>
+            </li>
+            <li>
+              Zkus stisknout <kbd>Ctrl</kbd>+<kbd>Z</kbd>:
+              <ul>
+                <li>Všimni si, že abys <strong>vrátil smazané pixely</strong>, musíš rušit všechny akce provedené po ořezu.</li>
+                <li>Proto je destruktivní ořez nebezpečný, pokud pokračuješ v úpravách.</li>
+              </ul>
+            </li>
+            <li><strong>Ulož</strong> GIMP soubor jako <code>7-1-crop-nondestructive.xcf</code>.</li>
+          </ol>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-crop-basics" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/lekce5/1.png"
+                 alt="Základní ořez a hranice vrstvy">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-crop-basics">◀</button>
+            <small class="text-muted">Základní ořez & Delete cropped pixels</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-crop-basics">▶</button>
+          </div>
+          <div data-gallery-src="img-crop-basics"
+               data-images='[
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/lekce5/1.png",
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/lekce5/2.png",
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/lekce5/3.png",
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/lekce5/4.png",
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/lekce5/5.png",
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/lekce5/6.png",
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/lekce5/7.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2) Pokročilý ořez, Allow growing a kompozice 16:9 -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-crop-advanced1">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-crop-advanced1" aria-expanded="false" aria-controls="c-crop-advanced1">
+          2) Pokročilý ořez: Allow growing, Fill with, poměr stran a kompozice 16:9 (2. Úkol)
+        </button>
+      </h2>
+      <div id="c-crop-advanced1" class="accordion-collapse collapse" aria-labelledby="h-crop-advanced1" data-bs-parent="#gimpCropTools">
+        <div class="accordion-body">
+          <div class="alert alert-secondary mb-3">
+            <strong>🧠 Teorie:</strong> Crop Tool nemusí jen „uřezat“ obrázek. S pomocí <code>Allow growing</code>
+            můžeš <strong>rozšířit plátno</strong> a <code>Fill with</code> rozhoduje, čím se nová oblast zaplní
+            (průhlednost, barva, pattern). <code>Fixed</code> ti pomůže držet přesný <strong>poměr stran</strong>
+            (např. 16:9 nebo Instagram 4:5).
+          </div>
+
+          <h5 class="mt-3">A) Allow growing & Fill with</h5>
+          <ol class="mb-3">
+            <li>Otevři novou fotku (např. portrét na výšku).</li>
+            <li>Vyber Crop Tool (<kbd>Shift</kbd>+<kbd>C</kbd>).</li>
+            <li>V Tool Options:
+              <ul>
+                <li>Ujisti se, že <code>Delete cropped pixels</code> je <u>NEZAŠKRTNUTÉ</u>.</li>
+                <li>Zaškrtni <strong><code>Allow growing</code></strong>.</li>
+                <li>U <strong><code>Fill with</code></strong> nastav:
+                  <ul>
+                    <li><code>Transparency</code> (výchozí) – nová oblast bude šachovnice (průhlednost).</li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li>Táhni ořez zprava <strong>ven z plátna</strong> – překroč hranici canvasu.</li>
+            <li>Klikni dovnitř výběru → plátno se rozšíří a nová část bude průhledná (šachovnice).</li>
+            <li>Zkus změnit <code>Fill with</code> na:
+              <ul>
+                <li><code>Foreground color</code> (např. bílá),</li>
+                <li><code>Background color</code> (např. zlatá),</li>
+                <li><code>Pattern</code>.</li>
+              </ul>
+              Proveď ještě jeden ořez a sleduj rozdíl.
+            </li>
+          </ol>
+
+          <h5 class="mt-4">B) Fixed – Aspect ratio, Width, Height, Size</h5>
+          <ol class="mb-3">
+            <li>V Tool Options zaškrtni <strong><code>Fixed</code></strong> a vyber <code>Aspect ratio</code>.</li>
+            <li>Do pole napiš <code>16:9</code> (nebo <code>4:5</code> pro Instagram).</li>
+            <li>Táhni myší → ořezová oblast vždy drží daný poměr stran.</li>
+            <li>Změň orientaci (portrait/landscape) přepínačem vedle aspect ratio:
+              <ul>
+                <li>4:5 = na výšku, 5:4 = na šířku.</li>
+              </ul>
+            </li>
+            <li>Přepni <code>Fixed</code> na <strong>Width</strong>, zadej např. <code>1500 px</code>:
+              <ul>
+                <li>Při táhnutí se šířka zamkne na 1500 px, výšku můžeš volně měnit.</li>
+              </ul>
+            </li>
+            <li>Přepni na <strong>Height</strong> a vyzkoušej fixní výšku.</li>
+            <li>Přepni na <strong>Size</strong> (např. 1280×720) → ořez vždy přesně na dané rozměry.</li>
+          </ol>
+
+          <h5 class="mt-4">C) Highlight & Guides (Rule of thirds/fifths)</h5>
+          <ol class="mb-3">
+            <li>Zapni <strong><code>Highlight</code></strong>:
+              <ul>
+                <li>Všechno mimo ořez se ztmaví (lépe se soustředíš na kompozici).</li>
+                <li>Pomocí <strong>Highlight opacity</strong> nastav míru ztmavení (např. 50 %).</li>
+              </ul>
+            </li>
+            <li>V poli <strong><code>Guides</code></strong> vyzkoušej:
+              <ul>
+                <li><code>Center lines</code>, <code>Rule of thirds</code>, <code>Rule of fifths</code>, <code>Golden sections</code>, <code>Diagonals</code>.</li>
+                <li>Všimni si, jak ti pomáhají centrovat subjekt nebo dodržet pravidlo třetin.</li>
+              </ul>
+            </li>
+          </ol>
+
+          <h5 class="mt-4">D) Úkol: banner 16:9 s fotkou vlevo a textem vpravo</h5>
+          <ol class="mb-3">
+            <li>Otevři portrétní fotku (postava uprostřed).</li>
+            <li>Vyber Crop Tool:
+              <ul>
+                <li><code>Allow growing</code> – ZAPNOUT</li>
+                <li><code>Delete cropped pixels</code> – VYPNOUT</li>
+                <li><code>Fixed</code> → <strong>Aspect ratio</strong> → zadej <code>16:9</code></li>
+                <li><code>Fill with</code> → <strong>Transparency</strong></li>
+                <li><code>Guides</code> → <strong>Rule of fifths</strong></li>
+              </ul>
+            </li>
+            <li>Táhni ořez tak, aby postava byla vlevo a vpravo vznikl prázdný prostor (transparentní).</li>
+            <li>Pomocí vodítek (rule of fifths) umísti hlavu postavy ke svislé linii (dobrá kompozice).</li>
+            <li>Klikni dovnitř → provede se ořez a rozšíření plátna.</li>
+            <li>Vytvoř novou vrstvu:
+              <ul>
+                <li><kbd>Layer</kbd> → <strong>New Layer</strong>, název <code>background</code>, <code>Fill with: White</code>.</li>
+                <li>Přetáhni vrstvu <strong>pod</strong> fotku v panelu Layers.</li>
+              </ul>
+            </li>
+            <li>Vyber Text Tool (T), použij libovolný font (např. Bungee), barvu textu nastav na černou.</li>
+            <li>Napiš nadpis a krátký popis do pravé bílé části banneru.</li>
+            <li>
+              Zmenši výslednou kompozici:
+              <ul>
+                <li><kbd>Image</kbd> → <strong>Scale Image</strong>.</li>
+                <li>Width = <code>1920</code>, Height = automaticky <code>1080</code>, <code>Interpolation: LoHalo</code>.</li>
+              </ul>
+            </li>
+            <li>Ulož jako <code>7-2-crop-banner.xcf</code> a exportuj jako <code>.png</code>.</li>
+          </ol>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-crop-advanced1" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/lekce5/8.png"
+                 alt="Banner 16:9 s fotkou vlevo a textem vpravo">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-crop-advanced1">◀</button>
+            <small class="text-muted">Allow growing, Fill with & 16:9 kompozice</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-crop-advanced1">▶</button>
+          </div>
+          <div data-gallery-src="img-crop-advanced1"
+               data-images='[
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/lekce5/8.png",
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/lekce5/9.png",
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/lekce5/10.png",
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/lekce5/11.png",
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/lekce5/12.png",
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/lekce5/13.png",
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/lekce5/14.png",
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/lekce5/15.png",
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/lekce5/16.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3) Auto Shrink & Shrink merged – ořez objektu -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-crop-advanced2">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-crop-advanced2" aria-expanded="false" aria-controls="c-crop-advanced2">
+          3) Auto Shrink & Shrink merged: rychlý ořez objektu (3. Úkol)
+        </button>
+      </h2>
+      <div id="c-crop-advanced2" class="accordion-collapse collapse" aria-labelledby="h-crop-advanced2" data-bs-parent="#gimpCropTools">
+        <div class="accordion-body">
+          <div class="alert alert-secondary mb-3">
+            <strong>🧠 Teorie:</strong>
+            <code>Auto shrink</code> automaticky stáhne ořez na <strong>viditelný objekt</strong> (např. kruh na jednobarevném pozadí).
+            <code>Shrink merged</code> při tom bere v úvahu <strong>všechny vrstvy</strong>, nejen tu aktuální. Funguje dobře, když je objekt výrazně oddělený od pozadí.
+          </div>
+
+          <h5 class="mt-3">Úkol: přesný ořez kruhu</h5>
+          <ol class="mb-3">
+            <li>Vytvoř novou kompozici:
+              <ul>
+                <li><kbd>File</kbd> → <strong>New</strong>, např. <code>1920×1080</code>, <code>Background color</code> (zlatá nebo jiná).</li>
+              </ul>
+            </li>
+            <li>Vyber <strong>Ellipse Select Tool</strong>:
+              <ul>
+                <li>Podržením <kbd>Shift</kbd>+<kbd>Ctrl</kbd> táhni od středu → dokonalý kruh.</li>
+              </ul>
+            </li>
+            <li>Vyplň kruh:
+              <ul>
+                <li>Buď <strong>Bucket Fill</strong> (<kbd>Shift</kbd>+<kbd>B</kbd>), nebo přetažením FG barvy dovnitř.</li>
+              </ul>
+            </li>
+            <li>Zruš výběr: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>A</kbd>.</li>
+            <li>Vyber Crop Tool (<kbd>Shift</kbd>+<kbd>C</kbd>), vypni všechny Guides.</li>
+            <li>Ručně vytvoř ořez tak, aby <em>přibližně</em> obklopoval kruh.</li>
+            <li>
+              V Tool Options:
+              <ul>
+                <li>Zapni <strong><code>Auto shrink</code></strong>.</li>
+                <li>Zapni <strong><code>Shrink merged</code></strong> (aby bral v úvahu všechny vrstvy).</li>
+              </ul>
+            </li>
+            <li>Klikni na tlačítko <strong>Auto shrink</strong> (nebo na text v Tool Options) → ořez se <strong>automaticky stáhne přesně na kruh</strong>.</li>
+            <li>Klikni dovnitř ořezu → ořízni kompozici přesně na kruh.</li>
+            <li>Ulož jako <code>7-3-crop-circle.xcf</code>.</li>
+          </ol>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-crop-advanced2" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/LekceCrop/6.png"
+                 alt="Auto Shrink a přesný ořez kruhu">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-crop-advanced2">◀</button>
+            <small class="text-muted">Auto Shrink & Shrink merged</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-crop-advanced2">▶</button>
+          </div>
+          <div data-gallery-src="img-crop-advanced2"
+               data-images='[
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/LekceCrop/6.png",
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/LekceCrop/7.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4) Current layer only & koláž tří fotek -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-crop-collage">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-crop-collage" aria-expanded="false" aria-controls="c-crop-collage">
+          4) Current layer only: ořez jednotlivých vrstev a koláž tří fotek (4. Úkol)
+        </button>
+      </h2>
+      <div id="c-crop-collage" class="accordion-collapse collapse" aria-labelledby="h-crop-collage" data-bs-parent="#gimpCropTools">
+        <div class="accordion-body">
+          <div class="alert alert-secondary mb-3">
+            <strong>🧠 Teorie:</strong>
+            <code>Current layer only</code> říká Crop Toolu, že má ořezat pouze <strong>aktivní vrstvu</strong>, ne celý obrázek.
+            Pozor: v tomto režimu <strong>nefunguje nedestruktivní ořez</strong> – pixely mimo výběr se smažou i když je
+            <code>Delete cropped pixels</code> vypnuté.
+          </div>
+
+          <h5 class="mt-3">Úkol: koláž tří fotek stejné šířky</h5>
+          <ol class="mb-3">
+            <li>Vytvoř novou kompozici, např. <code>1920×1080</code>, bílý background.</li>
+            <li>Naimportuj 3 fotky (např. fitness/sport):
+              <ul>
+                <li><kbd>File</kbd> → <strong>Open as Layers</strong> → vyber 3 obrázky.</li>
+                <li>Přejmenuj vrstvy na <code>fitness_1</code>, <code>fitness_2</code>, <code>fitness_3</code>.</li>
+              </ul>
+            </li>
+            <li>
+              Cíl: každá fotka bude mít stejnou šířku, takže šířku plátna <code>1920 px</code> rozdělíme na 3 části:
+              <ul>
+                <li><strong>1920 / 3 = 640 px</strong> (šířka každé fotky).</li>
+              </ul>
+            </li>
+            <li>Vyber vrstvu <strong>fitness_3</strong> (např. tu pravou).</li>
+            <li>
+              Crop Tool (<kbd>Shift</kbd>+<kbd>C</kbd>), v Tool Options:
+              <ul>
+                <li><code>Fixed</code> → <strong>Width</strong> → zadej <code>640 px</code>.</li>
+                <li>Dočasně <strong>VYPNI</strong> <code>Current layer only</code> i <code>Allow growing</code>.</li>
+              </ul>
+            </li>
+            <li>Táhni ořez tak, aby byl uvnitř canvasu a končil u pravého okraje plátna.</li>
+            <li>Teprve teď <strong>ZAPNI</strong> <code>Current layer only</code> a klikni dovnitř ořezu:
+              <ul>
+                <li>Ořízne se pouze vrstva <code>fitness_3</code>, canvas zůstane stejný.</li>
+              </ul>
+            </li>
+            <li>Stejný postup zopakuj pro <code>fitness_2</code> (prostřední fotka):
+              <ul>
+                <li>Polož ořez doprostřed plátna (šířka pořád 640 px).</li>
+                <li>Nejdřív <code>Current layer only</code> vypni při nastavování hran, pak zase zapni a ořízni.</li>
+              </ul>
+            </li>
+            <li>Třetí fotku <code>fitness_1</code> můžeš jen posunout a případně oříznout podle stejné logiky.</li>
+            <li>
+              Zarovnání:
+              <ul>
+                <li>Vyber <strong>Alignment Tool</strong> (zkratka <kbd>Q</kbd>).</li>
+                <li>Klikni na prostřední fotku a v Tool Options ji zarovnej na střed plátna (<code>Align center of target</code> / <code>Align middle of target</code>).</li>
+                <li>Krajní fotky posuň Move Toolem (<kbd>M</kbd>) tak, aby se nepřekrývaly a vyplnily šířku.</li>
+              </ul>
+            </li>
+            <li>
+              Všimni si:
+              <ul>
+                <li>I když máš <code>Delete cropped pixels</code> vypnuté, pixely mimo ořez u <code>Current layer only</code> jsou <strong>smazané</strong>.</li>
+                <li>Proto si vždy nejdřív nastav kompozici, až pak ořezávej vrstvy zvlášť.</li>
+              </ul>
+            </li>
+            <li>Ulož jako <code>7-4-crop-collage.xcf</code>.</li>
+          </ol>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-crop-collage" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/LekceCrop/8.png"
+                 alt="Koláž tří fotek se stejnou šířkou">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-crop-collage">◀</button>
+            <small class="text-muted">Current layer only & koláž</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-crop-collage">▶</button>
+          </div>
+          <div data-gallery-src="img-crop-collage"
+               data-images='[
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/LekceCrop/8.png",
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/LekceCrop/9.png",
+                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/LekceCrop/10.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /accordion -->
+
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Shrnutí</h3>
+    <ul class="list-group list-group-flush mb-0">
+      <li class="list-group-item">Crop Tool (<kbd>Shift</kbd>+<kbd>C</kbd>) mění viditelnou část obrázku a může být nedestruktivní (pixely jen schová) nebo destruktivní (pixely smaže).</li>
+      <li class="list-group-item">Volba <code>Delete cropped pixels</code> rozhoduje o tom, zda se pixely mimo ořez zachovají. Vždy sleduj žlutou hranici vrstvy.</li>
+      <li class="list-group-item"><code>Allow growing</code> umožní plátno zvětšit za původní hranici, <code>Fill with</code> určuje, čím se nová oblast vyplní.</li>
+      <li class="list-group-item"><code>Fixed</code> (aspect ratio, width, height, size) a <code>Position</code> ti dovolí ořezávat přesně podle rozměrů a souřadnic (např. 16:9, 4:5).</li>
+      <li class="list-group-item">Highlight a Guides (rule of thirds, fifths, golden sections) pomáhají lépe komponovat snímek při ořezu.</li>
+      <li class="list-group-item"><code>Auto shrink</code> a <code>Shrink merged</code> zrychlují ořez objektu na jednobarevném nebo kontrastním pozadí.</li>
+      <li class="list-group-item"><code>Current layer only</code> ořezává jen aktivní vrstvu, ale chová se destruktivně i bez zaškrtnutého <code>Delete cropped pixels</code> – používej opatrně.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- helper styl (pokud už máš globálně, klidně vynech) -->
+<style>
+  .img-contained { width:100%; height:100%; object-fit:contain; object-position:center; }
+</style>

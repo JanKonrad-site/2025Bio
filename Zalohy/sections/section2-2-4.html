@@ -1,0 +1,124 @@
+<section id="section2-2-4" class="container my-5">
+  <h3 class="mb-4">4. Funkce s absolutní hodnotou (vysvětleno pro úplné začátečníky)</h3>
+
+  <!-- Cíl lekce -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Co se naučíš?</h4>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">Co je <strong>absolutní hodnota</strong> a proč je vždy nezáporná (vzdálenost od nuly).</li>
+      <li class="list-group-item">Jak číst a kreslit graf <code>y = |x|</code> a jak ho posouvat pomocí <code>a·|x − h| + k</code>.</li>
+      <li class="list-group-item">Jak nastavit v Excelu tabulku, vzorec <code>ABS()</code>, a <strong>absolutní adresování</strong> (<kbd>F4</kbd>).</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Když chceš z předpisu hned vrchol, převeď ho na tvar <code>y = a·|x − h| + k</code>. Vrchol je pak přímo <code>[h; k]</code>.
+    </div>
+  </div>
+
+  <!-- Teorie: co je absolutní hodnota -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <h4 class="mb-3">1) Co je absolutní hodnota?</h4>
+    <p><strong>|x|</strong> je <em>vzdálenost čísla x od nuly</em> na číselné ose. Vzdálenost nemůže být záporná ⇒ <strong>|x| ≥ 0</strong>.</p>
+    <ul>
+      <li>|5| = 5 (pět čárek vpravo od nuly)</li>
+      <li>|−5| = 5 (pět čárek vlevo od nuly)</li>
+      <li>|0| = 0</li>
+    </ul>
+    <p><strong>Po kouskách:</strong> <code>|x| = x</code> pro <code>x ≥ 0</code>, jinak <code>|x| = −x</code>. Ekvivalentně <code>|x| = √(x²)</code>.</p>
+    <div class="alert alert-secondary"><strong>Mini-cvičení:</strong> Spočti z hlavy: |−7|, |3|, |0|, |−0,8| → 7, 3, 0, 0,8.</div>
+  </div>
+
+  <!-- Teorie: graf y=|x| a obecný tvar -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <h4 class="mb-3">2) Graf a posuny: z <code>y=|x|</code> na <code>y=a·|x−h|+k</code></h4>
+    <p><code>y=|x|</code> tvoří písmeno „V“ s vrcholem v <strong>[0;0]</strong>. Posuny a změny tvaru:</p>
+    <ul>
+      <li><strong>y = a·|x − h| + k</strong> — <em>kanonický tvar</em>.</li>
+      <li><strong>Vrchol:</strong> vždy v bodě <strong>[h; k]</strong>.</li>
+      <li><strong>a</strong> — strmost/otočení (a&lt;0 převrátí „V“ dolů; vyšší |a| = strmější).</li>
+      <li><strong>h</strong> — posun vrcholu po ose X (doprava/doleva).</li>
+      <li><strong>k</strong> — posun vrcholu po ose Y (nahoru/dolů).</li>
+    </ul>
+    <div class="alert alert-warning">
+      <strong>Jak číst znamenka uvnitř | |:</strong> <code>y = |x + 4|</code> je totéž co <code>y = |x − (−4)|</code> ⇒ <em>h = −4</em> ⇒ vrchol <strong>[−4; 0]</strong>.
+    </div>
+  </div>
+
+  <!-- Příklad A: y = |x| -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Příklad A – základní graf <code>y = |x|</code></h4>
+    <ol>
+      <li>Sloupec <strong>A</strong>: x od −6 do 6 (krok 1).</li>
+      <li>Buňka <strong>B2</strong>: <code>=ABS(A2)</code> → zkopíruj dolů.</li>
+      <li>Označ A:B → vlož <strong>XY (bodový)</strong> graf s hladkou čárou.</li>
+    </ol>
+    <div class="alert alert-secondary"><strong>Kontrola:</strong> Tabulka vyjde … 6,5,4,3,2,1,0,1,2,3,4,5,6; vrchol [0;0].</div>
+  </div>
+
+  <!-- Příklad B: obecný tvar s absolutním adresováním -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Příklad B – obecný tvar <code>y = a·|x − h| + k</code> (s absolutními odkazy)</h4>
+    <p>Parametry do buněk: <strong>E1=a</strong>, <strong>E2=h</strong>, <strong>E3=k</strong>.</p>
+    <ol>
+      <li>Sloupec <strong>A</strong>: x od −6 do 6.</li>
+      <li>Buňka <strong>B2</strong> (stiskni <kbd>F4</kbd> pro uzamčení E1:E3):<br>
+        <code>=$E$1*ABS(A2 - $E$2) + $E$3</code>
+      </li>
+      <li>Zkopíruj dolů, vlož XY graf. Měň <em>a, h, k</em> a sleduj posuny a strmost.</li>
+    </ol>
+    <div class="alert alert-secondary">
+      <strong>Rychlá diagnostika:</strong> Pokud měníš h a graf se neposouvá, zkontroluj, že jsi použil <code>ABS(A2 - $E$2)</code> (ne <code>$E$2*A2</code> apod.).
+    </div>
+  </div>
+
+  <!-- Kontrolní otázky (opravné, bez záměny +/−) -->
+  <section id="section4-abs-test" class="container my-5">
+    <h4>📝 Kontrolní otázky – kde je vrchol?</h4>
+
+    <!-- Q1 -->
+    <div class="quiz-question mb-4">
+      <p><strong>1) Funkce <code>y = |x - 3| + 2</code></strong></p>
+      <div class="btn-group-vertical">
+        <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">[0;0]</button>
+        <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">[3;2]</button>
+        <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">[-3;2]</button>
+      </div>
+      <small class="text-muted d-block mt-2">Pravidlo: tvar <code>|x − h| + k</code> ⇒ vrchol [h; k].</small>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-question mb-4">
+      <p><strong>2) Funkce <code>y = |x + 4|</code></strong></p>
+      <div class="btn-group-vertical">
+        <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">[4;0]</button>
+        <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">[−4;0]</button>
+        <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">[0;4]</button>
+      </div>
+      <small class="text-muted d-block mt-2"><code>|x + 4| = |x − (−4)|</code> ⇒ h = −4.</small>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-question mb-4">
+      <p><strong>3) Funkce <code>y = −2·|x − 1| + 3</code></strong></p>
+      <div class="btn-group-vertical">
+        <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">[1;3]</button>
+        <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">[−1;3]</button>
+        <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">[1;−3]</button>
+      </div>
+      <small class="text-muted d-block mt-2">Vrchol [h; k] = [1; 3], a &lt; 0 jen obrací „V“ dolů.</small>
+    </div>
+  </section>
+
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Shrnutí</h3>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">Funkce s absolutní hodnotou: <code>y = a·|x − h| + k</code>.</li>
+      <li class="list-group-item">Vrchol je vždy <strong>[h; k]</strong>. Pozor: <code>|x + 4|</code> = <code>|x − (−4)|</code> ⇒ h = −4.</li>
+      <li class="list-group-item"><strong>a</strong> mění strmost/otočení, <strong>h</strong> posun po X, <strong>k</strong> posun po Y.</li>
+      <li class="list-group-item">Excel: <code>=ABS()</code> a absolutní adresování <code>$E$1, $E$2, $E$3</code>.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip k vizuálu:</strong> Pokud graf vypadá „divně“, nastav stejné měřítko os (např. X: −6 až 6; Y: −6 až 6) a krok x zmenši na 0,5.
+    </div>
+  </div>
+</section>

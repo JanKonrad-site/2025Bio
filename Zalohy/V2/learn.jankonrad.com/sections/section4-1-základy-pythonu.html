@@ -1,0 +1,131 @@
+<style>
+    .svg-line {
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+  animation: draw 2s ease forwards;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+
+</style>
+
+<section id="section4" class="container my-5">
+  <h3 class="mb-4">4.1 Úvod do programování v Pythonu (Základy pythonu)</h3>
+
+  <!-- Co se naučíš -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co se naučíš?</h3>
+    <p>V této kapitole pochopíš, co je to programování obecně, jak počítač vykonává příkazy, co je to skript a jak Python čte kód. Ukážeme si i první příkazy v Pythonu jako <code>print()</code> a <code>input()</code>. Naučíš se také, kde Python získat, jak ho nainstalovat a kde psát kód.</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Co je programování</strong>: myšlení o problému + instrukce pro počítač</li>
+      <li class="list-group-item"><strong>Jak počítač čte kód</strong>: řádek po řádku, shora dolů</li>
+      <li class="list-group-item"><strong>Skript</strong>: posloupnost příkazů</li>
+      <li class="list-group-item"><strong>Program</strong>: větší celek složený z více skriptů či modulů</li>
+      <li class="list-group-item"><strong>Příkazy <code>print()</code> a <code>input()</code></strong>: první praktické ukázky</li>
+      <li class="list-group-item"><strong>IDE a instalace</strong>: kde získat Python a psát kód</li>
+    </ul>
+    <div class="alert alert-info">
+      <strong>Tip:</strong> Program je jako scénář – provádí se řádek po řádku odshora dolů.
+    </div>
+  </div>
+
+  <!-- Co je IDE a kde psát kód -->
+  <h5 class="mt-5">🖥️ Co je IDE a kde psát kód</h5>
+  <p><strong>IDE</strong> (Integrated Development Environment) je prostředí, ve kterém můžeš psát, ukládat a spouštět kód. Obsahuje zvýraznění syntaxe, konzoli, ladicí nástroje atd.</p>
+  <ul class="list-group mb-4">
+    <li class="list-group-item"><strong>Visual Studio Code (VS Code)</strong> – populární, zdarma, přehledný editor</li>
+    <li class="list-group-item"><strong>Thonny</strong> – jednoduché IDE speciálně pro začátečníky v Pythonu</li>
+    <li class="list-group-item"><strong>Online editory</strong> – např. Replit.com, PythonAnywhere.com, náš školní editor</li>
+  </ul>
+  <p>💡 Doporučujeme <strong>VS Code</strong> pro pokročilejší uživatele, nebo <strong>Thonny</strong> pro začátek.</p>
+
+  <h5 class="mt-4">📥 Kde stáhnout Python</h5>
+  <ul class="list-group mb-4">
+    <li class="list-group-item">Oficiální stránka: <a href="https://www.python.org/downloads/" target="_blank">https://www.python.org/downloads/</a></li>
+    <li class="list-group-item">Vyber si verzi pro svůj operační systém (Windows, macOS, Linux)</li>
+    <li class="list-group-item">Spusť instalaci a zaškrtni <strong>Add Python to PATH</strong> (důležité pro příkazovou řádku)</li>
+  </ul>
+
+  <h5 class="mt-4">▶️ Jak spustit Python skript</h5>
+  <ul class="list-group mb-4">
+    <li class="list-group-item"><strong>1. V IDE</strong> (např. Thonny, VS Code) – klikni na tlačítko <em>Run</em></li>
+    <li class="list-group-item"><strong>2. Příkazová řádka (Windows)</strong>: <code>python muj_program.py</code></li>
+    <li class="list-group-item"><strong>3. Terminál na MacBooku</strong>: <code>python3 muj_program.py</code></li>
+  </ul>
+  <div class="alert alert-secondary">
+    📌 <strong>Tip:</strong> Pro testování můžeš spustit <code>python</code> nebo <code>python3</code> a zkusit příkazy přímo.
+  </div>
+
+  <!-- Jak počítač čte kód -->
+  <h5 class="mt-5">📜 Jak počítač čte kód v Pythonu</h5>
+  <p>Python čte skript odshora dolů, vykonává příkazy jeden po druhém. Říkáme tomu <strong>sekvenční vykonávání</strong>.</p>
+  <pre><code>print("A")
+print("B")
+print("C")</code></pre>
+  <p>Tento skript vypíše: A, B, C – vždy v tomto pořadí.</p>
+
+  <!-- Co je skript a program -->
+  <h5 class="mt-4">📁 Skript a program</h5>
+  <ul class="list-group mb-4">
+    <li class="list-group-item"><strong>Skript</strong>: jednoduchý soubor obsahující posloupnost příkazů</li>
+    <li class="list-group-item"><strong>Program</strong>: rozsáhlejší celek – může se skládat z více skriptů a knihoven</li>
+  </ul>
+
+  <!-- print() -->
+  <h5 class="mt-4">🖨️ Funkce <code>print()</code></h5>
+  <p>Funkce <code>print()</code> vypíše text do konzole. Používáme ji pro komunikaci s uživatelem a pro výstup informací.</p>
+  <pre><code>print("Hello World")</code></pre>
+
+  <!-- input() -->
+  <h5 class="mt-4">⌨️ Funkce <code>input()</code></h5>
+  <p>Funkce <code>input()</code> zastaví program a čeká, až uživatel něco napíše a stiskne Enter.</p>
+  <pre><code>input("Stiskni Enter pro ukončení")</code></pre>
+  <p>Používá se např. na konci skriptu, aby se program nezavřel okamžitě.</p>
+
+  <!-- Úkoly -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Úkoly</h4>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">1. Otevři si IDE Visual Studio Code</li>
+      <li class="list-group-item">2. Napiš <code>print("Hello, World!")</code></li>
+      <li class="list-group-item">3. Napiš <code>print("Tvé jméno")</code></li>
+      <li class="list-group-item">4. Přidej <code>input("Stiskni Enter pro ukončení")</code></li>
+      <li class="list-group-item">5. Spusť a sleduj pořadí vykonání</li>
+    </ul>
+    
+    
+  </div>
+  <div class="alert alert-warning">
+    <strong>💡 Tip:</strong> Pokud si nevíš rady, vyzkoušej si kód v mém <a href="/learn.jankonrad.com/sections/progGames/1proggame/index.html" target="_blank">editoru</a>.
+  </div>
+
+
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3>🔑 Shrnutí</h3>
+    <ul class="list-group list-group-flush mb-3">
+      <li>📌 Python čte kód odshora dolů, řádek po řádku</li>
+      <li>📌 Skript je soubor s příkazy, program může být větší celek</li>
+      <li>📌 <code>print()</code> vypisuje text, <code>input()</code> čeká na vstup</li>
+      <li>📌 Spouštět můžeš v IDE, v příkazové řádce nebo v terminálu</li>
+    </ul>
+    <div class="alert alert-info">
+      <strong>Tip:</strong> Každý velký program začíná malým „Hello, World!“
+    </div>
+  </div>
+
+  <!-- Odkazy -->
+  <h6>📚 Zdroje</h6>
+  <ol class="small">
+    <li><a href="https://www.itnetwork.cz/python/zaklady/python-tutorial-uvod-do-pythonu-a-zakladni-matematicke-operace" target="_blank">IT‑network: Lekce 1 – Úvod do Pythonu</a></li>
+    <li><a href="https://www.python.org/downloads/" target="_blank">Oficiální stránka Pythonu</a></li>
+    <li><a href="https://code.visualstudio.com/" target="_blank">Visual Studio Code – ke stažení</a></li>
+    <li><a href="https://thonny.org/" target="_blank">Thonny – Python IDE</a></li>
+  </ol>
+</section>
+

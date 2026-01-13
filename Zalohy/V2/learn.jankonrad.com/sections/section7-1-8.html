@@ -1,0 +1,623 @@
+<!-- 7.x.y GIMP — Colors (Barvy) -->
+<section id="section7-1-8" class="container my-5">
+  <h3 class="mb-4">7.1.8 GIMP — Colors (Barvy)</h3>
+
+  <!-- Co se naučíš -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co se naučíš?</h3>
+    <p>Projdeš si jednotlivé položky nabídky <strong>Colors (Barvy)</strong> a u každé uvidíš, co dělá, jak fungují slidery (pokud jsou), kdy ji použít a krátkou aplikaci na naší ukázkové fotce. Obsah vychází přesně z přiloženého přehledu.</p>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Doporučené workflow pro krajinu: <em>Shadows–Highlights → Color Temperature → Saturation → Curves → Levels</em>.
+    </div>
+  </div>
+
+  <div class="accordion" id="gimpColors">
+
+    <!-- 1) Color Balance -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-colors-balance">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c-colors-balance" aria-expanded="true" aria-controls="c-colors-balance">
+          1) Color Balance (Barevná rovnováha)
+        </button>
+      </h2>
+      <div id="c-colors-balance" class="accordion-collapse collapse show" aria-labelledby="h-colors-balance" data-bs-parent="#gimpColors">
+        <div class="accordion-body">
+          <p><strong>Co to dělá?</strong><br>Upravuje poměr <em>modrá / žlutá</em>, <em>červená / tyrkysová</em>, <em>purpurová / zelená</em>.</p>
+          <p><strong>Jak fungují slidery?</strong><br>Posun doprava → přidává barvu napsanou vpravo. Posun doleva → přidává barvu napsanou vlevo.</p>
+          <p><strong>Kde se to používá?</strong><br>Vyvážení barev světelné teploty. Oprava “modrých stínů” nebo “žlutých světel”.</p>
+          <p><strong>Příklad z tvé fotky:</strong><br>Fotka je příliš studená → <em>Yellow</em> (vpravo) v <em>Midtones</em>, <em>Red</em> (vpravo) ve <em>Shadows</em> → zjemní atmosféru a ohřeje obrázek.</p>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-colors-balance" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/balance-0.png"
+                 alt="Color Balance – ukázka">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-colors-balance">◀</button>
+            <small class="text-muted">Color Balance</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-colors-balance">▶</button>
+          </div>
+          <div data-gallery-src="img-colors-balance"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/balance-0.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/balance-1.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2) Color Temperature -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-colors-temp">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-colors-temp" aria-expanded="false" aria-controls="c-colors-temp">
+          2) Color Temperature (Barevná teplota)
+        </button>
+      </h2>
+      <div id="c-colors-temp" class="accordion-collapse collapse" aria-labelledby="h-colors-temp" data-bs-parent="#gimpColors">
+        <div class="accordion-body">
+          <p><strong>Co to dělá?</strong><br>Simuluje změnu Kelvinů – ohřívá / ochlazuje obrázek.</p>
+          <p><strong>Slidery:</strong><br><em>Original temperature</em> – odhad GIMPu. <em>Intended temperature</em> – nižší = chladnější (modré), vyšší = teplejší (žluté).</p>
+          <p><strong>Kdy použít:</strong><br>Zimní/modré fotky ohřát. Přepálené/oranžové ochladit.</p>
+          <p><strong>U tvé kompozice:</strong><br>Zvýšení z ~6500K → 7000–7500K odstraní modrý nádech vody.</p>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-colors-temp" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/temp-0.png"
+                 alt="Color Temperature – ukázka">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-colors-temp">◀</button>
+            <small class="text-muted">Color Temperature</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-colors-temp">▶</button>
+          </div>
+          <div data-gallery-src="img-colors-temp"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/temp-0.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/temp-1.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3) Hue–Chroma -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-colors-huechroma">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-colors-huechroma" aria-expanded="false" aria-controls="c-colors-huechroma">
+          3) Hue–Chroma (Odstín + sytost)
+        </button>
+      </h2>
+      <div id="c-colors-huechroma" class="accordion-collapse collapse" aria-labelledby="h-colors-huechroma" data-bs-parent="#gimpColors">
+        <div class="accordion-body">
+          <p><strong>Co dělá?</strong><br><em>Hue</em> posouvá odstíny (např. modrá→tyrkys). <em>Chroma</em> přidává/ubírá sytost.</p>
+          <p><strong>Nebezpečí:</strong><br>Hue u krajin používej opatrně, jinak výsledek působí uměle.</p>
+          <p><strong>Na tvé fotce:</strong><br>Mírné zvýšení <em>Chroma</em> zvýrazní modrou oblohu.</p>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-colors-huechroma" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/huechroma-0.png"
+                 alt="Hue–Chroma – ukázka">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-colors-huechroma">◀</button>
+            <small class="text-muted">Hue–Chroma</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-colors-huechroma">▶</button>
+          </div>
+          <div data-gallery-src="img-colors-huechroma"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/huechroma-0.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/huechroma-1.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4) Hue–Saturation -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-colors-huesat">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-colors-huesat" aria-expanded="false" aria-controls="c-colors-huesat">
+          4) Hue–Saturation (Odstín–sytost–jas)
+        </button>
+      </h2>
+      <div id="c-colors-huesat" class="accordion-collapse collapse" aria-labelledby="h-colors-huesat" data-bs-parent="#gimpColors">
+        <div class="accordion-body">
+          <p><strong>Komplexnější než Hue–Chroma.</strong></p>
+          <p><strong>Slidery:</strong><br><em>Hue</em> – mění odstíny; <em>Saturation</em> – výraznost barev; <em>Lightness</em> – zesvětlení/ztmavení.</p>
+          <p><strong>Použití:</strong><br>Zesílení modré oblohy, potlačení rušivých barev.</p>
+          <p><strong>U tvé fotky:</strong><br>+10 až +15 <em>Saturation</em> dodá obloze a vodě sílu bez spálení stínů.</p>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-colors-huesat" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/huesat-0.png"
+                 alt="Hue–Saturation – ukázka">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-colors-huesat">◀</button>
+            <small class="text-muted">Hue–Saturation</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-colors-huesat">▶</button>
+          </div>
+          <div data-gallery-src="img-colors-huesat"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/huesat-0.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/huesat-1.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5) Saturation… -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-colors-saturation">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-colors-saturation" aria-expanded="false" aria-controls="c-colors-saturation">
+          5) Saturation… (Globální sytost)
+        </button>
+      </h2>
+      <div id="c-colors-saturation" class="accordion-collapse collapse" aria-labelledby="h-colors-saturation" data-bs-parent="#gimpColors">
+        <div class="accordion-body">
+          <p><strong>Co to dělá?</strong><br>Globálně zvýší/sníží barevnost.</p>
+          <p><strong>Posun:</strong><br>Doprava = více barev. Doleva = šedivější až grayscale.</p>
+          <p><strong>Použití:</strong><br>Rychlá úprava, když nechceš měnit jednotlivé barvy.</p>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-colors-saturation" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/saturation-0.png"
+                 alt="Saturation – ukázka">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-colors-saturation">◀</button>
+            <small class="text-muted">Saturation</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-colors-saturation">▶</button>
+          </div>
+          <div data-gallery-src="img-colors-saturation"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/saturation-0.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/saturation-1.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6) Exposure… -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-colors-exposure">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-colors-exposure" aria-expanded="false" aria-controls="c-colors-exposure">
+          6) Exposure… (Expozice)
+        </button>
+      </h2>
+      <div id="c-colors-exposure" class="accordion-collapse collapse" aria-labelledby="h-colors-exposure" data-bs-parent="#gimpColors">
+        <div class="accordion-body">
+          <p><strong>Co to dělá?</strong><br>Simuluje změnu expozice – velmi silný zásah.</p>
+          <p><strong>Slidery:</strong><br><em>Exposure</em> – zesvětlení celku. <em>Black level</em> – „černá čára“.</p>
+          <p><strong>Upozornění:</strong><br>Vysoké exposure → přepaly, ztráta detailu.</p>
+          <p><strong>U tvé fotky:</strong><br>Slunce už je přepálené → exposure nepřidávat; případně <em>-0.10 až -0.20</em> dolů.</p>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-colors-exposure" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/exposure-0.png"
+                 alt="Exposure – ukázka">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-colors-exposure">◀</button>
+            <small class="text-muted">Exposure</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-colors-exposure">▶</button>
+          </div>
+          <div data-gallery-src="img-colors-exposure"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/exposure-0.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/exposure-1.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7) Shadows–Highlights -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-colors-sh-hi">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-colors-sh-hi" aria-expanded="false" aria-controls="c-colors-sh-hi">
+          7) Shadows–Highlights (Stíny–světla)
+        </button>
+      </h2>
+      <div id="c-colors-sh-hi" class="accordion-collapse collapse" aria-labelledby="h-colors-sh-hi" data-bs-parent="#gimpColors">
+        <div class="accordion-body">
+          <p><strong>Co to dělá:</strong><br>Vytahuje detaily ze stínů a snižuje přepaly ve světlech.</p>
+          <p><strong>Slidery:</strong><br><em>Shadows</em> – zesvětlení stínů. <em>Highlights</em> – ztmavení světel. <em>White point adjust</em> – jemné doladění kontrastu.</p>
+          <p><strong>Na tvé fotce:</strong><br><em>Shadows +20</em> (více detailů ve stínech budov), <em>Highlights -15</em> (stáhne slunce a mraky).</p>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-colors-shhi" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/shhi-0.png"
+                 alt="Shadows–Highlights – ukázka">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-colors-shhi">◀</button>
+            <small class="text-muted">Shadows–Highlights</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-colors-shhi">▶</button>
+          </div>
+          <div data-gallery-src="img-colors-shhi"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/shhi-0.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/shhi-1.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8) Brightness–Contrast -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-colors-bc">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-colors-bc" aria-expanded="false" aria-controls="c-colors-bc">
+          8) Brightness–Contrast (Jas–kontrast)
+        </button>
+      </h2>
+      <div id="c-colors-bc" class="accordion-collapse collapse" aria-labelledby="h-colors-bc" data-bs-parent="#gimpColors">
+        <div class="accordion-body">
+          <p><strong>Co to dělá?</strong><br>Rychlé globální úpravy: <em>Brightness</em> (světlost), <em>Contrast</em> (rozdíl světla/stínu). Vhodné na finální „dolaď“.</p>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-colors-bc" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/bc-0.png"
+                 alt="Brightness–Contrast – ukázka">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-colors-bc">◀</button>
+            <small class="text-muted">Brightness–Contrast</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-colors-bc">▶</button>
+          </div>
+          <div data-gallery-src="img-colors-bc"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/bc-0.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/bc-1.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9) Levels -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-colors-levels">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-colors-levels" aria-expanded="false" aria-controls="c-colors-levels">
+          9) Levels (Úrovně)
+        </button>
+      </h2>
+      <div id="c-colors-levels" class="accordion-collapse collapse" aria-labelledby="h-colors-levels" data-bs-parent="#gimpColors">
+        <div class="accordion-body">
+          <p><strong>Profesionální nástroj pro tonalitu.</strong></p>
+          <p><strong>Co dělá:</strong><br>Nastavuje černý bod, bílý bod a gamu (středy).</p>
+          <p><strong>Jak funguje:</strong><br>Táhnu černý trojúhelník doprava → ztmavím stíny. Táhnu bílý doleva → zesvětlím světla. Gama ovlivní střední tóny.</p>
+          <p><strong>Vhodné pro:</strong><br>Opravu vybledlých fotek, zvýraznění detailů v obloze.</p>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-colors-levels" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/levels-0.png"
+                 alt="Levels – ukázka">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-colors-levels">◀</button>
+            <small class="text-muted">Levels</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-colors-levels">▶</button>
+          </div>
+          <div data-gallery-src="img-colors-levels"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/levels-0.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/levels-1.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10) Curves -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-colors-curves">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-colors-curves" aria-expanded="false" aria-controls="c-colors-curves">
+          10) Curves (Křivky)
+        </button>
+      </h2>
+      <div id="c-colors-curves" class="accordion-collapse collapse" aria-labelledby="h-colors-curves" data-bs-parent="#gimpColors">
+        <div class="accordion-body">
+          <p><strong>Nejmocnější nástroj pro tonalitu.</strong></p>
+          <p><strong>Co dělá:</strong><br>Umožní kreslit tvar změny světel/stínů. Typická „S-křivka“ → nahoře nahoru (světla), dole dolů (stíny) → vyšší kontrast.</p>
+          <p><strong>U tvé fotky:</strong><br>Lehká moderní „S“ (jemně) fotku projasní a oživí.</p>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-colors-curves" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/curves-0.png"
+                 alt="Curves – ukázka">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-colors-curves">◀</button>
+            <small class="text-muted">Curves</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-colors-curves">▶</button>
+          </div>
+          <div data-gallery-src="img-colors-curves"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/curves-0.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/curves-1.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 11) Invert -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-colors-invert">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-colors-invert" aria-expanded="false" aria-controls="c-colors-invert">
+          11) Invert (Invertovat)
+        </button>
+      </h2>
+      <div id="c-colors-invert" class="accordion-collapse collapse" aria-labelledby="h-colors-invert" data-bs-parent="#gimpColors">
+        <div class="accordion-body">
+          <p>Obrátí barvy do negativu. Využití: umělecké efekty, maskování, technické operace.</p>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-colors-invert" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/invert-0.png"
+                 alt="Invert – ukázka">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-colors-invert">◀</button>
+            <small class="text-muted">Invert</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-colors-invert">▶</button>
+          </div>
+          <div data-gallery-src="img-colors-invert"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/invert-0.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/invert-1.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12) Linear Invert / Value Invert -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-colors-linvalinv">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-colors-linvalinv" aria-expanded="false" aria-controls="c-colors-linvalinv">
+          12) Linear Invert / Value Invert
+        </button>
+      </h2>
+      <div id="c-colors-linvalinv" class="accordion-collapse collapse" aria-labelledby="h-colors-linvalinv" data-bs-parent="#gimpColors">
+        <div class="accordion-body">
+          <p>Speciality pro přesné masky/úrovně. Pro běžnou úpravu fotek se nepoužívají.</p>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-colors-linvalinv" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/linvalinv-0.png"
+                 alt="Linear Invert / Value Invert – ukázka">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-colors-linvalinv">◀</button>
+            <small class="text-muted">Linear/Value Invert</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-colors-linvalinv">▶</button>
+          </div>
+          <div data-gallery-src="img-colors-linvalinv"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/linvalinv-0.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 13) Auto -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-colors-auto">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-colors-auto" aria-expanded="false" aria-controls="c-colors-auto">
+          13) Auto (Automatické úpravy)
+        </button>
+      </h2>
+      <div id="c-colors-auto" class="accordion-collapse collapse" aria-labelledby="h-colors-auto" data-bs-parent="#gimpColors">
+        <div class="accordion-body">
+          <p>Obsahuje např. <em>Auto White Balance</em>, <em>Stretch Contrast</em>, <em>Normalize</em>. GIMP se pokusí fotku upravit sám – někdy fajn, jindy ne.</p>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-colors-auto" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/auto-0.png"
+                 alt="Auto – ukázka">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-colors-auto">◀</button>
+            <small class="text-muted">Auto</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-colors-auto">▶</button>
+          </div>
+          <div data-gallery-src="img-colors-auto"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/auto-0.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/auto-1.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 14) Components -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-colors-components">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-colors-components" aria-expanded="false" aria-controls="c-colors-components">
+          14) Components (Kanálové úpravy RGB/HSL)
+        </button>
+      </h2>
+      <div id="c-colors-components" class="accordion-collapse collapse" aria-labelledby="h-colors-components" data-bs-parent="#gimpColors">
+        <div class="accordion-body">
+          <p>Práce s jednotlivými kanály (R, G, B apod.). Použití: odstranit zelený nádech, opravit modrou vodu, doladit oblohu. Pokročilé.</p>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-colors-components" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/components-0.png"
+                 alt="Components – ukázka">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-colors-components">◀</button>
+            <small class="text-muted">Components</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-colors-components">▶</button>
+          </div>
+          <div data-gallery-src="img-colors-components"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/components-0.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 15) Desaturate -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-colors-desat">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-colors-desat" aria-expanded="false" aria-controls="c-colors-desat">
+          15) Desaturate (Odbarvit)
+        </button>
+      </h2>
+      <div id="c-colors-desat" class="accordion-collapse collapse" aria-labelledby="h-colors-desat" data-bs-parent="#gimpColors">
+        <div class="accordion-body">
+          <p>Metody převodu do šedé: <em>Lightness</em>, <em>Luminosity</em>, <em>Average</em>. Každá dává jiný styl černobílé.</p>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-colors-desat" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/desat-0.png"
+                 alt="Desaturate – ukázka">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-colors-desat">◀</button>
+            <small class="text-muted">Desaturate</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-colors-desat">▶</button>
+          </div>
+          <div data-gallery-src="img-colors-desat"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/desat-0.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/desat-1.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 16) Map -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-colors-map">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-colors-map" aria-expanded="false" aria-controls="c-colors-map">
+          16) Map (Mapování)
+        </button>
+      </h2>
+      <div id="c-colors-map" class="accordion-collapse collapse" aria-labelledby="h-colors-map" data-bs-parent="#gimpColors">
+        <div class="accordion-body">
+          <p>Podnabídka s efekty jako <em>Gradient Map</em>, <em>Sample Colorize</em>, <em>Palette Map</em>. Stylizace (filmový look apod.).</p>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-colors-map" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/map-0.png"
+                 alt="Map – ukázka">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-colors-map">◀</button>
+            <small class="text-muted">Map</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-colors-map">▶</button>
+          </div>
+          <div data-gallery-src="img-colors-map"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/map-0.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 17) Colorize -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-colors-colorize">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-colors-colorize" aria-expanded="false" aria-controls="c-colors-colorize">
+          17) Colorize (Kolorovat)
+        </button>
+      </h2>
+      <div id="c-colors-colorize" class="accordion-collapse collapse" aria-labelledby="h-colors-colorize" data-bs-parent="#gimpColors">
+        <div class="accordion-body">
+          <p>Udělá z fotky monochrom a nechá zvolit barvu. Vhodné pro umělecké efekty, tónování (modrá noc, sepia, duotone).</p>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-colors-colorize" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/colorize-0.png"
+                 alt="Colorize – ukázka">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-colors-colorize">◀</button>
+            <small class="text-muted">Colorize</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-colors-colorize">▶</button>
+          </div>
+          <div data-gallery-src="img-colors-colorize"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/colorize-0.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/colorize-1.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 18) Color to Alpha -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-colors-cta">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-colors-cta" aria-expanded="false" aria-controls="c-colors-cta">
+          18) Color to Alpha (Barva do alfy)
+        </button>
+      </h2>
+      <div id="c-colors-cta" class="accordion-collapse collapse" aria-labelledby="h-colors-cta" data-bs-parent="#gimpColors">
+        <div class="accordion-body">
+          <p>Odstraní zvolenou barvu → nahradí ji průhledností. Běžné pro PNG ikony, odstranění pozadí, overlaye.</p>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-colors-cta" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/cta-0.png"
+                 alt="Color to Alpha – ukázka">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-colors-cta">◀</button>
+            <small class="text-muted">Color to Alpha</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-colors-cta">▶</button>
+          </div>
+          <div data-gallery-src="img-colors-cta"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/cta-0.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/cta-1.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 19) Dither, RGB Clip, Hot… -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-colors-tech">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-colors-tech" aria-expanded="false" aria-controls="c-colors-tech">
+          19) Dither, RGB Clip, Hot…
+        </button>
+      </h2>
+      <div id="c-colors-tech" class="accordion-collapse collapse" aria-labelledby="h-colors-tech" data-bs-parent="#gimpColors">
+        <div class="accordion-body">
+          <p>Technické funkce:<br><strong>Dither</strong> – přidá šum při převodu na menší barevný prostor; <strong>RGB Clip</strong> – ořez hodnot mimo rozsah; <strong>Hot</strong> – zvýrazní přepálené pixely. Využití hlavně při opravách problémových fotek.</p>
+
+          <div class="ratio ratio-16x9 mb-2">
+            <img id="img-colors-tech" class="img-contained rounded border"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/tech-0.png"
+                 alt="Dither, RGB Clip, Hot – ukázka">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-colors-tech">◀</button>
+            <small class="text-muted">Technické položky</small>
+            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-colors-tech">▶</button>
+          </div>
+          <div data-gallery-src="img-colors-tech"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Colors/tech-0.png"
+               ]'></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /accordion -->
+
+  <!-- Shrnutí + doporučený postup na tvé fotce -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">🔥 Rychlý postup pro tvoji fotku</h3>
+    <ul class="list-group list-group-flush mb-0">
+      <li class="list-group-item">Shadows +20, Highlights -15</li>
+      <li class="list-group-item">Color Temperature: ~6500K → 7000–7500K</li>
+      <li class="list-group-item">Saturation: +10</li>
+      <li class="list-group-item">Curves: jemná „S“</li>
+      <li class="list-group-item">Levels: jemně posunout černý bod</li>
+    </ul>
+  </div>
+</section>
+
+<!-- helper styl (pokud už máš globálně, klidně vynech) -->
+<style>
+  .img-contained { width:100%; height:100%; object-fit:contain; object-position:center; }
+</style>

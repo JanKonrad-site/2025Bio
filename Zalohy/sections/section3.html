@@ -1,0 +1,183 @@
+<section id="section3-1-0" class="container my-5">
+  <h3 class="mb-4">3.1.0 HTML: co to je, historie a první dokument</h3>
+
+  <!-- Cíl lekce -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Co se naučíš?</h4>
+    <p>Úplný začátek práce s HTML a první krok k vlastní webové stránce.</p>
+
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Pochopíš</strong>, co je HTML a proč vzniklo.</li>
+      <li class="list-group-item"><strong>Seznámíš se</strong> s krátkou historií HTML a jeho vývojem.</li>
+      <li class="list-group-item"><strong>Naučíš se</strong> vytvořit nový HTML dokument ve VS Code pomocí zkratky <kbd>!</kbd>.</li>
+      <li class="list-group-item"><strong>Porozumíš</strong> základní struktuře HTML dokumentu (doctype, html, head, body).</li>
+      <li class="list-group-item"><strong>Napíšeš</strong> svůj první odstavec do webové stránky.</li>
+    </ul>
+
+    <div class="alert alert-info" role="alert">
+      <i class="bi bi-lightbulb"></i>
+      <strong>Tip:</strong> Vytvoř si složku <code>WebDevProjects</code> a všechny projekty ukládej sem – budeš mít pořádek a přehled.
+    </div>
+  </div>
+
+  <!-- Teorie -->
+  <div class="container my-4 p-4 border rounded bg-white">
+    <h4 class="mb-3">Teorie: Co je HTML a jak se vyvíjelo</h4>
+    <p><strong>HTML (HyperText Markup Language)</strong> je značkovací jazyk, který popisuje <em>obsah a strukturu</em> webových stránek. 
+      <strong>Hypertext</strong> znamená text s odkazy na jiné dokumenty. <strong>Markup</strong> znamená „značkování“ obsahu pomocí tagů.</p>
+    <p><i class="bi bi-eye"></i> HTML vzniklo na přelomu 80. a 90. let ve švýcarském CERNu, kde Tim Berners-Lee vytvořil první verzi webu. 
+      Od té doby se HTML vyvíjelo až do dnešní podoby – tzv. HTML5, které podporuje sémantické značky, multimédia i moderní přístupnost.</p>
+    <ul>
+      <li><strong>1989–1991:</strong> první návrh webu a HTML (Tim Berners-Lee).</li>
+      <li><strong>1995–1999:</strong> standardizace, verze 2.0–4.0, přidání <strong>CSS</strong> pro vzhled.</li>
+      <li><strong>2008–2014:</strong> HTML5 – nové značky, audio, video, formuláře.</li>
+      <li><strong>Dnes:</strong> HTML jako „živý standard“, základ každé webové stránky.</li>
+    </ul>
+  </div>
+
+  <!-- Ukázkový text -->
+  <h5 class="mt-5">Ukázkový postup</h5>
+  <p>1. Otevři ve VS Code novou složku <code>lekce-3-1-0</code> a vytvoř v ní soubor <code>index.html</code>.</p>
+  <p>2. Do souboru napiš pouze znak <kbd>!</kbd> a stiskni <kbd>Tab</kbd> nebo <kbd>Enter</kbd>. VS Code automaticky vygeneruje HTML5 kostru:</p>
+  <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Document&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+  <p>3. Do <code>&lt;body&gt;</code> vlož první odstavec <code>&lt;p&gt;</code> s textem: „Proč je pro mě Internet důležitý?“</p>
+
+  <!-- Úkoly -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Úkoly k textu</h4>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">1) Otevři VS Code a vytvoř složku <code>lekce-3-1-0</code>.</li>
+      <li class="list-group-item">2) Přidej soubor <code>index.html</code> a použij zkratku <kbd>!</kbd> → <kbd>Tab</kbd> k vygenerování základní struktury.</li>
+      <li class="list-group-item">3) Do <code>&lt;body&gt;</code> vlož <code>&lt;p&gt;</code> a napiš krátký odstavec o tom, proč je pro tebe Internet důležitý.</li>
+    </ul>
+  </div>
+
+  <!-- Tlačítka pro otevření modálů -->
+  <h5 class="mt-5">Detailní vysvětlení struktury</h5>
+  <button class="btn btn-outline-primary m-1" data-bs-toggle="modal" data-bs-target="#modalDoctype">!DOCTYPE html</button>
+  <button class="btn btn-outline-primary m-1" data-bs-toggle="modal" data-bs-target="#modalHtml">html</button>
+  <button class="btn btn-outline-primary m-1" data-bs-toggle="modal" data-bs-target="#modalHead">head</button>
+  <button class="btn btn-outline-primary m-1" data-bs-toggle="modal" data-bs-target="#modalMeta">meta</button>
+  <button class="btn btn-outline-primary m-1" data-bs-toggle="modal" data-bs-target="#modalTitle">title</button>
+  <button class="btn btn-outline-primary m-1" data-bs-toggle="modal" data-bs-target="#modalBody">body</button>
+
+  <!-- Odkazy pro HTML výuku-->
+  <div>
+<a href="https://jankonrad-site.github.io/web-Development/1_Lekce/index.html" 
+   class="btn btn-primary" target="_blank">
+  Zobrazit vzor
+</a>
+  </div>
+
+  <!-- Modály -->
+  <div class="modal fade" id="modalDoctype" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">&lt;!DOCTYPE html&gt;</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Tento řádek říká prohlížeči, že se jedná o dokument v jazyce <strong>HTML5</strong>. Bez něj by mohl prohlížeč spustit tzv. quirks mode (nepředvídatelné chování).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalHtml" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">&lt;html&gt; ... &lt;/html&gt;</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Kořenový element celé stránky. Všechen kód HTML musí být uzavřen uvnitř tohoto tagu. Atribut <code>lang="cs"</code> nebo <code>lang="en"</code> udává jazyk stránky.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalHead" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">&lt;head&gt; ... &lt;/head&gt;</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Sekce pro <strong>metadata</strong> a nastavení stránky. Patří sem název stránky, odkazy na CSS, informace pro vyhledávače, favicon apod.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalMeta" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">&lt;meta&gt;</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Meta tagy poskytují informace o stránce. <code>charset="UTF-8"</code> určuje znakovou sadu (umožňuje zobrazit českou diakritiku). <code>viewport</code> pomáhá s responzivitou na mobilech.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalTitle" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">&lt;title&gt; ... &lt;/title&gt;</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Název stránky, který se zobrazuje v záložce prohlížeče a používají ho i vyhledávače. Text mezi <code>&lt;title&gt;</code> a <code>&lt;/title&gt;</code> je důležitý pro SEO.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalBody" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">&lt;body&gt; ... &lt;/body&gt;</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Hlavní část stránky – zde je veškerý obsah, který uvidí uživatel (texty, obrázky, odkazy, formuláře…). To je místo, kam budeme psát HTML kód.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ 
+
+  <!-- Shrnutí kapitoly -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Shrnutí</h3>
+    <p>Naučil/a ses, co je HTML a jak vzniklo. Založil/a jsi svůj první HTML soubor ve VS Code a pomocí zkratky <kbd>!</kbd> sis nechal/a vygenerovat základní kostru dokumentu. Do ní jsi vložil/a svůj první odstavec.</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>HTML</strong>: jazyk pro strukturu a obsah webu.</li>
+      <li class="list-group-item"><strong>Historie</strong>: vznik v CERNu, Tim Berners-Lee, dnes HTML5.</li>
+      <li class="list-group-item"><strong>Struktura</strong>: doctype, html, head, body – každý prvek má svůj význam.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Kliknutím na tlačítka výše si kdykoliv otevři detailní vysvětlení jednotlivých částí HTML dokumentu.
+    </div>
+  </div>
+</section>

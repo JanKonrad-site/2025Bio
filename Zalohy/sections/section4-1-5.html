@@ -1,0 +1,171 @@
+<!-- KAPITOLA: 4.1.3c Základní podmínky – if/else a horská dráha -->
+<section id="section4-1-5" class="container my-5 no-copy">
+  <h3 class="mb-4">4.1.5 Základní podmínky – if/else a horská dráha</h3>
+
+  <!-- Úvodní přehled -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co se naučíš?</h3>
+    <p>V této kapitole si procvičíš úplné základy podmínek na jednoduchém příkladu z praxe – 
+      <strong>kontrola výšky na horskou dráhu</strong>.</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">Použít <code>if</code> a <code>else</code> pro dvouvětvené rozhodování.</li>
+      <li class="list-group-item">Správně zapsat <strong>porovnávací operátory</strong> (<code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>==</code>).</li>
+      <li class="list-group-item">Přečíst si jednoduchý <strong>vývojový diagram (flowchart)</strong> a přepsat ho do kódu.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Podmínka je otázka, na kterou Python odpoví <code>True</code>/<code>False</code> – podle toho se rozhodne, který blok kódu vykonat.
+    </div>
+  </div>
+
+  <!-- Akordeon pro kroky -->
+  <div class="accordion" id="acc-4-1-3c">
+
+    <!-- Krok 1 – Co je podmínka -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-413c-1">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c-413c-1" aria-expanded="true" aria-controls="c-413c-1">
+          1) Co je podmínka (if/else) – přemýšlení v otázkách
+        </button>
+      </h2>
+      <div id="c-413c-1" class="accordion-collapse collapse show" aria-labelledby="h-413c-1" data-bs-parent="#acc-4-1-3c">
+        <div class="accordion-body">
+          <p>Představ si vodu ve vaně. Jakmile hladina překročí určitou úroveň, přepad (overflow) začne vodu odvádět pryč.</p>
+          <p>V Pythonu bychom to zapsali jako podmínku:</p>
+<pre><code class="language-python">water_level = 50  # cm
+
+if water_level &gt; 80:
+    print("Otevři přepad – vypouštím vodu.")
+else:
+    print("Ještě můžu napouštět.")</code></pre>
+          <p>Python si v duchu položí otázku:</p>
+          <ul>
+            <li>Je <code>water_level &gt; 80</code> pravda?</li>
+            <li>Pokud <strong>ano</strong> → vykoná blok pod <code>if</code>.</li>
+            <li>Pokud <strong>ne</strong> → skočí na blok pod <code>else</code>.</li>
+          </ul>
+          <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal413c-ops">
+            Přehled porovnávacích operátorů
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 2 – Horska draha basic -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-413c-2">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-413c-2" aria-expanded="false" aria-controls="c-413c-2">
+          2) Cvičení: Můžeš na horskou dráhu? (výška v cm)
+        </button>
+      </h2>
+      <div id="c-413c-2" class="accordion-collapse collapse" aria-labelledby="h-413c-2" data-bs-parent="#acc-4-1-3c">
+        <div class="accordion-body">
+          <p>Tvým úkolem je napsat program, který se zeptá na <strong>výšku v centimetrech</strong> a rozhodne:</p>
+          <ul>
+            <li>Pokud je výška <strong>aspoň 120 cm</strong> → může jet.</li>
+            <li>Jinak → je příliš malý/á, musí ještě vyrůst.</li>
+          </ul>
+
+<pre><code class="language-python">print("Vítej na horské dráze!")
+height = int(input("Jak měříš v centimetrech? "))
+
+if height &gt;= 120:
+    print("Můžeš jet na horské dráze. Užij si jízdu! 🎢")
+else:
+    print("Bohužel, musíš ještě povyrůst, než můžeš jet.")</code></pre>
+
+          <div class="alert alert-warning small">
+            <strong>Pozor:</strong> <code>height &gt;= 120</code> zahrnuje i přesně 120 cm.<br>
+            Kdybys napsal/a jen <code>&gt; 120</code>, děti s výškou <code>120</code> by nemohly jet.
+          </div>
+
+          <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal413c-flow">
+            Jak vypadá flowchart?
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Krok 3 – mini úpravy -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="h-413c-3">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-413c-3" aria-expanded="false" aria-controls="c-413c-3">
+          3) Mini úkoly – drobné změny podmínky
+        </button>
+      </h2>
+      <div id="c-413c-3" class="accordion-collapse collapse" aria-labelledby="h-413c-3" data-bs-parent="#acc-4-1-3c">
+        <div class="accordion-body">
+          <ol>
+            <li>Uprav program tak, aby děti s výškou <strong>přesně 120 cm</strong> <em>nemohly jet</em> – jak změníš podmínku?</li>
+            <li>Vypiš do konzole i <code>height</code>, ať je vidět, jaké číslo Python porovnává.</li>
+            <li>Přidej zprávu pro rodiče: pokud je dítě moc malé, napiš, o kolik cm mu chybí do 120 cm.</li>
+          </ol>
+<pre><code class="language-python">if height &gt;= 120:
+    print("Můžeš jet na horské dráze.")
+else:
+    rozdil = 120 - height
+    print(f"Bohužel ti chybí ještě {rozdil} cm.")</code></pre>
+          <div class="alert alert-info small mb-0">
+            <strong>Myšlenkový posun:</strong> Podmínka není jen „ano/ne“, ale můžeš dopočítat i <em>o kolik</em> něco nesplňuje kritérium.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /accordion -->
+
+  <!-- Shrnutí kapitoly -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Shrnutí</h3>
+    <ul class="list-group">
+      <li class="list-group-item">Umíš napsat jednoduché větvení pomocí <code>if</code> a <code>else</code>.</li>
+      <li class="list-group-item">Znáš základní porovnávací operátory (<code>&gt;, &gt;=, &lt;, &lt;=, ==, !=</code>).</li>
+      <li class="list-group-item">Dokážeš převést jednoduchý „reálný problém“ (horská dráha) do kódu.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- MODÁLY pro 4.1.3c -->
+<div class="modal fade" id="modal413c-ops" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Porovnávací operátory v Pythonu</h5>
+      <button class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <ul>
+        <li><code>&gt;</code> – větší než (např. <code>height &gt; 120</code>)</li>
+        <li><code>&gt;=</code> – větší nebo rovno (např. <code>height &gt;= 120</code>)</li>
+        <li><code>&lt;</code> – menší než</li>
+        <li><code>&lt;=</code> – menší nebo rovno</li>
+        <li><code>==</code> – <strong>rovno</strong> (pozor, <strong>dva</strong> znaky!)</li>
+        <li><code>!=</code> – není rovno</li>
+      </ul>
+      <div class="alert alert-warning mb-0">
+        <strong>Velmi častá chyba:</strong> <code>=</code> je <em>přiřazení</em> (uložení do proměnné),<br>
+        <code>==</code> je <em>porovnání</em> (ptáš se „je to stejné?“).
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="modal413c-flow" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Flowchart – rozhodování o jízdě</h5>
+      <button class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <p>Jednoduchý „myšlenkový“ diagram:</p>
+<pre><code>     [Začátek]
+          |
+  Zeptej se na výšku
+          |
+   Je výška &gt;= 120?
+      /        \
+   ANO          NE
+   |            |
+Může jet   Musí vyrůst</code></pre>
+      <p>Program v Pythonu dělá přesně tohle, jen místo šipek používá <code>if</code>/<code>else</code> a odsazení.</p>
+    </div>
+  </div></div>
+</div>
