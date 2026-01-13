@@ -100,7 +100,7 @@ async function safeImport(path, exportName) {
   // kapitoly existují na: /learn.jankonrad.com/sections/section1-1.html
   const loader = createLoader({
     mount: contentMount,
-    basePaths: ["/learn.jankonrad.com/sections"],
+    basePaths: ["../learn.jankonrad.com/sections"],
     extension: ".html",
     wrapperClass: "section-wrapper",
     placeholderOnError: true,
