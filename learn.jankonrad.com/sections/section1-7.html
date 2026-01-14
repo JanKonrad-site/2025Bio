@@ -3,7 +3,7 @@
   <header class="lesson__header">
     <h2 class="lesson__title">1.7 Příkazový řádek (CMD) a PowerShell: rychlé ovládání Windows z klávesnice</h2>
     <p class="lesson__lead">
-      Tohle je „další level“ ovládání Windows: místo klikání se naučíš pár klíčových příkazů, které reálně šetří čas.
+      Tohle je „další level“ ovládání Windows: místo klikání se naučíš pár příkazů, které reálně šetří čas.
       Cíl není znát 100 příkazů, ale umět rychle: (1) orientaci ve složkách, (2) práci se soubory, (3) základní diagnostiku.
     </p>
   </header>
@@ -14,15 +14,15 @@
 
     <ul class="checklist">
       <li><strong>Spuštění terminálu a orientace</strong> – kde jsem, co vidím, jak se v tom neztratit.</li>
-      <li><strong>Top 10 příkazů pro každodenní práci</strong> – navigace, složky, kopie/přesun, přejmenování.</li>
-      <li><strong>Projektový workflow</strong> – založit složku, vytvořit soubory, otevřít ve VS Code / Průzkumníku.</li>
-      <li><strong>Rychlá diagnostika</strong> – síť, procesy, základní info o PC (jen to, co se fakt používá).</li>
-      <li><strong>Nápověda</strong> – jak si pomoct, když příkaz neznáš.</li>
+      <li><strong>Top příkazy pro každodenní práci</strong> – navigace, složky, kopie/přesun, přejmenování, mazání.</li>
+      <li><strong>Projektový workflow</strong> – založit složku projektu, vytvořit soubory, otevřít ve VS Code / Průzkumníku.</li>
+      <li><strong>Rychlá diagnostika</strong> – síť a procesy (jen to, co se fakt používá).</li>
+      <li><strong>Lehká automatizace</strong> – praktický skript: vyčistit Stažené, vysypat Koš, odhlásit se.</li>
     </ul>
 
     <div class="note note--info">
-      <strong>Metodický cíl:</strong> Po této kapitole bys měl zvládnout založit a spravovat složku projektu bez myši
-      a umět rychle zjistit „proč nejde internet / co žere výkon“.
+      <strong>Metodický cíl:</strong> Po této kapitole zvládneš založit a spravovat složku projektu bez myši a umíš rychle zjistit
+      „proč nejde internet / co žere výkon“. Bonus: jednoduchý úklidový skript, který umíš vytvořit a bezpečně spustit.
     </div>
   </article>
 
@@ -39,26 +39,27 @@
   <!-- Akordeony -->
   <div class="accordion">
 
-    <!-- 1) Jak to otevřít + pravidla -->
+    <!-- 1) Start + pravidla -->
     <details class="acc" open>
-      <summary class="acc__sum">1) Jak to otevřít a 3 pravidla, která ti ušetří nervy</summary>
+      <summary class="acc__sum">1) Jak to otevřít a 4 pravidla, která ti ušetří nervy</summary>
       <div class="acc__body">
-        <h4>Jak otevřít terminál (funguje vždy)</h4>
+        <h4>Jak otevřít terminál</h4>
         <ol class="steps">
           <li>Start → napiš <strong>Terminal</strong> / <strong>PowerShell</strong> / <strong>cmd</strong> → Enter.</li>
-          <li>Rychle: <kbd>Win + R</kbd> → napiš <code>cmd</code> nebo <code>powershell</code> → Enter.</li>
+          <li>Rychle: <kbd>Win + R</kbd> → napiš <code>powershell</code> nebo <code>cmd</code> → Enter.</li>
         </ol>
 
         <div class="note note--info">
-          <strong>Doporučení pro výuku:</strong> Používej hlavně <strong>PowerShell</strong>. Je moderní a příkazy jsou čitelnější.
-          CMD se hodí, když narazíš na starý návod nebo školní skript.
+          <strong>Doporučení:</strong> Pro výuku používej hlavně <strong>PowerShell</strong>. CMD se hodí pro starší návody,
+          ale PowerShell je čitelnější a praktičtější.
         </div>
 
-        <h4>3 pravidla pro rychlou práci</h4>
+        <h4>4 pravidla pro rychlou a bezpečnou práci</h4>
         <ul class="bullets">
-          <li><strong>1) Vždy vědět, kde jsem</strong>: před akcí si ověř aktuální složku.</li>
-          <li><strong>2) Používat TAB</strong>: doplňování názvů složek/souborů šetří čas i chyby.</li>
-          <li><strong>3) Když je v cestě mezera, použij uvozovky</strong>: <code>"C:\Moje soubory\Projekt"</code></li>
+          <li><strong>1) Vždy vědět, kde jsem</strong>: nejdřív <code>pwd</code> (PowerShell) nebo <code>cd</code> (CMD).</li>
+          <li><strong>2) Vždy vědět, co tu je</strong>: nejdřív <code>dir</code> a až pak akce.</li>
+          <li><strong>3) TAB doplňuje názvy</strong>: šetří čas a eliminuje překlepy.</li>
+          <li><strong>4) Mezery v cestách řeš uvozovkami</strong>: <code>"C:\webové stránky\Projekt"</code></li>
         </ul>
 
         <div class="actions">
@@ -69,225 +70,353 @@
       </div>
     </details>
 
-    <!-- 2) Orientace: kde jsem, co je kolem -->
+    <!-- 2) Orientace -->
     <details class="acc">
       <summary class="acc__sum">2) Orientace: kde jsem a co je ve složce (musí být automatika)</summary>
       <div class="acc__body">
         <p>
-          Než začneš cokoliv mazat/kopírovat, vždycky nejdřív: „kde jsem“ a „co tu je“.
+          Než začneš cokoliv kopírovat, mazat nebo přesouvat, vždycky nejdřív: „kde jsem“ a „co tu je“.
         </p>
 
-        <h4>PowerShell (doporučeno)</h4>
+        <h4>PowerShell</h4>
         <pre><code class="powershell">pwd            # kde jsem (aktuální složka)
-dir            # co je ve složce (výpis obsahu)
+dir            # co je ve složce
 dir -Name      # jen názvy (přehledně)
+ls             # alias pro dir (běžně funguje)
 </code></pre>
 
-        <h4>CMD (ekvivalent)</h4>
-        <pre><code class="cmd">cd             # kde jsem (vypíše aktuální cestu)
-dir            # výpis obsahu složky
+        <h4>CMD</h4>
+        <pre><code class="cmd">cd             # vypíše aktuální cestu
+dir            # výpis obsahu
 dir /b         # jen názvy
 </code></pre>
 
         <div class="note note--info">
-          <strong>Tip:</strong> Šipka nahoru opakuje předchozí příkaz. To je zásadní zrychlení (nepíšeš pořád dokola).
+          <strong>Tip:</strong> Šipka nahoru opakuje předchozí příkaz. Když něco ladíš nebo se učíš, používáš ji pořád.
         </div>
       </div>
     </details>
 
-    <!-- 3) Navigace -->
+    <!-- 3) Navigace + cesty, Desktop, Downloads -->
     <details class="acc">
-      <summary class="acc__sum">3) Navigace: přechod mezi složkami za 10 sekund</summary>
+      <summary class="acc__sum">3) Navigace: Desktop, Downloads a přesuny mezi složkami (prakticky)</summary>
       <div class="acc__body">
-        <h4>Nejdůležitější příkazy</h4>
+        <h4>Základní navigace</h4>
         <pre><code class="powershell">cd ..          # o úroveň výš
-cd .\Skola      # vstup do složky Skola (TAB ti doplní název)
-cd ~           # domovská složka uživatele (PowerShell)
+cd .\Skola      # vstup do složky (TAB doplní název)
+cd ~           # domovská složka uživatele
 </code></pre>
 
-        <pre><code class="cmd">cd ..          # o úroveň výš
-cd Skola        # vstup do složky Skola (TAB doplňuje)
-cd /d D:\       # přepnutí disku + složky (CMD)
+        <h4>Nejčastější cíle (a proč ti „cd desktop“ někdy nejde)</h4>
+        <p>
+          Plocha a Stažené nejsou v <code>C:\</code>. Jsou v profilu uživatele. Proto používej proměnné:
+        </p>
+        <pre><code class="powershell">cd $env:USERPROFILE\Desktop      # Plocha
+cd $env:USERPROFILE\Downloads    # Stažené
 </code></pre>
-
-        <h4>Praktický postup (doporučený drill)</h4>
-        <ol class="steps">
-          <li>Otevři terminál.</li>
-          <li>Napiš <code>dir</code>, podívej se, co vidíš.</li>
-          <li>Začni psát název složky a doplň ho klávesou <kbd>Tab</kbd>.</li>
-          <li>Vstup do složky: <code>cd ...</code> a opět <code>dir</code>.</li>
-        </ol>
 
         <div class="note note--info">
-          <strong>Princip:</strong> V terminálu se pracuje v cyklu <strong>dir → cd → dir</strong>. Kdo tohle umí, je rychlý.
+          <strong>Typická chyba:</strong> Když jsi v <code>C:\</code> a napíšeš <code>cd desktop</code>, PowerShell hledá <code>C:\desktop</code>.
+          To skoro nikdy neexistuje. Správně je jít do profilu uživatele.
         </div>
+
+        <h4>Drill (doporučený postup)</h4>
+        <ol class="steps">
+          <li><code>pwd</code></li>
+          <li><code>dir</code></li>
+          <li><code>cd ...</code> (TAB doplní)</li>
+          <li><code>dir</code></li>
+        </ol>
       </div>
     </details>
 
-    <!-- 4) Složky + struktura -->
+    <!-- 4) Struktura složek + tree -->
     <details class="acc">
-      <summary class="acc__sum">4) Složky a struktura: vytvoření projektu a strom složek</summary>
+      <summary class="acc__sum">4) Složky a struktura: vytvoření projektu a kontrola stromu</summary>
       <div class="acc__body">
-        <p>
-          Tohle je typická situace: „Založ projekt, vytvoř strukturu a udrž v tom pořádek.“
-        </p>
-
-        <h4>Vytvoření složek (funguje v PowerShell i CMD)</h4>
+        <h4>Vytvoření složek</h4>
         <pre><code class="powershell">mkdir Skola_2025-2026
 cd .\Skola_2025-2026
 mkdir Informatika Web Projekt_01
 </code></pre>
 
-        <h4>Zobrazení stromu (super pro kontrolu)</h4>
+        <h4>Kontrola struktury (strom)</h4>
         <pre><code class="cmd">tree</code></pre>
 
         <div class="note note--info">
-          <strong>Tip:</strong> Když si nejsi jistý, jestli jsi ve správné složce, dej <code>pwd</code> (PowerShell) nebo <code>cd</code> (CMD).
+          <strong>Tip:</strong> Před každým „velkým přesunem“ si zkontroluj, jestli jsi ve správné složce: <code>pwd</code>.
         </div>
       </div>
     </details>
 
-    <!-- 5) Soubory: vytvořit, kopírovat, přesunout, přejmenovat -->
+    <!-- 5) Soubory: vytvořit, kopírovat, přesunout, přejmenovat, mazat -->
     <details class="acc">
-      <summary class="acc__sum">5) Soubory: vytvořit, kopírovat, přesunout, přejmenovat (jen to, co se používá)</summary>
+      <summary class="acc__sum">5) Soubory: vytvořit, kopírovat, přesunout, přejmenovat a mazat (bez zbytečností)</summary>
       <div class="acc__body">
-        <h4>PowerShell (nejjednodušší)</h4>
-        <pre><code class="powershell">ni index.html    # vytvoří soubor (New-Item)
+
+        <h4>Vytvoření souborů (PowerShell)</h4>
+        <pre><code class="powershell">ni index.html
 ni style.css
 ni app.js
 ni README.md
-
-ren README.md README_PROJEKT.md
-copy index.html index_backup.html
-move index_backup.html .\Zaloha\   # (pokud složka existuje)
 </code></pre>
 
-        <h4>CMD (ekvivalent – méně pohodlné, ale funkční)</h4>
-        <pre><code class="cmd">type nul &gt; index.html
-type nul &gt; style.css
-type nul &gt; app.js
-
-ren app.js main.js
+        <h4>Přejmenování, kopie, přesun</h4>
+        <pre><code class="powershell">ren README.md README_PROJEKT.md
 copy index.html index_backup.html
-move index_backup.html Zaloha\
+
+mkdir Zaloha
+move index_backup.html .\Zaloha\
+</code></pre>
+
+        <h4>Mazání: soubor vs složka (tohle ti chybělo)</h4>
+        <p>
+          Mazání je nejrizikovější operace. Standard je: <strong>nejdřív výpis</strong> (<code>dir</code>),
+          pak mazání, ideálně nejdřív „na zkoušku“.
+        </p>
+
+        <h4>Bezpečná zkouška (nic nesmaže)</h4>
+        <pre><code class="powershell">Remove-Item .\app.js -WhatIf
+Remove-Item .\Zaloha -Recurse -WhatIf
+</code></pre>
+
+        <h4>Opravdové smazání</h4>
+        <pre><code class="powershell">Remove-Item .\app.js
+Remove-Item .\Zaloha -Recurse
 </code></pre>
 
         <div class="note note--info">
-          <strong>Důležité:</strong> Mazání je nejčastější průšvih. Neuč se „mazat rychle“, uč se nejdřív „ověřit si, co mažu“.
-          Postup: <strong>dir → (až pak) smazat</strong>. Pokud si nejsi jistý, nemaž.
+          <strong>Poznámka:</strong> V PowerShellu často fungují aliasy <code>del</code> nebo <code>rm</code>, ale do výuky je lepší používat
+          plný příkaz <code>Remove-Item</code> – je to čitelnější.
         </div>
+
       </div>
     </details>
 
-    <!-- 6) Otevření ve VS Code / Průzkumníku (workflow) -->
+    <!-- 6) Workflow: Explorer + VS Code -->
     <details class="acc">
-      <summary class="acc__sum">6) Workflow projektu: otevřít složku ve VS Code a v Průzkumníku</summary>
+      <summary class="acc__sum">6) Workflow projektu: otevřít složku v Průzkumníku a ve VS Code</summary>
       <div class="acc__body">
-        <h4>Otevřít aktuální složku v Průzkumníku (funguje vždy)</h4>
+        <h4>Průzkumník (funguje vždy)</h4>
         <pre><code class="cmd">explorer .</code></pre>
 
-        <h4>Otevřít aktuální složku ve VS Code</h4>
-        <p>
-          Pokud je VS Code nainstalovaný a příkaz <code>code</code> je dostupný v systému, funguje toto:
-        </p>
+        <h4>VS Code (pokud je dostupný příkaz code)</h4>
         <pre><code class="cmd">code .</code></pre>
 
         <div class="note note--info">
-          <strong>Pokud <code>code .</code> nefunguje:</strong> Otevři složku přes <code>explorer .</code> a ve VS Code použij
-          <strong>File → Open Folder...</strong>. To funguje vždy, nezávisle na nastavení PATH.
+          <strong>Když <code>code .</code> nefunguje:</strong> je to normální – VS Code nemusí být v PATH.
+          Univerzální postup je: <code>explorer .</code> a ve VS Code dát <strong>File → Open Folder...</strong>.
         </div>
-
-        <h4>Rychlé otevření souboru v Poznámkovém bloku (univerzální)</h4>
-        <pre><code class="cmd">notepad README.md</code></pre>
       </div>
     </details>
 
-    <!-- 7) Síť: jen minimální diagnostika -->
+    <!-- 7) Síť: diagnostika + vysvětlení pojmů -->
     <details class="acc">
-      <summary class="acc__sum">7) Síť: 3 příkazy, které reálně použiješ, když „nejde internet“</summary>
+      <summary class="acc__sum">7) Síť: diagnostika (ipconfig, ping, tracert) + co znamenají pojmy</summary>
       <div class="acc__body">
-        <h4>1) IP adresa a stav adaptéru</h4>
-        <pre><code class="cmd">ipconfig</code></pre>
-        <p class="muted">
-          Hledáš: máš přidělenou IP adresu? je adaptér aktivní?
-        </p>
 
-        <h4>2) Ověření dostupnosti (ping)</h4>
-        <pre><code class="cmd">ping 8.8.8.8
-ping seznam.cz</code></pre>
-        <p class="muted">
-          Ping na IP ověří síť, ping na doménu ověří i DNS (překlad názvů).
-        </p>
+        <h4>Metodika „nejde internet“ (použitelné vždy)</h4>
+        <ol class="steps">
+          <li><strong>Zjisti stav IP</strong>: <code>ipconfig</code></li>
+          <li><strong>Ověř síť bez DNS</strong>: <code>ping 8.8.8.8</code></li>
+          <li><strong>Ověř DNS</strong>: <code>ping seznam.cz</code></li>
+          <li><strong>Najdi místo problému</strong>: <code>tracert seznam.cz</code></li>
+        </ol>
 
-        <h4>3) Kde se to „ztrácí“ (tracert)</h4>
-        <pre><code class="cmd">tracert seznam.cz</code></pre>
+        <h4>1) IP informace</h4>
+        <pre><code class="cmd">ipconfig
+ipconfig /all</code></pre>
+
+        <h4>Co v ipconfig typicky uvidíš (a co to znamená)</h4>
+        <ul class="bullets">
+          <li><strong>IPv4 Address (IPv4 adresa)</strong> – adresa tvého PC v síti (např. <code>192.168.x.x</code>).</li>
+          <li><strong>Subnet Mask (maska)</strong> – určuje „velikost“ lokální sítě (často <code>255.255.255.0</code>).</li>
+          <li><strong>Default Gateway (výchozí brána)</strong> – typicky router; přes něj jde provoz do internetu.</li>
+          <li><strong>DNS Servers</strong> – servery, které překládají domény (<code>seznam.cz</code>) na IP adresy.</li>
+          <li><strong>DHCP Enabled</strong> – pokud je „Yes“, IP adresu přiděluje automaticky router/DHCP.</li>
+          <li><strong>Physical Address (MAC)</strong> – hardwarová adresa síťové karty (identifikace v lokální síti).</li>
+        </ul>
 
         <div class="note note--info">
-          <strong>Metodika diagnostiky:</strong> (1) ipconfig → (2) ping IP → (3) ping doména → (4) tracert.
+          <strong>Rychlá interpretace:</strong>
+          <ul class="bullets">
+            <li>Když máš IPv4 <strong>169.254.x.x</strong>, často to znamená: nefunguje DHCP (PC nedostalo adresu).</li>
+            <li>Když ping na <strong>8.8.8.8</strong> funguje, ale ping na <strong>seznam.cz</strong> ne, problém bývá v DNS.</li>
+          </ul>
         </div>
+
+        <h4>2) Ping (test dostupnosti)</h4>
+        <pre><code class="cmd">ping 8.8.8.8
+ping seznam.cz</code></pre>
+
+        <p>
+          Ve výsledku sleduj hlavně: <strong>ztráta paketů</strong> (loss) a <strong>čas</strong> (time). Pokud je velká ztráta, je problém se spojením.
+        </p>
+
+        <h4>3) Tracert (kde se to ztrácí)</h4>
+        <pre><code class="cmd">tracert seznam.cz</code></pre>
+
+        <p>
+          Tracert vypíše „skoky“ (routery) po cestě. Když se to začne časovat (timeout) hned na začátku, je problém lokálně (Wi-Fi/router).
+          Když až dál, může to být problém poskytovatele nebo cílové služby.
+        </p>
+
       </div>
     </details>
 
-    <!-- 8) Procesy: jen základ -->
+    <!-- 8) Procesy -->
     <details class="acc">
-      <summary class="acc__sum">8) Procesy: rychle zjistit, co běží a ukončit zamrzlou aplikaci</summary>
+      <summary class="acc__sum">8) Procesy: zjistit, co běží, a ukončit zamrzlou aplikaci</summary>
       <div class="acc__body">
-        <h4>CMD (rychlé a jednoduché)</h4>
+        <h4>CMD (rychlé)</h4>
         <pre><code class="cmd">tasklist
 tasklist /fi "imagename eq chrome.exe"</code></pre>
 
-        <h4>Ukončení zamrzlé aplikace (příklad s Poznámkovým blokem)</h4>
-        <pre><code class="cmd">taskkill /im notepad.exe</code></pre>
+        <h4>Ukončení procesu</h4>
+        <pre><code class="cmd">taskkill /im notepad.exe
+taskkill /im notepad.exe /f</code></pre>
 
-        <h4>PowerShell (čitelné výpisy)</h4>
+        <h4>PowerShell (přehledné)</h4>
         <pre><code class="powershell">Get-Process
-Get-Process | Sort-Object CPU -Descending | Select-Object -First 10</code></pre>
+Get-Process | Sort-Object CPU -Descending | Select-Object -First 10
+</code></pre>
 
         <div class="note note--info">
-          <strong>Bezpečnost:</strong> Neukončuj „náhodné“ systémové procesy. V běžném použití ukončuj jen aplikace, které znáš (Chrome, Teams, VS Code…).
+          <strong>Bezpečnost:</strong> Ukončuj jen procesy aplikací, které znáš. Systémové procesy mohou způsobit pád nebo odhlášení.
         </div>
       </div>
     </details>
 
     <!-- 9) Nápověda -->
     <details class="acc">
-      <summary class="acc__sum">9) Nápověda: jak si poradit bez Googlení</summary>
+      <summary class="acc__sum">9) Nápověda: jak se nezaseknout, když příkaz neznáš</summary>
       <div class="acc__body">
-        <h4>CMD nápověda</h4>
+        <h4>CMD</h4>
         <pre><code class="cmd">help
 dir /?
 ipconfig /?</code></pre>
 
-        <h4>PowerShell nápověda</h4>
+        <h4>PowerShell</h4>
         <pre><code class="powershell">Get-Help Get-Process
-Get-Command *process*</code></pre>
-
-        <div class="note note--info">
-          <strong>Trik:</strong> Když nevíš název příkazu, v PowerShellu hledej přes <code>Get-Command</code>.
-        </div>
+Get-Command *process*
+</code></pre>
       </div>
     </details>
 
-    <!-- 10) 10min trénink -->
+    <!-- 10) Trénink -->
     <details class="acc">
       <summary class="acc__sum">10) 10min trénink: „projekt bez myši“ (přesně to, co chceš umět)</summary>
       <div class="acc__body">
         <ol class="steps">
           <li>Otevři PowerShell.</li>
-          <li>Najdi, kde jsi: <code>pwd</code>.</li>
-          <li>Vytvoř školní složku: <code>mkdir Skola_2025-2026</code>.</li>
-          <li>Vstup do ní: <code>cd .\Skola_2025-2026</code>.</li>
-          <li>Vytvoř projekt: <code>mkdir Projekt_CMD</code> a vstup: <code>cd .\Projekt_CMD</code>.</li>
-          <li>Vytvoř soubory: <code>ni index.html</code>, <code>ni style.css</code>, <code>ni app.js</code>.</li>
-          <li>Zkontroluj obsah: <code>dir -Name</code>.</li>
-          <li>Otevři složku v Průzkumníku: <code>explorer .</code>.</li>
-          <li>Volitelně: pokud funguje VS Code příkaz, otevři projekt: <code>code .</code>.</li>
-          <li>Hotovo: vrať se o úroveň výš: <code>cd ..</code> a ověř: <code>dir</code>.</li>
+          <li><code>pwd</code>, pak <code>dir</code>.</li>
+          <li><code>mkdir Skola_2025-2026</code></li>
+          <li><code>cd .\Skola_2025-2026</code></li>
+          <li><code>mkdir Projekt_CMD</code> a <code>cd .\Projekt_CMD</code></li>
+          <li><code>ni index.html</code>, <code>ni style.css</code>, <code>ni app.js</code></li>
+          <li><code>dir -Name</code></li>
+          <li><code>explorer .</code></li>
+          <li>Volitelně: <code>code .</code></li>
+          <li><code>cd ..</code> a ověř <code>dir</code></li>
         </ol>
 
         <div class="note note--info">
-          <strong>Cíl:</strong> Po 2–3 opakováních tohle uděláš automaticky bez přemýšlení. To je reálný „skill“.
+          <strong>Cíl:</strong> Po 2–3 opakováních tohle uděláš automaticky. To je praktická hodnota kapitoly.
         </div>
+      </div>
+    </details>
+
+    <!-- 11) Automatizace: PowerShell skript -->
+    <details class="acc">
+      <summary class="acc__sum">11) Lehká automatizace (PowerShell): vyčistit Stažené, vysypat Koš, odhlásit se</summary>
+      <div class="acc__body">
+
+        <p>
+          Úkol: vytvoříš a spustíš skript <code>uklid.ps1</code>, který (1) vyčistí složku Stažené, (2) vysype Koš,
+          (3) odhlásí uživatele. Důležité je umět nejen „kód“, ale hlavně <strong>správné spuštění</strong>.
+        </p>
+
+        <div class="note note--info">
+          <strong>Bezpečnost:</strong> Skript nejdřív smaže obsah Stažených (trvale), pak vysype Koš a nakonec odhlásí uživatele.
+          Před spuštěním si ulož rozdělanou práci. Skript obsahuje potvrzení před finální částí.
+        </div>
+
+        <h4>A) Vytvoření skriptu</h4>
+        <ol class="steps">
+          <li>Vytvoř složku, kde bude skript (příklad): <code>mkdir C:\Game\uklid</code></li>
+          <li>Přejdi do ní: <code>cd C:\Game\uklid</code></li>
+          <li>Vytvoř soubor: <code>ni uklid.ps1</code></li>
+          <li>Otevři ho v Poznámkovém bloku: <code>notepad .\uklid.ps1</code></li>
+          <li>Vlož kód níže a ulož.</li>
+        </ol>
+
+        <h4>B) Správné spuštění skriptu (tohle je přesně to, co ti chybělo)</h4>
+        <p><strong>1) Jsi ve stejné složce jako skript:</strong></p>
+        <pre><code class="powershell">.\uklid.ps1</code></pre>
+
+        <p><strong>2) Když PowerShell blokuje spuštění skriptů:</strong> spusť to „jednorázově“ takto:</p>
+        <pre><code class="powershell">powershell -NoProfile -ExecutionPolicy Bypass -File .\uklid.ps1</code></pre>
+
+        <p><strong>3) Spuštění skriptu odkudkoliv (bez přechodu do složky):</strong></p>
+        <pre><code class="powershell">&amp; "C:\Game\uklid\uklid.ps1"</code></pre>
+
+        <div class="note note--info">
+          <strong>Vysvětlení:</strong> Když napíšeš jen <code>uklid.ps1</code>, PowerShell ho nespustí „z aktuální složky“. Proto je potřeba <code>.\</code>.
+        </div>
+
+        <h4>Kód skriptu: <code>uklid.ps1</code></h4>
+        <pre><code class="powershell"># uklid.ps1 — Stažené (smazat obsah) → vysypat Koš → odhlásit se
+# Cíl: jednoduché, předvídatelné, použitelné.
+
+Write-Host ""
+Write-Host "=== Uklid (Downloads + Recycle Bin + Logoff) ==="
+Write-Host "Uloz si praci. Pred zaverecnym krokem bude potvrzeni."
+Write-Host ""
+
+# Cesta ke slozce Stažené (typicky existuje i na CZ Windows)
+$downloads = Join-Path $env:USERPROFILE "Downloads"
+
+if (Test-Path -LiteralPath $downloads) {
+
+  $items = Get-ChildItem -LiteralPath $downloads -Force -ErrorAction SilentlyContinue
+
+  if ($items.Count -gt 0) {
+    Write-Host ("Nalezeno polozek ve Stazenych: {0}" -f $items.Count)
+    Write-Host "Mazani obsahu slozky Downloads..."
+
+    # Smaze OBSAH slozky, ne slozku samotnou
+    Remove-Item -LiteralPath (Join-Path $downloads "*") -Recurse -Force -ErrorAction SilentlyContinue
+
+    Write-Host "Hotovo: Downloads vycisteny."
+  } else {
+    Write-Host "Downloads je prazdna."
+  }
+
+} else {
+  Write-Host ("Slozka Downloads nebyla nalezena: {0}" -f $downloads)
+}
+
+Write-Host ""
+Write-Host "Dalsi krok: VYSYPAT KOS a ODHLASIT se."
+Write-Host "Pokud to nechces dokoncit, stiskni Ctrl + C."
+Read-Host "Stiskni Enter pro pokracovani"
+
+# Vysypani kose (pokud je prikaz dostupny)
+if (Get-Command Clear-RecycleBin -ErrorAction SilentlyContinue) {
+  Clear-RecycleBin -Force -ErrorAction SilentlyContinue
+  Write-Host "Kos byl vysypan."
+} else {
+  Write-Host "Clear-RecycleBin neni dostupne v tomto PowerShellu. Kos nebyl vysypan."
+}
+
+Write-Host "Odhlasuji uzivatele..."
+shutdown.exe /l
+</code></pre>
+
+        <div class="note note--info">
+          <strong>Pro výuku:</strong> Tohle je záměrně „uživatelský“ skript. Nedělá systémové zásahy, jen uklízí soubory a odhlásí.
+        </div>
+
       </div>
     </details>
 
@@ -297,11 +426,112 @@ Get-Command *process*</code></pre>
   <article class="card">
     <h3 class="card__title">Shrnutí</h3>
     <ul class="checklist">
-      <li>Terminál je rychlejší než klikání, když jde o opakované úkony (složky, soubory, diagnostika).</li>
       <li>Metodika práce: <strong>kde jsem</strong> → <strong>co tu je</strong> → teprve potom akce.</li>
-      <li>Top příkazy pro praxi: <code>pwd</code>/<code>cd</code>, <code>dir</code>, <code>mkdir</code>, <code>ni</code>, <code>ren</code>, <code>copy</code>, <code>move</code>, <code>explorer .</code>, <code>ipconfig</code>, <code>ping</code>.</li>
-      <li>Pro „nejde internet“: <code>ipconfig</code> → <code>ping IP</code> → <code>ping doména</code> → <code>tracert</code>.</li>
+      <li>Navigace a práce se soubory je základ: <code>pwd</code>, <code>dir</code>, <code>cd</code>, <code>mkdir</code>, <code>ni</code>, <code>copy</code>, <code>move</code>, <code>ren</code>, <code>Remove-Item</code>.</li>
+      <li>Síťová diagnostika: <code>ipconfig</code> → <code>ping IP</code> → <code>ping doména</code> → <code>tracert</code>.</li>
+      <li>Skripty v PowerShellu se spouští typicky jako <code>.\skript.ps1</code> (ne jen názvem).</li>
     </ul>
+  </article>
+
+  <!-- TEST -->
+  <article class="card" id="section1-7-test">
+    <h3 class="card__title">Test: CMD a PowerShell (1.7)</h3>
+    <p>Vyber vždy jednu odpověď. Potom klikni na „Vyhodnotit“.</p>
+
+    <form class="quiz" data-quiz>
+
+      <fieldset class="quiz__q">
+        <legend><strong>1)</strong> Co vypíše příkaz <code>pwd</code> v PowerShellu?</legend>
+        <label class="quiz__opt"><input type="radio" name="q1"> Seznam procesů</label>
+        <label class="quiz__opt"><input type="radio" name="q1" data-correct="1"> Aktuální cestu (kde jsem)</label>
+        <label class="quiz__opt"><input type="radio" name="q1"> IP adresu</label>
+      </fieldset>
+
+      <fieldset class="quiz__q">
+        <legend><strong>2)</strong> Proč nefunguje <code>cd desktop</code>, když jsi v <code>C:\</code>?</legend>
+        <label class="quiz__opt"><input type="radio" name="q2"> PowerShell neumí Desktop</label>
+        <label class="quiz__opt"><input type="radio" name="q2" data-correct="1"> Plocha není v C:\, ale v profilu uživatele</label>
+        <label class="quiz__opt"><input type="radio" name="q2"> Musí se psát DESKTOP velkými</label>
+      </fieldset>
+
+      <fieldset class="quiz__q">
+        <legend><strong>3)</strong> Jak se nejspolehlivěji dostaneš na Plochu přes PowerShell?</legend>
+        <label class="quiz__opt"><input type="radio" name="q3" data-correct="1"> <code>cd $env:USERPROFILE\Desktop</code></label>
+        <label class="quiz__opt"><input type="radio" name="q3"> <code>cd C:\desktop</code></label>
+        <label class="quiz__opt"><input type="radio" name="q3"> <code>desktop</code></label>
+      </fieldset>
+
+      <fieldset class="quiz__q">
+        <legend><strong>4)</strong> K čemu slouží klávesa <kbd>Tab</kbd> v terminálu?</legend>
+        <label class="quiz__opt"><input type="radio" name="q4"> Zruší příkaz</label>
+        <label class="quiz__opt"><input type="radio" name="q4" data-correct="1"> Doplňuje názvy složek/souborů</label>
+        <label class="quiz__opt"><input type="radio" name="q4"> Vypíše nápovědu</label>
+      </fieldset>
+
+      <fieldset class="quiz__q">
+        <legend><strong>5)</strong> Jak vytvoříš v PowerShellu nový soubor <code>index.html</code>?</legend>
+        <label class="quiz__opt"><input type="radio" name="q5"> <code>mkdir index.html</code></label>
+        <label class="quiz__opt"><input type="radio" name="q5" data-correct="1"> <code>ni index.html</code></label>
+        <label class="quiz__opt"><input type="radio" name="q5"> <code>dir index.html</code></label>
+      </fieldset>
+
+      <fieldset class="quiz__q">
+        <legend><strong>6)</strong> Jak bezpečně otestuješ mazání v PowerShellu bez skutečného smazání?</legend>
+        <label class="quiz__opt"><input type="radio" name="q6" data-correct="1"> <code>Remove-Item ... -WhatIf</code></label>
+        <label class="quiz__opt"><input type="radio" name="q6"> <code>Remove-Item ... -Force</code></label>
+        <label class="quiz__opt"><input type="radio" name="q6"> <code>del /p</code></label>
+      </fieldset>
+
+      <fieldset class="quiz__q">
+        <legend><strong>7)</strong> Co znamená položka <strong>Default Gateway</strong> v <code>ipconfig</code>?</legend>
+        <label class="quiz__opt"><input type="radio" name="q7"> IP adresa DNS</label>
+        <label class="quiz__opt"><input type="radio" name="q7" data-correct="1"> Router / brána do internetu</label>
+        <label class="quiz__opt"><input type="radio" name="q7"> MAC adresa PC</label>
+      </fieldset>
+
+      <fieldset class="quiz__q">
+        <legend><strong>8)</strong> Když <code>ping 8.8.8.8</code> funguje, ale <code>ping seznam.cz</code> nefunguje, nejčastěji je problém v…</legend>
+        <label class="quiz__opt"><input type="radio" name="q8"> Wi-Fi kartě</label>
+        <label class="quiz__opt"><input type="radio" name="q8" data-correct="1"> DNS (překlad názvů)</label>
+        <label class="quiz__opt"><input type="radio" name="q8"> RAM paměti</label>
+      </fieldset>
+
+      <fieldset class="quiz__q">
+        <legend><strong>9)</strong> Jak otevřeš aktuální složku v Průzkumníku?</legend>
+        <label class="quiz__opt"><input type="radio" name="q9" data-correct="1"> <code>explorer .</code></label>
+        <label class="quiz__opt"><input type="radio" name="q9"> <code>open .</code></label>
+        <label class="quiz__opt"><input type="radio" name="q9"> <code>dir /explorer</code></label>
+      </fieldset>
+
+      <fieldset class="quiz__q">
+        <legend><strong>10)</strong> Proč nefunguje spuštění skriptu jen příkazem <code>uklid.ps1</code>?</legend>
+        <label class="quiz__opt"><input type="radio" name="q10"> Protože PowerShell neumí skripty</label>
+        <label class="quiz__opt"><input type="radio" name="q10" data-correct="1"> PowerShell nespouští skripty z aktuální složky bez <code>.\</code></label>
+        <label class="quiz__opt"><input type="radio" name="q10"> Protože musí být název velkými písmeny</label>
+      </fieldset>
+
+      <fieldset class="quiz__q">
+        <legend><strong>11)</strong> Jak správně spustíš skript, když jsi ve stejné složce?</legend>
+        <label class="quiz__opt"><input type="radio" name="q11" data-correct="1"> <code>.\uklid.ps1</code></label>
+        <label class="quiz__opt"><input type="radio" name="q11"> <code>run uklid.ps1</code></label>
+        <label class="quiz__opt"><input type="radio" name="q11"> <code>start uklid.ps1</code></label>
+      </fieldset>
+
+      <fieldset class="quiz__q">
+        <legend><strong>12)</strong> Co dělá <code>tracert</code>?</legend>
+        <label class="quiz__opt"><input type="radio" name="q12"> Maže dočasné soubory</label>
+        <label class="quiz__opt"><input type="radio" name="q12" data-correct="1"> Ukáže cestu (skoky) k cíli v síti</label>
+        <label class="quiz__opt"><input type="radio" name="q12"> Ukáže seznam procesů</label>
+      </fieldset>
+
+      <div class="actions">
+        <button class="btn btn--primary" type="button" data-quiz-check>Vyhodnotit</button>
+        <button class="btn btn--ghost" type="button" data-quiz-reset>Reset</button>
+      </div>
+
+      <div class="note note--info" data-quiz-result aria-live="polite"></div>
+
+    </form>
   </article>
 
 </section>
@@ -318,16 +548,12 @@ Get-Command *process*</code></pre>
 
       <div class="modal-body">
         <ul class="bullets">
-          <li><strong>Šipka nahoru</strong> – předchozí příkaz (nepíšeš znovu).</li>
+          <li><strong>Šipka nahoru</strong> – předchozí příkaz.</li>
           <li><strong>TAB</strong> – doplnění názvu složky/souboru.</li>
-          <li><strong>Ctrl + C</strong> – zastaví běžící příkaz (např. dlouhý ping).</li>
-          <li><strong>Ctrl + L</strong> – vyčistí obrazovku (PowerShell/Terminal často funguje).</li>
-          <li><strong>Uvozovky</strong> – nutné u cest s mezerami: <code>"C:\Moje soubory"</code>.</li>
+          <li><strong>Ctrl + C</strong> – zastaví běžící příkaz.</li>
+          <li><strong>Uvozovky</strong> – cesty s mezerami: <code>"C:\webové stránky"</code>.</li>
+          <li><strong>.\</strong> – spuštění skriptu z aktuální složky: <code>.\uklid.ps1</code>.</li>
         </ul>
-
-        <div class="note note--info">
-          <strong>Největší zrychlení:</strong> TAB + šipka nahoru. To jsou dvě věci, které dělají z terminálu rychlý nástroj.
-        </div>
       </div>
 
       <div class="modal-footer">
@@ -336,111 +562,4 @@ Get-Command *process*</code></pre>
 
     </div>
   </div>
-  
 </div>
-<!-- VLOŽ do <div class="accordion"> v sekci 1.7 jako další <details> -->
-<details class="acc">
-  <summary class="acc__sum">11) Lehká automatizace: vyčistit Stažené, vysypat Koš, odhlásit se (PowerShell)</summary>
-  <div class="acc__body">
-
-    <p>
-      Tohle je praktická mini-automatizace pro běžného uživatele: uklidí složku <strong>Stažené soubory</strong>,
-      vysype <strong>Koš</strong> a nakonec provede <strong>odhlášení</strong>. Je to typická situace „udělej pořádek na počítači rychle“.
-    </p>
-
-    <div class="note note--info">
-      <strong>Pozor:</strong> Tento skript po vysypání Koše odstraní soubory trvale. Před spuštěním si ulož rozdělanou práci.
-      Skript tě před finální částí zastaví a dá ti možnost zrušit běh (<kbd>Ctrl + C</kbd>).
-    </div>
-
-    <h4>1) Vytvoř skript</h4>
-    <ol class="steps">
-      <li>Otevři Poznámkový blok (Start → napiš <strong>notepad</strong> → Enter).</li>
-      <li>Vlož kód níže.</li>
-      <li>Ulož soubor jako <code>Uklid.ps1</code> (typ souboru: „Všechny soubory“), třeba na Plochu.</li>
-    </ol>
-
-    <h4>2) Spusť skript</h4>
-    <ol class="steps">
-      <li>Otevři PowerShell / Terminal.</li>
-      <li>Přejdi do umístění skriptu (např. Plocha): <code>cd $env:USERPROFILE\Desktop</code></li>
-      <li>Spusť ho takto (funguje bez přenastavení politik systému):</li>
-    </ol>
-
-    <pre><code class="powershell">powershell -NoProfile -ExecutionPolicy Bypass -File .\Uklid.ps1</code></pre>
-
-    <h4>Kód skriptu: <code>Uklid.ps1</code></h4>
-    <pre><code class="powershell"># Uklid.ps1 — Stažené → Koš → Vysypat Koš → Odhlášení
-# Cíl: jednoduché, použitelné, bez zbytečností.
-
-Write-Host ""
-Write-Host "=== Uklid Windows (Downloads + Recycle Bin + Logoff) ==="
-Write-Host "Uloz si praci. Pred finalnim krokem bude potvrzeni."
-Write-Host ""
-
-# 1) Najdi slozku Downloads (nejbeznejsi umisteni)
-$downloads = Join-Path $env:USERPROFILE "Downloads"
-
-if (-not (Test-Path -LiteralPath $downloads)) {
-  Write-Host "Slozka Downloads nebyla nalezena: $downloads"
-  Write-Host "Nic k uklidu ve Stazenych. Pokracuji dal..."
-} else {
-  # 2) Nacti obsah Downloads
-  $items = Get-ChildItem -LiteralPath $downloads -Force -ErrorAction SilentlyContinue
-
-  if (-not $items -or $items.Count -eq 0) {
-    Write-Host "Downloads je prazdna: $downloads"
-  } else {
-    Write-Host ("Nalezeno polozek ve Stazenych: {0}" -f $items.Count)
-    Write-Host "Presouvam polozky do Kose..."
-
-    # 3) Presun do Kose pres Shell COM (funguje na beznem Windows)
-    $shell = New-Object -ComObject Shell.Application
-    $recycleBin = $shell.Namespace(10)   # 10 = Recycle Bin
-
-    foreach ($it in $items) {
-      try {
-        $recycleBin.MoveHere($it.FullName)
-      } catch {
-        Write-Host ("Nelze presunout: {0}" -f $it.FullName)
-      }
-    }
-
-    Write-Host "Hotovo: Downloads -> Kos"
-  }
-}
-
-Write-Host ""
-Write-Host "Dalsi krok: VYSYPAT KOS a ODHLASIT se."
-Write-Host "Pokud to nechces dokoncit, stiskni Ctrl + C."
-Read-Host "Stiskni Enter pro pokracovani"
-
-# 4) Vysypani kose (PowerShell 5+)
-if (Get-Command Clear-RecycleBin -ErrorAction SilentlyContinue) {
-  try {
-    Clear-RecycleBin -Force -ErrorAction SilentlyContinue
-    Write-Host "Kos byl vysypan."
-  } catch {
-    Write-Host "Kos se nepodarilo vysypat (mohou byt zamcene soubory)."
-  }
-} else {
-  Write-Host "Clear-RecycleBin neni dostupne v tomto PowerShellu. Kos nebyl vysypan."
-}
-
-# 5) Odhlaseni uzivatele
-Write-Host "Odhlasuji uzivatele..."
-shutdown.exe /l
-</code></pre>
-
-    <div class="note note--info">
-      <strong>Co je důležité vědět:</strong>
-      <ul class="bullets">
-        <li>Skript primárně míří na běžnou složku <code>%USERPROFILE%\Downloads</code>.</li>
-        <li>„Vyčistit Stažené“ = přesun do Koše, a teprve potom vysypání Koše.</li>
-        <li>Když se něco nepovede přesunout (zamčený soubor), skript pokračuje dál.</li>
-      </ul>
-    </div>
-
-  </div>
-</details>
-
