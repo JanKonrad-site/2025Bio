@@ -1,164 +1,387 @@
-<section id="section1-5" class="container my-5">
-  <h3 class="mb-4">1.5 Struktura a funkce systému Windows</h3>
+<section id="section1-5" class="lesson">
 
-  <!-- Co se naučíš ? -->
-  <div class="container my-4 p-4 border rounded bg-light">
-    <h3 class="mb-3">Co se naučíš ?</h3>
-    <p>V této lekci se seznámíš s prostředím operačního systému Windows – jeho strukturou, funkcemi a možnostmi přizpůsobení. Naučíš se správu uživatelů, bezpečnostní nastavení a praktické tipy pro každodenní používání.</p>
-    <ul class="list-group list-group-flush mb-3">
-      <li class="list-group-item"><strong>Prostředí Windows</strong>: hlavní části systému a jejich význam.</li>
-      <li class="list-group-item"><strong>Správa uživatelů</strong>: účty, profily a oprávnění.</li>
-      <li class="list-group-item"><strong>Praktické nástroje</strong>: rozdělení obrazovky, virtuální plochy.</li>
-      <li class="list-group-item"><strong>Bezpečnost</strong>: Defender, firewall a aktualizace.</li>
-      <li class="list-group-item"><strong>Domácí síť</strong>: sdílení souborů, tiskáren a zabezpečení.</li>
+  <header class="lesson__header">
+    <h2 class="lesson__title">1.5 Struktura a funkce systému Windows</h2>
+    <p class="lesson__lead">
+      V této lekci se seznámíš s prostředím Windows – kde co najdeš, jak si systém přizpůsobit a jak řešit běžné situace v praxi (práce s okny, zkratky, nastavení, zabezpečení, účty, síť).
+    </p>
+  </header>
+
+  <!-- Co se naučíš -->
+  <article class="card">
+    <h3 class="card__title">Co se naučíš?</h3>
+
+    <ul class="checklist">
+      <li><strong>Orientace v systému</strong>: Start, Nastavení, Průzkumník, panel úloh, oznamovací centrum.</li>
+      <li><strong>Efektivní práce</strong>: přichycení oken, virtuální plochy, rychlé přepínače, zkratky.</li>
+      <li><strong>Přizpůsobení</strong>: jas, měřítko, noční světlo, motivy, plocha, zvuk.</li>
+      <li><strong>Řešení problémů</strong>: Správce úloh, procesy, výkon, aplikace po startu, aktualizace.</li>
+      <li><strong>Bezpečnost a účty</strong>: Defender, firewall, Windows Update, uživatelské účty a oprávnění.</li>
+      <li><strong>Domácí síť</strong>: Wi-Fi, sdílení, tiskárny, Bluetooth a základní konektivita.</li>
     </ul>
-    <div class="alert alert-info" role="alert">
-      <strong>Tip:</strong> Windows nabízí mnoho klávesových zkratek, které ti usnadní práci. Například <kbd>Win + D</kbd> minimalizuje všechna okna a zobrazí plochu.
+
+    <div class="note note--info">
+      <strong>Tip:</strong> Když se naučíš 10–15 klíčových zkratek, zrychlíš práci výrazně víc než jakoukoliv “vychytávkou”.
     </div>
+  </article>
+
+  <!-- Akce / odkazy -->
+  <div class="actions">
+    <a class="btn btn--primary" href="https://support.microsoft.com/cs-cz/windows" target="_blank" rel="noopener">
+      Microsoft Podpora (Windows)
+    </a>
+
+    <a class="btn btn--ghost" href="https://learn.microsoft.com/windows/" target="_blank" rel="noopener">
+      Microsoft Learn (Windows)
+    </a>
   </div>
 
-  <!-- Citát osobnosti -->
-  <div class="row align-items-center mb-4">
-    <div class="col-md-2 text-center">
-      <img class="img-fluid rounded-circle shadow resize-mobile" src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Bill_Gates_2018.jpg" alt="Bill Gates">
-      <p class="mt-2 text-muted small">Bill Gates</p>
-    </div>
-    <div class="col-md-10">
-      <blockquote class="blockquote">
-        <p class="mb-0">„Vaše nejnestálejší zákazníky musíte chápat jako největší zdroj inspirace.“</p>
-        <footer class="blockquote-footer mt-2">
-          <a href="https://www.brainyquote.com/quotes/bill_gates_161349" target="_blank">(zdroj)</a>
-        </footer>
-      </blockquote>
-    </div>
+  <!-- Akordeony -->
+  <div class="accordion">
+
+    <!-- 1) Orientace v prostředí -->
+    <details class="acc" open>
+      <summary class="acc__sum">1) Orientace v prostředí Windows</summary>
+      <div class="acc__body">
+        <p>
+          Windows je postavený tak, aby většina důležitých věcí byla dostupná přes <strong>Start</strong>, <strong>Nastavení</strong> a <strong>Průzkumník souborů</strong>.
+          Když víš, kde co hledat, ušetříš čas a budeš se v systému pohybovat jistě.
+        </p>
+
+        <ul class="bullets">
+          <li><strong>Nabídka Start</strong>: spouštění aplikací, vyhledávání, vypnutí/odhlášení.</li>
+          <li><strong>Panel úloh</strong>: připnuté aplikace, přepínání oken, rychlé ikony, systémová oblast.</li>
+          <li><strong>Nastavení</strong> (<kbd>Win + I</kbd>): hlavní centrum konfigurace systému.</li>
+          <li><strong>Průzkumník souborů</strong> (<kbd>Win + E</kbd>): práce se složkami, disky, síťovými umístěními.</li>
+          <li><strong>Vyhledávání</strong>: často nejrychlejší cesta (stačí začít psát po otevření Startu).</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Tip:</strong> Když nevíš, kde je nějaké nastavení, otevři Start a napiš název (např. „měřítko“, „noční“, „bluetooth“, „správce úloh“).
+        </div>
+      </div>
+    </details>
+
+    <!-- 2) Práce s okny (Snap, přepínání, zkratky) -->
+    <details class="acc">
+      <summary class="acc__sum">2) Práce s okny: přichycení, přepínání a pořádek na obrazovce</summary>
+      <div class="acc__body">
+        <p>
+          Největší zrychlení práce ve Windows je umět <strong>rychle přepínat</strong> mezi okny a <strong>rozumně je rozmístit</strong>.
+        </p>
+
+        <ol class="steps">
+          <li><strong>Přepnutí mezi okny</strong>: <kbd>Alt + Tab</kbd> (drž Alt a vybírej Tabem).</li>
+          <li><strong>Zobrazení všech oken a ploch</strong>: <kbd>Win + Tab</kbd> (přehled a práce s plochami).</li>
+          <li><strong>Přichycení okna</strong>: <kbd>Win + šipky</kbd> (vlevo/vpravo/horní/dolní část).</li>
+          <li><strong>Snap rozložení</strong>: <kbd>Win + Z</kbd> (vybereš rozložení a okna se srovnají).</li>
+          <li><strong>Rychlé zobrazení plochy</strong>: <kbd>Win + D</kbd>.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li><strong>Doporučení pro školu</strong>: vlevo materiály (web/PDF), vpravo práce (Word/VS Code), nahoře komunikace.</li>
+          <li><strong>Minimalizace všeho</strong>: <kbd>Win + D</kbd> nebo klik na krajní část panelu úloh (podle nastavení).</li>
+        </ul>
+      </div>
+    </details>
+
+    <!-- 3) Virtuální plochy (detail) -->
+    <details class="acc">
+      <summary class="acc__sum">3) Virtuální plochy: jak je vytvořit a proč je používat</summary>
+      <div class="acc__body">
+        <p>
+          Virtuální plochy jsou “oddělené pracovní prostory” – každá plocha může mít jiná otevřená okna.
+          Hodí se, když nechceš mít všechno namíchané dohromady.
+        </p>
+
+        <h4>Jak vytvořit a spravovat plochy</h4>
+        <ol class="steps">
+          <li>Otevři přehled: <kbd>Win + Tab</kbd>.</li>
+          <li>Klikni na <strong>Nová plocha</strong> (obvykle nahoře).</li>
+          <li>Okna můžeš <strong>přetáhnout</strong> na jinou plochu přímo v zobrazení <kbd>Win + Tab</kbd>.</li>
+        </ol>
+
+        <h4>Klíčové zkratky</h4>
+        <ul class="bullets">
+          <li><strong>Nová plocha</strong>: <kbd>Win + Ctrl + D</kbd></li>
+          <li><strong>Další/předchozí plocha</strong>: <kbd>Win + Ctrl + šipka</kbd></li>
+          <li><strong>Zavřít aktuální plochu</strong>: <kbd>Win + Ctrl + F4</kbd></li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Tip:</strong> Udělej si „Škola“ (Teams, materiály), „Tvorba“ (grafika, střih), „Zábava“ (hudba, hry). Méně chaosu, víc soustředění.
+        </div>
+      </div>
+    </details>
+
+    <!-- 4) Displej: jas, měřítko, rozlišení, noční režim -->
+    <details class="acc">
+      <summary class="acc__sum">4) Displej: jas, měřítko, rozlišení, noční světlo</summary>
+      <div class="acc__body">
+        <p>
+          Čitelnost a pohodlí očí se řeší hlavně přes <strong>jas</strong>, <strong>měřítko</strong> a <strong>Noční světlo</strong>.
+        </p>
+
+        <h4>Jas obrazovky</h4>
+        <ul class="bullets">
+          <li><strong>Notebook</strong>: obvykle klávesy <kbd>Fn</kbd> + ikonka slunce (liší se podle výrobce).</li>
+          <li><strong>Windows Nastavení</strong>: <kbd>Win + I</kbd> → <strong>Systém</strong> → <strong>Obrazovka</strong> → posuvník <strong>Jas</strong>.</li>
+          <li><strong>Externí monitor</strong>: často se jas nastavuje tlačítky na monitoru (OSD menu).</li>
+        </ul>
+
+        <h4>Měřítko (zvětšení textu a prvků)</h4>
+        <ol class="steps">
+          <li><kbd>Win + I</kbd> → <strong>Systém</strong> → <strong>Obrazovka</strong></li>
+          <li>Najdi <strong>Měřítko</strong> (např. 100 %, 125 %, 150 %)</li>
+          <li>Pokud je text malý, zvedni měřítko – je to lepší než “přibližování” v každé aplikaci.</li>
+        </ol>
+
+        <h4>Noční světlo (omezení modré složky)</h4>
+        <ol class="steps">
+          <li><kbd>Win + I</kbd> → <strong>Systém</strong> → <strong>Obrazovka</strong></li>
+          <li><strong>Noční světlo</strong> → zapnout + nastavit intenzitu a případný plán.</li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Doporučení:</strong> Večer používej noční světlo a mírně nižší jas. Přes den vyšší jas (ale ne oslnění).
+        </div>
+      </div>
+    </details>
+
+    <!-- 5) Rychlé přepínače a oznámení -->
+    <details class="acc">
+      <summary class="acc__sum">5) Rychlé přepínače: Wi-Fi, Bluetooth, režimy a oznámení</summary>
+      <div class="acc__body">
+        <p>
+          Windows má rychlé přepínače (např. Wi-Fi, Bluetooth, úspora energie, noční světlo). Je to nejrychlejší způsob, jak měnit běžné věci bez hlubokého hledání.
+        </p>
+
+        <ul class="bullets">
+          <li><strong>Otevřít rychlé přepínače</strong>: obvykle klik na oblast u hodin (síť/zvuk/baterie).</li>
+          <li><strong>Oznámení</strong>: zobrazují upozornění aplikací (Teams, systémové hlášky apod.).</li>
+          <li><strong>Režim Letadlo</strong>: vypne bezdrátové komunikace (hodí se při problémech nebo ve škole).</li>
+          <li><strong>Wi-Fi</strong>: rychlé připojení na síť + výběr sítě.</li>
+          <li><strong>Bluetooth</strong>: připojení sluchátek/myši apod.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Tip:</strong> Když „nejde internet“, první krok je často vypnout/zapnout Wi-Fi nebo krátce zapnout režim Letadlo a vypnout.
+        </div>
+      </div>
+    </details>
+
+    <!-- 6) Správce úloh: procesy, výkon, aplikace po startu -->
+    <details class="acc">
+      <summary class="acc__sum">6) Správce úloh: procesy, výkon a co zpomaluje počítač</summary>
+      <div class="acc__body">
+        <p>
+          Správce úloh je základní diagnostika: vidíš, co běží, co žere výkon, a můžeš ukončit zaseknutou aplikaci.
+        </p>
+
+        <h4>Jak ho otevřít</h4>
+        <ul class="bullets">
+          <li><strong>Nejrychleji</strong>: <kbd>Ctrl + Shift + Esc</kbd></li>
+          <li>Alternativa: <kbd>Ctrl + Alt + Delete</kbd> → Správce úloh</li>
+          <li>Nebo Start → napiš “Správce úloh”</li>
+        </ul>
+
+        <h4>Co v něm najdeš</h4>
+        <ul class="bullets">
+          <li><strong>Procesy</strong>: aplikace a služby, spotřeba CPU/RAM/disku.</li>
+          <li><strong>Výkon</strong>: grafy CPU, paměti, disku, sítě (rychlá orientace “co je bottleneck”).</li>
+          <li><strong>Po spuštění</strong>: aplikace, které se spouští se systémem (často zdroj zpomalení startu).</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Tip:</strong> Když se PC seká, koukni do “Procesy” a seřaď podle CPU nebo Paměti. Často uvidíš viníka okamžitě.
+        </div>
+      </div>
+    </details>
+
+    <!-- 7) Nastavení účtů, uzamčení, přihlášení -->
+    <details class="acc">
+      <summary class="acc__sum">7) Účty a přihlášení: profil, uzamčení, oprávnění</summary>
+      <div class="acc__body">
+        <p>
+          Každý uživatel má svůj profil (plocha, dokumenty, nastavení). Ve škole je běžné, že účet má omezená oprávnění.
+        </p>
+
+        <ul class="bullets">
+          <li><strong>Uzamknout počítač</strong>: <kbd>Win + L</kbd></li>
+          <li><strong>Přepnout uživatele</strong>: Start → uživatelská ikona → Přepnout uživatele / Odhlásit</li>
+          <li><strong>Nastavení účtu</strong>: <kbd>Win + I</kbd> → <strong>Účty</strong></li>
+          <li><strong>Oprávnění</strong>: některé operace vyžadují administrátora (instalace, systémová nastavení).</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Tip:</strong> Ve škole je vhodné zamykat počítač při odchodu i na chvíli. Je to základ bezpečné práce.
+        </div>
+      </div>
+    </details>
+
+    <!-- 8) Bezpečnost: Defender, firewall, update -->
+    <details class="acc">
+      <summary class="acc__sum">8) Bezpečnost: Defender, firewall, aktualizace</summary>
+      <div class="acc__body">
+        <p>
+          Windows má vestavěné bezpečnostní funkce. Nejdůležitější je mít aktuální systém a neinstalovat “podezřelé věci”.
+        </p>
+
+        <ul class="bullets">
+          <li><strong>Zabezpečení Windows</strong>: Start → napiš “Zabezpečení Windows”</li>
+          <li><strong>Defender</strong>: antivirová ochrana (běží automaticky).</li>
+          <li><strong>Firewall</strong>: ochrana síťové komunikace.</li>
+          <li><strong>Windows Update</strong>: <kbd>Win + I</kbd> → <strong>Windows Update</strong></li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Pravidlo:</strong> Nejvíc problémů vzniká instalací pochybných programů a vypínáním ochrany. Ve škole to obvykle ani nejde – a je to dobře.
+        </div>
+      </div>
+    </details>
+
+    <!-- 9) Úložiště a soubory: Průzkumník, OneDrive, vyhledávání -->
+    <details class="acc">
+      <summary class="acc__sum">9) Soubory a úložiště: Průzkumník, složky, OneDrive, místo na disku</summary>
+      <div class="acc__body">
+        <p>
+          Kdo ovládá práci se soubory, ten má v IT půlku vyhráno. Základ je vědět, <strong>kde co ukládám</strong> a jak rychle dohledám soubor.
+        </p>
+
+        <ol class="steps">
+          <li><strong>Průzkumník</strong>: <kbd>Win + E</kbd></li>
+          <li><strong>Rychlé vyhledávání souborů</strong>: pole hledání v Průzkumníku (vpravo nahoře).</li>
+          <li><strong>Standardní složky</strong>: Dokumenty, Stažené soubory, Obrázky.</li>
+          <li><strong>OneDrive</strong>: když je zapnutý, může synchronizovat soubory do cloudu.</li>
+        </ol>
+
+        <h4>Kontrola místa na disku</h4>
+        <ul class="bullets">
+          <li><kbd>Win + I</kbd> → <strong>Systém</strong> → <strong>Úložiště</strong></li>
+          <li>Zde vidíš, co zabírá místo (aplikace, dočasné soubory, stahování).</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Tip:</strong> Když “dojde místo”, nejčastěji pomůže vyčistit Stažené soubory a dočasné soubory v Úložišti.
+        </div>
+      </div>
+    </details>
+
+    <!-- 10) Síť: Wi-Fi, sdílení, tiskárny -->
+    <details class="acc">
+      <summary class="acc__sum">10) Síť v praxi: Wi-Fi, sdílení, tiskárny</summary>
+      <div class="acc__body">
+        <p>
+          V domácí i školní síti se setkáš s připojením k Wi-Fi, tiskárnami a někdy sdílením souborů.
+        </p>
+
+        <ul class="bullets">
+          <li><strong>Připojení k Wi-Fi</strong>: rychlé přepínače u hodin nebo <kbd>Win + I</kbd> → <strong>Síť a internet</strong>.</li>
+          <li><strong>Stav sítě</strong>: když nejde internet, zkontroluj, zda jsi připojený ke správné síti.</li>
+          <li><strong>Tiskárny</strong>: <kbd>Win + I</kbd> → <strong>Bluetooth a zařízení</strong> → <strong>Tiskárny a skenery</strong>.</li>
+          <li><strong>Sdílení</strong>: obvykle přes síťové umístění nebo cloud (OneDrive).</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Tip:</strong> Ve škole často funguje sdílení přes školní účet, cloud nebo sdílené disky. Domácí “sdílení složek” bývá potřeba nastavovat opatrně kvůli bezpečnosti.
+        </div>
+      </div>
+    </details>
+
+    <!-- 11) Zvuk, mikrofon, Bluetooth -->
+    <details class="acc">
+      <summary class="acc__sum">11) Zvuk, mikrofon a Bluetooth (sluchátka, repro, zařízení)</summary>
+      <div class="acc__body">
+        <p>
+          Častý problém: „nejde zvuk“ nebo „nejde mikrofon“. Většinou je to špatně vybraný výstup/vstup.
+        </p>
+
+        <ol class="steps">
+          <li><strong>Rychlé přepnutí výstupu</strong>: klik na zvuk u hodin → vyber správné zařízení (repro/sluchátka).</li>
+          <li><strong>Nastavení zvuku</strong>: <kbd>Win + I</kbd> → <strong>Systém</strong> → <strong>Zvuk</strong>.</li>
+          <li><strong>Mikrofon</strong>: v nastavení zvuku vyber vstup + otestuj.</li>
+          <li><strong>Bluetooth zařízení</strong>: <kbd>Win + I</kbd> → <strong>Bluetooth a zařízení</strong>.</li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Tip:</strong> Když máš sluchátka připojená, ale zvuk jde pořád do repro, bývá špatně nastavený výstup.
+        </div>
+      </div>
+    </details>
+
+    <!-- 12) Přizpůsobení: motiv, plocha, panel -->
+    <details class="acc">
+      <summary class="acc__sum">12) Přizpůsobení: vzhled, plocha, panel úloh</summary>
+      <div class="acc__body">
+        <p>
+          Windows si můžeš přizpůsobit tak, aby se ti lépe pracovalo. Základ je rozumné rozložení, čitelnost a pořádek.
+        </p>
+
+        <ul class="bullets">
+          <li><strong>Změna tapety</strong>: <kbd>Win + I</kbd> → <strong>Přizpůsobení</strong> → <strong>Pozadí</strong>.</li>
+          <li><strong>Motiv / barvy</strong>: <kbd>Win + I</kbd> → <strong>Přizpůsobení</strong> → <strong>Barvy</strong>.</li>
+          <li><strong>Panel úloh</strong>: připínání aplikací (pravý klik na aplikaci → Připnout na hlavní panel).</li>
+          <li><strong>Čitelnost</strong>: pokud je vše malé, uprav měřítko v nastavení obrazovky.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Tip:</strong> Příliš “vymazlený” vzhled často zhorší přehlednost. V praxi vede vyhrát jednoduchý a čitelný setup.
+        </div>
+      </div>
+    </details>
+
   </div>
 
-  <h5 class="mt-5">Hlavní téma</h5>
-  <p>
-    Operační systém Windows je nejpoužívanější desktopový systém na světě. Poskytuje <strong>grafické uživatelské rozhraní</strong> (GUI), <strong>správu souborů</strong>, <strong>bezpečnostní funkce</strong>, <strong>podporu aplikací</strong> a <strong>nástroje pro síťové připojení</strong>.
-  </p>
+  <!-- Shrnutí -->
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
 
-  <h5 class="mt-4">Klíčové části a funkce systému Windows</h5>
-  <ul class="list-group mb-4">
-    <li class="list-group-item"><strong>Pracovní plocha a nabídka Start</strong>: Základní prostor pro spouštění aplikací, přístup k nastavením a souborům.</li>
-    <li class="list-group-item"><strong>Centrum akcí a nastavení</strong>: Notifikace, režimy (noční, letadlo), připojení Wi-Fi, Bluetooth.</li>
-    <li class="list-group-item"><strong>Průzkumník souborů</strong>: Správa adresářů a souborů, podpora pro OneDrive a síťové sdílení.</li>
-    <li class="list-group-item"><strong>Windows Defender</strong>: Vestavěný antivir a firewall pro základní ochranu.</li>
-    <li class="list-group-item"><strong>Virtuální plochy a rozdělení obrazovky</strong>: <kbd>Win + Tab</kbd> pro správu více ploch, <kbd>Win + šipky</kbd> pro přichycení oken.</li>
-  </ul>
-
-  <!-- Složené téma -->
-  <li class="list-group-item">
-    <strong>🧠 Hierarchie systému</strong>: základní stavební bloky Windows.
-    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse"
-      data-bs-target="#windowsArchitecture" aria-expanded="false" aria-controls="windowsArchitecture">
-      &#9660;
-    </button>
-
-    <ul class="list-group list-group-flush collapse mt-2" id="windowsArchitecture">
-      <li class="list-group-item">
-        <strong>Uživatelské rozhraní</strong>: grafické prostředí, přístup přes nabídku Start, ikony, dlaždice.
-        <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalFirst">
-          Více
-        </button>
-      </li>
-      <li class="list-group-item">
-        <strong>Jádro systému</strong>: řízení přístupu k paměti, procesům a hardwaru.
-        <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalSecound">
-          Více
-        </button>
-      </li>
+    <ul class="checklist">
+      <li>Ve Windows se nejrychleji orientuješ přes <strong>Start</strong>, <strong>Nastavení</strong> a <strong>Vyhledávání</strong>.</li>
+      <li>Produktivitu zvednou <strong>Snap rozložení</strong>, <strong>virtuální plochy</strong> a základní <strong>klávesové zkratky</strong>.</li>
+      <li>Čitelnost řeš přes <strong>měřítko</strong>, pohodlí očí přes <strong>jas</strong> a <strong>noční světlo</strong>.</li>
+      <li>Pro diagnostiku výkonu používej <strong>Správce úloh</strong> (<kbd>Ctrl + Shift + Esc</kbd>).</li>
+      <li>Bezpečnost stojí na <strong>aktualizacích</strong> a rozumném chování (žádné podezřelé instalace).</li>
     </ul>
-  </li>
+  </article>
 
-  <!-- Pokročilé nastavení -->
-  <ul class="list-group mb-4">
-    <li class="list-group-item">
-      <strong>Pokročilá nastavení a vychytávky</strong>
-      <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse"
-        data-bs-target="#windowsTips" aria-expanded="false" aria-controls="windowsTips">
-        &#9660;
-      </button>
+  <!-- Zdroje -->
+  <article class="card">
+    <h3 class="card__title">Odkazy na použité zdroje</h3>
+    <ol class="steps">
+      <li><a href="https://support.microsoft.com/cs-cz/windows" target="_blank" rel="noopener">Microsoft Podpora – Windows</a></li>
+      <li><a href="https://learn.microsoft.com/windows/" target="_blank" rel="noopener">Microsoft Learn – Windows</a></li>
+      <li><a href="https://cs.wikipedia.org/wiki/Microsoft_Windows" target="_blank" rel="noopener">Wikipedia – Microsoft Windows</a></li>
+    </ol>
+  </article>
 
-      <ul class="list-group list-group-flush collapse mt-2" id="windowsTips">
-        <li class="list-group-item">
-          <div class="container mt-5">
-            <div class="row justify-content-center">
-              <div class="col-md-8">
-                <div class="card shadow-sm">
-                  <div class="card-header bg-primary text-white">Windows v praxi</div>
-                  <div class="card-body">
-                    <h5 class="card-title">Užitečné funkce</h5>
-                    <ul>
-                      <li><strong>Správa účtů</strong>: místní a Microsoft účty, rodičovská kontrola.</li>
-                      <li><strong>Rychlý přístup k nástrojům</strong>: <kbd>Win + X</kbd> otevře skryté nabídky.</li>
-                      <li><strong>Domácí síť</strong>: sdílení složek, tiskáren, mediálního obsahu.</li>
-                      <li><strong>Vytvoření profilu</strong>: Každý uživatel může mít vlastní nastavení, plochu i dokumenty.</li>
-                      <li><strong>Antivirová ochrana</strong>: Windows Defender běží automaticky a není potřeba instalovat jiný antivir.</li>
-                    </ul>
-
-                    <h5 class="mt-4">Zdroje</h5>
-                    <ul>
-                      <li><a href="https://www.microsoft.com/windows" target="_blank">Oficiální web Microsoft Windows</a></li>
-                      <li><a href="https://cs.wikipedia.org/wiki/Microsoft_Windows" target="_blank">Wikipedia – Microsoft Windows</a></li>
-                      <li><a href="https://support.microsoft.com/cs-cz/windows" target="_blank">Microsoft podpora</a></li>
-                      <li><a href="https://www.howtogeek.com/775015/a-visual-history-of-windows/" target="_blank">HowToGeek – přehled verzí Windows</a></li>
-                    </ul>
-
-                    <h5 class="mt-4">Tabulka zkratek</h5>
-                    <table class="table table-bordered">
-                      <thead class="table-light">
-                        <tr>
-                          <th>Zkratka</th>
-                          <th>Funkce</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr><td>Win + E</td><td>Otevře Průzkumník souborů</td></tr>
-                        <tr><td>Win + D</td><td>Zobrazí plochu</td></tr>
-                        <tr><td>Win + Tab</td><td>Zobrazí všechny otevřené aplikace a plochy</td></tr>
-                        <tr><td>Win + I</td><td>Otevře Nastavení</td></tr>
-                        <tr><td>Win + L</td><td>Uzamkne počítač</td></tr>
-                      </tbody>
-                    </table>
-
-                    <p class="text-muted mt-3"><strong>💡 Tip:</strong> Virtuální plochy ti umožní rozdělit školu a volný čas – na jedné ploše učení, na druhé zábava.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </li>
-  </ul>
-
-  <p>💡 Hint: Pro zálohování souborů můžeš využít OneDrive – je přímo integrovaný do systému.</p>
-
-  <!-- Shrnutí lekce -->
-  <div class="container my-4 p-4 border rounded bg-light">
-    <h3 class="mb-3">Shrnutí</h3>
-    <p>Windows není jen systém, ale nástroj, který umožňuje přístup k digitálnímu světu pohodlně a bezpečně.</p>
-    <ul class="list-group list-group-flush mb-3">
-      <li class="list-group-item"><strong>Windows</strong>: Uživatelsky přívětivý systém pro všechny věkové skupiny.</li>
-      <li class="list-group-item"><strong>Funkce</strong>: Od antiviru po správu sítí bez nutnosti dalších aplikací.</li>
-      <li class="list-group-item"><strong>Efektivita</strong>: Díky zkratkám, přichytávání oken a virtuálním plochám.</li>
-      <li class="list-group-item"><strong>Bezpečnost</strong>: Defender, rodičovská kontrola, aktualizace.</li>
-      <li class="list-group-item"><strong>Přizpůsobení</strong>: Každý uživatel má vlastní profil a nastavení.</li>
-    </ul>
-    <div class="alert alert-info" role="alert">
-      <strong>Tip:</strong> Využij možnosti „Noční režim“ při večerním studiu – chrání zrak a zlepšuje spánek.
-    </div>
-  </div>
-
-  <!-- Odkazy -->
-  <hr>
-  <h6>Odkazy na použité zdroje</h6>
-  <ol class="small">
-    <li><a href="https://learn.microsoft.com" target="_blank">Microsoft Learn</a></li>
-    <li><a href="https://www.microsoft.com/windows" target="_blank">Windows – oficiální web</a></li>
-    <li><a href="https://www.howtogeek.com" target="_blank">HowToGeek – návody a tipy</a></li>
-    <li><a href="https://cs.wikipedia.org/wiki/Microsoft_Windows" target="_blank">Wikipedia – Windows</a></li>
-    <li><a href="https://support.microsoft.com/cs-cz" target="_blank">Podpora Microsoft</a></li>
-  </ol>
 </section>
+
+<!-- MODALY (volitelně) – zatím připravené ID, pokud je budeš chtít použít -->
+<div class="modal" id="modal1-5-shortcuts" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Tahák: nejdůležitější zkratky</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <ul class="bullets">
+          <li><strong>Win + I</strong> – Nastavení</li>
+          <li><strong>Win + E</strong> – Průzkumník souborů</li>
+          <li><strong>Alt + Tab</strong> – přepnutí okna</li>
+          <li><strong>Win + Tab</strong> – přehled oken + plochy</li>
+          <li><strong>Win + Ctrl + D</strong> – nová plocha</li>
+          <li><strong>Ctrl + Shift + Esc</strong> – Správce úloh</li>
+        </ul>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+
+    </div>
+  </div>
+</div>

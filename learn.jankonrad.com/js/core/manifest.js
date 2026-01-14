@@ -70,17 +70,35 @@ export const NAV_TREE = [
                 { title: "3.1.5 GitHub & GitHub Pages - nasazení projektů", href: "#section3-1-5" },
               ]
             },
-            {
-              title: "3.2 Základy CSS",
-              href: "#section3-2-1",
-              children: [
-                { title: "3.2.1 Úvod do CSS", href: "#section3-2-1" },
-                { title: "3.2.2 Vlastnosti a selektory", href: "#section3-2-2" },
-                { title: "3.2.3 Stylování textu a barev", href: "#section3-2-3" },
-                { title: "3.2.4 Stylování prvků a layout", href: "#section3-2-4" },
-                { title: "3.2.5 Praktický projekt – vytvoření jednoduché stránky", href: "#section3-2-5" },
-              ]
-            },
+           {
+  title: "3.2 CSS",
+  // kotva na začátek CSS bloku (nemusíš zakládat nový section3-2)
+  href: "#section3-2-1",
+  children: [
+    {
+      title: "Základy CSS",
+      href: "#section3-2-1",
+      children: [
+        { title: "3.2.1 Úvod do CSS", href: "#section3-2-1" },
+        { title: "3.2.2 Vlastnosti a selektory", href: "#section3-2-2" },
+        { title: "3.2.3 Stylování textu a barev", href: "#section3-2-3" },
+        { title: "3.2.4 Stylování prvků a layout", href: "#section3-2-4" },
+      ]
+    },
+    {
+      title: "Pokročilé CSS",
+      href: "#section3-2-5",
+      children: [
+        { title: "3.2.5 Úvod do pokročilého CSS", href: "#section3-2-5" },
+        { title: "3.2.6 Responsivita a media queries", href: "#section3-2-6" },
+        { title: "3.2.7 Flexbox a Grid pokročile", href: "#section3-2-7" },
+        { title: "3.2.8 Animace a transformace", href: "#section3-2-8" },
+        { title: "3.2.9 Praktický projekt – vytvoření jednoduché stránky", href: "#section3-2-9" },
+      ]
+    }
+  ]
+},
+            
             {
             title: "3.3 Základy JavaScriptu",
               href: "#section3-3-1",

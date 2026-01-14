@@ -931,71 +931,151 @@
 </div>
 
 
-<!-- MODÁL – Jak funguje CPU -->
-<div class="modal" id="modalCPU" role="dialog" aria-modal="true" aria-hidden="true">
+<!-- ========================= -->
+<!-- MODALY (umísti na konec stránky, mimo sekci) -->
+<!-- ========================= -->
+
+<!-- MODAL – Počítačová skříň -->
+<div class="modal" id="modalCase" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalCaseTitle" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
 
       <div class="modal-header">
-        <h3 class="modal-title">Jak funguje procesor (CPU)</h3>
+        <h3 class="modal-title" id="modalCaseTitle">Počítačová skříň (Case)</h3>
         <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
       </div>
 
       <div class="modal-body">
+        <p><strong>Počítačová skříň</strong> chrání vnitřní komponenty a výrazně ovlivňuje chlazení, hlučnost a možnosti rozšíření.</p>
 
-        <p>
-          Procesor (Central Processing Unit) je <strong>ústřední výpočetní jednotka</strong> počítače. Řídí a
-          zpracovává instrukce programů podle tzv. <strong>instrukčního cyklu</strong>.
-        </p>
+        <h6>Proudění vzduchu a chlazení</h6>
+        <ul class="bullets">
+          <li>Důležité je logické proudění: vstup vzduchu vpředu/dole, výstup vzadu/nahoře.</li>
+          <li>Skříň s kvalitním přívodem vzduchu zlepšuje teploty CPU/GPU a stabilitu sestavy.</li>
+          <li>Prachové filtry snižují zanášení komponent (je ale potřeba je čistit).</li>
+        </ul>
+
+        <h6>Velikosti a formáty</h6>
+        <ul class="bullets">
+          <li><strong>Full Tower</strong>: maximum prostoru pro diskové pozice, velké chladiče a vodní okruhy.</li>
+          <li><strong>Mid Tower</strong>: nejběžnější volba pro většinu běžných i herních PC.</li>
+          <li><strong>Mini Tower / SFF</strong>: kompaktní, ale omezené možnosti rozšíření.</li>
+        </ul>
+
+        <p class="muted"><small>Prakticky: skříň vybírej podle formátu desky (ATX/mATX/ITX), délky GPU a výšky chladiče CPU.</small></p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cz.alza.cz/jak-vybrat-pocitacovou-skrin" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL – Napájecí zdroj -->
+<div class="modal" id="modalPSU" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalPSUTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalPSUTitle">Napájecí zdroj (PSU)</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p><strong>PSU</strong> převádí síťové napětí na stabilní nízkonapěťové větve (12 V, 5 V, 3,3 V) pro komponenty.</p>
+
+        <h6>Na co si dát pozor</h6>
+        <ul class="bullets">
+          <li><strong>Výkon</strong>: počítej rezervu zhruba 20–30 % pro špičky a budoucí upgrade.</li>
+          <li><strong>Účinnost</strong>: vyšší účinnost znamená méně ztrát a tepla (obvykle lepší kultura chodu).</li>
+          <li><strong>Ochrany</strong>: ochrany proti přepětí/zkratu jsou zásadní pro bezpečnost sestavy.</li>
+          <li><strong>Kabeláž</strong>: modulární zdroj zlepší pořádek i proudění vzduchu.</li>
+        </ul>
+
+        <p class="muted"><small>Prakticky: zdroj se nevyplatí „na doraz“. Kvalitní PSU přežije několik generací sestav.</small></p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cz.alza.cz/jak-vybrat-zdroj" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL – Základní deska -->
+<div class="modal" id="modalMotherboard" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalMBTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalMBTitle">Základní deska (Motherboard)</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p><strong>Základní deska</strong> propojuje CPU, RAM, disky a rozšiřující karty. Určuje kompatibilitu i možnosti rozšíření.</p>
+
+        <h6>Co typicky řešíš při výběru</h6>
+        <ul class="bullets">
+          <li><strong>Socket a chipset</strong>: musí sedět na procesor a požadované funkce.</li>
+          <li><strong>Formát</strong>: ATX / microATX / Mini-ITX podle skříně.</li>
+          <li><strong>Úložiště</strong>: počet SATA a M.2 slotů.</li>
+          <li><strong>Konektivita</strong>: USB porty, síť, Wi-Fi, Bluetooth, audio.</li>
+          <li><strong>Napájecí část</strong>: stabilita při zátěži (důležité hlavně u výkonných CPU).</li>
+        </ul>
+
+        <p class="muted"><small>Prakticky: deska je „platforma“. Ušetřit se dá, ale nesmí to omezit budoucí upgrade.</small></p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cz.alza.cz/jak-vybrat-zakladni-desku" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL – Jak funguje CPU -->
+<div class="modal" id="modalCPU" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalCPUTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalCPUTitle">Jak funguje procesor (CPU)</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>CPU je <strong>ústřední výpočetní jednotka</strong>. Zpracovává instrukce programů v opakovaném cyklu.</p>
 
         <h6>Instrukční cyklus</h6>
         <ul class="bullets">
-          <li><strong>Fetch (Načtení):</strong> Získání instrukce z operační paměti (RAM).</li>
-          <li><strong>Decode (Dekódování):</strong> Rozbor instrukce, zjištění typu a parametrů.</li>
-          <li><strong>Execute (Vykonání):</strong> Provedení operace (aritmetické, logické, přesuny dat).</li>
+          <li><strong>Fetch</strong>: načtení instrukce z paměti.</li>
+          <li><strong>Decode</strong>: rozbor instrukce.</li>
+          <li><strong>Execute</strong>: provedení operace.</li>
         </ul>
 
-        <!-- ANIMACE – Instrukční cyklus CPU -->
         <div class="sequence-animation cpu-cycle-animation">
           <div class="cpu-box">CPU</div>
           <div class="instruction-step step1">Fetch</div>
           <div class="instruction-step step2">Decode</div>
           <div class="instruction-step step3">Execute</div>
         </div>
-        <p><small><em>Animace:</em> Procesor vykonává instrukce v cyklu: načtení,
-            dekódování a vykonání.</small></p>
+        <p class="muted"><small>Animace je volitelná – pokud ji nemáš nastylovanou, nic se nerozbije.</small></p>
 
-        <h6>Hlavní části procesoru</h6>
+        <h6>Klíčové pojmy</h6>
         <ul class="bullets">
-          <li><strong>ALU (Aritmeticko-logická jednotka):</strong> Provádí matematické a logické operace.</li>
-          <li><strong>CU (Řadič):</strong> Řídí tok dat a činnost ostatních částí CPU.</li>
-          <li><strong>Registry:</strong> Velmi rychlá paměť pro uložení dat/instrukcí při výpočtech.</li>
-          <li><strong>Cache:</strong> Malá, rychlá paměť pro často používaná data, blíže CPU než RAM.</li>
-          <li><strong>Taktovací jednotka:</strong> Udává rychlost vykonávání instrukcí (např. 3,5 GHz = 3,5
-            miliardy cyklů/s).</li>
-          <li><strong>Jádra (Cores):</strong> Moderní CPU mají více výpočetních jednotek pro paralelní
-            zpracování.</li>
+          <li><strong>Jádra</strong>: paralelní zpracování více úloh.</li>
+          <li><strong>Takt</strong>: rychlost interních cyklů.</li>
+          <li><strong>Cache</strong>: rychlá mezipaměť pro často používaná data.</li>
+          <li><strong>Registry</strong>: úplně nejrychlejší paměť uvnitř CPU.</li>
         </ul>
-
-        <h6>Další vlastnosti moderních CPU</h6>
-        <ul class="bullets">
-          <li><strong>Hyper-Threading:</strong> Simulace více vláken na jednom jádru.</li>
-          <li><strong>Turbo Boost:</strong> Dočasné zvýšení taktu pro náročné výpočty.</li>
-          <li><strong>Integrované GPU:</strong> Základní grafické jádro přímo v CPU (např. Intel UHD Graphics).
-          </li>
-        </ul>
-
-        <h6>Zdroje a doporučené odkazy:</h6>
-        <ul class="bullets">
-          <li><a href="https://cs.wikipedia.org/wiki/Procesor" target="_blank" rel="noopener">Wikipedia – Procesor</a></li>
-          <li><a href="https://www.intel.com/content/www/us/en/processors/what-is-a-processor.html"
-              target="_blank" rel="noopener">Intel – What is a Processor?</a></li>
-          <li><a href="https://www.amd.com/en/products/processors-desktop" target="_blank" rel="noopener">AMD – Desktop
-              Processors</a></li>
-          <li><a href="https://www.khanacademy.org/computing/computer-science/logic-gates#cpu"
-              target="_blank" rel="noopener">Khan Academy – CPU overview</a></li>
-        </ul>
-
       </div>
 
       <div class="modal-footer">
@@ -1007,10 +1087,679 @@
   </div>
 </div>
 
+<!-- MODAL – Registry -->
+<div class="modal" id="modalRegistry" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalRegistryTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalRegistryTitle">Registry CPU</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Registry</strong> jsou nejrychlejší paměťová místa přímo v procesoru. CPU do nich ukládá hodnoty, se kterými právě pracuje.</p>
+        <h6>Proč jsou důležité</h6>
+        <ul class="bullets">
+          <li>Minimalizují čekání na RAM – práce s registry je extrémně rychlá.</li>
+          <li>CPU používá registry pro výpočty, adresy v paměti a řízení instrukcí.</li>
+        </ul>
+        <p class="muted"><small>Jednoduše: registry jsou „pracovní stůl“ CPU.</small></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cs.wikipedia.org/wiki/Registr_(procesor)" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+    </div>
+  </div>
+</div>
 
-<!-- POZNÁMKA:
-  V původním HTML jsou ještě další modály (Registry, Cache, RAM, GPU, Zvuková karta, NIC, Klávesnice, Myš, Mikrofon,
-  Skener, Monitor, Tiskárna, Reproduktory, Externí disky, USB klíčenky, MFP, VR, Headsety, CPU/GPU coolery, CaseFans,
-  Thermal, PowerConnectors, SATA, USBHDMI, EthernetAudio + Disk).
-  Když chceš, dodám je ve stejné nové struktuře taky – jen mi napiš "pošli zbytek modálů 1.1".
--->
+<!-- MODAL – Cache -->
+<div class="modal" id="modalCache" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalCacheTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalCacheTitle">Cache paměť</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Cache</strong> je rychlá mezipaměť mezi CPU a RAM. Drží data, která CPU pravděpodobně brzy znovu použije.</p>
+        <h6>Úrovně cache</h6>
+        <ul class="bullets">
+          <li><strong>L1</strong>: nejrychlejší, nejmenší, přímo u jádra.</li>
+          <li><strong>L2</strong>: větší, o něco pomalejší.</li>
+          <li><strong>L3</strong>: největší, často sdílená mezi jádry.</li>
+        </ul>
+        <p class="muted"><small>Čím vyšší „hit rate“ cache, tím plynuleji CPU pracuje.</small></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cs.wikipedia.org/wiki/Vyrovn%C3%A1vac%C3%AD_pam%C4%9B%C5%A5" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL – RAM -->
+<div class="modal" id="modalRAM" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalRAMTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalRAMTitle">Operační paměť (RAM)</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>RAM</strong> je pracovní paměť pro běžící programy. Je rychlá, ale <strong>po vypnutí se její obsah smaže</strong>.</p>
+        <h6>Co ovlivňuje výkon</h6>
+        <ul class="bullets">
+          <li><strong>Kapacita</strong>: kolik programů/dat udržíš současně bez swapování na disk.</li>
+          <li><strong>Frekvence a latence</strong>: rychlost přístupu k datům.</li>
+          <li><strong>Dual channel</strong>: dvě paměti správně osazené zvýší propustnost.</li>
+        </ul>
+        <p class="muted"><small>Typicky: nedostatek RAM se projeví zpomalením a častým využíváním disku.</small></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cs.wikipedia.org/wiki/Opera%C4%8Dn%C3%AD_pam%C4%9B%C5%A5" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL – Disk / SSD -->
+<div class="modal" id="modalDisk" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalDiskTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalDiskTitle">Pevný disk / SSD</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Úložiště</strong> slouží pro data a programy. Na rozdíl od RAM je <strong>nevolatilní</strong> – data zůstávají i po vypnutí.</p>
+        <h6>HDD vs SSD</h6>
+        <ul class="bullets">
+          <li><strong>HDD</strong>: levnější na kapacitu, pomalejší, mechanické části.</li>
+          <li><strong>SSD (SATA)</strong>: výrazně rychlejší, bez mechaniky.</li>
+          <li><strong>SSD (NVMe)</strong>: nejrychlejší běžná varianta, typicky v M.2 slotu.</li>
+        </ul>
+        <p class="muted"><small>Prakticky: systém a programy na SSD, zálohy a archiv klidně na HDD.</small></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cs.wikipedia.org/wiki/Solid-state_drive" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL – GPU -->
+<div class="modal" id="modalGPU" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalGPUTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalGPUTitle">Grafická karta (GPU)</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>GPU</strong> zpracovává obraz, 3D grafiku a často i výpočty (např. rendering, AI, video enkódování).</p>
+        <h6>Co si hlídat</h6>
+        <ul class="bullets">
+          <li><strong>VRAM</strong>: paměť pro textury a frame buffer (důležité pro hry i grafiku).</li>
+          <li><strong>Výkon</strong>: záleží na generaci a třídě karty, ne jen na taktu.</li>
+          <li><strong>Napájení a rozměry</strong>: musí sedět do skříně a na PSU.</li>
+        </ul>
+        <p class="muted"><small>Integrovaná grafika v CPU stačí na kancelář, samostatná GPU je pro hry a tvorbu.</small></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cs.wikipedia.org/wiki/Grafick%C3%BD_procesor" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL – Zvuková karta -->
+<div class="modal" id="modalSoundCard" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalSoundTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalSoundTitle">Zvuková karta</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Zvuková karta (nebo integrovaný audio kodek) převádí digitální zvuk na analogový signál pro sluchátka/reproduktory a naopak.</p>
+        <h6>Kdy dává smysl externí řešení</h6>
+        <ul class="bullets">
+          <li>Potřebuješ lepší mikrofonní vstup, nižší šum, kvalitnější převodníky.</li>
+          <li>Pracuješ s hudbou, nahráváním nebo chceš více vstupů/výstupů.</li>
+        </ul>
+        <p class="muted"><small>V běžném PC často stačí integrované audio, u tvorby se vyplatí externí zvukovka.</small></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cs.wikipedia.org/wiki/Zvukov%C3%A1_karta" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL – Síťová karta -->
+<div class="modal" id="modalNIC" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalNICTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalNICTitle">Síťová karta (LAN / Wi-Fi)</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Síťová karta zajišťuje připojení k lokální síti a internetu. Dnes je často integrovaná v základní desce.</p>
+        <h6>Typické parametry</h6>
+        <ul class="bullets">
+          <li><strong>Ethernet</strong>: 1 Gb/s je běžný standard, u novějších desek často 2.5 Gb/s.</li>
+          <li><strong>Wi-Fi</strong>: rychlost závisí na standardu a kvalitě signálu.</li>
+          <li><strong>Ovladače</strong>: bez nich se může stát, že síť „nejede“ po instalaci OS.</li>
+        </ul>
+        <p class="muted"><small>Prakticky: pro stabilitu je kabel vždy spolehlivější než Wi-Fi.</small></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cs.wikipedia.org/wiki/S%C3%AD%C5%A5ov%C3%A1_karta" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL – Klávesnice -->
+<div class="modal" id="modalKeyboard" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalKeyboardTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalKeyboardTitle">Klávesnice</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Klávesnice slouží pro zadávání textu a příkazů. Rozložení (CZ/US) a typ spínačů ovlivňuje komfort i rychlost psaní.</p>
+        <h6>Typy</h6>
+        <ul class="bullets">
+          <li><strong>Membránová</strong>: běžná, tichá, levnější.</li>
+          <li><strong>Mechanická</strong>: přesnější stisk, různý pocit, často delší životnost.</li>
+        </ul>
+        <p class="muted"><small>Prakticky: pro zkratky a programování bývá oblíbené US rozložení, pro psaní českých textů CZ.</small></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cs.wikipedia.org/wiki/Kl%C3%A1vesnice_(po%C4%8D%C3%ADta%C4%8D)" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL – Myš -->
+<div class="modal" id="modalMouse" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalMouseTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalMouseTitle">Myš</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Myš ovládá kurzor a umožňuje rychlý výběr objektů. Ergonomie a typ senzoru ovlivňují přesnost i pohodlí.</p>
+        <h6>Parametry</h6>
+        <ul class="bullets">
+          <li><strong>Senzor</strong>: optický/laserový, důležitá je stabilita a přesnost.</li>
+          <li><strong>DPI</strong>: citlivost, vyšší neznamená automaticky lepší.</li>
+          <li><strong>Polling</strong>: jak často myš posílá data (většinou 125–1000 Hz).</li>
+        </ul>
+        <p class="muted"><small>Prakticky: pohodlí a úchop jsou často důležitější než parametry na krabici.</small></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cs.wikipedia.org/wiki/Po%C4%8D%C3%ADta%C4%8Dov%C3%A1_my%C5%A1" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL – Mikrofon -->
+<div class="modal" id="modalMic" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalMicTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalMicTitle">Mikrofon</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Mikrofon převádí zvuk na elektrický signál. Používá se pro hovory, nahrávání i hlasové ovládání.</p>
+        <h6>Typy (zjednodušeně)</h6>
+        <ul class="bullets">
+          <li><strong>Dynamický</strong>: odolný, méně citlivý na okolní ruch.</li>
+          <li><strong>Kondenzátorový</strong>: detailní zvuk, citlivější, často pro nahrávání.</li>
+        </ul>
+        <p class="muted"><small>Prakticky: kvalitu často nejvíc zlepší správná vzdálenost a tiché prostředí.</small></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cs.wikipedia.org/wiki/Mikrofon" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL – Skener -->
+<div class="modal" id="modalScanner" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalScannerTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalScannerTitle">Skener</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Skener převádí papírové dokumenty a fotografie do digitální podoby.</p>
+        <h6>Co znamená rozlišení</h6>
+        <ul class="bullets">
+          <li><strong>DPI</strong>: kolik detailu sken zachytí (víc DPI = větší soubory).</li>
+          <li><strong>ADF</strong>: automatický podavač pro vícestránkové dokumenty.</li>
+        </ul>
+        <p class="muted"><small>Prakticky: pro text často stačí nižší DPI, pro fotky je potřeba vyšší.</small></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cs.wikipedia.org/wiki/Skener" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL – Monitor -->
+<div class="modal" id="modalMonitor" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalMonitorTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalMonitorTitle">Monitor</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Monitor zobrazuje vizuální výstup počítače. Důležitá je velikost, rozlišení, typ panelu a obnovovací frekvence.</p>
+        <h6>Typy panelů (velmi stručně)</h6>
+        <ul class="bullets">
+          <li><strong>IPS</strong>: dobré barvy a pozorovací úhly.</li>
+          <li><strong>VA</strong>: vyšší kontrast.</li>
+          <li><strong>TN</strong>: rychlé, ale horší barvy (dnes méně časté).</li>
+        </ul>
+        <p class="muted"><small>Prakticky: pro tvorbu je důležitá věrnost barev, pro hry obnovovací frekvence.</small></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cs.wikipedia.org/wiki/Monitor_(po%C4%8D%C3%ADta%C4%8D)" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL – Tiskárna -->
+<div class="modal" id="modalPrinter" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalPrinterTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalPrinterTitle">Tiskárna</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Tiskárna převádí digitální dokumenty do fyzické podoby. Výběr závisí na tom, jestli tiskneš často, a co tiskneš.</p>
+        <h6>Typy</h6>
+        <ul class="bullets">
+          <li><strong>Inkoustová</strong>: dobrá na fotky, často vyšší cena za stránku.</li>
+          <li><strong>Laserová</strong>: rychlá na text, vhodná pro větší objemy.</li>
+        </ul>
+        <p class="muted"><small>Prakticky: nejdražší bývá spotřební materiál, ne samotná tiskárna.</small></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cs.wikipedia.org/wiki/Tisk%C3%A1rna" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL – Reproduktory / Sluchátka -->
+<div class="modal" id="modalSpeakers" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalSpeakersTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalSpeakersTitle">Reproduktory / Sluchátka</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Zvukový výstup může být přes reproduktory nebo sluchátka. Kvalita záleží na zařízení i na zdroji signálu.</p>
+        <h6>Co řešíš nejčastěji</h6>
+        <ul class="bullets">
+          <li><strong>Připojení</strong>: analogové (3.5 mm) nebo digitální (USB, optika).</li>
+          <li><strong>Impedance</strong>: u sluchátek může ovlivnit hlasitost (někdy je potřeba zesilovač).</li>
+        </ul>
+        <p class="muted"><small>Prakticky: slabý šum nebo brum bývá často problém uzemnění nebo špatného kabelu.</small></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cs.wikipedia.org/wiki/Reproduktor" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL – Externí disky -->
+<div class="modal" id="modalExternalDrives" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalExternalTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalExternalTitle">Externí disky</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Externí disk slouží pro přenos dat a zálohy. Může být HDD nebo SSD.</p>
+        <h6>Doporučení</h6>
+        <ul class="bullets">
+          <li>Pro zálohy je důležitá spolehlivost a pravidelnost, ne jen rychlost.</li>
+          <li>SSD je rychlejší a odolnější proti otřesům, HDD bývá levnější na velkou kapacitu.</li>
+        </ul>
+        <p class="muted"><small>Prakticky: záloha není kopie na stejném stole. Ideální je mít i druhou kopii mimo PC.</small></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cs.wikipedia.org/wiki/Pevn%C3%BD_disk" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL – USB klíčenky -->
+<div class="modal" id="modalUSBKeys" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalUSBKeysTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalUSBKeysTitle">USB flash disk</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>USB flash disk je malé přenosné úložiště. Hodí se na přenos souborů, ale není ideální jako jediná záloha.</p>
+        <h6>Na co pozor</h6>
+        <ul class="bullets">
+          <li>Rychlost se liší podle řadiče a pamětí, ne jen podle USB verze.</li>
+          <li>Časté odpojování bez „bezpečného odebrání“ může poškodit soubory.</li>
+        </ul>
+        <p class="muted"><small>Prakticky: důležitá data měj raději i jinde než jen na flashce.</small></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cs.wikipedia.org/wiki/Flash_pam%C4%9B%C5%A5" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL – Multifunkční tiskárny -->
+<div class="modal" id="modalMFP" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalMFPTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalMFPTitle">Multifunkční zařízení</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Multifunkční zařízení kombinuje tisk, sken a kopírování v jednom. Hodí se do domácnosti i kanceláře.</p>
+        <h6>Výhody a nevýhody</h6>
+        <ul class="bullets">
+          <li>Výhoda: jedno zařízení, méně místa, jednodušší provoz.</li>
+          <li>Nevýhoda: když se porouchá, přijdeš najednou o více funkcí.</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cs.wikipedia.org/wiki/Multifunk%C4%8Dn%C3%AD_tisk%C3%A1rna" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL – VR/AR -->
+<div class="modal" id="modalVR" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalVRTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalVRTitle">VR/AR brýle</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>VR (virtuální realita) a AR (rozšířená realita) jsou technologie, které mění způsob interakce s obsahem.</p>
+        <h6>Co typicky potřebuješ</h6>
+        <ul class="bullets">
+          <li>Výkon PC nebo samostatné zařízení podle typu headsetu.</li>
+          <li>Pro pohodlí je zásadní plynulost a stabilní snímkování.</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cs.wikipedia.org/wiki/Virtu%C3%A1ln%C3%AD_realita" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL – Headset -->
+<div class="modal" id="modalHeadsets" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalHeadsetsTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalHeadsetsTitle">Headset</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Headset kombinuje sluchátka a mikrofon pro obousměrnou komunikaci (výuka, hraní, hovory).</p>
+        <h6>Co řešit</h6>
+        <ul class="bullets">
+          <li>Připojení (USB nebo analog) a kompatibilitu se zařízením.</li>
+          <li>Komfort nošení a kvalitu mikrofonu (srozumitelnost).</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cs.wikipedia.org/wiki/Sluch%C3%A1tka" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL – CPU coolery -->
+<div class="modal" id="modalCPUCoolers" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalCPUCoolersTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalCPUCoolersTitle">Chladiče CPU</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Chladič odvádí teplo z procesoru. Zabraňuje přehřívání a udržuje stabilní výkon.</p>
+        <h6>Typy</h6>
+        <ul class="bullets">
+          <li><strong>Vzduchový</strong>: jednoduchý, spolehlivý, často výborný poměr cena/výkon.</li>
+          <li><strong>Vodní AIO</strong>: kompaktní u CPU, ale složitější a dražší.</li>
+        </ul>
+        <p class="muted"><small>Prakticky: musí sedět do skříně (výška) a na socket.</small></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cs.wikipedia.org/wiki/Chlazen%C3%AD_po%C4%8D%C3%ADta%C4%8De" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL – GPU coolery -->
+<div class="modal" id="modalGPUCoolers" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalGPUCoolersTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalGPUCoolersTitle">Chlazení GPU</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Grafické karty mají vlastní chladič. U výkonných GPU je důležitý pro stabilitu, hlučnost i životnost.</p>
+        <h6>Co ovlivňuje provoz</h6>
+        <ul class="bullets">
+          <li>Velikost chladiče (počet ventilátorů, heatsink).</li>
+          <li>Průtok vzduchu ve skříni a teplota okolí.</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cs.wikipedia.org/wiki/Grafick%C3%BD_procesor" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL – Case fans -->
+<div class="modal" id="modalCaseFans" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalCaseFansTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalCaseFansTitle">Skříňové ventilátory</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Ventilátory zajišťují proudění vzduchu ve skříni. Správné rozmístění zlepšuje teploty a snižuje hluk.</p>
+        <h6>Základní pravidlo</h6>
+        <ul class="bullets">
+          <li>Vzduch by měl skříní plynule procházet, ne se „točit dokola“.</li>
+          <li>Vstupní ventilátory obvykle vpředu, výstupní vzadu/nahoře.</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cs.wikipedia.org/wiki/Ventil%C3%A1tor" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL – Thermal -->
+<div class="modal" id="modalThermal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalThermalTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalThermalTitle">Tepelný přenos: pasta, airflow, heatpipe</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Teplo musí z čipu pryč: z CPU/GPU do chladiče a pak do vzduchu. K tomu slouží teplovodivé materiály a správný průtok vzduchu.</p>
+        <h6>Co dělá co</h6>
+        <ul class="bullets">
+          <li><strong>Tepelná pasta</strong>: vyplní mikronerovnosti mezi čipem a chladičem.</li>
+          <li><strong>Heatpipe</strong>: odvádí teplo z místa s vysokou teplotou do žeber chladiče.</li>
+          <li><strong>Airflow</strong>: proudění vzduchu odnese teplo mimo skříň.</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cs.wikipedia.org/wiki/Tepeln%C3%A1_vodivost" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL – Power connectors -->
+<div class="modal" id="modalPowerConnectors" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalPowerConnectorsTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalPowerConnectorsTitle">Napájecí konektory</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Napájení v PC jde z PSU do desky a komponent přes standardní konektory.</p>
+        <h6>Nejběžnější konektory</h6>
+        <ul class="bullets">
+          <li><strong>24-pin ATX</strong>: napájení základní desky.</li>
+          <li><strong>4/8-pin EPS</strong>: napájení procesoru.</li>
+          <li><strong>PCIe 6/8-pin</strong>: napájení grafické karty.</li>
+          <li><strong>SATA napájení</strong>: disky a některá příslušenství.</li>
+        </ul>
+        <p class="muted"><small>Prakticky: nikdy „nenásilím“. Konektory mají zámky a klíčování.</small></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cs.wikipedia.org/wiki/ATX" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL – SATA a M.2 -->
+<div class="modal" id="modalSATA" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalSATATitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalSATATitle">SATA a M.2</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>SATA a M.2 jsou způsoby připojení úložišť. M.2 je formát slotu, který může být SATA i NVMe.</p>
+        <h6>Základní rozdíl</h6>
+        <ul class="bullets">
+          <li><strong>SATA</strong>: běžné SSD/HDD, jednodušší, nižší rychlosti než NVMe.</li>
+          <li><strong>NVMe (M.2)</strong>: vysoké rychlosti, ideální pro systém a náročnější práci.</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cs.wikipedia.org/wiki/Serial_ATA" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL – USB/HDMI/DP -->
+<div class="modal" id="modalUSBHDMI" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalUSBHDMITitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalUSBHDMITitle">USB, HDMI, DisplayPort</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Tyto konektory slouží pro připojení periferií a obrazových zařízení.</p>
+        <h6>Velmi stručně</h6>
+        <ul class="bullets">
+          <li><strong>USB</strong>: periferie, přenos dat, někdy i napájení a obraz (u některých zařízení).</li>
+          <li><strong>HDMI</strong>: obraz + zvuk, časté u TV a monitorů.</li>
+          <li><strong>DisplayPort</strong>: často preferované u PC monitorů (vyšší frekvence, funkce).</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cs.wikipedia.org/wiki/USB" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL – Ethernet/Audio -->
+<div class="modal" id="modalEthernetAudio" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalEthernetAudioTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalEthernetAudioTitle">Ethernet a audio konektory</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Ethernet slouží pro síťové připojení. Audio konektory jsou typicky pro sluchátka, mikrofon a line-in/line-out.</p>
+        <h6>Typicky na PC</h6>
+        <ul class="bullets">
+          <li><strong>RJ-45</strong>: síťový konektor pro kabel.</li>
+          <li><strong>3.5 mm jack</strong>: výstup na sluchátka/reproduktory, vstup na mikrofon.</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cs.wikipedia.org/wiki/Ethernet" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+    </div>
+  </div>
+</div>

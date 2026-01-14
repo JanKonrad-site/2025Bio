@@ -336,3 +336,55 @@ body.modal-open{ overflow:hidden; }
 }
 .btn-close::before{ transform: rotate(45deg); }
 .btn-close::after{ transform: rotate(-45deg); }
+/* =========================
+   QUIZ: vizuální označení odpovědí
+   ========================= */
+:root{
+  --quiz-ok-bg: rgba(46, 160, 67, .14);
+  --quiz-ok-bd: rgba(46, 160, 67, .55);
+
+  --quiz-bad-bg: rgba(248, 81, 73, .14);
+  --quiz-bad-bd: rgba(248, 81, 73, .55);
+
+  --quiz-muted-op: .55;
+}
+
+.quiz-question button {
+  transition: transform .06s ease, opacity .18s ease, background-color .18s ease, border-color .18s ease;
+}
+
+/* Zvolená správná */
+.quiz-question .quiz-btn--correct{
+  background-color: var(--quiz-ok-bg);
+  border-color: var(--quiz-ok-bd);
+}
+
+/* Zvolená špatná */
+.quiz-question .quiz-btn--wrong{
+  background-color: var(--quiz-bad-bg);
+  border-color: var(--quiz-bad-bd);
+}
+
+/* Ostatní možnosti (nevybrané) */
+.quiz-question .quiz-btn--muted{
+  opacity: var(--quiz-muted-op);
+}
+
+/* Zamčené tlačítko – nechceme, aby působilo "rozbité" */
+.quiz-question button:disabled{
+  cursor: not-allowed;
+}
+
+/* Jemné zvýraznění celé otázky po zodpovězení (volitelné) */
+.quiz-question.quiz-question--done{
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.quiz-question.quiz-question--ok{
+  background: rgba(46, 160, 67, .06);
+}
+
+.quiz-question.quiz-question--bad{
+  background: rgba(248, 81, 73, .06);
+}

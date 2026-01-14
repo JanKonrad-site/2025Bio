@@ -1,333 +1,448 @@
+<!-- 1.2 Jak funguje počítač (TEMPLATE A, bez Bootstrapu) -->
+<section id="section1-2" class="lesson">
 
-<section id="section1-2" class="container my-5">
-    <h3 class="mb-4">1.2 Jak funguje počítač</h3>
-    <h5 class="mt-5">Architektura počítačů</h5>
-    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalArchitektura">
-      Vysvětli více?
-    </button>
+  <header class="lesson__header">
+    <h2 class="lesson__title">1.2 Jak funguje počítač</h2>
+    <p class="lesson__lead">
+      V této kapitole si vysvětlíme základní principy fungování moderního počítače – od architektury až po to,
+      jak CPU zpracovává instrukce a jakou roli hraje software.
+    </p>
+  </header>
 
-    <h5 class="mt-5">Von Neumannova architektura</h5>
-    <div class="row align-items-center mb-4">
-      <div class="col-md-2 text-center">
-        <img src="./Assets/osobnosti/JohnvonNeumann-LosAlamos.gif" alt="John von Neumann"
-          class="img-fluid rounded-circle shadow resize-mobile">
-        <p class="mt-2 text-muted small">John von Neumann</p>
+  <!-- Co se naučíš -->
+  <article class="card">
+    <h3 class="card__title">Co se naučíš?</h3>
+
+    <ul class="checklist">
+      <li><strong>Co je architektura počítače</strong> – jak spolu souvisí CPU, paměť a vstupy/výstupy.</li>
+      <li><strong>Von Neumannova architektura</strong> – společná paměť pro data a instrukce a sekvenční běh programu.</li>
+      <li><strong>Fetch–Decode–Execute cyklus</strong> – základní instrukční cyklus procesoru.</li>
+      <li><strong>Role softwaru</strong> – rozdíl mezi systémovým a aplikačním softwarem a proč je to důležité.</li>
+    </ul>
+
+    <div class="note note--info">
+      <strong>Tip:</strong> Modály „Více“ používej jako doplňkovou nápovědu. Hlavní pochopení je v textech a příkladech v akordeonech.
+    </div>
+  </article>
+
+  <!-- Akce / odkazy -->
+  <div class="actions">
+    <a class="btn btn--primary" href="https://cs.khanacademy.org/computing/computer-science/how-computers-work" target="_blank" rel="noopener">
+      Interaktivní vysvětlení (Khan Academy)
+    </a>
+
+    <a class="btn btn--ghost" href="https://en.wikipedia.org/wiki/Von_Neumann_architecture" target="_blank" rel="noopener">
+      Von Neumannova architektura (Wikipedia)
+    </a>
+  </div>
+
+  <!-- Akordeony -->
+  <div class="accordion">
+
+    <!-- 1) Architektura počítačů -->
+    <details class="acc" open>
+      <summary class="acc__sum">1) Architektura počítačů</summary>
+      <div class="acc__body">
+
+        <p>
+          <strong>Architektura počítače</strong> popisuje, jak je počítač „uvnitř“ uspořádaný a jak spolu komunikují jeho části.
+          Určuje například, jak procesor zpracovává instrukce, jak je připojena paměť a jak fungují vstupy a výstupy.
+        </p>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal1-2-architektura">
+            Více informací
+          </button>
+        </div>
+
       </div>
-      <div class="col-md-10">
-        <blockquote class="blockquote">
-          <p class="mb-0">„If people do not believe that mathematics is simple, it is only because
-            they do not realize how complicated life is.“
-            (Pokud lidé nevěří, že je matematika jednoduchá, je to jen proto, že si neuvědomují,
-            jak je život složitý.)</p>
-          <footer class="blockquote-footer mt-2">
-            <a href="https://en.wikipedia.org/wiki/John_von_Neumann" target="_blank">
+    </details>
+
+    <!-- 2) Von Neumannova architektura -->
+    <details class="acc">
+      <summary class="acc__sum">2) Von Neumannova architektura</summary>
+      <div class="acc__body">
+
+        <article class="card">
+          <h3 class="card__title">John von Neumann</h3>
+
+          <img
+            src="./Assets/osobnosti/JohnvonNeumann-LosAlamos.gif"
+            alt="John von Neumann"
+            loading="lazy"
+          >
+          <p class="muted"><small>John von Neumann</small></p>
+
+          <blockquote>
+            <p>
+              „If people do not believe that mathematics is simple, it is only because they do not realize
+              how complicated life is.“
+              (Pokud lidé nevěří, že je matematika jednoduchá, je to jen proto, že si neuvědomují, jak je život složitý.)
+            </p>
+          </blockquote>
+
+          <p>
+            <a href="https://en.wikipedia.org/wiki/John_von_Neumann" target="_blank" rel="noopener">
               John von Neumann, architekt moderních počítačů
             </a>
-          </footer>
-        </blockquote>
+          </p>
+        </article>
+
+        <p>
+          Většina dnešních počítačů funguje na základě <strong>Von Neumannovy architektury</strong>, která definuje způsob,
+          jakým jsou data a instrukce uloženy a zpracovávány. Základní principy této architektury jsou:
+          <sup><a href="#ref1">[1]</a></sup>
+        </p>
+
+        <ul class="bullets">
+          <li>
+            Počítačová architektura typu von Neumann ukládá <strong>data a instrukce do společné paměti</strong>.
+            <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal1-2-pamet">
+              Co to znamená?
+            </button>
+          </li>
+          <li>
+            <strong>Počítač vykonává instrukce sekvenčně</strong> – tedy jednu po druhé.
+            <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal1-2-sekvence">
+              Vysvětli více
+            </button>
+          </li>
+          <li>
+            Použití <strong>centrální procesorové jednotky (CPU)</strong> k řízení operací.
+            <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal1-2-cpu">
+              Jak funguje CPU?
+            </button>
+          </li>
+        </ul>
+
       </div>
-    </div>
+    </details>
 
+    <!-- 3) Jak počítač zpracovává data -->
+    <details class="acc">
+      <summary class="acc__sum">3) Jak počítač zpracovává data</summary>
+      <div class="acc__body">
 
-    <p>
-      Většina dnešních počítačů funguje na základě <strong>Von Neumannovy architektury</strong>, která
-      definuje způsob, jakým jsou data a instrukce uloženy a zpracovávány. Základní principy této
-      architektury jsou:
-      <sup><a href="#ref1">[1]</a></sup>
-    </p>
-    <ul class="list-group mb-4">
-      <li class="list-group-item">
         <p>
-          Počítačová architektura typu von Neumann ukládá <strong>data a instrukce do společné
-            paměti</strong>.
-          <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalPamet">
-            Co to znamená?
-          </button>
+          Celý proces začíná načtením instrukcí z paměti. Procesor je následně interpretuje a vykonává.
+          Zjednodušeně lze říci, že se jedná o cyklus <strong>načti – dekóduj – vykonej</strong>:
+          <sup><a href="#ref2">[2]</a></sup>
         </p>
-      </li>
-      <li class="list-group-item">
-        <p>
-          <strong>Počítač vykonává instrukce sekvenčně</strong> – tedy jednu po druhé.
-          <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalSekvence">
-            Vysvětli více
+
+        <ol class="steps">
+          <li><strong>Fetch</strong> – CPU načte instrukci z paměti.</li>
+          <li><strong>Decode</strong> – CPU instrukci rozkóduje a zjistí, co má udělat.</li>
+          <li><strong>Execute</strong> – CPU provede požadovanou operaci (např. sčítání, zápis dat do paměti).</li>
+        </ol>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal1-2-cpu">
+            Více o CPU cyklu
           </button>
-        </p>
-      </li>
-      <li class="list-group-item">
-        <p>
-          Použití <strong>centrální procesorové jednotky (CPU)</strong> k řízení operací.
-          <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalCPU">
-            Jak funguje CPU?
-          </button>
-        </p>
-      </li>
-    </ul>
+        </div>
 
-    <h5 class="mt-4">Jak počítač zpracovává data</h5>
-    <p>
-      Celý proces začíná načtením instrukcí z paměti. Procesor je následně interpretuje a vykonává.
-      Zjednodušeně lze říci, že se jedná o cyklus <strong>načti – dekóduj – vykonej</strong>:
-      <sup><a href="#ref2">[2]</a></sup>
-    </p>
-    <ol class="mb-4">
-      <li><strong>Fetch</strong> – CPU načte instrukci z paměti.</li>
-      <li><strong>Decode</strong> – CPU instrukci rozkóduje a zjistí, co má udělat.</li>
-      <li><strong>Execute</strong> – CPU provede požadovanou operaci (např. sčítání, zápis dat do
-        paměti).</li>
-    </ol>
-
-    <h5 class="mt-4">Role softwaru</h5>
-    <p>
-      Software je sada instrukcí, která říká počítači, co má dělat. Existují dva základní typy
-      softwaru:
-      <sup><a href="#ref3">[3]</a></sup>
-    </p>
-    <ul class="list-group mb-4">
-      <li class="list-group-item"><strong>Systémový software</strong> – Zahrnuje operační systémy
-        (např. Windows, Linux), které řídí chod celého počítače.</li>
-      <li class="list-group-item"><strong>Aplikační software</strong> – Programy určené pro uživatele,
-        jako jsou textové editory, webové prohlížeče nebo hry.</li>
-    </ul>
-
-    <h5 class="mt-4">Zjednodušené schéma fungování počítače</h5>
-    <p>
-      Počítač lze zjednodušeně chápat jako stroj, který:
-      <sup><a href="#ref4">[4]</a></sup>
-    </p>
-    <ul>
-      <li>Přijímá vstupy (klávesnice, myš, mikrofon...)</li>
-      <li>Zpracovává informace (procesor a paměť)</li>
-      <li>Ukládá data (pevný disk, SSD)</li>
-      <li>Poskytuje výstupy (monitor, tiskárna, reproduktory)</li>
-    </ul>
-
-    <div class="text-center my-4">
-      <img id="fullscreenImage" src="./Assets/Koncepty/Von_Neumann_Architecture.jpeg"
-        alt="Schéma fungování počítače" class="img-fluid rounded shadow" style="cursor: pointer;">
-      <p class="mt-2 text-muted small">Zjednodušené schéma toku informací v počítači</p>
-    </div>
-
-    <p>
-      Porozumění tomuto principu je zásadní pro další studium počítačových technologií – ať už jde o
-      programování, práci s hardwarem, nebo běžné používání softwarových nástrojů.
-    </p>
-    <div class="container my-4 p-4 border rounded bg-light">
-      <h3 class="mb-3">Proč je dobré znát architekturu počítače?</h3>
-      <p>Znát základy architektury počítače ti pomůže v praxi v těchto situacích:</p>
-      <ul class="list-group list-group-flush mb-3">
-        <li class="list-group-item"><strong>Lepší porozumění:</strong> Víš, proč může počítač
-          zpomalit nebo zamrznout.</li>
-        <li class="list-group-item"><strong>Řešení problémů:</strong> Snáz rozpoznáš, zda je problém
-          v paměti, procesoru nebo vstupních zařízeních.</li>
-        <li class="list-group-item"><strong>Efektivnější práce:</strong> Při programování můžeš psát
-          rychlejší a stabilnější kód.</li>
-        <li class="list-group-item"><strong>Bezpečnost:</strong> Lépe pochopíš, jak se počítače
-          chrání před útoky.</li>
-        <li class="list-group-item"><strong>Snadnější učení dalších IT témat:</strong> Máš pevný
-          základ pro operační systémy, sítě i hardware.</li>
-      </ul>
-      <div class="alert alert-info" role="alert">
-        <strong>Tip:</strong> I základní znalost architektury ti dává větší kontrolu nad tím, jak
-        počítače fungují, a pomáhá řešit běžné problémy.
       </div>
-    </div>
+    </details>
 
+    <!-- 4) Role softwaru -->
+    <details class="acc">
+      <summary class="acc__sum">4) Role softwaru</summary>
+      <div class="acc__body">
 
-    <!-- Odkazy na použité zdroje -->
-    <hr>
-    <h6>Odkazy na použité zdroje</h6>
-    <ol class="small">
+        <p>
+          Software je sada instrukcí, která říká počítači, co má dělat. Existují dva základní typy softwaru:
+          <sup><a href="#ref3">[3]</a></sup>
+        </p>
+
+        <ul class="bullets">
+          <li><strong>Systémový software</strong> – zahrnuje operační systémy (např. Windows, Linux), které řídí chod celého počítače.</li>
+          <li><strong>Aplikační software</strong> – programy určené pro uživatele, jako jsou textové editory, webové prohlížeče nebo hry.</li>
+        </ul>
+
+      </div>
+    </details>
+
+    <!-- 5) Zjednodušené schéma fungování počítače -->
+    <details class="acc">
+      <summary class="acc__sum">5) Zjednodušené schéma fungování počítače</summary>
+      <div class="acc__body">
+
+        <p>
+          Počítač lze zjednodušeně chápat jako stroj, který:
+          <sup><a href="#ref4">[4]</a></sup>
+        </p>
+
+        <ul class="bullets">
+          <li>Přijímá vstupy (klávesnice, myš, mikrofon...)</li>
+          <li>Zpracovává informace (procesor a paměť)</li>
+          <li>Ukládá data (pevný disk, SSD)</li>
+          <li>Poskytuje výstupy (monitor, tiskárna, reproduktory)</li>
+        </ul>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal1-2-schema">
+            Zobrazit schéma
+          </button>
+        </div>
+
+        <p>
+          Porozumění tomuto principu je zásadní pro další studium počítačových technologií – ať už jde o programování,
+          práci s hardwarem, nebo běžné používání softwarových nástrojů.
+        </p>
+
+      </div>
+    </details>
+
+    <!-- 6) Proč je dobré znát architekturu počítače -->
+    <details class="acc">
+      <summary class="acc__sum">6) Proč je dobré znát architekturu počítače?</summary>
+      <div class="acc__body">
+
+        <p>Znát základy architektury počítače ti pomůže v praxi v těchto situacích:</p>
+
+        <ul class="bullets">
+          <li><strong>Lepší porozumění:</strong> Víš, proč může počítač zpomalit nebo zamrznout.</li>
+          <li><strong>Řešení problémů:</strong> Snáz rozpoznáš, zda je problém v paměti, procesoru nebo vstupních zařízeních.</li>
+          <li><strong>Efektivnější práce:</strong> Při programování můžeš psát rychlejší a stabilnější kód.</li>
+          <li><strong>Bezpečnost:</strong> Lépe pochopíš, jak se počítače chrání před útoky.</li>
+          <li><strong>Snadnější učení dalších IT témat:</strong> Máš pevný základ pro operační systémy, sítě i hardware.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Tip:</strong> I základní znalost architektury ti dává větší kontrolu nad tím, jak počítače fungují, a pomáhá řešit běžné problémy.
+        </div>
+
+      </div>
+    </details>
+
+  </div>
+
+  <!-- Shrnutí -->
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+
+    <ul class="checklist">
+      <li>Vysvětlíš, co je architektura počítače a proč je důležitá.</li>
+      <li>Popíšeš základní principy Von Neumannovy architektury.</li>
+      <li>Uvedeš a vysvětlíš cyklus Fetch–Decode–Execute.</li>
+      <li>Rozlišíš systémový a aplikační software.</li>
+    </ul>
+  </article>
+
+  <!-- Zdroje -->
+  <article class="card">
+    <h3 class="card__title">Odkazy na použité zdroje</h3>
+
+    <ol class="steps">
       <li id="ref1">
-        <a href="https://en.wikipedia.org/wiki/Von_Neumann_architecture" target="_blank">Wikipedia:
-          Von Neumann architecture</a>
+        <a href="https://en.wikipedia.org/wiki/Von_Neumann_architecture" target="_blank" rel="noopener">
+          Wikipedia: Von Neumann architecture
+        </a>
       </li>
       <li id="ref2">
-        <a href="https://www.computerhope.com/jargon/f/fetch-decode-execute-cycle.htm" target="_blank">Computer
-          Hope: Fetch-Decode-Execute Cycle</a>
+        <a href="https://www.computerhope.com/jargon/f/fetch-decode-execute-cycle.htm" target="_blank" rel="noopener">
+          Computer Hope: Fetch-Decode-Execute Cycle
+        </a>
       </li>
       <li id="ref3">
-        <a href="https://edu.gcfglobal.org/en/computerbasics/understanding-operating-systems/1/"
-          target="_blank">GCFGlobal: Understanding Operating Systems</a>
+        <a href="https://edu.gcfglobal.org/en/computerbasics/understanding-operating-systems/1/" target="_blank" rel="noopener">
+          GCFGlobal: Understanding Operating Systems
+        </a>
       </li>
       <li id="ref4">
-        <a href="https://cs.khanacademy.org/computing/computer-science/how-computers-work" target="_blank">Khan
-          Academy: How Computers Work</a>
+        <a href="https://cs.khanacademy.org/computing/computer-science/how-computers-work" target="_blank" rel="noopener">
+          Khan Academy: How Computers Work
+        </a>
       </li>
     </ol>
+  </article>
 
-    
+</section>
+<!-- ========================= -->
+<!-- MODALY (sekce 1.2) -->
+<!-- Umísti na konec stránky, mimo sekci -->
+<!-- ========================= -->
 
+<!-- MODÁL – Architektura počítače -->
+<div class="modal" id="modal1-2-architektura" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal1-2-architekturaTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
 
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal1-2-architekturaTitle">Co je to architektura počítače</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
 
+      <div class="modal-body">
+        <p>
+          <strong>Architektura počítače</strong> popisuje, jak je počítač uspořádaný a jak spolu komunikují jeho části.
+        </p>
 
+        <p><strong>Určuje například:</strong></p>
+        <ul class="bullets">
+          <li>Jak procesor zpracovává instrukce.</li>
+          <li>Jaká paměť se používá a jak je připojená.</li>
+          <li>Jaké jsou vstupy a výstupy (např. klávesnice, obrazovka).</li>
+        </ul>
 
+        <p>
+          Jednoduše řečeno: <strong>architektura je jako plán domu</strong> – ukazuje, kde co je a jak to spolu funguje.
+        </p>
 
-
-
-
-
-    <!-- MODÁLY -->
-
-    <!-- MODÁL – Architektura počítače -->
-    <div class="modal fade" id="modalArchitektura" tabindex="-1" aria-labelledby="modalArchitekturaLabel"
-      aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="modalArchitekturaLabel">Co je to architektura počítače
-            </h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-          </div>
-          <div class="modal-body">
-            <p>
-              <strong>Architektura počítače</strong> popisuje, jak je počítač „uvnitř“
-              uspořádaný a jak spolu komunikují jeho části.
-            </p>
-
-            <p><strong>Určuje například:</strong></p>
-            <ul>
-              <li>Jak procesor zpracovává instrukce.</li>
-              <li>Jaká paměť se používá a jak je připojená.</li>
-              <li>Jaké jsou vstupy a výstupy (např. klávesnice, obrazovka).</li>
-            </ul>
-
-            <p>Jednoduše řečeno: <strong>Architektura je jako plán domu – ukazuje, kde co je a
-                jak to spolu funguje.</strong></p>
-
-            <p class="mt-3">Většina dnešních počítačů je založena na tzv. <strong>Von Neumannově
-                architektuře</strong>, kterou si vysvětlíme za chvíli. Nejprve ale základní
-              přehled:</p>
-
-            <!-- NÁZORNÉ SCHÉMA -->
-            <div class="architecture-visual my-4">
-              <div class="arch-input">VSTUP<br><small>(např. klávesnice)</small></div>
-              <div class="arch-arrow">→</div>
-              <div class="arch-cpu">PROCESOR (CPU)<br><small>zpracovává instrukce</small>
-              </div>
-              <div class="arch-arrow">↔</div>
-              <div class="arch-ram">PAMĚŤ (RAM)<br><small>uchovává data a instrukce</small>
-              </div>
-              <div class="arch-arrow">→</div>
-              <div class="arch-output">VÝSTUP<br><small>(např. obrazovka)</small></div>
-            </div>
-            <p class="text-muted text-center"><small><em>Schéma:</em> Data putují od vstupu přes
-                procesor a paměť až k výstupu</small></p>
-
-            <div class="alert alert-info mt-4">
-              <strong>Tip:</strong> Porozumění architektuře ti pomůže lépe chápat, jak počítač
-              vykonává programy a proč některé věci fungují tak, jak fungují.
-            </div>
-          </div>
+        <div class="note note--info">
+          <strong>Tip:</strong> Porozumění architektuře ti pomůže lépe chápat, jak počítač vykonává programy a proč některé věci fungují tak, jak fungují.
         </div>
       </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://en.wikipedia.org/wiki/Computer_architecture" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+
     </div>
+  </div>
+</div>
 
-    <!-- MODÁL – Společná paměť -->
-    <div class="modal fade" id="modalPamet" tabindex="-1" aria-labelledby="modalPametLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="modalPametLabel">Jak funguje společná paměť pro data a
-              instrukce</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-          </div>
-          <div class="modal-body">
-            <p>
-              V tzv. <strong>Von Neumannově architektuře</strong> (běžné u většiny dnešních
-              počítačů) se <strong>programové instrukce</strong> i <strong>data</strong>
-              ukládají
-              do stejné paměti – typicky do RAM.
-            </p>
+<!-- MODÁL – Společná paměť -->
+<div class="modal" id="modal1-2-pamet" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal1-2-pametTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
 
-            <p>To znamená, že:</p>
-            <ul>
-              <li><strong>Instrukce</strong> určují, co má počítač udělat (např. „sečti dvě
-                čísla“).</li>
-              <li><strong>Data</strong> jsou hodnoty, se kterými instrukce pracují (např.
-                čísla 2
-                a 3).</li>
-            </ul>
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal1-2-pametTitle">Jak funguje společná paměť pro data a instrukce</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
 
-            <p>
-              Procesor (CPU) nejprve načte z paměti <strong>instrukci</strong>, pak podle ní
-              vyhledá potřebná <strong>data</strong> – a vše provádí krok za krokem.
-            </p>
+      <div class="modal-body">
+        <p>
+          V tzv. <strong>Von Neumannově architektuře</strong> se <strong>programové instrukce</strong> i <strong>data</strong>
+          ukládají do stejné paměti – typicky do RAM.
+        </p>
 
+        <p>To znamená, že:</p>
+        <ul class="bullets">
+          <li><strong>Instrukce</strong> určují, co má počítač udělat (např. „sečti dvě čísla“).</li>
+          <li><strong>Data</strong> jsou hodnoty, se kterými instrukce pracují (např. čísla 2 a 3).</li>
+        </ul>
 
-            <div class="alert alert-info mt-4">
-              <strong>Výhoda:</strong> Jednodušší návrh a menší nároky na hardware.<br>
-              <strong>Nevýhoda:</strong> Může dojít ke zpomalení (tzv. <em>Von Neumann
-                bottleneck</em>), protože instrukce i data "soutěží" o přístup ke stejné
-              sběrnici.
-            </div>
+        <p>
+          CPU nejprve načte z paměti instrukci, pak podle ní vyhledá potřebná data – a vše provádí krok za krokem.
+        </p>
 
-            <p class="mt-3">
-              Tento princip tvoří základ většiny dnešních počítačů – pochopení tohoto modelu
-              je
-              klíčem k porozumění, jak procesor pracuje s pamětí.
-            </p>
-            <!-- ANIMACE – názorný příklad pomocí CSS -->
-            <div class="von-neumann-animation mx-auto my-4">
-
-              <div class="memory">
-                <div class="instruction">Instrukce</div>
-                <div class="data">Data</div>
-              </div>
-              <div class="arrow arrow-instruction">+</div>
-              <div class="arrow arrow-data">2,3</div>
-              <div class="cpu">CPU</div>
-            </div>
-            <p class="text-muted text-center"><small><em>Animace:</em> CPU načítá instrukce a
-                data
-                ze stejné paměti</small></p>
-          </div>
+        <div class="note note--info">
+          <strong>Výhoda:</strong> jednodušší návrh a menší nároky na hardware.<br>
+          <strong>Nevýhoda:</strong> může dojít ke zpomalení (tzv. Von Neumann bottleneck), protože instrukce i data sdílí přístup ke stejné cestě do paměti.
         </div>
       </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://en.wikipedia.org/wiki/Von_Neumann_architecture" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+
     </div>
-
-
-
+  </div>
+</div>
 
 <!-- MODÁL – Sekvenční vykonávání instrukcí -->
-<div class="modal fade" id="modalSekvence" tabindex="-1" aria-labelledby="modalSekvenceLabel" aria-hidden="true">
-<div class="modal-dialog modal-lg modal-dialog-centered">
-<div class="modal-content">
-  <div class="modal-header">
-    <h5 class="modal-title" id="modalSekvenceLabel">Počítač vykonává instrukce sekvenčně</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-  </div>
-  <div class="modal-body">
-    <p>
-      Počítač podle <strong>programu</strong> provádí <strong>instrukce jednu po druhé</strong>, tedy
-      <strong>sekvenčně</strong>.
-    </p>
+<div class="modal" id="modal1-2-sekvence" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal1-2-sekvenceTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
 
-    <p>To znamená, že:</p>
-    <ul>
-      <li>Procesor si z paměti <strong>načte první instrukci</strong> a vykoná ji.</li>
-      <li>Pak <strong>pokračuje další instrukcí</strong> v pořadí.</li>
-      <li>Tento proces probíhá opakovaně, krok za krokem – dokud nedojde ke konci programu nebo
-        instrukci pro skok.</li>
-    </ul>
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal1-2-sekvenceTitle">Počítač vykonává instrukce sekvenčně</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
 
-    <p>
-      <strong>Programový čítač (PC)</strong> hlídá, která instrukce je na řadě – po každém kroku se
-      posune na další.
-    </p>
+      <div class="modal-body">
+        <p>
+          Počítač podle programu provádí <strong>instrukce jednu po druhé</strong>, tedy <strong>sekvenčně</strong>.
+        </p>
 
-    <!-- ANIMACE – Sekvenční provádění -->
-    <div class="sequence-animation mx-auto my-4">
-      <div class="cpu-box">CPU</div>
-      <div class="instruction-step step1">Instrukce 1</div>
-      <div class="instruction-step step2">Instrukce 2</div>
-      <div class="instruction-step step3">Instrukce 3</div>
+        <ul class="bullets">
+          <li>CPU si z paměti načte první instrukci a vykoná ji.</li>
+          <li>Pak pokračuje další instrukcí v pořadí.</li>
+          <li>Tento proces běží opakovaně, dokud nedojde ke konci programu (nebo k instrukci pro změnu toku programu).</li>
+        </ul>
+
+        <p>
+          <strong>Programový čítač (PC)</strong> hlídá, která instrukce je na řadě – po každém kroku se posune na další.
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://en.wikipedia.org/wiki/Program_counter" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+
     </div>
-    <p class="text-muted text-center"><small><em>Animace:</em> CPU vykonává instrukce jednu po
-        druhé</small></p>
   </div>
 </div>
+
+<!-- MODÁL – Jak funguje CPU -->
+<div class="modal" id="modal1-2-cpu" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal1-2-cpuTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal1-2-cpuTitle">Jak funguje procesor (CPU)</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          CPU je <strong>ústřední výpočetní jednotka</strong>. Zpracovává instrukce programů v opakovaném cyklu.
+        </p>
+
+        <h4 class="card__title">Instrukční cyklus</h4>
+        <ul class="bullets">
+          <li><strong>Fetch</strong>: načtení instrukce z paměti.</li>
+          <li><strong>Decode</strong>: rozbor instrukce (co má CPU udělat).</li>
+          <li><strong>Execute</strong>: provedení operace (výpočet, zápis, skok v programu).</li>
+        </ul>
+
+        <h4 class="card__title">Klíčové pojmy</h4>
+        <ul class="bullets">
+          <li><strong>Jádra</strong>: paralelní zpracování více úloh.</li>
+          <li><strong>Takt</strong>: rychlost interních cyklů.</li>
+          <li><strong>Cache</strong>: rychlá mezipaměť pro často používaná data.</li>
+          <li><strong>Registry</strong>: nejrychlejší paměť uvnitř CPU.</li>
+        </ul>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://cs.wikipedia.org/wiki/Procesor" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+
+    </div>
+  </div>
 </div>
 
+<!-- MODÁL – Schéma (obrázek) -->
+<div class="modal" id="modal1-2-schema" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal1-2-schemaTitle" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title" id="modal1-2-schemaTitle">Zjednodušené schéma fungování počítače</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <img
+          src="./Assets/Koncepty/Von_Neumann_Architecture.jpeg"
+          alt="Schéma fungování počítače"
+          loading="lazy"
+        >
+        <p class="muted"><small>Zjednodušené schéma toku informací v počítači</small></p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="./Assets/Koncepty/Von_Neumann_Architecture.jpeg" target="_blank" rel="noopener">Otevřít obrázek</a>
+      </div>
+
+    </div>
+  </div>
 </div>
-
-

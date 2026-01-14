@@ -1,318 +1,159 @@
+<!-- TEMPLATE A: Standardní lekce (bez galerie) -->
+<section id="sectionX-X-X" class="lesson">
 
-
-  <!-- Sekce další sekce -->
-
-  <section id="section1-3" class="container my-5">
-    <h3 class="mb-4">Název kapitoly</h3>
-    <!-- Co se naučíš ?-->
-  
-<div class="container my-4 p-4 border rounded bg-light">
-  <h3 class="mb-3">Co se naučíš ?</h3>
-  <p>Hlavní text</p>
-  <ul class="list-group list-group-flush mb-3">
-    <li class="list-group-item"><strong>Main</strong>: Vysvětlení.</li>
-    <li class="list-group-item"><strong>Main</strong>: Vysvětlení</li>
-    <li class="list-group-item"><strong>Main</strong>: Vysvětlení</li>
-    <li class="list-group-item"><strong>Main</strong>: Vysvětlení</li>
-    <li class="list-group-item"><strong>Main</strong>: Vysvětlení</li>
-  </ul>
-  <div class="alert alert-info" role="alert">
-    <strong>Tip:</strong> Nějaký super tip.
-  </div>
-</div>
-
-    <div class="row align-items-center mb-4">
-      <div class="col-md-2 text-center">
-        <img class="img-fluid rounded-circle shadow resize-mobile"
-          src="." alt="Douglas Engelbart"
-          class="img-fluid rounded-circle shadow">
-        <p class="mt-2 text-muted small">Slavná osobnost</p>
-      </div>
-      <div class="col-md-10">
-        <blockquote class="blockquote">
-          <p class="mb-0">„Citát.“</p>
-          <footer class="blockquote-footer mt-2">
-            <a href="https://www.dougengelbart.org/content/view/138/000/" target="_blank">
-             (zdroj)
-            </a>
-          </footer>
-        </blockquote>
-      </div>
-    </div>
-
-    <h5 class="mt-5">Hlavní téma</h5>
-    <p>
-      Prostý text: <strong>důležitý text</strong>
+  <header class="lesson__header">
+    <h2 class="lesson__title">X.X.X Název kapitoly</h2>
+    <p class="lesson__lead">
+      Krátký úvod / anotace kapitoly (1–2 věty).
     </p>
+  </header>
 
-    <h5 class="mt-4">Subtéma</h5>
-    <ul class="list-group mb-4">
-      <li class="list-group-item"><strong>Kategorie</strong>: Popis<button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
-          data-bs-target="#modalFirst">
-          Více
-        </button></li>
+  <!-- Co se naučíš -->
+  <article class="card">
+    <h3 class="card__title">Co se naučíš?</h3>
 
-    
+    <ul class="checklist">
+      <li><strong>Bod 1</strong> – stručné vysvětlení.</li>
+      <li><strong>Bod 2</strong> – stručné vysvětlení.</li>
+      <li><strong>Bod 3</strong> – stručné vysvětlení.</li>
+      <li><strong>Bod 4</strong> – stručné vysvětlení.</li>
+    </ul>
 
+    <div class="note note--info">
+      <strong>Tip:</strong> Krátký tip / poznámka k lekci.
+    </div>
+  </article>
 
+  <!-- Akce / odkazy -->
+  <div class="actions">
+    <a class="btn btn--primary" href="URL_MATERIÁLY" target="_blank" rel="noopener">
+      Primární akce (např. stáhnout materiály)
+    </a>
 
+    <a class="btn btn--ghost" href="URL_ZDROJ" target="_blank" rel="noopener">
+      Sekundární akce (např. oficiální web)
+    </a>
+  </div>
 
-      <li class="list-group-item">
-        <strong>🧠 Hierarchie témat</strong>: definice.
-        <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse"
-          data-bs-target="#SomeSubmenu" aria-expanded="false" aria-controls="SomeSubmenu">
-          &#9660;
-        </button>
+  <!-- Akordeony -->
+  <div class="accordion">
 
-        <ul class="list-group list-group-flush collapse mt-2" id="SomeSubmenu">
-          <li class="list-group-item">
-            <strong>Téma</strong>: popis
-            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
-              data-bs-target="#modalSecound">
-              Více
-            </button>
-          </li>
-        
+    <!-- 1) Sekce -->
+    <details class="acc" open>
+      <summary class="acc__sum">1) Nadpis sekce</summary>
+      <div class="acc__body">
+
+        <p>
+          Úvodní text sekce… (může být i prázdné, když je sekce jen seznam kroků).
+        </p>
+
+        <ol class="steps">
+          <li>Krok 1…</li>
+          <li>Krok 2…</li>
+          <li>Krok 3…</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Doplňující bod…</li>
+          <li>Doplňující bod…</li>
         </ul>
-      </li>
-        
-    <!-- Rozšířená nabídka pro téma -->
 
-    <ul class="list-group mb-4">
+        <!-- Ukázka tlačítka „Více“ (modál) -->
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modalX-1">
+            Více informací
+          </button>
+        </div>
 
-     
-      <li class="list-group-item">
-        <strong>Téma</strong>
-        <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse"
-          data-bs-target="#windowsSubmenu" aria-expanded="false" aria-controls="windowsSubmenu">
-          &#9660;
-        </button>
+      </div>
+    </details>
 
-        <ul class="list-group list-group-flush collapse mt-2" id="windowsSubmenu">
-          <li class="list-group-item">
+    <!-- 2) Sekce + vnořený akordeon -->
+    <details class="acc">
+      <summary class="acc__sum">2) Nadpis sekce (s podsekcemi)</summary>
+      <div class="acc__body">
 
-            
-            <div class="container mt-5">
-              <div class="row justify-content-center">
-                <div class="col-md-8">
-                  <div class="card shadow-sm">
-                    <div class="card-header bg-primary text-white">
-                      Téma
-                    </div>
-                    <div class="card-body">
-                      <h5 class="card-title">Základní informace</h5>
-                      <ul>
-                        <li><strong>Seznamy</strong></li>
-                      
-                      </ul>
+        <p>Text k sekci…</p>
 
-                    
-                      <h5 class="mt-4">Tabulky</h5>
-                      <table class="table table-bordered">
-                        <thead class="table-light">
-                          <tr>
-                            <th>1</th>
-                            <th>2</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>3</td>
-                            <td>✅</td>
-                          </tr>
-                          <tr>
-                           
-                        </tbody>
-                      </table>
-
-                     
-
-                      <h5 class="mt-4">Zdroje</h5>
-                      <ul>
-                        <li><a href="https://www.microsoft.com/windows" target="_blank">Oficiální web Microsoft
-                            Windows</a></li>
-                        <li><a href="https://cs.wikipedia.org/wiki/Microsoft_Windows" target="_blank">Wikipedia –
-                            Microsoft Windows</a></li>
-                        <li><a href="https://www.howtogeek.com/775015/a-visual-history-of-windows/"
-                            target="_blank">Windows Timeline – HowToGeek</a></li>
-                        <li><a href="https://learn.microsoft.com" target="_blank">Microsoft Learn</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
+        <div class="accordion">
+          <details class="acc" open>
+            <summary class="acc__sum">2.1 Podsekce</summary>
+            <div class="acc__body">
+              <p>Text k podsekci…</p>
+              <ul class="bullets">
+                <li>Bod…</li>
+                <li>Bod…</li>
+              </ul>
             </div>
-          </li>
+          </details>
+
+          <details class="acc">
+            <summary class="acc__sum">2.2 Podsekce</summary>
+            <div class="acc__body">
+              <p>Text k podsekci…</p>
+            </div>
+          </details>
+        </div>
+
+      </div>
+    </details>
+
+  </div>
+
+  <!-- Shrnutí -->
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+
+    <ul class="checklist">
+      <li>Výstup 1 (co žák umí)…</li>
+      <li>Výstup 2…</li>
+      <li>Výstup 3…</li>
+    </ul>
+  </article>
+
+  <!-- Volitelné: Zdroje -->
+  <article class="card">
+    <h3 class="card__title">Odkazy na použité zdroje</h3>
+    <ol class="steps">
+      <li><a href="URL_1" target="_blank" rel="noopener">Název zdroje 1</a></li>
+      <li><a href="URL_2" target="_blank" rel="noopener">Název zdroje 2</a></li>
+    </ol>
+  </article>
+
+</section>
+
+<!-- TEMPLATE MODALY (umísti obvykle na konec stránky, mimo sekci) -->
+<div class="modal" id="modalX-1" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Nadpis modálu</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>Obsah modálu…</p>
+        <ul class="bullets">
+          <li>Bod…</li>
+          <li>Bod…</li>
         </ul>
-      </li>
-    </ul>
-    </ul>
-    
+      </div>
 
-    
-     
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="URL" target="_blank" rel="noopener">Odkaz</a>
+      </div>
 
-
-
-    <p>
-
-      💡 Hint
-    </p>
-
-
-<!-- Shrnutí lekce 3-->
-  
-<div class="container my-4 p-4 border rounded bg-light">
-  <h3 class="mb-3">PCo se naučíš ?</h3>
-  <p>Hlavní text</p>
-  <ul class="list-group list-group-flush mb-3">
-    <li class="list-group-item"><strong>Main</strong>: Vysvětlení.</li>
-    <li class="list-group-item"><strong>Main</strong>: Vysvětlení</li>
-    <li class="list-group-item"><strong>Main</strong>: Vysvětlení</li>
-    <li class="list-group-item"><strong>Main</strong>: Vysvětlení</li>
-    <li class="list-group-item"><strong>Main</strong>: Vysvětlení</li>
-  </ul>
-  <div class="alert alert-info" role="alert">
-    <strong>Tip:</strong> Nějaký super tip.
+    </div>
   </div>
 </div>
 
-    
-
-
-<!-- Odkazy na použité zdroje kapitola 3 -->
-<hr>
-<h6>Odkazy na použité zdroje</h6>
-<ol class="small">
-<li id="ref1">
-  <a href="https://www.jsns.cz/nove/projekty/medialni-vzdelavani/materialy/dezinformace-jak-reagovat.pdf" target="_blank">
-    JSNS.cz: Dezinformace a konspirace ve třídě – metodika
-  </a>
-</li>
-<li id="ref2">
-  <a href="https://zvolsi.info/materialy/get-bad-news-stan-se-dezinformatorem" target="_blank">
-    Zvol si info: Get Bad News – Staň se dezinformátorem
-  </a>
-</li>
-<li id="ref3">
-  <a href="https://workspace.google.com/intl/cs/products/sheets/" target="_blank">
-    Google Workspace: Tabulky Google
-  </a>
-</li>
-<li id="ref4">
-  <a href="https://zdrojak.cz/clanky/javascriptove-uloziste-localstorage/" target="_blank">
-    Zdroják.cz: Javascriptové úložiště localStorage
-  </a>
-</li>
-<li id="ref5">
-  <a href="https://msmt.gov.cz/dokumenty-3/gdpr-na-skolach" target="_blank">
-    MŠMT: GDPR ve školách – metodická podpora
-  </a>
-</li>
-<li id="ref6">
-  <a href="https://digikompetence.cz/" target="_blank">
-    DigiKompetence.cz: Digitální kompetence a ochrana dat
-  </a>
-</li>
-</ol>
-
-
-
-
-   
-
-  </section>
-
-  <!-- Modál First -->
-  <div class="modal fade" id="modalFirst" tabindex="-1" aria-labelledby="modalFirstLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalCaseLabel">Title</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-
-          <p><strong>Téma</strong>Text</p>
-
-          <h6>Nadpis pro téma</h6>
-          <ul>
-            <li>text</li>
-          
-          </ul>
-
-          
-          <h6>💡 Shrnutí</h6>
-          <p>text</p>
-
-          <hr>
-          <h6>📚 Zdroje a doporučená četba</h6>
-          <ul>
-            <li><a href="" target="_blank"
-                rel="noopener">odkaz na zdroj</a></li>
-          </ul>
-
-          <p class="text-muted text-center"><small><em>Tip:</em> Nějaký super tip.</small></p>
-
-        </div>
-      </div>
-    </div>
-  </div>
-
-   <!-- Modál Secound -->
-   <div class="modal fade" id="modalSecound" tabindex="-1" aria-labelledby="modalSecoundLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalCaseLabel">Title</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-        </div>
-        <div class="modal-body">
-
-          <p><strong>Téma</strong>Text</p>
-
-          <h6>Nadpis pro téma</h6>
-          <ul>
-            <li>text</li>
-          
-          </ul>
-          <section id="section1-9-test" class="container my-5">
-  <h4>🎯 Test: Znalosti příkazového řádku</h4>
-
-  <div class="quiz-question mb-4">
-    <p><strong>1. Co udělá příkaz <code>dir</code>?</strong></p>
-    <div class="btn-group-vertical">
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Zobrazí obsah složky</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Smaže složku</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Zobrazí IP adresu</button>
-    </div>
-  </div>
-
-  <div class="quiz-question mb-4">
-    <p><strong>2. Který příkaz slouží k diagnostice sítě?</strong></p>
-    <div class="btn-group-vertical">
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">cd</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">ping</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">cls</button>
-    </div>
-  </div>
-
-          
-          <h6>💡 Shrnutí</h6>
-          <p>text</p>
-
-          <hr>
-          <h6>📚 Zdroje a doporučená četba</h6>
-          <ul>
-            <li><a href="" target="_blank"
-                rel="noopener">odkaz na zdroj</a></li>
-          </ul>
-
-          <p class="text-muted text-center"><small><em>Tip:</em> Nějaký super tip.</small></p>
-
-        </div>
-      </div>
-    </div>
-  </div>
-
-  
+<!-- POZNÁMKA:
+  1) Inline <script> sem nedávej.
+  2) Modály otevírá globální JS (např. assets/js/features/modals.js).
+  3) Tlačítko otevření: data-modal-open="ID_MODÁLU"
+  4) Zavření: [data-modal-close] (křížek + tlačítko)
+-->

@@ -1,0 +1,142 @@
+<!-- TEMPLATE B: Grafická lekce (s galerií) -->
+<section id="sectionX-X-X" class="lesson">
+
+  <header class="lesson__header">
+    <h2 class="lesson__title">X.X.X Název grafické kapitoly</h2>
+    <p class="lesson__lead">
+      Krátký úvod / cíl grafické kapitoly.
+    </p>
+  </header>
+
+  <article class="card">
+    <h3 class="card__title">Co se naučíš?</h3>
+    <ul class="checklist">
+      <li><strong>Bod 1</strong> – stručně…</li>
+      <li><strong>Bod 2</strong> – stručně…</li>
+      <li><strong>Bod 3</strong> – stručně…</li>
+    </ul>
+
+    <div class="note note--info">
+      <strong>Tip:</strong> Tip / poznámka…
+    </div>
+  </article>
+
+  <div class="actions">
+    <a class="btn btn--primary" href="URL_MATERIÁLY" target="_blank" rel="noopener">Stáhnout materiály</a>
+    <a class="btn btn--ghost" href="URL_ZDROJ" target="_blank" rel="noopener">Oficiální zdroj</a>
+  </div>
+
+  <div class="accordion">
+
+    <details class="acc" open>
+      <summary class="acc__sum">1) Nadpis kroku / části</summary>
+      <div class="acc__body">
+
+        <ol class="steps">
+          <li>Krok 1…</li>
+          <li>Krok 2…</li>
+          <li>Krok 3…</li>
+        </ol>
+
+        <!-- GALERIE (opakovatelný blok) -->
+        <figure class="gallery">
+          <div class="jk-frame is-16x9">
+            <img
+              id="img-X-1"
+              class="jk-media"
+              loading="lazy"
+              decoding="async"
+              src="URL_OBRÁZEK_1"
+              alt="Popis obrázku">
+
+            <!-- Šipky po stranách (overlay) -->
+            <button class="gallery__nav gallery__nav--prev"
+                    type="button"
+                    data-gallery-prev="img-X-1"
+                    aria-label="Předchozí obrázek">
+              ‹
+            </button>
+
+            <button class="gallery__nav gallery__nav--next"
+                    type="button"
+                    data-gallery-next="img-X-1"
+                    aria-label="Další obrázek">
+              ›
+            </button>
+
+            <!-- Fullscreen / zoom hint (volitelné) -->
+            <span class="gallery__hint">Klikni pro fullscreen</span>
+          </div>
+
+          <figcaption class="gallery__meta">
+            <span class="gmeta">Popisek galerie / zdroj / pracovní list</span>
+          </figcaption>
+
+          <!-- Napojení na gallery.js -->
+          <div data-gallery-src="img-X-1"
+               data-images='[
+                 "URL_OBRÁZEK_1",
+                 "URL_OBRÁZEK_2",
+                 "URL_OBRÁZEK_3"
+               ]'></div>
+        </figure>
+        <!-- /GALERIE -->
+
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">2) Další část</summary>
+      <div class="acc__body">
+        <p>Text…</p>
+
+        <!-- Druhá galerie (nezapomeň UNIQUE id) -->
+        <figure class="gallery">
+          <div class="jk-frame">
+            <img
+              id="img-X-2"
+              class="jk-media"
+              loading="lazy"
+              decoding="async"
+              src="URL_OBRÁZEK_A"
+              alt="Popis obrázku">
+
+            <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-X-2" aria-label="Předchozí">‹</button>
+            <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-X-2" aria-label="Další">›</button>
+
+            <span class="gallery__hint">Klikni pro fullscreen</span>
+          </div>
+
+          <figcaption class="gallery__meta">
+            <span class="gmeta">Popisek…</span>
+          </figcaption>
+
+          <div data-gallery-src="img-X-2"
+               data-images='[
+                 "URL_OBRÁZEK_A",
+                 "URL_OBRÁZEK_B"
+               ]'></div>
+        </figure>
+      </div>
+    </details>
+
+  </div>
+
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+    <ul class="checklist">
+      <li>Výstup 1…</li>
+      <li>Výstup 2…</li>
+    </ul>
+  </article>
+
+</section>
+
+<!-- POZNÁMKA:
+  Inline <script> sem nedávej.
+  Ovládání galerie + fullscreen řeší globální assets/js/features/gallery.js (initGallery).
+  Každá galerie musí mít:
+    - unikátní id obrázku (např. img-X-1)
+    - data-gallery-src="img-X-1"
+    - tlačítka data-gallery-prev / data-gallery-next odkazující na stejné id
+-->
