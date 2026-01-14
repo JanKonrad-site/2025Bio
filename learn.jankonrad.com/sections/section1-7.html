@@ -1,681 +1,446 @@
-<section id="section1-7" class="container my-5">
-  <h3 class="mb-4">1.7 Příkazový řádek (CMD) a PowerShell – základy práce s textovým rozhraním</h3>
+<section id="section1-7" class="lesson">
 
-  <!-- Co se naučíš? -->
-  <div class="container my-4 p-4 border rounded bg-light">
-    <h3 class="mb-3">Co se naučíš?</h3>
-    <p>V této lekci se naučíš pracovat s textovým rozhraním systému Windows – příkazovým řádkem (CMD) a PowerShellem. Seznámíš se s historií těchto nástrojů, naučíš se základní příkazy a vyzkoušíš si praktické využití při správě souborů nebo přípravě jednoduchých automatizací.</p>
-    <ul class="list-group list-group-flush mb-3">
-      <li class="list-group-item">Co je příkazový řádek (CMD) a PowerShell</li>
-      <li class="list-group-item">Základní příkazy a syntaxe</li>
-      <li class="list-group-item">Rozdíly mezi CMD a PowerShellem</li>
-      <li class="list-group-item">Spouštění skriptů a základní automatizace</li>
-      <li class="list-group-item">Bezpečné a praktické využití ve škole i doma</li>
+  <header class="lesson__header">
+    <h2 class="lesson__title">1.7 Příkazový řádek (CMD) a PowerShell: rychlé ovládání Windows z klávesnice</h2>
+    <p class="lesson__lead">
+      Tohle je „další level“ ovládání Windows: místo klikání se naučíš pár klíčových příkazů, které reálně šetří čas.
+      Cíl není znát 100 příkazů, ale umět rychle: (1) orientaci ve složkách, (2) práci se soubory, (3) základní diagnostiku.
+    </p>
+  </header>
+
+  <!-- Co se naučíš -->
+  <article class="card">
+    <h3 class="card__title">Co se naučíš?</h3>
+
+    <ul class="checklist">
+      <li><strong>Spuštění terminálu a orientace</strong> – kde jsem, co vidím, jak se v tom neztratit.</li>
+      <li><strong>Top 10 příkazů pro každodenní práci</strong> – navigace, složky, kopie/přesun, přejmenování.</li>
+      <li><strong>Projektový workflow</strong> – založit složku, vytvořit soubory, otevřít ve VS Code / Průzkumníku.</li>
+      <li><strong>Rychlá diagnostika</strong> – síť, procesy, základní info o PC (jen to, co se fakt používá).</li>
+      <li><strong>Nápověda</strong> – jak si pomoct, když příkaz neznáš.</li>
     </ul>
-    <div class="alert alert-info" role="alert">
-      💡 <strong>Tip:</strong> PowerShell umožňuje vytvářet skripty, které mohou šetřit čas – např. při údržbě souborů nebo automatickém zálohování.
+
+    <div class="note note--info">
+      <strong>Metodický cíl:</strong> Po této kapitole bys měl zvládnout založit a spravovat složku projektu bez myši
+      a umět rychle zjistit „proč nejde internet / co žere výkon“.
     </div>
+  </article>
+
+  <!-- Akce -->
+  <div class="actions">
+    <a class="btn btn--primary" href="https://learn.microsoft.com/powershell/" target="_blank" rel="noopener">
+      PowerShell – oficiální dokumentace
+    </a>
+    <a class="btn btn--ghost" href="https://learn.microsoft.com/windows-server/administration/windows-commands/windows-commands" target="_blank" rel="noopener">
+      Windows CMD příkazy (přehled)
+    </a>
   </div>
 
-  <!-- Úvodní část -->
-  <h5 class="mt-5">Co je CMD a PowerShell?</h5>
-  <p><strong>CMD (Command Prompt)</strong> je původní textové rozhraní operačního systému Windows. Umožňuje spouštět příkazy, skripty a nástroje bez grafického rozhraní.</p>
-  <p><strong>PowerShell</strong> je modernější nástroj od Microsoftu, který kombinuje příkazový řádek, skriptovací jazyk a automatizační nástroje. Je mnohem mocnější a vhodnější pro pokročilou správu systému.</p>
+  <!-- Akordeony -->
+  <div class="accordion">
 
-  <div class="row my-4">
-    <div class="col-md-6">
-      <h6>Spuštění CMD</h6>
-      <p><code>Win + R</code> → napiš <code>cmd</code> a potvrď Enterem</p>
-    </div>
-    <div class="col-md-6">
-      <h6>Spuštění PowerShellu</h6>
-      <p><code>Win + X</code> → zvol <code>Windows PowerShell</code></p>
-    </div>
-  </div>
+    <!-- 1) Jak to otevřít + pravidla -->
+    <details class="acc" open>
+      <summary class="acc__sum">1) Jak to otevřít a 3 pravidla, která ti ušetří nervy</summary>
+      <div class="acc__body">
+        <h4>Jak otevřít terminál (funguje vždy)</h4>
+        <ol class="steps">
+          <li>Start → napiš <strong>Terminal</strong> / <strong>PowerShell</strong> / <strong>cmd</strong> → Enter.</li>
+          <li>Rychle: <kbd>Win + R</kbd> → napiš <code>cmd</code> nebo <code>powershell</code> → Enter.</li>
+        </ol>
 
-  <!-- Rozdíly -->
-  <h5 class="mt-5">Rozdíly mezi CMD a PowerShellem</h5>
-  <table class="table table-bordered">
-    <thead class="table-light">
-      <tr>
-        <th>Vlastnost</th>
-        <th>CMD</th>
-        <th>PowerShell</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Syntaxe</td>
-        <td>Jednodušší</td>
-        <td>Objektově orientovaná</td>
-      </tr>
-      <tr>
-        <td>Skriptování</td>
-        <td>Omezené možnosti</td>
-        <td>Rozsáhlé možnosti automatizace</td>
-      </tr>
-      <tr>
-        <td>Modernost</td>
-        <td>Zastaralé</td>
-        <td>Aktivně vyvíjené Microsoftem</td>
-      </tr>
-    </tbody>
-  </table>
+        <div class="note note--info">
+          <strong>Doporučení pro výuku:</strong> Používej hlavně <strong>PowerShell</strong>. Je moderní a příkazy jsou čitelnější.
+          CMD se hodí, když narazíš na starý návod nebo školní skript.
+        </div>
 
-  <!-- CMD - práce s příkazovým řádkem -->
-  <h5 class="mt-4">Základní příkazy CMD (Příkazový řádek)</h5>
- <div class="accordion" id="cmdAccordion">
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="headingDir">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDir" aria-expanded="true" aria-controls="collapseDir">
-          <code>dir</code> – výpis obsahu složky
-        </button>
-      </h2>
-      <div id="collapseDir" class="accordion-collapse collapse show" aria-labelledby="headingDir" data-bs-parent="#cmdAccordion">
-        <div class="accordion-body">
-          <p><strong>Popis:</strong> Zobrazí seznam všech souborů a složek v aktuální složce.</p>
-          <p><strong>Využití:</strong> Např. když potřebuješ zjistit, co je uvnitř složky „Dokumenty“, stačí spustit <code>cd Dokumenty</code> a pak <code>dir</code>.</p>
-          <p><strong>Poznámka:</strong> Lze použít s parametry, např. <code>dir /b</code> zobrazí jen názvy.</p>
+        <h4>3 pravidla pro rychlou práci</h4>
+        <ul class="bullets">
+          <li><strong>1) Vždy vědět, kde jsem</strong>: před akcí si ověř aktuální složku.</li>
+          <li><strong>2) Používat TAB</strong>: doplňování názvů složek/souborů šetří čas i chyby.</li>
+          <li><strong>3) Když je v cestě mezera, použij uvozovky</strong>: <code>"C:\Moje soubory\Projekt"</code></li>
+        </ul>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal1-7-keys">
+            Tahák: ovládání klávesnicí
+          </button>
         </div>
       </div>
-    </div>
-    
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="headingIpconfig">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseIpconfig" aria-expanded="false" aria-controls="collapseIpconfig">
-          <code>ipconfig</code> – informace o síti
-        </button>
-      </h2>
-      <div id="collapseIpconfig" class="accordion-collapse collapse" aria-labelledby="headingIpconfig" data-bs-parent="#cmdAccordion">
-        <div class="accordion-body">
-          <p><strong>Popis:</strong> Zobrazí informace o IP adrese, bráně, masce podsítě apod.</p>
-          <p><strong>Využití:</strong> Pokud nefunguje připojení k internetu, tímto příkazem ověříš, zda máš přiřazenou IP adresu a zda funguje brána (router).</p>
-          <p><strong>Tip:</strong> <code>ipconfig /renew</code> obnoví IP adresu z DHCP serveru.</p>
+    </details>
+
+    <!-- 2) Orientace: kde jsem, co je kolem -->
+    <details class="acc">
+      <summary class="acc__sum">2) Orientace: kde jsem a co je ve složce (musí být automatika)</summary>
+      <div class="acc__body">
+        <p>
+          Než začneš cokoliv mazat/kopírovat, vždycky nejdřív: „kde jsem“ a „co tu je“.
+        </p>
+
+        <h4>PowerShell (doporučeno)</h4>
+        <pre><code class="powershell">pwd            # kde jsem (aktuální složka)
+dir            # co je ve složce (výpis obsahu)
+dir -Name      # jen názvy (přehledně)
+</code></pre>
+
+        <h4>CMD (ekvivalent)</h4>
+        <pre><code class="cmd">cd             # kde jsem (vypíše aktuální cestu)
+dir            # výpis obsahu složky
+dir /b         # jen názvy
+</code></pre>
+
+        <div class="note note--info">
+          <strong>Tip:</strong> Šipka nahoru opakuje předchozí příkaz. To je zásadní zrychlení (nepíšeš pořád dokola).
         </div>
       </div>
-    </div>
-    
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="headingPing">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePing" aria-expanded="false" aria-controls="collapsePing">
-          <code>ping adresa</code> – ověření dostupnosti serveru
-        </button>
-      </h2>
-      <div id="collapsePing" class="accordion-collapse collapse" aria-labelledby="headingPing" data-bs-parent="#cmdAccordion">
-        <div class="accordion-body">
-          <p><strong>Popis:</strong> Odesílá síťové pakety na zadanou adresu a měří dobu odezvy.</p>
-          <p><strong>Využití:</strong> Pokud se ti nenačítá webová stránka, můžeš zkusit <code>ping seznam.cz</code> a zjistit, zda je problém v síti.</p>
-          <p><strong>Poznámka:</strong> Ne všechny servery odpovídají na ping (např. Google).</p>
+    </details>
+
+    <!-- 3) Navigace -->
+    <details class="acc">
+      <summary class="acc__sum">3) Navigace: přechod mezi složkami za 10 sekund</summary>
+      <div class="acc__body">
+        <h4>Nejdůležitější příkazy</h4>
+        <pre><code class="powershell">cd ..          # o úroveň výš
+cd .\Skola      # vstup do složky Skola (TAB ti doplní název)
+cd ~           # domovská složka uživatele (PowerShell)
+</code></pre>
+
+        <pre><code class="cmd">cd ..          # o úroveň výš
+cd Skola        # vstup do složky Skola (TAB doplňuje)
+cd /d D:\       # přepnutí disku + složky (CMD)
+</code></pre>
+
+        <h4>Praktický postup (doporučený drill)</h4>
+        <ol class="steps">
+          <li>Otevři terminál.</li>
+          <li>Napiš <code>dir</code>, podívej se, co vidíš.</li>
+          <li>Začni psát název složky a doplň ho klávesou <kbd>Tab</kbd>.</li>
+          <li>Vstup do složky: <code>cd ...</code> a opět <code>dir</code>.</li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Princip:</strong> V terminálu se pracuje v cyklu <strong>dir → cd → dir</strong>. Kdo tohle umí, je rychlý.
         </div>
       </div>
-    </div>
-    <div class="accordion-item">
-  <h2 class="accordion-header" id="headingTasklist">
-    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTasklist" aria-expanded="false" aria-controls="collapseTasklist">
-      <code>tasklist</code> – seznam běžících procesů
-    </button>
-  </h2>
-  <div id="collapseTasklist" class="accordion-collapse collapse" aria-labelledby="headingTasklist" data-bs-parent="#cmdAccordion">
-    <div class="accordion-body">
-      <p><strong>Popis:</strong> Zobrazí seznam všech aktuálně běžících procesů v systému.</p>
-      <p><strong>Využití:</strong> Pokud chceš zjistit, které programy právě běží, nebo hledáš podezřelý proces.</p>
-      <p><strong>Tip:</strong> Použij <code>tasklist /fi "imagename eq chrome.exe"</code> pro filtrování podle názvu procesu.</p>
-    </div>
-  </div>
-</div>
+    </details>
 
-<div class="accordion-item">
-  <h2 class="accordion-header" id="headingTaskkill">
-    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTaskkill" aria-expanded="false" aria-controls="collapseTaskkill">
-      <code>taskkill</code> – ukončení procesu
-    </button>
-  </h2>
-  <div id="collapseTaskkill" class="accordion-collapse collapse" aria-labelledby="headingTaskkill" data-bs-parent="#cmdAccordion">
-    <div class="accordion-body">
-      <p><strong>Popis:</strong> Ukončí proces podle názvu nebo PID (identifikátor procesu).</p>
-      <p><strong>Využití:</strong> Pokud zamrzne aplikace, např. <code>taskkill /im notepad.exe /f</code> ukončí poznámkový blok.</p>
-      <p><strong>Poznámka:</strong> Pomocí <code>/f</code> se proces ukončí natvrdo. Můžeš ukončit i víc instancí stejného procesu (např. víc otevřených Chrome).</p>
-    </div>
-  </div>
-</div>
+    <!-- 4) Složky + struktura -->
+    <details class="acc">
+      <summary class="acc__sum">4) Složky a struktura: vytvoření projektu a strom složek</summary>
+      <div class="acc__body">
+        <p>
+          Tohle je typická situace: „Založ projekt, vytvoř strukturu a udrž v tom pořádek.“
+        </p>
 
-<div class="accordion-item">
-  <h2 class="accordion-header" id="headingDupeKill">
-    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDupeKill" aria-expanded="false" aria-controls="collapseDupeKill">
-      <code>for /f %i in (...) do taskkill</code> – hromadné ukončení procesů
-    </button>
-  </h2>
-  <div id="collapseDupeKill" class="accordion-collapse collapse" aria-labelledby="headingDupeKill" data-bs-parent="#cmdAccordion">
-    <div class="accordion-body">
-      <p><strong>Popis:</strong> Tento příkazový zápis umožňuje opakovaně provádět akci nad více procesy – například ukončit všechny s daným názvem.</p>
-      <p><strong>Využití:</strong> Např. <code>for /f %i in ('tasklist ^| find "chrome.exe"') do taskkill /f /im chrome.exe</code> ukončí všechny instance Chrome.</p>
-      <p><strong>Tip:</strong> Tohle je workaround, jak se zbavit duplicitních procesů. Není to čisté jako PowerShell, ale v CMD funguje.</p>
-    </div>
-  </div>
-</div>
-<div class="accordion-item">
-  <h2 class="accordion-header" id="headingSystemInfo">
-    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSystemInfo" aria-expanded="false" aria-controls="collapseSystemInfo">
-      <code>systeminfo</code> – informace o systému
-    </button>
-  </h2>
-  <div id="collapseSystemInfo" class="accordion-collapse collapse" aria-labelledby="headingSystemInfo" data-bs-parent="#cmdAccordion">
-    <div class="accordion-body">
-      <p><strong>Popis:</strong> Zobrazí detailní informace o operačním systému, verzi, výrobci, procesoru, RAM atd.</p>
-      <p><strong>Využití:</strong> Hodí se při diagnostice nebo při porovnávání konfigurace počítače.</p>
-      <p><strong>Poznámka:</strong> U některých údajů může trvat chvíli, než se načtou.</p>
-    </div>
-  </div>
-</div>
+        <h4>Vytvoření složek (funguje v PowerShell i CMD)</h4>
+        <pre><code class="powershell">mkdir Skola_2025-2026
+cd .\Skola_2025-2026
+mkdir Informatika Web Projekt_01
+</code></pre>
 
-<div class="accordion-item">
-  <h2 class="accordion-header" id="headingHostname">
-    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHostname" aria-expanded="false" aria-controls="collapseHostname">
-      <code>hostname</code> – název počítače
-    </button>
-  </h2>
-  <div id="collapseHostname" class="accordion-collapse collapse" aria-labelledby="headingHostname" data-bs-parent="#cmdAccordion">
-    <div class="accordion-body">
-      <p><strong>Popis:</strong> Zobrazí název počítače (host name), který je používán v síti.</p>
-      <p><strong>Využití:</strong> Pokud nastavuješ síť nebo sdílení, je důležité znát název zařízení.</p>
-    </div>
-  </div>
-</div>
+        <h4>Zobrazení stromu (super pro kontrolu)</h4>
+        <pre><code class="cmd">tree</code></pre>
 
-<div class="accordion-item">
-  <h2 class="accordion-header" id="headingNetstat">
-    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNetstat" aria-expanded="false" aria-controls="collapseNetstat">
-      <code>netstat</code> – síťová spojení a porty
-    </button>
-  </h2>
-  <div id="collapseNetstat" class="accordion-collapse collapse" aria-labelledby="headingNetstat" data-bs-parent="#cmdAccordion">
-    <div class="accordion-body">
-      <p><strong>Popis:</strong> Zobrazí aktuální síťová spojení, porty a stav.</p>
-      <p><strong>Využití:</strong> Pokud chceš zjistit, které aplikace komunikují přes síť, použij <code>netstat -ano</code>.</p>
-      <p><strong>Tip:</strong> Kombinace s <code>tasklist</code> ti umožní zjistit, který proces má otevřený který port.</p>
-    </div>
-  </div>
-</div>
+        <div class="note note--info">
+          <strong>Tip:</strong> Když si nejsi jistý, jestli jsi ve správné složce, dej <code>pwd</code> (PowerShell) nebo <code>cd</code> (CMD).
+        </div>
+      </div>
+    </details>
 
-<div class="accordion-item">
-  <h2 class="accordion-header" id="headingGetmac">
-    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseGetmac" aria-expanded="false" aria-controls="collapseGetmac">
-      <code>getmac</code> – MAC adresa síťového adaptéru
-    </button>
-  </h2>
-  <div id="collapseGetmac" class="accordion-collapse collapse" aria-labelledby="headingGetmac" data-bs-parent="#cmdAccordion">
-    <div class="accordion-body">
-      <p><strong>Popis:</strong> Zobrazí MAC adresy všech síťových adaptérů na zařízení.</p>
-      <p><strong>Využití:</strong> MAC adresa se používá k identifikaci zařízení v síti, často např. při nastavování routeru nebo filtrování přístupů.</p>
-    </div>
-  </div>
-</div>
+    <!-- 5) Soubory: vytvořit, kopírovat, přesunout, přejmenovat -->
+    <details class="acc">
+      <summary class="acc__sum">5) Soubory: vytvořit, kopírovat, přesunout, přejmenovat (jen to, co se používá)</summary>
+      <div class="acc__body">
+        <h4>PowerShell (nejjednodušší)</h4>
+        <pre><code class="powershell">ni index.html    # vytvoří soubor (New-Item)
+ni style.css
+ni app.js
+ni README.md
 
-<div class="accordion-item">
-  <h2 class="accordion-header" id="headingShutdown">
-    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseShutdown" aria-expanded="false" aria-controls="collapseShutdown">
-      <code>shutdown</code> – vypnutí nebo restart počítače
-    </button>
-  </h2>
-  <div id="collapseShutdown" class="accordion-collapse collapse" aria-labelledby="headingShutdown" data-bs-parent="#cmdAccordion">
-    <div class="accordion-body">
-      <p><strong>Popis:</strong> Umožňuje restartovat, vypnout nebo odhlásit počítač pomocí příkazové řádky.</p>
-      <p><strong>Využití:</strong> Např. <code>shutdown /r /t 0</code> ihned restartuje počítač, <code>shutdown /s /t 60</code> vypne počítač za 60 vteřin.</p>
-      <p><strong>Tip:</strong> <code>shutdown /a</code> zruší naplánované vypnutí/restart.</p>
-    </div>
-  </div>
-</div>
+ren README.md README_PROJEKT.md
+copy index.html index_backup.html
+move index_backup.html .\Zaloha\   # (pokud složka existuje)
+</code></pre>
 
-<div class="accordion-item">
-  <h2 class="accordion-header" id="headingCls">
-    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCls" aria-expanded="false" aria-controls="collapseCls">
-      <code>cls</code> – vymazání obrazovky
-    </button>
-  </h2>
-  <div id="collapseCls" class="accordion-collapse collapse" aria-labelledby="headingCls" data-bs-parent="#cmdAccordion">
-    <div class="accordion-body">
-      <p><strong>Popis:</strong> Vymaže aktuální výstup v příkazovém řádku a ponechá pouze kurzor připravený na další příkaz.</p>
-      <p><strong>Využití:</strong> Pro přehlednější práci s CMD, když je okno zahlceno výstupy.</p>
-    </div>
-  </div>
-</div>
+        <h4>CMD (ekvivalent – méně pohodlné, ale funkční)</h4>
+        <pre><code class="cmd">type nul &gt; index.html
+type nul &gt; style.css
+type nul &gt; app.js
 
-<div class="accordion-item">
-  <h2 class="accordion-header" id="headingSfc">
-    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSfc" aria-expanded="false" aria-controls="collapseSfc">
-      <code>sfc /scannow</code> – kontrola systémových souborů
-    </button>
-  </h2>
-  <div id="collapseSfc" class="accordion-collapse collapse" aria-labelledby="headingSfc" data-bs-parent="#cmdAccordion">
-    <div class="accordion-body">
-      <p><strong>Popis:</strong> Spustí kontrolu integrity systémových souborů Windows a případně je opraví.</p>
-      <p><strong>Využití:</strong> Pokud systém hlásí chyby nebo se chová nestabilně, tento příkaz může pomoci najít a opravit poškozené soubory.</p>
-      <p><strong>Poznámka:</strong> Vyžaduje spuštění CMD jako správce.</p>
-    </div>
-  </div>
-</div>
-<div class="accordion-item">
-  <h2 class="accordion-header" id="headingNslookup">
-    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNslookup" aria-expanded="false" aria-controls="collapseNslookup">
-      <code>nslookup</code> – přeložení domény na IP adresu
-    </button>
-  </h2>
-  <div id="collapseNslookup" class="accordion-collapse collapse" aria-labelledby="headingNslookup" data-bs-parent="#cmdAccordion">
-    <div class="accordion-body">
-      <p><strong>Popis:</strong> Umožňuje zjistit IP adresu domény nebo naopak – jaké doménové jméno odpovídá IP adrese.</p>
-      <p><strong>Příklad:</strong> <code>nslookup google.com</code> ukáže IP adresu serveru Google.</p>
-      <p><strong>Využití:</strong> Diagnostika DNS, ověřování, zda funguje překládání názvů.</p>
-    </div>
-  </div>
-</div>
+ren app.js main.js
+copy index.html index_backup.html
+move index_backup.html Zaloha\
+</code></pre>
 
-<div class="accordion-item">
-  <h2 class="accordion-header" id="headingDriverquery">
-    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDriverquery" aria-expanded="false" aria-controls="collapseDriverquery">
-      <code>driverquery</code> – seznam ovladačů
-    </button>
-  </h2>
-  <div id="collapseDriverquery" class="accordion-collapse collapse" aria-labelledby="headingDriverquery" data-bs-parent="#cmdAccordion">
-    <div class="accordion-body">
-      <p><strong>Popis:</strong> Zobrazí přehled všech nainstalovaných ovladačů v systému.</p>
-      <p><strong>Tip:</strong> Přidej <code>/v</code> pro podrobnosti nebo <code>/fo csv</code> pro export do tabulky.</p>
-      <p><strong>Využití:</strong> Kontrola, jestli fungují správné ovladače, nebo hledání příčiny problémů s hardwarem.</p>
-    </div>
-  </div>
-</div>
+        <div class="note note--info">
+          <strong>Důležité:</strong> Mazání je nejčastější průšvih. Neuč se „mazat rychle“, uč se nejdřív „ověřit si, co mažu“.
+          Postup: <strong>dir → (až pak) smazat</strong>. Pokud si nejsi jistý, nemaž.
+        </div>
+      </div>
+    </details>
 
-<div class="accordion-item">
-  <h2 class="accordion-header" id="headingNetShare">
-    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNetShare" aria-expanded="false" aria-controls="collapseNetShare">
-      <code>net share</code> – správa sdílených složek
-    </button>
-  </h2>
-  <div id="collapseNetShare" class="accordion-collapse collapse" aria-labelledby="headingNetShare" data-bs-parent="#cmdAccordion">
-    <div class="accordion-body">
-      <p><strong>Popis:</strong> Zobrazí nebo nastaví sdílení složek v síti.</p>
-      <p><strong>Příklad:</strong> <code>net share Sdilena=c:\sdilena_slozka</code> vytvoří sdílenou složku.</p>
-      <p><strong>Využití:</strong> Pro nastavení přístupu k souborům v síti, např. ve školní síti.</p>
-    </div>
-  </div>
-</div>
+    <!-- 6) Otevření ve VS Code / Průzkumníku (workflow) -->
+    <details class="acc">
+      <summary class="acc__sum">6) Workflow projektu: otevřít složku ve VS Code a v Průzkumníku</summary>
+      <div class="acc__body">
+        <h4>Otevřít aktuální složku v Průzkumníku (funguje vždy)</h4>
+        <pre><code class="cmd">explorer .</code></pre>
 
-<div class="accordion-item">
-  <h2 class="accordion-header" id="headingMstsc">
-    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMstsc" aria-expanded="false" aria-controls="collapseMstsc">
-      <code>mstsc</code> – vzdálená plocha
-    </button>
-  </h2>
-  <div id="collapseMstsc" class="accordion-collapse collapse" aria-labelledby="headingMstsc" data-bs-parent="#cmdAccordion">
-    <div class="accordion-body">
-      <p><strong>Popis:</strong> Spustí připojení ke vzdálené ploše pomocí protokolu RDP.</p>
-      <p><strong>Příklad:</strong> <code>mstsc /v:192.168.1.10</code> se připojí ke vzdálenému počítači s touto IP adresou.</p>
-      <p><strong>Využití:</strong> Užitečné v administraci, ale i ve školním prostředí např. pro dálkovou pomoc.</p>
-    </div>
-  </div>
-</div>
+        <h4>Otevřít aktuální složku ve VS Code</h4>
+        <p>
+          Pokud je VS Code nainstalovaný a příkaz <code>code</code> je dostupný v systému, funguje toto:
+        </p>
+        <pre><code class="cmd">code .</code></pre>
 
-<div class="accordion-item">
-  <h2 class="accordion-header" id="headingWhoami">
-    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWhoami" aria-expanded="false" aria-controls="collapseWhoami">
-      <code>whoami</code> – kdo je přihlášený
-    </button>
-  </h2>
-  <div id="collapseWhoami" class="accordion-collapse collapse" aria-labelledby="headingWhoami" data-bs-parent="#cmdAccordion">
-    <div class="accordion-body">
-      <p><strong>Popis:</strong> Zobrazí jméno aktuálně přihlášeného uživatele a doménu (pokud je připojen k doméně).</p>
-      <p><strong>Využití:</strong> Užitečné při testování oprávnění nebo v prostředí s více uživateli.</p>
-    </div>
-  </div>
-</div>
+        <div class="note note--info">
+          <strong>Pokud <code>code .</code> nefunguje:</strong> Otevři složku přes <code>explorer .</code> a ve VS Code použij
+          <strong>File → Open Folder...</strong>. To funguje vždy, nezávisle na nastavení PATH.
+        </div>
 
-  <!-- Praktické příkazy PowerShellu -->
+        <h4>Rychlé otevření souboru v Poznámkovém bloku (univerzální)</h4>
+        <pre><code class="cmd">notepad README.md</code></pre>
+      </div>
+    </details>
 
-  
-  <h5 class="mt-4">Základní příkazy PowerShellu</h5>
-  <ul class="list-group mb-4">
-    <li class="list-group-item"><code>Get-ChildItem</code> – výpis obsahu složky (podobné jako <code>dir</code>)</li>
-    <li class="list-group-item"><code>Remove-Item</code> – odstranění souboru nebo složky</li>
-    <li class="list-group-item"><code>Clear-RecycleBin</code> – vyprázdnění koše</li>
-    <li class="list-group-item"><code>Move-Item</code> – přesun souboru</li>
-    <li class="list-group-item"><code>Start-Sleep -Seconds 5</code> – pauza ve skriptu</li>
-  </ul>
+    <!-- 7) Síť: jen minimální diagnostika -->
+    <details class="acc">
+      <summary class="acc__sum">7) Síť: 3 příkazy, které reálně použiješ, když „nejde internet“</summary>
+      <div class="acc__body">
+        <h4>1) IP adresa a stav adaptéru</h4>
+        <pre><code class="cmd">ipconfig</code></pre>
+        <p class="muted">
+          Hledáš: máš přidělenou IP adresu? je adaptér aktivní?
+        </p>
 
-  <div class="accordion" id="powershellAccordion">
+        <h4>2) Ověření dostupnosti (ping)</h4>
+        <pre><code class="cmd">ping 8.8.8.8
+ping seznam.cz</code></pre>
+        <p class="muted">
+          Ping na IP ověří síť, ping na doménu ověří i DNS (překlad názvů).
+        </p>
 
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingMoveDownloads">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMoveDownloads" aria-expanded="false" aria-controls="collapseMoveDownloads">
-        <code>Přesun souborů ze složky Stažené do Koše</code>
-      </button>
-    </h2>
-    <div id="collapseMoveDownloads" class="accordion-collapse collapse" aria-labelledby="headingMoveDownloads" data-bs-parent="#powershellAccordion">
-      <div class="accordion-body">
-        <p><strong>Popis:</strong> Tento příkaz přesune všechny soubory z vaší složky Stažené (Downloads) do Koše.</p>
-        <p><strong>Krok za krokem:</strong></p>
-        <ol>
-          <li>Zjistíme cestu ke složce Stažené uživatele.</li>
-          <li>Získáme seznam všech souborů v této složce.</li>
-          <li>Vytvoříme objekt, který umožní přesun do Koše.</li>
-          <li>Postupně přesuneme všechny soubory do Koše.</li>
+        <h4>3) Kde se to „ztrácí“ (tracert)</h4>
+        <pre><code class="cmd">tracert seznam.cz</code></pre>
+
+        <div class="note note--info">
+          <strong>Metodika diagnostiky:</strong> (1) ipconfig → (2) ping IP → (3) ping doména → (4) tracert.
+        </div>
+      </div>
+    </details>
+
+    <!-- 8) Procesy: jen základ -->
+    <details class="acc">
+      <summary class="acc__sum">8) Procesy: rychle zjistit, co běží a ukončit zamrzlou aplikaci</summary>
+      <div class="acc__body">
+        <h4>CMD (rychlé a jednoduché)</h4>
+        <pre><code class="cmd">tasklist
+tasklist /fi "imagename eq chrome.exe"</code></pre>
+
+        <h4>Ukončení zamrzlé aplikace (příklad s Poznámkovým blokem)</h4>
+        <pre><code class="cmd">taskkill /im notepad.exe</code></pre>
+
+        <h4>PowerShell (čitelné výpisy)</h4>
+        <pre><code class="powershell">Get-Process
+Get-Process | Sort-Object CPU -Descending | Select-Object -First 10</code></pre>
+
+        <div class="note note--info">
+          <strong>Bezpečnost:</strong> Neukončuj „náhodné“ systémové procesy. V běžném použití ukončuj jen aplikace, které znáš (Chrome, Teams, VS Code…).
+        </div>
+      </div>
+    </details>
+
+    <!-- 9) Nápověda -->
+    <details class="acc">
+      <summary class="acc__sum">9) Nápověda: jak si poradit bez Googlení</summary>
+      <div class="acc__body">
+        <h4>CMD nápověda</h4>
+        <pre><code class="cmd">help
+dir /?
+ipconfig /?</code></pre>
+
+        <h4>PowerShell nápověda</h4>
+        <pre><code class="powershell">Get-Help Get-Process
+Get-Command *process*</code></pre>
+
+        <div class="note note--info">
+          <strong>Trik:</strong> Když nevíš název příkazu, v PowerShellu hledej přes <code>Get-Command</code>.
+        </div>
+      </div>
+    </details>
+
+    <!-- 10) 10min trénink -->
+    <details class="acc">
+      <summary class="acc__sum">10) 10min trénink: „projekt bez myši“ (přesně to, co chceš umět)</summary>
+      <div class="acc__body">
+        <ol class="steps">
+          <li>Otevři PowerShell.</li>
+          <li>Najdi, kde jsi: <code>pwd</code>.</li>
+          <li>Vytvoř školní složku: <code>mkdir Skola_2025-2026</code>.</li>
+          <li>Vstup do ní: <code>cd .\Skola_2025-2026</code>.</li>
+          <li>Vytvoř projekt: <code>mkdir Projekt_CMD</code> a vstup: <code>cd .\Projekt_CMD</code>.</li>
+          <li>Vytvoř soubory: <code>ni index.html</code>, <code>ni style.css</code>, <code>ni app.js</code>.</li>
+          <li>Zkontroluj obsah: <code>dir -Name</code>.</li>
+          <li>Otevři složku v Průzkumníku: <code>explorer .</code>.</li>
+          <li>Volitelně: pokud funguje VS Code příkaz, otevři projekt: <code>code .</code>.</li>
+          <li>Hotovo: vrať se o úroveň výš: <code>cd ..</code> a ověř: <code>dir</code>.</li>
         </ol>
-        <pre><code class="powershell">
-$downloads = [Environment]::GetFolderPath("UserProfile") + "\Downloads"
-$files = Get-ChildItem -Path $downloads -File
-$shell = New-Object -ComObject Shell.Application
-$recycleBin = $shell.Namespace(10)
-foreach ($file in $files) {
-    $recycleBin.MoveHere($file.FullName)
-}
-        </code></pre>
+
+        <div class="note note--info">
+          <strong>Cíl:</strong> Po 2–3 opakováních tohle uděláš automaticky bez přemýšlení. To je reálný „skill“.
+        </div>
       </div>
-    </div>
+    </details>
+
   </div>
-
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingMoveDesktop">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMoveDesktop" aria-expanded="false" aria-controls="collapseMoveDesktop">
-        <code>Přesun souborů z Plochy do Koše</code>
-      </button>
-    </h2>
-    <div id="collapseMoveDesktop" class="accordion-collapse collapse" aria-labelledby="headingMoveDesktop" data-bs-parent="#powershellAccordion">
-      <div class="accordion-body">
-        <p><strong>Popis:</strong> Podobně jako u Stažených, tento příkaz přesune všechny soubory z vaší Plochy do Koše.</p>
-        <p><strong>Kroky:</strong></p>
-        <ol>
-          <li>Získáme cestu k Ploše uživatele.</li>
-          <li>Vybereme všechny soubory na ploše.</li>
-          <li>Přesuneme je do Koše pomocí stejné metody jako předtím.</li>
-        </ol>
-        <pre><code class="powershell">
-$desktop = [Environment]::GetFolderPath("Desktop")
-$files = Get-ChildItem -Path $desktop -File
-$shell = New-Object -ComObject Shell.Application
-$recycleBin = $shell.Namespace(10)
-foreach ($file in $files) {
-    $recycleBin.MoveHere($file.FullName)
-}
-        </code></pre>
-      </div>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingEmptyRecycleBin">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEmptyRecycleBin" aria-expanded="false" aria-controls="collapseEmptyRecycleBin">
-        <code>Vyprázdnění Koše</code>
-      </button>
-    </h2>
-    <div id="collapseEmptyRecycleBin" class="accordion-collapse collapse" aria-labelledby="headingEmptyRecycleBin" data-bs-parent="#powershellAccordion">
-      <div class="accordion-body">
-        <p><strong>Popis:</strong> Tento příkaz úplně vyprázdní Koš bez jakéhokoliv potvrzení.</p>
-        <p><strong>Příkaz:</strong></p>
-        <pre><code class="powershell">
-Clear-RecycleBin -Force
-        </code></pre>
-      </div>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingClearTemp">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseClearTemp" aria-expanded="false" aria-controls="collapseClearTemp">
-        <code>Vyčištění dočasných složek</code>
-      </button>
-    </h2>
-    <div id="collapseClearTemp" class="accordion-collapse collapse" aria-labelledby="headingClearTemp" data-bs-parent="#powershellAccordion">
-      <div class="accordion-body">
-        <p><strong>Popis:</strong> Smaže všechny soubory v dočasných složkách uživatele i systému, což pomáhá uvolnit místo a zrychlit PC.</p>
-        <p><strong>Kroky:</strong></p>
-        <ol>
-          <li>Získáme cestu do dočasné složky uživatele.</li>
-          <li>Smažeme obsah této složky.</li>
-          <li>Smažeme obsah dočasné systémové složky (C:\Windows\Temp).</li>
-          <li>Ignorujeme chyby, aby skript pokračoval i při zámku souborů.</li>
-        </ol>
-        <pre><code class="powershell">
-$tempUser = [Environment]::GetFolderPath("Temp")
-Remove-Item -Path "$tempUser\*" -Recurse -Force -ErrorAction SilentlyContinue
-
-$tempSystem = "C:\Windows\Temp"
-Remove-Item -Path "$tempSystem\*" -Recurse -Force -ErrorAction SilentlyContinue
-        </code></pre>
-      </div>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingLogout">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLogout" aria-expanded="false" aria-controls="collapseLogout">
-        <code>Odhlášení uživatele</code>
-      </button>
-    </h2>
-    <div id="collapseLogout" class="accordion-collapse collapse" aria-labelledby="headingLogout" data-bs-parent="#powershellAccordion">
-      <div class="accordion-body">
-        <p><strong>Popis:</strong> Tento příkaz odhlásí aktuálně přihlášeného uživatele.</p>
-        <p><strong>Příkaz:</strong></p>
-        <pre><code class="powershell">
-shutdown /l
-        </code></pre>
-      </div>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingFullScript">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFullScript" aria-expanded="false" aria-controls="collapseFullScript">
-        <code>Konečný skript – údržbář PC</code>
-      </button>
-    </h2>
-    <div id="collapseFullScript" class="accordion-collapse collapse" aria-labelledby="headingFullScript" data-bs-parent="#powershellAccordion">
-      <div class="accordion-body">
-        <p><strong>Popis:</strong> Kompletní skript, který spojuje všechny předchozí části dohromady. Stačí zkopírovat a uložit jako soubor <code>.ps1</code>.</p>
-        <pre><code class="powershell">
-# PC Údržbář - kompletní skript
-
-# Přesun stažených souborů do Koše
-$downloads = [Environment]::GetFolderPath("UserProfile") + "\Downloads"
-$files = Get-ChildItem -Path $downloads -File
-$shell = New-Object -ComObject Shell.Application
-$recycleBin = $shell.Namespace(10)
-foreach ($file in $files) {
-    $recycleBin.MoveHere($file.FullName)
-}
-
-# Přesun souborů z Plochy do Koše
-$desktop = [Environment]::GetFolderPath("Desktop")
-$files = Get-ChildItem -Path $desktop -File
-foreach ($file in $files) {
-    $recycleBin.MoveHere($file.FullName)
-}
-
-# Vyprázdnění Koše
-Clear-RecycleBin -Force
-
-# Vyčištění dočasných složek
-$tempUser = [Environment]::GetFolderPath("Temp")
-Remove-Item -Path "$tempUser\*" -Recurse -Force -ErrorAction SilentlyContinue
-$tempSystem = "C:\Windows\Temp"
-Remove-Item -Path "$tempSystem\*" -Recurse -Force -ErrorAction SilentlyContinue
-
-# Odhlášení uživatele
-shutdown /l
-        </code></pre>
-      </div>
-    </div>
-  </div>
-
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingScriptInstructions">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseScriptInstructions" aria-expanded="false" aria-controls="collapseScriptInstructions">
-        <code>Návod k vytvoření a spuštění skriptu</code>
-      </button>
-    </h2>
-    <div id="collapseScriptInstructions" class="accordion-collapse collapse" aria-labelledby="headingScriptInstructions" data-bs-parent="#powershellAccordion">
-      <div class="accordion-body">
-        <ol>
-          <li><strong>Otevři Poznámkový blok</strong><br>Stiskni <kbd>Win + R</kbd>, napiš <code>notepad</code> a potvrď Enter.</li>
-          <li><strong>Zkopíruj celý skript</strong> z předchozího kroku a vlož ho do Poznámkového bloku.</li>
-          <li><strong>Ulož soubor</strong><br>Klikni na <em>Soubor &gt; Uložit jako...</em><br>Jako název napiš například <code>Udrzbar.ps1</code> (přípona <code>.ps1</code> je důležitá)<br>Vyber typ souboru <em>Všechny soubory</em><br>Ulož na místo, kde ho snadno najdeš, třeba na Plochu.</li>
-          <li><strong>Spuštění skriptu</strong><br>Klikni pravým tlačítkem na Start a vyber <em>Windows PowerShell (správce)</em><br>Pokud se objeví varování, potvrď.<br>Zadej příkaz (pokud je soubor na ploše):<br><code>&amp; "$env:USERPROFILE\Desktop\Udrzbar.ps1"</code></li>
-          <li><strong>Nastavení politiky spuštění skriptů</strong><br>Pokud se skript nespustí kvůli bezpečnostním omezením, spusť v PowerShellu jako správce:<br><code>Set-ExecutionPolicy RemoteSigned</code><br>Potvrď stiskem <kbd>A</kbd> a Enter.</li>
-          <li><strong>Po spuštění</strong><br>Skript provede přesun souborů do Koše, vyprázdní Koš, vyčistí dočasné složky a odhlásí uživatele.</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-  
-
-<section id="section1-9-test" class="container my-5">
-  <h4>🎯 Test: Znalosti příkazového řádku</h4>
-
-  <div class="quiz-question mb-4">
-    <p><strong>1. Co udělá příkaz <code>dir</code>?</strong></p>
-    <div class="btn-group-vertical">
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Zobrazí obsah složky</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Smaže složku</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Zobrazí IP adresu</button>
-    </div>
-  </div>
-
-  <div class="quiz-question mb-4">
-    <p><strong>2. Který příkaz slouží k diagnostice sítě?</strong></p>
-    <div class="btn-group-vertical">
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">cd</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">ping</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">cls</button>
-    </div>
-  </div>
-
-  <div class="quiz-question mb-4">
-    <p><strong>3. Co znamená <code>ipconfig /all</code>?</strong></p>
-    <div class="btn-group-vertical">
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Zobrazí podrobné síťové informace</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Smaže všechny soubory</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Zobrazí seznam procesů</button>
-    </div>
-  </div>
-
-  <div class="quiz-question mb-4">
-    <p><strong>4. K čemu slouží příkaz <code>cd</code>?</strong></p>
-    <div class="btn-group-vertical">
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Změní aktuální adresář</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Vymaže soubory</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Restartuje počítač</button>
-    </div>
-  </div>
-
-  <div class="quiz-question mb-4">
-    <p><strong>5. Co dělá příkaz <code>cls</code>?</strong></p>
-    <div class="btn-group-vertical">
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Vyčistí obrazovku příkazového řádku</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Zobrazí seznam souborů</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Otevře editor</button>
-    </div>
-  </div>
-
-  <div class="quiz-question mb-4">
-    <p><strong>6. Co udělá příkaz <code>mkdir novy_složka</code>?</strong></p>
-    <div class="btn-group-vertical">
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Vytvoří novou složku</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Smaže složku</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Změní název složky</button>
-    </div>
-  </div>
-
-  <div class="quiz-question mb-4">
-    <p><strong>7. Jaký příkaz zobrazí IP adresu počítače?</strong></p>
-    <div class="btn-group-vertical">
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">ping</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">ipconfig</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">netstat</button>
-    </div>
-  </div>
-
-  <div class="quiz-question mb-4">
-    <p><strong>8. Co dělá příkaz <code>rmdir</code>?</strong></p>
-    <div class="btn-group-vertical">
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Smaže prázdnou složku</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Zobrazí obsah složky</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Přejmenuje soubor</button>
-    </div>
-  </div>
-
-  <div class="quiz-question mb-4">
-    <p><strong>9. Co dělá příkaz <code>copy</code>?</strong></p>
-    <div class="btn-group-vertical">
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Zkopíruje soubory</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Přesune složky</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Smaže soubor</button>
-    </div>
-  </div>
-
-  <div class="quiz-question mb-4">
-    <p><strong>10. Jaký příkaz ukončí běžící program v příkazovém řádku?</strong></p>
-    <div class="btn-group-vertical">
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Ctrl + C</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Ctrl + Z</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Ctrl + D</button>
-    </div>
-  </div>
-
-  <div class="quiz-question mb-4">
-    <p><strong>11. Co znamená příkaz <code>tasklist</code>?</strong></p>
-    <div class="btn-group-vertical">
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Zobrazí seznam běžících procesů</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Zobrazí seznam síťových připojení</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Vymaže dočasné soubory</button>
-    </div>
-  </div>
-
-  <div class="quiz-question mb-4">
-    <p><strong>12. K čemu slouží příkaz <code>exit</code>?</strong></p>
-    <div class="btn-group-vertical">
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Ukončí příkazový řádek</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Restartuje počítač</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Spustí program</button>
-    </div>
-  </div>
-
-  <div class="quiz-question mb-4">
-    <p><strong>13. Co dělá příkaz <code>netstat</code>?</strong></p>
-    <div class="btn-group-vertical">
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Zobrazí aktivní síťová připojení</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Zobrazí obsah složky</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Vymaže soubory</button>
-    </div>
-  </div>
-
-  <div class="quiz-question mb-4">
-    <p><strong>14. Co znamená příkaz <code>shutdown /s</code>?</strong></p>
-    <div class="btn-group-vertical">
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Vypne počítač</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Restartuje počítač</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Odhlásí uživatele</button>
-    </div>
-  </div>
-
-  <div class="quiz-question mb-4">
-    <p><strong>15. Co dělá příkaz <code>help</code>?</strong></p>
-    <div class="btn-group-vertical">
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, true)">Zobrazí nápovědu k příkazům</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Vymaže obrazovku</button>
-      <button class="btn btn-outline-secondary" onclick="checkAnswer(this, false)">Spustí příkaz</button>
-    </div>
-  </div>
-</section>
-
-
 
   <!-- Shrnutí -->
-  <div class="container my-5 p-4 border rounded bg-light">
-    <h3 class="mb-3">Shrnutí</h3>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">CMD je základní nástroj pro textovou práci, PowerShell je jeho moderní nástupce</li>
-      <li class="list-group-item">PowerShell umožňuje pokročilé automatizace a skriptování</li>
-      <li class="list-group-item">Ukázali jsme si praktický příklad skriptu pro vypnutí počítače</li>
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+    <ul class="checklist">
+      <li>Terminál je rychlejší než klikání, když jde o opakované úkony (složky, soubory, diagnostika).</li>
+      <li>Metodika práce: <strong>kde jsem</strong> → <strong>co tu je</strong> → teprve potom akce.</li>
+      <li>Top příkazy pro praxi: <code>pwd</code>/<code>cd</code>, <code>dir</code>, <code>mkdir</code>, <code>ni</code>, <code>ren</code>, <code>copy</code>, <code>move</code>, <code>explorer .</code>, <code>ipconfig</code>, <code>ping</code>.</li>
+      <li>Pro „nejde internet“: <code>ipconfig</code> → <code>ping IP</code> → <code>ping doména</code> → <code>tracert</code>.</li>
     </ul>
-  </div>
+  </article>
+
 </section>
+
+<!-- MODALY – konec stránky, mimo sekci -->
+<div class="modal" id="modal1-7-keys" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Tahák: ovládání terminálu klávesnicí</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <ul class="bullets">
+          <li><strong>Šipka nahoru</strong> – předchozí příkaz (nepíšeš znovu).</li>
+          <li><strong>TAB</strong> – doplnění názvu složky/souboru.</li>
+          <li><strong>Ctrl + C</strong> – zastaví běžící příkaz (např. dlouhý ping).</li>
+          <li><strong>Ctrl + L</strong> – vyčistí obrazovku (PowerShell/Terminal často funguje).</li>
+          <li><strong>Uvozovky</strong> – nutné u cest s mezerami: <code>"C:\Moje soubory"</code>.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Největší zrychlení:</strong> TAB + šipka nahoru. To jsou dvě věci, které dělají z terminálu rychlý nástroj.
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+
+    </div>
+  </div>
+  
+</div>
+<!-- VLOŽ do <div class="accordion"> v sekci 1.7 jako další <details> -->
+<details class="acc">
+  <summary class="acc__sum">11) Lehká automatizace: vyčistit Stažené, vysypat Koš, odhlásit se (PowerShell)</summary>
+  <div class="acc__body">
+
+    <p>
+      Tohle je praktická mini-automatizace pro běžného uživatele: uklidí složku <strong>Stažené soubory</strong>,
+      vysype <strong>Koš</strong> a nakonec provede <strong>odhlášení</strong>. Je to typická situace „udělej pořádek na počítači rychle“.
+    </p>
+
+    <div class="note note--info">
+      <strong>Pozor:</strong> Tento skript po vysypání Koše odstraní soubory trvale. Před spuštěním si ulož rozdělanou práci.
+      Skript tě před finální částí zastaví a dá ti možnost zrušit běh (<kbd>Ctrl + C</kbd>).
+    </div>
+
+    <h4>1) Vytvoř skript</h4>
+    <ol class="steps">
+      <li>Otevři Poznámkový blok (Start → napiš <strong>notepad</strong> → Enter).</li>
+      <li>Vlož kód níže.</li>
+      <li>Ulož soubor jako <code>Uklid.ps1</code> (typ souboru: „Všechny soubory“), třeba na Plochu.</li>
+    </ol>
+
+    <h4>2) Spusť skript</h4>
+    <ol class="steps">
+      <li>Otevři PowerShell / Terminal.</li>
+      <li>Přejdi do umístění skriptu (např. Plocha): <code>cd $env:USERPROFILE\Desktop</code></li>
+      <li>Spusť ho takto (funguje bez přenastavení politik systému):</li>
+    </ol>
+
+    <pre><code class="powershell">powershell -NoProfile -ExecutionPolicy Bypass -File .\Uklid.ps1</code></pre>
+
+    <h4>Kód skriptu: <code>Uklid.ps1</code></h4>
+    <pre><code class="powershell"># Uklid.ps1 — Stažené → Koš → Vysypat Koš → Odhlášení
+# Cíl: jednoduché, použitelné, bez zbytečností.
+
+Write-Host ""
+Write-Host "=== Uklid Windows (Downloads + Recycle Bin + Logoff) ==="
+Write-Host "Uloz si praci. Pred finalnim krokem bude potvrzeni."
+Write-Host ""
+
+# 1) Najdi slozku Downloads (nejbeznejsi umisteni)
+$downloads = Join-Path $env:USERPROFILE "Downloads"
+
+if (-not (Test-Path -LiteralPath $downloads)) {
+  Write-Host "Slozka Downloads nebyla nalezena: $downloads"
+  Write-Host "Nic k uklidu ve Stazenych. Pokracuji dal..."
+} else {
+  # 2) Nacti obsah Downloads
+  $items = Get-ChildItem -LiteralPath $downloads -Force -ErrorAction SilentlyContinue
+
+  if (-not $items -or $items.Count -eq 0) {
+    Write-Host "Downloads je prazdna: $downloads"
+  } else {
+    Write-Host ("Nalezeno polozek ve Stazenych: {0}" -f $items.Count)
+    Write-Host "Presouvam polozky do Kose..."
+
+    # 3) Presun do Kose pres Shell COM (funguje na beznem Windows)
+    $shell = New-Object -ComObject Shell.Application
+    $recycleBin = $shell.Namespace(10)   # 10 = Recycle Bin
+
+    foreach ($it in $items) {
+      try {
+        $recycleBin.MoveHere($it.FullName)
+      } catch {
+        Write-Host ("Nelze presunout: {0}" -f $it.FullName)
+      }
+    }
+
+    Write-Host "Hotovo: Downloads -> Kos"
+  }
+}
+
+Write-Host ""
+Write-Host "Dalsi krok: VYSYPAT KOS a ODHLASIT se."
+Write-Host "Pokud to nechces dokoncit, stiskni Ctrl + C."
+Read-Host "Stiskni Enter pro pokracovani"
+
+# 4) Vysypani kose (PowerShell 5+)
+if (Get-Command Clear-RecycleBin -ErrorAction SilentlyContinue) {
+  try {
+    Clear-RecycleBin -Force -ErrorAction SilentlyContinue
+    Write-Host "Kos byl vysypan."
+  } catch {
+    Write-Host "Kos se nepodarilo vysypat (mohou byt zamcene soubory)."
+  }
+} else {
+  Write-Host "Clear-RecycleBin neni dostupne v tomto PowerShellu. Kos nebyl vysypan."
+}
+
+# 5) Odhlaseni uzivatele
+Write-Host "Odhlasuji uzivatele..."
+shutdown.exe /l
+</code></pre>
+
+    <div class="note note--info">
+      <strong>Co je důležité vědět:</strong>
+      <ul class="bullets">
+        <li>Skript primárně míří na běžnou složku <code>%USERPROFILE%\Downloads</code>.</li>
+        <li>„Vyčistit Stažené“ = přesun do Koše, a teprve potom vysypání Koše.</li>
+        <li>Když se něco nepovede přesunout (zamčený soubor), skript pokračuje dál.</li>
+      </ul>
+    </div>
+
+  </div>
+</details>
+
