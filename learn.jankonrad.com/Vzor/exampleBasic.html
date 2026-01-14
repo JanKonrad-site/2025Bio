@@ -1,0 +1,159 @@
+<!-- TEMPLATE A: Standardní lekce (bez galerie) -->
+<section id="sectionX-X-X" class="lesson">
+
+  <header class="lesson__header">
+    <h2 class="lesson__title">X.X.X Název kapitoly</h2>
+    <p class="lesson__lead">
+      Krátký úvod / anotace kapitoly (1–2 věty).
+    </p>
+  </header>
+
+  <!-- Co se naučíš -->
+  <article class="card">
+    <h3 class="card__title">Co se naučíš?</h3>
+
+    <ul class="checklist">
+      <li><strong>Bod 1</strong> – stručné vysvětlení.</li>
+      <li><strong>Bod 2</strong> – stručné vysvětlení.</li>
+      <li><strong>Bod 3</strong> – stručné vysvětlení.</li>
+      <li><strong>Bod 4</strong> – stručné vysvětlení.</li>
+    </ul>
+
+    <div class="note note--info">
+      <strong>Tip:</strong> Krátký tip / poznámka k lekci.
+    </div>
+  </article>
+
+  <!-- Akce / odkazy -->
+  <div class="actions">
+    <a class="btn btn--primary" href="URL_MATERIÁLY" target="_blank" rel="noopener">
+      Primární akce (např. stáhnout materiály)
+    </a>
+
+    <a class="btn btn--ghost" href="URL_ZDROJ" target="_blank" rel="noopener">
+      Sekundární akce (např. oficiální web)
+    </a>
+  </div>
+
+  <!-- Akordeony -->
+  <div class="accordion">
+
+    <!-- 1) Sekce -->
+    <details class="acc" open>
+      <summary class="acc__sum">1) Nadpis sekce</summary>
+      <div class="acc__body">
+
+        <p>
+          Úvodní text sekce… (může být i prázdné, když je sekce jen seznam kroků).
+        </p>
+
+        <ol class="steps">
+          <li>Krok 1…</li>
+          <li>Krok 2…</li>
+          <li>Krok 3…</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Doplňující bod…</li>
+          <li>Doplňující bod…</li>
+        </ul>
+
+        <!-- Ukázka tlačítka „Více“ (modál) -->
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modalX-1">
+            Více informací
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 2) Sekce + vnořený akordeon -->
+    <details class="acc">
+      <summary class="acc__sum">2) Nadpis sekce (s podsekcemi)</summary>
+      <div class="acc__body">
+
+        <p>Text k sekci…</p>
+
+        <div class="accordion">
+          <details class="acc" open>
+            <summary class="acc__sum">2.1 Podsekce</summary>
+            <div class="acc__body">
+              <p>Text k podsekci…</p>
+              <ul class="bullets">
+                <li>Bod…</li>
+                <li>Bod…</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="acc">
+            <summary class="acc__sum">2.2 Podsekce</summary>
+            <div class="acc__body">
+              <p>Text k podsekci…</p>
+            </div>
+          </details>
+        </div>
+
+      </div>
+    </details>
+
+  </div>
+
+  <!-- Shrnutí -->
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+
+    <ul class="checklist">
+      <li>Výstup 1 (co žák umí)…</li>
+      <li>Výstup 2…</li>
+      <li>Výstup 3…</li>
+    </ul>
+  </article>
+
+  <!-- Volitelné: Zdroje -->
+  <article class="card">
+    <h3 class="card__title">Odkazy na použité zdroje</h3>
+    <ol class="steps">
+      <li><a href="URL_1" target="_blank" rel="noopener">Název zdroje 1</a></li>
+      <li><a href="URL_2" target="_blank" rel="noopener">Název zdroje 2</a></li>
+    </ol>
+  </article>
+
+</section>
+
+<!-- TEMPLATE MODALY (umísti obvykle na konec stránky, mimo sekci) -->
+<div class="modal" id="modalX-1" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Nadpis modálu</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>Obsah modálu…</p>
+        <ul class="bullets">
+          <li>Bod…</li>
+          <li>Bod…</li>
+        </ul>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="URL" target="_blank" rel="noopener">Odkaz</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- POZNÁMKA:
+  1) Inline <script> sem nedávej.
+  2) Modály otevírá globální JS (např. assets/js/features/modals.js).
+  3) Tlačítko otevření: data-modal-open="ID_MODÁLU"
+  4) Zavření: [data-modal-close] (křížek + tlačítko)
+-->
