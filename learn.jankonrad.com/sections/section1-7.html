@@ -326,99 +326,6 @@ Get-Command *process*
       </div>
     </details>
 
-    <!-- 11) Automatizace: PowerShell skript -->
-    <details class="acc">
-      <summary class="acc__sum">11) Lehká automatizace (PowerShell): vyčistit Stažené, vysypat Koš, odhlásit se</summary>
-      <div class="acc__body">
-
-        <p>
-          Úkol: vytvoříš a spustíš skript <code>uklid.ps1</code>, který (1) vyčistí složku Stažené, (2) vysype Koš,
-          (3) odhlásí uživatele. Důležité je umět nejen „kód“, ale hlavně <strong>správné spuštění</strong>.
-        </p>
-
-        <div class="note note--info">
-          <strong>Bezpečnost:</strong> Skript nejdřív smaže obsah Stažených (trvale), pak vysype Koš a nakonec odhlásí uživatele.
-          Před spuštěním si ulož rozdělanou práci. Skript obsahuje potvrzení před finální částí.
-        </div>
-
-        <h4>A) Vytvoření skriptu</h4>
-        <ol class="steps">
-          <li>Vytvoř složku, kde bude skript (příklad): <code>mkdir C:\Game\uklid</code></li>
-          <li>Přejdi do ní: <code>cd C:\Game\uklid</code></li>
-          <li>Vytvoř soubor: <code>ni uklid.ps1</code></li>
-          <li>Otevři ho v Poznámkovém bloku: <code>notepad .\uklid.ps1</code></li>
-          <li>Vlož kód níže a ulož.</li>
-        </ol>
-
-        <h4>B) Správné spuštění skriptu (tohle je přesně to, co ti chybělo)</h4>
-        <p><strong>1) Jsi ve stejné složce jako skript:</strong></p>
-        <pre><code class="powershell">.\uklid.ps1</code></pre>
-
-        <p><strong>2) Když PowerShell blokuje spuštění skriptů:</strong> spusť to „jednorázově“ takto:</p>
-        <pre><code class="powershell">powershell -NoProfile -ExecutionPolicy Bypass -File .\uklid.ps1</code></pre>
-
-        <p><strong>3) Spuštění skriptu odkudkoliv (bez přechodu do složky):</strong></p>
-        <pre><code class="powershell">&amp; "C:\Game\uklid\uklid.ps1"</code></pre>
-
-        <div class="note note--info">
-          <strong>Vysvětlení:</strong> Když napíšeš jen <code>uklid.ps1</code>, PowerShell ho nespustí „z aktuální složky“. Proto je potřeba <code>.\</code>.
-        </div>
-
-        <h4>Kód skriptu: <code>uklid.ps1</code></h4>
-        <pre><code class="powershell"># uklid.ps1 — Stažené (smazat obsah) → vysypat Koš → odhlásit se
-# Cíl: jednoduché, předvídatelné, použitelné.
-
-Write-Host ""
-Write-Host "=== Uklid (Downloads + Recycle Bin + Logoff) ==="
-Write-Host "Uloz si praci. Pred zaverecnym krokem bude potvrzeni."
-Write-Host ""
-
-# Cesta ke slozce Stažené (typicky existuje i na CZ Windows)
-$downloads = Join-Path $env:USERPROFILE "Downloads"
-
-if (Test-Path -LiteralPath $downloads) {
-
-  $items = Get-ChildItem -LiteralPath $downloads -Force -ErrorAction SilentlyContinue
-
-  if ($items.Count -gt 0) {
-    Write-Host ("Nalezeno polozek ve Stazenych: {0}" -f $items.Count)
-    Write-Host "Mazani obsahu slozky Downloads..."
-
-    # Smaze OBSAH slozky, ne slozku samotnou
-    Remove-Item -LiteralPath (Join-Path $downloads "*") -Recurse -Force -ErrorAction SilentlyContinue
-
-    Write-Host "Hotovo: Downloads vycisteny."
-  } else {
-    Write-Host "Downloads je prazdna."
-  }
-
-} else {
-  Write-Host ("Slozka Downloads nebyla nalezena: {0}" -f $downloads)
-}
-
-Write-Host ""
-Write-Host "Dalsi krok: VYSYPAT KOS a ODHLASIT se."
-Write-Host "Pokud to nechces dokoncit, stiskni Ctrl + C."
-Read-Host "Stiskni Enter pro pokracovani"
-
-# Vysypani kose (pokud je prikaz dostupny)
-if (Get-Command Clear-RecycleBin -ErrorAction SilentlyContinue) {
-  Clear-RecycleBin -Force -ErrorAction SilentlyContinue
-  Write-Host "Kos byl vysypan."
-} else {
-  Write-Host "Clear-RecycleBin neni dostupne v tomto PowerShellu. Kos nebyl vysypan."
-}
-
-Write-Host "Odhlasuji uzivatele..."
-shutdown.exe /l
-</code></pre>
-
-        <div class="note note--info">
-          <strong>Pro výuku:</strong> Tohle je záměrně „uživatelský“ skript. Nedělá systémové zásahy, jen uklízí soubory a odhlásí.
-        </div>
-
-      </div>
-    </details>
 
   </div>
 
@@ -434,104 +341,129 @@ shutdown.exe /l
   </article>
 
   <!-- TEST -->
-  <article class="card" id="section1-7-test">
-    <h3 class="card__title">Test: CMD a PowerShell (1.7)</h3>
-    <p>Vyber vždy jednu odpověď. Potom klikni na „Vyhodnotit“.</p>
+<article class="card" id="section1-7-test">
+  <h3 class="card__title">Test: CMD a PowerShell (1.7)</h3>
+  <p>Vyber vždy jednu odpověď u každé otázky. Správná se označí, špatná také. Výsledek se počítá dole.</p>
 
-    <form class="quiz" data-quiz>
+  <div class="quiz" data-quiz>
 
-      <fieldset class="quiz__q">
-        <legend><strong>1)</strong> Co vypíše příkaz <code>pwd</code> v PowerShellu?</legend>
-        <label class="quiz__opt"><input type="radio" name="q1"> Seznam procesů</label>
-        <label class="quiz__opt"><input type="radio" name="q1" data-correct="1"> Aktuální cestu (kde jsem)</label>
-        <label class="quiz__opt"><input type="radio" name="q1"> IP adresu</label>
-      </fieldset>
-
-      <fieldset class="quiz__q">
-        <legend><strong>2)</strong> Proč nefunguje <code>cd desktop</code>, když jsi v <code>C:\</code>?</legend>
-        <label class="quiz__opt"><input type="radio" name="q2"> PowerShell neumí Desktop</label>
-        <label class="quiz__opt"><input type="radio" name="q2" data-correct="1"> Plocha není v C:\, ale v profilu uživatele</label>
-        <label class="quiz__opt"><input type="radio" name="q2"> Musí se psát DESKTOP velkými</label>
-      </fieldset>
-
-      <fieldset class="quiz__q">
-        <legend><strong>3)</strong> Jak se nejspolehlivěji dostaneš na Plochu přes PowerShell?</legend>
-        <label class="quiz__opt"><input type="radio" name="q3" data-correct="1"> <code>cd $env:USERPROFILE\Desktop</code></label>
-        <label class="quiz__opt"><input type="radio" name="q3"> <code>cd C:\desktop</code></label>
-        <label class="quiz__opt"><input type="radio" name="q3"> <code>desktop</code></label>
-      </fieldset>
-
-      <fieldset class="quiz__q">
-        <legend><strong>4)</strong> K čemu slouží klávesa <kbd>Tab</kbd> v terminálu?</legend>
-        <label class="quiz__opt"><input type="radio" name="q4"> Zruší příkaz</label>
-        <label class="quiz__opt"><input type="radio" name="q4" data-correct="1"> Doplňuje názvy složek/souborů</label>
-        <label class="quiz__opt"><input type="radio" name="q4"> Vypíše nápovědu</label>
-      </fieldset>
-
-      <fieldset class="quiz__q">
-        <legend><strong>5)</strong> Jak vytvoříš v PowerShellu nový soubor <code>index.html</code>?</legend>
-        <label class="quiz__opt"><input type="radio" name="q5"> <code>mkdir index.html</code></label>
-        <label class="quiz__opt"><input type="radio" name="q5" data-correct="1"> <code>ni index.html</code></label>
-        <label class="quiz__opt"><input type="radio" name="q5"> <code>dir index.html</code></label>
-      </fieldset>
-
-      <fieldset class="quiz__q">
-        <legend><strong>6)</strong> Jak bezpečně otestuješ mazání v PowerShellu bez skutečného smazání?</legend>
-        <label class="quiz__opt"><input type="radio" name="q6" data-correct="1"> <code>Remove-Item ... -WhatIf</code></label>
-        <label class="quiz__opt"><input type="radio" name="q6"> <code>Remove-Item ... -Force</code></label>
-        <label class="quiz__opt"><input type="radio" name="q6"> <code>del /p</code></label>
-      </fieldset>
-
-      <fieldset class="quiz__q">
-        <legend><strong>7)</strong> Co znamená položka <strong>Default Gateway</strong> v <code>ipconfig</code>?</legend>
-        <label class="quiz__opt"><input type="radio" name="q7"> IP adresa DNS</label>
-        <label class="quiz__opt"><input type="radio" name="q7" data-correct="1"> Router / brána do internetu</label>
-        <label class="quiz__opt"><input type="radio" name="q7"> MAC adresa PC</label>
-      </fieldset>
-
-      <fieldset class="quiz__q">
-        <legend><strong>8)</strong> Když <code>ping 8.8.8.8</code> funguje, ale <code>ping seznam.cz</code> nefunguje, nejčastěji je problém v…</legend>
-        <label class="quiz__opt"><input type="radio" name="q8"> Wi-Fi kartě</label>
-        <label class="quiz__opt"><input type="radio" name="q8" data-correct="1"> DNS (překlad názvů)</label>
-        <label class="quiz__opt"><input type="radio" name="q8"> RAM paměti</label>
-      </fieldset>
-
-      <fieldset class="quiz__q">
-        <legend><strong>9)</strong> Jak otevřeš aktuální složku v Průzkumníku?</legend>
-        <label class="quiz__opt"><input type="radio" name="q9" data-correct="1"> <code>explorer .</code></label>
-        <label class="quiz__opt"><input type="radio" name="q9"> <code>open .</code></label>
-        <label class="quiz__opt"><input type="radio" name="q9"> <code>dir /explorer</code></label>
-      </fieldset>
-
-      <fieldset class="quiz__q">
-        <legend><strong>10)</strong> Proč nefunguje spuštění skriptu jen příkazem <code>uklid.ps1</code>?</legend>
-        <label class="quiz__opt"><input type="radio" name="q10"> Protože PowerShell neumí skripty</label>
-        <label class="quiz__opt"><input type="radio" name="q10" data-correct="1"> PowerShell nespouští skripty z aktuální složky bez <code>.\</code></label>
-        <label class="quiz__opt"><input type="radio" name="q10"> Protože musí být název velkými písmeny</label>
-      </fieldset>
-
-      <fieldset class="quiz__q">
-        <legend><strong>11)</strong> Jak správně spustíš skript, když jsi ve stejné složce?</legend>
-        <label class="quiz__opt"><input type="radio" name="q11" data-correct="1"> <code>.\uklid.ps1</code></label>
-        <label class="quiz__opt"><input type="radio" name="q11"> <code>run uklid.ps1</code></label>
-        <label class="quiz__opt"><input type="radio" name="q11"> <code>start uklid.ps1</code></label>
-      </fieldset>
-
-      <fieldset class="quiz__q">
-        <legend><strong>12)</strong> Co dělá <code>tracert</code>?</legend>
-        <label class="quiz__opt"><input type="radio" name="q12"> Maže dočasné soubory</label>
-        <label class="quiz__opt"><input type="radio" name="q12" data-correct="1"> Ukáže cestu (skoky) k cíli v síti</label>
-        <label class="quiz__opt"><input type="radio" name="q12"> Ukáže seznam procesů</label>
-      </fieldset>
-
-      <div class="actions">
-        <button class="btn btn--primary" type="button" data-quiz-check>Vyhodnotit</button>
-        <button class="btn btn--ghost" type="button" data-quiz-reset>Reset</button>
+    <div class="quiz-question">
+      <p><strong>1. Co vypíše příkaz <code>pwd</code> v PowerShellu?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Seznam procesů</button>
+        <button class="btn btn--ghost" data-correct="1" onclick="checkAnswer(this, true)">Aktuální cestu (kde jsem)</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">IP adresu</button>
       </div>
+    </div>
 
-      <div class="note note--info" data-quiz-result aria-live="polite"></div>
+    <div class="quiz-question">
+      <p><strong>2. Proč nefunguje <code>cd desktop</code>, když jsi v <code>C:\</code>?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">PowerShell neumí Desktop</button>
+        <button class="btn btn--ghost" data-correct="1" onclick="checkAnswer(this, true)">Plocha není v <code>C:\</code>, ale v profilu uživatele</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Musí se psát DESKTOP velkými</button>
+      </div>
+    </div>
 
-    </form>
+    <div class="quiz-question">
+      <p><strong>3. Jak se nejspolehlivěji dostaneš na Plochu přes PowerShell?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" data-correct="1" onclick="checkAnswer(this, true)"><code>cd $env:USERPROFILE\Desktop</code></button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)"><code>cd C:\desktop</code></button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)"><code>desktop</code></button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>4. K čemu slouží klávesa <kbd>Tab</kbd> v terminálu?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Zruší příkaz</button>
+        <button class="btn btn--ghost" data-correct="1" onclick="checkAnswer(this, true)">Doplňuje názvy složek/souborů</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Vypíše nápovědu</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>5. Jak vytvoříš v PowerShellu nový soubor <code>index.html</code>?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)"><code>mkdir index.html</code></button>
+        <button class="btn btn--ghost" data-correct="1" onclick="checkAnswer(this, true)"><code>ni index.html</code></button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)"><code>dir index.html</code></button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>6. Jak bezpečně otestuješ mazání v PowerShellu bez skutečného smazání?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" data-correct="1" onclick="checkAnswer(this, true)"><code>Remove-Item ... -WhatIf</code></button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)"><code>Remove-Item ... -Force</code></button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)"><code>del /p</code></button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>7. Co znamená položka <strong>Default Gateway</strong> v <code>ipconfig</code>?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">IP adresa DNS</button>
+        <button class="btn btn--ghost" data-correct="1" onclick="checkAnswer(this, true)">Router / brána do internetu</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">MAC adresa PC</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>8. Když <code>ping 8.8.8.8</code> funguje, ale <code>ping seznam.cz</code> nefunguje, nejčastěji je problém v…</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Wi-Fi kartě</button>
+        <button class="btn btn--ghost" data-correct="1" onclick="checkAnswer(this, true)">DNS (překlad názvů)</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">RAM paměti</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>9. Jak otevřeš aktuální složku v Průzkumníku?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" data-correct="1" onclick="checkAnswer(this, true)"><code>explorer .</code></button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)"><code>open .</code></button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)"><code>dir /explorer</code></button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>10. Co udělá <code>taskkill /im notepad.exe /f</code>?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Zobrazí procesy Notepadu</button>
+        <button class="btn btn--ghost" data-correct="1" onclick="checkAnswer(this, true)">Násilně ukončí proces Notepadu</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Opraví systémové soubory</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>11. K čemu slouží příkaz <code>tree</code>?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Smaže složku včetně obsahu</button>
+        <button class="btn btn--ghost" data-correct="1" onclick="checkAnswer(this, true)">Vypíše stromovou strukturu složek</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Změní aktuální složku</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>12. Jak zjistíš nápovědu k příkazu <code>ipconfig</code> v CMD?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)"><code>Get-Help ipconfig</code></button>
+        <button class="btn btn--ghost" data-correct="1" onclick="checkAnswer(this, true)"><code>ipconfig /?</code></button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)"><code>help ipconfig()</code></button>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn--ghost" type="button" onclick="resetQuiz(this)">Reset</button>
+    </div>
+
+    <div class="note note--info" data-quiz-result aria-live="polite"></div>
+
+  </div>
+</article>
+
   </article>
 
 </section>

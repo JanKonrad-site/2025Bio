@@ -1,70 +1,162 @@
-<section id="section1-8" class="container my-5">
-  <h3 class="mb-4">🛡️ Základy bezpečnosti a údržby systému</h3>
+<section id="section1-8" class="lesson">
 
-  <div class="container my-4 p-4 border rounded bg-light">
-    <h3 class="mb-3">Co se naučíš?</h3>
-    <ul class="list-group">
-      <li class="list-group-item">Jak fungují antivirové programy</li>
-      <li class="list-group-item">K čemu slouží firewall</li>
-      <li class="list-group-item">Jaké hrozby číhají na internetu – viry, červi, spyware, adware, ransomware...</li>
-      <li class="list-group-item">Jak rozpoznat infekci v systému</li>
-      <li class="list-group-item">Jak provést seriózní údržbu systému pomocí nástrojů Windows</li>
+  <header class="lesson__header">
+    <h2 class="lesson__title">1.8 Základy bezpečnosti a údržby systému</h2>
+    <p class="lesson__lead">
+      Bezpečnost není „jen antivir“. V téhle kapitole si srovnáš pojmy (malware, ransomware…), pochopíš, co dělá firewall,
+      naučíš se poznat typické příznaky infekce a uvidíš základní údržbu systému přes nástroje Windows.
+    </p>
+  </header>
+
+  <!-- Co se naučíš -->
+  <article class="card">
+    <h3 class="card__title">Co se naučíš?</h3>
+
+    <ul class="checklist">
+      <li><strong>Jak fungují antivirové programy</strong> – co je signatura, heuristika a ochrana v reálném čase.</li>
+      <li><strong>K čemu slouží firewall</strong> – brána mezi PC a sítí, kontrola komunikace aplikací.</li>
+      <li><strong>Jaké hrozby číhají na internetu</strong> – viry, červi, spyware, adware, ransomware a další.</li>
+      <li><strong>Jak rozpoznat infekci v systému</strong> – typické symptomy a co zkontrolovat jako první.</li>
+      <li><strong>Jak provést základní údržbu systému</strong> – kontrola systémových souborů a oprava obrazu systému.</li>
     </ul>
+
+    <div class="note note--info">
+      <strong>Metodický cíl:</strong> Umět rozlišit typy hrozeb, pochopit roli antiviru a firewallu a zvládnout základní kontrolu systému
+      pomocí vestavěných nástrojů Windows.
+    </div>
+  </article>
+
+  <!-- Akce -->
+  <div class="actions">
+    <a class="btn btn--primary" href="https://learn.microsoft.com/windows/security/" target="_blank" rel="noopener">
+      Windows Security – přehled (Microsoft)
+    </a>
+    <a class="btn btn--ghost" href="https://learn.microsoft.com/windows/security/operating-system-security/system-security/windows-defender-antivirus/" target="_blank" rel="noopener">
+      Microsoft Defender Antivirus
+    </a>
   </div>
 
-  <h4 class="mt-5">🔒 Antivirová ochrana</h4>
-  <p>Antivirový program je základní obrana každého počítače. Chrání tvůj systém před různými druhy malwaru:</p>
-  <ul>
-    <li><strong>Malware</strong> – škodlivý software obecně</li>
-    <li><strong>Viry</strong> – připojují se k souborům, ničí data</li>
-    <li><strong>Červi</strong> – šíří se sami po síti</li>
-    <li><strong>Trojské koně</strong> – tváří se jako legitimní programy</li>
-    <li><strong>Ransomware</strong> – zašifruje data a požaduje výkupné</li>
-    <li><strong>Spyware</strong> – sleduje činnost uživatele</li>
-    <li><strong>Adware</strong> – zobrazuje nechtěné reklamy</li>
-  </ul>
+  <!-- Akordeony -->
+  <div class="accordion">
 
-  <p>Moderní antiviry (např. Windows Defender, Avast, ESET) využívají databáze signatur, heuristiku a sledování chování v reálném čase.</p>
+    <!-- 1) Antivir -->
+    <details class="acc" open>
+      <summary class="acc__sum">1) Antivirová ochrana: co chrání a jak</summary>
+      <div class="acc__body">
 
-  <h4 class="mt-4">🧱 Co je to firewall?</h4>
-  <p>Firewall je brána mezi počítačem a sítí. Chrání systém před neautorizovaným přístupem a aplikacemi, které se pokoušejí komunikovat bez svolení uživatele.</p>
-  <p>Windows má vlastní firewall aktivovaný ve výchozím nastavení.</p>
+        <p>
+          Antivirový program je základní obrana každého počítače. Chrání tvůj systém před různými druhy malwaru:
+        </p>
 
-  <h4 class="mt-4">🦠 Druhy hrozeb – podrobně</h4>
-  <table class="table table-bordered table-striped mt-3">
-    <thead class="table-light">
-      <tr>
-        <th>Typ hrozby</th>
-        <th>Popis</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>Virus</td><td>Připojuje se k souborům, aktivuje se při jejich spuštění</td></tr>
-      <tr><td>Červ</td><td>Šíří se samostatně po síti, zatěžuje připojení</td></tr>
-      <tr><td>Trojský kůň</td><td>Vypadá jako legitimní program, ale obsahuje škodlivý kód</td></tr>
-      <tr><td>Spyware</td><td>Sleduje činnost uživatele bez jeho vědomí</td></tr>
-      <tr><td>Adware</td><td>Zobrazuje reklamy, často zpomaluje systém</td></tr>
-      <tr><td>Ransomware</td><td>Zašifruje data a požaduje výkupné</td></tr>
-      <tr><td>Keylogger</td><td>Zaznamenává vše, co uživatel napíše</td></tr>
-      <tr><td>Rootkit</td><td>Skrývá přítomnost jiného malwaru, obtížně zjistitelný</td></tr>
-      <tr><td>Botnet</td><td>Promění PC v dálkově ovladatelného "zombíka"</td></tr>
-    </tbody>
-  </table>
+        <ul class="bullets">
+          <li><strong>Malware</strong> – škodlivý software obecně</li>
+          <li><strong>Viry</strong> – připojují se k souborům, ničí data</li>
+          <li><strong>Červi</strong> – šíří se sami po síti</li>
+          <li><strong>Trojské koně</strong> – tváří se jako legitimní programy</li>
+          <li><strong>Ransomware</strong> – zašifruje data a požaduje výkupné</li>
+          <li><strong>Spyware</strong> – sleduje činnost uživatele</li>
+          <li><strong>Adware</strong> – zobrazuje nechtěné reklamy</li>
+        </ul>
 
-  <h4 class="mt-4">🔍 Jak poznat, že máš virus?</h4>
-  <ul>
-    <li>Zpomalený počítač</li>
-    <li>Časté chyby, padání programů</li>
-    <li>Neznámé procesy v „Správci úloh“</li>
-    <li>Náhlé vyskakovací reklamy</li>
-    <li>Ztráta připojení k internetu</li>
-    <li>Nefunkční antivir nebo aktualizace</li>
-  </ul>
+        <p>
+          Moderní antiviry (např. Windows Defender, Avast, ESET) využívají databáze signatur, heuristiku a sledování chování v reálném čase.
+        </p>
 
-  <h4 class="mt-4">🛠️ Údržba systému pomocí nástrojů Windows</h4>
-  <p>Pomocí těchto příkazů lze provést kontrolu a údržbu systému bez nutnosti internetu:</p>
+        <div class="note note--info">
+          <strong>Princip:</strong> Signatury = „známé vzory“ škodlivého kódu. Heuristika a behaviorální ochrana = hledání podezřelého chování,
+          i když konkrétní malware ještě není v databázi.
+        </div>
 
-  <pre><code class="language-batch">@echo off
+      </div>
+    </details>
+
+    <!-- 2) Firewall -->
+    <details class="acc">
+      <summary class="acc__sum">2) Co je to firewall a proč ho nevypínat</summary>
+      <div class="acc__body">
+
+        <p>
+          Firewall je brána mezi počítačem a sítí. Chrání systém před neautorizovaným přístupem a aplikacemi,
+          které se pokoušejí komunikovat bez svolení uživatele.
+        </p>
+        <p>
+          Windows má vlastní firewall aktivovaný ve výchozím nastavení.
+        </p>
+
+        <div class="note note--info">
+          <strong>Tip:</strong> Firewall neřeší jen „útoky zvenku“. Často je důležitý i pro kontrolu toho, co se snaží z počítače odcházet ven
+          (podezřelá komunikace aplikace).
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 3) Druhy hrozeb – tabulka -->
+    <details class="acc">
+      <summary class="acc__sum">3) Druhy hrozeb – podrobně</summary>
+      <div class="acc__body">
+
+        <div class="note note--info">
+          <strong>Cíl:</strong> Umět rychle pojmenovat hrozbu podle chování (šíření po síti, šifrování dat, sledování uživatele, reklamy…).
+        </div>
+
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Typ hrozby</th>
+                <th>Popis</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Virus</td><td>Připojuje se k souborům, aktivuje se při jejich spuštění</td></tr>
+              <tr><td>Červ</td><td>Šíří se samostatně po síti, zatěžuje připojení</td></tr>
+              <tr><td>Trojský kůň</td><td>Vypadá jako legitimní program, ale obsahuje škodlivý kód</td></tr>
+              <tr><td>Spyware</td><td>Sleduje činnost uživatele bez jeho vědomí</td></tr>
+              <tr><td>Adware</td><td>Zobrazuje reklamy, často zpomaluje systém</td></tr>
+              <tr><td>Ransomware</td><td>Zašifruje data a požaduje výkupné</td></tr>
+              <tr><td>Keylogger</td><td>Zaznamenává vše, co uživatel napíše</td></tr>
+              <tr><td>Rootkit</td><td>Skrývá přítomnost jiného malwaru, obtížně zjistitelný</td></tr>
+              <tr><td>Botnet</td><td>Promění PC v dálkově ovladatelného „zombíka“</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 4) Příznaky infekce -->
+    <details class="acc">
+      <summary class="acc__sum">4) Jak poznat, že máš virus (typické příznaky)</summary>
+      <div class="acc__body">
+
+        <ul class="bullets">
+          <li>Zpomalený počítač</li>
+          <li>Časté chyby, padání programů</li>
+          <li>Neznámé procesy ve „Správci úloh“</li>
+          <li>Náhlé vyskakovací reklamy</li>
+          <li>Ztráta připojení k internetu</li>
+          <li>Nefunkční antivir nebo aktualizace</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Praktická poznámka:</strong> Jeden symptom sám o sobě nemusí znamenat infekci. Když se jich ale objeví víc najednou,
+          je čas skenovat systém a zkontrolovat podezřelé položky.
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 5) Údržba systému -->
+    <details class="acc">
+      <summary class="acc__sum">5) Údržba systému pomocí nástrojů Windows (SFC, DISM, cleanmgr)</summary>
+      <div class="acc__body">
+
+        <p>
+          Pomocí těchto příkazů lze provést kontrolu a základní údržbu systému:
+        </p>
+
+        <pre><code class="cmd">@echo off
 echo Spoustím nástroj Vyčištění disku...
 cleanmgr /sagerun:1
 
@@ -80,34 +172,181 @@ DISM /Online /Cleanup-Image /RestoreHealth
 echo Údržba dokončena. Stiskni libovolnou klávesu pro ukončení.
 pause</code></pre>
 
-  <p><strong>Jak skript použít:</strong> Ulož jej jako <code>udrzba.bat</code> a spusť jako správce.</p>
+        <p><strong>Jak skript použít:</strong> Ulož jej jako <code>udrzba.bat</code> a spusť jako správce.</p>
 
-  <h4 class="mt-5">🧠 Test – prověř své znalosti</h4>
-  <p><strong>1. Co je úkolem antivirového programu?</strong></p>
-  <ul>
-    <li>A) Zobrazovat reklamy</li>
-    <li>B) Urychlovat internet</li>
-    <li><strong>C) Detekovat a odstraňovat škodlivý software</strong></li>
-  </ul>
+        <div class="note note--info">
+          <strong>Poznámka:</strong> <code>DISM /RestoreHealth</code> může pro stažení součástí použít Windows Update.
+          Pokud je PC offline nebo je update blokovaný, oprava se nemusí podařit bez lokálního zdroje.
+        </div>
 
-  <p><strong>2. Co dělá ransomware?</strong></p>
-  <ul>
-    <li>A) Skenuje síť</li>
-    <li><strong>B) Zašifruje data a žádá výkupné</strong></li>
-    <li>C) Opravuje registry</li>
-  </ul>
+      </div>
+    </details>
+    <!-- 6) Co skript opravdu dělá + proč BAT + proč admin -->
+<details class="acc">
+  <summary class="acc__sum">6) Co ten skript opravdu dělá (a proč je to .bat a proč jako správce)</summary>
+  <div class="acc__body">
 
-  <p><strong>3. K čemu slouží firewall?</strong></p>
-  <ul>
-    <li>A) Ukládá zálohy</li>
-    <li><strong>B) Brání neautorizovanému síťovému přístupu</strong></li>
-    <li>C) Vypíná počítač</li>
-  </ul>
+    <h4>Co je <code>.bat</code> (batch soubor) a proč ho používáme</h4>
+    <p>
+      Soubor <code>.bat</code> (batch) je obyčejný textový soubor, ve kterém jsou zapsané příkazy pro Windows příkazový řádek.
+      Když ho spustíš, Windows ty příkazy vykoná postupně jeden po druhém – jako kdybys je psal ručně do terminálu.
+    </p>
 
-  <p><strong>4. Který příkaz opravuje systémové soubory?</strong></p>
-  <ul>
-    <li>A) diskpart</li>
-    <li><strong>B) sfc /scannow</strong></li>
-    <li>C) format</li>
-  </ul>
+    <div class="note note--info">
+    
+      místo toho, aby jsi opisoval 5 příkazů a udělal chybu, máme jeden soubor, který spustí a víme, co se stane.
+      Je to řízená automatizace – jednoduchá, čitelná a opakovatelná.
+    </div>
+
+    <h4>Proč je často nutné spustit to „jako správce“</h4>
+    <p>
+      Některé systémové kontroly a opravy pracují se soubory ve složkách Windows a se chráněnými částmi systému.
+      Běžný uživatel na ně nemá práva. Proto se skript spouští jako správce, aby:
+    </p>
+    <ul class="bullets">
+      <li><strong>SFC</strong> mohl opravovat chráněné systémové soubory.</li>
+      <li><strong>DISM</strong> mohl kontrolovat a opravovat „obraz systému“ (component store).</li>
+      <li>nedocházelo k chybám typu „Access denied“ nebo „You must be an administrator“.</li>
+    </ul>
+
+    <div class="note note--info">
+      <strong>Bezpečnostní poznámka:</strong> Spuštění jako správce dává programu vyšší práva – proto spouštěj jen skripty,
+      kterým rozumíš a které jsou z důvěryhodného zdroje.
+    </div>
+
+    <h4>Rozbor skriptu krok za krokem (co přesně dělá)</h4>
+
+    <h5>1) <code>@echo off</code> (vypnutí „výpisu příkazů“)</h5>
+    <p>
+      Normálně by Windows při spuštění batch souboru vypisoval do terminálu každý příkaz, který právě provádí.
+      <code>@echo off</code> to vypne, aby byl výpis čistší a viděl jsi hlavně informativní hlášky (<code>echo ...</code>).
+    </p>
+
+    <h5>2) <code>cleanmgr /sagerun:1</code> (Vyčištění disku – automaticky)</h5>
+    <p>
+      <code>cleanmgr</code> je nástroj „Vyčištění disku“. Parametr <code>/sagerun:1</code> spustí předem uložený profil čištění.
+      To znamená: systém provede úklid podle toho, co je pro profil „1“ nastavené.
+    </p>
+
+    <div class="note note--info">
+      <strong>Důležité:</strong> Aby <code>/sagerun:1</code> něco udělal, musí být profil předtím nastavený přes:
+      <code>cleanmgr /sageset:1</code> (jednorázově). Potom teprve dává smysl automatické <code>/sagerun:1</code>.
+    </div>
+
+    <h5>3) <code>sfc /scannow</code> (kontrola a oprava systémových souborů)</h5>
+    <p>
+      <strong>SFC</strong> = System File Checker. Projde chráněné systémové soubory Windows a když najde poškození,
+      pokusí se je nahradit správnou verzí.
+    </p>
+    <ul class="bullets">
+      <li>Pomáhá, když Windows „divně“ zlobí: chyby, pády, rozbité funkce.</li>
+      <li>Může trvat delší dobu (podle rychlosti disku a stavu systému).</li>
+    </ul>
+
+    <h5>4) <code>DISM /Online /Cleanup-Image /ScanHealth</code> (kontrola obrazu systému)</h5>
+    <p>
+      <strong>DISM</strong> pracuje s „obrazem“ nainstalovaného systému (online = běžící Windows).
+      <code>/ScanHealth</code> ověří, jestli není poškozené interní úložiště komponent Windows (component store),
+      ze kterého se pak například opravují soubory.
+    </p>
+
+    <h5>5) <code>DISM /Online /Cleanup-Image /RestoreHealth</code> (oprava obrazu systému)</h5>
+    <p>
+      Pokud <code>ScanHealth</code> hlásí problém, <code>RestoreHealth</code> se pokusí poškozené části opravit.
+      Často to využívá Windows Update jako zdroj „správných“ součástí.
+    </p>
+
+    <div class="note note--info">
+      <strong>Praktická realita:</strong>
+      Když je PC offline (nebo je update blokovaný), oprava se nemusí podařit bez lokálního zdroje.
+      Proto se někdy ve škole stane, že DISM „chce internet“.
+    </div>
+
+    <h5>6) <code>pause</code> (aby okno hned nezmizelo)</h5>
+    <p>
+      <code>pause</code> zastaví skript a čeká na stisk klávesy. Díky tomu si můžeš přečíst výsledek a případné chyby.
+    </p>
+
+    <h4>Proč je pořadí příkazů zvolené takhle</h4>
+    <ul class="bullets">
+      <li><strong>Cleanmgr</strong> uvolní místo a odstraní zbytečnosti.</li>
+      <li><strong>SFC</strong> opravuje systémové soubory – ale spoléhá na to, že „zásobárna komponent“ je v pořádku.</li>
+      <li><strong>DISM</strong> řeší právě tu zásobárnu komponent (component store). Když je rozbitá, SFC může selhávat.</li>
+    </ul>
+
+    <div class="note note--info">
+      <strong>Tip pro praxi:</strong> Když SFC hlásí, že něco nejde opravit, typicky následuje DISM (oprava obrazu)
+      a pak se často SFC pustí ještě jednou.
+    </div>
+
+  </div>
+</details>
+
+
+  </div>
+  
+
+  <!-- Shrnutí -->
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+    <ul class="checklist">
+      <li><strong>Antivir</strong> chrání před malwarem pomocí signatur, heuristiky a sledování chování.</li>
+      <li><strong>Firewall</strong> kontroluje síťovou komunikaci a brání neautorizovanému přístupu.</li>
+      <li>Hrozby mají různé projevy: reklamy (adware), šifrování dat (ransomware), sledování (spyware), záznam kláves (keylogger).</li>
+      <li>Základní údržbu systému řeší <code>cleanmgr</code>, <code>sfc /scannow</code> a <code>DISM</code>.</li>
+    </ul>
+  </article>
+
+  <!-- TEST (tlačítkový styl jako v 1.7) -->
+  <article class="card" id="section1-8-test">
+    <h3 class="card__title">Test: Bezpečnost a údržba systému (1.8)</h3>
+    <p>Vyber vždy jednu odpověď u každé otázky. Správná se označí, špatná také. Výsledek se počítá dole.</p>
+
+    <div class="quiz" data-quiz>
+
+      <div class="quiz-question">
+        <p><strong>1. Co je úkolem antivirového programu?</strong></p>
+        <div class="quiz-answers">
+          <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Zobrazovat reklamy</button>
+          <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Urychlovat internet</button>
+          <button class="btn btn--ghost" data-correct="1" onclick="checkAnswer(this, true)">Detekovat a odstraňovat škodlivý software</button>
+        </div>
+      </div>
+
+      <div class="quiz-question">
+        <p><strong>2. Co dělá ransomware?</strong></p>
+        <div class="quiz-answers">
+          <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Skenuje síť</button>
+          <button class="btn btn--ghost" data-correct="1" onclick="checkAnswer(this, true)">Zašifruje data a žádá výkupné</button>
+          <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Opravuje registry</button>
+        </div>
+      </div>
+
+      <div class="quiz-question">
+        <p><strong>3. K čemu slouží firewall?</strong></p>
+        <div class="quiz-answers">
+          <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Ukládá zálohy</button>
+          <button class="btn btn--ghost" data-correct="1" onclick="checkAnswer(this, true)">Brání neautorizovanému síťovému přístupu</button>
+          <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Vypíná počítač</button>
+        </div>
+      </div>
+
+      <div class="quiz-question">
+        <p><strong>4. Který příkaz opravuje systémové soubory?</strong></p>
+        <div class="quiz-answers">
+          <button class="btn btn--ghost" onclick="checkAnswer(this, false)">diskpart</button>
+          <button class="btn btn--ghost" data-correct="1" onclick="checkAnswer(this, true)">sfc /scannow</button>
+          <button class="btn btn--ghost" onclick="checkAnswer(this, false)">format</button>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn--ghost" type="button" onclick="resetQuiz(this)">Reset</button>
+      </div>
+
+      <div class="note note--info" data-quiz-result aria-live="polite"></div>
+
+    </div>
+  </article>
+
 </section>
