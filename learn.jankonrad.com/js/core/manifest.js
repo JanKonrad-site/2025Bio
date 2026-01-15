@@ -192,6 +192,7 @@ export const NAV_TREE = [
           href: "#section8-1-1",
           children: [
             { title: "8.1.1 Blender – Kapitola 1: Co znamená modelovat", href: "#section8-1-1" },
+            { title: "8.1.2 Blender – Kapitola 1: Co znamená modelovat", href: "#section8-1-2" },
           ]
         }
       ];

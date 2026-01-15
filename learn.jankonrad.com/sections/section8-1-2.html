@@ -1,0 +1,1046 @@
+<!-- =========================================================
+     8.1 – POKRAČOVÁNÍ KAPITOLY (navazuje na 8.1.1)
+     8.1.2 Barvy a materiály
+     8.1.3 Odlesky, HDRi prostředí a rychlejší render
+     8.1.4 Světla (Point/Sun/Spot/Area) + práce s HDRi intenzitou
+     8.1.5 Edit Mode – základní úpravy tvarů (vertex/edge/face, extrude, loop cut)
+     8.1.6 Mini-projekt: Domky pro scénu (maják)
+     8.1.7 Mini-projekt: Retro diskotéka (taneční pódium) – jednoduché zadání
+========================================================= -->
+
+<!-- =========================================================
+     8.1.2 Barvy a materiály (základní barvy + sdílení materiálů)
+========================================================= -->
+<section id="section8-1-2" class="lesson">
+  <header class="lesson__header">
+    <h2 class="lesson__title">8.1.2 Barvy a materiály (základní práce s materiály)</h2>
+    <p class="lesson__lead">
+      Naučíš se přidat objektům jednoduché materiály (zatím jen barvy), pochopíš sdílení materiálů mezi více objekty
+      a procvičíš si rámování výběru (<span class="kbd">Num .</span>, <span class="kbd">Home</span>) a práci ve workspace <strong>Shading</strong>.
+    </p>
+  </header>
+
+  <article class="card">
+    <h3 class="card__title">Rozcvička: srovnej scénu do středu</h3>
+
+    <ol class="steps">
+      <li>Přepni <strong>Viewport Shading</strong> na <strong>Solid</strong> (lépe se vybírá a posouvá).</li>
+      <li>Vyber objekty a „nakup“ je do středu scény (Top View je nejrychlejší: <span class="kbd">Num 7</span>).</li>
+      <li>Posouvání: <span class="kbd">G</span>. Rotace (pokud chceš): <span class="kbd">R</span>.</li>
+      <li>Světlo přesuň nad střed: Top View <span class="kbd">Num 7</span> → <span class="kbd">G</span>, potom Front View <span class="kbd">Num 1</span> → <span class="kbd">G</span> → <span class="kbd">Z</span> (nahoru/dolů).</li>
+    </ol>
+
+    <div class="note note--info">
+      <strong>Tip:</strong> Pokud se po otevření souboru ocitneš zpět v Object Mode, je to v pořádku.
+      Blender často startuje v jednodušším zobrazení, aby se scéna načetla rychleji.
+    </div>
+
+    <figure class="gallery">
+      <div class="jk-frame is-16x9">
+        <img
+          id="img-812-clump"
+          class="jk-media"
+          loading="lazy"
+          decoding="async"
+          src="assets/img/blender/08-materials/clump-0.png"
+          alt="Rozcvička: objekty srovnané ve středu + světlo nad nimi">
+
+        <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-812-clump" aria-label="Předchozí">‹</button>
+        <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-812-clump" aria-label="Další">›</button>
+
+        <span class="gallery__hint">Klikni pro fullscreen</span>
+      </div>
+
+      <figcaption class="gallery__meta">
+        <span class="gmeta">Srovnaná scéna: Top/Front pohledy + G/R + světlo nad středem.</span>
+      </figcaption>
+
+      <div data-gallery-src="img-812-clump"
+           data-images='[
+             "assets/img/blender/08-materials/clump-0.png",
+             "assets/img/blender/08-materials/clump-1.png",
+             "assets/img/blender/08-materials/clump-2.png"
+           ]'></div>
+    </figure>
+  </article>
+
+  <div class="accordion">
+
+    <details class="acc" open>
+      <summary class="acc__sum">1) Shading workspace + Principled BSDF (základní barva)</summary>
+      <div class="acc__body">
+        <ol class="steps">
+          <li>Přepni workspace na <strong>Shading</strong> (uvidíš dole <strong>Shader Editor</strong>).</li>
+          <li>Pokud je Shader Editor moc malý, chyť dělící čáru a zvětši ho.</li>
+          <li>Vyber objekt (např. cylinder) a v <strong>Material Properties</strong> klikni na <strong>New</strong>.</li>
+          <li>V shaderu najdi <strong>Principled BSDF</strong> a u <strong>Base Color</strong> nastav barvu.</li>
+        </ol>
+
+        <ul class="checklist">
+          <li><strong>Hue</strong> = „kruh“ (posun po okraji),</li>
+          <li><strong>Saturation</strong> = sytost (blíž středu = méně syté),</li>
+          <li><strong>Value</strong> = světlost (posuvník),</li>
+          <li><strong>Alpha</strong> = průhlednost (zatím neřešíme).</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Viewport trik:</strong> Když je objekt mimo záběr, vyber ho a stiskni <span class="kbd">Num .</span> (Frame Selected).
+          Když chceš „vidět všechno“, použij <span class="kbd">Home</span> (Frame All).
+        </div>
+
+        <figure class="gallery">
+          <div class="jk-frame is-16x9">
+            <img
+              id="img-812-principled"
+              class="jk-media"
+              loading="lazy"
+              decoding="async"
+              src="assets/img/blender/08-materials/principled-0.png"
+              alt="Principled BSDF – Base Color a barevné kolečko">
+
+            <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-812-principled" aria-label="Předchozí">‹</button>
+            <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-812-principled" aria-label="Další">›</button>
+
+            <span class="gallery__hint">Klikni pro fullscreen</span>
+          </div>
+
+          <figcaption class="gallery__meta">
+            <span class="gmeta">Principled BSDF: Base Color (Hue/Saturation/Value), zatím jen barvy.</span>
+          </figcaption>
+
+          <div data-gallery-src="img-812-principled"
+               data-images='[
+                 "assets/img/blender/08-materials/principled-0.png",
+                 "assets/img/blender/08-materials/principled-1.png",
+                 "assets/img/blender/08-materials/principled-2.png"
+               ]'></div>
+        </figure>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">2) Pojmenování a sdílení materiálů (materiál jako „kouzelná plechovka barvy“)</summary>
+      <div class="acc__body">
+        <p>
+          Materiál si představ jako „kouzelnou plechovku barvy“, která nikdy nedojde.
+          Když stejný materiál přiřadíš více objektům, změna materiálu se projeví na všech.
+        </p>
+
+        <ol class="steps">
+          <li>Vyber objekt a dej mu <strong>New</strong> materiál (pokud ho nemá).</li>
+          <li><strong>Přejmenuj</strong> materiál na smysluplný název (např. <em>red</em>, <em>green</em>, <em>white</em>).</li>
+          <li>U jiného objektu místo <em>New</em> vyber materiál z <strong>dropdownu</strong> (sdílení).</li>
+          <li>Změň barvu sdíleného materiálu – uvidíš, že se upraví více objektů zároveň.</li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Mini-úkol (doporučené rozložení):</strong>
+          <ul>
+            <li>Cylinder + Icosphere sdílí <strong>red</strong></li>
+            <li>Monkey má <strong>green</strong></li>
+            <li>Cube má původní materiál přejmenovaný na <strong>white</strong></li>
+            <li>Torus + UV Sphere sdílí <strong>purple</strong></li>
+            <li>Cone má <strong>yellow</strong> a cylinder zkus přepnout na <strong>yellow</strong> (procvičení sdílení)</li>
+            <li>Floor dej barvu dle sebe (např. <strong>blue</strong>)</li>
+          </ul>
+        </div>
+
+        <figure class="gallery">
+          <div class="jk-frame is-16x9">
+            <img
+              id="img-812-share"
+              class="jk-media"
+              loading="lazy"
+              decoding="async"
+              src="assets/img/blender/08-materials/share-0.png"
+              alt="Sdílení materiálu: více objektů používá stejný materiál">
+
+            <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-812-share" aria-label="Předchozí">‹</button>
+            <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-812-share" aria-label="Další">›</button>
+
+            <span class="gallery__hint">Klikni pro fullscreen</span>
+          </div>
+
+          <figcaption class="gallery__meta">
+            <span class="gmeta">Jeden materiál může být použit na více objektech – změna se projeví všude.</span>
+          </figcaption>
+
+          <div data-gallery-src="img-812-share"
+               data-images='[
+                 "assets/img/blender/08-materials/share-0.png",
+                 "assets/img/blender/08-materials/share-1.png",
+                 "assets/img/blender/08-materials/share-2.png"
+               ]'></div>
+        </figure>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">3) Eevee vs Cycles + rychlé renderování scény</summary>
+      <div class="acc__body">
+        <ol class="steps">
+          <li>Přepni se do <strong>Rendered</strong> náhledu a zkus krátce přepnout render engine <strong>Eevee</strong> / <strong>Cycles</strong>.</li>
+          <li>Přejdi do <strong>Camera View</strong>: <span class="kbd">Num 0</span>.</li>
+          <li>Pokud je potřeba kameru doladit: zapni <em>Lock Camera to View</em> a uprav kompozici.</li>
+          <li>Render obrázku: <span class="kbd">F12</span>. Uložení: v render okně <strong>Image → Save</strong>.</li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Úkol:</strong> Vyrenderuj scénu v Eevee i v Cycles a všimni si:
+          <ul>
+            <li>jak se liší stíny a „měkkost“ světla,</li>
+            <li>zda vidíš odrazy (Cycles je obvykle výraznější),</li>
+            <li>jak dlouho render trvá (čas si poznamenej).</li>
+          </ul>
+        </div>
+
+        <figure class="gallery">
+          <div class="jk-frame is-16x9">
+            <img
+              id="img-812-render"
+              class="jk-media"
+              loading="lazy"
+              decoding="async"
+              src="assets/img/blender/08-materials/render-0.png"
+              alt="Kamera (Num 0), render (F12) a porovnání Eevee/Cycles">
+
+            <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-812-render" aria-label="Předchozí">‹</button>
+            <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-812-render" aria-label="Další">›</button>
+
+            <span class="gallery__hint">Klikni pro fullscreen</span>
+          </div>
+
+          <figcaption class="gallery__meta">
+            <span class="gmeta">Kamera (Num 0) → F12 render → uložení. Porovnání Eevee a Cycles.</span>
+          </figcaption>
+
+          <div data-gallery-src="img-812-render"
+               data-images='[
+                 "assets/img/blender/08-materials/render-0.png",
+                 "assets/img/blender/08-materials/render-1.png",
+                 "assets/img/blender/08-materials/render-2.png"
+               ]'></div>
+        </figure>
+
+      </div>
+    </details>
+
+  </div>
+
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+    <ul class="checklist">
+      <li>Umíš přidat materiál a změnit <strong>Base Color</strong> v Principled BSDF.</li>
+      <li>Chápeš, že materiál může být <strong>sdílený</strong> (změna se projeví na více objektech).</li>
+      <li>Ovládáš „záchranné“ rámování: <span class="kbd">Num .</span> (vybraný objekt) a <span class="kbd">Home</span> (vše).</li>
+      <li>Umíš vyrenderovat scénu (<span class="kbd">F12</span>) a porovnat Eevee vs Cycles.</li>
+    </ul>
+  </article>
+</section>
+
+<!-- =========================================================
+     8.1.3 Odlesky, HDRi prostředí + denoise/rychlost renderu
+========================================================= -->
+<section id="section8-1-3" class="lesson">
+  <header class="lesson__header">
+    <h2 class="lesson__title">8.1.3 Odlesky, HDRi prostředí a rychlejší render</h2>
+    <p class="lesson__lead">
+      Přidáš objektům metalický a lesklý vzhled, naučíš se <strong>Shade Smooth</strong> / <strong>Shade Auto Smooth</strong>,
+      vložíš do scény <strong>HDRi</strong> prostředí a na závěr zjistíš, jak si pomoct denoise a časovým limitem renderu.
+    </p>
+  </header>
+
+  <div class="accordion">
+
+    <details class="acc" open>
+      <summary class="acc__sum">1) Principled BSDF: Metallic + Roughness (lesk a kov)</summary>
+      <div class="acc__body">
+        <p>
+          Pro vizuální „wow“ efekt stačí dvě hodnoty: <strong>Metallic</strong> a <strong>Roughness</strong>.
+          Metallic určuje, jestli materiál působí jako kov. Roughness řídí, jak „rozmazané“ a měkké jsou odlesky.
+        </p>
+
+        <ul class="checklist">
+          <li><strong>Metallic = 1</strong> → kovový vzhled (pro realismus často 0 nebo 1).</li>
+          <li><strong>Roughness = 0</strong> → velmi lesklé, <strong>Roughness = 1</strong> → matné.</li>
+          <li>„Ultra zrcadlo“ vypadá efektně, ale v praxi často nastavíš Roughness <em>lehce</em> nad nulu.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Mini-úkol:</strong> Vyber UV Sphere (nebo jiný objekt), nastav Metallic na 1 a Roughness nízko
+          (např. 0.05–0.2). Potom objekt vyhlaď přes <strong>Shade Smooth</strong>.
+        </div>
+
+        <figure class="gallery">
+          <div class="jk-frame is-16x9">
+            <img
+              id="img-813-metal"
+              class="jk-media"
+              loading="lazy"
+              decoding="async"
+              src="assets/img/blender/09-reflections/metal-0.png"
+              alt="Metallic a Roughness v Principled BSDF">
+
+            <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-813-metal" aria-label="Předchozí">‹</button>
+            <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-813-metal" aria-label="Další">›</button>
+
+            <span class="gallery__hint">Klikni pro fullscreen</span>
+          </div>
+
+          <figcaption class="gallery__meta">
+            <span class="gmeta">Metallic + Roughness: rychlé odlesky a „kovový“ materiál.</span>
+          </figcaption>
+
+          <div data-gallery-src="img-813-metal"
+               data-images='[
+                 "assets/img/blender/09-reflections/metal-0.png",
+                 "assets/img/blender/09-reflections/metal-1.png",
+                 "assets/img/blender/09-reflections/metal-2.png"
+               ]'></div>
+        </figure>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">2) Shade Smooth vs Shade Auto Smooth (kdy hladit a kdy ne)</summary>
+      <div class="acc__body">
+        <ol class="steps">
+          <li>Vyber objekt → pravým tlačítkem otevři menu → <strong>Shade Smooth</strong>.</li>
+          <li>U ostrých hran (např. cylinder/cone) může být Smooth „divný“, protože zjemní i hrany, které mají být ostré.</li>
+          <li>U těchto tvarů použij <strong>Shade Auto Smooth</strong> (podle úhlu zachová ostré hrany).</li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Co je dobré vědět:</strong> Auto Smooth funguje tak, že podle nastaveného úhlu rozhodne,
+          co bude hladké a co ostré. (Často to uvidíš i jako „Smoothed by Angle“ v modifikátorech.)
+        </div>
+
+        <figure class="gallery">
+          <div class="jk-frame is-16x9">
+            <img
+              id="img-813-smooth"
+              class="jk-media"
+              loading="lazy"
+              decoding="async"
+              src="assets/img/blender/09-reflections/smooth-0.png"
+              alt="Shade Smooth vs Shade Auto Smooth na cylindru a kuželu">
+
+            <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-813-smooth" aria-label="Předchozí">‹</button>
+            <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-813-smooth" aria-label="Další">›</button>
+
+            <span class="gallery__hint">Klikni pro fullscreen</span>
+          </div>
+
+          <figcaption class="gallery__meta">
+            <span class="gmeta">Smooth vyhladí vše, Auto Smooth chrání ostré hrany podle úhlu.</span>
+          </figcaption>
+
+          <div data-gallery-src="img-813-smooth"
+               data-images='[
+                 "assets/img/blender/09-reflections/smooth-0.png",
+                 "assets/img/blender/09-reflections/smooth-1.png",
+                 "assets/img/blender/09-reflections/smooth-2.png"
+               ]'></div>
+        </figure>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">3) HDRi prostředí: World shader + Environment Texture</summary>
+      <div class="acc__body">
+        <p>
+          Když jsou objekty lesklé, odrážejí okolí. Pokud je v renderu jen „šedá“, odlesky vypadají nudně.
+          HDRi (High Dynamic Range Image) dá scéně reálnější světlo i odlesky.
+        </p>
+
+        <ol class="steps">
+          <li>V workspace <strong>Shading</strong> přepni Shader Editor z <strong>Object</strong> na <strong>World</strong>.</li>
+          <li>Přidej uzel: <span class="kbd">Shift</span> + <span class="kbd">A</span> → <strong>Texture</strong> → <strong>Environment Texture</strong>.</li>
+          <li>Klikni <strong>Open</strong> a vyber HDRi soubor (např. z Poly Haven).</li>
+          <li>Propoj <strong>Color</strong> z Environment Texture do <strong>Color</strong> u Background (žlutá → žlutá).</li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Důležité:</strong> Pro World background používej <strong>Environment Texture</strong>, ne „Image Texture“.
+          <br><strong>Růžová (pink)</strong> scéna znamená, že Blender nemůže najít soubor (přesunutý/zmizelý). Znovu ho načti přes Open.
+        </div>
+
+        <figure class="gallery">
+          <div class="jk-frame is-16x9">
+            <img
+              id="img-813-hdri"
+              class="jk-media"
+              loading="lazy"
+              decoding="async"
+              src="assets/img/blender/09-reflections/hdri-0.png"
+              alt="World shader: Environment Texture napojená do Background">
+
+            <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-813-hdri" aria-label="Předchozí">‹</button>
+            <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-813-hdri" aria-label="Další">›</button>
+
+            <span class="gallery__hint">Klikni pro fullscreen</span>
+          </div>
+
+          <figcaption class="gallery__meta">
+            <span class="gmeta">World → Environment Texture → Background. HDRi výrazně zlepší odlesky.</span>
+          </figcaption>
+
+          <div data-gallery-src="img-813-hdri"
+               data-images='[
+                 "assets/img/blender/09-reflections/hdri-0.png",
+                 "assets/img/blender/09-reflections/hdri-1.png",
+                 "assets/img/blender/09-reflections/hdri-2.png"
+               ]'></div>
+        </figure>
+
+        <div class="note note--info">
+          <strong>Volitelné (Eevee):</strong> Pokud máš Blender 4.2+, můžeš v Eevee narazit na volbu <em>Ray Tracing</em>.
+          V některých starších verzích to vypadá jinak (dříve „screen space reflections/ambient occlusion“). Když to nevidíš, nic se neděje.
+        </div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">4) Denoise a rychlejší render v Cycles (časový limit)</summary>
+      <div class="acc__body">
+        <ol class="steps">
+          <li>V Cycles si můžeš pomoci <strong>Denoise</strong> (odšumění) – obraz je čistší i při kratším renderu.</li>
+          <li>Pokud je render pomalý, nastav <strong>Time Limit</strong> (např. 1 s) a otestuj rychlost.</li>
+          <li>Pokud máš NVIDIA a podporu, zvaž denoiser <strong>OptiX</strong> (rychlé, běží na GPU).</li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Úkol:</strong> Zkus vyrenderovat scénu 2×:
+          <ul>
+            <li>Cycles bez denoise (všimni si šumu v tmavých oblastech),</li>
+            <li>Cycles s denoise (porovnej čistotu a čas).</li>
+          </ul>
+        </div>
+
+        <figure class="gallery">
+          <div class="jk-frame is-16x9">
+            <img
+              id="img-813-denoise"
+              class="jk-media"
+              loading="lazy"
+              decoding="async"
+              src="assets/img/blender/09-reflections/denoise-0.png"
+              alt="Cycles: denoise, time limit a porovnání šumu">
+
+            <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-813-denoise" aria-label="Předchozí">‹</button>
+            <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-813-denoise" aria-label="Další">›</button>
+
+            <span class="gallery__hint">Klikni pro fullscreen</span>
+          </div>
+
+          <figcaption class="gallery__meta">
+            <span class="gmeta">Denoise + Time Limit: rychlejší testy a čistší obraz.</span>
+          </figcaption>
+
+          <div data-gallery-src="img-813-denoise"
+               data-images='[
+                 "assets/img/blender/09-reflections/denoise-0.png",
+                 "assets/img/blender/09-reflections/denoise-1.png",
+                 "assets/img/blender/09-reflections/denoise-2.png"
+               ]'></div>
+        </figure>
+      </div>
+    </details>
+
+  </div>
+
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+    <ul class="checklist">
+      <li>Umíš vytvořit lesklý/kovový vzhled přes <strong>Metallic</strong> a <strong>Roughness</strong>.</li>
+      <li>Víš, kdy použít <strong>Shade Smooth</strong> a kdy <strong>Shade Auto Smooth</strong>.</li>
+      <li>Umíš vložit <strong>HDRi</strong> do World shaderu přes <strong>Environment Texture</strong>.</li>
+      <li>Chápeš růžovou barvu jako „chybějící soubor“ a umíš ho znovu načíst.</li>
+      <li>Zvládáš základní zrychlení v Cycles: <strong>Denoise</strong> + <strong>Time Limit</strong>.</li>
+    </ul>
+  </article>
+</section>
+
+<!-- =========================================================
+     8.1.4 Světla (typy, barva, intenzita, duplikace, HDRi strength)
+========================================================= -->
+<section id="section8-1-4" class="lesson">
+  <header class="lesson__header">
+    <h2 class="lesson__title">8.1.4 Světla: Point / Sun / Spot / Area + práce s intenzitou HDRi</h2>
+    <p class="lesson__lead">
+      Procvičíš přesné posouvání v ortho pohledech, upravíš barvu a výkon světel, pochopíš rozdíl mezi typy světel
+      a naučíš se duplikovat světla a „ztišit“ HDRi, aby dominovala umělá světla ve scéně.
+    </p>
+  </header>
+
+  <article class="card">
+    <h3 class="card__title">Krátká rozcvička (přesnost v ortho pohledech)</h3>
+    <ol class="steps">
+      <li>Vyber floor a změň jeho materiál na <strong>mid-grey</strong> (sniž saturaci na 0 a nastav střední hodnotu).</li>
+      <li>V Layout režimu přesuň monkey na cube a UV Sphere na cylinder. Pomáhej si: <span class="kbd">Num 1</span> (Front), <span class="kbd">Num 3</span> (Right), <span class="kbd">Num 7</span> (Top).</li>
+      <li>Při posuvu používej <span class="kbd">G</span> + <span class="kbd">X/Y/Z</span> pro zamčení na osu.</li>
+    </ol>
+    <div class="note note--info">
+      <strong>Tip:</strong> Když se v prostoru hůř trefuje, krátce přepni na <strong>Wireframe</strong> (nebo použij X-Ray),
+      aby šlo vidět „skrze“ objekt.
+    </div>
+  </article>
+
+  <div class="accordion">
+
+    <details class="acc" open>
+      <summary class="acc__sum">1) Kde se nastavuje světlo (Object Data Properties)</summary>
+      <div class="acc__body">
+        <ol class="steps">
+          <li>Přepni na <strong>Rendered</strong> náhled – jen tam uvidíš reálný vliv světel na scénu.</li>
+          <li>Vyber světlo a v Properties najdi záložku se symbolem <strong>žárovky</strong> (Object Data Properties).</li>
+          <li>Změň <strong>Color</strong> a <strong>Power/Strength</strong> a sleduj rozdíl ve scéně.</li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Poznámka k číslům:</strong> U Point/Spot/Area se výkon často udává ve „wattech“ (v praxi to ber jako „sílu“ světla).
+          Záleží i na měřítku scény – velké objekty vypadají „tmavší“, pokud je světlo slabé.
+        </div>
+
+        <figure class="gallery">
+          <div class="jk-frame is-16x9">
+            <img
+              id="img-814-lightprops"
+              class="jk-media"
+              loading="lazy"
+              decoding="async"
+              src="assets/img/blender/10-lighting/lightprops-0.png"
+              alt="Object Data Properties pro světlo (žárovka): barva a výkon">
+
+            <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-814-lightprops" aria-label="Předchozí">‹</button>
+            <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-814-lightprops" aria-label="Další">›</button>
+
+            <span class="gallery__hint">Klikni pro fullscreen</span>
+          </div>
+
+          <figcaption class="gallery__meta">
+            <span class="gmeta">Světlo se nastavuje v záložce „žárovka“ – Color + Power/Strength.</span>
+          </figcaption>
+
+          <div data-gallery-src="img-814-lightprops"
+               data-images='[
+                 "assets/img/blender/10-lighting/lightprops-0.png",
+                 "assets/img/blender/10-lighting/lightprops-1.png",
+                 "assets/img/blender/10-lighting/lightprops-2.png"
+               ]'></div>
+        </figure>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">2) Typy světel: Point vs Sun (posun vs rotace)</summary>
+      <div class="acc__body">
+        <ul class="checklist">
+          <li><strong>Point</strong> svítí do všech stran kolem sebe (posun světla mění výsledek).</li>
+          <li><strong>Sun</strong> se chová jako „sluneční paprsky“ z nekonečna (posun nevadí, důležitá je <strong>rotace</strong>).</li>
+        </ul>
+
+        <ol class="steps">
+          <li>Přepni světlo na <strong>Sun</strong>.</li>
+          <li>Zkus <span class="kbd">G</span> (posun) – ve scéně se téměř nic nezmění.</li>
+          <li>Zkus <span class="kbd">R</span> (rotace), případně <span class="kbd">R</span> → <span class="kbd">Z</span> – uvidíš, jak se mění směr stínů.</li>
+        </ol>
+
+        <figure class="gallery">
+          <div class="jk-frame is-16x9">
+            <img
+              id="img-814-sun"
+              class="jk-media"
+              loading="lazy"
+              decoding="async"
+              src="assets/img/blender/10-lighting/sun-0.png"
+              alt="Sun light: směr stínů se mění rotací, ne posunem">
+
+            <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-814-sun" aria-label="Předchozí">‹</button>
+            <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-814-sun" aria-label="Další">›</button>
+
+            <span class="gallery__hint">Klikni pro fullscreen</span>
+          </div>
+
+          <figcaption class="gallery__meta">
+            <span class="gmeta">Sun světlo: mění se rotací (R), stíny „ukazují“ směr.</span>
+          </figcaption>
+
+          <div data-gallery-src="img-814-sun"
+               data-images='[
+                 "assets/img/blender/10-lighting/sun-0.png",
+                 "assets/img/blender/10-lighting/sun-1.png",
+                 "assets/img/blender/10-lighting/sun-2.png"
+               ]'></div>
+        </figure>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">3) Spot a Area: kužel světla, měkkost hran, měkké/ostré stíny</summary>
+      <div class="acc__body">
+        <p>
+          <strong>Spot</strong> je kužel (má „beam“), <strong>Area</strong> je plocha (čtverec/obdélník).
+          U Area je skvělé, že velikost světla přímo ovlivňuje měkkost stínů.
+        </p>
+
+        <ol class="steps">
+          <li>Přepni světlo na <strong>Spot</strong>, zvyš výkon (např. 1000–20000) a natoč ho na objekty.</li>
+          <li>Vyzkoušej parametry: <strong>Size</strong> (šířka kuželu) a <strong>Blend</strong> (měkkost okraje).</li>
+          <li>Přepni na <strong>Area</strong> a <span class="kbd">S</span> světlo škáluj: malé = tvrdé stíny, velké = měkké stíny.</li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Tip:</strong> U Area je často pohodlnější měnit velikost přímo ve scéně (S), než ručně v parametrech.
+        </div>
+
+        <figure class="gallery">
+          <div class="jk-frame is-16x9">
+            <img
+              id="img-814-spotarea"
+              class="jk-media"
+              loading="lazy"
+              decoding="async"
+              src="assets/img/blender/10-lighting/spotarea-0.png"
+              alt="Spotlight (Size/Blend) a Area light (velikost = měkkost stínů)">
+
+            <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-814-spotarea" aria-label="Předchozí">‹</button>
+            <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-814-spotarea" aria-label="Další">›</button>
+
+            <span class="gallery__hint">Klikni pro fullscreen</span>
+          </div>
+
+          <figcaption class="gallery__meta">
+            <span class="gmeta">Spot: kužel a měkkost okraje. Area: velikost světla = měkkost stínů.</span>
+          </figcaption>
+
+          <div data-gallery-src="img-814-spotarea"
+               data-images='[
+                 "assets/img/blender/10-lighting/spotarea-0.png",
+                 "assets/img/blender/10-lighting/spotarea-1.png",
+                 "assets/img/blender/10-lighting/spotarea-2.png"
+               ]'></div>
+        </figure>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">4) Duplikace světel + „ztišení“ HDRi (World Strength)</summary>
+      <div class="acc__body">
+        <ol class="steps">
+          <li>Vyber světlo a duplikuj: <span class="kbd">Shift</span> + <span class="kbd">D</span> (hned jsi v posunu).</li>
+          <li>Umísti druhé světlo z druhé strany a natoč ho (R), aby taky osvětlovalo objekty.</li>
+          <li>Ve Shading workspace přepni Shader Editor na <strong>World</strong> a uprav <strong>Strength</strong> u Background:
+            <ul>
+              <li><strong>0</strong> = jen umělá světla,</li>
+              <li>nízké hodnoty = HDRi pro odlesky, ale dominují světla ve scéně.</li>
+            </ul>
+          </li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Úkol:</strong> Vytvoř dvě světla s různou barvou (např. teplejší + studenější) a sniž World Strength tak,
+          aby scéna byla primárně řízená těmito světly, ale odlesky z HDRi zůstaly vidět.
+        </div>
+
+        <figure class="gallery">
+          <div class="jk-frame is-16x9">
+            <img
+              id="img-814-worldstrength"
+              class="jk-media"
+              loading="lazy"
+              decoding="async"
+              src="assets/img/blender/10-lighting/worldstrength-0.png"
+              alt="Duplikace světel (Shift+D) a snížení World Strength pro HDRi">
+
+            <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-814-worldstrength" aria-label="Předchozí">‹</button>
+            <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-814-worldstrength" aria-label="Další">›</button>
+
+            <span class="gallery__hint">Klikni pro fullscreen</span>
+          </div>
+
+          <figcaption class="gallery__meta">
+            <span class="gmeta">Dvě světla + slabší HDRi (World Strength) = lepší kontrola nad scénou.</span>
+          </figcaption>
+
+          <div data-gallery-src="img-814-worldstrength"
+               data-images='[
+                 "assets/img/blender/10-lighting/worldstrength-0.png",
+                 "assets/img/blender/10-lighting/worldstrength-1.png",
+                 "assets/img/blender/10-lighting/worldstrength-2.png"
+               ]'></div>
+        </figure>
+
+      </div>
+    </details>
+
+  </div>
+
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+    <ul class="checklist">
+      <li>Víš, kde se nastavují světla (záložka „žárovka“).</li>
+      <li>Chápeš rozdíl Point vs Sun (Sun se řídí hlavně rotací).</li>
+      <li>Umíš použít Spot (kužel) a Area (měkkost stínů přes velikost).</li>
+      <li>Umíš duplikovat světla (<span class="kbd">Shift</span>+<span class="kbd">D</span>) a ztišit HDRi přes World Strength.</li>
+    </ul>
+  </article>
+</section>
+
+<!-- =========================================================
+     8.1.5 Edit Mode – základní úpravy tvarů (vertex/edge/face)
+========================================================= -->
+<section id="section8-1-5" class="lesson">
+  <header class="lesson__header">
+    <h2 class="lesson__title">8.1.5 Edit Mode: úpravy tvarů (Vertex / Edge / Face, Extrude, Loop Cut)</h2>
+    <p class="lesson__lead">
+      Poprvé začneš měnit skutečný tvar objektu. Naučíš se přepínat výběr vrcholů, hran a ploch, používat extrude
+      a přidávat dělení pomocí loop cut. Na konci si „jen pro zábavu“ vyrobíš monstrózní tvar.
+    </p>
+  </header>
+
+  <article class="card">
+    <h3 class="card__title">Základní přepínače v Edit Mode</h3>
+    <ul class="checklist">
+      <li><span class="kbd">Tab</span> – přepíná Object Mode / Edit Mode.</li>
+      <li>Výběr v Edit Mode: <strong>Vertex</strong> / <strong>Edge</strong> / <strong>Face</strong> (ikonky nahoře).</li>
+      <li>Klávesy <span class="kbd">1</span>/<span class="kbd">2</span>/<span class="kbd">3</span> přepínají Vertex/Edge/Face (pokud nepřekáží jiné mapování kláves).</li>
+      <li>Transformace fungují stejně: <span class="kbd">G</span>, <span class="kbd">R</span>, <span class="kbd">S</span>.</li>
+      <li>Zrušení akce: <span class="kbd">Esc</span> nebo pravé tlačítko.</li>
+    </ul>
+
+    <div class="note note--info">
+      <strong>Tip:</strong> Pokud nevidíš levý panel nástrojů, přepíná se klávesou <span class="kbd">T</span>.
+    </div>
+  </article>
+
+  <div class="accordion">
+
+    <details class="acc" open>
+      <summary class="acc__sum">1) Extrude (E) – nejdůležitější modelovací nástroj</summary>
+      <div class="acc__body">
+        <ol class="steps">
+          <li>V novém souboru vyber default cube.</li>
+          <li><span class="kbd">Tab</span> do Edit Mode → přepni na <strong>Face</strong> výběr.</li>
+          <li>Vyber jednu plochu a stiskni <span class="kbd">E</span> (Extrude) → tahej ven → potvrď LMB.</li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Dvě typické pasti:</strong>
+          <ul>
+            <li><strong>Extrude dovnitř</strong> (vytvoří „vnitřní“ plochy a tenké stěny) – začátečníkům to často rozhodí tvar.</li>
+            <li><strong>Extrude a zrušení</strong>: když dáš <span class="kbd">E</span> a pak zrušíš pohyb, může vzniknout extruze „na místě“
+              (dvojité body/plošky). Když si nejsi jistý, vrať se o krok zpět přes <span class="kbd">Ctrl</span>+<span class="kbd">Z</span>.</li>
+          </ul>
+        </div>
+
+        <figure class="gallery">
+          <div class="jk-frame is-16x9">
+            <img
+              id="img-815-extrude"
+              class="jk-media"
+              loading="lazy"
+              decoding="async"
+              src="assets/img/blender/11-editmode/extrude-0.png"
+              alt="Extrude (E) v Edit Mode">
+
+            <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-815-extrude" aria-label="Předchozí">‹</button>
+            <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-815-extrude" aria-label="Další">›</button>
+
+            <span class="gallery__hint">Klikni pro fullscreen</span>
+          </div>
+
+          <figcaption class="gallery__meta">
+            <span class="gmeta">Extrude: rychle přidá geometrii a změní tvar.</span>
+          </figcaption>
+
+          <div data-gallery-src="img-815-extrude"
+               data-images='[
+                 "assets/img/blender/11-editmode/extrude-0.png",
+                 "assets/img/blender/11-editmode/extrude-1.png",
+                 "assets/img/blender/11-editmode/extrude-2.png"
+               ]'></div>
+        </figure>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">2) Loop Cut (Ctrl+R) – přidání dělení pro přesnější extruze</summary>
+      <div class="acc__body">
+        <ol class="steps">
+          <li>Přepni se na Edge/Face dle potřeby (není kritické, Ctrl+R funguje v Edit Mode).</li>
+          <li>Stiskni <span class="kbd">Ctrl</span> + <span class="kbd">R</span> a najeď myší na objekt – objeví se smyčka.</li>
+          <li>LMB potvrdí směr, druhé LMB určí polohu. Pro „rychlý střed“ použij <strong>double LMB</strong>.</li>
+          <li>Alternativa: LMB → pokud omylem pohneš myší, dej <strong>RMB</strong> pro „snap“ do středu.</li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Cíl:</strong> Udělej loop cut „napůl“, přepni na Face a vyextruduj jen jednu část (procvičení přesnosti).
+        </div>
+
+        <figure class="gallery">
+          <div class="jk-frame is-16x9">
+            <img
+              id="img-815-loopcut"
+              class="jk-media"
+              loading="lazy"
+              decoding="async"
+              src="assets/img/blender/11-editmode/loopcut-0.png"
+              alt="Loop cut (Ctrl+R) a následná extruze části plochy">
+
+            <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-815-loopcut" aria-label="Předchozí">‹</button>
+            <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-815-loopcut" aria-label="Další">›</button>
+
+            <span class="gallery__hint">Klikni pro fullscreen</span>
+          </div>
+
+          <figcaption class="gallery__meta">
+            <span class="gmeta">Ctrl+R přidá dělení – pak můžeš extrudovat jen část.</span>
+          </figcaption>
+
+          <div data-gallery-src="img-815-loopcut"
+               data-images='[
+                 "assets/img/blender/11-editmode/loopcut-0.png",
+                 "assets/img/blender/11-editmode/loopcut-1.png",
+                 "assets/img/blender/11-editmode/loopcut-2.png"
+               ]'></div>
+        </figure>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">3) „Hraj si“: vytvoř monstrózní tvar (bez stresu)</summary>
+      <div class="acc__body">
+        <p>
+          Teď jde jen o to získat cit pro <span class="kbd">E</span> a <span class="kbd">Ctrl</span>+<span class="kbd">R</span>.
+          Vytvoř několik loop cutů a vyextruduj různé plochy ven – výsledek nemusí být hezký.
+        </p>
+
+        <div class="note note--info">
+          <strong>Pravidlo pro začátek:</strong> Vyhni se extruzi „těsně vedle stěny“, pokud si nejsi jistý, co se stane.
+          U některých kombinací může vzniknout vnitřní plocha, která později dělá problémy.
+        </div>
+
+        <p>
+          Na konci tento objekt klidně smaž – cílem je jen procvičit ovládání.
+        </p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">4) Pozor: Shift+A v Edit Mode přidá geometrii do stejného objektu + Separace (P)</summary>
+      <div class="acc__body">
+        <p>
+          Když jsi v Edit Mode a dáš <span class="kbd">Shift</span> + <span class="kbd">A</span>, často uvidíš jen nabídku <strong>Mesh</strong>.
+          Vše, co přidáš, se vloží do <em>stejného</em> objektu (jedné mesh).
+        </p>
+
+        <ol class="steps">
+          <li>Pokud omylem přidáš „druhý objekt“ v Edit Mode, ve skutečnosti je to součást jedné mesh.</li>
+          <li>Chceš-li to rozdělit: <span class="kbd">P</span> → <strong>Separate</strong> → <strong>By Loose Parts</strong>.</li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Prakticky:</strong> Nezapamatuj si to nazpaměť – stačí vědět, <em>proč</em> se to děje a že to jde spravit přes <span class="kbd">P</span>.
+        </div>
+      </div>
+    </details>
+
+  </div>
+
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+    <ul class="checklist">
+      <li>Umíš přepnout do Edit Mode (<span class="kbd">Tab</span>) a zvolit Vertex/Edge/Face.</li>
+      <li>Umíš extrudovat plochy (<span class="kbd">E</span>) a přidat loop cut (<span class="kbd">Ctrl</span>+<span class="kbd">R</span>).</li>
+      <li>Víš o typických chybách (extruze „na místě“, extruze dovnitř).</li>
+      <li>Chápeš rozdíl mezi přidáním objektu v Object Mode vs v Edit Mode a umíš separovat přes <span class="kbd">P</span>.</li>
+    </ul>
+  </article>
+</section>
+
+<!-- =========================================================
+     8.1.6 Mini-projekt: Domky pro scénu (maják)
+========================================================= -->
+<section id="section8-1-6" class="lesson">
+  <header class="lesson__header">
+    <h2 class="lesson__title">8.1.6 Mini-projekt: Domky pro scénu (připravené pro „maják“)</h2>
+    <p class="lesson__lead">
+      Z jednoduchého cube vytvoříš několik stylizovaných domků pomocí loop cut a posunu hran/ploch. Cílem není realismus,
+      ale čistý, čitelný tvar a procvičení Edit Mode nástrojů.
+    </p>
+  </header>
+
+  <div class="accordion">
+
+    <details class="acc" open>
+      <summary class="acc__sum">1) Dům se sedlovou střechou (nejrychlejší)</summary>
+      <div class="acc__body">
+        <ol class="steps">
+          <li><span class="kbd">Shift</span> + <span class="kbd">A</span> → Mesh → Cube.</li>
+          <li><span class="kbd">Tab</span> do Edit Mode.</li>
+          <li><span class="kbd">Ctrl</span>+<span class="kbd">R</span> loop cut doprostřed (double LMB).</li>
+          <li>Přepni na Edge výběr, vyber horní „hřeben“ (edge) a dej <span class="kbd">G</span> → <span class="kbd">Z</span> nahoru.</li>
+        </ol>
+
+        <figure class="gallery">
+          <div class="jk-frame is-16x9">
+            <img
+              id="img-816-house1"
+              class="jk-media"
+              loading="lazy"
+              decoding="async"
+              src="assets/img/blender/12-houses/house-0.png"
+              alt="Základní domek: loop cut doprostřed a vytažení horní hrany">
+
+            <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-816-house1" aria-label="Předchozí">‹</button>
+            <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-816-house1" aria-label="Další">›</button>
+
+            <span class="gallery__hint">Klikni pro fullscreen</span>
+          </div>
+
+          <figcaption class="gallery__meta">
+            <span class="gmeta">Sedlová střecha: 1× loop cut + posun hrany v Z.</span>
+          </figcaption>
+
+          <div data-gallery-src="img-816-house1"
+               data-images='[
+                 "assets/img/blender/12-houses/house-0.png",
+                 "assets/img/blender/12-houses/house-1.png",
+                 "assets/img/blender/12-houses/house-2.png"
+               ]'></div>
+        </figure>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">2) Bungalov (nižší dům) – úprava výšky střechy</summary>
+      <div class="acc__body">
+        <ol class="steps">
+          <li>Stejný postup jako u sedlové střechy (loop cut + vytažení hřebene).</li>
+          <li>Pak vyber dvě horní plochy (Face) a stáhni je dolů: <span class="kbd">G</span> → <span class="kbd">Z</span>.</li>
+          <li>Cílem je, aby střecha měla menší „pitch“ (sklon).</li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Tip:</strong> Pokud se ti lépe pracuje s hranami, vyber dvě horní hrany a sniž je stejně – střecha bude symetrická.
+        </div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">3) Dům s přístavbou (extruze části stěny)</summary>
+      <div class="acc__body">
+        <ol class="steps">
+          <li>Uděláš sedlovou střechu jako dřív.</li>
+          <li>Potřebuješ extrudovat jen <em>část</em> stěny → nejdřív ji rozděl loop cutem (např. svisle „napůl“).</li>
+          <li>Vyber jednu boční plochu a extruduj ven: <span class="kbd">E</span>.</li>
+          <li>U přístavby přidej střešní hřeben (loop cut) a vytahej ho nahoru (G→Z).</li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Neřeš milimetry:</strong> Stačí, když bude tvar čitelný a „funguje jako domek“.
+        </div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">4) Doporučení pro „město“: variace + sdílené materiály</summary>
+      <div class="acc__body">
+        <ul class="checklist">
+          <li>Vytvoř 4–6 domků s mírně jinou střechou, výškou a přístavbou.</li>
+          <li>Použij sdílené materiály: např. 3 barvy střechy a 3 barvy fasády (rychlá práce a sjednocený styl).</li>
+          <li>U domků často stačí základní barvy bez detailních textur.</li>
+          <li>Scénu průběžně ukládej – domky se budou hodit i později.</li>
+        </ul>
+      </div>
+    </details>
+
+  </div>
+
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+    <ul class="checklist">
+      <li>Umíš z cube rychle udělat několik variant domků pomocí loop cut a posunu.</li>
+      <li>Dokážeš vytvořit přístavbu extruzí části stěny.</li>
+      <li>Umíš si pomoct sdílenými materiály pro rychlé „město“ ve sjednoceném stylu.</li>
+    </ul>
+  </article>
+</section>
+
+<!-- =========================================================
+     8.1.7 Mini-projekt: Retro diskotéka (taneční pódium)
+     (záměrně jednoduché zadání – „tu uděláš po svém“)
+========================================================= -->
+<section id="section8-1-7" class="lesson">
+  <header class="lesson__header">
+    <h2 class="lesson__title">8.1.7 Mini-projekt: Retro diskotéka (taneční pódium)</h2>
+    <p class="lesson__lead">
+      Vytvoříš jednoduché taneční pódium ve stylu retro diskotéky. Zadání je schválně otevřené – cílem je využít to,
+      co už umíš: objekty, materiály, světla, HDRi intenzitu a rychlý render.
+    </p>
+  </header>
+
+  <article class="card">
+    <h3 class="card__title">Zadání (minimum)</h3>
+    <ul class="checklist">
+      <li><strong>Pódium</strong> – základní plocha (Plane/Cube) + okraj (např. extruze nebo další cube).</li>
+      <li><strong>Šachovnice / dlaždice</strong> – dlaždice jako opakované čtverce (duplikace) nebo jednodušší varianta přes materiály.</li>
+      <li><strong>Barvy</strong> – použij 3–5 výrazných barev a sdílené materiály.</li>
+      <li><strong>Světla</strong> – alespoň 2 světla s různou barvou (např. teplá + studená), klidně Spot/Area.</li>
+      <li><strong>HDRi</strong> – nastav World Strength nízko, aby dominovala umělá světla, ale odlesky zůstaly vidět.</li>
+      <li><strong>Render</strong> – 1 obrázek v Eevee a 1 v Cycles. Zapiš si čas renderu.</li>
+    </ul>
+
+    <div class="note note--info">
+      <strong>Doporučení pro „disco“ efekt (volitelné):</strong>
+      <ul>
+        <li>Přidej „disco kouli“ (UV Sphere) s Metallic = 1 a nízkým Roughness.</li>
+        <li>U Area světel si pohraj s velikostí (S) – měkké stíny vypadají často lépe.</li>
+        <li>Zkus jednu barvu světla hodně slabou jako „fill“, druhou silnější jako „key“.</li>
+      </ul>
+    </div>
+  </article>
+
+  <div class="accordion">
+    <details class="acc" open>
+      <summary class="acc__sum">Postup (doporučený, ale ne povinný)</summary>
+      <div class="acc__body">
+        <ol class="steps">
+          <li>Vytvoř pódium (Plane nebo Cube) a nastav základní materiál (např. tmavší neutrální).</li>
+          <li>Vytvoř dlaždice: buď duplikuj malé čtverce, nebo si připrav 2 materiály a střídání udělej ručně na několika plochách.</li>
+          <li>Přidej 2–3 světla (Spot/Area), nastav barvy a výkon. U Spot uprav Size/Blend.</li>
+          <li>V Shading → World sniž Strength HDRi, aby scéna nebyla „přesvětlená“ z pozadí.</li>
+          <li>Uprav kameru (Num 0) a vyrenderuj: Eevee + Cycles.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">Kritéria hodnocení (rychlé a jasné)</summary>
+      <div class="acc__body">
+        <ul class="checklist">
+          <li>Scéna má jasně čitelný „disco“ motiv (pódium, barvy, světla).</li>
+          <li>Materiály jsou pojmenované a smysluplně sdílené (ne chaos „Material.001…“).</li>
+          <li>Světla mají záměr (barva, směr, výkon) – není to náhoda.</li>
+          <li>Existuje render Eevee i Cycles a student umí říct, v čem se liší.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+    <ul class="checklist">
+      <li>Dokážeš postavit jednoduchou scénu a „režírovat“ ji materiály a světlem.</li>
+      <li>Umíš záměrně kombinovat HDRi a umělá světla (World Strength).</li>
+      <li>Umíš udělat render v Eevee i Cycles a porovnat výsledek i čas.</li>
+    </ul>
+  </article>
+</section>
+
+<!-- POZNÁMKA:
+  - Inline <script> sem nedávej.
+  - Galerie + fullscreen řeší globální assets/js/features/gallery.js (initGallery).
+  - Pokud některé obrázky nemáš, nech placeholder cesty (assets/img/...) a postupně je doplň.
+-->
