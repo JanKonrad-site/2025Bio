@@ -1,0 +1,222 @@
+<section id="section8-1-4" class="lesson">
+  <header class="lesson__header">
+    <h2 class="lesson__title">8.1.4 Světla: Point / Sun / Spot / Area + práce s intenzitou HDRi</h2>
+    <p class="lesson__lead">
+      Procvičíš přesné posouvání v ortho pohledech, upravíš barvu a výkon světel, pochopíš rozdíl mezi typy světel
+      a naučíš se duplikovat světla a „ztišit“ HDRi, aby dominovala umělá světla ve scéně.
+    </p>
+  </header>
+
+  <article class="card">
+    <h3 class="card__title">Krátká rozcvička (přesnost v ortho pohledech)</h3>
+    <ol class="steps">
+      <li>Vyber floor a změň jeho materiál na <strong>mid-grey</strong> (sniž saturaci na 0 a nastav střední hodnotu).</li>
+      <li>V Layout režimu přesuň monkey na cube a UV Sphere na cylinder. Pomáhej si: <span class="kbd">Num 1</span> (Front), <span class="kbd">Num 3</span> (Right), <span class="kbd">Num 7</span> (Top).</li>
+      <li>Při posuvu používej <span class="kbd">G</span> + <span class="kbd">X/Y/Z</span> pro zamčení na osu.</li>
+    </ol>
+    <div class="note note--info">
+      <strong>Tip:</strong> Když se v prostoru hůř trefuje, krátce přepni na <strong>Wireframe</strong> (nebo použij X-Ray),
+      aby šlo vidět „skrze“ objekt.
+    </div>
+  </article>
+
+  <div class="accordion">
+
+    <details class="acc" open>
+      <summary class="acc__sum">1) Kde se nastavuje světlo (Object Data Properties)</summary>
+      <div class="acc__body">
+        <ol class="steps">
+          <li>Přepni na <strong>Rendered</strong> náhled – jen tam uvidíš reálný vliv světel na scénu.</li>
+          <li>Vyber světlo a v Properties najdi záložku se symbolem <strong>žárovky</strong> (Object Data Properties).</li>
+          <li>Změň <strong>Color</strong> a <strong>Power/Strength</strong> a sleduj rozdíl ve scéně.</li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Poznámka k číslům:</strong> U Point/Spot/Area se výkon často udává ve „wattech“ (v praxi to ber jako „sílu“ světla).
+          Záleží i na měřítku scény – velké objekty vypadají „tmavší“, pokud je světlo slabé.
+        </div>
+
+        <figure class="gallery">
+          <div class="jk-frame is-16x9">
+            <img
+              id="img-814-lightprops"
+              class="jk-media"
+              loading="lazy"
+              decoding="async"
+              src="assets/img/blender/10-lighting/lightprops-0.png"
+              alt="Object Data Properties pro světlo (žárovka): barva a výkon">
+
+            <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-814-lightprops" aria-label="Předchozí">‹</button>
+            <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-814-lightprops" aria-label="Další">›</button>
+
+            <span class="gallery__hint">Klikni pro fullscreen</span>
+          </div>
+
+          <figcaption class="gallery__meta">
+            <span class="gmeta">Světlo se nastavuje v záložce „žárovka“ – Color + Power/Strength.</span>
+          </figcaption>
+
+          <div data-gallery-src="img-814-lightprops"
+               data-images='[
+                 "assets/img/blender/10-lighting/lightprops-0.png",
+                 "assets/img/blender/10-lighting/lightprops-1.png",
+                 "assets/img/blender/10-lighting/lightprops-2.png"
+               ]'></div>
+        </figure>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">2) Typy světel: Point vs Sun (posun vs rotace)</summary>
+      <div class="acc__body">
+        <ul class="checklist">
+          <li><strong>Point</strong> svítí do všech stran kolem sebe (posun světla mění výsledek).</li>
+          <li><strong>Sun</strong> se chová jako „sluneční paprsky“ z nekonečna (posun nevadí, důležitá je <strong>rotace</strong>).</li>
+        </ul>
+
+        <ol class="steps">
+          <li>Přepni světlo na <strong>Sun</strong>.</li>
+          <li>Zkus <span class="kbd">G</span> (posun) – ve scéně se téměř nic nezmění.</li>
+          <li>Zkus <span class="kbd">R</span> (rotace), případně <span class="kbd">R</span> → <span class="kbd">Z</span> – uvidíš, jak se mění směr stínů.</li>
+        </ol>
+
+        <figure class="gallery">
+          <div class="jk-frame is-16x9">
+            <img
+              id="img-814-sun"
+              class="jk-media"
+              loading="lazy"
+              decoding="async"
+              src="assets/img/blender/10-lighting/sun-0.png"
+              alt="Sun light: směr stínů se mění rotací, ne posunem">
+
+            <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-814-sun" aria-label="Předchozí">‹</button>
+            <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-814-sun" aria-label="Další">›</button>
+
+            <span class="gallery__hint">Klikni pro fullscreen</span>
+          </div>
+
+          <figcaption class="gallery__meta">
+            <span class="gmeta">Sun světlo: mění se rotací (R), stíny „ukazují“ směr.</span>
+          </figcaption>
+
+          <div data-gallery-src="img-814-sun"
+               data-images='[
+                 "assets/img/blender/10-lighting/sun-0.png",
+                 "assets/img/blender/10-lighting/sun-1.png",
+                 "assets/img/blender/10-lighting/sun-2.png"
+               ]'></div>
+        </figure>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">3) Spot a Area: kužel světla, měkkost hran, měkké/ostré stíny</summary>
+      <div class="acc__body">
+        <p>
+          <strong>Spot</strong> je kužel (má „beam“), <strong>Area</strong> je plocha (čtverec/obdélník).
+          U Area je skvělé, že velikost světla přímo ovlivňuje měkkost stínů.
+        </p>
+
+        <ol class="steps">
+          <li>Přepni světlo na <strong>Spot</strong>, zvyš výkon (např. 1000–20000) a natoč ho na objekty.</li>
+          <li>Vyzkoušej parametry: <strong>Size</strong> (šířka kuželu) a <strong>Blend</strong> (měkkost okraje).</li>
+          <li>Přepni na <strong>Area</strong> a <span class="kbd">S</span> světlo škáluj: malé = tvrdé stíny, velké = měkké stíny.</li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Tip:</strong> U Area je často pohodlnější měnit velikost přímo ve scéně (S), než ručně v parametrech.
+        </div>
+
+        <figure class="gallery">
+          <div class="jk-frame is-16x9">
+            <img
+              id="img-814-spotarea"
+              class="jk-media"
+              loading="lazy"
+              decoding="async"
+              src="assets/img/blender/10-lighting/spotarea-0.png"
+              alt="Spotlight (Size/Blend) a Area light (velikost = měkkost stínů)">
+
+            <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-814-spotarea" aria-label="Předchozí">‹</button>
+            <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-814-spotarea" aria-label="Další">›</button>
+
+            <span class="gallery__hint">Klikni pro fullscreen</span>
+          </div>
+
+          <figcaption class="gallery__meta">
+            <span class="gmeta">Spot: kužel a měkkost okraje. Area: velikost světla = měkkost stínů.</span>
+          </figcaption>
+
+          <div data-gallery-src="img-814-spotarea"
+               data-images='[
+                 "assets/img/blender/10-lighting/spotarea-0.png",
+                 "assets/img/blender/10-lighting/spotarea-1.png",
+                 "assets/img/blender/10-lighting/spotarea-2.png"
+               ]'></div>
+        </figure>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">4) Duplikace světel + „ztišení“ HDRi (World Strength)</summary>
+      <div class="acc__body">
+        <ol class="steps">
+          <li>Vyber světlo a duplikuj: <span class="kbd">Shift</span> + <span class="kbd">D</span> (hned jsi v posunu).</li>
+          <li>Umísti druhé světlo z druhé strany a natoč ho (R), aby taky osvětlovalo objekty.</li>
+          <li>Ve Shading workspace přepni Shader Editor na <strong>World</strong> a uprav <strong>Strength</strong> u Background:
+            <ul>
+              <li><strong>0</strong> = jen umělá světla,</li>
+              <li>nízké hodnoty = HDRi pro odlesky, ale dominují světla ve scéně.</li>
+            </ul>
+          </li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Úkol:</strong> Vytvoř dvě světla s různou barvou (např. teplejší + studenější) a sniž World Strength tak,
+          aby scéna byla primárně řízená těmito světly, ale odlesky z HDRi zůstaly vidět.
+        </div>
+
+        <figure class="gallery">
+          <div class="jk-frame is-16x9">
+            <img
+              id="img-814-worldstrength"
+              class="jk-media"
+              loading="lazy"
+              decoding="async"
+              src="assets/img/blender/10-lighting/worldstrength-0.png"
+              alt="Duplikace světel (Shift+D) a snížení World Strength pro HDRi">
+
+            <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-814-worldstrength" aria-label="Předchozí">‹</button>
+            <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-814-worldstrength" aria-label="Další">›</button>
+
+            <span class="gallery__hint">Klikni pro fullscreen</span>
+          </div>
+
+          <figcaption class="gallery__meta">
+            <span class="gmeta">Dvě světla + slabší HDRi (World Strength) = lepší kontrola nad scénou.</span>
+          </figcaption>
+
+          <div data-gallery-src="img-814-worldstrength"
+               data-images='[
+                 "assets/img/blender/10-lighting/worldstrength-0.png",
+                 "assets/img/blender/10-lighting/worldstrength-1.png",
+                 "assets/img/blender/10-lighting/worldstrength-2.png"
+               ]'></div>
+        </figure>
+
+      </div>
+    </details>
+
+  </div>
+
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+    <ul class="checklist">
+      <li>Víš, kde se nastavují světla (záložka „žárovka“).</li>
+      <li>Chápeš rozdíl Point vs Sun (Sun se řídí hlavně rotací).</li>
+      <li>Umíš použít Spot (kužel) a Area (měkkost stínů přes velikost).</li>
+      <li>Umíš duplikovat světla (<span class="kbd">Shift</span>+<span class="kbd">D</span>) a ztišit HDRi přes World Strength.</li>
+    </ul>
+  </article>
+</section>

@@ -1,0 +1,93 @@
+<section id="section8-1-7" class="lesson">
+  <header class="lesson__header">
+    <h2 class="lesson__title">8.1.7 Mini-projekt: Retro diskotéka (taneční pódium)</h2>
+    <p class="lesson__lead">
+      Vytvoříš jednoduché taneční pódium ve stylu retro diskotéky. Zadání je schválně otevřené – cílem je využít to,
+      co už umíš: objekty, materiály, světla, HDRi intenzitu a rychlý render.
+    </p>
+  </header>
+<p></p>
+  <article class="card">
+    <h3 class="card__title">Zadání (minimum)</h3>
+    <ul class="checklist">
+      <li><strong>Pódium</strong> – základní plocha (Plane/Cube) + okraj (např. extruze nebo další cube).</li>
+      <li><strong>Šachovnice / dlaždice</strong> – dlaždice jako opakované čtverce (duplikace) nebo jednodušší varianta přes materiály.</li>
+      <li><strong>Barvy</strong> – použij 3–5 výrazných barev a sdílené materiály.</li>
+      <li><strong>Světla</strong> – alespoň 2 světla s různou barvou (např. teplá + studená), klidně Spot/Area.</li>
+      <li><strong>HDRi</strong> – nastav World Strength nízko, aby dominovala umělá světla, ale odlesky zůstaly vidět.</li>
+      <li><strong>Render</strong> – 1 obrázek v Eevee a 1 v Cycles. Zapiš si čas renderu.</li>
+    </ul>
+
+    <div class="note note--info">
+      <strong>Doporučení pro „disco“ efekt (volitelné):</strong>
+      <ul>
+        <li>Přidej „disco kouli“ (UV Sphere) s Metallic = 1 a nízkým Roughness.</li>
+        <li>U Area světel si pohraj s velikostí (S) – měkké stíny vypadají často lépe.</li>
+        <li>Zkus jednu barvu světla hodně slabou jako „fill“, druhou silnější jako „key“.</li>
+      </ul>
+    </div>
+  </article>
+  <p></p>
+  <div class="accordion">
+    <details class="acc" open>
+      <summary class="acc__sum">Postup (doporučený, ale ne povinný)</summary>
+      <div class="acc__body">
+        <ol class="steps">
+          <li>Vytvoř pódium (Plane nebo Cube) a nastav základní materiál (např. tmavší neutrální).</li>
+          <li>Vytvoř dlaždice: buď duplikuj malé čtverce, nebo si připrav 2 materiály a střídání udělej ručně na několika plochách.</li>
+          <li>Přidej 2–3 světla (Spot/Area), nastav barvy a výkon. U Spot uprav Size/Blend.</li>
+          <li>V Shading → World sniž Strength HDRi, aby scéna nebyla „přesvětlená“ z pozadí.</li>
+          <li>Uprav kameru (Num 0) a vyrenderuj: Eevee + Cycles.</li>
+        </ol>
+      </div>
+        <figure class="gallery">
+          <div class="jk-frame is-16x9">
+            <img
+              id="img-816-house1"
+              class="jk-media"
+              loading="lazy"
+              decoding="async"
+              src="assets/img/blender/12-houses/house-0.png"
+              alt="Základní domek: loop cut doprostřed a vytažení horní hrany">
+
+            <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-816-house1" aria-label="Předchozí">‹</button>
+            <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-816-house1" aria-label="Další">›</button>
+
+            <span class="gallery__hint">Klikni pro fullscreen</span>
+          </div>
+
+          <figcaption class="gallery__meta">
+            <span class="gmeta">Sedlová střecha: 1× loop cut + posun hrany v Z.</span>
+          </figcaption>
+
+          <div data-gallery-src="img-816-house1"
+               data-images='[
+                 "assets/img/blender/12-houses/house-0.png",
+                 "assets/img/blender/12-houses/house-1.png",
+                 "assets/img/blender/12-houses/house-2.png"
+               ]'></div>
+        </figure>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">Kritéria hodnocení (rychlé a jasné)</summary>
+      <div class="acc__body">
+        <ul class="checklist">
+          <li>Scéna má jasně čitelný „disco“ motiv (pódium, barvy, světla).</li>
+          <li>Materiály jsou pojmenované a smysluplně sdílené (ne chaos „Material.001…“).</li>
+          <li>Světla mají záměr (barva, směr, výkon) – není to náhoda.</li>
+          <li>Existuje render Eevee i Cycles a student umí říct, v čem se liší.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+<p></p>
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+    <ul class="checklist">
+      <li>Dokážeš postavit jednoduchou scénu a „režírovat“ ji materiály a světlem.</li>
+      <li>Umíš záměrně kombinovat HDRi a umělá světla (World Strength).</li>
+      <li>Umíš udělat render v Eevee i Cycles a porovnat výsledek i čas.</li>
+    </ul>
+  </article>
+</section>

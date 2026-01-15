@@ -1,0 +1,168 @@
+<section id="section8-1-5" class="lesson">
+  <header class="lesson__header">
+    <h2 class="lesson__title">8.1.5 Edit Mode: úpravy tvarů (Vertex / Edge / Face, Extrude, Loop Cut)</h2>
+    <p class="lesson__lead">
+      Poprvé začneš měnit skutečný tvar objektu. Naučíš se přepínat výběr vrcholů, hran a ploch, používat extrude
+      a přidávat dělení pomocí loop cut. Na konci si „jen pro zábavu“ vyrobíš monstrózní tvar.
+    </p>
+  </header>
+
+  <article class="card">
+    <h3 class="card__title">Základní přepínače v Edit Mode</h3>
+    <ul class="checklist">
+      <li><span class="kbd">Tab</span> – přepíná Object Mode / Edit Mode.</li>
+      <li>Výběr v Edit Mode: <strong>Vertex</strong> / <strong>Edge</strong> / <strong>Face</strong> (ikonky nahoře).</li>
+      <li>Klávesy <span class="kbd">1</span>/<span class="kbd">2</span>/<span class="kbd">3</span> přepínají Vertex/Edge/Face (pokud nepřekáží jiné mapování kláves).</li>
+      <li>Transformace fungují stejně: <span class="kbd">G</span>, <span class="kbd">R</span>, <span class="kbd">S</span>.</li>
+      <li>Zrušení akce: <span class="kbd">Esc</span> nebo pravé tlačítko.</li>
+    </ul>
+
+    <div class="note note--info">
+      <strong>Tip:</strong> Pokud nevidíš levý panel nástrojů, přepíná se klávesou <span class="kbd">T</span>.
+    </div>
+  </article>
+
+  <div class="accordion">
+
+    <details class="acc" open>
+      <summary class="acc__sum">1) Extrude (E) – nejdůležitější modelovací nástroj</summary>
+      <div class="acc__body">
+        <ol class="steps">
+          <li>V novém souboru vyber default cube.</li>
+          <li><span class="kbd">Tab</span> do Edit Mode → přepni na <strong>Face</strong> výběr.</li>
+          <li>Vyber jednu plochu a stiskni <span class="kbd">E</span> (Extrude) → tahej ven → potvrď LMB.</li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Dvě typické pasti:</strong>
+          <ul>
+            <li><strong>Extrude dovnitř</strong> (vytvoří „vnitřní“ plochy a tenké stěny) – začátečníkům to často rozhodí tvar.</li>
+            <li><strong>Extrude a zrušení</strong>: když dáš <span class="kbd">E</span> a pak zrušíš pohyb, může vzniknout extruze „na místě“
+              (dvojité body/plošky). Když si nejsi jistý, vrať se o krok zpět přes <span class="kbd">Ctrl</span>+<span class="kbd">Z</span>.</li>
+          </ul>
+        </div>
+
+        <figure class="gallery">
+          <div class="jk-frame is-16x9">
+            <img
+              id="img-815-extrude"
+              class="jk-media"
+              loading="lazy"
+              decoding="async"
+              src="assets/img/blender/11-editmode/extrude-0.png"
+              alt="Extrude (E) v Edit Mode">
+
+            <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-815-extrude" aria-label="Předchozí">‹</button>
+            <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-815-extrude" aria-label="Další">›</button>
+
+            <span class="gallery__hint">Klikni pro fullscreen</span>
+          </div>
+
+          <figcaption class="gallery__meta">
+            <span class="gmeta">Extrude: rychle přidá geometrii a změní tvar.</span>
+          </figcaption>
+
+          <div data-gallery-src="img-815-extrude"
+               data-images='[
+                 "assets/img/blender/11-editmode/extrude-0.png",
+                 "assets/img/blender/11-editmode/extrude-1.png",
+                 "assets/img/blender/11-editmode/extrude-2.png"
+               ]'></div>
+        </figure>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">2) Loop Cut (Ctrl+R) – přidání dělení pro přesnější extruze</summary>
+      <div class="acc__body">
+        <ol class="steps">
+          <li>Přepni se na Edge/Face dle potřeby (není kritické, Ctrl+R funguje v Edit Mode).</li>
+          <li>Stiskni <span class="kbd">Ctrl</span> + <span class="kbd">R</span> a najeď myší na objekt – objeví se smyčka.</li>
+          <li>LMB potvrdí směr, druhé LMB určí polohu. Pro „rychlý střed“ použij <strong>double LMB</strong>.</li>
+          <li>Alternativa: LMB → pokud omylem pohneš myší, dej <strong>RMB</strong> pro „snap“ do středu.</li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Cíl:</strong> Udělej loop cut „napůl“, přepni na Face a vyextruduj jen jednu část (procvičení přesnosti).
+        </div>
+
+        <figure class="gallery">
+          <div class="jk-frame is-16x9">
+            <img
+              id="img-815-loopcut"
+              class="jk-media"
+              loading="lazy"
+              decoding="async"
+              src="assets/img/blender/11-editmode/loopcut-0.png"
+              alt="Loop cut (Ctrl+R) a následná extruze části plochy">
+
+            <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-815-loopcut" aria-label="Předchozí">‹</button>
+            <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-815-loopcut" aria-label="Další">›</button>
+
+            <span class="gallery__hint">Klikni pro fullscreen</span>
+          </div>
+
+          <figcaption class="gallery__meta">
+            <span class="gmeta">Ctrl+R přidá dělení – pak můžeš extrudovat jen část.</span>
+          </figcaption>
+
+          <div data-gallery-src="img-815-loopcut"
+               data-images='[
+                 "assets/img/blender/11-editmode/loopcut-0.png",
+                 "assets/img/blender/11-editmode/loopcut-1.png",
+                 "assets/img/blender/11-editmode/loopcut-2.png"
+               ]'></div>
+        </figure>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">3) „Hraj si“: vytvoř monstrózní tvar (bez stresu)</summary>
+      <div class="acc__body">
+        <p>
+          Teď jde jen o to získat cit pro <span class="kbd">E</span> a <span class="kbd">Ctrl</span>+<span class="kbd">R</span>.
+          Vytvoř několik loop cutů a vyextruduj různé plochy ven – výsledek nemusí být hezký.
+        </p>
+
+        <div class="note note--info">
+          <strong>Pravidlo pro začátek:</strong> Vyhni se extruzi „těsně vedle stěny“, pokud si nejsi jistý, co se stane.
+          U některých kombinací může vzniknout vnitřní plocha, která později dělá problémy.
+        </div>
+
+        <p>
+          Na konci tento objekt klidně smaž – cílem je jen procvičit ovládání.
+        </p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">4) Pozor: Shift+A v Edit Mode přidá geometrii do stejného objektu + Separace (P)</summary>
+      <div class="acc__body">
+        <p>
+          Když jsi v Edit Mode a dáš <span class="kbd">Shift</span> + <span class="kbd">A</span>, často uvidíš jen nabídku <strong>Mesh</strong>.
+          Vše, co přidáš, se vloží do <em>stejného</em> objektu (jedné mesh).
+        </p>
+
+        <ol class="steps">
+          <li>Pokud omylem přidáš „druhý objekt“ v Edit Mode, ve skutečnosti je to součást jedné mesh.</li>
+          <li>Chceš-li to rozdělit: <span class="kbd">P</span> → <strong>Separate</strong> → <strong>By Loose Parts</strong>.</li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Prakticky:</strong> Nezapamatuj si to nazpaměť – stačí vědět, <em>proč</em> se to děje a že to jde spravit přes <span class="kbd">P</span>.
+        </div>
+      </div>
+    </details>
+
+  </div>
+
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+    <ul class="checklist">
+      <li>Umíš přepnout do Edit Mode (<span class="kbd">Tab</span>) a zvolit Vertex/Edge/Face.</li>
+      <li>Umíš extrudovat plochy (<span class="kbd">E</span>) a přidat loop cut (<span class="kbd">Ctrl</span>+<span class="kbd">R</span>).</li>
+      <li>Víš o typických chybách (extruze „na místě“, extruze dovnitř).</li>
+      <li>Chápeš rozdíl mezi přidáním objektu v Object Mode vs v Edit Mode a umíš separovat přes <span class="kbd">P</span>.</li>
+    </ul>
+  </article>
+</section>

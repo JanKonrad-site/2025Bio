@@ -1,0 +1,105 @@
+<section id="section8-1-6" class="lesson">
+  <header class="lesson__header">
+    <h2 class="lesson__title">8.1.6 Mini-projekt: Domky pro scénu (připravené pro „maják“)</h2>
+    <p class="lesson__lead">
+      Z jednoduchého cube vytvoříš několik stylizovaných domků pomocí loop cut a posunu hran/ploch. Cílem není realismus,
+      ale čistý, čitelný tvar a procvičení Edit Mode nástrojů.
+    </p>
+  </header>
+
+  <div class="accordion">
+
+    <details class="acc" open>
+      <summary class="acc__sum">1) Dům se sedlovou střechou (nejrychlejší)</summary>
+      <div class="acc__body">
+        <ol class="steps">
+          <li><span class="kbd">Shift</span> + <span class="kbd">A</span> → Mesh → Cube.</li>
+          <li><span class="kbd">Tab</span> do Edit Mode.</li>
+          <li><span class="kbd">Ctrl</span>+<span class="kbd">R</span> loop cut doprostřed (double LMB).</li>
+          <li>Přepni na Edge výběr, vyber horní „hřeben“ (edge) a dej <span class="kbd">G</span> → <span class="kbd">Z</span> nahoru.</li>
+        </ol>
+
+        <figure class="gallery">
+          <div class="jk-frame is-16x9">
+            <img
+              id="img-816-house1"
+              class="jk-media"
+              loading="lazy"
+              decoding="async"
+              src="assets/img/blender/12-houses/house-0.png"
+              alt="Základní domek: loop cut doprostřed a vytažení horní hrany">
+
+            <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-816-house1" aria-label="Předchozí">‹</button>
+            <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-816-house1" aria-label="Další">›</button>
+
+            <span class="gallery__hint">Klikni pro fullscreen</span>
+          </div>
+
+          <figcaption class="gallery__meta">
+            <span class="gmeta">Sedlová střecha: 1× loop cut + posun hrany v Z.</span>
+          </figcaption>
+
+          <div data-gallery-src="img-816-house1"
+               data-images='[
+                 "assets/img/blender/12-houses/house-0.png",
+                 "assets/img/blender/12-houses/house-1.png",
+                 "assets/img/blender/12-houses/house-2.png"
+               ]'></div>
+        </figure>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">2) Bungalov (nižší dům) – úprava výšky střechy</summary>
+      <div class="acc__body">
+        <ol class="steps">
+          <li>Stejný postup jako u sedlové střechy (loop cut + vytažení hřebene).</li>
+          <li>Pak vyber dvě horní plochy (Face) a stáhni je dolů: <span class="kbd">G</span> → <span class="kbd">Z</span>.</li>
+          <li>Cílem je, aby střecha měla menší „pitch“ (sklon).</li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Tip:</strong> Pokud se ti lépe pracuje s hranami, vyber dvě horní hrany a sniž je stejně – střecha bude symetrická.
+        </div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">3) Dům s přístavbou (extruze části stěny)</summary>
+      <div class="acc__body">
+        <ol class="steps">
+          <li>Uděláš sedlovou střechu jako dřív.</li>
+          <li>Potřebuješ extrudovat jen <em>část</em> stěny → nejdřív ji rozděl loop cutem (např. svisle „napůl“).</li>
+          <li>Vyber jednu boční plochu a extruduj ven: <span class="kbd">E</span>.</li>
+          <li>U přístavby přidej střešní hřeben (loop cut) a vytahej ho nahoru (G→Z).</li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Neřeš milimetry:</strong> Stačí, když bude tvar čitelný a „funguje jako domek“.
+        </div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">4) Doporučení pro „město“: variace + sdílené materiály</summary>
+      <div class="acc__body">
+        <ul class="checklist">
+          <li>Vytvoř 4–6 domků s mírně jinou střechou, výškou a přístavbou.</li>
+          <li>Použij sdílené materiály: např. 3 barvy střechy a 3 barvy fasády (rychlá práce a sjednocený styl).</li>
+          <li>U domků často stačí základní barvy bez detailních textur.</li>
+          <li>Scénu průběžně ukládej – domky se budou hodit i později.</li>
+        </ul>
+      </div>
+    </details>
+
+  </div>
+
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+    <ul class="checklist">
+      <li>Umíš z cube rychle udělat několik variant domků pomocí loop cut a posunu.</li>
+      <li>Dokážeš vytvořit přístavbu extruzí části stěny.</li>
+      <li>Umíš si pomoct sdílenými materiály pro rychlé „město“ ve sjednoceném stylu.</li>
+    </ul>
+  </article>
+</section>

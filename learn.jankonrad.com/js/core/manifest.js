@@ -191,8 +191,15 @@ export const NAV_TREE = [
           title: "8. 3D grafika – Blender",
           href: "#section8-1-1",
           children: [
-            { title: "8.1.1 Blender – Kapitola 1: Co znamená modelovat", href: "#section8-1-1" },
-            { title: "8.1.2 Blender – Kapitola 1: Co znamená modelovat", href: "#section8-1-2" },
+            { title: "8.1.1 3D grafika v Blenderu – úvod a orientace", href: "#section8-1-1" },
+            { title: "8.1.2 Barvy a materiály (základní práce s materiály)", href: "#section8-1-2" },
+            { title: "8.1.3 Odlesky, HDRi prostředí a rychlejší render", href: "#section8-1-3" },
+            { title: "8.1.4 Světla: Point / Sun / Spot / Area + práce s intenzitou HDRi", href: "#section8-1-4" },
+            { title: "8.1.5 Edit Mode: úpravy tvarů (Vertex / Edge / Face, Extrude, Loop Cut", href: "#section8-1-5" },
+            { title: "8.1.6 Mini-projekt: Domky pro scénu (připravené pro „maják“)", href: "#section8-1-6" },
+            { title: "8.1.7 Mini-projekt: Retro diskotéka (taneční pódium)", href: "#section8-1-7" },
+            
+           
           ]
         }
       ];
