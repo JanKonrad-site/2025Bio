@@ -1,0 +1,950 @@
+<!-- =========================================================
+     8.1 – BLENDER (SJEDNOCENO DO JEDNÉ SEKCE)
+     - jediný hlavní blok: #section8-1
+     - podkapitoly mají kotvy #section8-1-1 ... #section8-1-7,
+       ale nejsou to samostatné <section class="lesson"> (kvůli sjednocení v navigaci)
+========================================================= -->
+
+<section id="section8-1" class="lesson">
+
+  <header class="lesson__header">
+    <h2 class="lesson__title">8.1 Blender – základní modul (orientace → materiály → odlesky/HDRi → světla → edit mode → mini-projekty)</h2>
+    <p class="lesson__lead">
+      V tomto celku projdeš Blender od úplných základů ovládání až po jednoduché modelování a mini-projekty.
+      Materiály, odlesky, HDRi, světla i první Edit Mode nástroje jsou poskládané tak, aby na sebe logicky navazovaly.
+    </p>
+  </header>
+
+  <article class="card">
+    <h3 class="card__title">Jak je modul rozdělený?</h3>
+    <ul class="checklist">
+      <li><strong>Blok A – Orientace a ovládání</strong> (8.1.1): scéna, UI, navigace, objekty, transformace, render základy.</li>
+      <li><strong>Blok B – Materiály a barvy</strong> (8.1.2): Principled BSDF, sdílení materiálů, rychlý render.</li>
+      <li><strong>Blok C – Odlesky a HDRi + rychlost</strong> (8.1.3): metallic/roughness, smooth, HDRi, denoise/time limit.</li>
+      <li><strong>Blok D – Světla</strong> (8.1.4): typy světel, barva/výkon, duplikace, World Strength HDRi.</li>
+      <li><strong>Blok E – Edit Mode</strong> (8.1.5): vertex/edge/face, extrude, loop cut, separace.</li>
+      <li><strong>Blok F – Mini-projekty</strong> (8.1.6–8.1.7): domky pro scénu + retro diskotéka.</li>
+    </ul>
+  </article>
+
+  <!-- =========================================================
+       HLAVNÍ BLOKY (logické celky)
+  ========================================================= -->
+  <div class="accordion">
+
+    <!-- =======================================================
+         BLOK A: ORIENTACE A OVLÁDÁNÍ (8.1.1)
+    ======================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Blok A: Orientace a ovládání Blenderu (8.1.1)</summary>
+      <div class="acc__body">
+
+        <!-- =========================
+             8.1.1 (původně section)
+        ========================== -->
+        <div id="section8-1-1" class="lesson-sub">
+
+          <header class="lesson__header">
+            <h2 class="lesson__title">8.1.1 3D grafika v Blenderu – úvod a orientace</h2>
+            <p class="lesson__lead">
+              Zjistíš, co je 3D scéna (objekty, kamera, světlo), jak se v Blenderu neztratit, jak přidávat objekty a bezpečně
+              je ovládat v <strong>Object Mode</strong>. Na závěr pochopíš rozdíl mezi náhledem ve viewportu a finálním renderem.
+            </p>
+          </header>
+
+          <!-- Úvod + filozofie -->
+          <article class="card">
+            <h3 class="card__title">Co je 3D grafika a co znamená „modelovat“</h3>
+
+            <p>
+              <strong>3D grafika</strong> je práce s virtuálním prostorem (osy <strong>X, Y, Z</strong>), ve kterém existují objekty,
+              světla a kamera. Na rozdíl od 2D obrázku pracuješ se <strong>scénou</strong> – můžeš ji obejít, přiblížit,
+              změnit úhel pohledu a zvolit, co bude kamera „vidět“.
+            </p>
+
+            <p>
+              <strong>Modelování</strong> není jen „mačkání nástrojů“. Je to převod reálného nebo stylizovaného tvaru do digitální podoby tak,
+              aby dávala smysl pro další použití. Úplně nejdůležitější otázka na začátku je:
+              <strong>„K čemu ten model bude?“</strong>
+            </p>
+
+            <div class="note note--info">
+              <strong>Proč na tom záleží:</strong>
+              Model pro hru (low-poly), model na render (detail), model na 3D tisk (uzavřený objem) – každý cíl vede k jinému přemýšlení.
+              Dnes začneme tím, co potřebuješ vždy: orientace ve scéně a práce s objekty v <strong>Object Mode</strong>.
+            </div>
+          </article>
+
+          <!-- Co se naučíš -->
+          <article class="card">
+            <h3 class="card__title">Co se naučíš?</h3>
+            <ul class="checklist">
+              <li><strong>Orientace v rozhraní</strong> – co je Viewport, Outliner, Properties a proč tě Outliner zachrání.</li>
+              <li><strong>Stažení a nastavení</strong> – kde zvětšit UI, jak (volitelně) zapnout GPU pro render a proč neexperimentální verze.</li>
+              <li><strong>Navigace</strong> – orbit/posun/zoom, rychlé pohledy (NumPad) a perspektiva vs. ortho.</li>
+              <li><strong>Objekty v Object Mode</strong> – výběr, přidání objektu, 3D kurzor a základní zkratky.</li>
+              <li><strong>Transformace</strong> – <span class="kbd">G</span>/<span class="kbd">R</span>/<span class="kbd">S</span> + omezení na osy <span class="kbd">X</span>/<span class="kbd">Y</span>/<span class="kbd">Z</span>.</li>
+              <li><strong>Náhled a render</strong> – Solid/Wireframe/Material Preview/Rendered, kamera a základní render workflow.</li>
+            </ul>
+
+            <div class="note note--info">
+              <strong>Tip:</strong> Neřeš dokonalost. Důležité je dokončit postup a získat jistotu v ovládání – rychlost přijde opakováním.
+            </div>
+          </article>
+
+          <div class="actions">
+            <a class="btn btn--primary" href="URL_MATERIÁLY" target="_blank" rel="noopener">Stáhnout materiály</a>
+            <a class="btn btn--ghost" href="https://www.blender.org/download/" target="_blank" rel="noopener">Oficiální zdroj</a>
+          </div>
+
+          <!-- Accordion -->
+          <div class="accordion">
+
+            <!-- 1) Blender a scéna: UI + pojmy -->
+            <details class="acc" open>
+              <summary class="acc__sum">1) Blender a scéna: co tu je (objekty, kamera, světlo)</summary>
+              <div class="acc__body">
+
+                <p>
+                  Blender pracuje se <strong>scénou</strong>. Ve scéně jsou objekty (např. kostka), kamera (pohled) a světla (osvětlení).
+                  My se teď soustředíme hlavně na <strong>objekty</strong> a orientaci.
+                </p>
+
+                <ul class="checklist">
+                  <li><strong>Viewport</strong> – hlavní 3D okno, kde scénu vidíš a ovládáš.</li>
+                  <li><strong>Outliner</strong> – seznam všech objektů (když něco „nemůžeš kliknout“, Outliner často zachrání).</li>
+                  <li><strong>Properties</strong> – nastavení objektů, renderu, světel, materiálů.</li>
+                  <li><strong>Timeline</strong> – časová osa (animace), zatím jen vědět, že existuje.</li>
+                </ul>
+
+                <p><strong>Okamžitě použitelné zkratky:</strong><br>
+                  <span class="kbd">A</span> (vybrat vše / zrušit výběr),
+                  <span class="kbd">X</span> (smazat),
+                  <span class="kbd">Num .</span> (focus na objekt)
+                </p>
+
+                <!-- Galerie (reálné URL z V1) -->
+                <figure class="gallery">
+                  <div class="jk-frame is-16x9">
+                    <img
+                      id="img-811-scene"
+                      class="jk-media"
+                      loading="lazy"
+                      decoding="async"
+                      src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/Blender/Blender1.png"
+                      alt="Blender – scéna a rozhraní">
+
+                    <button class="gallery__nav gallery__nav--prev"
+                            type="button"
+                            data-gallery-prev="img-811-scene"
+                            aria-label="Předchozí obrázek">‹</button>
+
+                    <button class="gallery__nav gallery__nav--next"
+                            type="button"
+                            data-gallery-next="img-811-scene"
+                            aria-label="Další obrázek">›</button>
+
+                    <span class="gallery__hint">Klikni pro fullscreen</span>
+                  </div>
+
+                  <figcaption class="gallery__meta">
+                    <span class="gmeta">Scéna a rozhraní: Viewport, Outliner, Properties.</span>
+                  </figcaption>
+
+                  <div data-gallery-src="img-811-scene"
+                       data-images='[
+                         "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/Blender/Blender1.png",
+                         "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/01-scene/scene-1.png",
+                         "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/01-scene/scene-2.png"
+                       ]'></div>
+                </figure>
+
+                <div class="note note--info">
+                  <strong>Mikro-vysvětlení:</strong> Osy <strong>X</strong>, <strong>Y</strong>, <strong>Z</strong> určují směr v prostoru.
+                  Kamera určuje, co se bude renderovat. Světla ovlivňují stíny a čitelnost tvaru.
+                  <button class="btn btn--ghost btn--sm" type="button" data-bs-toggle="modal" data-bs-target="#m-sceneBasics">
+                    Otevřít mini-modál (XYZ, kamera, světlo)
+                  </button>
+                </div>
+
+              </div>
+            </details>
+
+            <!-- 2) Stažení softwaru a nastavení -->
+            <details class="acc">
+              <summary class="acc__sum">2) Stažení softwaru a nastavení (čitelnost + výkon)</summary>
+              <div class="acc__body">
+
+                <ol class="steps">
+                  <li>
+                    <strong>Stáhni stabilní verzi</strong> z Blender.org (Windows/Mac/Linux). „Experimentální / alpha“ verze jsou náchylnější na pády a bugy.
+                  </li>
+                  <li>
+                    <strong>První spuštění</strong>: zvol výchozí (default) nastavení a otevři „General“ startup scénu.
+                  </li>
+                  <li>
+                    <strong>Zvětšení UI</strong>: <em>Edit → Preferences → Interface → Resolution Scale</em>.
+                    Hodí se na HiDPI/4K a při výuce na projektoru.
+                  </li>
+                  <li>
+                    <strong>GPU pro render (volitelně)</strong>: <em>Edit → Preferences → System</em>.
+                    Pokud máš NVIDIA, typicky použiješ <strong>CUDA</strong>; u RTX je často výhodné <strong>OptiX</strong>.
+                  </li>
+                  <li>
+                    <strong>Ukládání</strong>: ukládej pravidelně. Obnova poslední session může pomoci, ale není stoprocentní.
+                  </li>
+                </ol>
+
+                <div class="note note--info">
+                  <strong>Prakticky:</strong> Pokud máš slabší stroj, dá se dlouho fungovat s rychlejším náhledem a renderem v Eevee.
+                  Realističtější (ale náročnější) výstup typicky nabídne Cycles.
+                </div>
+
+                <!-- Galerie (placeholder – snadno nahradíš vlastními screenshoty) -->
+                <figure class="gallery">
+                  <div class="jk-frame is-16x9">
+                    <img
+                      id="img-811-setup"
+                      class="jk-media"
+                      loading="lazy"
+                      decoding="async"
+                      src="assets/img/blender/08-setup/setup-0.png"
+                      alt="Blender – Preferences: Resolution Scale a System (CUDA/OptiX)">
+
+                    <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-811-setup" aria-label="Předchozí">‹</button>
+                    <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-811-setup" aria-label="Další">›</button>
+
+                    <span class="gallery__hint">Klikni pro fullscreen</span>
+                  </div>
+
+                  <figcaption class="gallery__meta">
+                    <span class="gmeta">Doplň vlastní screenshoty: Download stránka, Preferences → Interface, Preferences → System.</span>
+                  </figcaption>
+
+                  <div data-gallery-src="img-811-setup"
+                       data-images='[
+                         "assets/img/blender/08-setup/setup-0.png",
+                         "assets/img/blender/08-setup/setup-1.png",
+                         "assets/img/blender/08-setup/setup-2.png"
+                       ]'></div>
+                </figure>
+
+              </div>
+            </details>
+
+            <!-- 3) Navigace ve Viewportu -->
+            <details class="acc">
+              <summary class="acc__sum">3) Navigace ve Viewportu (orbit / posun / zoom) – aby ses neztratil</summary>
+              <div class="acc__body">
+
+                <p>
+                  Navigace je úplný základ. Jakmile ji máš v ruce, Blender přestane působit „chaoticky“.
+                </p>
+
+                <ul class="checklist">
+                  <li><span class="kbd">MMB</span> orbit (otáčení kolem scény)</li>
+                  <li><span class="kbd">Shift</span> + <span class="kbd">MMB</span> pan (posun do stran)</li>
+                  <li>Kolečko / <span class="kbd">Ctrl</span> + <span class="kbd">MMB</span> zoom (plynulejší zoom)</li>
+                  <li><span class="kbd">Num .</span> focus (vyber objekt a „skoč“ na něj)</li>
+                </ul>
+
+                <div class="note note--info">
+                  <strong>Nemáš prostřední tlačítko nebo numpad?</strong>
+                  V <em>Edit → Preferences → Input</em> existuje „Emulate 3 Button Mouse“ (Alt+LMB) a „Emulate Numpad“.
+                </div>
+
+                <figure class="gallery">
+                  <div class="jk-frame is-16x9">
+                    <img
+                      id="img-811-nav"
+                      class="jk-media"
+                      loading="lazy"
+                      decoding="async"
+                      src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/02-navigation/nav-0.png"
+                      alt="Blender – pohyb ve Viewportu">
+
+                    <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-811-nav" aria-label="Předchozí">‹</button>
+                    <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-811-nav" aria-label="Další">›</button>
+
+                    <span class="gallery__hint">Klikni pro fullscreen</span>
+                  </div>
+
+                  <figcaption class="gallery__meta">
+                    <span class="gmeta">Orbit / Pan / Zoom a rychlá „záchrana“ přes Num . (focus).</span>
+                  </figcaption>
+
+                  <div data-gallery-src="img-811-nav"
+                       data-images='[
+                         "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/02-navigation/nav-0.png",
+                         "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/02-navigation/nav-1.png",
+                         "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/02-navigation/nav-2.png"
+                       ]'></div>
+                </figure>
+
+              </div>
+            </details>
+
+            <!-- 4) Rychlé pohledy + Perspektiva/Ortho -->
+            <details class="acc">
+              <summary class="acc__sum">4) Rychlé pohledy (NumPad) – kontrola a zarovnání</summary>
+              <div class="acc__body">
+
+                <p>
+                  Rychlé pohledy ti umožní dívat se na scénu „rovně“ zepředu/boku/shora. Hodí se na zarovnání a kontrolu proporcí.
+                </p>
+
+                <p><strong>Nejpoužívanější:</strong><br>
+                  <span class="kbd">Num 1</span> Front,
+                  <span class="kbd">Num 3</span> Right,
+                  <span class="kbd">Num 7</span> Top,
+                  <span class="kbd">Num 5</span> Perspective/Ortho,
+                  <span class="kbd">Num 0</span> Camera,
+                  <span class="kbd">Num .</span> Focus
+                </p>
+
+                <div class="note note--info">
+                  <strong>Perspektiva vs. Ortho:</strong> V ortho se zarovnává lépe (bez „zkreslení“). Do perspektivy se vrátíš přepínačem
+                  nebo tím, že pohled „otočíš“.
+                </div>
+
+                <figure class="gallery">
+                  <div class="jk-frame is-16x9">
+                    <img
+                      id="img-811-views"
+                      class="jk-media"
+                      loading="lazy"
+                      decoding="async"
+                      src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/03-views/views-0.png"
+                      alt="Blender – rychlé pohledy (Front/Right/Top)">
+
+                    <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-811-views" aria-label="Předchozí">‹</button>
+                    <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-811-views" aria-label="Další">›</button>
+
+                    <span class="gallery__hint">Klikni pro fullscreen</span>
+                  </div>
+
+                  <figcaption class="gallery__meta">
+                    <span class="gmeta">Front / Right / Top + přepínání Perspective/Ortho.</span>
+                  </figcaption>
+
+                  <div data-gallery-src="img-811-views"
+                       data-images='[
+                         "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/03-views/views-0.png",
+                         "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/03-views/views-1.png",
+                         "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/03-views/views-2.png"
+                       ]'></div>
+                </figure>
+
+              </div>
+            </details>
+
+            <!-- 5) Object Mode -->
+            <details class="acc">
+              <summary class="acc__sum">5) Object Mode: práce s objekty jako s celkem (zatím to nejdůležitější)</summary>
+              <div class="acc__body">
+
+                <p>
+                  V <strong>Object Mode</strong> pracuješ s objektem jako s „věcí“: posun, otočení, velikost, duplikace, pojmenování.
+                  To je pro začátek přesně to, co potřebuješ.
+                </p>
+
+                <p><strong>Důležitá věta:</strong><br>
+                  Teď se učíme <em>orientaci ve scéně</em> a <em>základní práci s objekty</em>. Detailní úpravy tvaru si necháme až na moment,
+                  kdy je budeme opravdu potřebovat.
+                </p>
+
+                <p><strong>Zkratky:</strong><br>
+                  <span class="kbd">Tab</span> přepíná režimy (pro nás: zůstat v Object Mode),
+                  <span class="kbd">Ctrl</span> + <span class="kbd">Z</span> krok zpět
+                </p>
+
+                <figure class="gallery">
+                  <div class="jk-frame is-16x9">
+                    <img
+                      id="img-811-objectmode"
+                      class="jk-media"
+                      loading="lazy"
+                      decoding="async"
+                      src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/04-objectmode/objectmode-0.png"
+                      alt="Blender – Object Mode">
+
+                    <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-811-objectmode" aria-label="Předchozí">‹</button>
+                    <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-811-objectmode" aria-label="Další">›</button>
+
+                    <span class="gallery__hint">Klikni pro fullscreen</span>
+                  </div>
+
+                  <figcaption class="gallery__meta">
+                    <span class="gmeta">Object Mode – práce s objekty jako s celkem.</span>
+                  </figcaption>
+
+                  <div data-gallery-src="img-811-objectmode"
+                       data-images='[
+                         "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/04-objectmode/objectmode-0.png",
+                         "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/04-objectmode/objectmode-1.png"
+                       ]'></div>
+                </figure>
+
+              </div>
+            </details>
+
+            <!-- 6) Přidávání objektů + 3D kurzor -->
+            <details class="acc">
+              <summary class="acc__sum">6) Přidávání objektů (Shift + A) + výběr + 3D kurzor</summary>
+              <div class="acc__body">
+
+                <p>
+                  Každé cvičení většinou začíná stejně: <strong>vložíš primitivum</strong> a pak s ním pracuješ.
+                </p>
+
+                <ul class="checklist">
+                  <li><strong><span class="kbd">Shift</span> + <span class="kbd">A</span></strong> – menu Add (nejčastěji Mesh → Cube/Cylinder/Sphere…)</li>
+                  <li><span class="kbd">LMB</span> výběr, <span class="kbd">Shift</span> + klik více objektů</li>
+                  <li><span class="kbd">X</span> smazat, <span class="kbd">Shift</span> + <span class="kbd">D</span> duplikovat</li>
+                  <li><strong>3D kurzor</strong> – nový objekt vzniká tam, kde je kurzor</li>
+                  <li><span class="kbd">Shift</span> + <span class="kbd">RMB</span> rychle přesune 3D kurzor, <span class="kbd">Shift</span> + <span class="kbd">S</span> nabídka kurzoru</li>
+                </ul>
+
+                <figure class="gallery">
+                  <div class="jk-frame is-16x9">
+                    <img
+                      id="img-811-add"
+                      class="jk-media"
+                      loading="lazy"
+                      decoding="async"
+                      src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/05-add/add-0.png"
+                      alt="Blender – Add menu (Shift+A)">
+
+                    <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-811-add" aria-label="Předchozí">‹</button>
+                    <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-811-add" aria-label="Další">›</button>
+
+                    <span class="gallery__hint">Klikni pro fullscreen</span>
+                  </div>
+
+                  <figcaption class="gallery__meta">
+                    <span class="gmeta">Add (Shift+A) – základní mesh objekty a práce s 3D kurzorem.</span>
+                  </figcaption>
+
+                  <div data-gallery-src="img-811-add"
+                       data-images='[
+                         "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/05-add/add-0.png",
+                         "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/05-add/add-1.png"
+                       ]'></div>
+                </figure>
+
+              </div>
+            </details>
+
+            <!-- 7) Transformace (G/R/S) -->
+            <details class="acc">
+              <summary class="acc__sum">7) Transformace objektů: G / R / S + omezení na osu (X/Y/Z)</summary>
+              <div class="acc__body">
+
+                <p>
+                  Transformace jsou „denní chleba“. Pokud zvládneš <strong>G/R/S</strong> a omezení na osy, ovládáš základní práci v Object Mode.
+                </p>
+
+                <p><strong>Zkratky:</strong><br>
+                  <span class="kbd">G</span> posun (Grab),
+                  <span class="kbd">R</span> rotace (Rotate),
+                  <span class="kbd">S</span> škála (Scale),
+                  potom <span class="kbd">X</span>/<span class="kbd">Y</span>/<span class="kbd">Z</span> pro omezení na osu.
+                </p>
+
+                <div class="note note--info">
+                  <strong>Praktický příklad:</strong>
+                  posun jen nahoru/dolů = <span class="kbd">G</span> → <span class="kbd">Z</span>.
+                  Když se ti to nelíbí, <span class="kbd">Esc</span> akci zruší.
+                </div>
+
+                <figure class="gallery">
+                  <div class="jk-frame is-16x9">
+                    <img
+                      id="img-811-transform"
+                      class="jk-media"
+                      loading="lazy"
+                      decoding="async"
+                      src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/06-transform/transform-0.png"
+                      alt="Blender – transformace G/R/S">
+
+                    <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-811-transform" aria-label="Předchozí">‹</button>
+                    <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-811-transform" aria-label="Další">›</button>
+
+                    <span class="gallery__hint">Klikni pro fullscreen</span>
+                  </div>
+
+                  <figcaption class="gallery__meta">
+                    <span class="gmeta">G / R / S + omezení na osy X/Y/Z.</span>
+                  </figcaption>
+
+                  <div data-gallery-src="img-811-transform"
+                       data-images='[
+                         "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/06-transform/transform-0.png",
+                         "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/06-transform/transform-1.png",
+                         "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/blender/06-transform/transform-2.png"
+                       ]'></div>
+                </figure>
+
+              </div>
+            </details>
+
+            <!-- 8) Náhled a renderování -->
+            <details class="acc">
+              <summary class="acc__sum">8) Náhled a renderování: co vidíš ve viewportu vs. finální obrázek</summary>
+              <div class="acc__body">
+
+                <p>
+                  Viewport umí několik režimů zobrazení. Každý je užitečný na něco jiného – modelování, zarovnávání, kontrolu materiálů,
+                  nebo finální náhled renderu.
+                </p>
+
+                <ul class="checklist">
+                  <li><strong>Solid</strong> – rychlé modelování (světla ve scéně se obvykle neprojevují).</li>
+                  <li><strong>Wireframe</strong> – „drátěný“ pohled, často s <strong>X-Ray</strong> pro vidění skrz.</li>
+                  <li><strong>Material Preview</strong> – příjemný náhled s HDRI; často neukazuje světla vložená do scény.</li>
+                  <li><strong>Rendered</strong> – nejblíž finálnímu výsledku (světla + render engine).</li>
+                </ul>
+
+                <p><strong>Kamera a render:</strong><br>
+                  <span class="kbd">Num 0</span> = pohled z kamery (renderuje se to, co kamera vidí).<br>
+                  <span class="kbd">F12</span> = Render Image, potom v render okně uložit přes <strong>Image → Save</strong>.
+                </p>
+
+                <div class="note note--info">
+                  <strong>Pozor na Outliner:</strong>
+                  Ikona <strong>oko</strong> skrývá objekt jen ve viewportu, ale ikona <strong>kamera</strong> ho může skrýt v renderu.
+                  To je častý důvod, proč „ve výsledku něco chybí“.
+                </div>
+
+                <figure class="gallery">
+                  <div class="jk-frame is-16x9">
+                    <img
+                      id="img-811-render"
+                      class="jk-media"
+                      loading="lazy"
+                      decoding="async"
+                      src="assets/img/blender/09-render/render-0.png"
+                      alt="Blender – viewport shading a základní render workflow">
+
+                    <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-811-render" aria-label="Předchozí">‹</button>
+                    <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-811-render" aria-label="Další">›</button>
+
+                    <span class="gallery__hint">Klikni pro fullscreen</span>
+                  </div>
+
+                  <figcaption class="gallery__meta">
+                    <span class="gmeta">Doplň vlastní screenshoty: shading režimy, kamera view, render okno.</span>
+                  </figcaption>
+
+                  <div data-gallery-src="img-811-render"
+                       data-images='[
+                         "assets/img/blender/09-render/render-0.png",
+                         "assets/img/blender/09-render/render-1.png",
+                         "assets/img/blender/09-render/render-2.png"
+                       ]'></div>
+                </figure>
+
+              </div>
+            </details>
+
+          </div>
+
+          <!-- Shrnutí -->
+          <article class="card">
+            <h3 class="card__title">Shrnutí</h3>
+            <ul class="checklist">
+              <li>Chápeš, co je 3D scéna a proč je důležitý cíl modelu (hra / render / tisk).</li>
+              <li>Vyznáš se v Viewportu, Outlineru a Properties a umíš použít focus (<span class="kbd">Num .</span>) když se ztratíš.</li>
+              <li>Ovládáš navigaci (orbit/pan/zoom) a rychlé pohledy (Front/Right/Top) včetně rozdílu Perspective vs Ortho.</li>
+              <li>V Object Mode umíš přidat objekt (<span class="kbd">Shift</span>+<span class="kbd">A</span>) a ovládáš transformace (<span class="kbd">G</span>/<span class="kbd">R</span>/<span class="kbd">S</span>) s omezením na osy.</li>
+              <li>Rozumíš základům náhledu a renderu: shading režimy, kamera (<span class="kbd">Num 0</span>) a render (<span class="kbd">F12</span>).</li>
+            </ul>
+          </article>
+
+        </div>
+        <!-- /8.1.1 -->
+
+      </div>
+    </details>
+
+    <!-- =======================================================
+         BLOK B: MATERIÁLY A BARVY (8.1.2)
+    ======================================================== -->
+    <details class="acc">
+      <summary class="acc__sum">Blok B: Materiály a barvy (8.1.2)</summary>
+      <div class="acc__body">
+
+        <div id="section8-1-2" class="lesson-sub">
+
+          <header class="lesson__header">
+            <h2 class="lesson__title">8.1.2 Barvy a materiály (základní práce s materiály)</h2>
+            <p class="lesson__lead">
+              Naučíš se přidat objektům jednoduché materiály (zatím jen barvy), pochopíš sdílení materiálů mezi více objekty
+              a procvičíš si rámování výběru (<span class="kbd">Num .</span>, <span class="kbd">Home</span>) a práci ve workspace <strong>Shading</strong>.
+            </p>
+          </header>
+
+          <article class="card">
+            <h3 class="card__title">Rozcvička: srovnej scénu do středu</h3>
+
+            <ol class="steps">
+              <li>Přepni <strong>Viewport Shading</strong> na <strong>Solid</strong> (lépe se vybírá a posouvá).</li>
+              <li>Vyber objekty a „nakup“ je do středu scény (Top View je nejrychlejší: <span class="kbd">Num 7</span>).</li>
+              <li>Posouvání: <span class="kbd">G</span>. Rotace (pokud chceš): <span class="kbd">R</span>.</li>
+              <li>Světlo přesuň nad střed: Top View <span class="kbd">Num 7</span> → <span class="kbd">G</span>, potom Front View <span class="kbd">Num 1</span> → <span class="kbd">G</span> → <span class="kbd">Z</span> (nahoru/dolů).</li>
+            </ol>
+
+            <div class="note note--info">
+              <strong>Tip:</strong> Pokud se po otevření souboru ocitneš zpět v Object Mode, je to v pořádku.
+              Blender často startuje v jednodušším zobrazení, aby se scéna načetla rychleji.
+            </div>
+
+            <figure class="gallery">
+              <div class="jk-frame is-16x9">
+                <img
+                  id="img-812-clump"
+                  class="jk-media"
+                  loading="lazy"
+                  decoding="async"
+                  src="assets/img/blender/08-materials/clump-0.png"
+                  alt="Rozcvička: objekty srovnané ve středu + světlo nad nimi">
+
+                <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-812-clump" aria-label="Předchozí">‹</button>
+                <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-812-clump" aria-label="Další">›</button>
+
+                <span class="gallery__hint">Klikni pro fullscreen</span>
+              </div>
+
+              <figcaption class="gallery__meta">
+                <span class="gmeta">Srovnaná scéna: Top/Front pohledy + G/R + světlo nad středem.</span>
+              </figcaption>
+
+              <div data-gallery-src="img-812-clump"
+                   data-images='[
+                     "assets/img/blender/08-materials/clump-0.png",
+                     "assets/img/blender/08-materials/clump-1.png",
+                     "assets/img/blender/08-materials/clump-2.png"
+                   ]'></div>
+            </figure>
+          </article>
+
+          <div class="accordion">
+
+            <details class="acc" open>
+              <summary class="acc__sum">1) Shading workspace + Principled BSDF (základní barva)</summary>
+              <div class="acc__body">
+                <ol class="steps">
+                  <li>Přepni workspace na <strong>Shading</strong> (uvidíš dole <strong>Shader Editor</strong>).</li>
+                  <li>Pokud je Shader Editor moc malý, chyť dělící čáru a zvětši ho.</li>
+                  <li>Vyber objekt (např. cylinder) a v <strong>Material Properties</strong> klikni na <strong>New</strong>.</li>
+                  <li>V shaderu najdi <strong>Principled BSDF</strong> a u <strong>Base Color</strong> nastav barvu.</li>
+                </ol>
+
+                <ul class="checklist">
+                  <li><strong>Hue</strong> = „kruh“ (posun po okraji),</li>
+                  <li><strong>Saturation</strong> = sytost (blíž středu = méně syté),</li>
+                  <li><strong>Value</strong> = světlost (posuvník),</li>
+                  <li><strong>Alpha</strong> = průhlednost (zatím neřešíme).</li>
+                </ul>
+
+                <div class="note note--info">
+                  <strong>Viewport trik:</strong> Když je objekt mimo záběr, vyber ho a stiskni <span class="kbd">Num .</span> (Frame Selected).
+                  Když chceš „vidět všechno“, použij <span class="kbd">Home</span> (Frame All).
+                </div>
+
+                <figure class="gallery">
+                  <div class="jk-frame is-16x9">
+                    <img
+                      id="img-812-principled"
+                      class="jk-media"
+                      loading="lazy"
+                      decoding="async"
+                      src="assets/img/blender/08-materials/principled-0.png"
+                      alt="Principled BSDF – Base Color a barevné kolečko">
+
+                    <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-812-principled" aria-label="Předchozí">‹</button>
+                    <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-812-principled" aria-label="Další">›</button>
+
+                    <span class="gallery__hint">Klikni pro fullscreen</span>
+                  </div>
+
+                  <figcaption class="gallery__meta">
+                    <span class="gmeta">Principled BSDF: Base Color (Hue/Saturation/Value), zatím jen barvy.</span>
+                  </figcaption>
+
+                  <div data-gallery-src="img-812-principled"
+                       data-images='[
+                         "assets/img/blender/08-materials/principled-0.png",
+                         "assets/img/blender/08-materials/principled-1.png",
+                         "assets/img/blender/08-materials/principled-2.png"
+                       ]'></div>
+                </figure>
+              </div>
+            </details>
+
+            <details class="acc">
+              <summary class="acc__sum">2) Pojmenování a sdílení materiálů (materiál jako „kouzelná plechovka barvy“)</summary>
+              <div class="acc__body">
+                <p>
+                  Materiál si představ jako „kouzelnou plechovku barvy“, která nikdy nedojde.
+                  Když stejný materiál přiřadíš více objektům, změna materiálu se projeví na všech.
+                </p>
+
+                <ol class="steps">
+                  <li>Vyber objekt a dej mu <strong>New</strong> materiál (pokud ho nemá).</li>
+                  <li><strong>Přejmenuj</strong> materiál na smysluplný název (např. <em>red</em>, <em>green</em>, <em>white</em>).</li>
+                  <li>U jiného objektu místo <em>New</em> vyber materiál z <strong>dropdownu</strong> (sdílení).</li>
+                  <li>Změň barvu sdíleného materiálu – uvidíš, že se upraví více objektů zároveň.</li>
+                </ol>
+
+                <div class="note note--info">
+                  <strong>Mini-úkol (doporučené rozložení):</strong>
+                  <ul>
+                    <li>Cylinder + Icosphere sdílí <strong>red</strong></li>
+                    <li>Monkey má <strong>green</strong></li>
+                    <li>Cube má původní materiál přejmenovaný na <strong>white</strong></li>
+                    <li>Torus + UV Sphere sdílí <strong>purple</strong></li>
+                    <li>Cone má <strong>yellow</strong> a cylinder zkus přepnout na <strong>yellow</strong> (procvičení sdílení)</li>
+                    <li>Floor dej barvu dle sebe (např. <strong>blue</strong>)</li>
+                  </ul>
+                </div>
+
+                <figure class="gallery">
+                  <div class="jk-frame is-16x9">
+                    <img
+                      id="img-812-share"
+                      class="jk-media"
+                      loading="lazy"
+                      decoding="async"
+                      src="assets/img/blender/08-materials/share-0.png"
+                      alt="Sdílení materiálu: více objektů používá stejný materiál">
+
+                    <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-812-share" aria-label="Předchozí">‹</button>
+                    <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-812-share" aria-label="Další">›</button>
+
+                    <span class="gallery__hint">Klikni pro fullscreen</span>
+                  </div>
+
+                  <figcaption class="gallery__meta">
+                    <span class="gmeta">Jeden materiál může být použit na více objektech – změna se projeví všude.</span>
+                  </figcaption>
+
+                  <div data-gallery-src="img-812-share"
+                       data-images='[
+                         "assets/img/blender/08-materials/share-0.png",
+                         "assets/img/blender/08-materials/share-1.png",
+                         "assets/img/blender/08-materials/share-2.png"
+                       ]'></div>
+                </figure>
+              </div>
+            </details>
+
+            <details class="acc">
+              <summary class="acc__sum">3) Eevee vs Cycles + rychlé renderování scény</summary>
+              <div class="acc__body">
+                <ol class="steps">
+                  <li>Přepni se do <strong>Rendered</strong> náhledu a zkus krátce přepnout render engine <strong>Eevee</strong> / <strong>Cycles</strong>.</li>
+                  <li>Přejdi do <strong>Camera View</strong>: <span class="kbd">Num 0</span>.</li>
+                  <li>Pokud je potřeba kameru doladit: zapni <em>Lock Camera to View</em> a uprav kompozici.</li>
+                  <li>Render obrázku: <span class="kbd">F12</span>. Uložení: v render okně <strong>Image → Save</strong>.</li>
+                </ol>
+
+                <div class="note note--info">
+                  <strong>Úkol:</strong> Vyrenderuj scénu v Eevee i v Cycles a všimni si:
+                  <ul>
+                    <li>jak se liší stíny a „měkkost“ světla,</li>
+                    <li>zda vidíš odrazy (Cycles je obvykle výraznější),</li>
+                    <li>jak dlouho render trvá (čas si poznamenej).</li>
+                  </ul>
+                </div>
+
+                <figure class="gallery">
+                  <div class="jk-frame is-16x9">
+                    <img
+                      id="img-812-render"
+                      class="jk-media"
+                      loading="lazy"
+                      decoding="async"
+                      src="assets/img/blender/08-materials/render-0.png"
+                      alt="Kamera (Num 0), render (F12) a porovnání Eevee/Cycles">
+
+                    <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-812-render" aria-label="Předchozí">‹</button>
+                    <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-812-render" aria-label="Další">›</button>
+
+                    <span class="gallery__hint">Klikni pro fullscreen</span>
+                  </div>
+
+                  <figcaption class="gallery__meta">
+                    <span class="gmeta">Kamera (Num 0) → F12 render → uložení. Porovnání Eevee a Cycles.</span>
+                  </figcaption>
+
+                  <div data-gallery-src="img-812-render"
+                       data-images='[
+                         "assets/img/blender/08-materials/render-0.png",
+                         "assets/img/blender/08-materials/render-1.png",
+                         "assets/img/blender/08-materials/render-2.png"
+                       ]'></div>
+                </figure>
+
+              </div>
+            </details>
+
+          </div>
+
+          <article class="card">
+            <h3 class="card__title">Shrnutí</h3>
+            <ul class="checklist">
+              <li>Umíš přidat materiál a změnit <strong>Base Color</strong> v Principled BSDF.</li>
+              <li>Chápeš, že materiál může být <strong>sdílený</strong> (změna se projeví na více objektech).</li>
+              <li>Ovládáš „záchranné“ rámování: <span class="kbd">Num .</span> (vybraný objekt) a <span class="kbd">Home</span> (vše).</li>
+              <li>Umíš vyrenderovat scénu (<span class="kbd">F12</span>) a porovnat Eevee vs Cycles.</li>
+            </ul>
+          </article>
+
+        </div>
+
+      </div>
+    </details>
+
+    <!-- =======================================================
+         BLOK C: ODLESKY, HDRI A RYCHLOST (8.1.3)
+    ======================================================== -->
+    <details class="acc">
+      <summary class="acc__sum">Blok C: Odlesky, HDRi prostředí a rychlejší render (8.1.3)</summary>
+      <div class="acc__body">
+
+        <div id="section8-1-3" class="lesson-sub">
+          <!-- 8.1.3 obsah beze změn (převzatý 1:1) -->
+          <!-- VLOŽ SEM CELÝ PŮVODNÍ BLOK <section id="section8-1-3"...> ... </section>,
+               ALE BEZ VNĚJŠÍCH TAGŮ <section ...> a </section>. -->
+          <!-- Abych ti to nepřepsal slovně a nerozbil délku zprávy, nechávám to jako přesun:
+               - zkopíruj včetně <header>, <div class="accordion"> i Shrnutí. -->
+
+          <!-- === BEGIN 8.1.3 (vložit) === -->
+          <!-- ... (tvoje původní 8.1.3) ... -->
+          <!-- === END 8.1.3 === -->
+        </div>
+
+      </div>
+    </details>
+
+    <!-- =======================================================
+         BLOK D: SVĚTLA (8.1.4)
+    ======================================================== -->
+    <details class="acc">
+      <summary class="acc__sum">Blok D: Světla (Point/Sun/Spot/Area) + HDRi intenzita (8.1.4)</summary>
+      <div class="acc__body">
+
+        <div id="section8-1-4" class="lesson-sub">
+          <!-- 8.1.4 obsah beze změn -->
+          <!-- VLOŽ SEM PŮVODNÍ 8.1.4 bez vnějších <section> tagů -->
+          <!-- === BEGIN 8.1.4 (vložit) === -->
+          <!-- ... (tvoje původní 8.1.4) ... -->
+          <!-- === END 8.1.4 === -->
+        </div>
+
+      </div>
+    </details>
+
+    <!-- =======================================================
+         BLOK E: EDIT MODE (8.1.5)
+    ======================================================== -->
+    <details class="acc">
+      <summary class="acc__sum">Blok E: Edit Mode – základní úpravy tvarů (8.1.5)</summary>
+      <div class="acc__body">
+
+        <div id="section8-1-5" class="lesson-sub">
+          <!-- 8.1.5 obsah beze změn -->
+          <!-- VLOŽ SEM PŮVODNÍ 8.1.5 bez vnějších <section> tagů -->
+          <!-- === BEGIN 8.1.5 (vložit) === -->
+          <!-- ... (tvoje původní 8.1.5) ... -->
+          <!-- === END 8.1.5 === -->
+        </div>
+
+      </div>
+    </details>
+
+    <!-- =======================================================
+         BLOK F: MINI-PROJEKTY (8.1.6–8.1.7)
+    ======================================================== -->
+    <details class="acc">
+      <summary class="acc__sum">Blok F: Mini-projekty (Domky + Retro diskotéka) (8.1.6–8.1.7)</summary>
+      <div class="acc__body">
+
+        <div id="section8-1-6" class="lesson-sub">
+          <!-- 8.1.6 obsah beze změn -->
+          <!-- === BEGIN 8.1.6 (vložit) === -->
+          <!-- ... (tvoje původní 8.1.6) ... -->
+          <!-- === END 8.1.6 === -->
+        </div>
+
+        <hr class="sep">
+
+        <div id="section8-1-7" class="lesson-sub">
+          <!-- 8.1.7 obsah beze změn -->
+          <!-- === BEGIN 8.1.7 (vložit) === -->
+          <!-- ... (tvoje původní 8.1.7) ... -->
+          <!-- === END 8.1.7 === -->
+        </div>
+
+      </div>
+    </details>
+
+  </div>
+
+  <!-- =========================================================
+       MODÁL – ponechán (kvůli tlačítku v 8.1.1)
+       (pokud Bootstrap modály nepoužíváš, můžeš vyřadit)
+  ========================================================= -->
+  <div class="modal fade" id="m-sceneBasics" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content p-3">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title">3D scéna: XYZ, objekt, kamera, světlo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+        </div>
+
+        <div class="modal-body">
+          <p class="mb-2">
+            Ve 3D je prostor popsaný osami <strong>X</strong>, <strong>Y</strong>, <strong>Z</strong>.
+            Objekt je „věc“ ve scéně. Kamera určuje, odkud se díváme a co se bude renderovat.
+            Světla určují, jak budou vypadat stíny a čitelnost tvaru.
+          </p>
+
+          <div class="stage">
+            <svg viewBox="0 0 220 120" aria-label="Schéma os a prvků 3D scény">
+              <g stroke="#64748b" stroke-width="2">
+                <line x1="20" y1="100" x2="20" y2="20"/>
+                <line x1="20" y1="100" x2="200" y2="100"/>
+                <line x1="20" y1="100" x2="90" y2="40"/>
+              </g>
+              <text x="10" y="20" font-size="10" fill="#64748b">Z</text>
+              <text x="205" y="105" font-size="10" fill="#64748b">X</text>
+              <text x="90" y="35" font-size="10" fill="#64748b">Y</text>
+
+              <rect x="150" y="30" width="30" height="18" fill="#0ea5e9" rx="3"/>
+              <polygon points="180,33 200,39 200,39 180,45" fill="#0ea5e9"/>
+
+              <g fill="#93c5fd" opacity=".7" stroke="#64748b">
+                <rect x="60" y="60" width="40" height="30"/>
+                <path d="M60 60 L75 50 L115 50 L100 60 Z"/>
+                <path d="M100 60 L115 50 L115 80 L100 90 Z"/>
+              </g>
+            </svg>
+          </div>
+
+          <div class="note note--info mt-3 mb-0">
+            <strong>Zapamatuj si:</strong>
+            Dnes nepotřebuješ „modelovat do detailu“. Potřebuješ se umět ve scéně pohybovat a umět pracovat s objekty jako s celkem.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- POZNÁMKA:
+  - Inline <script> sem nedávej.
+  - Galerie + fullscreen řeší globální assets/js/features/gallery.js (initGallery).
+-->
