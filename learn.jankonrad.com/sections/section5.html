@@ -2,27 +2,32 @@
 <section id="section5-1" class="lesson">
 
   <header class="lesson__header">
-    <h2 class="lesson__title">3.1 Práce s daty a informační systémy – úvod</h2>
+    <h2 class="lesson__title">3.1 Databáze – úvod, pojmy a jak to opravdu funguje</h2>
     <p class="lesson__lead">
-      Základní orientace v tom, co jsou data a informace, jak poznat kvalitní informaci, co je informační systém,
-      a proč jsou databáze důležité (včetně základů ochrany dat a GDPR).
+      Pochopíš, co je databáze a DBMS, jak probíhá dotazování a ukládání dat, proč tabulkové procesory nejsou databáze
+      a osvojíš si klíčové pojmy a zkratky (RDBMS, SQL, CRUD, ACID, DDL/DML…).
     </p>
   </header>
 
   <!-- Co se naučíš -->
   <article class="card">
-    <h3 class="card__title">Co se v této kapitole naučíš ?</h3>
+    <h3 class="card__title">Co se v této kapitole naučíš?</h3>
 
     <ul class="checklist">
-      <li><strong>Co to jsou data a informace a jak spolu souvisí:</strong> Základní informace pro programování a tvorbu webových aplikací.</li>
-      <li><strong>Jak poznat kvalitní informaci.</strong></li>
-      <li><strong>Jak se data zpracovávají:</strong> Třeba pomocí Excelu, Google Sheets nebo JavaScriptu.</li>
-      <li><strong>Co je to informační systém:</strong> Kde se s ním v praxi potkáváš (např. ve škole, e-shopu, nemocnici, sociálních sítích)</li>
-      <li><strong>Jak chránit osobní údaje podle pravidel (např. GDPR).</strong></li>
+      <li><strong>Databáze vs. DBMS</strong> – databáze je uložená data, DBMS je software, který je spravuje.</li>
+      <li><strong>Jak databáze „pracuje“</strong> – klient/server, dotaz, vykonání, návrat výsledků, ukládání změn.</li>
+      <li><strong>Proč Excel není databáze</strong> – co tabulky umí a co jim chybí oproti DBMS.</li>
+      <li><strong>Relační model</strong> – tabulky, záznamy, sloupce, klíče, relace, integrita, normalizace.</li>
+      <li><strong>SQL a typy příkazů</strong> – DDL, DML, DCL, TCL + základní logika dotazování.</li>
+      <li><strong>Transakce a ACID</strong> – proč se změny provádí bezpečně „buď celé, nebo vůbec“.</li>
+      <li><strong>Indexy a výkon</strong> – proč některé dotazy jsou rychlé a jiné pomalé.</li>
+      <li><strong>Bezpečnost a údržba</strong> – role, oprávnění, zálohy, logy a audit.</li>
+      <li><strong>Slovník zkratek</strong> – DB, DBMS, RDBMS, SQL, NoSQL, CRUD, ACID, ERD…</li>
     </ul>
 
     <div class="note note--info">
-      <strong>Tip:</strong> Pokud rozumíš tomu, jak fungují data, dokážeš se lépe orientovat v digitálním světě a chránit svou i cizí digitální stopu.
+      <strong>Tip:</strong> V běžném životě se slovem „databáze“ často myslí celý systém (DB + DBMS). My si to v této kapitole
+      rozdělíme správně, ať víš, co se děje „pod kapotou“.
     </div>
   </article>
 
@@ -36,7 +41,9 @@
       </p>
 
       <blockquote style="margin:0;">
-        <p style="margin:0 0 .5rem 0;">„Databáze není jen o ukládání dat, ale o uspořádání a přístupu k informacím tak, aby byly skutečně užitečné.“</p>
+        <p style="margin:0 0 .5rem 0;">
+          „Databáze není jen o ukládání dat, ale o uspořádání a přístupu k informacím tak, aby byly skutečně užitečné.“
+        </p>
         <footer>
           <a href="https://en.wikipedia.org/wiki/Edgar_F._Codd" target="_blank" rel="noopener">
             Edgar F. Codd – zdroj
@@ -57,201 +64,394 @@
   <!-- Akce / odkazy -->
   <div class="actions">
     <a class="btn btn--primary" href="#" target="_blank" rel="noopener">
-      Primární akce (např. pracovní list / materiály)
+      Primární akce (např. pracovní list / dataset / šablona Book Notes)
     </a>
 
-    <a class="btn btn--ghost" href="https://workspace.google.com/intl/cs/products/sheets/" target="_blank" rel="noopener">
-      Google Sheets (oficiální web)
+    <a class="btn btn--ghost" href="https://support.microsoft.com/cs-cz/access" target="_blank" rel="noopener">
+      Microsoft Access (nápověda)
     </a>
   </div>
 
   <!-- Akordeony -->
   <div class="accordion">
 
-    <!-- 1) Data a informace -->
+    <!-- 1) Databáze vs. DBMS -->
     <details class="acc" open>
-      <summary class="acc__sum">Data a informace</summary>
+      <summary class="acc__sum">1) Databáze vs. DBMS (co je co)</summary>
       <div class="acc__body">
 
-        <p><strong>Data a informace:</strong> Data - syrová čísla nebo texty. Informace: data, která mají význam</p>
+        <p>
+          <strong>Databáze (DB)</strong> jsou uložená data. <strong>DBMS</strong> (Database Management System) je software,
+          který data ukládá, vyhledává, hlídá pravidla a umožňuje, aby s nimi bezpečně pracovalo více uživatelů a aplikací.
+        </p>
+
+        <ul class="bullets">
+          <li><strong>DB</strong> = „obsah“ (data na disku).</li>
+          <li><strong>DBMS</strong> = „správce“ (program, který s DB pracuje).</li>
+          <li><strong>RDBMS</strong> = relační DBMS (např. PostgreSQL, SQL Server, MySQL).</li>
+        </ul>
 
         <div class="actions">
           <button class="btn btn--sm btn--ghost modal-trigger"
                   type="button"
-                  data-modal-open="modal5-data">
-            Více
+                  data-modal-open="modal5-dbms">
+            Více (přesné definice + příklady)
           </button>
         </div>
 
       </div>
     </details>
 
-    <!-- 2) Kvalitní informace -->
+    <!-- 2) Jak databáze funguje (klient/server) -->
     <details class="acc">
-      <summary class="acc__sum">Jak poznat kvalitní informaci</summary>
+      <summary class="acc__sum">2) Jak databáze funguje (klient → dotaz → výsledek)</summary>
       <div class="acc__body">
 
-        <p><strong>Jak poznat kvalitní informaci.</strong></p>
+        <p>
+          Databáze je typicky <strong>server</strong>. Aplikace (nebo uživatel) je <strong>klient</strong>, který posílá dotazy.
+          DBMS dotaz zpracuje, sáhne do uložených dat, případně provede změny, a vrátí výsledek.
+        </p>
+
+        <ol class="steps">
+          <li>Klient se <strong>připojí</strong> (connection) a ověří se (auth).</li>
+          <li>Pošle <strong>dotaz</strong> (query) – často v SQL.</li>
+          <li>DBMS dotaz <strong>naplánuje</strong> (optimizer) a <strong>vykoná</strong> (execution).</li>
+          <li>DBMS vrátí <strong>výsledek</strong> nebo potvrdí změnu (INSERT/UPDATE/DELETE).</li>
+        </ol>
 
         <div class="actions">
           <button class="btn btn--sm btn--ghost modal-trigger"
                   type="button"
-                  data-modal-open="modal5-infoquality">
-            Více
+                  data-modal-open="modal5-howworks">
+            Více (co je optimalizér, cache, log…)
           </button>
         </div>
 
       </div>
     </details>
 
-    <!-- 3) Práce s daty v nástrojích -->
+    <!-- 3) Proč Excel není databáze -->
     <details class="acc">
-      <summary class="acc__sum">Práce s daty v běžných nástrojích</summary>
+      <summary class="acc__sum">3) Proč tabulkové procesory (Excel/Sheets) nejsou databáze</summary>
       <div class="acc__body">
 
-        <p><strong>Práce s daty v běžných nástrojích:</strong> Excel, Google Sheets, JavaScript</p>
+        <p>
+          Excel umí data uložit a zpracovat, ale není to databázový systém. Databáze (DBMS) řeší navíc
+          <strong>integritu dat</strong>, <strong>relace</strong>, <strong>transakce</strong>, <strong>oprávnění</strong>,
+          <strong>současný přístup</strong> a <strong>optimalizaci dotazů</strong>.
+        </p>
+
+        <ul class="bullets">
+          <li><strong>Excel</strong> = skvělé pro analýzu, výpočty, grafy a rychlé přehledy.</li>
+          <li><strong>DBMS</strong> = systém pro spolehlivé ukládání a sdílení dat (aplikace, více uživatelů, pravidla).</li>
+        </ul>
 
         <div class="actions">
           <button class="btn btn--sm btn--ghost modal-trigger"
                   type="button"
-                  data-modal-open="modal5-tools">
-            Více
+                  data-modal-open="modal5-spreadsheet">
+            Více (konkrétní rozdíly „co chybí“)
           </button>
         </div>
 
       </div>
     </details>
 
-    <!-- 4) Informační systémy -->
+    <!-- 4) Relační pojmy (tabulka, klíče, relace, normalizace) -->
     <details class="acc">
-      <summary class="acc__sum">Informační systémy v praxi</summary>
+      <summary class="acc__sum">4) Relační databáze: tabulky, klíče, relace, integrita</summary>
       <div class="acc__body">
 
-        <p><strong>Informační systémy v praxi:</strong> Škola, nemocnice, sociální síť, e-shop – jak fungují a proč jsou důležité</p>
-
-        <div class="actions">
-          <button class="btn btn--sm btn--ghost modal-trigger"
-                  type="button"
-                  data-modal-open="modal5-is">
-            Více
-          </button>
-        </div>
-
-      </div>
-    </details>
-
-    <!-- 5) Databáze -->
-    <details class="acc">
-      <summary class="acc__sum">Základy databází</summary>
-      <div class="acc__body">
-
-        <p><strong>Základy databází:</strong> Co je databáze, jak vypadá a k čemu ji používáme</p>
-
-        <div class="actions">
-          <button class="btn btn--sm btn--ghost modal-trigger"
-                  type="button"
-                  data-modal-open="modal5-db">
-            Více
-          </button>
-        </div>
-
-      </div>
-    </details>
-
-    <!-- 6) GDPR -->
-    <details class="acc">
-      <summary class="acc__sum">Ochrana dat a GDPR</summary>
-      <div class="acc__body">
-
-        <p><strong>Ochrana dat a GDPR:</strong> Jak správně zacházet s osobními údaji podle zákona</p>
-
-        <div class="actions">
-          <button class="btn btn--sm btn--ghost modal-trigger"
-                  type="button"
-                  data-modal-open="modal5-gdpr">
-            Více
-          </button>
-        </div>
-
-      </div>
-    </details>
-
-    <!-- 7) Cvičení (basic) -->
-    <details class="acc" open>
-      <summary class="acc__sum">✅ Cvičení (basic)</summary>
-      <div class="acc__body">
-
-        <p>Krátká cvičení na ověření základů (bez potřeby transkriptů).</p>
+        <p>
+          Relační databáze ukládá data do <strong>tabulek</strong>. Tabulky lze mezi sebou <strong>propojovat</strong> (relace)
+          a DBMS hlídá, aby data dávala smysl (integrita).
+        </p>
 
         <div class="accordion">
 
           <details class="acc" open>
-            <summary class="acc__sum">7.1 Data vs. informace (rychlé rozlišení)</summary>
+            <summary class="acc__sum">4.1 Tabulka, sloupec, řádek (atribut, záznam)</summary>
             <div class="acc__body">
-              <ol class="steps">
-                <li>Napiš 5 příkladů <strong>dat</strong> (např. čísla, texty, hodnoty bez kontextu).</li>
-                <li>Ke každému příkladu doplň kontext tak, aby z toho byla <strong>informace</strong>.</li>
-                <li>U 2 příkladů doplň, jaké rozhodnutí by se dalo podle informace udělat.</li>
-              </ol>
               <ul class="bullets">
-                <li>Výstup: krátký seznam (data → informace → co z toho plyne).</li>
+                <li><strong>Tabulka</strong> = kolekce záznamů stejného typu (např. Knihy).</li>
+                <li><strong>Řádek (záznam)</strong> = jedna konkrétní položka (jedna kniha).</li>
+                <li><strong>Sloupec (atribut)</strong> = jedna vlastnost (název, autor, rok…).</li>
+                <li><strong>Schéma (schema)</strong> = „struktura“ databáze: tabulky, sloupce, typy, pravidla.</li>
               </ul>
             </div>
           </details>
 
           <details class="acc">
-            <summary class="acc__sum">7.2 Kvalitní informace (ověření zdrojů)</summary>
+            <summary class="acc__sum">4.2 Klíče: PK a FK (proč jsou zásadní)</summary>
+            <div class="acc__body">
+              <ul class="bullets">
+                <li><strong>PK (Primary Key)</strong> – primární klíč: jednoznačně identifikuje záznam (např. id_knihy).</li>
+                <li><strong>FK (Foreign Key)</strong> – cizí klíč: odkazuje do jiné tabulky (např. poznamka.id_knihy).</li>
+                <li><strong>Relace</strong> – propojení tabulek přes klíče (např. Knihy 1:N Poznámky).</li>
+              </ul>
+              <div class="note note--info">
+                <strong>Proč ID?</strong> Jména se mohou opakovat, měnit a být nejednoznačná. ID je stabilní identifikátor.
+              </div>
+            </div>
+          </details>
+
+          <details class="acc">
+            <summary class="acc__sum">4.3 Integrita a omezení (constraints)</summary>
+            <div class="acc__body">
+              <ul class="bullets">
+                <li><strong>NOT NULL</strong> – hodnota nesmí být prázdná.</li>
+                <li><strong>UNIQUE</strong> – hodnota musí být unikátní (např. e-mail).</li>
+                <li><strong>CHECK</strong> – pravidlo (např. hodnocení 1–5).</li>
+                <li><strong>FOREIGN KEY</strong> – hlídá, že odkazuješ na existující záznam.</li>
+              </ul>
+              <p>
+                Výhoda DBMS: chyby se zastaví „u vchodu“. Do databáze se nedostane nesmysl, který by rozbil aplikaci.
+              </p>
+            </div>
+          </details>
+
+          <details class="acc">
+            <summary class="acc__sum">4.4 Normalizace (proč nerozmnožovat stejné údaje)</summary>
+            <div class="acc__body">
+              <p>
+                Normalizace je způsob návrhu tabulek tak, aby se data zbytečně neopakovala.
+                Méně duplicit = méně chyb = jednodušší údržba.
+              </p>
+              <ul class="bullets">
+                <li>Autor knihy se nevyplňuje do každé poznámky znovu – poznámka odkazuje na knihu (FK).</li>
+                <li>Kategorie/štítky se řeší často přes „propojovací tabulku“ (many-to-many).</li>
+              </ul>
+            </div>
+          </details>
+
+        </div>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal5-relational">
+            Více (ERD, kardinality 1:1, 1:N, M:N)
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 5) SQL a typy příkazů -->
+    <details class="acc">
+      <summary class="acc__sum">5) SQL: dotazy, CRUD a typy příkazů (DDL/DML/DCL/TCL)</summary>
+      <div class="acc__body">
+
+        <p>
+          <strong>SQL</strong> je jazyk pro práci s relační databází. Umožní definovat strukturu (tabulky),
+          zapisovat a měnit data a získávat výstupy (dotazy).
+        </p>
+
+        <ul class="bullets">
+          <li><strong>CRUD</strong> = Create, Read, Update, Delete (v praxi INSERT/SELECT/UPDATE/DELETE).</li>
+          <li><strong>DDL</strong> = definice struktury (CREATE, ALTER, DROP).</li>
+          <li><strong>DML</strong> = práce s daty (SELECT, INSERT, UPDATE, DELETE).</li>
+          <li><strong>DCL</strong> = oprávnění (GRANT, REVOKE).</li>
+          <li><strong>TCL</strong> = transakce (COMMIT, ROLLBACK).</li>
+        </ul>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal5-sql">
+            Více (JOIN, agregace, ORDER BY, GROUP BY)
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 6) Transakce a ACID -->
+    <details class="acc">
+      <summary class="acc__sum">6) Transakce a ACID (spolehlivost změn)</summary>
+      <div class="acc__body">
+
+        <p>
+          Transakce zajišťuje, že související změny proběhnou bezpečně. Pokud se něco pokazí, DBMS umí změny vrátit zpět.
+          To je důležité hlavně tam, kde jde o peníze, objednávky, rezervace nebo známky.
+        </p>
+
+        <ul class="bullets">
+          <li><strong>COMMIT</strong> – potvrzení změn („ulož natrvalo“).</li>
+          <li><strong>ROLLBACK</strong> – vrácení změn („zruš, jako by se nic nestalo“).</li>
+          <li><strong>ACID</strong> – čtyři vlastnosti správných transakcí.</li>
+        </ul>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal5-acid">
+            Více (Atomicity/Consistency/Isolation/Durability)
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 7) Indexy a výkon -->
+    <details class="acc">
+      <summary class="acc__sum">7) Indexy a výkon (proč je vyhledávání rychlé)</summary>
+      <div class="acc__body">
+
+        <p>
+          Index si představ jako „rejstřík“ v knize. Bez indexu DBMS často musí procházet velkou část tabulky.
+          S indexem najde záznamy rychleji (typicky podle ID, e-mailu, názvu…).
+        </p>
+
+        <ul class="bullets">
+          <li><strong>Index zrychlí čtení</strong> (SELECT), ale může <strong>zpomalit zápis</strong> (INSERT/UPDATE), protože se musí udržovat.</li>
+          <li>DBMS má <strong>optimalizér</strong>, který rozhoduje, jestli index použít.</li>
+        </ul>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal5-index">
+            Více (plán dotazu, full scan, kdy index škodí)
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 8) Bezpečnost a údržba -->
+    <details class="acc">
+      <summary class="acc__sum">8) Bezpečnost a údržba (role, oprávnění, zálohy)</summary>
+      <div class="acc__body">
+
+        <p>
+          Databáze často obsahuje citlivá data. DBMS proto řeší účty, role a oprávnění, logování změn a zálohování.
+          Bez toho by byl systém nespolehlivý a nebezpečný.
+        </p>
+
+        <ul class="bullets">
+          <li><strong>Authentication</strong> – ověření „kdo jsi“ (přihlášení).</li>
+          <li><strong>Authorization</strong> – oprávnění „co smíš“ (role a práva).</li>
+          <li><strong>Backup/Restore</strong> – zálohy a obnova po chybě.</li>
+          <li><strong>Audit/Log</strong> – záznamy o tom, co se změnilo a kdo to udělal.</li>
+        </ul>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal5-security">
+            Více (role, least privilege, typické průšvihy)
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 9) Slovník zkratek -->
+    <details class="acc">
+      <summary class="acc__sum">9) Slovník zkratek (DB, DBMS, RDBMS, SQL, NoSQL…)</summary>
+      <div class="acc__body">
+
+        <p>
+          Zkratky v databázích jsou všude. Tady je rychlá orientace. Detailní vysvětlení najdeš v rozšířeném modálu.
+        </p>
+
+        <ul class="bullets">
+          <li><strong>DB</strong> – Database (databáze)</li>
+          <li><strong>DBMS</strong> – Database Management System</li>
+          <li><strong>RDBMS</strong> – Relational DBMS</li>
+          <li><strong>SQL</strong> – Structured Query Language</li>
+          <li><strong>NoSQL</strong> – „not only SQL“ (nerelační modely)</li>
+          <li><strong>CRUD</strong> – Create/Read/Update/Delete</li>
+          <li><strong>ACID</strong> – vlastnosti transakcí</li>
+          <li><strong>ERD</strong> – Entity Relationship Diagram</li>
+        </ul>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal5-glossary">
+            Více (překlady + co přesně znamenají)
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 10) Cvičení (basic) -->
+    <details class="acc" open>
+      <summary class="acc__sum">✅ Cvičení (basic) – databázové myšlení</summary>
+      <div class="acc__body">
+
+        <p>Krátká cvičení bez transkriptů – cílem je pochopit pojmy a návrh databáze.</p>
+
+        <div class="accordion">
+
+          <details class="acc" open>
+            <summary class="acc__sum">10.1 Databáze vs. DBMS (rychlá kontrola pojmů)</summary>
             <div class="acc__body">
               <ol class="steps">
-                <li>Najdi na internetu 1 tvrzení (např. o technologiích nebo o škole).</li>
-                <li>Zkus dohledat alespoň <strong>2 nezávislé zdroje</strong>, které to potvrzují nebo vyvrací.</li>
-                <li>Napiš 3 věty: proč je informace důvěryhodná / nedůvěryhodná.</li>
+                <li>Napiš 3 příklady, co je <strong>databáze</strong> (DB) a 3 příklady, co je <strong>DBMS</strong>.</li>
+                <li>Do jedné věty vysvětli rozdíl DB vs. DBMS.</li>
+                <li>Napiš 2 důvody, proč je DBMS potřeba (co řeší navíc).</li>
               </ol>
               <ul class="bullets">
-                <li>Výstup: odkaz + stručné zdůvodnění.</li>
+                <li>Výstup: krátký seznam + 1 věta definice.</li>
               </ul>
             </div>
           </details>
 
           <details class="acc">
-            <summary class="acc__sum">7.3 Informační systém kolem tebe (mapování)</summary>
+            <summary class="acc__sum">10.2 Proč Excel nestačí (konkrétní rozdíly)</summary>
             <div class="acc__body">
               <ol class="steps">
-                <li>Vyber jeden informační systém (škola / e-shop / sociální síť / nemocnice).</li>
-                <li>Sepiš: jaká data ukládá, kdo je uživatel, jaký je typický “proces” (např. objednávka).</li>
-                <li>Odhadni, co by se stalo, kdyby data byla neaktuální nebo chybná.</li>
+                <li>Vyjmenuj 5 věcí, které umí DBMS, ale Excel typicky ne (nebo ne spolehlivě).</li>
+                <li>Napiš 1 situaci ze života, kde Excel stačí, a 1 situaci, kde je nutné DBMS.</li>
               </ol>
               <ul class="bullets">
-                <li>Výstup: 6–10 bodů.</li>
+                <li>Tip: více uživatelů, role, transakce, relace, integrita, audit…</li>
               </ul>
             </div>
           </details>
 
           <details class="acc">
-            <summary class="acc__sum">7.4 „Databáze jako chytrá tabulka“ (mini návrh)</summary>
+            <summary class="acc__sum">10.3 Návrh databáze pro projekt „Book Notes“ (tabulky + klíče)</summary>
             <div class="acc__body">
-              <p>Navrhni jednoduchou tabulku pro evidenci knih (Book Notes – jen úvodně).</p>
+              <p>Navrhni databázi pro evidenci knih a poznámek.</p>
               <ol class="steps">
-                <li>Navrhni sloupce pro tabulku <strong>Knihy</strong> (např. název, autor, rok, hodnocení).</li>
-                <li>U každého sloupce napiš, jaký typ dat to je (text/číslo/datum).</li>
-                <li>Přidej sloupec „ID“ a napiš, proč je užitečný.</li>
+                <li>Navrhni tabulku <strong>Knihy</strong> (PK: id_knihy) a tabulku <strong>Poznámky</strong> (PK: id_poznamky).</li>
+                <li>Do tabulky Poznámky přidej <strong>FK</strong> odkaz na Knihy (id_knihy).</li>
+                <li>Uveď 5 sloupců pro Knihy a 5 sloupců pro Poznámky a ke každému napiš typ (text/číslo/datum/boolean).</li>
               </ol>
               <ul class="bullets">
-                <li>Výstup: návrh tabulky (sloupce + typy + krátké zdůvodnění).</li>
+                <li>Výstup: seznam tabulek, sloupců, PK/FK a typů dat.</li>
               </ul>
             </div>
           </details>
 
           <details class="acc">
-            <summary class="acc__sum">7.5 GDPR scénář (praktická situace)</summary>
+            <summary class="acc__sum">10.4 Relace a ERD (kdo s kým souvisí)</summary>
             <div class="acc__body">
               <ol class="steps">
-                <li>Představ si, že tvoje aplikace sbírá: jméno, e-mail, fotku.</li>
-                <li>Napiš 3 pravidla, která bys dodržel, aby to bylo „v pohodě“.</li>
-                <li>Napiš 2 příklady, co by byl průšvih (co rozhodně nedělat).</li>
+                <li>Nakresli jednoduché ERD: Knihy 1:N Poznámky.</li>
+                <li>Přidej tabulku <strong>Autoři</strong> a rozhodni, jestli vztah je 1:N nebo M:N (zdůvodni).</li>
+                <li>Pokud je M:N, navrhni „propojovací tabulku“ (např. KnihaAutor).</li>
               </ol>
               <ul class="bullets">
-                <li>Výstup: krátký seznam pravidel + rizik.</li>
+                <li>Výstup: ERD (ručně / digitálně) + krátké zdůvodnění.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="acc">
+            <summary class="acc__sum">10.5 SQL myšlení (bez psaní kódu – jen logika)</summary>
+            <div class="acc__body">
+              <ol class="steps">
+                <li>Napiš lidsky (česky) 5 dotazů, které bys chtěl v Book Notes dělat (např. „všechny knihy autora…“).</li>
+                <li>U 2 dotazů napiš, které tabulky by se musely propojit (JOIN) a přes jaký klíč.</li>
+              </ol>
+              <ul class="bullets">
+                <li>Výstup: 5 dotazů v češtině + 2 rozbory tabulek/klíčů.</li>
               </ul>
             </div>
           </details>
@@ -267,18 +467,16 @@
   <article class="card">
     <h3 class="card__title">Shrnutí</h3>
 
-    <p>Základy práce s daty ti pomůžou v běžném životě i ve světě IT:</p>
-
     <ul class="checklist">
-      <li><strong>Rozlišení dat a informací:</strong> Chápeš rozdíl mezi číslem a jeho významem (např. teplota vs. „je horko“).</li>
-      <li><strong>Práce s tabulkami:</strong> Umíš si představit, jak se informace ukládají a třídí v Excelu nebo Google tabulkách.</li>
-      <li><strong>Pochopení informačních systémů:</strong> Víš, proč a jak fungují systémy jako Bakaláři, e-shopy nebo zdravotnické databáze.</li>
-      <li><strong>Základy databází:</strong> Víš, že data jsou uložená v tabulkách a že existují nástroje pro jejich správu.</li>
-      <li><strong>Ochrana osobních údajů:</strong> Chápeš, co říká GDPR a proč není dobré sdílet cizí data bez svolení.</li>
+      <li>Umíš rozlišit <strong>DB</strong> (data) a <strong>DBMS</strong> (software, který data spravuje).</li>
+      <li>Víš, jak probíhá práce klient/server: <strong>připojení → dotaz → vykonání → výsledek</strong>.</li>
+      <li>Chápeš, proč Excel není DBMS: chybí mu typické databázové vlastnosti (integrita, relace, transakce, role…).</li>
+      <li>Znáš základní pojmy relačních databází: tabulka, záznam, sloupec, schéma, PK/FK, relace.</li>
+      <li>Znáš klíčové zkratky: <strong>RDBMS, SQL, CRUD, ACID, DDL/DML/DCL/TCL, ERD</strong>.</li>
     </ul>
 
     <div class="note note--info">
-      <strong>Tip:</strong> Pokud rozumíš tomu, jak fungují data, dokážeš se lépe orientovat v digitálním světě a chránit svou i cizí digitální stopu.
+      <strong>Tip:</strong> V dalších kapitolách na to navážeme: SQL vs. NoSQL, PostgreSQL a projekt Book Notes už „naostro“.
     </div>
   </article>
 
@@ -286,406 +484,468 @@
   <article class="card">
     <h3 class="card__title">Odkazy na použité zdroje</h3>
     <ol class="steps">
-      <li>
-        <a href="https://www.jsns.cz/nove/projekty/medialni-vzdelavani/materialy/dezinformace-jak-reagovat.pdf" target="_blank" rel="noopener">
-          JSNS.cz: Dezinformace a konspirace ve třídě – metodika
-        </a>
-      </li>
-      <li>
-        <a href="https://zvolsi.info/materialy/get-bad-news-stan-se-dezinformatorem" target="_blank" rel="noopener">
-          Zvol si info: Get Bad News – Staň se dezinformátorem
-        </a>
-      </li>
-      <li>
-        <a href="https://workspace.google.com/intl/cs/products/sheets/" target="_blank" rel="noopener">
-          Google Workspace: Tabulky Google
-        </a>
-      </li>
-      <li>
-        <a href="https://zdrojak.cz/clanky/javascriptove-uloziste-localstorage/" target="_blank" rel="noopener">
-          Zdroják.cz: Javascriptové úložiště localStorage
-        </a>
-      </li>
-      <li>
-        <a href="https://msmt.gov.cz/dokumenty-3/gdpr-na-skolach" target="_blank" rel="noopener">
-          MŠMT: GDPR ve školách – metodická podpora
-        </a>
-      </li>
-      <li>
-        <a href="https://digikompetence.cz/" target="_blank" rel="noopener">
-          DigiKompetence.cz: Digitální kompetence a ochrana dat
-        </a>
-      </li>
+      <li><a href="https://support.microsoft.com/cs-cz/access" target="_blank" rel="noopener">Microsoft: Access – nápověda</a></li>
+      <li><a href="https://www.postgresql.org/docs/" target="_blank" rel="noopener">PostgreSQL: Dokumentace</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/ACID" target="_blank" rel="noopener">ACID (wikipedie)</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Database" target="_blank" rel="noopener">Database (wikipedie)</a></li>
     </ol>
+  </article>
+
+  <!-- TEST -->
+  <article class="card">
+    <h3 class="card__title">Test: Databáze – pojmy, fungování, zkratky</h3>
+
+    <div class="quiz-question">
+      <p><strong>1. Co znamená zkratka DBMS?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Data Backup Management System</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Database Management System</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Digital Browser Message Service</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>2. Jak nejlépe vystihneš rozdíl mezi databází (DB) a DBMS?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">DBMS jsou data, DB je program</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">DB jsou uložená data, DBMS je software, který je spravuje</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Je to totéž, jen jiné slovo</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>3. Co znamená RDBMS?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Relational Database Management System</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Remote Data Backup Main Server</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Random Database Memory Storage</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>4. Proč tabulkový procesor (Excel) typicky není databáze v profesionálním smyslu?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Protože neumí psát čísla ani text</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Protože neřeší plnohodnotně integritu, relace, transakce, role a optimalizaci dotazů jako DBMS</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Protože v něm nejde třídit a filtrovat</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>5. K čemu slouží primární klíč (PK)?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Jednoznačně identifikuje záznam v tabulce</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Ukládá do tabulky obrázky</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Zajišťuje připojení databáze k internetu</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>6. K čemu slouží cizí klíč (FK)?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Nahrazuje primární klíč</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Propojuje tabulky tak, že odkazuje na záznam v jiné tabulce</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Zrychluje grafy v Excelu</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>7. Co nejlépe popisuje CRUD?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Create, Read, Update, Delete – základní operace nad daty</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Copy, Run, Upload, Download</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Create, Reset, Undo, Debug</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>8. Co patří do DDL?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">CREATE / ALTER / DROP (definice struktury)</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">SELECT / INSERT / UPDATE / DELETE</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">COMMIT / ROLLBACK</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>9. Co znamená „Atomicity“ v ACID?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Transakce proběhne celá, nebo vůbec (all-or-nothing)</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Data se automaticky zálohují každou sekundu</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Dotazy se vždy vykonají v jedné milisekundě</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>10. K čemu slouží index v databázi?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Zrychluje vyhledávání (SELECT) – funguje jako „rejstřík“</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Nahradí primární klíč ve všech tabulkách</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Zabrání přihlášení uživatelů</button>
+      </div>
+    </div>
+
   </article>
 
 </section>
 
-<!-- TEMPLATE MODALY (umísti obvykle na konec stránky, mimo sekci) -->
+<!-- =========================================================
+TEMPLATE MODALY (umísti obvykle na konec stránky, mimo sekci)
+========================================================= -->
 
-<!-- MODÁL – Data a informace -->
-<div class="modal" id="modal5-data" role="dialog" aria-modal="true" aria-hidden="true">
+<!-- MODÁL – DB vs DBMS -->
+<div class="modal" id="modal5-dbms" role="dialog" aria-modal="true" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
 
       <div class="modal-header">
-        <h3 class="modal-title">Data a informace</h3>
+        <h3 class="modal-title">Databáze vs. DBMS (detailně a správně)</h3>
         <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
       </div>
 
       <div class="modal-body">
-        <p><strong>Představ si, že máš seznam čísel:</strong></p>
-        <p>20, 22, 21, 25, 28</p>
-        <p>To jsou data – sama o sobě ti moc neřeknou</p>
-        <p>Ale když ti řeknu, že to jsou denní teploty za posledních pět dní, stává se z nich informace – má to smysl, víš, co znamenají.</p>
-        <h6>Jednoduché vysvětlení:</h6>
+        <p>
+          Častý zmatek: lidé říkají „databáze“ a myslí tím celý systém. Správně:
+        </p>
+
         <ul class="bullets">
-          <li><strong>Data:</strong> syrová čísla nebo texty</li>
-          <li><strong>Informace</strong> Data, která mají význam</li>
-          <li><strong>Znalost:</strong> Informace, které chápu a mohu použít</li>
+          <li><strong>DB (Database)</strong> = uložená data (soubor/soubory na disku, struktura + obsah).</li>
+          <li><strong>DBMS</strong> = program, který s DB pracuje (připojení, dotazy, ukládání, pravidla, bezpečnost).</li>
+          <li><strong>Databázový server</strong> = běžící služba DBMS (poslouchá na portu a obsluhuje klienty).</li>
+          <li><strong>Klient</strong> = aplikace nebo uživatel (např. admin nástroj), který posílá dotazy.</li>
         </ul>
+
+        <h6>Příklady (orientačně)</h6>
+        <ul class="bullets">
+          <li><strong>Access</strong> – DBMS vhodné na výuku a menší projekty (tabulky, relace, dotazy, formuláře).</li>
+          <li><strong>PostgreSQL</strong> – robustní RDBMS pro weby a aplikace.</li>
+          <li><strong>SQL Server</strong> – RDBMS od Microsoftu (často ve firmách).</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Pravidlo:</strong> Když data používá více lidí a aplikací, potřebuješ DBMS. Když si počítáš domácí rozpočet,
+          tabulka často stačí.
+        </div>
       </div>
 
       <div class="modal-footer">
         <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
-        <a class="btn btn--primary" href="https://support.google.com/docs/" target="_blank" rel="noopener">Nápověda Google</a>
+        <a class="btn btn--primary" href="https://support.microsoft.com/cs-cz/access" target="_blank" rel="noopener">Access</a>
       </div>
 
     </div>
   </div>
 </div>
 
-<!-- MODÁL – Jak poznat kvalitní informaci -->
-<div class="modal" id="modal5-infoquality" role="dialog" aria-modal="true" aria-hidden="true">
+<!-- MODÁL – Jak databáze funguje -->
+<div class="modal" id="modal5-howworks" role="dialog" aria-modal="true" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
 
       <div class="modal-header">
-        <h3 class="modal-title">Jak poznat kvalitní informaci?</h3>
+        <h3 class="modal-title">Jak databáze funguje „pod kapotou“</h3>
         <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
       </div>
 
       <div class="modal-body">
-        <p>V době, kdy je internet plný názorů, spekulací i dezinformací, je <strong>kritické myšlení</strong> klíčové. Jak poznáš, že informace je důvěryhodná?</p>
+        <h6>Co se děje po odeslání dotazu?</h6>
+        <ol class="steps">
+          <li><strong>Parser</strong> – DBMS zkontroluje, jestli dotaz dává smysl (syntaxe, tabulky, sloupce).</li>
+          <li><strong>Optimalizér (optimizer)</strong> – vybere nejlepší postup, jak dotaz provést (např. použít index).</li>
+          <li><strong>Execution engine</strong> – dotaz skutečně vykoná (čtení/zápis dat).</li>
+          <li><strong>Storage engine</strong> – stará se o uložení dat na disk, bloky/stránky, načítání do paměti.</li>
+        </ol>
 
-        <h6>✅ Dobrá informace:</h6>
+        <h6>Cache, logy, výkon</h6>
         <ul class="bullets">
-          <li><strong>Přesná</strong> – neobsahuje chyby, čísla a fakta dávají smysl.</li>
-          <li><strong>Aktuální</strong> – není zastaralá, odpovídá dnešní situaci.</li>
-          <li><strong>Srozumitelná</strong> – chápeš, co se tím myslí.</li>
-          <li><strong>Ověřitelná</strong> – víš, odkud pochází a dá se najít zdroj.</li>
+          <li><strong>Cache</strong> – často čtená data se drží v paměti, aby se nečetlo pořád z disku.</li>
+          <li><strong>Write-ahead log (WAL)</strong> / log změn – DBMS si zapisuje změny tak, aby je po pádu dokázalo obnovit.</li>
+          <li><strong>Locking / MVCC</strong> – DBMS řeší, aby se uživatelé „nepřetahovali“ o stejná data.</li>
         </ul>
 
-        <h6>❌ Špatná informace:</h6>
-        <ul class="bullets">
-          <li>Chybí zdroj, autor je neznámý nebo nedůvěryhodný.</li>
-          <li>Zní nepravděpodobně („zítra bude 70 °C“).</li>
-          <li>Obsahuje manipulativní jazyk nebo emoční nátlak („oni ti lžou!“).</li>
-        </ul>
-
-        <h6>Tip:</h6>
-        <p>Pokud si nejsi jistý, ověř informaci alespoň ze <strong>dvou nezávislých zdrojů</strong>.</p>
-
-        <hr>
-        <p class="text-muted"><strong>Zdroj:</strong> <a href="https://www.digigram.cz" target="_blank" rel="noopener">Digigram.cz – portál o digitální gramotnosti</a></p>
+        <div class="note note--info">
+          <strong>Prakticky:</strong> Když je dotaz pomalý, často je problém v návrhu tabulek, chybějících indexech,
+          nebo v tom, že DBMS musí prohledat moc dat.
+        </div>
       </div>
 
       <div class="modal-footer">
         <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
-        <a class="btn btn--primary" href="https://digikompetence.cz/" target="_blank" rel="noopener">DigiKompetence</a>
+        <a class="btn btn--primary" href="https://www.postgresql.org/docs/" target="_blank" rel="noopener">PostgreSQL docs</a>
       </div>
 
     </div>
   </div>
 </div>
 
-<!-- MODÁL – Práce s daty v běžných nástrojích -->
-<div class="modal" id="modal5-tools" role="dialog" aria-modal="true" aria-hidden="true">
+<!-- MODÁL – Excel vs DBMS -->
+<div class="modal" id="modal5-spreadsheet" role="dialog" aria-modal="true" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
 
       <div class="modal-header">
-        <h3 class="modal-title">Práce s daty v běžných nástrojích</h3>
+        <h3 class="modal-title">Excel vs. DBMS (konkrétně: co Excelu chybí)</h3>
         <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
       </div>
 
       <div class="modal-body">
-        <h6>V Excelu nebo Google Sheets</h6>
-        <p>Data si můžeš představit jako tabulku.</p>
-        <ul class="bullets">
-          <li>Do <strong>sloupců</strong> zapisuješ údaje – např. jména studentů, známky, přítomnost.</li>
-          <li>Můžeš je <strong>třídit</strong>, <strong>filtrovat</strong>, <strong>počítat</strong> s nimi nebo <strong>hledat chyby</strong>.</li>
-        </ul>
-        <p><strong>Příklady:</strong></p>
-        <ul class="bullets">
-          <li><code>=AVERAGE(B2:B10)</code> spočítá průměr známek.</li>
-          <li>Tlačítko <strong>Filtr</strong> ti pomůže najít jen studenty, kteří chyběli.</li>
-        </ul>
-
-        <hr>
-
-        <h6>V JavaScriptu</h6>
-        <p>I v JavaScriptu se s daty běžně pracuje. Např. pole hodnot a výpočty:</p>
-
-        <pre><code>let teploty = [20, 22, 21, 25, 28];
-let prumer = teploty.reduce((a, b) =&gt; a + b, 0) / teploty.length;
-console.log("Průměrná teplota: " + prumer + " °C");</code></pre>
+        <p>
+          Excel ukládá data a umí je filtrovat/třídit. To ale není totéž jako databázový systém.
+          DBMS řeší věci, které jsou pro aplikace zásadní:
+        </p>
 
         <ul class="bullets">
-          <li>Data ukládáš do <strong>pole</strong>.</li>
-          <li>Používáš <code>reduce()</code> pro výpočty – podobně jako funkce v Excelu.</li>
-          <li><code>console.log()</code> ti ukáže výsledek v konzoli.</li>
+          <li><strong>Integrita dat:</strong> pravidla (constraints) přímo v systému (NOT NULL, CHECK, FK…).</li>
+          <li><strong>Relace:</strong> propojení tabulek a hlídání vazeb (FK na existující záznam).</li>
+          <li><strong>Transakce:</strong> bezpečné změny (COMMIT/ROLLBACK), aby se data „nerozpadla“ při chybě.</li>
+          <li><strong>Současný přístup:</strong> více uživatelů najednou a řízení konfliktů.</li>
+          <li><strong>Role a oprávnění:</strong> kdo smí číst/psát/mazat (security model).</li>
+          <li><strong>Optimalizace dotazů:</strong> plánování, indexy, výkon nad velkými daty.</li>
+          <li><strong>Zálohy a obnova:</strong> profesionální správa a návrat po incidentu.</li>
         </ul>
 
-        <hr>
-
-        <h6>Shrnutí</h6>
-        <ul class="bullets">
-          <li>Tabulky (Excel/Sheets) = vizuální přehled a jednoduché výpočty bez programování.</li>
-          <li>JavaScript = pokročilejší způsob zpracování dat pomocí kódu (ale podobná logika).</li>
-        </ul>
+        <div class="note note--info">
+          <strong>Jednou větou:</strong> Excel je nástroj pro práci s daty, DBMS je systém pro správu dat.
+        </div>
       </div>
 
       <div class="modal-footer">
         <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
-        <a class="btn btn--primary" href="https://www.w3schools.com/js/js_arrays.asp" target="_blank" rel="noopener">W3Schools</a>
+        <a class="btn btn--primary" href="https://support.microsoft.com/cs-cz/access" target="_blank" rel="noopener">Access</a>
       </div>
 
     </div>
   </div>
 </div>
 
-<!-- MODÁL – Informační systémy -->
-<div class="modal" id="modal5-is" role="dialog" aria-modal="true" aria-hidden="true">
+<!-- MODÁL – Relační model a ERD -->
+<div class="modal" id="modal5-relational" role="dialog" aria-modal="true" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
 
       <div class="modal-header">
-        <h3 class="modal-title">Informační systémy v praxi</h3>
+        <h3 class="modal-title">Relační model: ERD a typy vztahů</h3>
         <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
       </div>
 
       <div class="modal-body">
-        <p><strong>Informační systém</strong> je technologie, která shromažďuje, uchovává a zpracovává data tak, aby z nich byly použitelné informace.</p>
+        <h6>ERD (Entity Relationship Diagram)</h6>
+        <p>
+          ERD je diagram, kde kreslíš tabulky (entity) a vazby mezi nimi (relationships).
+          Pomáhá navrhnout databázi dřív, než začneš cokoliv tvořit.
+        </p>
 
-        <h6>Kde se s nimi setkáš?</h6>
+        <h6>Typy vztahů (kardinality)</h6>
         <ul class="bullets">
-          <li><strong>Škola:</strong> systém Bakaláři nebo EduPage – zapisují se známky, absence, rozvrhy.</li>
-          <li><strong>Nemocnice:</strong> zdravotnický systém – ukládá zdravotní záznamy pacientů.</li>
-          <li><strong>Sociální sítě:</strong> spravují obrovské množství dat o uživatelích a jejich aktivitách.</li>
-          <li><strong>E-shopy:</strong> zpracovávají objednávky, sklady, platby, zákaznické účty.</li>
+          <li><strong>1 : 1</strong> – jeden záznam odpovídá jednomu (vzácnější, často se slučuje).</li>
+          <li><strong>1 : N</strong> – nejběžnější (kniha má mnoho poznámek).</li>
+          <li><strong>M : N</strong> – mnoho ku mnoha (kniha má mnoho tagů, tag patří mnoha knihám) → řeší se propojovací tabulkou.</li>
         </ul>
 
-        <h6>Z čeho se skládá informační systém?</h6>
-        <ul class="bullets">
-          <li><strong>Hardware:</strong> servery, počítače, síťové prvky</li>
-          <li><strong>Software:</strong> programy a aplikace (např. webové rozhraní e-shopu)</li>
-          <li><strong>Data:</strong> informace, které se zpracovávají (např. objednávky)</li>
-          <li><strong>Uživatelé:</strong> lidé, kteří systém používají (např. zákazníci, učitelé)</li>
-        </ul>
-
-        <h6>Proč jsou důležité?</h6>
-        <ul class="bullets">
-          <li>Zrychlují a zjednodušují práci s informacemi.</li>
-          <li>Pomáhají dělat správná rozhodnutí (např. analýzy prodejů, docházky).</li>
-          <li>Umožňují vzdálený přístup – např. z telefonu nebo počítače.</li>
-        </ul>
+        <div class="note note--info">
+          <strong>Propojovací tabulka:</strong> u M:N děláš tabulku např. <em>KnihaTag</em> se dvěma FK (id_knihy, id_tagu).
+        </div>
       </div>
 
       <div class="modal-footer">
         <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
-        <a class="btn btn--primary" href="https://digikompetence.cz/" target="_blank" rel="noopener">DigiKompetence</a>
+        <a class="btn btn--primary" href="https://en.wikipedia.org/wiki/Entity%E2%80%93relationship_model" target="_blank" rel="noopener">ER model</a>
       </div>
 
     </div>
   </div>
 </div>
 
-<!-- MODÁL – Základy databází -->
-<div class="modal" id="modal5-db" role="dialog" aria-modal="true" aria-hidden="true">
+<!-- MODÁL – SQL detail -->
+<div class="modal" id="modal5-sql" role="dialog" aria-modal="true" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
 
       <div class="modal-header">
-        <h3 class="modal-title">Základy databází</h3>
+        <h3 class="modal-title">SQL (detailně): JOIN, agregace, třídění</h3>
         <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
       </div>
 
       <div class="modal-body">
-        <p>Databáze nejsou jen pro ajťáky – setkáváš se s nimi každý den, i když o tom nevíš. Ať už nakupuješ online, přihlašuješ se do školy nebo používáš mobilní aplikace, někde na pozadí běží <strong>databáze</strong>.</p>
-
-        <h6>Co je databáze?</h6>
+        <h6>JOIN (spojování tabulek)</h6>
         <ul class="bullets">
-          <li><strong>Databáze</strong> = místo, kde jsou systematicky uložená data.</li>
-          <li>Data jsou často organizována v <strong>tabulkách</strong> – podobně jako v Excelu.</li>
-          <li>Každý řádek = jeden záznam (např. jeden student), každý sloupec = údaj (např. jméno, známka).</li>
+          <li><strong>INNER JOIN</strong> – vrátí jen záznamy, které mají shodu na obou stranách.</li>
+          <li><strong>LEFT JOIN</strong> – vrátí vše z levé tabulky + shody z pravé (když shoda není, je „prázdno“).</li>
         </ul>
 
-        <h6>S čím se můžeš setkat:</h6>
+        <h6>Agregace</h6>
         <ul class="bullets">
-          <li><strong>Google Tabulky</strong> – jednoduchá databáze pro školní práci.</li>
-          <li><strong>Firebase</strong> – databáze pro webové a mobilní aplikace (JavaScript, Android…).</li>
-          <li><strong>LocalStorage</strong> – malá databáze uložená přímo v prohlížeči.</li>
+          <li><strong>COUNT</strong> – počet</li>
+          <li><strong>AVG</strong> – průměr</li>
+          <li><strong>SUM</strong> – součet</li>
+          <li><strong>MIN/MAX</strong> – minimum/maximum</li>
+          <li><strong>GROUP BY</strong> – seskupení (např. počet knih podle autora)</li>
         </ul>
 
-        <h6>Proč jsou databáze důležité?</h6>
-        <p>Umožňují <strong>rychlé vyhledávání, třídění a zpracování dat</strong> – např. ve školních systémech, obchodech, sociálních sítích i nemocnicích.</p>
-
-        <hr>
-        <p class="text-muted"><strong>Zdroje:</strong></p>
+        <h6>Řazení a filtrování</h6>
         <ul class="bullets">
-          <li><a href="https://www.w3schools.com/js/js_arrays.asp" target="_blank" rel="noopener">W3Schools – základy polí v JavaScriptu</a></li>
-          <li><a href="https://support.google.com/docs/" target="_blank" rel="noopener">Nápověda k Google Tabulkám</a></li>
-          <li><a href="https://www.digigram.cz" target="_blank" rel="noopener">Digitální gramotnost.cz – výukový portál MŠMT</a></li>
+          <li><strong>WHERE</strong> – filtr (podmínka)</li>
+          <li><strong>ORDER BY</strong> – řazení</li>
+          <li><strong>LIMIT</strong> – omezení počtu výsledků</li>
         </ul>
+
+        <div class="note note--info">
+          <strong>Pointa:</strong> SQL není „jen SELECT“. Je to jazyk pro strukturu, data, práva i transakce.
+        </div>
       </div>
 
       <div class="modal-footer">
         <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
-        <a class="btn btn--primary" href="https://zdrojak.cz/clanky/javascriptove-uloziste-localstorage/" target="_blank" rel="noopener">LocalStorage</a>
+        <a class="btn btn--primary" href="https://www.postgresql.org/docs/" target="_blank" rel="noopener">PostgreSQL</a>
       </div>
 
     </div>
   </div>
 </div>
 
-<!-- MODÁL – Ochrana dat a GDPR -->
-<div class="modal" id="modal5-gdpr" role="dialog" aria-modal="true" aria-hidden="true">
+<!-- MODÁL – ACID detail -->
+<div class="modal" id="modal5-acid" role="dialog" aria-modal="true" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
 
       <div class="modal-header">
-        <h3 class="modal-title">🛡️ Ochrana dat a GDPR</h3>
+        <h3 class="modal-title">ACID (detailně a s příkladem)</h3>
         <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
       </div>
 
       <div class="modal-body">
-        <p>Když sbíráš nebo ukládáš osobní údaje (např. jméno, e-mail, fotku), musíš dodržovat určitá pravidla. V EU se tato pravidla řídí <strong>nařízením GDPR</strong>.</p>
-
-        <h6>Co je GDPR?</h6>
         <ul class="bullets">
-          <li><strong>GDPR</strong> = zákon na ochranu osobních údajů (platí v celé EU).</li>
-          <li>Říká, jak smíš data sbírat, uchovávat a mazat.</li>
-          <li>Každý má právo vědět, jaká data o něm máš.</li>
+          <li><strong>A – Atomicity (atomicita):</strong> buď proběhne vše, nebo nic.</li>
+          <li><strong>C – Consistency (konzistence):</strong> databáze zůstane v platném stavu (neporuší pravidla).</li>
+          <li><strong>I – Isolation (izolace):</strong> souběžné transakce si „nelezou do zelí“.</li>
+          <li><strong>D – Durability (trvanlivost):</strong> po COMMIT změny přežijí pád systému.</li>
         </ul>
 
-        <h6>Příklady osobních údajů:</h6>
-        <ul class="bullets">
-          <li>Jméno a příjmení</li>
-          <li>Fotografie</li>
-          <li>IP adresa, e-mail, telefonní číslo</li>
-        </ul>
-
-        <h6>Co z toho plyne pro tebe?</h6>
-        <ul class="bullets">
-          <li>Neptej se na osobní údaje, pokud to není nutné.</li>
-          <li>Pokud údaje sbíráš (např. v projektu), vysvětli proč a jak je uchováš.</li>
-          <li>Data maž, pokud už nejsou potřeba.</li>
-          <li>Nikdy nezveřejňuj cizí jména nebo fotky bez souhlasu.</li>
-        </ul>
-
-        <hr>
-        <p class="text-muted"><strong>Zdroj:</strong> <a href="https://www.czechitas.cz/cs/blog/gdpr-pro-skoly" target="_blank" rel="noopener">Czechitas – GDPR pro školy</a></p>
+        <p><strong>Příklad:</strong> převod peněz mezi účty = dvě změny (odečti z A, přičti do B). Bez atomicity by mohlo
+          dojít k odečtení bez přičtení při chybě.</p>
       </div>
 
       <div class="modal-footer">
         <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
-        <a class="btn btn--primary" href="https://msmt.gov.cz/dokumenty-3/gdpr-na-skolach" target="_blank" rel="noopener">MŠMT</a>
+        <a class="btn btn--primary" href="https://en.wikipedia.org/wiki/ACID" target="_blank" rel="noopener">ACID</a>
       </div>
 
     </div>
   </div>
 </div>
-<!-- TEST: Práce s daty a informační systémy – úvod -->
-<h4>Test: Data, informace, informační systémy, databáze a GDPR</h4>
-<div class="card">
-<div class="quiz-question">
-  <p><strong>1. Jaký je rozdíl mezi daty a informací?</strong></p>
-  <div class="quiz-answers">
-    <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Data jsou vždy pravdivá, informace mohou být nepravdivé</button>
-    <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Data jsou syrové hodnoty, informace jsou data s významem (kontextem)</button>
-    <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Informace jsou vždy čísla, data jsou vždy text</button>
+
+<!-- MODÁL – Index detail -->
+<div class="modal" id="modal5-index" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Indexy a výkon (detailně)</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Bez indexu DBMS často dělá <strong>full table scan</strong> (projde velkou část tabulky).
+          S indexem se dá rychle „skočit“ na relevantní data.
+        </p>
+
+        <ul class="bullets">
+          <li><strong>Index pomáhá</strong> hlavně při WHERE a JOIN.</li>
+          <li><strong>Index škodí</strong> při masivních zápisech (INSERT/UPDATE), protože se musí aktualizovat.</li>
+          <li><strong>Optimalizér</strong> rozhoduje, zda index použije.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Pravidlo:</strong> Indexy jsou lék na pomalé čtení, ale „platí se“ za ně při zápisu.
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://www.postgresql.org/docs/" target="_blank" rel="noopener">Docs</a>
+      </div>
+
+    </div>
   </div>
 </div>
 
-<div class="quiz-question">
-  <p><strong>2. Který příklad je spíše „informace“ než „data“?</strong></p>
-  <div class="quiz-answers">
-    <button class="btn btn--ghost" onclick="checkAnswer(this, false)">28</button>
-    <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Teplota dnes odpoledne byla 28 °C</button>
-    <button class="btn btn--ghost" onclick="checkAnswer(this, false)">A17</button>
+<!-- MODÁL – Bezpečnost detail -->
+<div class="modal" id="modal5-security" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Bezpečnost a údržba databáze (detailně)</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <h6>Role a oprávnění</h6>
+        <ul class="bullets">
+          <li><strong>Least privilege</strong> – každý má mít jen ta práva, která opravdu potřebuje.</li>
+          <li><strong>GRANT/REVOKE</strong> – přidání/odebrání práv (DCL).</li>
+          <li><strong>Role</strong> – skupiny oprávnění (uživatel se zařadí do role).</li>
+        </ul>
+
+        <h6>Zálohy a obnova</h6>
+        <ul class="bullets">
+          <li><strong>Backup</strong> – pravidelná záloha.</li>
+          <li><strong>Restore</strong> – obnova po chybě/pádu.</li>
+          <li><strong>Logy</strong> – záznamy změn, audit, řešení incidentů.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Typický průšvih:</strong> Aplikace se připojuje jako „admin“ a kdokoliv pak může omylem smazat celou tabulku.
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://www.postgresql.org/docs/" target="_blank" rel="noopener">Docs</a>
+      </div>
+
+    </div>
   </div>
 </div>
 
-<div class="quiz-question">
-  <p><strong>3. Která vlastnost nejvíc pomáhá ověřit kvalitu informace?</strong></p>
-  <div class="quiz-answers">
-    <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Ověřitelnost (dá se dohledat zdroj a porovnat)</button>
-    <button class="btn btn--ghost" onclick="checkAnswer(this, false)">To, že je napsaná velkými písmeny</button>
-    <button class="btn btn--ghost" onclick="checkAnswer(this, false)">To, že má hodně emotikonů</button>
-  </div>
-</div>
+<!-- MODÁL – Slovník zkratek detail -->
+<div class="modal" id="modal5-glossary" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
 
-<div class="quiz-question">
-  <p><strong>4. Co typicky umí tabulkové procesory jako Excel/Google Sheets?</strong></p>
-  <div class="quiz-answers">
-    <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Třídit, filtrovat a počítat s daty v tabulkách</button>
-    <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Spouštět operační systém počítače</button>
-    <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Nahrazovat internetový prohlížeč</button>
-  </div>
-</div>
+      <div class="modal-header">
+        <h3 class="modal-title">Slovník zkratek (rozšířeně)</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
 
-<div class="quiz-question">
-  <p><strong>5. Co je informační systém?</strong></p>
-  <div class="quiz-answers">
-    <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Jen webová stránka s obrázky</button>
-    <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Technologie a procesy, které sbírají, ukládají a zpracovávají data na užitečné informace</button>
-    <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Pouze hardware (počítače a servery)</button>
-  </div>
-</div>
+      <div class="modal-body">
+        <ul class="bullets">
+          <li><strong>DB</strong> – Database (databáze = uložená data)</li>
+          <li><strong>DBMS</strong> – Database Management System (správce databáze)</li>
+          <li><strong>RDBMS</strong> – Relational DBMS (relační databázový systém)</li>
+          <li><strong>SQL</strong> – Structured Query Language (jazyk pro práci s relační DB)</li>
+          <li><strong>NoSQL</strong> – „not only SQL“ (dokumentové, key-value, grafové DB…)</li>
+          <li><strong>CRUD</strong> – Create/Read/Update/Delete (základní operace nad daty)</li>
+          <li><strong>ACID</strong> – Atomicity/Consistency/Isolation/Durability (vlastnosti transakcí)</li>
+          <li><strong>DDL</strong> – Data Definition Language (CREATE/ALTER/DROP)</li>
+          <li><strong>DML</strong> – Data Manipulation Language (SELECT/INSERT/UPDATE/DELETE)</li>
+          <li><strong>DCL</strong> – Data Control Language (GRANT/REVOKE)</li>
+          <li><strong>TCL</strong> – Transaction Control Language (COMMIT/ROLLBACK)</li>
+          <li><strong>ERD</strong> – Entity Relationship Diagram (diagram tabulek a vazeb)</li>
+          <li><strong>PK/FK</strong> – Primary Key / Foreign Key</li>
+        </ul>
 
-<div class="quiz-question">
-  <p><strong>6. Kde se běžně setkáš s informačním systémem?</strong></p>
-  <div class="quiz-answers">
-    <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Jen v počítačových hrách</button>
-    <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Ve škole (Bakaláři/EduPage), e-shopech, nemocnicích nebo na sociálních sítích</button>
-    <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Pouze v tiskárnách</button>
-  </div>
-</div>
+        <div class="note note--info">
+          <strong>Tip:</strong> Když se v dalších kapitolách řekne „DB“, vždy si zkus ujasnit, jestli jde o data, nebo o celý systém (DBMS).
+        </div>
+      </div>
 
-<div class="quiz-question">
-  <p><strong>7. Co je databáze v základním pojetí?</strong></p>
-  <div class="quiz-answers">
-    <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Systém pro systematické ukládání a vyhledávání dat (často v tabulkách)</button>
-    <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Program na kreslení obrázků</button>
-    <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Soubor, který nejde nikdy změnit</button>
-  </div>
-</div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://www.postgresql.org/docs/" target="_blank" rel="noopener">PostgreSQL</a>
+      </div>
 
-<div class="quiz-question">
-  <p><strong>8. Co znamená, že databáze je „chytřejší tabulka“?</strong></p>
-  <div class="quiz-answers">
-    <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Že obsahuje jen obrázky místo čísel</button>
-    <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Že zvládá práci s velkým množstvím dat a umožňuje rychlé vyhledávání a organizaci</button>
-    <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Že funguje bez elektřiny</button>
+    </div>
   </div>
-</div>
-
-<div class="quiz-question">
-  <p><strong>9. Který příklad je osobní údaj (typicky spadá pod GDPR)?</strong></p>
-  <div class="quiz-answers">
-    <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Název školy</button>
-    <button class="btn btn--ghost" onclick="checkAnswer(this, true)">E-mailová adresa konkrétní osoby</button>
-    <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Název města</button>
-  </div>
-</div>
-
-<div class="quiz-question">
-  <p><strong>10. Které chování je z hlediska GDPR nejvhodnější?</strong></p>
-  <div class="quiz-answers">
-    <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Sbírat co nejvíc údajů „pro jistotu“, kdyby se jednou hodily</button>
-    <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Sbírat jen nutná data, vysvětlit účel a mazat je, když už nejsou potřeba</button>
-    <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Zveřejnit cizí fotku a e-mail bez souhlasu, když je to pro projekt</button>
-  </div>
-</div>
 </div>
