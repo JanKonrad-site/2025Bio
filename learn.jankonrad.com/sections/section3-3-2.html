@@ -1229,3 +1229,384 @@ console.log(Number(x) + Number(y)); // 25</code></pre>
     </div>
   </div>
 </div>
+<!-- =========================================================
+     CVIČENÍ – Variables and Operators (3.3.2)
+========================================================= -->
+
+<section id="ex-3-3-2-variables-operators" class="container my-5">
+
+  <h3 class="mb-4">Cvičení – Proměnné a operátory (věta do konzole)</h3>
+
+  <!-- Co se naučíš -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co se naučíš?</h3>
+    <p>
+      V tomto cvičení si prakticky ověříš práci s proměnnými a operátory. Vytvoříš proměnné pro jména a věk,
+      spočítáš součet věků a výsledek vložíš do věty, kterou vypíšeš do konzole.
+    </p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>let</strong>: deklarace proměnné.</li>
+      <li class="list-group-item"><strong>number</strong>: věk bude číslo (bez uvozovek).</li>
+      <li class="list-group-item"><strong>+</strong>: sčítání čísel (součet věků).</li>
+      <li class="list-group-item"><strong>console.log()</strong>: výpis výsledné věty do konzole.</li>
+      <li class="list-group-item"><strong>String</strong>: skládání textu do jedné věty.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Výsledek vždy kontroluj v prohlížeči v Console (pravé tlačítko → Inspect → Console).
+    </div>
+  </div>
+
+  <!-- Zadání -->
+  <h5 class="mt-4">🎯 Zadání</h5>
+  <p>
+    Vytvoř program, který uloží jména dvou lidí a jejich věk, spočítá jejich společný věk a vypíše větu ve formátu:
+    <em>"Combined age of Alice and Bob is 42."</em>
+    (Jména si vyber vlastní, věty můžeš napsat i česky – důležité je, aby obsahovala obě jména a součet věků.)
+  </p>
+
+  <ul class="list-group mb-4">
+    <li class="list-group-item"><strong>1)</strong> Vytvoř proměnné pro dvě jména (text).</li>
+    <li class="list-group-item"><strong>2)</strong> Vytvoř proměnné pro věk obou lidí (číslo).</li>
+    <li class="list-group-item"><strong>3)</strong> Spočítej součet věků a ulož ho do nové proměnné.</li>
+    <li class="list-group-item"><strong>4)</strong> Vypiš do konzole větu s oběma jmény a součtem.</li>
+  </ul>
+
+  <!-- Praktické kroky -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Postup ve VS Code (nový index.html)</h3>
+    <ol class="mb-3">
+      <li>Vytvoř novou složku (např. <code>cviceni-variables</code>).</li>
+      <li>Vytvoř soubor <code>index.html</code>.</li>
+      <li>Vlož základní HTML strukturu a na konec <code>&lt;body&gt;</code> přidej <code>&lt;script&gt;</code>.</li>
+      <li>Napiš řešení do <code>&lt;script&gt;</code>.</li>
+      <li>Otevři <code>index.html</code> v prohlížeči a zkontroluj Console.</li>
+    </ol>
+
+    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#hintVars1">
+      Nápověda (volitelné)
+    </button>
+  </div>
+
+  <!-- Kontrolní checklist -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">✅ Kontrolní checklist</h4>
+    <ul class="list-group list-group-flush mb-0">
+      <li class="list-group-item">Mám <strong>2 proměnné</strong> pro jména (string v uvozovkách).</li>
+      <li class="list-group-item">Mám <strong>2 proměnné</strong> pro věk (number bez uvozovek).</li>
+      <li class="list-group-item">Mám proměnnou pro <strong>součet věků</strong> (např. <code>combinedAge</code>).</li>
+      <li class="list-group-item">V konzoli se vypíše věta, která obsahuje <strong>obě jména i součet</strong>.</li>
+    </ul>
+  </div>
+
+  <!-- Volitelné rozšíření -->
+  <h5 class="mt-4">⭐ Volitelné rozšíření (pro rychlejší)</h5>
+  <ul class="list-group mb-4">
+    <li class="list-group-item">
+      <strong>1)</strong> Změň větu na českou (např. „Společný věk ... je ...“).
+    </li>
+    <li class="list-group-item">
+      <strong>2)</strong> Přidej i průměrný věk (součet / 2) a vypiš ho.
+      <button class="btn btn-sm btn-outline-primary ms-2" data-bs-toggle="modal" data-bs-target="#hintVars2">Více</button>
+    </li>
+  </ul>
+
+  <!-- Řešení (schované) -->
+  <details class="mb-3">
+    <summary><strong>Řešení (otevři až po vlastním pokusu)</strong></summary>
+    <pre class="bg-light p-3 rounded border mt-2"><code>&lt;script&gt;
+  let person1 = "Alice";
+  let person2 = "Bob";
+
+  let age1 = 20;
+  let age2 = 22;
+
+  let combinedAge = age1 + age2;
+
+  console.log("The combined age of " + person1 + " and " + person2 + " is " + combinedAge + ".");
+&lt;/script&gt;</code></pre>
+  </details>
+
+</section>
+
+<!-- =========================================================
+     MODÁLY – Nápovědy
+========================================================= -->
+
+<div class="modal fade" id="hintVars1" tabindex="-1" aria-labelledby="hintVars1Label" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="hintVars1Label">Nápověda (volitelné)</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Jak začít:</strong></p>
+        <ul>
+          <li>Jméno je <strong>string</strong>: musí být v uvozovkách (<code>"Tom"</code>).</li>
+          <li>Věk je <strong>number</strong>: bez uvozovek (<code>31</code>).</li>
+          <li>Součet uděláš normálně: <code>combinedAge = age1 + age2</code>.</li>
+          <li>Větu vypíšeš přes <code>console.log()</code>.</li>
+        </ul>
+        <p class="text-muted mb-0"><small><em>Tip:</em> Pokud se ti místo součtu „lepí“ text, zkontroluj, jestli nejsou věky omylem v uvozovkách.</small></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="hintVars2" tabindex="-1" aria-labelledby="hintVars2Label" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="hintVars2Label">Rozšíření – průměrný věk</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Průměrný věk</strong> je součet dělený dvěma:</p>
+        <pre class="bg-light p-3 rounded border"><code>let averageAge = combinedAge / 2;
+console.log("Average age is " + averageAge);</code></pre>
+        <p class="text-muted mb-0"><small><em>Tip:</em> Pokud chceš hezčí číslo (bez desetinných míst), později si ukážeme zaokrouhlení.</small></p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- KVÍZ 3.3.2 – podle screenshotů (CZ) -->
+<section id="section3-3-2-test" class="container my-5">
+  <h3 class="mb-4">3.3.2 Kvíz – proměnné, datové typy a operátory</h3>
+
+  <div id="quiz-3-3-2" class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">🧪 Rychlý kvíz (6 otázek)</h4>
+    <p class="text-muted mb-4">Vyber vždy jednu odpověď. Po kliknutí se volby uzamknou a uvidíš zpětnou vazbu.</p>
+
+    <!-- Q1 -->
+    <div class="quiz-question mb-4" data-explain="V moderním JavaScriptu se pro proměnné běžně používá <code>let</code> (a pro konstanty <code>const</code>).">
+      <p><strong>1. Jaké klíčové slovo lze použít pro deklaraci proměnné v JavaScriptu?</strong></p>
+      <div class="btn-group-vertical w-100">
+        <button type="button" class="btn btn-outline-secondary text-start" data-correct="false" onclick="checkAnswer(this, false)">create</button>
+        <button type="button" class="btn btn-outline-secondary text-start" data-correct="true"  onclick="checkAnswer(this, true)"><code>let</code></button>
+        <button type="button" class="btn btn-outline-secondary text-start" data-correct="false" onclick="checkAnswer(this, false)">variable</button>
+        <button type="button" class="btn btn-outline-secondary text-start" data-correct="false" onclick="checkAnswer(this, false)">def</button>
+      </div>
+      <div class="quiz-feedback small mt-2"></div>
+
+      <button type="button" class="btn btn-link p-0 quiz-more d-none" data-bs-toggle="collapse" data-bs-target="#q1more" aria-expanded="false">
+        Vysvětlit podrobněji
+      </button>
+      <div id="q1more" class="collapse mt-2 small text-muted">
+        <strong><code>let</code></strong> vytvoří proměnnou, jejíž hodnota se může později změnit (reassign).
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-question mb-4" data-explain="<code>const</code> se používá pro hodnoty, které nechceš později přepisovat (reassign).">
+      <p><strong>2. Jaké klíčové slovo použiješ pro deklaraci konstanty (hodnota se nesmí později přepsat)?</strong></p>
+      <div class="btn-group-vertical w-100">
+        <button type="button" class="btn btn-outline-secondary text-start" data-correct="false" onclick="checkAnswer(this, false)"><code>let</code></button>
+        <button type="button" class="btn btn-outline-secondary text-start" data-correct="false" onclick="checkAnswer(this, false)"><code>var</code></button>
+        <button type="button" class="btn btn-outline-secondary text-start" data-correct="true"  onclick="checkAnswer(this, true)"><code>const</code></button>
+        <button type="button" class="btn btn-outline-secondary text-start" data-correct="false" onclick="checkAnswer(this, false)">private</button>
+      </div>
+      <div class="quiz-feedback small mt-2"></div>
+
+      <button type="button" class="btn btn-link p-0 quiz-more d-none" data-bs-toggle="collapse" data-bs-target="#q2more" aria-expanded="false">
+        Vysvětlit podrobněji
+      </button>
+      <div id="q2more" class="collapse mt-2 small text-muted">
+        U <code>const</code> musíš dát hodnotu hned: <code>const x = 10;</code>. Přepsání (<code>x = 11</code>) vyhodí chybu.
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-question mb-4" data-explain="Text v uvozovkách je v JS datový typ <code>string</code> (řetězec).">
+      <p><strong>3. Jaký datový typ má hodnota <code>"hello"</code>?</strong></p>
+      <div class="btn-group-vertical w-100">
+        <button type="button" class="btn btn-outline-secondary text-start" data-correct="true"  onclick="checkAnswer(this, true)"><code>string</code></button>
+        <button type="button" class="btn btn-outline-secondary text-start" data-correct="false" onclick="checkAnswer(this, false)"><code>number</code></button>
+        <button type="button" class="btn btn-outline-secondary text-start" data-correct="false" onclick="checkAnswer(this, false)"><code>boolean</code></button>
+        <button type="button" class="btn btn-outline-secondary text-start" data-correct="false" onclick="checkAnswer(this, false)"><code>undefined</code></button>
+      </div>
+      <div class="quiz-feedback small mt-2"></div>
+
+      <button type="button" class="btn btn-link p-0 quiz-more d-none" data-bs-toggle="collapse" data-bs-target="#q3more" aria-expanded="false">
+        Vysvětlit podrobněji
+      </button>
+      <div id="q3more" class="collapse mt-2 small text-muted">
+        Řetězec (string) je „sekvence znaků“ – může obsahovat písmena, čísla, symboly, emoji…
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="quiz-question mb-4" data-explain="Protože <code>\"69420\"</code> je v uvozovkách, jde o text – tedy <code>string</code>.">
+      <p><strong>4. Co vypíše následující kód do konzole?</strong></p>
+      <p class="mb-2"><code>console.log(typeof "69420")</code></p>
+      <div class="btn-group-vertical w-100">
+        <button type="button" class="btn btn-outline-secondary text-start" data-correct="false" onclick="checkAnswer(this, false)"><code>"69420"</code></button>
+        <button type="button" class="btn btn-outline-secondary text-start" data-correct="false" onclick="checkAnswer(this, false)"><code>number</code></button>
+        <button type="button" class="btn btn-outline-secondary text-start" data-correct="false" onclick="checkAnswer(this, false)"><code>boolean</code></button>
+        <button type="button" class="btn btn-outline-secondary text-start" data-correct="true"  onclick="checkAnswer(this, true)"><code>string</code></button>
+      </div>
+      <div class="quiz-feedback small mt-2"></div>
+
+      <button type="button" class="btn btn-link p-0 quiz-more d-none" data-bs-toggle="collapse" data-bs-target="#q4more" aria-expanded="false">
+        Vysvětlit podrobněji
+      </button>
+      <div id="q4more" class="collapse mt-2 small text-muted">
+        <code>typeof</code> vždy vrací textový název typu, např. <code>"string"</code>, <code>"number"</code>, <code>"boolean"</code>…
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="quiz-question mb-4" data-explain="Operátor <code>%</code> (modulo) vrací zbytek po dělení. <code>10 : 3</code> zbytek je <code>1</code>.">
+      <p><strong>5. Jaký je výsledek výrazu <code>10 % 3</code>?</strong></p>
+      <div class="btn-group-vertical w-100">
+        <button type="button" class="btn btn-outline-secondary text-start" data-correct="false" onclick="checkAnswer(this, false)">3</button>
+        <button type="button" class="btn btn-outline-secondary text-start" data-correct="true"  onclick="checkAnswer(this, true)">1</button>
+        <button type="button" class="btn btn-outline-secondary text-start" data-correct="false" onclick="checkAnswer(this, false)">0</button>
+        <button type="button" class="btn btn-outline-secondary text-start" data-correct="false" onclick="checkAnswer(this, false)">13</button>
+      </div>
+      <div class="quiz-feedback small mt-2"></div>
+
+      <button type="button" class="btn btn-link p-0 quiz-more d-none" data-bs-toggle="collapse" data-bs-target="#q5more" aria-expanded="false">
+        Vysvětlit podrobněji
+      </button>
+      <div id="q5more" class="collapse mt-2 small text-muted">
+        Modulo se často používá na sudá/lichá čísla: <code>n % 2 === 0</code> znamená „sudé“.
+      </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="quiz-question mb-4" data-explain="Deklarace + inicializace v jednom řádku: <code>let age = 21;</code>">
+      <p><strong>6. Vyber správný zápis, který deklaruje a inicializuje proměnnou v JavaScriptu.</strong></p>
+      <div class="btn-group-vertical w-100">
+        <button type="button" class="btn btn-outline-secondary text-start" data-correct="false" onclick="checkAnswer(this, false)"><code>let age;</code></button>
+        <button type="button" class="btn btn-outline-secondary text-start" data-correct="false" onclick="checkAnswer(this, false)"><code>const age</code></button>
+        <button type="button" class="btn btn-outline-secondary text-start" data-correct="false" onclick="checkAnswer(this, false)"><code>let age == 21;</code></button>
+        <button type="button" class="btn btn-outline-secondary text-start" data-correct="true"  onclick="checkAnswer(this, true)"><code>let age = 21;</code></button>
+      </div>
+      <div class="quiz-feedback small mt-2"></div>
+
+      <button type="button" class="btn btn-link p-0 quiz-more d-none" data-bs-toggle="collapse" data-bs-target="#q6more" aria-expanded="false">
+        Vysvětlit podrobněji
+      </button>
+      <div id="q6more" class="collapse mt-2 small text-muted">
+        <code>==</code> je porovnání (rovnost), ne přiřazení. Přiřazení hodnoty je vždy jen jedno <code>=</code>.
+      </div>
+    </div>
+
+    <!-- Q7 -->
+      <div class="quiz-question mb-4 p-3 border rounded bg-light"
+           data-explain="Když je v operaci + alespoň jedna strana string, JavaScript často spojí hodnoty jako text.">
+        <div class="d-flex justify-content-between align-items-start">
+          <p class="mb-2"><strong>7. Co vypíše následující kód?</strong></p>
+          <span class="quiz-status small"></span>
+        </div>
+
+        <pre class="bg-white border rounded p-2 mb-2"><code>console.log("5" + 3);</code></pre>
+
+        <div class="btn-group-vertical w-100">
+          <button class="btn btn-outline-secondary text-start" data-correct="false" onclick="checkAnswer(this, false)">8</button>
+          <button class="btn btn-outline-secondary text-start" data-correct="false" onclick="checkAnswer(this, false)">"8"</button>
+          <button class="btn btn-outline-secondary text-start" data-correct="false" onclick="checkAnswer(this, false)">53</button>
+          <button class="btn btn-outline-secondary text-start" data-correct="true"  onclick="checkAnswer(this, true)">"53"</button>
+          <button class="btn btn-outline-secondary text-start" data-correct="false" onclick="checkAnswer(this, false)">undefined</button>
+        </div>
+
+        <div class="quiz-feedback mt-2 small"></div>
+
+        <button class="btn btn-sm btn-outline-primary mt-2 quiz-more d-none" type="button"
+          data-bs-toggle="collapse" data-bs-target="#q3322-1-more">Vysvětlit podrobněji</button>
+        <div id="q3322-1-more" class="collapse mt-2">
+          <div class="alert alert-info mb-0">
+            <code>"5"</code> je string, takže <code>+</code> provede „slepení“: vznikne <code>"53"</code>.
+          </div>
+        </div>
+      </div>
+
+      <!-- Q8 -->
+      <div class="quiz-question mb-4 p-3 border rounded bg-light"
+           data-explain="JavaScript umí převést boolean na číslo: true → 1, false → 0.">
+        <div class="d-flex justify-content-between align-items-start">
+          <p class="mb-2"><strong>8. Jaký je výsledek výrazu <code>true + 1</code>?</strong></p>
+          <span class="quiz-status small"></span>
+        </div>
+
+        <div class="btn-group-vertical w-100">
+          <button class="btn btn-outline-secondary text-start" data-correct="false" onclick="checkAnswer(this, false)">true1</button>
+          <button class="btn btn-outline-secondary text-start" data-correct="true"  onclick="checkAnswer(this, true)">2</button>
+          <button class="btn btn-outline-secondary text-start" data-correct="false" onclick="checkAnswer(this, false)">NaN</button>
+          <button class="btn btn-outline-secondary text-start" data-correct="false" onclick="checkAnswer(this, false)">"true1"</button>
+        </div>
+
+        <div class="quiz-feedback mt-2 small"></div>
+      </div>
+
+      <!-- Q9 -->
+      <div class="quiz-question mb-4 p-3 border rounded bg-light"
+           data-explain="Operátor * pracuje s čísly, takže JavaScript zkusí string převést na number a pak násobí.">
+        <div class="d-flex justify-content-between align-items-start">
+          <p class="mb-2"><strong>9. Jaký je výsledek výrazu <code>"5" * 2</code>?</strong></p>
+          <span class="quiz-status small"></span>
+        </div>
+
+        <div class="btn-group-vertical w-100">
+          <button class="btn btn-outline-secondary text-start" data-correct="false" onclick="checkAnswer(this, false)">"52"</button>
+          <button class="btn btn-outline-secondary text-start" data-correct="false" onclick="checkAnswer(this, false)">NaN</button>
+          <button class="btn btn-outline-secondary text-start" data-correct="true"  onclick="checkAnswer(this, true)">10</button>
+          <button class="btn btn-outline-secondary text-start" data-correct="false" onclick="checkAnswer(this, false)">"10"</button>
+        </div>
+
+        <div class="quiz-feedback mt-2 small"></div>
+      </div>
+  </div>
+   <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">✅ Co jsme se naučili? (Shrnutí + tahák)</h3>
+    <p class="mb-3">
+      Než půjdeme dál, tady je rychlé opakování pojmů. Ber to jako mini tahák, ke kterému se můžeš vracet.
+    </p>
+
+    <h5>Proměnné</h5>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>let</strong> – proměnná, kterou můžeš měnit: <code>let name = "Anna";</code></li>
+      <li class="list-group-item"><strong>const</strong> – konstanta (nemá se přepisovat): <code>const PI = 3.14;</code></li>
+      <li class="list-group-item"><strong>var</strong> – existuje, ale je zastaralé (drž se let/const).</li>
+    </ul>
+
+    <h5>Datové typy</h5>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>string</strong> – text v uvozovkách: <code>"hello"</code></li>
+      <li class="list-group-item"><strong>number</strong> – číslo: <code>42</code>, <code>3.14</code></li>
+      <li class="list-group-item"><strong>boolean</strong> – logická hodnota: <code>true</code> / <code>false</code></li>
+      <li class="list-group-item"><strong>undefined</strong> – proměnná existuje, ale nemá hodnotu</li>
+      <li class="list-group-item"><strong>null</strong> – úmyslně nastavená „prázdná“ hodnota</li>
+    </ul>
+
+    <h5>Operátory</h5>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Aritmetické</strong>: <code>+</code> <code>-</code> <code>*</code> <code>/</code> <code>%</code> <code>**</code></li>
+      <li class="list-group-item"><strong>Zkrácené přiřazení</strong>: <code>+=</code> <code>-=</code> <code>*=</code> <code>/=</code> <code>%=</code></li>
+      <li class="list-group-item"><strong>Inkrement/dekrement</strong>: <code>++</code>, <code>--</code></li>
+      <li class="list-group-item"><strong>Priorita</strong>: násobení před sčítáním; závorky mění pořadí</li>
+    </ul>
+
+    <h5>typeof + převody typů</h5>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>typeof</strong> zjistí typ: <code>typeof "ahoj"</code> → <code>"string"</code></li>
+      <li class="list-group-item"><strong>Coercion</strong>: JS někdy typ převede sám (pozor na <code>"5" + 3</code> → <code>"53"</code>)</li>
+      <li class="list-group-item"><strong>Explicitní převod</strong>: <code>Number()</code>, <code>String()</code>, <code>Boolean()</code>, nebo unary plus <code>+"5"</code></li>
+      <li class="list-group-item"><strong>NaN</strong>: „Not a Number“ (neplatný číselný výsledek), např. <code>"abc" - 2</code></li>
+    </ul>
+
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Na coercion se nespoléhej „schválně“. Když chceš převod, udělej ho raději explicitně.
+    </div>
+  </div>
+
+  <!-- Odkazy -->
+  <hr>
+  <h6>Odkazy na použité zdroje</h6>
+  <ol class="small">
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_operators" target="_blank" rel="noopener">MDN: Expressions and operators</a></li>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof" target="_blank" rel="noopener">MDN: typeof</a></li>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Glossary/Type_coercion" target="_blank" rel="noopener">MDN: Type coercion</a></li>
+  </ol>
+</section>
+
