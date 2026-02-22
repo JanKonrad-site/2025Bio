@@ -153,282 +153,365 @@ if (totalPrice &gt;= 100) {
     </div>
   </div>
 
-  <!-- =========================
-       5) KVÍZ podle screenshotů
-  ========================== -->
   <hr class="my-5">
 
-  <h5 class="mt-4">Kvíz: Porovnávání a podmínky</h5>
-  <p class="text-muted">Klikni na odpověď. Po volbě se možností uzamknou a uvidíš vysvětlení. Tlačítkem dole můžeš kvíz resetovat.</p>
+<h5 class="mt-4">Kvíz: Porovnávání a podmínky</h5>
+<p class="text-muted">Klikni na odpověď. Po volbě se možnosti uzamknou a uvidíš vysvětlení. Tlačítkem dole můžeš kvíz resetovat.</p>
 
-  <div id="quiz-compare-if" class="quiz-wrap">
+<div id="quiz-compare-if" class="quiz-wrap">
 
-    <!-- Q1 -->
-    <div class="quiz-question mb-4"
-         data-explain="Operátor <code>&gt;</code> porovnává dvě hodnoty a vrací <code>true</code>, pokud je levá strana větší."
-         data-more="Porovnání vždy vrací boolean. Např. <code>10 &gt; 3</code> je <code>true</code>, ale <code>2 &gt; 9</code> je <code>false</code>.">
-      <p class="quiz-title"><strong>Otázka 1:</strong></p>
-      <p><strong>Co dělá operátor <code>&gt;</code>?</strong></p>
+  <!-- Q1 -->
+  <div class="quiz-question mb-4"
+       data-explain="Správně: Operátor <code>&gt;</code> porovnává dvě hodnoty a vrací <code>true</code>, pokud je levá strana větší než pravá.">
+    <p><strong>1. Co dělá operátor <code>&gt;</code>?</strong></p>
 
-      <div class="btn-group-vertical w-100 gap-2">
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="false" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> Porovnává, zda jsou dvě hodnoty stejné</span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="false" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> Kontroluje, zda se dvě hodnoty nerovnají</span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="true" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> Zjišťuje, zda je levá hodnota větší než pravá</span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="false" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> Přiřazuje hodnotu proměnné</span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-      </div>
-
-      <div class="quiz-feedback small mt-2"></div>
-      <button type="button" class="btn btn-link p-0 quiz-more d-none" onclick="toggleQuizMore(this)">✨ Vysvětlit podrobněji</button>
-      <div class="quiz-details d-none small mt-2 text-muted"></div>
+    <div class="btn-group-vertical w-100">
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">
+        Porovnává, zda jsou dvě hodnoty stejné
+      </button>
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">
+        Kontroluje, zda se dvě hodnoty nerovnají
+      </button>
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)">
+        Zjišťuje, zda je levá hodnota větší než pravá
+      </button>
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">
+        Přiřazuje hodnotu proměnné
+      </button>
     </div>
 
-    <!-- Q2 -->
-    <div class="quiz-question mb-4"
-         data-explain="Výraz <code>x &lt; 7</code> je pravdivý, protože 5 je menší než 7."
-         data-more="Pozor na rozdíl: <code>true</code> je boolean, zatímco <code>&quot;true&quot;</code> je řetězec (text).">
-      <p class="quiz-title"><strong>Otázka 2:</strong></p>
-      <p><strong>Co vypíše tento kód do konzole?</strong></p>
-      <pre class="mb-2"><code class="language-js">let x = 5;
+    <div class="quiz-feedback mt-2 small"></div>
+    <button class="btn btn-link px-0 mt-1 d-none quiz-more" type="button" data-bs-toggle="modal" data-bs-target="#jsCmpModalQ1">
+      Vysvětlit podrobněji
+    </button>
+  </div>
+
+  <!-- Q2 -->
+  <div class="quiz-question mb-4"
+       data-explain="Správně: Výraz <code>x &lt; 7</code> je pravdivý, protože 5 je menší než 7.">
+    <p><strong>2. Co vypíše tento kód do konzole?</strong></p>
+    <pre class="mb-2"><code class="language-js">let x = 5;
 console.log(x &lt; 7);</code></pre>
 
-      <div class="btn-group-vertical w-100 gap-2">
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="false" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> <code>"true"</code></span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="true" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> <code>true</code></span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="false" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> <code>5</code></span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="false" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> <code>undefined</code></span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="false" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> <code>false</code></span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-      </div>
-
-      <div class="quiz-feedback small mt-2"></div>
-      <button type="button" class="btn btn-link p-0 quiz-more d-none" onclick="toggleQuizMore(this)">✨ Vysvětlit podrobněji</button>
-      <div class="quiz-details d-none small mt-2 text-muted"></div>
+    <div class="btn-group-vertical w-100">
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)"><code>"true"</code></button>
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)"><code>true</code></button>
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)"><code>5</code></button>
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)"><code>undefined</code></button>
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)"><code>false</code></button>
     </div>
 
-    <!-- Q3 -->
-    <div class="quiz-question mb-4"
-         data-explain="U operátoru <code>==</code> JavaScript převádí typy. <code>false</code> se převede na 0, takže <code>false == 0</code> vyjde <code>true</code>."
-         data-more="Proto se v praxi preferuje <code>===</code>. Např. <code>false === 0</code> je <code>false</code>, protože typy se liší (boolean vs number).">
-      <p class="quiz-title"><strong>Otázka 3:</strong></p>
-      <p><strong>Jaký bude výsledek porovnání <code>false == 0</code>?</strong></p>
+    <div class="quiz-feedback mt-2 small"></div>
+    <button class="btn btn-link px-0 mt-1 d-none quiz-more" type="button" data-bs-toggle="modal" data-bs-target="#jsCmpModalQ2">
+      Vysvětlit podrobněji
+    </button>
+  </div>
 
-      <div class="btn-group-vertical w-100 gap-2">
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="true" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> <code>true</code></span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="false" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> <code>TypeError</code></span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="false" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> <code>false</code></span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="false" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> <code>null</code></span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-      </div>
+  <!-- Q3 -->
+  <div class="quiz-question mb-4"
+       data-explain="Správně: U operátoru <code>==</code> JavaScript převádí typy. <code>false</code> se převede na 0, takže <code>false == 0</code> vyjde <code>true</code>.">
+    <p><strong>3. Jaký bude výsledek porovnání <code>false == 0</code>?</strong></p>
 
-      <div class="quiz-feedback small mt-2"></div>
-      <button type="button" class="btn btn-link p-0 quiz-more d-none" onclick="toggleQuizMore(this)">✨ Vysvětlit podrobněji</button>
-      <div class="quiz-details d-none small mt-2 text-muted"></div>
+    <div class="btn-group-vertical w-100">
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)"><code>true</code></button>
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)"><code>TypeError</code></button>
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)"><code>false</code></button>
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)"><code>null</code></button>
     </div>
 
-    <!-- Q4 -->
-    <div class="quiz-question mb-4"
-         data-explain="Operátor <code>!=</code> vrací <code>true</code>, když se hodnoty nerovnají."
-         data-more="Pozor: <code>!=</code> může převádět typy (stejně jako <code>==</code>). Bezpečnější je <code>!==</code>.">
-      <p class="quiz-title"><strong>Otázka 4:</strong></p>
-      <p><strong>Co kontroluje operátor <code>!=</code>?</strong></p>
+    <div class="quiz-feedback mt-2 small"></div>
+    <button class="btn btn-link px-0 mt-1 d-none quiz-more" type="button" data-bs-toggle="modal" data-bs-target="#jsCmpModalQ3">
+      Vysvětlit podrobněji
+    </button>
+  </div>
 
-      <div class="btn-group-vertical w-100 gap-2">
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="false" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> Zda jsou dvě hodnoty stejné</span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="false" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> Zda je jedna hodnota větší než druhá</span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="false" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> Zda mají hodnoty rozdílné typy</span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="true" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> Zda se dvě hodnoty nerovnají</span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-      </div>
+  <!-- Q4 -->
+  <div class="quiz-question mb-4"
+       data-explain="Správně: Operátor <code>!=</code> vrací <code>true</code>, když se hodnoty nerovnají.">
+    <p><strong>4. Co kontroluje operátor <code>!=</code>?</strong></p>
 
-      <div class="quiz-feedback small mt-2"></div>
-      <button type="button" class="btn btn-link p-0 quiz-more d-none" onclick="toggleQuizMore(this)">✨ Vysvětlit podrobněji</button>
-      <div class="quiz-details d-none small mt-2 text-muted"></div>
+    <div class="btn-group-vertical w-100">
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">
+        Zda jsou dvě hodnoty stejné
+      </button>
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">
+        Zda je jedna hodnota větší než druhá
+      </button>
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">
+        Zda mají hodnoty rozdílné typy
+      </button>
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)">
+        Zda se dvě hodnoty nerovnají
+      </button>
     </div>
 
-    <!-- Q5 -->
-    <div class="quiz-question mb-4"
-         data-explain="Každé porovnání vrací <code>true</code> nebo <code>false</code>, tedy datový typ <strong>boolean</strong>."
-         data-more="Např. <code>10 &gt; 5</code> → <code>true</code>, <code>10 === '10'</code> → <code>false</code>.">
-      <p class="quiz-title"><strong>Otázka 5:</strong></p>
-      <p><strong>Jaký datový typ vrací porovnání vždy?</strong></p>
+    <div class="quiz-feedback mt-2 small"></div>
+    <button class="btn btn-link px-0 mt-1 d-none quiz-more" type="button" data-bs-toggle="modal" data-bs-target="#jsCmpModalQ4">
+      Vysvětlit podrobněji
+    </button>
+  </div>
 
-      <div class="btn-group-vertical w-100 gap-2">
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="false" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> Number</span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="false" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> String</span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="true" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> Boolean</span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="false" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> Undefined</span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-      </div>
+  <!-- Q5 -->
+  <div class="quiz-question mb-4"
+       data-explain="Správně: Každé porovnání vrací <code>true</code> nebo <code>false</code>, tedy datový typ <strong>boolean</strong>.">
+    <p><strong>5. Jaký datový typ vrací porovnání vždy?</strong></p>
 
-      <div class="quiz-feedback small mt-2"></div>
-      <button type="button" class="btn btn-link p-0 quiz-more d-none" onclick="toggleQuizMore(this)">✨ Vysvětlit podrobněji</button>
-      <div class="quiz-details d-none small mt-2 text-muted"></div>
+    <div class="btn-group-vertical w-100">
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">Number</button>
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">String</button>
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)">Boolean</button>
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">Undefined</button>
     </div>
 
-    <!-- Q6 -->
-    <div class="quiz-question mb-4"
-         data-explain="<code>if</code> umožňuje spustit kód jen tehdy, když je podmínka splněná (true)."
-         data-more="Podmínky řídí tok programu: něco se stane jen v určitých situacích (věk, přihlášení, cena v košíku…).">
-      <p class="quiz-title"><strong>Otázka 6:</strong></p>
-      <p><strong>Jaký je účel příkazu <code>if</code> v programování?</strong></p>
+    <div class="quiz-feedback mt-2 small"></div>
+    <button class="btn btn-link px-0 mt-1 d-none quiz-more" type="button" data-bs-toggle="modal" data-bs-target="#jsCmpModalQ5">
+      Vysvětlit podrobněji
+    </button>
+  </div>
 
-      <div class="btn-group-vertical w-100 gap-2">
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="false" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> Opakovat blok kódu</span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="true" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> Rozhodovat se podle podmínky</span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="false" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> Deklarovat novou proměnnou</span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="false" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> Uložit více hodnot</span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-      </div>
+  <!-- Q6 -->
+  <div class="quiz-question mb-4"
+       data-explain="Správně: <code>if</code> umožňuje spustit kód jen tehdy, když je podmínka splněná (<code>true</code>).">
+    <p><strong>6. Jaký je účel příkazu <code>if</code> v programování?</strong></p>
 
-      <div class="quiz-feedback small mt-2"></div>
-      <button type="button" class="btn btn-link p-0 quiz-more d-none" onclick="toggleQuizMore(this)">✨ Vysvětlit podrobněji</button>
-      <div class="quiz-details d-none small mt-2 text-muted"></div>
+    <div class="btn-group-vertical w-100">
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">
+        Opakovat blok kódu
+      </button>
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)">
+        Rozhodovat se podle podmínky
+      </button>
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">
+        Deklarovat novou proměnnou
+      </button>
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">
+        Uložit více hodnot
+      </button>
     </div>
 
-    <!-- Q7 -->
-    <div class="quiz-question mb-4"
-         data-explain="Když je podmínka <code>false</code>, blok v <code>if</code> se neprovede (přeskočí se)."
-         data-more="Pokud chceš řešit i opačnou větev, použij <code>else</code>: když <code>if</code> neplatí, provede se <code>else</code>.">
-      <p class="quiz-title"><strong>Otázka 7:</strong></p>
-      <p><strong>Co se stane, když je podmínka v <code>if</code> nepravdivá (<code>false</code>)?</strong></p>
+    <div class="quiz-feedback mt-2 small"></div>
+    <button class="btn btn-link px-0 mt-1 d-none quiz-more" type="button" data-bs-toggle="modal" data-bs-target="#jsCmpModalQ6">
+      Vysvětlit podrobněji
+    </button>
+  </div>
 
-      <div class="btn-group-vertical w-100 gap-2">
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="true" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> Blok kódu se přeskočí</span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="false" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> Kód uvnitř bloku se spustí</span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="false" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> Prohlížeč spadne</span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="false" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> Vznikne chyba syntaxe</span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-      </div>
+  <!-- Q7 -->
+  <div class="quiz-question mb-4"
+       data-explain="Správně: Když je podmínka <code>false</code>, blok v <code>if</code> se neprovede (přeskočí se).">
+    <p><strong>7. Co se stane, když je podmínka v <code>if</code> nepravdivá (<code>false</code>)?</strong></p>
 
-      <div class="quiz-feedback small mt-2"></div>
-      <button type="button" class="btn btn-link p-0 quiz-more d-none" onclick="toggleQuizMore(this)">✨ Vysvětlit podrobněji</button>
-      <div class="quiz-details d-none small mt-2 text-muted"></div>
+    <div class="btn-group-vertical w-100">
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)">
+        Blok kódu se přeskočí
+      </button>
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">
+        Kód uvnitř bloku se spustí
+      </button>
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">
+        Prohlížeč spadne
+      </button>
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">
+        Vznikne chyba syntaxe
+      </button>
     </div>
 
-    <!-- Q8 -->
-    <div class="quiz-question mb-4"
-         data-explain="Podmínka <code>age &gt; 18</code> je při <code>age = 15</code> nepravdivá, takže se <code>console.log</code> neprovede."
-         data-more="Kdyby bylo <code>age = 19</code>, pak by se do konzole vypsalo <code>Adult</code>.">
-      <p class="quiz-title"><strong>Otázka 8:</strong></p>
-      <p><strong>Co vypíše tento kód?</strong></p>
-      <pre class="mb-2"><code class="language-js">let age = 15;
+    <div class="quiz-feedback mt-2 small"></div>
+    <button class="btn btn-link px-0 mt-1 d-none quiz-more" type="button" data-bs-toggle="modal" data-bs-target="#jsCmpModalQ7">
+      Vysvětlit podrobněji
+    </button>
+  </div>
+
+  <!-- Q8 -->
+  <div class="quiz-question mb-4"
+       data-explain="Správně: Podmínka <code>age &gt; 18</code> je při <code>age = 15</code> nepravdivá, takže se <code>console.log</code> neprovede.">
+    <p><strong>8. Co vypíše tento kód?</strong></p>
+    <pre class="mb-2"><code class="language-js">let age = 15;
 
 if (age &gt; 18) {
   console.log("Adult");
 }</code></pre>
 
-      <div class="btn-group-vertical w-100 gap-2">
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="true" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> Nic se nevypíše</span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="false" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> <code>"Adult"</code></span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="false" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> <code>true</code></span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-        <button type="button" class="btn btn-outline-secondary text-start quiz-option" data-correct="false" onclick="checkAnswer(this)">
-          <span class="quiz-left"><span class="quiz-radio"></span> <code>15</code></span>
-          <span class="quiz-tag d-none"></span>
-        </button>
-      </div>
-
-      <div class="quiz-feedback small mt-2"></div>
-      <button type="button" class="btn btn-link p-0 quiz-more d-none" onclick="toggleQuizMore(this)">✨ Vysvětlit podrobněji</button>
-      <div class="quiz-details d-none small mt-2 text-muted"></div>
+    <div class="btn-group-vertical w-100">
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)">
+        Nic se nevypíše
+      </button>
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">
+        <code>"Adult"</code>
+      </button>
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">
+        <code>true</code>
+      </button>
+      <button type="button" class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">
+        <code>15</code>
+      </button>
     </div>
 
-    <button type="button" class="btn btn-sm btn-outline-primary" onclick="resetQuiz('quiz-compare-if')">
-      Resetovat kvíz
+    <div class="quiz-feedback mt-2 small"></div>
+    <button class="btn btn-link px-0 mt-1 d-none quiz-more" type="button" data-bs-toggle="modal" data-bs-target="#jsCmpModalQ8">
+      Vysvětlit podrobněji
     </button>
   </div>
+
+  <button type="button" class="btn btn-sm btn-outline-primary" onclick="resetQuiz('quiz-compare-if')">
+    Resetovat kvíz
+  </button>
+</div>
+
+
+<!-- =======================
+     MODALY – Vysvětlit podrobněji
+======================= -->
+
+<!-- Modal Q1 -->
+<div class="modal fade" id="jsCmpModalQ1" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Otázka 1 – Operátor &gt;</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Porovnání vždy vrací <strong>boolean</strong> (tedy <code>true</code> nebo <code>false</code>).</p>
+        <p>Příklady:</p>
+        <ul>
+          <li><code>10 &gt; 3</code> → <code>true</code></li>
+          <li><code>2 &gt; 9</code> → <code>false</code></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Q2 -->
+<div class="modal fade" id="jsCmpModalQ2" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Otázka 2 – Výstup porovnání</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p><code>x</code> je 5, takže <code>x &lt; 7</code> je pravda → vypíše se <code>true</code>.</p>
+        <p><strong>Pozor:</strong> <code>true</code> je boolean, ale <code>"true"</code> je řetězec (text).</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Q3 -->
+<div class="modal fade" id="jsCmpModalQ3" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Otázka 3 – Proč false == 0 vyjde true?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Operátor <code>==</code> dělá <strong>typovou konverzi</strong> (coercion).</p>
+        <p><code>false</code> se při <code>==</code> převede na <code>0</code>, takže:</p>
+        <ul>
+          <li><code>false == 0</code> → <code>true</code></li>
+        </ul>
+        <p>Proto je v praxi bezpečnější používat <code>===</code>:</p>
+        <ul>
+          <li><code>false === 0</code> → <code>false</code> (lišší se typ: boolean vs number)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Q4 -->
+<div class="modal fade" id="jsCmpModalQ4" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Otázka 4 – Operátor !=</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p><code>!=</code> vrací <code>true</code>, když se hodnoty nerovnají.</p>
+        <p><strong>Pozor:</strong> stejně jako <code>==</code může převádět typy. Bezpečnější je <code>!==</code>.</p>
+        <ul>
+          <li><code>5 != "5"</code> → <code>false</code> (uvolněné porovnání po konverzi)</li>
+          <li><code>5 !== "5"</code> → <code>true</code> (lišší se typy)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Q5 -->
+<div class="modal fade" id="jsCmpModalQ5" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Otázka 5 – Co vrací porovnání?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Jakékoli porovnání vrací vždy <strong>boolean</strong>:</p>
+        <ul>
+          <li><code>10 &gt; 5</code> → <code>true</code></li>
+          <li><code>10 === "10"</code> → <code>false</code></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Q6 -->
+<div class="modal fade" id="jsCmpModalQ6" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Otázka 6 – K čemu je if?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p><code>if</code> řídí tok programu: kód se provede jen tehdy, když je podmínka <code>true</code>.</p>
+        <p>Použití: věk uživatele, přihlášení, cena v košíku, stav hry…</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Q7 -->
+<div class="modal fade" id="jsCmpModalQ7" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Otázka 7 – Co když je podmínka false?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Když je podmínka <code>false</code>, blok v <code>if</code> se přeskočí.</p>
+        <p>Pokud chceš řešit i opačný případ, použij <code>else</code>:</p>
+        <pre class="mb-0"><code class="language-js">if (podminka) {
+  // když true
+} else {
+  // když false
+}</code></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Q8 -->
+<div class="modal fade" id="jsCmpModalQ8" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Otázka 8 – Proč se nic nevypíše?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Při <code>age = 15</code> je podmínka <code>age &gt; 18</code> nepravdivá, takže se blok neprovede.</p>
+        <p>Kdyby bylo <code>age = 19</code>, vypsalo by se do konzole <code>Adult</code>.</p>
+      </div>
+    </div>
+  </div>
+</div>
 
   <!-- Shrnutí -->
   <div class="container my-5 p-4 border rounded bg-light">
