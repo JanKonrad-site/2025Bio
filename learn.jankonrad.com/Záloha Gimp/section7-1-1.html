@@ -1,0 +1,453 @@
+<!-- 7.1.1 Rastrová grafika — GIMP (bez Bootstrapu) -->
+<section id="section7-1-1" class="lesson">
+
+  <header class="lesson__header">
+    <h2 class="lesson__title">7.1.1 Rastrová grafika — GIMP</h2>
+    <p class="lesson__lead">
+      Postup přesně podle pracovního listu: instalace GIMPu, nastavení rozhraní, práce s vrstvami, pravítky a textem.
+    </p>
+  </header>
+
+  <!-- Co se naučíš -->
+  <article class="card">
+    <h3 class="card__title">Co se naučíš?</h3>
+
+    <ul class="checklist">
+      <li><strong>Stažení &amp; instalace</strong> GIMPu správným nastavením instalátoru.</li>
+      <li><strong>Preferences</strong>: jazyk, téma, ikony, systémové zdroje, výchozí obraz.</li>
+      <li><strong>Nový soubor</strong> — šablona FullHD, rozlišení X/Y, barevný prostor.</li>
+      <li><strong>Import</strong> — <em>Open</em>, přidání složky do rychlého přístupu, <em>Open as Layers</em>.</li>
+      <li><strong>Layout &amp; nástroje</strong> — zoom, pravítka, vrstvy, text a zarovnání.</li>
+    </ul>
+
+    <div class="note note--info">
+      <strong>Tip:</strong> Pokud je práce pomalá, uprav v <em>Preferences → System Resources</em> hodnoty
+      <em>Tile Cache Size</em> a <em>Number of threads</em>.
+    </div>
+  </article>
+
+  <!-- Stahování materiálů -->
+  <div class="actions">
+    <a class="btn btn--primary"
+       href="https://github.com/JanKonrad-site/GimpAssets.git" target="_blank" rel="noopener">
+      Stáhnout balíček obrázků k lekci 1
+    </a>
+
+    <a class="btn btn--ghost"
+       href="https://www.gimp.org/downloads/" target="_blank" rel="noopener">
+      Stáhnout GIMP (oficiální)
+    </a>
+  </div>
+
+  <!-- Akordeony -->
+  <div class="accordion">
+
+    <!-- 1) Stažení & instalace -->
+    <details class="acc" open>
+      <summary class="acc__sum">1) Stažení &amp; instalace</summary>
+      <div class="acc__body">
+        <ol class="steps">
+          <li>Na stránce <a href="https://www.gimp.org/downloads/" target="_blank" rel="noopener">GIMP Downloads</a> klikni na <strong>Download</strong>, zvol <strong>Windows</strong> a pokračuj na <em>Download GIMP directly</em>.</li>
+          <li>Potvrď bezpečnostní upozornění, v instalátoru zvol <strong>Customize</strong>, potvrď licenci a cestu k instalaci.</li>
+          <li>Po dokončení instalace <strong>otevři aplikaci</strong>.</li>
+        </ol>
+
+        <!-- Galerie ke kroku (bez BS ratio/card) -->
+        <figure class="gcard">
+          <div class="jk-frame is-16x9">
+            <img id="img-install"
+                 class="jk-media"
+                 loading="lazy" decoding="async"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image1.png"
+                 alt="Stažení a instalace GIMPu">
+          </div>
+
+          <figcaption class="gbar">
+            <button class="btn btn--sm btn--ghost" data-gallery-prev="img-install" type="button">◀ Předchozí</button>
+            <span class="gmeta">Obrázky z pracovního listu</span>
+            <button class="btn btn--sm btn--ghost" data-gallery-next="img-install" type="button">Další ▶</button>
+          </figcaption>
+
+          <div data-gallery-src="img-install"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image1.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image2.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image3.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image4.png"
+               ]'></div>
+        </figure>
+      </div>
+    </details>
+
+    <!-- 2) Nastavení prostředí -->
+    <details class="acc">
+      <summary class="acc__sum">2) Nastavení prostředí (Preferences)</summary>
+      <div class="acc__body">
+
+        <!-- vnořený akordeon -->
+        <div class="accordion">
+
+          <!-- 2.1 Jazyk -->
+          <details class="acc" open>
+            <summary class="acc__sum">2.1 Jazyk (Interface → Language)</summary>
+            <div class="acc__body">
+              <p>Upravit → <strong>Preferences</strong> → <strong>Interface</strong> → <strong>Language</strong> = English. Zavři a znovu otevři aplikaci.</p>
+
+              <figure class="gcard">
+                <div class="jk-frame is-16x9">
+                  <img id="img-lang"
+                       class="jk-media"
+                       loading="lazy" decoding="async"
+                       src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image5.png"
+                       alt="Nastavení jazyka">
+                </div>
+
+                <figcaption class="gbar">
+                  <button class="btn btn--sm btn--ghost" data-gallery-prev="img-lang" type="button">◀</button>
+                  <span class="gmeta">Jazyk rozhraní</span>
+                  <button class="btn btn--sm btn--ghost" data-gallery-next="img-lang" type="button">▶</button>
+                </figcaption>
+
+                <div data-gallery-src="img-lang"
+                     data-images='[
+                       "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image5.png",
+                       "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image6.png",
+                       "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image7.png",
+                       "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image8.png",
+                       "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image9.png"
+                     ]'></div>
+              </figure>
+            </div>
+          </details>
+
+          <!-- 2.2 Theme -->
+          <details class="acc">
+            <summary class="acc__sum">2.2 Téma (Interface → Theme)</summary>
+            <div class="acc__body">
+              <p>Zvol barvu pozadí podle preferencí.</p>
+
+              <figure class="gcard">
+                <div class="jk-frame is-16x9">
+                  <img id="img-theme"
+                       class="jk-media"
+                       loading="lazy" decoding="async"
+                       src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image10.png"
+                       alt="Výběr Theme">
+                </div>
+
+                <figcaption class="gbar">
+                  <button class="btn btn--sm btn--ghost" data-gallery-prev="img-theme" type="button">◀</button>
+                  <span class="gmeta">Theme</span>
+                  <button class="btn btn--sm btn--ghost" data-gallery-next="img-theme" type="button">▶</button>
+                </figcaption>
+
+                <div data-gallery-src="img-theme"
+                     data-images='[
+                       "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image10.png"
+                     ]'></div>
+              </figure>
+            </div>
+          </details>
+
+          <!-- 2.3 Ikony -->
+          <details class="acc">
+            <summary class="acc__sum">2.3 Ikony (Interface → Icon Theme)</summary>
+            <div class="acc__body">
+              <p>Zvol zobrazení ikon.</p>
+
+              <figure class="gcard">
+                <div class="jk-frame is-16x9">
+                  <img id="img-icons"
+                       class="jk-media"
+                       loading="lazy" decoding="async"
+                       src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image11.png"
+                       alt="Icon Theme">
+                </div>
+
+                <figcaption class="gbar">
+                  <button class="btn btn--sm btn--ghost" data-gallery-prev="img-icons" type="button">◀</button>
+                  <span class="gmeta">Ikony</span>
+                  <button class="btn btn--sm btn--ghost" data-gallery-next="img-icons" type="button">▶</button>
+                </figcaption>
+
+                <div data-gallery-src="img-icons"
+                     data-images='[
+                       "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image11.png"
+                     ]'></div>
+              </figure>
+            </div>
+          </details>
+
+          <!-- 2.4 System Resources -->
+          <details class="acc">
+            <summary class="acc__sum">2.4 System Resources (Undo, Tile Cache, Threads…)</summary>
+            <div class="acc__body">
+              <ul class="bullets">
+                <li><em>Minimal number of undo levels</em>, <em>Maximum undo memory</em></li>
+                <li><em>Tile Cache Size</em>, <em>Swap compression</em>, <em>Number of threads</em></li>
+              </ul>
+
+              <figure class="gcard">
+                <div class="jk-frame is-16x9">
+                  <img id="img-res"
+                       class="jk-media"
+                       loading="lazy" decoding="async"
+                       src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image12.png"
+                       alt="System Resources">
+                </div>
+
+                <figcaption class="gbar">
+                  <button class="btn btn--sm btn--ghost" data-gallery-prev="img-res" type="button">◀</button>
+                  <span class="gmeta">System Resources</span>
+                  <button class="btn btn--sm btn--ghost" data-gallery-next="img-res" type="button">▶</button>
+                </figcaption>
+
+                <div data-gallery-src="img-res"
+                     data-images='[
+                       "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image12.png"
+                     ]'></div>
+              </figure>
+            </div>
+          </details>
+
+          <!-- 2.5 Default Image -->
+          <details class="acc">
+            <summary class="acc__sum">2.5 Default Image (velikost, X/Y resolution, Color Space, Gamma)</summary>
+            <div class="acc__body">
+              <p>Nastav šablonu (např. FullHD), <em>X/Y resolution</em>, <em>Color Space</em> a <em>Gamma Precision</em>.</p>
+
+              <figure class="gcard">
+                <div class="jk-frame is-16x9">
+                  <img id="img-defimg"
+                       class="jk-media"
+                       loading="lazy" decoding="async"
+                       src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image14.png"
+                       alt="Default Image">
+                </div>
+
+                <figcaption class="gbar">
+                  <button class="btn btn--sm btn--ghost" data-gallery-prev="img-defimg" type="button">◀</button>
+                  <span class="gmeta">Default Image</span>
+                  <button class="btn btn--sm btn--ghost" data-gallery-next="img-defimg" type="button">▶</button>
+                </figcaption>
+
+                <div data-gallery-src="img-defimg"
+                     data-images='[
+                       "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image14.png"
+                     ]'></div>
+              </figure>
+            </div>
+          </details>
+
+          <!-- 2.6 Toolbox -->
+          <details class="acc">
+            <summary class="acc__sum">2.6 Toolbox (zrušit Use tool groups)</summary>
+            <div class="acc__body">
+              <p>V <em>Toolbox</em> odškrtni <strong>Use tool groups</strong>.</p>
+
+              <figure class="gcard">
+                <div class="jk-frame is-16x9">
+                  <img id="img-toolbox"
+                       class="jk-media"
+                       loading="lazy" decoding="async"
+                       src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image15.png"
+                       alt="Toolbox - Use tool groups">
+                </div>
+
+                <figcaption class="gbar">
+                  <button class="btn btn--sm btn--ghost" data-gallery-prev="img-toolbox" type="button">◀</button>
+                  <span class="gmeta">Toolbox</span>
+                  <button class="btn btn--sm btn--ghost" data-gallery-next="img-toolbox" type="button">▶</button>
+                </figcaption>
+
+                <div data-gallery-src="img-toolbox"
+                     data-images='[
+                       "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image15.png"
+                     ]'></div>
+              </figure>
+            </div>
+          </details>
+
+        </div>
+      </div>
+    </details>
+
+    <!-- 3) Nový soubor -->
+    <details class="acc">
+      <summary class="acc__sum">3) Vytvoření nového souboru (File → New → FullHD)</summary>
+      <div class="acc__body">
+        <p>V <strong>File → New</strong> zvol šablonu <strong>FullHD</strong> a potvrď.</p>
+
+        <figure class="gcard">
+          <div class="jk-frame is-16x9">
+            <img id="img-new"
+                 class="jk-media"
+                 loading="lazy" decoding="async"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image16.png"
+                 alt="Nový soubor - FullHD">
+          </div>
+
+          <figcaption class="gbar">
+            <button class="btn btn--sm btn--ghost" data-gallery-prev="img-new" type="button">◀</button>
+            <span class="gmeta">Nový soubor</span>
+            <button class="btn btn--sm btn--ghost" data-gallery-next="img-new" type="button">▶</button>
+          </figcaption>
+
+          <div data-gallery-src="img-new"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image16.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image17.png"
+               ]'></div>
+        </figure>
+      </div>
+    </details>
+
+    <!-- 4) Import obrázků -->
+    <details class="acc">
+      <summary class="acc__sum">4) Importování obrázků (Open, rychlý přístup, Open as Layers)</summary>
+      <div class="acc__body">
+        <ol class="steps">
+          <li>Ulož si obrázky do projektové složky <em>obrázky</em>.</li>
+          <li><strong>File → Open</strong> → vyber např. <em>man-4875665</em>.</li>
+          <li>V <strong>Open</strong> přidej složku <em>obrázky</em> do rychlého přístupu (ikona <strong>+</strong>).</li>
+          <li><strong>File → Open as Layers</strong> → vyber víc souborů → <em>Open</em>.</li>
+        </ol>
+
+        <figure class="gcard">
+          <div class="jk-frame is-16x9">
+            <img id="img-import"
+                 class="jk-media"
+                 loading="lazy" decoding="async"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image18.png"
+                 alt="Import - Open">
+          </div>
+
+          <figcaption class="gbar">
+            <button class="btn btn--sm btn--ghost" data-gallery-prev="img-import" type="button">◀</button>
+            <span class="gmeta">Import</span>
+            <button class="btn btn--sm btn--ghost" data-gallery-next="img-import" type="button">▶</button>
+          </figcaption>
+
+          <div data-gallery-src="img-import"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image18.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image19.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image20.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image21.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image22.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image23.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image24.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image25.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image26.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image27.png"
+               ]'></div>
+        </figure>
+      </div>
+    </details>
+
+    <!-- 5) Layout & pravítka -->
+    <details class="acc">
+      <summary class="acc__sum">5) Layout &amp; pravítka (Zoom, Ruler, vodítka)</summary>
+      <div class="acc__body">
+        <ul class="bullets">
+          <li><strong>Zoom:</strong> spodní lišta — přiblížení/oddálení.</li>
+          <li><strong>Ruler &amp; vodítka:</strong> přetáhni vodítka z horního/levého pravítka do třetin; kliknutím posun.</li>
+        </ul>
+
+        <figure class="gcard">
+          <div class="jk-frame">
+            <img id="img-layout"
+                 class="jk-media"
+                 loading="lazy" decoding="async"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image28.png"
+                 alt="Zoom a pravítka">
+          </div>
+
+          <figcaption class="gbar">
+            <button class="btn btn--sm btn--ghost" data-gallery-prev="img-layout" type="button">◀</button>
+            <span class="gmeta">Layout &amp; Ruler</span>
+            <button class="btn btn--sm btn--ghost" data-gallery-next="img-layout" type="button">▶</button>
+          </figcaption>
+
+          <div data-gallery-src="img-layout"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image28.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image29.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image30.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image31.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image32.png"
+               ]'></div>
+        </figure>
+      </div>
+    </details>
+
+    <!-- 6) Vrstvy & text -->
+    <details class="acc">
+      <summary class="acc__sum">6) Vrstvy &amp; text (nová vrstva, opacity, rozměry, text + zarovnání)</summary>
+      <div class="acc__body">
+        <ul class="bullets">
+          <li>V panelu <strong>Layers</strong> vytvoř novou vrstvu:
+            <ul>
+              <li><em>Color tag</em> = šedá, <em>Opacity</em> ≈ 30 %, <em>Width</em> = 600, <em>Height</em> = 200</li>
+              <li>Zarovnej vrstvu podle vodítek</li>
+            </ul>
+          </li>
+          <li>Přidej <strong>text</strong>, zarovnej na střed (případně <em>Move Tool</em>).</li>
+        </ul>
+
+        <figure class="gcard">
+          <div class="jk-frame is-16x9">
+            <img id="img-layers"
+                 class="jk-media"
+                 loading="lazy" decoding="async"
+                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image33.png"
+                 alt="Vrstvy a text">
+          </div>
+
+          <figcaption class="gbar">
+            <button class="btn btn--sm btn--ghost" data-gallery-prev="img-layers" type="button">◀</button>
+            <span class="gmeta">Vrstvy &amp; Text</span>
+            <button class="btn btn--sm btn--ghost" data-gallery-next="img-layers" type="button">▶</button>
+          </figcaption>
+
+          <div data-gallery-src="img-layers"
+               data-images='[
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image33.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image34.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image35.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image36.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image37.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image38.png",
+                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/image39.png"
+               ]'></div>
+        </figure>
+      </div>
+    </details>
+
+  </div>
+
+  <!-- Shrnutí -->
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+    <ul class="checklist">
+      <li>Umíš nainstalovat a spustit GIMP.</li>
+      <li>Nastavíš prostředí (jazyk, téma, ikony, systémové zdroje, výchozí obraz, toolbox).</li>
+      <li>Vytvoříš nový soubor, naimportuješ více snímků jako vrstvy.</li>
+      <li>Pracuješ s pravítky a vodítky, vytvoříš vrstvu s textem a zarovnáš ji.</li>
+    </ul>
+  </article>
+
+  <div class="actions">
+    <a class="btn btn--primary"
+       href="https://www.figma.com/proto/yQHnxCWv422inFSXguCTTJ/Untitled?page-id=0%3A1&node-id=1-3&p=f&viewport=1913%2C801%2C0.72&t=kNQAyrZpeHb52x9p-1&scaling=min-zoom&content-scaling=fixed"
+       target="_blank" rel="noopener">
+      Zobrazit vzor 1-1
+    </a>
+  </div>
+
+</section>
+
+<!-- POZNÁMKA:
+  Inline <script> sem už nedávej.
+  Ovládání galerie + fullscreen řeší globální assets/js/features/gallery.js (initGallery).
+-->
