@@ -1,215 +1,587 @@
-<!DOCTYPE html>
-<html lang="en" data-bs-theme="auto">
-
+<!doctype html>
+<html lang="cs">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="">
-  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-  <meta name="generator" content="Astro v5.7.10">
-  <title>Jan Konrád</title>
-  <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/carousel/">
-  <script src="../assets/js/color-modes.js"></script>
-  <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
- 
- 
-
-  <link rel="stylesheet" href="./carousel.css">
-  <link rel="stylesheet" href="./carousel.rtl.css">
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BIO page</title>
+  <meta name="description" content="BIO page k přijímačkám – O mně, Výuka, Projekty, Kontakt." />
+  <link rel="stylesheet" href="./styles.css" />
 </head>
 
-<body> 
+<body>
+  <main class="app" id="app">
 
-  <header data-bs-theme="dark">
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-      <div class="container-fluid"> <a class="navbar-brand" href="#">Jan Konrád</a> <button class="navbar-toggler"
-          type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse"
-          aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-          <ul class="navbar-nav me-auto mb-2 mb-md-0">
-            <li class="nav-item"> <a class="nav-link " aria-current="page" href="./index.html">Domů</a> </li>
-            <li class="nav-item"> <a class="nav-link" aria-current="page" href="./learn.jankonrad.com/index.html">Výuka</a> </li>
-            <li class="nav-item"> <a class="nav-link" href="#">3D grafika</a> </li>
-            <li class="nav-item"> <a class="nav-link" href="#">Webové stránky</a> </li>
-            <li class="nav-item"> <a class="nav-link" href="#">Kontakt</a> </li>
+    <!-- =========================
+         SECTION 1: HERO (photo only)
+         ========================= -->
+    <section class="pageSection heroSection" id="hero" aria-label="Úvodní fotografie">
+      <div class="heroPhoto" aria-hidden="true">
+        <img src="./assets/hero.jpg" alt="" />
+      </div>
+
+      <button class="navBtn navBtn--down navBtn--large" type="button" data-jump="#hub" aria-label="Přejít na profil"></button>
+    </section>
+
+    <!-- =========================
+         SECTION 2: HUB (single-column grid)
+         ========================= -->
+    <section class="pageSection hubSection" id="hub" aria-label="Profilové sekce">
+      <div class="container">
+        <div class="hubGrid" aria-label="Sekce profilu">
+
+          <!-- ABOUT -->
+          <button class="tile tile--about" type="button" data-open="about" aria-label="O mně">
+            <div class="tile__media">
+              <img src="./assets/about.webp" alt="" aria-hidden="true" />
+            </div>
+            <div class="tile__overlay" aria-hidden="true"></div>
+            <div class="tile__content">
+              <div class="tile__title">O mně</div>
           
-          </ul>
-       
-        </div>
-      </div>
-    </nav>
-  </header>
-  <main>
-    <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
-      <div class="carousel-indicators"> <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0"
-          class="active" aria-current="true" aria-label="Slide 1"></button> <button type="button"
-          data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button> <button type="button"
-          data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button> </div>
-      <div class="carousel-inner">
-        <div class="carousel-item active"> <svg aria-hidden="true" class="bd-placeholder-img " height="100%"
-            preserveAspectRatio="xMidYMid slice" width="100%" xmlns="http://www.w3.org/2000/svg">
-            <rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect>
-          </svg>
-          <div class="container">
-            <div class="carousel-caption text-start">
-              <h1>BIO</h1>
-              <p class="opacity-75">Jmenuji se Jan Konrád. Jsem středoškolský učitel informatiky. Věnuji se webovým technologiím, 3D grafice a hernímu enginu Unity. </p>
-              <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Dozvědět se více</button>
+            </div>
+          </button>
 
-<div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasBottomLabel">Jan Konrád</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body small">
-    <h5 class="offcanvas-title" id="offcanvasBottomLabel">Profesní žívot</h5>
-    <p class="opacity-75">Jsem především učitel informačních technologíí, se zaměřením na aplikovanou informatiku. Mým cílem, je naučit studenty používat tu správnou technologii ve všedním životě. Každý z nás je individuální, a proto potřebuje své specifické potřeby, a to samé je s technologiemi. Pro každého se hodí jiná, se specifickým zaměřením.</p>
-    <h5 class="offcanvas-title" id="offcanvasBottomLabel">Záliby & Vášeň</h5>
-    <p class="opacity-75">Mojí vášní je 3D grafika, které se věnuji sice jako amatér, ale za to s vášní. Snažím se propojit koncepty výuky, s grafickými modely, které následně aplikuji do praxe pomocí nástroje Unity. Webové technologie používám jako prezentační nástroj pro své projekty. </p>
-  </div>
+          <!-- TEACHING -->
+          <button class="tile tile--teaching" type="button" data-open="teaching" aria-label="Výuka">
+            <div class="tile__media">
+              <img src="./assets/learn.webp" alt="" aria-hidden="true" />
+            </div>
+            <div class="tile__overlay" aria-hidden="true"></div>
+            <div class="tile__content">
+              <div class="tile__title">Výuka</div>
+              <div class="tile__meta">3 karty • Skripta</div>
+            </div>
+          </button>
+
+          <!-- PROJECTS -->
+          <button class="tile tile--projects" type="button" data-open="projects" aria-label="Projekty">
+            <div class="tile__media">
+              <img src="./assets/project.webp" alt="" aria-hidden="true" />
+            </div>
+            <div class="tile__overlay" aria-hidden="true"></div>
+            <div class="tile__content">
+              <div class="tile__title">Projekty</div>
+            
+            </div>
+          </button>
+
+          <!-- CONTACT (smaller, white) -> opens contact sheet -->
+          <button class="tile tile--contact" type="button" data-sheet="contact" aria-label="Kontakt">
+            <div class="tile__content">
+              <div class="tile__title">Kontakt</div>
+            </div>
+            <span class="tile__arrow" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+
+
+      <!-- =========================
+           INLINE OPEN (no popup)
+           ========================= -->
+      <div class="hubOpen" id="hubOpen" aria-hidden="true">
+        <div class="hubOpen__header" id="hubOpenHeader"></div>
+        <div class="hubOpen__scroller" id="hubOpenScroller" tabindex="0"></div>
 </div>
+
+      <!-- =========================
+           CONTACT SHEET (slides from bottom to half screen)
+           ========================= -->
+      <section class="contactSheet" id="contactSheet" aria-label="Kontaktní údaje" aria-hidden="true">
+        <header class="contactSheet__header">
+          <div class="contactSheet__title">Kontakt</div>
+          <button class="closeBtn closeBtn--dark" type="button" data-sheet-close aria-label="Zavřít kontakt"></button>
+        </header>
+
+        <div class="contactSheet__scroller" tabindex="0">
+          <div class="contactSheet__grid">
+            <div class="contactItem">
+              <div class="contactLabel">E-mail</div>
+              <a class="contactValue" href="mailto:jan@example.com">jan@example.com</a>
+            </div>
+
+            <div class="contactItem">
+              <div class="contactLabel">Telefon</div>
+              <a class="contactValue" href="tel:+420000000000">+420 000 000 000</a>
+            </div>
+
+            <div class="contactItem">
+              <div class="contactLabel">GitHub</div>
+              <a class="contactValue" href="#" target="_blank" rel="noopener">odkaz</a>
+            </div>
+
+            <div class="contactItem">
+              <div class="contactLabel">Instagram</div>
+              <a class="contactValue" href="#" target="_blank" rel="noopener">odkaz</a>
+            </div>
+          </div>
+
+          <div class="contactHint">
+            Tip: scroll ↑ zavře tento panel (zůstaneš na 2. stránce).
+          </div>
+        </div>
+      </section>
+
+      <div class="sheetScrim" id="sheetScrim" aria-hidden="true"></div>
+
+      <!-- =========================
+           FULLSCREEN PANELS
+           ========================= -->
+
+      <!-- ABOUT PANEL -->
+      <section class="panel panel--about" id="panel-about" aria-label="O mně – detail" hidden>
+        <header class="panel__header">
+          <div class="panel__title">O mně</div>
+        </header>
+
+        <div class="panel__scroller">
+          <div class="panel__inner">
+            <div class="block">
+              <h3>Krátce</h3>
+           <section class="aboutText" aria-label="O mně">
+  <header class="aboutText__header">
+    <h2>O mně</h2>
+    <p class="aboutText__lead">
+      Jmenuji se <strong>Jan Konrád</strong> a působím jako učitel ICT na
+      <strong>Pražské konzervatoři</strong> a <strong>Hudebním gymnáziu hlavního města Prahy</strong>.
+      Dlouhodobě propojuji technologie s kreativními obory a vedu studenty k tomu, aby digitální nástroje
+      používali prakticky — jako prostředek k tvorbě, komunikaci a realizaci nápadů.
+      Právě z tohoto prostředí přirozeně vychází moje motivace věnovat se designu systematičtěji
+      a posunout své schopnosti na vyšší úroveň.
+    </p>
+  </header>
+
+  <div class="aboutText__grid">
+    <article class="aboutText__block">
+      <h3>Jak učím</h3>
+      <p>
+        Moje výuka stojí na projektovém přístupu s minimem izolované teorie.
+        V praxi to znamená, že studenti tvoří <strong>reálné výstupy</strong>:
+      </p>
+
+      <ul>
+        <li>dokumenty ve <strong>Writeru</strong> a tabulky v <strong>Calcu</strong></li>
+        <li>prezentace a vizuální návrhy ve <strong>Figmě</strong></li>
+        <li>úpravy fotografií ve <strong>PhotoPea</strong></li>
+        <li>zpracování videa v <strong>DaVinci Resolve</strong></li>
+      </ul>
+
+      <p>
+        Se staršími ročníky navazujeme webovými technologiemi — od <strong>HTML</strong> a <strong>CSS</strong>
+        přes základy <strong>JavaScriptu</strong> až po úvod do databází v <strong>SQL</strong>
+        a serverového jazyka <strong>Python</strong>.
+      </p>
+    </article>
+
+    <article class="aboutText__block">
+      <h3>Nástroje a přístup</h3>
+      <p>
+        Důležitá je pro mě volba nástrojů: preferuji <strong>open-source</strong> nebo bezplatné verze tak,
+        aby si studenti mohli dovednosti rozvíjet i mimo školu a nebyli limitováni licencemi.
+      </p>
+      <p>
+        Tento důraz na dostupnost vnímám jako praktický i hodnotový —
+        <strong>dobrý design</strong> i <strong>dobré vzdělávání</strong> mají být použitelné
+        pro co nejširší okruh lidí.
+      </p>
+    </article>
+
+    <article class="aboutText__block">
+      <h3>Design, hry a 3D</h3>
+      <p>
+        Zároveň mám dlouhodobý osobní zájem o design a tvorbu. Věnuji se návrhu herních prototypů —
+        jak webových, tak deskových — kde řeším čitelnost pravidel, srozumitelnost rozhraní,
+        práci s vizuální hierarchií i iteraci na základě testování.
+      </p>
+      <p>
+        K tomu se přidává zájem o <strong>3D grafiku</strong>, která mi rozšiřuje uvažování o prostoru,
+        kompozici a světle.
+      </p>
+    </article>
+
+    <article class="aboutText__block">
+      <h3>Hudební základ</h3>
+      <p>
+        Díky svému původnímu hudebnímu vzdělání mám blízko k disciplíně, detailu a dlouhodobému zlepšování —
+        a současně ke kreativní práci, která se opírá o cit pro rytmus, strukturu a výraz.
+      </p>
+    </article>
+  </div>
+</section>
+              
+  
+            </div>
+
+            
+            <div class="block galleryWrap">
+              <h3>Galerie</h3>
+
+              <button class="galleryThumb" type="button" data-gallery-open="about" aria-label="Otevřít galerii (na celou obrazovku)">
+                <img class="galleryThumb__img" src="./assets/gallery/about-01.jpg" alt="Náhled galerie" loading="lazy" />
+                <span class="galleryThumb__cap">
+                  <span class="galleryThumb__title">Otevřít galerii</span>
+                  <span class="galleryThumb__meta">klik • fullscreen</span>
+                </span>
+                <span class="galleryThumb__play" aria-hidden="true"></span>
+              </button>
+
+              <div class="galleryHint">Tip: šipky ← →, swipe, ESC.</div>
+            </div>
+
+            <div class="block">
+              <h3>Co dělám</h3>
+              <p>Výuka ICT, web, hry a design. Důraz na funkční prototypy, layout a srozumitelnost.</p>
+            </div>
+
+            <div class="block">
+              <h3>Jak učím</h3>
+              <ul>
+       
+                <li>projekty a praxe</li>
+               
+              </ul>
+            </div>
+
+            <div class="block">
+              <h3>Odkazy</h3>
+              <div class="miniLinks">
+                <a class="miniLink" href="#" target="_blank" rel="noopener">CV PDF</a>
+              </div>
             </div>
           </div>
         </div>
-        
-        <div class="carousel-item"> <svg aria-hidden="true" class="bd-placeholder-img " height="100%"
-            preserveAspectRatio="xMidYMid slice" width="100%" xmlns="http://www.w3.org/2000/svg">
-            <rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect>
-          </svg>
-          <div class="container">
-            <div class="carousel-caption">
-              <h1>Another example headline.</h1>
-              <p>Some representative placeholder content for the second slide of the carousel.</p>
-              <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+
+        <footer class="panel__footer">
+          <button class="closeBtn" type="button" data-close aria-label="Zavřít"></button>
+        </footer>
+      </section>
+
+      <!-- TEACHING PANEL -->
+      <section class="panel panel--teaching" id="panel-teaching" aria-label="Výuka – detail" hidden>
+        <header class="panel__header">
+          <div class="panel__title">Výuka</div>
+        </header>
+
+        <div class="panel__scroller">
+          <div class="panel__inner">
+            <div class="flipGrid" aria-label="Výuka – karty">
+              <a class="flipCard" href="https://www.youtube.com/watch?v=ginX3bVKTxI" target="_blank" rel="noopener" aria-label="Python – otevřít">
+                <div class="flipCard__inner">
+                  <div class="flipCard__face flipCard__front">
+                    <img class="flipCard__img" src="./assets/vyuka_blender.png" alt="" aria-hidden="true" />
+                    <div class="flipCard__frontOverlay">
+                      <div class="flipCard__title">BLENDER V KOSTCE</div>
+                    </div>
+                  </div>
+                  <div class="flipCard__face flipCard__back">
+                    <div class="flipCard__backInner">
+                      <div class="flipCard__title">BLENDER V KOSTCE</div>
+                      <p class="flipCard__desc">Videolekce • úkoly • základy</p>
+                      <span class="flipCard__cta">Otevřít →</span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+
+              <a class="flipCard" href="#" target="_blank" rel="noopener" aria-label="Web – otevřít">
+                <div class="flipCard__inner">
+                  <div class="flipCard__face flipCard__front">
+                    <img class="flipCard__img" src="./assets/Commin.webp" alt="" aria-hidden="true" />
+                    <div class="flipCard__frontOverlay">
+                      <div class="flipCard__title">Web</div>
+                    </div>
+                  </div>
+                  <div class="flipCard__face flipCard__back">
+                    <div class="flipCard__backInner">
+                      <div class="flipCard__title">Web</div>
+                      <p class="flipCard__desc">HTML/CSS/JS • UI • interakce</p>
+                      <span class="flipCard__cta">Otevřít →</span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+
+              <a class="flipCard" href="#" target="_blank" rel="noopener" aria-label="Grafika – otevřít">
+                <div class="flipCard__inner">
+                  <div class="flipCard__face flipCard__front">
+                    <img class="flipCard__img" src="./assets/Commin.webp" alt="" aria-hidden="true" />
+                    <div class="flipCard__frontOverlay">
+                      <div class="flipCard__title">Grafika</div>
+                    </div>
+                  </div>
+                  <div class="flipCard__face flipCard__back">
+                    <div class="flipCard__backInner">
+                      <div class="flipCard__title">Grafika</div>
+                      <p class="flipCard__desc">PhotoPea • DaVinci • workflow</p>
+                      <span class="flipCard__cta">Otevřít →</span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <a class="scriptsBox" href="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/index.html#section1" target="_blank" rel="noopener" aria-label="Moje skripta">
+              <div>
+                <div class="scriptsBox__title">Skripta</div>
+                <div class="scriptsBox__desc">Moje materiály</div>
+              </div>
+              <span class="scriptsBox__arrow" aria-hidden="true"></span>
+            </a>
+</div>
+        </div>
+
+        <footer class="panel__footer">
+          <button class="closeBtn" type="button" data-close aria-label="Zavřít"></button>
+        </footer>
+      </section>
+
+      <!-- PROJECTS PANEL -->
+      <section class="panel panel--projects" id="panel-projects" aria-label="Projekty – detail" hidden>
+        <header class="panel__header">
+          <div class="panel__title">Projekty</div>
+        </header>
+
+        <div class="panel__scroller">
+          <div class="panel__inner">
+            <div class="flipGrid" aria-label="Projekty – karty">
+              <a class="flipCard flipCard--project"
+                 href="#"
+                 target="_blank"
+                 rel="noopener"
+                 data-project-open="dusa"
+                 data-project-title="Duše"
+                 data-project-images="./assets/projects/p1.webp,./assets/projects/p1.webp,./assets/projects/p1.webp"
+                 aria-label="Duše – detail">
+                <div class="flipCard__inner">
+                  <div class="flipCard__face flipCard__front">
+                    <img class="flipCard__img" src="./assets/Duse.png" alt="" aria-hidden="true" style="object-fit: fill;" />
+                    <div class="flipCard__frontOverlay">
+                      
+                    </div>
+                  </div>
+                  <div class="flipCard__face flipCard__back">
+                    <div class="flipCard__backInner">
+                      <div class="flipCard__title">Duše</div>
+
+                      <div class="projTags" aria-hidden="true">
+                        <span class="tag">2D web hra</span>
+                        <span class="tag">Postřeh</span>
+                        <span class="tag">Audio / VFX</span>
+                        <span class="tag"><strong>Prototyp</strong></span>
+                      </div>
+
+                      <p class="projDesc">
+                        2D webová hra zaměřená na postřeh. Hráč je „duše“, sbírá fragmenty světa a hledá cestu zpět na zem.
+                      </p>
+
+                      <div class="projMeta" aria-label="Detaily projektu">
+                        <div class="projMeta__row">
+                          <span class="projMeta__k">Role</span>
+                          <span class="projMeta__v">vývoj · design · hudba</span>
+                        </div>
+                        <div class="projMeta__row">
+                          <span class="projMeta__k">Stack</span>
+                          <span class="projMeta__v">HTML · CSS · JavaScript</span>
+                        </div>
+                      </div>
+
+                      <span class="flipCard__cta">Detail →</span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+
+              <a class="flipCard flipCard--project"
+                 href="#"
+                 target="_blank"
+                 rel="noopener"
+                 data-project-open="p2"
+                 data-project-title="Projekt 2"
+                 data-project-images="./assets/Project/sarvatky/1.png,./assets/Project/sarvatky/2.png,./assets/Project/sarvatky/3.png,./assets/Project/sarvatky/4.png,./assets/Project/sarvatky/5.png"
+                 aria-label="Projekt 2 – detail">
+                <div class="flipCard__inner">
+                  <div class="flipCard__face flipCard__front">
+                    <img class="flipCard__img" src="./assets/sarvatky.png" alt="" aria-hidden="true" style="object-fit: fill;"/>
+                    <div class="flipCard__frontOverlay">
+                      
+                    </div>
+                  </div>
+                  <div class="flipCard__face flipCard__back">
+                    <div class="flipCard__backInner">
+                      <div class="flipCard__title">Šarvátky králů</div>
+
+                      <div class="projTags" aria-hidden="true">
+                        <span class="tag">Desková hra</span>
+                        <span class="tag">Strategie</span>
+                        <span class="tag"><strong>Prototyp</strong></span>
+                      </div>
+
+                      <p class="projDesc">
+                        Strategická karetní hra, kde se stanete králem. Budete bojovat, vyjednávat a intrikovat, abyste získali moc a udrželi ji co nejdéle. Hra klade důraz na rozhodování, plánování a čtení soupeřů.
+                      </p>
+
+                       <div class="projMeta" aria-label="Detaily projektu">
+                        <div class="projMeta__row">
+                          <span class="projMeta__k">Role</span>
+                          <span class="projMeta__v">vývoj · design · hudba</span>
+                        </div>
+                        <div class="projMeta__row">
+                          <span class="projMeta__k">Stack</span>
+                          <span class="projMeta__v">HTML · CSS · JavaScript</span>
+                        </div>
+                      </div>
+
+                      <span class="flipCard__cta">Detail →</span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+
+              <a class="flipCard flipCard--project"
+                 href="#"
+                 target="_blank"
+                 rel="noopener"
+                 data-project-open="p3"
+                 data-project-title="Projekt 3"
+                 data-project-images="./assets/Commin.webp,./assets/Commin.webp,./assets/Commin.webp"
+                 aria-label="Projekt 3 – detail">
+                <div class="flipCard__inner">
+                  <div class="flipCard__face flipCard__front">
+                    <img class="flipCard__img" src="./assets/Commin.webp" alt="" aria-hidden="true" />
+                    <div class="flipCard__frontOverlay">
+                      <div class="flipCard__title">Projekt 3</div>
+                    </div>
+                  </div>
+                  <div class="flipCard__face flipCard__back">
+                    <div class="flipCard__backInner">
+                      <div class="flipCard__title">Projekt 3</div>
+
+                      <div class="projTags" aria-hidden="true">
+                      
+                      </div>
+
+                      <p class="projDesc">
+                       Připravujeme pro Vás.
+                      </p>
+
+                      <div class="projMeta" aria-label="Detaily projektu">
+                        <div class="projMeta__row">
+                          <span class="projMeta__k">Role</span>
+                          <span class="projMeta__v">—</span>
+                        </div>
+                        <div class="projMeta__row">
+                          <span class="projMeta__k">Stack</span>
+                          <span class="projMeta__v">—</span>
+                        </div>
+                      </div>
+
+                      <span class="flipCard__cta">Detail →</span>
+                    </div>
+                  </div>
+                </div>
+              </a>
             </div>
           </div>
         </div>
-        <div class="carousel-item"> <svg aria-hidden="true" class="bd-placeholder-img " height="100%"
-            preserveAspectRatio="xMidYMid slice" width="100%" xmlns="http://www.w3.org/2000/svg">
-            <rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect>
-          </svg>
-          <div class="container">
-            <div class="carousel-caption text-end">
-              <h1>One more for good measure.</h1>
-              <p>Some representative placeholder content for the third slide of this carousel.</p>
-              <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
-            </div>
-          </div>
-        </div>
-      </div> <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span
-          class="visually-hidden">Previous</span> </button> <button class="carousel-control-next" type="button"
-        data-bs-target="#myCarousel" data-bs-slide="next"> <span class="carousel-control-next-icon"
-          aria-hidden="true"></span> <span class="visually-hidden">Next</span> </button>
-    </div> <!-- Marketing messaging and featurettes
-  ================================================== -->
-    <!-- Wrap the rest of the page in another container to center all the content. -->
-    <div class="container marketing"> <!-- Three columns of text below the carousel -->
-      <div class="row">
-        <div class="col-lg-4"> <svg aria-label="Placeholder" class="bd-placeholder-img rounded-circle" height="140"
-            preserveAspectRatio="xMidYMid slice" role="img" width="140" xmlns="http://www.w3.org/2000/svg">
-            <title>Placeholder</title>
-            <rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect>
-          </svg>
-          <h2 class="fw-normal">Heading</h2>
-          <p>Some representative placeholder content for the three columns of text below the carousel. This is the first
-            column.</p>
-          <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
-        </div><!-- /.col-lg-4 -->
-        
-        <div class="col-lg-4"> <svg aria-label="Placeholder" class="bd-placeholder-img rounded-circle" height="140"
-            preserveAspectRatio="xMidYMid slice" role="img" width="140" xmlns="http://www.w3.org/2000/svg">
-            <title>Placeholder</title>
-            <rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect>
-          </svg>
-          <h2 class="fw-normal">Heading</h2>
-          <p>Another exciting bit of representative placeholder content. This time, we've moved on to the second column.
-          </p>
-          <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4"> <svg aria-label="Placeholder" class="bd-placeholder-img rounded-circle" height="140"
-            preserveAspectRatio="xMidYMid slice" role="img" width="140" xmlns="http://www.w3.org/2000/svg">
-            <title>Placeholder</title>
-            <rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect>
-          </svg>
-          <h2 class="fw-normal">Heading</h2>
-          <p>And lastly this, the third column of representative placeholder content.</p>
-          <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
-        </div><!-- /.col-lg-4 -->
-        <div class="container marketing"> <!-- Three columns of text below the carousel -->
-          <div class="row">
-            <div class="col-lg-4"> <svg aria-label="Placeholder" class="bd-placeholder-img rounded-circle" height="140"
-                preserveAspectRatio="xMidYMid slice" role="img" width="140" xmlns="http://www.w3.org/2000/svg">
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect>
-              </svg>
-              <h2 class="fw-normal">Heading</h2>
-              <p>Some representative placeholder content for the three columns of text below the carousel. This is the first
-                column.</p>
-              <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
-            </div><!-- /.col-lg-4 -->
-      </div><!-- /.row --> <!-- START THE FEATURETTES -->
-      
-      <hr class="featurette-divider">
-      <div class="row featurette">
-        <div class="col-md-7">
-          <h2 class="featurette-heading fw-normal lh-1">First featurette heading. <span
-              class="text-body-secondary">It’ll blow your mind.</span></h2>
-          <p class="lead">Some great placeholder content for the first featurette here. Imagine some exciting prose
-            here.</p>
-        </div>
-        <div class="col-md-5"> <svg aria-label="Placeholder: 500x500"
-            class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" height="500"
-            preserveAspectRatio="xMidYMid slice" role="img" width="500" xmlns="http://www.w3.org/2000/svg">
-            <title>Placeholder</title>
-            <rect width="100%" height="100%" fill="var(--bs-secondary-bg)"></rect><text x="50%" y="50%"
-              fill="var(--bs-secondary-color)" dy=".3em">500x500</text>
-          </svg> </div>
-      </div>
-      <hr class="featurette-divider">
-      <div class="row featurette">
-        <div class="col-md-7 order-md-2">
-          <h2 class="featurette-heading fw-normal lh-1">Oh yeah, it’s that good. <span class="text-body-secondary">See
-              for yourself.</span></h2>
-          <p class="lead">Another featurette? Of course. More placeholder content here to give you an idea of how this
-            layout would work with some actual real-world content in place.</p>
-        </div>
-        <div class="col-md-5 order-md-1"> <svg aria-label="Placeholder: 500x500"
-            class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" height="500"
-            preserveAspectRatio="xMidYMid slice" role="img" width="500" xmlns="http://www.w3.org/2000/svg">
-            <title>Placeholder</title>
-            <rect width="100%" height="100%" fill="var(--bs-secondary-bg)"></rect><text x="50%" y="50%"
-              fill="var(--bs-secondary-color)" dy=".3em">500x500</text>
-          </svg> </div>
-      </div>
-      <hr class="featurette-divider">
-      <div class="row featurette">
-        <div class="col-md-7">
-          <h2 class="featurette-heading fw-normal lh-1">And lastly, this one. <span
-              class="text-body-secondary">Checkmate.</span></h2>
-          <p class="lead">And yes, this is the last block of representative placeholder content. Again, not really
-            intended to be actually read, simply here to give you a better view of what this would look like with some
-            actual content. Your content.</p>
-        </div>
-        <div class="col-md-5"> <svg aria-label="Placeholder: 500x500"
-            class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" height="500"
-            preserveAspectRatio="xMidYMid slice" role="img" width="500" xmlns="http://www.w3.org/2000/svg">
-            <title>Placeholder</title>
-            <rect width="100%" height="100%" fill="var(--bs-secondary-bg)"></rect><text x="50%" y="50%"
-              fill="var(--bs-secondary-color)" dy=".3em">500x500</text>
-          </svg> </div>
-      </div>
-      <hr class="featurette-divider"> <!-- /END THE FEATURETTES -->
-    </div><!-- /.container --> <!-- FOOTER -->
-    <footer class="container">
-      <p class="float-end"><a href="#">Back to top</a></p>
-      <p>&copy; 2017–2025 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
-    </footer>
+
+        <footer class="panel__footer">
+          <button class="closeBtn" type="button" data-close aria-label="Zavřít"></button>
+        </footer>
+      </section>
+
+    </section>
+
   </main>
-  
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
-  
-  </body>
+
+
+  <!-- =========================
+       GALLERY MODAL (fullscreen carousel)
+       ========================= -->
+  <div class="galleryModal" id="galleryModal" aria-hidden="true" hidden>
+    <div class="galleryModal__scrim" data-gallery-close aria-hidden="true"></div>
+
+    <div class="galleryModal__frame" role="dialog" aria-modal="true" aria-label="Galerie">
+      <header class="galleryModal__header">
+        <button class="backBtn" type="button" data-gallery-close aria-label="Zpět"></button>
+        <div class="galleryModal__title">Galerie</div>
+        <button class="closeBtn" type="button" data-gallery-close aria-label="Zavřít galerii"></button>
+      </header>
+
+      <div class="galleryModal__body">
+        <div class="carousel carousel--modal" data-carousel aria-label="Galerie">
+          <button class="carBtn carBtn--prev" type="button" data-carousel-prev aria-label="Předchozí"></button>
+
+          <div class="carousel__viewport" data-carousel-viewport tabindex="0" aria-label="Galerie – posun vodorovně">
+            <div class="carousel__track">
+              <figure class="carousel__slide">
+                <img src="./assets/gallery/about-01.jpg" alt="Galerie – ukázka 1" loading="lazy" />
+              </figure>
+              <figure class="carousel__slide">
+                <img src="./assets/gallery/about-02.jpg" alt="Galerie – ukázka 2" loading="lazy" />
+              </figure>
+              <figure class="carousel__slide">
+                <img src="./assets/gallery/about-03.jpg" alt="Galerie – ukázka 3" loading="lazy" />
+              </figure>
+            </div>
+          </div>
+
+          <button class="carBtn carBtn--next" type="button" data-carousel-next aria-label="Další"></button>
+
+          <div class="carousel__footer" aria-label="Ovládání galerie">
+            <div class="carousel__dots" data-carousel-dots aria-label="Přepínače snímků"></div>
+            <input class="carouselRange" type="range" min="0" value="0" step="1" data-carousel-range aria-label="Posuvník galerie" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- =========================
+       PROJECT MODAL (fullscreen carousel + link)
+       ========================= -->
+  <div class="galleryModal projectModal" id="projectModal" aria-hidden="true" hidden>
+    <div class="galleryModal__scrim" data-project-close aria-hidden="true"></div>
+
+    <div class="galleryModal__frame" role="dialog" aria-modal="true" aria-label="Projekt">
+      <header class="galleryModal__header">
+        <button class="backBtn" type="button" data-project-close aria-label="Zpět"></button>
+        <div class="galleryModal__title" id="projectModalTitle">Projekt</div>
+        <button class="closeBtn" type="button" data-project-close aria-label="Zavřít projekt"></button>
+      </header>
+
+      <div class="galleryModal__body">
+        <div class="projectModal__info" aria-label="Popis projektu">
+          <div class="projectModal__tags" id="projectModalTags" aria-label="Tagy projektu"></div>
+          <p class="projectModal__desc" id="projectModalDesc"></p>
+          <div class="projectModal__meta" id="projectModalMeta" aria-label="Detaily projektu"></div>
+        </div>
+
+        <div class="carousel carousel--modal" data-project-carousel data-carousel aria-label="Ukázky projektu">
+          <button class="carBtn carBtn--prev" type="button" data-carousel-prev aria-label="Předchozí"></button>
+
+          <div class="carousel__viewport" data-carousel-viewport tabindex="0" aria-label="Ukázky projektu – posun vodorovně">
+            <div class="carousel__track" id="projectModalTrack">
+              <!-- Slides se doplní z JS -->
+            </div>
+          </div>
+
+          <button class="carBtn carBtn--next" type="button" data-carousel-next aria-label="Další"></button>
+
+          <div class="carousel__footer" aria-label="Ovládání ukázek">
+            <div class="carousel__dots" data-carousel-dots aria-label="Přepínače snímků"></div>
+            <input class="carouselRange" type="range" min="0" value="0" step="1" data-carousel-range aria-label="Posuvník ukázek" />
+          </div>
+        </div>
+
+        <div class="projectModal__actions" aria-label="Akce projektu">
+          <a class="modalAction" href="#" target="_blank" rel="noopener" data-project-action>Otevřít projekt →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script src="./app.js?v=1"></script>
+</body>
 </html>
