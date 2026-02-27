@@ -1,0 +1,732 @@
+<!-- TEMPLATE A: Standardní lekce (bez galerie) -->
+<section id="section5-1-1" class="lesson">
+
+  <header class="lesson__header">
+    <h2 class="lesson__title">3.2 SQLite databáze v Pythonu – praktický úvod do SQL</h2>
+    <p class="lesson__lead">
+      Navážeš na základy Pythonu a postavíš si reálně použitelnou databázi v SQL – přímo v Pythonu.
+      Použijeme SQLite (lehké, bez instalace serveru) a vytvoříme mini aplikaci „Book Notes“ s CRUD operacemi.
+    </p>
+  </header>
+
+  <!-- Co se naučíš -->
+  <article class="card">
+    <h3 class="card__title">Co se v této kapitole naučíš?</h3>
+
+    <ul class="checklist">
+      <li><strong>Co je SQLite</strong> – embedded SQL databáze v jednom souboru (.db), ideální pro výuku a malé aplikace.</li>
+      <li><strong>SQL v praxi</strong> – vytvoření tabulek (DDL), práce s daty (DML) a základní dotazy.</li>
+      <li><strong>CRUD</strong> – Create/Read/Update/Delete v reálném programu.</li>
+      <li><strong>Relace a klíče</strong> – primární klíč (PK), cizí klíč (FK), vazba 1:N (kniha → poznámky).</li>
+      <li><strong>Bezpečné dotazy</strong> – parametrizace a proč se nesmí skládat SQL z řetězců.</li>
+      <li><strong>Transakce</strong> – commit/rollback a proč chrání data před rozbitím.</li>
+      <li><strong>Mini projekt</strong> – hotový funkční CLI program „Book Notes“ (ukládání knih a poznámek).</li>
+    </ul>
+
+    <div class="note note--info">
+      <strong>Tip:</strong> SQLite je perfektní start. Až budete později řešit „opravdový server“, stejná SQL logika se přenese do PostgreSQL/SQL Serveru.
+    </div>
+  </article>
+
+  <!-- Akce / odkazy -->
+  <div class="actions">
+    <a class="btn btn--primary" href="#" target="_blank" rel="noopener">
+      Primární akce (např. stáhnout hotový .py soubor / zadání)
+    </a>
+
+    <a class="btn btn--ghost" href="https://docs.python.org/3/library/sqlite3.html" target="_blank" rel="noopener">
+      Python sqlite3 (dokumentace)
+    </a>
+  </div>
+
+  <!-- Akordeony -->
+  <div class="accordion">
+
+    <!-- 1) Proč databáze v Pythonu -->
+    <details class="acc" open>
+      <summary class="acc__sum">1) Proč vůbec databáze (a proč ne jen soubor / list v Pythonu)</summary>
+      <div class="acc__body">
+
+        <p>
+          V Pythonu si data umíš uložit do proměnné, do listu nebo do souboru (txt/json). Problém nastane, když:
+          chceš <strong>rychle hledat</strong>, <strong>data propojovat</strong>, <strong>hlídat pravidla</strong> (např. povinné údaje),
+          nebo mít data <strong>dlouhodobě</strong> a <strong>bezpečně</strong>.
+        </p>
+
+        <ul class="bullets">
+          <li><strong>Databáze</strong> ti dá strukturu (tabulky), dotazy (vyhledávání, filtrování) a kontrolu nad kvalitou dat.</li>
+          <li><strong>SQL</strong> je jazyk, kterým databázi „popíšeš“, co má udělat.</li>
+          <li><strong>SQLite</strong> je databáze v jednom souboru – ideální pro školní projekty a menší aplikace.</li>
+        </ul>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal5-2-dbms">
+            Více: DB vs DBMS vs SQLite
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 2) Co je SQLite -->
+    <details class="acc">
+      <summary class="acc__sum">2) SQLite: co to je a jak se používá v Pythonu</summary>
+      <div class="acc__body">
+
+        <p>
+          SQLite je <strong>embedded</strong> databáze: neběží jako samostatný server. Databáze je běžně jeden soubor
+          (např. <code>book_notes.db</code>). Python má podporu přímo v základní knihovně (<code>sqlite3</code>), takže nic neinstaluješ.
+        </p>
+
+        <ol class="steps">
+          <li>V Pythonu otevřeš spojení: <code>sqlite3.connect("book_notes.db")</code></li>
+          <li>Vytvoříš tabulky přes SQL (CREATE TABLE)</li>
+          <li>Pracuješ s daty (INSERT/SELECT/UPDATE/DELETE)</li>
+          <li>Uložíš změny (<code>commit</code>) nebo je zrušíš (<code>rollback</code>)</li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Důležité:</strong> SQLite umí SQL, tabulky a relace – ale je určené spíš pro menší až střední použití. Na velké weby se typicky nasazuje serverová DB (PostgreSQL apod.).
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 3) Návrh databáze (Book Notes) -->
+    <details class="acc">
+      <summary class="acc__sum">3) Návrh databáze: Book Notes (tabulky, PK/FK, relace)</summary>
+      <div class="acc__body">
+
+        <p>
+          Uděláme relační návrh: <strong>Kniha</strong> může mít více <strong>poznámek</strong>.
+          To je relace <strong>1 : N</strong>.
+        </p>
+
+        <ul class="bullets">
+          <li><strong>Tabulka books</strong> – uloží knihy (název, autor, rok, hodnocení).</li>
+          <li><strong>Tabulka notes</strong> – uloží poznámky a odkaz na knihu přes <strong>FK</strong>.</li>
+          <li><strong>PK</strong> = primární klíč (jednoznačné ID).</li>
+          <li><strong>FK</strong> = cizí klíč (odkaz do jiné tabulky).</li>
+        </ul>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal5-2-keys">
+            Více: PK/FK a proč je to zásadní
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 4) SQL minimum (DDL/DML/CRUD) -->
+    <details class="acc">
+      <summary class="acc__sum">4) SQL minimum: DDL, DML a CRUD</summary>
+      <div class="acc__body">
+
+        <p>
+          V této kapitole ti stačí dvě skupiny SQL příkazů:
+        </p>
+
+        <ul class="bullets">
+          <li><strong>DDL</strong> (Data Definition Language) – struktura: <code>CREATE</code>, <code>ALTER</code>, <code>DROP</code>.</li>
+          <li><strong>DML</strong> (Data Manipulation Language) – data: <code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>.</li>
+        </ul>
+
+        <p>
+          <strong>CRUD</strong> je jen zkratka pro čtyři základní operace:
+        </p>
+
+        <ul class="bullets">
+          <li><strong>Create</strong> → <code>INSERT</code></li>
+          <li><strong>Read</strong> → <code>SELECT</code></li>
+          <li><strong>Update</strong> → <code>UPDATE</code></li>
+          <li><strong>Delete</strong> → <code>DELETE</code></li>
+        </ul>
+
+      </div>
+    </details>
+
+    <!-- 5) Hotový Python program (Book Notes) -->
+    <details class="acc" open>
+      <summary class="acc__sum">5) Prakticky: hotový Python program „Book Notes“ (SQLite + SQL)</summary>
+      <div class="acc__body">
+
+        <p>
+          Níže je <strong>kompletní funkční</strong> skript (1 soubor), který:
+          vytvoří databázi, tabulky, a nabídne menu pro práci s knihami a poznámkami.
+        </p>
+
+        <div class="note note--info">
+          <strong>Doporučený postup:</strong>
+          1) vytvoř soubor <code>book_notes.py</code> →
+          2) vlož kód →
+          3) spusť <code>python book_notes.py</code> →
+          4) databáze se vytvoří jako <code>book_notes.db</code> ve stejné složce.
+        </div>
+
+        <pre><code class="language-python">import sqlite3
+from datetime import datetime
+
+DB_FILE = "book_notes.db"
+
+def connect():
+    # Připojení k .db souboru (když neexistuje, vytvoří se)
+    conn = sqlite3.connect(DB_FILE)
+    # Lepší práce s výsledky: řádky půjdou číst jako slovník (row["title"])
+    conn.row_factory = sqlite3.Row
+    # SQLite má FK podporu, ale musí se zapnout:
+    conn.execute("PRAGMA foreign_keys = ON;")
+    return conn
+
+def init_db(conn: sqlite3.Connection) -> None:
+    # DDL: vytvoření tabulek (IF NOT EXISTS = bezpečné opakované spuštění)
+    conn.execute("""
+    CREATE TABLE IF NOT EXISTS books (
+        id         INTEGER PRIMARY KEY AUTOINCREMENT,
+        title      TEXT    NOT NULL,
+        author     TEXT    NOT NULL,
+        year       INTEGER,
+        rating     INTEGER CHECK (rating BETWEEN 1 AND 5),
+        created_at TEXT    NOT NULL
+    );
+    """)
+
+    conn.execute("""
+    CREATE TABLE IF NOT EXISTS notes (
+        id         INTEGER PRIMARY KEY AUTOINCREMENT,
+        book_id    INTEGER NOT NULL,
+        note_text  TEXT    NOT NULL,
+        page       INTEGER,
+        created_at TEXT    NOT NULL,
+        FOREIGN KEY (book_id) REFERENCES books(id)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE
+    );
+    """)
+
+    # Index = „rejstřík“ pro rychlejší vyhledávání (zrychlí SELECT, může mírně zpomalit zápisy)
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_books_title  ON books(title);")
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_notes_bookid ON notes(book_id);")
+
+    conn.commit()
+
+def now_iso() -> str:
+    return datetime.now().isoformat(timespec="seconds")
+
+def prompt_int(label: str, allow_empty: bool = False):
+    while True:
+        s = input(label).strip()
+        if allow_empty and s == "":
+            return None
+        if s.isdigit():
+            return int(s)
+        print("Zadej celé číslo (nebo ENTER pro prázdné).")
+
+def add_book(conn):
+    title = input("Název knihy: ").strip()
+    author = input("Autor: ").strip()
+    year = prompt_int("Rok vydání (ENTER přeskočit): ", allow_empty=True)
+    rating = prompt_int("Hodnocení 1–5 (ENTER přeskočit): ", allow_empty=True)
+
+    # Parametrizace: nikdy neskládej SQL přes f-string -> bezpečnost + správné escapování
+    conn.execute(
+        "INSERT INTO books (title, author, year, rating, created_at) VALUES (?, ?, ?, ?, ?);",
+        (title, author, year, rating, now_iso())
+    )
+    conn.commit()
+    print("✅ Kniha uložena.")
+
+def list_books(conn):
+    rows = conn.execute(
+        "SELECT id, title, author, year, rating FROM books ORDER BY created_at DESC;"
+    ).fetchall()
+
+    if not rows:
+        print("⚠️ Zatím žádné knihy.")
+        return
+
+    print("\n--- KNIHY ---")
+    for r in rows:
+        yr = r["year"] if r["year"] is not None else "?"
+        rt = r["rating"] if r["rating"] is not None else "-"
+        print(f'#{r["id"]} | {r["title"]} — {r["author"]} ({yr}) | rating: {rt}')
+    print("-------------\n")
+
+def add_note(conn):
+    book_id = prompt_int("ID knihy: ")
+    note = input("Poznámka: ").strip()
+    page = prompt_int("Strana (ENTER přeskočit): ", allow_empty=True)
+
+    # FK hlídá, že book_id musí existovat (jinak sqlite3.IntegrityError)
+    try:
+        conn.execute(
+            "INSERT INTO notes (book_id, note_text, page, created_at) VALUES (?, ?, ?, ?);",
+            (book_id, note, page, now_iso())
+        )
+        conn.commit()
+        print("✅ Poznámka uložena.")
+    except sqlite3.IntegrityError:
+        print("❌ Neexistuje kniha s tímto ID (porušení cizího klíče).")
+
+def show_book_detail(conn):
+    book_id = prompt_int("ID knihy: ")
+
+    book = conn.execute(
+        "SELECT id, title, author, year, rating, created_at FROM books WHERE id = ?;",
+        (book_id,)
+    ).fetchone()
+
+    if not book:
+        print("❌ Kniha nenalezena.")
+        return
+
+    yr = book["year"] if book["year"] is not None else "?"
+    rt = book["rating"] if book["rating"] is not None else "-"
+    print(f'\n=== {book["title"]} ===')
+    print(f'Autor: {book["author"]} | Rok: {yr} | Rating: {rt} | Vloženo: {book["created_at"]}')
+    print("------------------------")
+
+    notes = conn.execute(
+        "SELECT id, note_text, page, created_at FROM notes WHERE book_id = ? ORDER BY created_at DESC;",
+        (book_id,)
+    ).fetchall()
+
+    if not notes:
+        print("Poznámky: žádné")
+        print("=================\n")
+        return
+
+    print("Poznámky:")
+    for n in notes:
+        pg = f' (str. {n["page"]})' if n["page"] is not None else ""
+        print(f'- [{n["id"]}] {n["note_text"]}{pg} | {n["created_at"]}')
+    print("=================\n")
+
+def update_rating(conn):
+    book_id = prompt_int("ID knihy: ")
+    rating = prompt_int("Nové hodnocení 1–5 (ENTER zrušit): ", allow_empty=True)
+    if rating is None:
+        print("⚠️ Zrušeno.")
+        return
+
+    cur = conn.execute(
+        "UPDATE books SET rating = ? WHERE id = ?;",
+        (rating, book_id)
+    )
+    conn.commit()
+
+    if cur.rowcount == 0:
+        print("❌ Kniha nenalezena.")
+    else:
+        print("✅ Hodnocení upraveno.")
+
+def delete_note(conn):
+    note_id = prompt_int("ID poznámky: ")
+    cur = conn.execute("DELETE FROM notes WHERE id = ?;", (note_id,))
+    conn.commit()
+
+    if cur.rowcount == 0:
+        print("❌ Poznámka nenalezena.")
+    else:
+        print("✅ Poznámka smazána.")
+
+def delete_book(conn):
+    book_id = prompt_int("ID knihy: ")
+    # Díky ON DELETE CASCADE se smažou i poznámky k této knize
+    cur = conn.execute("DELETE FROM books WHERE id = ?;", (book_id,))
+    conn.commit()
+
+    if cur.rowcount == 0:
+        print("❌ Kniha nenalezena.")
+    else:
+        print("✅ Kniha smazána (včetně poznámek).")
+
+def search_books(conn):
+    q = input("Hledat v názvu/autoru: ").strip()
+    like = f"%{q}%"
+    rows = conn.execute(
+        "SELECT id, title, author, year, rating FROM books WHERE title LIKE ? OR author LIKE ? ORDER BY created_at DESC;",
+        (like, like)
+    ).fetchall()
+
+    if not rows:
+        print("⚠️ Nic nenalezeno.")
+        return
+
+    print("\n--- VÝSLEDKY ---")
+    for r in rows:
+        yr = r["year"] if r["year"] is not None else "?"
+        rt = r["rating"] if r["rating"] is not None else "-"
+        print(f'#{r["id"]} | {r["title"]} — {r["author"]} ({yr}) | rating: {rt}')
+    print("---------------\n")
+
+def menu():
+    print("=== BOOK NOTES (SQLite) ===")
+    print("1) Přidat knihu")
+    print("2) Vypsat knihy")
+    print("3) Detail knihy + poznámky")
+    print("4) Přidat poznámku")
+    print("5) Upravit hodnocení knihy")
+    print("6) Smazat poznámku")
+    print("7) Smazat knihu (včetně poznámek)")
+    print("8) Hledat knihu")
+    print("0) Konec")
+
+def main():
+    conn = connect()
+    init_db(conn)
+
+    while True:
+        menu()
+        choice = input("Volba: ").strip()
+
+        if choice == "1":
+            add_book(conn)
+        elif choice == "2":
+            list_books(conn)
+        elif choice == "3":
+            show_book_detail(conn)
+        elif choice == "4":
+            add_note(conn)
+        elif choice == "5":
+            update_rating(conn)
+        elif choice == "6":
+            delete_note(conn)
+        elif choice == "7":
+            delete_book(conn)
+        elif choice == "8":
+            search_books(conn)
+        elif choice == "0":
+            print("Bye.")
+            break
+        else:
+            print("Neplatná volba.")
+
+    conn.close()
+
+if __name__ == "__main__":
+    main()</code></pre>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal5-2-sqlsafe">
+            Více: proč parametrizace a ne f-string
+          </button>
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal5-2-transactions">
+            Více: transakce (commit/rollback) v praxi
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 6) Cvičení -->
+    <details class="acc" open>
+      <summary class="acc__sum">6) Cvičení (basic → prakticky)</summary>
+      <div class="acc__body">
+
+        <div class="accordion">
+
+          <details class="acc" open>
+            <summary class="acc__sum">6.1 Přidej do books nový sloupec</summary>
+            <div class="acc__body">
+              <ol class="steps">
+                <li>Přidej do tabulky <code>books</code> sloupec <code>genre</code> (žánr).</li>
+                <li>Uprav funkci <code>add_book()</code>, ať žánr ukládá.</li>
+                <li>Uprav výpis knih, ať se žánr ukazuje.</li>
+              </ol>
+              <ul class="bullets">
+                <li>Hint: <code>ALTER TABLE books ADD COLUMN genre TEXT;</code></li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="acc">
+            <summary class="acc__sum">6.2 Přidej „tagy“ (M:N relace)</summary>
+            <div class="acc__body">
+              <ol class="steps">
+                <li>Vytvoř tabulku <code>tags</code> (id, name UNIQUE).</li>
+                <li>Vytvoř propojovací tabulku <code>book_tags</code> (book_id, tag_id) s FK na obě tabulky.</li>
+                <li>Udělěj funkci „přidat tag ke knize“.</li>
+              </ol>
+              <ul class="bullets">
+                <li>Cíl: pochopit, proč se M:N řeší propojovací tabulkou.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="acc">
+            <summary class="acc__sum">6.3 Export do CSV</summary>
+            <div class="acc__body">
+              <ol class="steps">
+                <li>Načti knihy z DB.</li>
+                <li>Ulož je do souboru <code>books.csv</code> (id,title,author,year,rating).</li>
+              </ol>
+            </div>
+          </details>
+
+          <details class="acc">
+            <summary class="acc__sum">6.4 Přidej jednoduchý „report“</summary>
+            <div class="acc__body">
+              <ol class="steps">
+                <li>Dotaz: „kolik poznámek má každá kniha“ (agregace).</li>
+                <li>Seřaď od knih s nejvíce poznámkami.</li>
+              </ol>
+              <ul class="bullets">
+                <li>Hint: <code>COUNT()</code> + <code>GROUP BY</code></li>
+              </ul>
+            </div>
+          </details>
+
+        </div>
+
+      </div>
+    </details>
+
+  </div>
+
+  <!-- Shrnutí -->
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+
+    <ul class="checklist">
+      <li>SQLite je <strong>SQL databáze v jednom souboru</strong> – ideální pro Python projekty bez serveru.</li>
+      <li>Umíš vytvořit tabulky (DDL) a dělat CRUD operace (DML).</li>
+      <li>Rozumíš PK/FK a relaci 1:N (kniha → poznámky).</li>
+      <li>Víš, proč se SQL musí psát <strong>parametrizovaně</strong> (bezpečnost).</li>
+      <li>Chápeš transakce (<code>commit</code>/<code>rollback</code>) a proč chrání data.</li>
+    </ul>
+  </article>
+
+  <!-- TEST -->
+  <article class="card">
+    <h3 class="card__title">Test: SQLite a SQL v Pythonu</h3>
+
+    <div class="quiz-question">
+      <p><strong>1. Co je SQLite?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Embedded SQL databáze, typicky v jednom .db souboru</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Cloudová služba pro ukládání fotek</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Tabulkový procesor jako Excel</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>2. Co je DBMS?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Software, který databázi spravuje (dotazy, ukládání, pravidla, práva)</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Soubor s daty (např. .db)</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Typ grafu v Excelu</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>3. Proč Excel není databáze v profesionálním smyslu?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Protože neumí řazení a filtrování</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Protože neřeší plnohodnotně relace, integritu, transakce a práci více uživatelů jako DBMS</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Protože neumí ukládat data</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>4. Který příkaz patří do DDL?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">CREATE TABLE</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">SELECT</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">INSERT</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>5. Co znamená CRUD?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Create, Read, Update, Delete</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Copy, Replace, Upload, Download</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Create, Reset, Undo, Debug</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>6. K čemu slouží primární klíč (PK)?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Jednoznačně identifikuje každý záznam v tabulce</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Zrychlí internet</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Nahradí všechny sloupce v tabulce</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>7. Co dělá cizí klíč (FK)?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Propojí tabulky – odkazuje na záznam v jiné tabulce</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Vytvoří graf z dat</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Automaticky smaže databázi</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>8. Proč se v Pythonu používá parametrizace (?, ?, ?)?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Kvůli bezpečnosti (SQL injection) a správnému escapování hodnot</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Aby se SQL dalo psát jen velkými písmeny</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Protože to zrychlí CPU o 200 %</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>9. Co udělá COMMIT?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Potvrdí a uloží změny natrvalo</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Smaže tabulky</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Vrátí změny zpět</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>10. K čemu slouží index?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Zrychluje vyhledávání (SELECT) – funguje jako „rejstřík“</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Nahrazuje primární klíč ve všech tabulkách</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Zakáže přístup do databáze</button>
+      </div>
+    </div>
+
+  </article>
+
+</section>
+
+<!-- =========================================================
+TEMPLATE MODALY (umísti obvykle na konec stránky, mimo sekci)
+========================================================= -->
+
+<!-- MODÁL – DB vs DBMS -->
+<div class="modal" id="modal5-2-dbms" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">DB vs DBMS (stručně a správně)</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <ul class="bullets">
+          <li><strong>DB (Database)</strong> = uložená data (obsah).</li>
+          <li><strong>DBMS</strong> = program, který databázi spravuje (dotazy, ukládání, pravidla, oprávnění).</li>
+          <li><strong>SQLite</strong> = DBMS, které funguje „v aplikaci“ a ukládá data do .db souboru.</li>
+        </ul>
+        <div class="note note--info">
+          <strong>Prakticky:</strong> V Pythonu voláš DBMS přes <code>sqlite3</code> a DB je soubor <code>.db</code>.
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://docs.python.org/3/library/sqlite3.html" target="_blank" rel="noopener">sqlite3</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODÁL – PK/FK -->
+<div class="modal" id="modal5-2-keys" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">PK a FK (proč to v databázích existuje)</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <ul class="bullets">
+          <li><strong>PK (Primary Key)</strong> = ID, které jednoznačně označí záznam (např. kniha #12).</li>
+          <li><strong>FK (Foreign Key)</strong> = odkaz na PK v jiné tabulce (poznámka patří ke knize).</li>
+          <li>Bez klíčů bys měl duplicity a nešel by dělat spolehlivý JOIN.</li>
+        </ul>
+        <div class="note note--info">
+          <strong>Tip:</strong> Jméno knihy není dobré ID. Může se změnit, může být stejné u více knih.
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODÁL – SQL bezpečně -->
+<div class="modal" id="modal5-2-sqlsafe" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Bezpečné SQL: parametrizace (proč ne f-string)</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Když skládáš SQL z textu (např. f-string), riskuješ <strong>SQL injection</strong> a taky chyby v escapování znaků.
+          Parametrizace předá hodnoty odděleně a DBMS si je bezpečně ošetří.
+        </p>
+
+        <pre><code class="language-python"># ŠPATNĚ (nebezpečné)
+sql = f"SELECT * FROM books WHERE title = '{user_input}';"
+
+# SPRÁVNĚ (parametrizace)
+sql = "SELECT * FROM books WHERE title = ?;"
+rows = conn.execute(sql, (user_input,)).fetchall()</code></pre>
+
+        <div class="note note--info">
+          <strong>Pravidlo:</strong> SQL příkaz je šablona, hodnoty se posílají jako parametry.
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODÁL – Transakce -->
+<div class="modal" id="modal5-2-transactions" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Transakce: commit / rollback (proč chrání data)</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Transakce znamená: buď se provede všechno, nebo nic. Když se uprostřed něco pokazí,
+          nechceš, aby databáze zůstala „napůl změněná“.
+        </p>
+
+        <pre><code class="language-python">try:
+    conn.execute("UPDATE books SET rating = ? WHERE id = ?;", (5, 1))
+    conn.execute("INSERT INTO notes (book_id, note_text, created_at) VALUES (?, ?, ?);", (1, "Super kniha!", now_iso()))
+    conn.commit()      # uložit
+except Exception:
+    conn.rollback()    # vrátit
+    raise</code></pre>
+
+        <div class="note note--info">
+          <strong>Pointa:</strong> commit = potvrdit, rollback = zrušit změny a vrátit stav.
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+
+    </div>
+  </div>
+</div>
