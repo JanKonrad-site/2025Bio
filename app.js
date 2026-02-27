@@ -6,6 +6,53 @@
 
   const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  // ---------------------------
+  // "Coming soon" (Commin) cards + shake feedback
+  // - used for both Výuka and Projekty
+  // ---------------------------
+  function isComingSoonCard(el) {
+    if (!el) return false;
+    if (String(el.dataset.comingSoon || el.getAttribute("data-coming-soon") || "") === "1") return true;
+
+    // Heuristics (keeps HTML untouched):
+    const title = (el.querySelector(".flipCard__title")?.textContent || "").toLowerCase();
+    const desc  = (el.querySelector(".flipCard__desc")?.textContent || el.querySelector(".projDesc")?.textContent || "").toLowerCase();
+    const href  = (el.getAttribute("href") || "").trim().toLowerCase();
+    const aria  = (el.getAttribute("aria-label") || "").toLowerCase();
+
+    const imgSrc = (el.querySelector("img")?.getAttribute("src") || "").toLowerCase();
+    const imgAlt = (el.querySelector("img")?.getAttribute("alt") || "").toLowerCase();
+
+    const hasCommin =
+      title.includes("commin") || title.includes("coming") ||
+      desc.includes("připravujeme") || desc.includes("brzy") ||
+      aria.includes("brzy") || aria.includes("coming") || aria.includes("commin") ||
+      imgSrc.includes("commin") || imgAlt.includes("commin");
+
+    // Only treat as coming-soon when there is clear "commin/coming soon" signal
+    return hasCommin;
+  }
+
+  function shakeNope(el) {
+    if (!el) return;
+    if (el.dataset.shaking === "1") return;
+    el.dataset.shaking = "1";
+    el.classList.add("is-shaking");
+
+    const done = () => {
+      el.classList.remove("is-shaking");
+      el.dataset.shaking = "0";
+    };
+
+    el.addEventListener("animationend", done, { once: true });
+
+    // reduced-motion: instant feedback (no animation)
+    if (prefersReduced) {
+      requestAnimationFrame(done);
+    }
+  }
+
+
   const sections = $$(".pageSection");
 
   // HUB / tiles
@@ -522,6 +569,13 @@ document.addEventListener("click", (e) => {
     }
 
     // second tap:
+    if (isComingSoonCard(card)) {
+      e.preventDefault();
+      e.stopPropagation();
+      shakeNope(card);
+      return;
+    }
+
     if (isProject) {
       e.preventDefault();
       e.stopPropagation();
@@ -915,6 +969,15 @@ function stepCarousel(carouselEl, dir){
 
 
   document.addEventListener("click", (e) => {
+    // Coming soon cards (Výuka/Projekty): shake instead of opening/navigating
+    const comingCard = e.target.closest(".flipCard");
+    if (comingCard && isComingSoonCard(comingCard)) {
+      e.preventDefault();
+      e.stopPropagation();
+      shakeNope(comingCard);
+      return;
+    }
+
     const projectBtn = e.target.closest("[data-project-open]");
     if (projectBtn) {
       e.preventDefault();

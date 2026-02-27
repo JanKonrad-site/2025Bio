@@ -1510,3 +1510,103 @@ html.is-sheet-open .tile--contact:hover .tile__title{
 }
 
 .modalAction.is-disabled{ opacity: 0.45; pointer-events: none; }
+
+
+/* =========================
+   MOBILE GALLERY FIX (fit images on phones)
+   ========================= */
+.galleryModal{
+  --modalPad: clamp(10px, 2.2vw, 18px);
+  padding:
+    calc(var(--modalPad) + env(safe-area-inset-top))
+    calc(var(--modalPad) + env(safe-area-inset-right))
+    calc(var(--modalPad) + env(safe-area-inset-bottom))
+    calc(var(--modalPad) + env(safe-area-inset-left));
+}
+
+.galleryModal__frame{ min-height: 0; }
+.galleryModal__body{ min-height: 0; }
+
+/* Use dynamic viewport units when available (mobile browser bars) */
+@supports (height: 100dvh){
+  .galleryModal__frame{
+    max-height: calc(100dvh - (var(--modalPad) * 2));
+  }
+}
+
+/* Mobile: carousel fills the remaining space under the header, images always fit */
+@media (max-width: 900px){
+  .galleryModal__frame{
+    width: 100%;
+    height: 100%;
+    max-height: calc(100vh - (var(--modalPad) * 2));
+  }
+
+  .galleryModal__header{
+    padding: 10px 10px;
+    gap: 10px;
+  }
+
+  .galleryModal__body{
+    padding: 10px;
+    /* keep vertical overflow only when the modal contains extra text (project modal) */
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .galleryModal .carousel--modal{
+    height: 100%;
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+  }
+
+  .galleryModal .carousel--modal .carousel__viewport{
+    height: 100%;
+    min-height: 0;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .galleryModal .carousel--modal .carousel__track{
+    height: 100%;
+    gap: 10px;
+  }
+
+  .galleryModal .carousel--modal .carousel__slide{
+    flex: 0 0 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .galleryModal .carousel--modal .carousel__slide img{
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .carBtn{ --size: 40px; }
+}
+
+/* =========================
+   COMMIN / Coming-soon shake
+   ========================= */
+@keyframes nopeShake{
+  0%{ transform: translateX(0); }
+  15%{ transform: translateX(-7px); }
+  30%{ transform: translateX(7px); }
+  45%{ transform: translateX(-5px); }
+  60%{ transform: translateX(5px); }
+  75%{ transform: translateX(-3px); }
+  90%{ transform: translateX(3px); }
+  100%{ transform: translateX(0); }
+}
+
+.flipCard.is-shaking{
+  animation: nopeShake 420ms var(--ease);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .flipCard.is-shaking{ animation: none; }
+}
