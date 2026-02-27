@@ -85,6 +85,79 @@ from pathlib import Path</code></pre>
           <code>Path(__file__)</code> vytvoří objekt cesty. Metoda <code>resolve()</code> vrátí „vyřešenou“ (typicky absolutní) cestu.
           Je to metoda Pythonu (patří třídě <code>Path</code>), nikoli SQLite.
         </p>
+        <!-- =========================================================
+DOPLNĚK DO 3.2.0 – Relativní vs. absolutní cesta (a proč resolve())
+VLOŽ do sekce 3.2.0 ideálně jako nový akordeon mezi body 3) a 4)
+========================================================= -->
+<details class="acc" open>
+  <summary class="acc__sum">3.5) Relativní vs. absolutní cesta (a proč někdy používáme <code>resolve()</code>)</summary>
+  <div class="acc__body">
+
+    <p>
+      Při práci se soubory existují dva základní způsoby, jak zapsat cestu: <strong>relativně</strong> a <strong>absolutně</strong>.
+      Rozdíl je důležitý hlavně proto, že program může být spuštěn z různých míst (IDE, terminál, dvojklik).
+    </p>
+
+    <h6>Relativní cesta</h6>
+    <p>
+      <strong>Relativní cesta</strong> je „vztahovaná“ k nějakému výchozímu místu (typicky k aktuální pracovní složce).
+      Neobsahuje celý disk a celou strukturu složek – je kratší, ale závisí na tom, <em>odkud program běží</em>.
+    </p>
+
+    <ul class="bullets">
+      <li>Příklad: <code>movies.db</code></li>
+      <li>Příklad: <code>data/movies.db</code></li>
+      <li>Příklad: <code>../movies.db</code></li>
+    </ul>
+
+    <div class="note note--info">
+      <strong>Důsledek:</strong> Pokud se změní pracovní složka, relativní cesta může „mířit jinam“, i když kód zůstane stejný.
+    </div>
+
+    <h6>Absolutní cesta</h6>
+    <p>
+      <strong>Absolutní cesta</strong> je úplná, jednoznačná cesta od kořene (na Windows typicky od disku <code>C:\</code>).
+      Nezávisí na tom, odkud program spouštíš.
+    </p>
+
+    <ul class="bullets">
+      <li>Příklad (Windows): <code>C:\Users\...\Projekt\movies.db</code></li>
+    </ul>
+
+    <div class="note note--info">
+      <strong>Důsledek:</strong> Absolutní cesta je vždy jednoznačná – je jasné, kde soubor hledat.
+    </div>
+
+    <h6>Proč někdy používáme <code>resolve()</code></h6>
+    <p>
+      Metoda <code>resolve()</code> (z modulu <code>pathlib</code>) převede cestu na „vyřešenou“ podobu.
+      V praxi typicky:
+    </p>
+
+    <ul class="bullets">
+      <li>z relativní cesty udělá absolutní cestu,</li>
+      <li>odstraní části jako <code>.</code> a <code>..</code> (normalizace),</li>
+      <li>zjednoduší kontrolu a ladění (debug) – vidíš přesně, kam cesta míří.</li>
+    </ul>
+
+    <p>
+      Někdy (podle způsobu spuštění) může být <code>__file__</code> už absolutní, a pak se výpis s <code>resolve()</code> bude zdát stejný.
+      V takovém případě je <code>resolve()</code> spíš „pojistka“ pro konzistentní chování.
+    </p>
+
+    <h6>Mini demonstrace (doporučeno vyzkoušet)</h6>
+    <p>
+      Následující kód ukáže rozdíl na záměrně relativní cestě. Výsledek s <code>resolve()</code> bude vždy absolutní.
+    </p>
+
+    <pre><code class="language-python">from pathlib import Path
+
+p = Path("..") / "Databaze" / "movies.db"
+print("Bez resolve:", p)
+print("S resolve:  ", p.resolve())</code></pre>
+
+  </div>
+</details>
 
         <pre><code class="language-python">from pathlib import Path
 
