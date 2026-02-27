@@ -335,12 +335,12 @@
           <div class="panel__inner">
             <div class="flipGrid" aria-label="Projekty – karty">
               <a class="flipCard flipCard--project"
-                 href="#"
+                 href="https://jankonrad-site.github.io/Duse_Prototype/"
                  target="_blank"
                  rel="noopener"
                  data-project-open="dusa"
                  data-project-title="Duše"
-                 data-project-images="./assets/projects/p1.webp,./assets/projects/p1.webp,./assets/projects/p1.webp"
+                 data-project-images="./assets/project/duse/1.png,./assets/project/duse/2.png,./assets/project/duse/3.png"
                  aria-label="Duše – detail">
                 <div class="flipCard__inner">
                   <div class="flipCard__face flipCard__front">
@@ -386,9 +386,9 @@
                  target="_blank"
                  rel="noopener"
                  data-project-open="p2"
-                 data-project-title="Projekt 2"
-                 data-project-images="./assets/Project/sarvatky/1.png,./assets/Project/sarvatky/2.png,./assets/Project/sarvatky/3.png,./assets/Project/sarvatky/4.png,./assets/Project/sarvatky/5.png"
-                 aria-label="Projekt 2 – detail">
+                 data-project-title="Šarvátky králů"
+                 data-project-images="./assets/project/sarvatky/1.png,./assets/project/sarvatky/2.png,./assets/project/sarvatky/3.png,./assets/project/sarvatky/4.png,./assets/project/sarvatky/5.png"
+                 aria-label="Šarvátky králů – detail">
                 <div class="flipCard__inner">
                   <div class="flipCard__face flipCard__front">
                     <img class="flipCard__img" src="./assets/sarvatky.png" alt="" aria-hidden="true" style="object-fit: fill;"/>
@@ -417,7 +417,7 @@
                         </div>
                         <div class="projMeta__row">
                           <span class="projMeta__k">Stack</span>
-                          <span class="projMeta__v">HTML · CSS · JavaScript</span>
+                          <span class="projMeta__v">Deskovka</span>
                         </div>
                       </div>
 
@@ -543,14 +543,19 @@
   <!-- =========================
        PROJECT MODAL (fullscreen carousel + link)
        ========================= -->
-  <div class="galleryModal projectModal" id="projectModal" aria-hidden="true" hidden>
+  
+       <div class="galleryModal projectModal" id="projectModal" aria-hidden="true" hidden>
     <div class="galleryModal__scrim" data-project-close aria-hidden="true"></div>
+
 
     <div class="galleryModal__frame" role="dialog" aria-modal="true" aria-label="Projekt">
       <header class="galleryModal__header">
         <button class="backBtn" type="button" data-project-close aria-label="Zpět"></button>
         <div class="galleryModal__title" id="projectModalTitle">Projekt</div>
         <button class="closeBtn" type="button" data-project-close aria-label="Zavřít projekt"></button>
+          <div class="projectModal__actions" aria-label="Akce projektu">
+          <a class="modalAction" href="https://jankonrad-site.github.io/Duse_Prototype/" target="_blank" rel="noopener" data-project-action>Hrát projekt</a>
+        </div>
       </header>
 
       <div class="galleryModal__body">
@@ -577,13 +582,12 @@
           </div>
         </div>
 
-        <div class="projectModal__actions" aria-label="Akce projektu">
-          <a class="modalAction" href="#" target="_blank" rel="noopener" data-project-action>Otevřít projekt →</a>
-        </div>
+      
       </div>
     </div>
   </div>
 
 <script src="./app.js?v=1"></script>
+
 </body>
 </html>
