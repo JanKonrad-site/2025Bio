@@ -1,0 +1,401 @@
+<!-- =========================================================
+3.2.1 – SQLite v Pythonu: otevření databáze, vytvoření tabulky, první zápis a ověření
+========================================================= -->
+<section id="section5-2-1" class="lesson">
+
+  <header class="lesson__header">
+    <h2 class="lesson__title">3.2.1 SQLite v Pythonu – otevření databáze a první data (krok za krokem)</h2>
+    <p class="lesson__lead">
+      Navazujeme na 3.2.0 (cesta k souboru databáze). Teď poprvé databázi v Pythonu otevřeme, vytvoříme tabulku,
+      uložíme jeden záznam a průběžně ověříme, co se skutečně stalo (soubor, tabulka, počet záznamů).
+    </p>
+  </header>
+
+  <article class="card">
+    <h3 class="card__title">Co se v této lekci naučíš?</h3>
+    <ul class="checklist">
+      <li><strong>Otevření databáze</strong> – co dělá <code>sqlite3.connect()</code> a co je <code>conn</code>.</li>
+      <li><strong>Vytvoření tabulky</strong> – <code>CREATE TABLE IF NOT EXISTS</code> a jak ověřit, že tabulka existuje.</li>
+      <li><strong>Uložení dat</strong> – <code>INSERT</code> s parametry <code>?</code>.</li>
+      <li><strong>Ověření výsledku</strong> – <code>SELECT COUNT(*)</code> a čtení výsledku přes <code>fetchone()</code>.</li>
+      <li><strong>commit() a close()</strong> – proč se změny potvrzují a proč spojení zavíráme.</li>
+    </ul>
+
+    <div class="note note--info">
+      <strong>Doporučení:</strong> Spouštěj skript z terminálu ve složce se souborem (kvůli ověřování souboru <code>movies.db</code>).
+    </div>
+  </article>
+
+  <div class="actions">
+    <a class="btn btn--primary" href="#" target="_blank" rel="noopener">
+      Primární akce (např. startovací soubor / zadání)
+    </a>
+    <a class="btn btn--ghost" href="https://docs.python.org/3/library/sqlite3.html" target="_blank" rel="noopener">
+      Python sqlite3 (dokumentace)
+    </a>
+  </div>
+
+  <div class="accordion">
+
+    <!-- 0) Startovní soubor -->
+    <details class="acc" open>
+      <summary class="acc__sum">0) Start: vytvoř soubor a připrav proměnnou <code>DB_FILE</code></summary>
+      <div class="acc__body">
+        <p>
+          Vytvoř soubor <code>db_step_open_create_insert.py</code>. Na začátek vlož stejný základ jako v 3.2.0:
+          importy a cestu k databázi.
+        </p>
+
+        <pre><code class="language-python">import sqlite3
+from pathlib import Path
+
+DB_FILE = Path(__file__).resolve().with_name("movies.db")</code></pre>
+
+        <p>
+          V této lekci budeme ověřovat, co se děje. Proto budeme občas vypisovat:
+          <code>DB_FILE</code> a <code>DB_FILE.exists()</code>.
+        </p>
+      </div>
+    </details>
+
+    <!-- 1) Otevření databáze (connect) -->
+    <details class="acc" open>
+      <summary class="acc__sum">1) Krok 1: otevření databáze (co dělá <code>connect</code>)</summary>
+      <div class="acc__body">
+        <p>
+          SQLite databáze je soubor. Připojení se otevře pomocí <code>sqlite3.connect(...)</code>.
+          Výsledkem je objekt <code>conn</code> (connection) – přes něj posíláme SQL příkazy.
+        </p>
+
+        <pre><code class="language-python">def open_and_close_db():
+    print("DB path:", DB_FILE)
+    print("DB exists before connect:", DB_FILE.exists())
+
+    conn = sqlite3.connect(str(DB_FILE))
+    conn.close()
+
+    print("DB exists after close:", DB_FILE.exists())</code></pre>
+
+        <p>
+          Přidej spouštěcí blok, aby se funkce opravdu vykonala (vysvětlení je v kroku 5):
+        </p>
+
+        <pre><code class="language-python">if __name__ == "__main__":
+    open_and_close_db()
+    input("ENTER pro ukončení...")</code></pre>
+
+        <p><strong>Spusť a ověř:</strong></p>
+        <ul class="bullets">
+          <li>Před připojením bývá <code>False</code>.</li>
+          <li>Po zavření připojení se typicky objeví soubor a <code>exists()</code> bude <code>True</code>.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Co jsme ověřili?</strong> Umíme databázi „otevřít“ a víme, kam se ukládá soubor.
+        </div>
+      </div>
+    </details>
+
+    <!-- 2) CREATE TABLE -->
+    <details class="acc">
+      <summary class="acc__sum">2) Krok 2: vytvoření tabulky (CREATE TABLE) a význam jednotlivých částí</summary>
+      <div class="acc__body">
+        <p>
+          Tabulka je struktura pro ukládání záznamů. V SQLite ji vytvoříme SQL příkazem <code>CREATE TABLE</code>.
+          Tento příkaz posíláme přes <code>conn.execute(...)</code>.
+        </p>
+
+        <pre><code class="language-python">def create_table_movies():
+    conn = sqlite3.connect(str(DB_FILE))
+
+    conn.execute("""
+    CREATE TABLE IF NOT EXISTS movies (
+        id    INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT    NOT NULL,
+        year  INTEGER
+    );
+    """)
+
+    conn.commit()
+    conn.close()</code></pre>
+
+        <p><strong>Co znamenají části SQL:</strong></p>
+        <ul class="bullets">
+          <li><code>CREATE TABLE</code> – vytvoří tabulku.</li>
+          <li><code>IF NOT EXISTS</code> – druhé spuštění nespadne (tabulka už existuje).</li>
+          <li><code>movies</code> – název tabulky.</li>
+          <li><code>id INTEGER PRIMARY KEY AUTOINCREMENT</code> – automatické číselné ID (unikátní).</li>
+          <li><code>title TEXT NOT NULL</code> – text, který nesmí být prázdný (<code>NULL</code>).</li>
+          <li><code>year INTEGER</code> – rok (může zůstat nevyplněný = <code>NULL</code>).</li>
+        </ul>
+
+        <p><strong>Spusť a ověř:</strong> uprav spouštěcí blok takto:</p>
+
+        <pre><code class="language-python">if __name__ == "__main__":
+    create_table_movies()
+    print("DB exists:", DB_FILE.exists())
+    input("ENTER pro ukončení...")</code></pre>
+
+        <div class="note note--info">
+          <strong>Proč <code>commit()</code>?</strong> Potvrzuje změny (např. vytvoření tabulky) do databázového souboru.
+        </div>
+      </div>
+    </details>
+
+    <!-- 3) Ověření, že tabulka existuje -->
+    <details class="acc">
+      <summary class="acc__sum">3) Krok 3: ověření tabulky (čtení metadat SQLite)</summary>
+      <div class="acc__body">
+        <p>
+          Abychom neověřovali jen existenci souboru, zjistíme, jaké tabulky databáze skutečně obsahuje.
+          SQLite to eviduje v systémové tabulce <code>sqlite_master</code>.
+        </p>
+
+        <pre><code class="language-python">def list_tables():
+    conn = sqlite3.connect(str(DB_FILE))
+    rows = conn.execute("SELECT name FROM sqlite_master WHERE type='table';").fetchall()
+    conn.close()
+    return [r[0] for r in rows]</code></pre>
+
+        <p>Spouštěcí blok:</p>
+
+        <pre><code class="language-python">if __name__ == "__main__":
+    create_table_movies()
+    print("Tables:", list_tables())
+    input("ENTER pro ukončení...")</code></pre>
+
+        <p><strong>Spusť a ověř:</strong> ve výpisu musí být <code>movies</code>.</p>
+      </div>
+    </details>
+
+    <!-- 4) INSERT + ověření COUNT -->
+    <details class="acc" open>
+      <summary class="acc__sum">4) Krok 4: uložíme film (INSERT) a ověříme to přes COUNT(*)</summary>
+      <div class="acc__body">
+        <p>
+          Teď uložíme jeden záznam. Pro ověření použijeme <code>SELECT COUNT(*)</code>,
+          což je nejjednodušší kontrola, že se počet řádků změnil.
+        </p>
+
+        <pre><code class="language-python">def insert_movie(title, year):
+    conn = sqlite3.connect(str(DB_FILE))
+    conn.execute(
+        "INSERT INTO movies (title, year) VALUES (?, ?);",
+        (title, year)
+    )
+    conn.commit()
+    conn.close()</code></pre>
+
+        <pre><code class="language-python">def count_movies():
+    conn = sqlite3.connect(str(DB_FILE))
+    n = conn.execute("SELECT COUNT(*) FROM movies;").fetchone()[0]
+    conn.close()
+    return n</code></pre>
+
+        <p>Spouštěcí blok (před/po):</p>
+
+        <pre><code class="language-python">if __name__ == "__main__":
+    create_table_movies()
+
+    before = count_movies()
+    print("Count before:", before)
+
+    title = input("Název filmu: ").strip()
+    year_text = input("Rok (ENTER = nevyplnit): ").strip()
+    year = int(year_text) if year_text else None
+
+    insert_movie(title, year)
+
+    after = count_movies()
+    print("Count after:", after)
+
+    input("ENTER pro ukončení...")</code></pre>
+
+        <p><strong>Spusť a ověř:</strong> <code>after</code> musí být o 1 vyšší než <code>before</code>.</p>
+      </div>
+    </details>
+
+    <!-- 5) if __name__ == "__main__" -->
+    <details class="acc">
+      <summary class="acc__sum">5) Proč máme <code>if __name__ == "__main__":</code> (a co přesně dělá)</summary>
+      <div class="acc__body">
+        <p>
+          Soubor může být použit dvěma způsoby: (1) spustím ho jako program, (2) naimportuji ho jako modul.
+          Python podle toho nastaví proměnnou <code>__name__</code>.
+        </p>
+
+        <ul class="bullets">
+          <li>Při přímém spuštění: <code>__name__ == "__main__"</code></li>
+          <li>Při importu: <code>__name__</code> je název souboru (modulu), např. <code>"db_step_open_create_insert"</code></li>
+        </ul>
+
+        <p>
+          Blok <code>if __name__ == "__main__":</code> tedy říká: „spusť následující část jen tehdy, když tento soubor běží jako hlavní program“.
+          Je to standardní způsob, jak mít v jednom souboru definice funkcí a zároveň testovací běh.
+        </p>
+
+        <p><strong>Volitelná kontrola:</strong></p>
+        <pre><code class="language-python">print("__name__:", __name__)</code></pre>
+
+        <div class="note note--info">
+          <strong>Praktický přínos:</strong> Později budeš chtít funkce importovat do jiné aplikace. Díky této podmínce se při importu nespustí testovací část.
+        </div>
+      </div>
+    </details>
+
+    <!-- 6) Kompletní řešení -->
+    <details class="acc">
+      <summary class="acc__sum">6) Kompletní soubor po lekci 3.2.1 (pro kontrolu)</summary>
+      <div class="acc__body">
+        <pre><code class="language-python">import sqlite3
+from pathlib import Path
+
+DB_FILE = Path(__file__).resolve().with_name("movies.db")
+
+def open_and_close_db():
+    print("DB path:", DB_FILE)
+    print("DB exists before connect:", DB_FILE.exists())
+    conn = sqlite3.connect(str(DB_FILE))
+    conn.close()
+    print("DB exists after close:", DB_FILE.exists())
+
+def create_table_movies():
+    conn = sqlite3.connect(str(DB_FILE))
+    conn.execute("""
+    CREATE TABLE IF NOT EXISTS movies (
+        id    INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT    NOT NULL,
+        year  INTEGER
+    );
+    """)
+    conn.commit()
+    conn.close()
+
+def list_tables():
+    conn = sqlite3.connect(str(DB_FILE))
+    rows = conn.execute("SELECT name FROM sqlite_master WHERE type='table';").fetchall()
+    conn.close()
+    return [r[0] for r in rows]
+
+def insert_movie(title, year):
+    conn = sqlite3.connect(str(DB_FILE))
+    conn.execute("INSERT INTO movies (title, year) VALUES (?, ?);", (title, year))
+    conn.commit()
+    conn.close()
+
+def count_movies():
+    conn = sqlite3.connect(str(DB_FILE))
+    n = conn.execute("SELECT COUNT(*) FROM movies;").fetchone()[0]
+    conn.close()
+    return n
+
+if __name__ == "__main__":
+    # 1) Ověření cesty + existence
+    open_and_close_db()
+
+    # 2) Tabulka
+    create_table_movies()
+    print("Tables:", list_tables())
+
+    # 3) Ověření dat
+    before = count_movies()
+    print("Count before:", before)
+
+    title = input("Název filmu: ").strip()
+    year_text = input("Rok (ENTER = nevyplnit): ").strip()
+    year = int(year_text) if year_text else None
+
+    insert_movie(title, year)
+
+    after = count_movies()
+    print("Count after:", after)
+
+    input("ENTER pro ukončení...")</code></pre>
+      </div>
+    </details>
+
+  </div>
+
+  <!-- Cvičení -->
+  <article class="card">
+    <h3 class="card__title">Cvičení (krátké)</h3>
+    <ol class="steps">
+      <li>Spusť skript a vlož dva různé filmy. Po každém vložení si zapiš hodnoty <code>Count before</code> a <code>Count after</code>.</li>
+      <li>Změň název tabulky z <code>movies</code> na <code>games</code> (v <code>CREATE TABLE</code>, <code>INSERT</code> i <code>COUNT</code>) a ověř, že vše funguje.</li>
+      <li>Přidej do tabulky nový sloupec <code>genre TEXT</code> a zkontroluj, že tabulka se stále vytvoří (zatím ho nemusíš ukládat).</li>
+    </ol>
+  </article>
+
+  <!-- Shrnutí -->
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+    <ul class="checklist">
+      <li>Otevření databáze dělá <code>sqlite3.connect()</code> a vrací spojení <code>conn</code>.</li>
+      <li>Tabulku vytvoříš SQL příkazem <code>CREATE TABLE</code> přes <code>conn.execute()</code>.</li>
+      <li>Změny se potvrdí pomocí <code>commit()</code> a spojení uzavřeš <code>close()</code>.</li>
+      <li>Uložení záznamu ověříš dotazem <code>SELECT COUNT(*)</code>.</li>
+      <li><code>if __name__ == "__main__":</code> spouští testovací běh jen při přímém spuštění souboru.</li>
+    </ul>
+  </article>
+
+  <!-- Test -->
+  <article class="card">
+    <h3 class="card__title">Test: otevření DB, tabulka, vložení a ověření</h3>
+
+    <div class="quiz-question">
+      <p><strong>1. Co vrací <code>sqlite3.connect(...)</code>?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Objekt spojení (<code>conn</code>) k databázi</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Seznam tabulek</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">SQL dotaz jako text</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>2. Co dělá <code>conn.execute("...")</code>?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Provede SQL příkaz v databázi</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Zavře databázi</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Vytvoří nový Python soubor</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>3. Proč používáme <code>IF NOT EXISTS</code> u <code>CREATE TABLE</code>?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Aby skript šel spustit opakovaně bez chyby „tabulka už existuje“</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Aby se tabulka smazala při každém spuštění</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Aby se databáze uložila do cloudu</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>4. Co dělá <code>commit()</code>?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Potvrdí změny a uloží je do databázového souboru</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Vypíše obsah tabulky</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Přejmenuje databázi</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>5. Co ověřuje dotaz <code>SELECT COUNT(*) FROM movies</code>?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Počet záznamů v tabulce</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Strukturu tabulky</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Existenci souboru <code>.db</code></button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>6. Kdy se vykoná blok <code>if __name__ == "__main__":</code>?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Když soubor spustíme přímo jako hlavní program</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Když soubor importujeme v jiném skriptu</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Vždy, bez ohledu na způsob spuštění</button>
+      </div>
+    </div>
+
+  </article>
+
+</section>

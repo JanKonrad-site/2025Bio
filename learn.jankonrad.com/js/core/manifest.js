@@ -171,7 +171,8 @@ export const NAV_TREE = [
           href: "#section5",
           children: [
             { title: "5.1 Úvod do databází", href: "#section5" },
-            { title: "5.1.1 Úvod do databází", href: "#section5-1-1" }
+            { title: "5.1.2 Moduly, funkce a cesty", href: "#section5-1-2" },
+            { title: "5.1.3 Vytvoření tabulky, relace a příkazy", href: "#section5-1-3" }
           ]
         },
         {
