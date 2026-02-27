@@ -1,0 +1,266 @@
+<!-- =========================================================
+3.2.0 – Příprava projektu: práce s cestou k databázi (Path, __file__, exists)
+========================================================= -->
+<section id="section5-2-0" class="lesson">
+
+  <header class="lesson__header">
+    <h2 class="lesson__title">3.2.0 Příprava projektu – kde bude databáze a jak to ověřit</h2>
+    <p class="lesson__lead">
+      Než napíšeme první SQL příkaz, ujasníme si jednu zásadní věc: kde přesně bude uložený databázový soubor.
+      Naučíš se pracovat s cestami v Pythonu pomocí <code>pathlib.Path</code>, zjistit cestu skriptu (<code>__file__</code>)
+      a ověřit, jestli soubor databáze existuje (<code>exists()</code>).
+    </p>
+  </header>
+
+  <article class="card">
+    <h3 class="card__title">Co se v této kapitole naučíš?</h3>
+    <ul class="checklist">
+      <li><strong>Co je modul</strong> a co znamená <code>import</code> v Pythonu.</li>
+      <li><strong>Co je <code>__file__</code></strong> – cesta k aktuálnímu Python souboru.</li>
+      <li><strong>Co je <code>Path</code></strong> – objekt pro práci s cestami k souborům.</li>
+      <li><strong>Metody <code>resolve()</code>, <code>with_name()</code>, <code>exists()</code></strong> – k čemu slouží a jak je ověřit.</li>
+      <li><strong>Proč to řešíme</strong> – aby databáze vždy vznikala vedle skriptu (a nemizela v jiné pracovní složce).</li>
+    </ul>
+
+    <div class="note note--info">
+      <strong>Poznámka:</strong> V této kapitole ještě nepíšeme SQL. Řešíme pouze přípravu projektu a umístění souboru databáze.
+    </div>
+  </article>
+
+  <div class="actions">
+    <a class="btn btn--primary" href="#" target="_blank" rel="noopener">
+      Primární akce (např. startovací soubor)
+    </a>
+    <a class="btn btn--ghost" href="https://docs.python.org/3/library/pathlib.html" target="_blank" rel="noopener">
+      Python pathlib (dokumentace)
+    </a>
+  </div>
+
+  <div class="accordion">
+
+    <details class="acc" open>
+      <summary class="acc__sum">1) Importy: co znamená <code>import</code></summary>
+      <div class="acc__body">
+        <p>
+          <code>import</code> načte modul (knihovnu). Modul je hotový kód, který Python umí použít.
+          V našem projektu budeme používat:
+        </p>
+        <ul class="bullets">
+          <li><strong><code>sqlite3</code></strong> – modul pro práci s SQLite databází (využijeme v další kapitole).</li>
+          <li><strong><code>pathlib</code></strong> – modul pro práci s cestami a soubory (využijeme hned teď).</li>
+        </ul>
+
+        <pre><code class="language-python">import sqlite3
+from pathlib import Path</code></pre>
+
+        <div class="note note--info">
+          <strong>Kontrola:</strong> Pokud se skript spustí bez chyby, moduly jsou dostupné.
+        </div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">2) <code>__file__</code>: odkud se spouští tento skript</summary>
+      <div class="acc__body">
+        <p>
+          <code>__file__</code> je proměnná, kterou Python nastaví uvnitř souboru. Obsahuje cestu k aktuálnímu <code>.py</code> souboru.
+          Díky tomu umíme pracovat „relativně ke skriptu“ – databáze pak může být ve stejné složce.
+        </p>
+
+        <pre><code class="language-python">print("__file__:", __file__)</code></pre>
+
+        <ol class="steps">
+          <li>Vytvoř soubor <code>path_check.py</code>.</li>
+          <li>Vlož importy a řádek výše.</li>
+          <li>Spusť: <code>python path_check.py</code></li>
+          <li>Ověř, že se vypíše cesta k souboru.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="acc" open>
+      <summary class="acc__sum">3) <code>Path(__file__)</code> a <code>resolve()</code>: absolutní cesta</summary>
+      <div class="acc__body">
+        <p>
+          <code>Path(__file__)</code> vytvoří objekt cesty. Metoda <code>resolve()</code> vrátí „vyřešenou“ (typicky absolutní) cestu.
+          Je to metoda Pythonu (patří třídě <code>Path</code>), nikoli SQLite.
+        </p>
+
+
+        <pre><code class="language-python">from pathlib import Path
+
+p = Path(__file__)
+print("Path(__file__):", p)
+print("resolve():", p.resolve())</code></pre>
+
+=======
+        <!-- =========================================================
+DOPLNĚK DO 3.2.0 – Relativní vs. absolutní cesta (a proč resolve())
+VLOŽ do sekce 3.2.0 ideálně jako nový akordeon mezi body 3) a 4)
+========================================================= -->
+<details class="acc" open>
+  <summary class="acc__sum">3.5) Relativní vs. absolutní cesta (a proč někdy používáme <code>resolve()</code>)</summary>
+  <div class="acc__body">
+
+    <p>
+      Při práci se soubory existují dva základní způsoby, jak zapsat cestu: <strong>relativně</strong> a <strong>absolutně</strong>.
+      Rozdíl je důležitý hlavně proto, že program může být spuštěn z různých míst (IDE, terminál, dvojklik).
+    </p>
+
+    <h6>Relativní cesta</h6>
+    <p>
+      <strong>Relativní cesta</strong> je „vztahovaná“ k nějakému výchozímu místu (typicky k aktuální pracovní složce).
+      Neobsahuje celý disk a celou strukturu složek – je kratší, ale závisí na tom, <em>odkud program běží</em>.
+    </p>
+
+    <ul class="bullets">
+      <li>Příklad: <code>movies.db</code></li>
+      <li>Příklad: <code>data/movies.db</code></li>
+      <li>Příklad: <code>../movies.db</code></li>
+    </ul>
+
+    <div class="note note--info">
+      <strong>Důsledek:</strong> Pokud se změní pracovní složka, relativní cesta může „mířit jinam“, i když kód zůstane stejný.
+    </div>
+
+    <h6>Absolutní cesta</h6>
+    <p>
+      <strong>Absolutní cesta</strong> je úplná, jednoznačná cesta od kořene (na Windows typicky od disku <code>C:\</code>).
+      Nezávisí na tom, odkud program spouštíš.
+    </p>
+
+    <ul class="bullets">
+      <li>Příklad (Windows): <code>C:\Users\...\Projekt\movies.db</code></li>
+    </ul>
+
+    <div class="note note--info">
+      <strong>Důsledek:</strong> Absolutní cesta je vždy jednoznačná – je jasné, kde soubor hledat.
+    </div>
+
+    <h6>Proč někdy používáme <code>resolve()</code></h6>
+    <p>
+      Metoda <code>resolve()</code> (z modulu <code>pathlib</code>) převede cestu na „vyřešenou“ podobu.
+      V praxi typicky:
+    </p>
+
+    <ul class="bullets">
+      <li>z relativní cesty udělá absolutní cestu,</li>
+      <li>odstraní části jako <code>.</code> a <code>..</code> (normalizace),</li>
+      <li>zjednoduší kontrolu a ladění (debug) – vidíš přesně, kam cesta míří.</li>
+    </ul>
+
+    <p>
+      Někdy (podle způsobu spuštění) může být <code>__file__</code> už absolutní, a pak se výpis s <code>resolve()</code> bude zdát stejný.
+      V takovém případě je <code>resolve()</code> spíš „pojistka“ pro konzistentní chování.
+    </p>
+
+    <h6>Mini demonstrace (doporučeno vyzkoušet)</h6>
+    <p>
+      Následující kód ukáže rozdíl na záměrně relativní cestě. Výsledek s <code>resolve()</code> bude vždy absolutní.
+    </p>
+
+    <pre><code class="language-python">from pathlib import Path
+
+p = Path("..") / "Databaze" / "movies.db"
+print("Bez resolve:", p)
+print("S resolve:  ", p.resolve())</code></pre>
+
+  </div>
+</details>
+
+        <pre><code class="language-python">from pathlib import Path
+
+p = Path(__file__)
+print("Path(__file__):", p)
+print("resolve():", p.resolve())</code></pre>
+
+
+        <div class="note note--info">
+          <strong>Kontrola:</strong> <code>resolve()</code> ti ukáže plnou cestu, se kterou je snadné dál pracovat.
+        </div>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">4) <code>with_name()</code>: databáze ve stejné složce jako skript</summary>
+      <div class="acc__body">
+        <p>
+          Metoda <code>with_name("movies.db")</code> vezme cestu ke skriptu a změní jen název souboru.
+          Výsledkem je cesta <code>.../movies.db</code> ve stejné složce.
+        </p>
+
+        <pre><code class="language-python">from pathlib import Path
+
+DB_FILE = Path(__file__).resolve().with_name("movies.db")
+print("DB path:", DB_FILE)</code></pre>
+
+        <div class="note note--info">
+          <strong>Kontrola:</strong> Cesta musí ukazovat do stejné složky, kde máš <code>path_check.py</code>.
+        </div>
+      </div>
+    </details>
+
+    <details class="acc" open>
+      <summary class="acc__sum">5) <code>exists()</code>: ověření, jestli soubor databáze existuje</summary>
+      <div class="acc__body">
+        <p>
+          Metoda <code>exists()</code> se ptá operačního systému, jestli soubor na dané cestě existuje.
+          Je to opět Python metoda (<code>Path</code>), nikoli SQLite.
+        </p>
+
+        <pre><code class="language-python">from pathlib import Path
+
+DB_FILE = Path(__file__).resolve().with_name("movies.db")
+
+print("DB path:", DB_FILE)
+print("DB exists:", DB_FILE.exists())</code></pre>
+
+        <ul class="bullets">
+          <li>Pokud databázi ještě nemáš vytvořenou, <code>exists()</code> vrátí <code>False</code>.</li>
+          <li>V další kapitole databázi vytvoříme a hodnota se změní na <code>True</code>.</li>
+        </ul>
+      </div>
+    </details>
+
+  </div>
+
+  <!-- Cvičení -->
+  <article class="card">
+    <h3 class="card__title">Cvičení (krátké)</h3>
+
+    <ol class="steps">
+      <li>
+        Vytvoř soubor <code>path_check.py</code> a vypiš:
+        <ul class="bullets">
+          <li><code>__file__</code></li>
+          <li><code>Path(__file__).resolve()</code></li>
+          <li><code>DB_FILE</code> pro název <code>"games.db"</code></li>
+          <li><code>DB_FILE.exists()</code></li>
+        </ul>
+      </li>
+      <li>
+        Změň název databáze na <code>"movies.db"</code> a porovnej, co se změnilo ve výpisu cesty.
+      </li>
+      <li>
+        Ve složce vytvoř ručně prázdný soubor <code>movies.db</code> (pravým tlačítkem → Nový → Textový dokument a přejmenuj),
+        a znovu spusť skript. Ověř, že <code>exists()</code> změnilo hodnotu na <code>True</code>.
+      </li>
+    </ol>
+
+    <div class="note note--info">
+      <strong>Cíl cvičení:</strong> Umět určit a ověřit umístění databázového souboru ještě předtím, než začneme psát SQL.
+    </div>
+  </article>
+
+  <!-- Shrnutí -->
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+    <ul class="checklist">
+      <li><code>sqlite3</code> je modul pro databázi (použijeme hned v další kapitole).</li>
+      <li><code>Path</code>, <code>resolve()</code>, <code>with_name()</code>, <code>exists()</code> jsou nástroje Pythonu pro práci se soubory.</li>
+      <li><code>DB_FILE</code> je cesta k databázovému souboru uloženému vedle skriptu.</li>
+      <li>Umíš ověřit, jestli soubor existuje (<code>exists()</code>).</li>
+    </ul>
+  </article>
+
+</section>
