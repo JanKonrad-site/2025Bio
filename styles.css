@@ -91,7 +91,8 @@ a{ color: inherit; text-decoration: none; }
 .heroPhoto img{
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover;        /* místo contain */
+  object-position: center;  /* nebo třeba: 50% 35% */
   display: block;
   filter: grayscale(100%) contrast(1.06);
   opacity: 0.92;
@@ -136,8 +137,8 @@ a{ color: inherit; text-decoration: none; }
 .navBtn:hover{
   animation: none;
   transform: translateY(-1px) scale(1.06);
-  background: rgba(0,0,0,0.34);
-  border-color: rgba(255,255,255,0.24);
+  background: rgba(255, 255, 255, 0.513);
+  border-color: rgba(0, 0, 0, 0.771);
 }
 .navBtn:active{ transform: translateY(0) scale(1.02); }
 .navBtn:focus-visible{ outline: 2px solid rgba(255,255,255,0.35); outline-offset: 4px; }
@@ -1609,4 +1610,73 @@ html.is-sheet-open .tile--contact:hover .tile__title{
 
 @media (prefers-reduced-motion: reduce){
   .flipCard.is-shaking{ animation: none; }
+}
+/* HERO text overlay */
+.heroSection{
+  position: relative;
+}
+
+.heroText{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(92vw, 980px);
+  text-align: center;
+  z-index: 2;
+  pointer-events: none; /* aby to neblokovalo kliknutí na šipku */
+}
+
+/* "podpis" – script font (fallbacky když nebude font) */
+.heroName{
+  margin: 0;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: rgba(255,255,255,0.95);
+  font-size: clamp(44px, 7vw, 92px);
+  line-height: 1.02;
+
+  /* čitelnost na různých pozadích */
+  text-shadow:
+    0 2px 12px rgba(0,0,0,0.55),
+    0 14px 38px rgba(0,0,0,0.45);
+}
+
+/* linka pod jménem */
+.heroName::after{
+  content:"";
+  display: block;
+  width: min(78%, 560px);
+  height: 2px;
+  margin: clamp(8px, 1.2vw, 14px) auto 0;
+  background: rgba(255,255,255,0.85);
+  opacity: 0.9;
+}
+
+/* podtitulek */
+.heroSubtitle{
+  margin: clamp(10px, 1.6vw, 16px) 0 0;
+  font-size: clamp(16px, 2.2vw, 28px);
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  color: rgba(255,255,255,0.92);
+  text-shadow: 0 2px 10px rgba(0,0,0,0.55);
+}
+
+/* Mobile drobnost: víc vzduchu */
+@media (max-width: 520px){
+  .heroText{ top: 52%; }
+  .heroName::after{ width: 86%; }
+}
+.heroName{ font-family: "Allura", cursive; }
+.heroSubtitle{ font-family: "Inter", system-ui, sans-serif; }
+.heroText{
+  position: absolute;
+  left: clamp(16px, 3vw, 40px);
+  top:  clamp(16px, 3vw, 40px);
+  transform: none;        /* zruší vycentrování */
+  width: auto;
+  text-align: left;
+  z-index: 2;
+  pointer-events: none;
 }
