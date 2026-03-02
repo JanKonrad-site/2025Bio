@@ -1,254 +1,427 @@
-<!-- 7.1.2 Rastrová grafika — GIMP (Lekce 2: Vrstvy, dle sešitu) -->
-<section id="section7-1-2" class="container my-5">
-  <h3 class="mb-4">7.1.2 GIMP — Vrstvy (Lekce 2)</h3>
+<!-- TEMPLATE B: Grafická lekce (s galerií) -->
+<section id="section-photopea-1-1" class="lesson">
 
-  <!-- Co se naučíš -->
-  <div class="container my-4 p-4 border rounded bg-light">
-    <h3 class="mb-3">Co se naučíš?</h3>
-    <p>Import obrázků, přidání <em>Alpha Channel</em>, práce s gumou (Eraser), pořadí vrstev, výběry a barvy, velikost plátna, masky vrstev a změna pozadí — přesně dle pracovního listu.</p>
-    <ul class="list-group list-group-flush mb-3">
-      <li class="list-group-item"><strong>Import obrázků</strong> do projektové složky a do GIMPu.</li>
-      <li class="list-group-item"><strong>Background & kompozice</strong>: nový obrázek, vložení „extreme“ jako nová kompozice.</li>
-      <li class="list-group-item"><strong>Add Alpha Channel & Eraser</strong>: průhlednost vs. barva pozadí, nastavení gumy.</li>
-      <li class="list-group-item"><strong>Transparentnost vrstev</strong>: přidání vrstvy (černá), pořadí, uložení projekt2.xcf + úkol Ukol1.xcf.</li>
-      <li class="list-group-item"><strong>Pořadí vrstev & Elipsa & Barvy & Text</strong>, následně práce s <strong>Canvas & Layers</strong> (Show All, Layer to Image Size, panel Layers).</li>
-      <li class="list-group-item"><strong>Layer Mask</strong> & <strong>Gradient na masce</strong> — <em>Projekt 4 (motorkář)</em>.</li>
+  <header class="lesson__header">
+    <h2 class="lesson__title">1.1 Retuš fotografie: ořez, narovnání a odstranění vad</h2>
+    <p class="lesson__lead">
+      Otevřeš fotografii, narovnáš ji a ořízneš bez rušivých okrajů. Potom odstraníš praskliny a skvrny pomocí nástrojů
+      pro retuš (Spot Healing, Healing Brush, Clone Stamp, Patch). Na konci vše správně uložíš a vyexportuješ.
+    </p>
+  </header>
+
+  <article class="card">
+    <h3 class="card__title">Co se naučíš?</h3>
+    <ul class="checklist">
+      <li><strong>Otevření souboru</strong> – přetažením do PhotoPea nebo přes File → Open.</li>
+      <li><strong>Ořez a narovnání</strong> – Crop Tool (C), rotace, potvrzení, volba „Delete cropped pixels“.</li>
+      <li><strong>Bezpečná práce</strong> – ukládat průběžně + duplikace vrstvy jako záloha.</li>
+      <li><strong>Retuš vad</strong> – Spot Healing Brush, Healing Brush, Clone Stamp, Patch Tool.</li>
+      <li><strong>Export</strong> – JPG s kvalitou 100 % a správným názvem souboru.</li>
     </ul>
-    <div class="alert alert-info" role="alert">
-      <strong>Tip:</strong> Průhlednost poznáš podle „šachovnice“. <em>Show All</em> zvýrazní původní hranice vloženého obrázku.
+
+    <div class="note note--info">
+      <strong>Tip:</strong> PhotoPea může být občas pomalejší. Dělej menší zásahy, průběžně ukládej a nenech retušovat obří plochy najednou.
     </div>
-  </div>
+  </article>
 
-  <!-- Stahování materiálů -->
-  <div class="d-flex flex-wrap gap-2 align-items-center mb-4">
-<a class="btn btn-primary" href="https://github.com/JanKonrad-site/GimpAssets.git" target="_blank" rel="noopener">⬇️ Stáhnout balíček obrázků k lekci 2</a>
-  </div>
-
-  <!-- Akordeon lekce 2 -->
-  <div class="accordion" id="gimpLesson2">
-
-    <!-- 1) Import obrázků -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="h2-import">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c2-import" aria-expanded="true" aria-controls="c2-import">
-          1) Vytvoř nový obrázek FullHD, přidej Alpha Chanel
-        </button>
-      </h2>
-      <div id="c2-import" class="accordion-collapse collapse show" aria-labelledby="h2-import" data-bs-parent="#gimpLesson2">
-        <div class="accordion-body">
-          <ol class="mb-3">
-            <li><kbd>File</kbd> -> <kbd>New</kbd></li>
-            <li><kbd>Layers</kbd>-> <kbd>Pravé tlačítko</kbd> -> <kbd>Add Alpha Chanel</kbd></li>
-         
-          </ol>
-
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <div class="ratio ratio-16x9 mb-2">
-                <img id="img2-import" class="img-contained rounded border"
-                     src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/image1.png"
-                     alt="Import obrázků do projektu">
-              </div>
-              <div class="d-flex justify-content-between">
-                <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img2-import">◀ Předchozí</button>
-                <small class="text-muted">Import</small>
-                <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img2-import">Další ▶</button>
-              </div>
-            </div>
-          </div>
-          <div data-gallery-src="img2-import"
-               data-images='[
-             "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/image1.png",
-        "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/image5.png",
-                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/image6.png"
-            
-               ]'></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 2) Background & Import obrázku (nový obrázek + extreme jako kompozice) -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="h2-bg-extreme">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c2-bg-extreme" aria-expanded="false" aria-controls="c2-bg-extreme">
-          2) Eraser Tool (Guma) & Background
-        </button>
-      </h2>
-      <div id="c2-bg-extreme" class="accordion-collapse collapse" aria-labelledby="h2-bg-extreme" data-bs-parent="#gimpLesson2">
-        <div class="accordion-body">
-          <ul>
-             <li>V <strong>View</strong> lze vypnout žluté okraje.</li>
-            <li>Vyberte z menu nástrojů <kbd>Eraser Tool</kbd></li>
-            <li>Vytvořte podobný obrazec jako je na obrázku, všimněme si kostičkovaného pozadí, díky Alpha Chanelu.</li>
-            <li>Pro přiblížení obrázku si všimněme průběžného přechodu mezi bílou, a trasparentí vrstvou.</li>
-            <li>Vyzkoušejte si různé možnosti nastavení gumy</li>
-            <li>Vytvořme novou vrstvu s barvou černá, a přesuňte tuto vrstvu na konec jako poslední.</li>
-          </ul>
-
-          <div class="ratio ratio-16x9 mb-2">
-            <img id="img2-bgext" class="img-contained rounded border"
-                 src="/learn.jankonrad.com/Assets/img/gimp/Lekce2/image2.png"
-                 alt="Nový obrázek a vložení extreme">
-          </div>
-          <div class="d-flex justify-content-between">
-            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img2-bgext">◀</button>
-            <small class="text-muted">Vytvoření + Kompozice</small>
-            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img2-bgext">▶</button>
-          </div>
-          <div data-gallery-src="img2-bgext"
-               data-images='[
-                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/image2.png",
-                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/image7.png",
-                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/image10.png",
-                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/image11.png",
-               "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/image9.png",
-                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/image12.png",
-                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/image3.png",
-                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/image14.png",
-                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/image15.png"
-               ]'></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 3) Add Alpha Channel & Eraser Tool -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="h2-alpha-eraser">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c2-alpha-eraser" aria-expanded="false" aria-controls="c2-alpha-eraser">
-          3) Nahrátí kompozice motorkář & Úprava pozice vrstvy
-        </button>
-      </h2>
-      <div id="c2-alpha-eraser" class="accordion-collapse collapse" aria-labelledby="h2-alpha-eraser" data-bs-parent="#gimpLesson2">
-        <div class="accordion-body">
-          <ol>
-            <li>Vytvoř nové transparentní plátno <strong>fill with Transparency</strong></li>
-            <li><kbd>File</kbd> -> <kbd>Open as Layers</kbd> -> <kbd>Extreme</kbd></li>
-         <li>Na panelu vrstev, kliknutím na ikonku šipky můžeme nastavit velikost náhledu.</li>
-           <li>Z panelu nástrojů vyebreme nástroj <kbd>Move Tool</kbd></li>
-           <li>Napozicujeme táhnutím levého tlačitka myši obrázek výřezu</li>
-           
-          </ol>
-
-          <div class="ratio ratio-16x9 mb-2">
-            <img id="img2-alpha" class="img-contained rounded border"
-                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/ImageExtreme01.png"
-                 alt="Add Alpha Channel & Eraser">
-          </div>
-          <div class="d-flex justify-content-between">
-            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img2-alpha">◀</button>
-            <small class="text-muted">Kompozice</small>
-            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img2-alpha">▶</button>
-          </div>
-          <div data-gallery-src="img2-alpha"
-               data-images='[
-               "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/ImageExtreme01.png",
-                    "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/image32.png",
-                        "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/image33.png",
-                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/image18.png",
-                    "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/ImageExtreme03.png",
-                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/ImageExtreme.png",
-              
-                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/ImageExtreme2.png"
-               
-
-               ]'></div>
-
-          <div>
-           
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 4) Pořadí vrstev & Elipsa & Barvy & Text -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="h2-order-ellipse">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c2-order-ellipse" aria-expanded="false" aria-controls="c2-order-ellipse">
-          4) Pořadí vrstev & Elipsa & Barvy & Text
-        </button>
-      </h2>
-      <div id="c2-order-ellipse" class="accordion-collapse collapse" aria-labelledby="h2-order-ellipse" data-bs-parent="#gimpLesson2">
-        <div class="accordion-body">
-          <ul>
-            <li>Transparentní vsrtstvu přesuň Click & Drag jako první</li>
-            <li><strong>Ellipse Select Tool</strong> → vytvoř kruh, nastav červenou a <em>Click &amp; Drag</em> barvu do výběru.</li>
-            <li>Nová vrstva <strong>Text</strong> („TOHLE JE TEST“), poté <strong>změň pořadí vrstev</strong> dle sešitu.</li>
-            <li>Importuj <em>extreme</em> jako novou vrstvu. Ulož jako <strong>projekt3.xcf</strong>.</li>
-          </ul>
-
-          <div class="ratio ratio-16x9 mb-2">
-            <img id="img2-ellipse" class="img-contained rounded border"
-                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/ImageExtreme6.png"
-                 alt="Elipsa, barvy, text, pořadí vrstev">
-          </div>
-          <div class="d-flex justify-content-between">
-            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img2-ellipse">◀</button>
-            <small class="text-muted">Elipsa & Barvy</small>
-            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img2-ellipse">▶</button>
-          </div>
-          <div data-gallery-src="img2-ellipse"
-               data-images='[
-                 "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/ImageExtreme6.png",
-                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/ImageExtreme7.png",
-                    "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/ImageExtreme8.png",
-                      "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/ImageExtreme9.png",
-                        "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/ImageExtreme10.png",
-                          "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/ImageExtreme11.png",
-                            "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/ImageExtreme12.png",
-                              "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/ImageExtreme13.png",
-                                "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/ImageExtreme14.png",
-                                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2/ImageExtreme15.png"
-
-               ]'></div>
-        </div>
-      </div>
-    </div>
-
-    
-
-  </div><!-- /accordion -->
-
-  <!-- Shrnutí -->
-  <div class="container my-4 p-4 border rounded bg-light">
-    <h3 class="mb-3">Shrnutí (do Projektu 4)</h3>
-    <ul class="list-group list-group-flush mb-0">
-      <li class="list-group-item">Import & práce s novým plátnem.</li>
-      <li class="list-group-item">Alpha Channel, guma a průhlednost.</li>
-      <li class="list-group-item">Pořadí vrstev, výběry, barvy a text.</li>
-      <li class="list-group-item">Show All, Layer to Image Size, panel Layers (locky, opacity, group…).</li>
-      <li class="list-group-item">Layer Mask + Gradient: „motorkář“ — změna pozadí (projekt4.xcf).</li>
-    </ul>
-  </div>
-
-     <div>
-<a href="https://www.figma.com/proto/gojU2bAiVGOIKVpEh3isA9/Gimp2?page-id=0%3A1&node-id=1-3&p=f&viewport=661%2C674%2C0.49&t=vpniuljdhqyaZcN1-1&scaling=contain&content-scaling=fixed" 
-   class="btn btn-primary" target="_blank">
-  Zobrazit vzor 2-1
+  <div class="actions">
+     <a class="btn btn--primary" href="../Assets/PhotoPea/2_Basic/assets/PhotoRetouch.jpg" target="_blank" rel="noopener" download>
+  Stáhnout
 </a>
+    <a class="btn btn--ghost" href="https://www.photopea.com" target="_blank" rel="noopener">Oficiální zdroj</a>
   </div>
+
+  <div class="accordion">
+
+    <details class="acc" open>
+      <summary class="acc__sum">1) Otevření fotografie a rychlá příprava</summary>
+      <div class="acc__body">
+
+        <ol class="steps">
+          <li>Otevři PhotoPea v prohlížeči.</li>
+          <li>Načti fotografii jedním ze dvou způsobů:
+            <ul class="checklist">
+              <li><strong>Přetažení</strong> – přetáhni JPG z plochy přímo do okna PhotoPea.</li>
+              <li><strong>File → Open</strong> – vyber soubor přes dialog.</li>
+            </ul>
+          </li>
+          <li>Poznámka: po načtení může práce pokračovat i při krátkém výpadku internetu (ale po zavření/obnovení stránky je potřeba připojení znovu).</li>
+          <li>Než začneš velké úpravy, ukládej často (po ořezu a po retuši minimálně vždy jednu verzi navíc).</li>
+        </ol>
+
+        <figure class="gallery">
+          <div class="jk-frame is-16x9">
+            <img
+              id="img-pp-1-1-1"
+              class="jk-media"
+              loading="lazy"
+              decoding="async"
+              src="URL_PP_RETOUCH_OPEN_1"
+              alt="Otevření fotografie: přetažení do PhotoPea a File → Open">
+
+            <button class="gallery__nav gallery__nav--prev"
+                    type="button"
+                    data-gallery-prev="img-pp-1-1-1"
+                    aria-label="Předchozí obrázek">‹</button>
+
+            <button class="gallery__nav gallery__nav--next"
+                    type="button"
+                    data-gallery-next="img-pp-1-1-1"
+                    aria-label="Další obrázek">›</button>
+
+            <span class="gallery__hint">Klikni pro fullscreen</span>
+          </div>
+
+          <figcaption class="gallery__meta">
+            <span class="gmeta">Načtení souboru: přetažení vs. File → Open.</span>
+          </figcaption>
+
+          <div data-gallery-src="img-pp-1-1-1"
+               data-images='[
+                 "URL_PP_RETOUCH_OPEN_1",
+                 "URL_PP_RETOUCH_OPEN_2",
+                 "URL_PP_RETOUCH_OPEN_3"
+               ]'></div>
+        </figure>
+
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">2) Ořez a narovnání (Crop Tool)</summary>
+      <div class="acc__body">
+
+        <ol class="steps">
+          <li>Vyber <strong>Crop Tool</strong> (zkratka <strong>C</strong>).</li>
+          <li>Klikni a tažením vytvoř ořezový rámeček přes celou fotku.</li>
+          <li>Rotace ořezu:
+            <ul class="checklist">
+              <li>Najeď kurzorem k rohu ořezu a lehce <strong>mimo</strong> rámeček.</li>
+              <li>Jakmile se kurzor změní na <strong>zakřivenou oboustrannou šipku</strong>, můžeš otáčet.</li>
+            </ul>
+          </li>
+          <li>Doporučení: ořízni <strong>o kousek víc</strong> než je nutné.
+            <ul class="checklist">
+              <li>Je těžké trefit rotaci na milimetr.</li>
+              <li>Když ořízneš o trochu víc, nezůstanou ti na okrajích bílé pruhy.</li>
+            </ul>
+          </li>
+          <li>Potvrzení ořezu:
+            <ul class="checklist">
+              <li>Dvojklik do fotky, nebo klik na fajfku (confirm) v horní části.</li>
+            </ul>
+          </li>
+          <li>Volba <strong>Delete cropped pixels</strong>:
+            <ul class="checklist">
+              <li>Když není zapnutá, oříznuté části se dají později „vytáhnout“ zpět (po dalším ořezu).</li>
+              <li>Když ji zapneš, oříznuté pixely se opravdu odstraní a soubor bývá menší.</li>
+            </ul>
+          </li>
+        </ol>
+
+        <figure class="gallery">
+          <div class="jk-frame is-16x9">
+            <img
+              id="img-pp-1-1-2"
+              class="jk-media"
+              loading="lazy"
+              decoding="async"
+              src="URL_PP_RETOUCH_CROP_1"
+              alt="Crop Tool: ořez, rotace a potvrzení. Volba Delete cropped pixels.">
+
+            <button class="gallery__nav gallery__nav--prev"
+                    type="button"
+                    data-gallery-prev="img-pp-1-1-2"
+                    aria-label="Předchozí obrázek">‹</button>
+
+            <button class="gallery__nav gallery__nav--next"
+                    type="button"
+                    data-gallery-next="img-pp-1-1-2"
+                    aria-label="Další obrázek">›</button>
+
+            <span class="gallery__hint">Klikni pro fullscreen</span>
+          </div>
+
+          <figcaption class="gallery__meta">
+            <span class="gmeta">Ořez + rotace: raději oříznout o kousek víc, ať nezůstanou bílé okraje.</span>
+          </figcaption>
+
+          <div data-gallery-src="img-pp-1-1-2"
+               data-images='[
+                 "URL_PP_RETOUCH_CROP_1",
+                 "URL_PP_RETOUCH_CROP_2"
+               ]'></div>
+        </figure>
+
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">3) Uložení pracovní verze po ořezu</summary>
+      <div class="acc__body">
+
+        <ol class="steps">
+          <li>Po ořezu si ulož pracovní verzi, ať máš jistotu, že se k ní vrátíš.</li>
+          <li>Jdi do <strong>File</strong> (pozor: klikni do „pracovní“ plochy PhotoPea, ne do menu prohlížeče) a zvol uložení do počítače.</li>
+          <li>Doporučení:
+            <ul class="checklist">
+              <li>Pracovní soubor ukládej jako <strong>PSD</strong> (zůstane editovatelný).</li>
+              <li>Průběžně ukládej často, zvlášť pokud je aplikace pomalejší.</li>
+            </ul>
+          </li>
+        </ol>
+
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">4) Příprava na retuš: duplikace vrstvy a základ navigace</summary>
+      <div class="acc__body">
+
+        <ol class="steps">
+          <li>V panelu <strong>Layers</strong> zkontroluj, že fotka je na vrstvě <strong>Background</strong>.</li>
+          <li>Vytvoř zálohu:
+            <ul class="checklist">
+              <li>Pravý klik na Background → <strong>Duplicate Layer</strong>.</li>
+              <li>Záložní vrstvu můžeš kdykoliv skrýt/zobrazit ikonou oka.</li>
+              <li>Když vypneš obě vrstvy, uvidíš <strong>šachovnici</strong> (průhledno) – znamená to, že pod tím nic není.</li>
+            </ul>
+          </li>
+          <li>Pokud ti překáží reklamy, můžeš si pravý panel mírně „odsunout“, aby bylo víc místa na práci.</li>
+          <li>Navigace:
+            <ul class="checklist">
+              <li><strong>Zoom tool</strong> (lupa) – přepínání plus/minus v horní liště voleb nástroje, a tlačítko <strong>Fit to area</strong>.</li>
+              <li><strong>Mezerník</strong> – dočasně „hand“ a posun po fotce.</li>
+              <li>Rychlý zoom bez přepínání nástroje: drž <strong>mezerník</strong> + <strong>Ctrl</strong> (PC) / <strong>Cmd</strong> (Mac) pro přiblížení; přidej ještě <strong>Alt/Option</strong> pro oddálení.</li>
+            </ul>
+          </li>
+        </ol>
+
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">5) Spot Healing Brush: rychlé odstranění skvrn a prasklin</summary>
+      <div class="acc__body">
+
+        <ol class="steps">
+          <li>Vyber nástroj „náplast“ (<strong>Spot Healing Brush</strong>) – vypadá jako malá náplast.</li>
+          <li>Klikni a přejeď přes skvrnu (PhotoPea automaticky „nasampluje“ okolí a vadu nahradí).</li>
+          <li>Velikost štětce:
+            <ul class="checklist">
+              <li>Zkratky: <strong>]</strong> zvětší, <strong>[</strong> zmenší.</li>
+              <li>V Options bar můžeš nastavit velikost číselně/posuvníkem.</li>
+            </ul>
+          </li>
+          <li>Pravidlo velikosti:
+            <ul class="checklist">
+              <li>Nedělej štětec zbytečně velký – zmenšíš oblast, ze které může nástroj vybírat a výsledek bývá horší.</li>
+              <li>Na praskliny použij malý štětec a dělej to po částech.</li>
+            </ul>
+          </li>
+          <li>Hardness (tvrdost):
+            <ul class="checklist">
+              <li>Vyšší tvrdost = ostřejší okraj, může být vidět „hrana“.</li>
+              <li>Nižší tvrdost = měkký okraj, často lépe splyne s okolím.</li>
+            </ul>
+          </li>
+          <li>Pokud se u okrajů začne objevovat „svit/halo“ (nástroj bere vzorek z kraje papíru), je čas přepnout na Clone Stamp.</li>
+        </ol>
+
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">6) Clone Stamp: plná kontrola (vzorek + malování)</summary>
+      <div class="acc__body">
+
+        <ol class="steps">
+          <li>Vyber <strong>Clone Stamp</strong>.</li>
+          <li>Nejdřív nastav zdroj (vzorek):
+            <ul class="checklist">
+              <li>Drž <strong>Alt</strong> (PC) / <strong>Option</strong> (Mac) a klikni do čisté oblasti, ze které chceš kopírovat.</li>
+              <li>Na některých zařízeních (např. Chromebook) se modifikační klávesa může chovat jinak – když Alt/Option nefunguje, vyzkoušej alternativně <strong>K</strong>.</li>
+            </ul>
+          </li>
+          <li>Pak maluj přes vadu – kopíruješ přesně to, co je ve vzorku (včetně struktury a tónu).</li>
+          <li>Volba <strong>Aligned</strong>:
+            <ul class="checklist">
+              <li><strong>Zapnuto</strong> – zdroj se posouvá spolu s malováním (držení „vzdálenosti“ od štětce).</li>
+              <li><strong>Vypnuto</strong> – zdroj zůstává pořád na stejném místě a při každém tahu kopíruješ stále odtud.</li>
+            </ul>
+          </li>
+          <li>Měkký okraj často pomůže:
+            <ul class="checklist">
+              <li>Sniž tvrdost (Hardness), nebo zvol o něco větší štětec.</li>
+            </ul>
+          </li>
+          <li>Kontroluj opakování vzoru:
+            <ul class="checklist">
+              <li>Když zkopíruješ stejné „linky“ nebo textury mockrát, začne to být nápadné.</li>
+            </ul>
+          </li>
+        </ol>
+
+        <figure class="gallery">
+          <div class="jk-frame is-16x9">
+            <img
+              id="img-pp-1-1-3"
+              class="jk-media"
+              loading="lazy"
+              decoding="async"
+              src="URL_PP_RETOUCH_CLONE_1"
+              alt="Clone Stamp: Alt/Option klik pro vzorek, volba Aligned, retuš u okrajů bez halo efektu">
+
+            <button class="gallery__nav gallery__nav--prev"
+                    type="button"
+                    data-gallery-prev="img-pp-1-1-3"
+                    aria-label="Předchozí obrázek">‹</button>
+
+            <button class="gallery__nav gallery__nav--next"
+                    type="button"
+                    data-gallery-next="img-pp-1-1-3"
+                    aria-label="Další obrázek">›</button>
+
+            <span class="gallery__hint">Klikni pro fullscreen</span>
+          </div>
+
+          <figcaption class="gallery__meta">
+            <span class="gmeta">Clone Stamp: vzorek + měkký okraj + kontrola „Aligned“.</span>
+          </figcaption>
+
+          <div data-gallery-src="img-pp-1-1-3"
+               data-images='[
+                 "URL_PP_RETOUCH_CLONE_1",
+                 "URL_PP_RETOUCH_CLONE_2"
+               ]'></div>
+        </figure>
+
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">7) Healing Brush: vzorek jako u klonování, ale s automatickým „prolnutím“</summary>
+      <div class="acc__body">
+
+        <ol class="steps">
+          <li>V nástrojích pod „náplastí“ přepni na <strong>Healing Brush</strong> (není to Spot, ale ten „druhý“).</li>
+          <li>Stejně jako u Clone Stamp nastav vzorek:
+            <ul class="checklist">
+              <li><strong>Alt/Option</strong> + klik do oblasti, kterou chceš použít jako zdroj.</li>
+            </ul>
+          </li>
+          <li>Maluj přes vadu. Rozdíl oproti Clone Stamp:
+            <ul class="checklist">
+              <li>Nezkopíruje to „natvrdo“ – snaží se to <strong>sladit jas a barvu</strong> cílového místa, takže okraje často lépe splynou.</li>
+            </ul>
+          </li>
+          <li>Kdy co použít:
+            <ul class="checklist">
+              <li><strong>Healing Brush</strong> – když chceš, aby to přirozeně splynulo.</li>
+              <li><strong>Clone Stamp</strong> – když potřebuješ přesnou kontrolu a Healing dělá duchy/rozmazání (hlavně u hran a linií).</li>
+            </ul>
+          </li>
+        </ol>
+
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">8) Patch Tool: „vyber a přetáhni“ pro větší vady</summary>
+      <div class="acc__body">
+
+        <ol class="steps">
+          <li>Vyber <strong>Patch Tool</strong> (je ve stejné skupině jako retušovací nástroje).</li>
+          <li>Ohranič vadu výběrem (jako laso) – nakresli uzavřený tvar kolem poškozeného místa.</li>
+          <li>Klikni dovnitř výběru a <strong>přetáhni</strong> výběr na čistou oblast, kterou chceš použít jako náhradu.</li>
+          <li>Pro linie a okraje:
+            <ul class="checklist">
+              <li>Dělej menší výběry – dlouhé křivky se špatně „trefují“.</li>
+              <li>Pokud se objeví svit/halo u okraje, dokonči to Clone Stampem.</li>
+            </ul>
+          </li>
+          <li>Zrušení výběru: <strong>Ctrl/Cmd + D</strong> (Select → Deselect).</li>
+        </ol>
+
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">9) Finální uložení a export JPG</summary>
+      <div class="acc__body">
+
+        <ol class="steps">
+          <li>Ulož pracovní verzi (doporučení: <strong>PSD</strong>, aby bylo vidět vrstvy a šlo se vrátit).</li>
+          <li>Pro odevzdání vyexportuj jako JPG:
+            <ul class="checklist">
+              <li><strong>File → Export as → JPG</strong></li>
+              <li>Nastav <strong>Quality</strong> na <strong>100 %</strong>.</li>
+              <li>Zkontroluj rozměry a cílové umístění, kam se soubor ukládá.</li>
+            </ul>
+          </li>
+          <li>Název souboru:
+            <ul class="checklist">
+              <li>Ulož to s vlastním jménem + doplněním (např. <strong>prijmeni_jmeno_retouch.jpg</strong>).</li>
+            </ul>
+          </li>
+        </ol>
+
+        <figure class="gallery">
+          <div class="jk-frame is-16x9">
+            <img
+              id="img-pp-1-1-4"
+              class="jk-media"
+              loading="lazy"
+              decoding="async"
+              src="URL_PP_RETOUCH_EXPORT_1"
+              alt="Export as JPG: kvalita 100 %, pojmenování souboru a uložení do správné složky">
+
+            <button class="gallery__nav gallery__nav--prev"
+                    type="button"
+                    data-gallery-prev="img-pp-1-1-4"
+                    aria-label="Předchozí obrázek">‹</button>
+
+            <button class="gallery__nav gallery__nav--next"
+                    type="button"
+                    data-gallery-next="img-pp-1-1-4"
+                    aria-label="Další obrázek">›</button>
+
+            <span class="gallery__hint">Klikni pro fullscreen</span>
+          </div>
+
+          <figcaption class="gallery__meta">
+            <span class="gmeta">Export: JPG, kvalita 100 %, správný název souboru.</span>
+          </figcaption>
+
+          <div data-gallery-src="img-pp-1-1-4"
+               data-images='[
+                 "URL_PP_RETOUCH_EXPORT_1",
+                 "URL_PP_RETOUCH_EXPORT_2"
+               ]'></div>
+        </figure>
+
+      </div>
+    </details>
+
+  </div>
+
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+    <ul class="checklist">
+      <li>Fotku načteš přetažením nebo přes File → Open a po ořezu ukládej průběžně.</li>
+      <li>Crop Tool (C): narovnej, ořízni raději o kousek víc, potvrď dvojklikem; „Delete cropped pixels“ rozhoduje, zda se ořez dá vrátit.</li>
+      <li>Retuš: Spot Healing je nejrychlejší, Healing Brush lépe splývá, Clone Stamp dává plnou kontrolu, Patch je skvělý na větší vady.</li>
+      <li>Pracovní verze ukládej jako PSD, finální odevzdání exportuj jako JPG s kvalitou 100 % a jasným názvem.</li>
+    </ul>
+  </article>
+
 </section>
 
-<!-- Galerie helper -->
-<style>
-  .img-contained { width:100%; height:100%; object-fit:contain; object-position:center; }
-</style>
-<script>
-(function(){
-  function parseImages(el){ try { return JSON.parse(el.getAttribute('data-images')||'[]'); } catch(e){ return []; } }
-  function setImg(id, src){ const img = document.getElementById(id); if(img){ img.src = src; } }
-  function move(dir, btn){
-    const id = btn.getAttribute(dir===-1?'data-gallery-prev':'data-gallery-next'); if(!id) return;
-    const holder = document.querySelector('[data-gallery-src="'+id+'"]'); if(!holder) return;
-    const list = parseImages(holder); if(!list.length) return;
-    const img = document.getElementById(id);
-    const current = img.src.split('/').pop();
-    let idx = list.findIndex(x => x.split('/').pop() === current); if(idx===-1) idx = 0;
-    const next = (idx + dir + list.length) % list.length;
-    setImg(id, list[next]);
-  }
-  document.addEventListener('click', e => {
-    if(e.target.matches('[data-gallery-prev]')) { e.preventDefault(); move(-1, e.target); }
-    if(e.target.matches('[data-gallery-next]')) { e.preventDefault(); move(1, e.target); }
-  });
-})();
-</script>
+<!-- POZNÁMKA:
+  Inline <script> sem nedávej.
+  Ovládání galerie + fullscreen řeší globální assets/js/features/gallery.js (initGallery).
+  Každá galerie musí mít:
+    - unikátní id obrázku (např. img-pp-1-1-1)
+    - data-gallery-src="img-pp-1-1-1"
+    - tlačítka data-gallery-prev / data-gallery-next odkazující na stejné id
+-->
