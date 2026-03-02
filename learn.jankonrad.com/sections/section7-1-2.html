@@ -25,9 +25,13 @@
   </article>
 
   <div class="actions">
-     <a class="btn btn--primary" href="https://github.com/JanKonrad-site/2025Bio/blob/main/learn.jankonrad.com/Assets/PhotoPea/2_Basic/assets/PhotoRetouch.jpg" target="_blank" rel="noopener" download>
-  Stáhnout
-</a>
+    <!-- ✅ OPRAVA: přímý soubor přes GitHub Pages (ne /blob/) -->
+    <a class="btn btn--primary"
+       href="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/PhotoPea/2_Basic/assets/PhotoRetouch.jpg"
+       download="PhotoRetouch.jpg">
+      Stáhnout
+    </a>
+
     <a class="btn btn--ghost" href="https://www.photopea.com" target="_blank" rel="noopener">Oficiální zdroj</a>
   </div>
 
@@ -76,10 +80,10 @@
             <span class="gmeta">Načtení souboru: přetažení vs. File → Open.</span>
           </figcaption>
 
+          <!-- ✅ OPRAVA: validní JSON (bez poslední čárky) -->
           <div data-gallery-src="img-pp-1-1-1"
                data-images='[
-                 "https://raw.githubusercontent.com/JanKonrad-site/2025Bio/refs/heads/main/learn.jankonrad.com/Assets/PhotoPea/2_Basic/Lekce/1.png",
-                
+                 "https://raw.githubusercontent.com/JanKonrad-site/2025Bio/refs/heads/main/learn.jankonrad.com/Assets/PhotoPea/2_Basic/Lekce/1.png"
                ]'></div>
         </figure>
 
@@ -147,11 +151,11 @@
 
           <div data-gallery-src="img-pp-1-1-2"
                data-images='[
-                "https://raw.githubusercontent.com/JanKonrad-site/2025Bio/refs/heads/main/learn.jankonrad.com/Assets/PhotoPea/2_Basic/Lekce/2.png",
-                "https://raw.githubusercontent.com/JanKonrad-site/2025Bio/refs/heads/main/learn.jankonrad.com/Assets/PhotoPea/2_Basic/Lekce/3.png",
-                "https://raw.githubusercontent.com/JanKonrad-site/2025Bio/refs/heads/main/learn.jankonrad.com/Assets/PhotoPea/2_Basic/Lekce/4.png",
-                "https://raw.githubusercontent.com/JanKonrad-site/2025Bio/refs/heads/main/learn.jankonrad.com/Assets/PhotoPea/2_Basic/Lekce/5.png",
-                "https://raw.githubusercontent.com/JanKonrad-site/2025Bio/refs/heads/main/learn.jankonrad.com/Assets/PhotoPea/2_Basic/Lekce/6.png"
+                 "https://raw.githubusercontent.com/JanKonrad-site/2025Bio/refs/heads/main/learn.jankonrad.com/Assets/PhotoPea/2_Basic/Lekce/2.png",
+                 "https://raw.githubusercontent.com/JanKonrad-site/2025Bio/refs/heads/main/learn.jankonrad.com/Assets/PhotoPea/2_Basic/Lekce/3.png",
+                 "https://raw.githubusercontent.com/JanKonrad-site/2025Bio/refs/heads/main/learn.jankonrad.com/Assets/PhotoPea/2_Basic/Lekce/4.png",
+                 "https://raw.githubusercontent.com/JanKonrad-site/2025Bio/refs/heads/main/learn.jankonrad.com/Assets/PhotoPea/2_Basic/Lekce/5.png",
+                 "https://raw.githubusercontent.com/JanKonrad-site/2025Bio/refs/heads/main/learn.jankonrad.com/Assets/PhotoPea/2_Basic/Lekce/6.png"
                ]'></div>
         </figure>
 
@@ -163,7 +167,7 @@
       <div class="acc__body">
 
         <ol class="steps">
-          <li>Po ořezu si ulož pracovní verzi, ať máš jistotu, že se k ní vrátíš.</li>
+          <li>Po ořezu si ulož pracovní verzi, ať máš jistotu, že se k ní vrátit.</li>
           <li>Jdi do <strong>File</strong> (pozor: klikni do „pracovní“ plochy PhotoPea, ne do menu prohlížeče) a zvol uložení do počítače.</li>
           <li>Doporučení:
             <ul class="checklist">
@@ -199,8 +203,8 @@
           </li>
         </ol>
 
-      </div>
-       <figure class="gallery">
+        <!-- ✅ OPRAVA: galerie patří dovnitř acc__body + data-gallery-src musí ukazovat na ID obrázku -->
+        <figure class="gallery">
           <div class="jk-frame is-16x9">
             <img
               id="img-pp-1-1-3"
@@ -208,7 +212,7 @@
               loading="lazy"
               decoding="async"
               src="https://raw.githubusercontent.com/JanKonrad-site/2025Bio/refs/heads/main/learn.jankonrad.com/Assets/PhotoPea/2_Basic/Lekce/7.png"
-              alt="Crop Tool: ořez, rotace a potvrzení. Volba Delete cropped pixels.">
+              alt="Duplikace vrstvy, šachovnice a základ navigace">
 
             <button class="gallery__nav gallery__nav--prev"
                     type="button"
@@ -217,25 +221,27 @@
 
             <button class="gallery__nav gallery__nav--next"
                     type="button"
-                    data-gallery-next="img-pp-1-1-2"
+                    data-gallery-next="img-pp-1-1-3"
                     aria-label="Další obrázek">›</button>
 
             <span class="gallery__hint">Klikni pro fullscreen</span>
           </div>
 
           <figcaption class="gallery__meta">
-            <span class="gmeta">Ořez + rotace: raději oříznout o kousek víc, ať nezůstanou bílé okraje.</span>
+            <span class="gmeta">Duplikace vrstvy a navigace (zoom/posun).</span>
           </figcaption>
 
-          <div data-gallery-src=""
+          <div data-gallery-src="img-pp-1-1-3"
                data-images='[
                  "https://raw.githubusercontent.com/JanKonrad-site/2025Bio/refs/heads/main/learn.jankonrad.com/Assets/PhotoPea/2_Basic/Lekce/7.png",
                  "https://raw.githubusercontent.com/JanKonrad-site/2025Bio/refs/heads/main/learn.jankonrad.com/Assets/PhotoPea/2_Basic/Lekce/8.png",
                  "https://raw.githubusercontent.com/JanKonrad-site/2025Bio/refs/heads/main/learn.jankonrad.com/Assets/PhotoPea/2_Basic/Lekce/9.png",
-                  "https://raw.githubusercontent.com/JanKonrad-site/2025Bio/refs/heads/main/learn.jankonrad.com/Assets/PhotoPea/2_Basic/Lekce/10.png",
-                  "https://raw.githubusercontent.com/JanKonrad-site/2025Bio/refs/heads/main/learn.jankonrad.com/Assets/PhotoPea/2_Basic/Lekce/11.png"
+                 "https://raw.githubusercontent.com/JanKonrad-site/2025Bio/refs/heads/main/learn.jankonrad.com/Assets/PhotoPea/2_Basic/Lekce/10.png",
+                 "https://raw.githubusercontent.com/JanKonrad-site/2025Bio/refs/heads/main/learn.jankonrad.com/Assets/PhotoPea/2_Basic/Lekce/11.png"
                ]'></div>
         </figure>
+
+      </div>
     </details>
 
     <details class="acc">
@@ -302,8 +308,9 @@
 
         <figure class="gallery">
           <div class="jk-frame is-16x9">
+            <!-- ✅ OPRAVA: unikátní ID (původně jsi měl img-pp-1-1-3 znovu) -->
             <img
-              id="img-pp-1-1-3"
+              id="img-pp-1-1-6"
               class="jk-media"
               loading="lazy"
               decoding="async"
@@ -312,12 +319,12 @@
 
             <button class="gallery__nav gallery__nav--prev"
                     type="button"
-                    data-gallery-prev="img-pp-1-1-3"
+                    data-gallery-prev="img-pp-1-1-6"
                     aria-label="Předchozí obrázek">‹</button>
 
             <button class="gallery__nav gallery__nav--next"
                     type="button"
-                    data-gallery-next="img-pp-1-1-3"
+                    data-gallery-next="img-pp-1-1-6"
                     aria-label="Další obrázek">›</button>
 
             <span class="gallery__hint">Klikni pro fullscreen</span>
@@ -327,7 +334,7 @@
             <span class="gmeta">Clone Stamp: vzorek + měkký okraj + kontrola „Aligned“.</span>
           </figcaption>
 
-          <div data-gallery-src="img-pp-1-1-3"
+          <div data-gallery-src="img-pp-1-1-6"
                data-images='[
                  "URL_PP_RETOUCH_CLONE_1",
                  "URL_PP_RETOUCH_CLONE_2"
@@ -454,12 +461,3 @@
   </article>
 
 </section>
-
-<!-- POZNÁMKA:
-  Inline <script> sem nedávej.
-  Ovládání galerie + fullscreen řeší globální assets/js/features/gallery.js (initGallery).
-  Každá galerie musí mít:
-    - unikátní id obrázku (např. img-pp-1-1-1)
-    - data-gallery-src="img-pp-1-1-1"
-    - tlačítka data-gallery-prev / data-gallery-next odkazující na stejné id
--->
