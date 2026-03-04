@@ -1,0 +1,235 @@
+<!-- =========================================================
+     3.3.4 – Vnořené podmínky + logické operátory (&& || !)
+========================================================= -->
+
+<section id="section3-3-4" class="container my-5">
+  <h3 class="mb-4">3.3.4 Vnořené podmínky a logické operátory v JavaScriptu</h3>
+
+  <!-- Co se naučíš -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co se naučíš?</h3>
+    <p>
+      V této kapitole navážeme na <code>if / else if / else</code> a posuneme rozhodování na vyšší úroveň.
+      Ukážeme si <strong>vnořené podmínky</strong> (nested if) a hlavně <strong>logické operátory</strong>,
+      díky kterým dokážeš kombinovat více podmínek najednou.
+    </p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Vnořený if</strong>: if uvnitř if – některé podmínky má smysl testovat až „po cestě“.</li>
+      <li class="list-group-item"><strong>AND (&&)</strong>: obě podmínky musí být pravda.</li>
+      <li class="list-group-item"><strong>OR (||)</strong>: stačí, když je pravda alespoň jedna.</li>
+      <li class="list-group-item"><strong>NOT (!)</strong>: obrátí hodnotu booleanu.</li>
+      <li class="list-group-item"><strong>Praktické použití</strong>: přístupová práva, licence, slevy, víkendy, úkoly, kino lístky.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Když podmínky začnou být dlouhé, rozděl je na menší logické kroky (proměnné, vnoření, nebo else-if).
+    </div>
+  </div>
+
+  <!-- 1) Nested if -->
+  <h5 class="mt-5">1) Vnořené podmínky (nested if)</h5>
+  <p>
+    <strong>Vnořený if</strong> je situace, kdy dáš jeden <code>if</code> dovnitř druhého.
+    Je to užitečné ve chvíli, kdy má smysl kontrolovat další podmínku až ve chvíli, kdy první podmínka platí.
+  </p>
+
+  <div class="card shadow-sm mb-4">
+    <div class="card-header bg-primary text-white">Příklad: přihlášení + role admin</div>
+    <div class="card-body">
+      <pre class="mb-0"><code class="language-js">let isLoggedIn = true;
+let isAdmin = false;
+
+if (isLoggedIn) {
+  console.log("Vítej na stránce!");
+
+  if (isAdmin) {
+    console.log("Přístup do admin panelu povolen.");
+  } else {
+    console.log("Přístup do uživatelského dashboardu povolen.");
+  }
+
+} else {
+  console.log("Nejsi přihlášený/á. Přihlas se.");
+}</code></pre>
+      <p class="mt-3 mb-0">
+        Jak to funguje: nejdřív se rozhodne, jestli je uživatel přihlášen. Teprve když ano, řeší se role (admin / uživatel).
+      </p>
+    </div>
+  </div>
+
+  <!-- 2) Logical operators -->
+  <h5 class="mt-4">2) Logické operátory (&&, ||, !)</h5>
+  <p>
+    Logické operátory umožňují <strong>kombinovat více podmínek</strong> do jednoho rozhodnutí.
+    Používají se hlavně v <code>if</code> podmínkách.
+  </p>
+
+  <ul class="list-group mb-4">
+    <li class="list-group-item">
+      <strong>AND (&&)</strong> – vrátí <code>true</code> jen tehdy, když jsou <strong>obě</strong> strany pravda.
+    </li>
+    <li class="list-group-item">
+      <strong>OR (||)</strong> – vrátí <code>true</code>, když je pravda <strong>alespoň jedna</strong> strana.
+    </li>
+    <li class="list-group-item">
+      <strong>NOT (!)</strong> – obrátí boolean: <code>!true</code> je <code>false</code>, <code>!false</code> je <code>true</code>.
+    </li>
+  </ul>
+
+  <div class="row g-3 mb-4">
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-header bg-light"><strong>&& (AND)</strong></div>
+        <div class="card-body">
+          <pre class="mb-0"><code class="language-js">let age = 20;
+let hasDriverLicense = true;
+
+if (age >= 18 && hasDriverLicense) {
+  console.log("Můžeš řídit.");
+} else {
+  console.log("Řídit nemůžeš.");
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-header bg-light"><strong>|| (OR)</strong></div>
+        <div class="card-body">
+          <pre class="mb-0"><code class="language-js">let isHoliday = false;
+let isWeekend = true;
+
+if (isHoliday || isWeekend) {
+  console.log("Je čas relaxovat!");
+} else {
+  console.log("Musíme pracovat.");
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-header bg-light"><strong>! (NOT)</strong></div>
+        <div class="card-body">
+          <pre class="mb-0"><code class="language-js">let taskCompleted = false;
+
+if (!taskCompleted) {
+  console.log("Úkol ještě není hotový.");
+}</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert alert-warning" role="alert">
+    <strong>Pozor:</strong> Logické operátory můžeš kombinovat (např. <code>price > 0 && !isTuesday && hasLoyaltyCard</code>).
+    Tím vznikají silné, ale delší podmínky – udržuj je čitelné.
+  </div>
+
+  <!-- 3) Exercise -->
+  <h5 class="mt-5">🧩 Cvičení: Kalkulačka ceny lístku do kina</h5>
+  <p>
+    Napiš skript, který určí cenu filmového lístku podle věku a speciálních slev.
+    Loguj finální cenu do konzole.
+  </p>
+
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Zadání</h3>
+
+    <p class="mb-2"><strong>Věkové ceny:</strong></p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">Méně než 3 roky → zdarma</li>
+      <li class="list-group-item">3 až 12 let → 5 $</li>
+      <li class="list-group-item">13 až 17 let → 7 $</li>
+      <li class="list-group-item">18 až 64 let → 10 $</li>
+      <li class="list-group-item">65 a více → 6 $</li>
+    </ul>
+
+    <p class="mb-2"><strong>Speciální slevy:</strong></p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">Pokud je úterý → všechny lístky jsou za 5 $ (bez ohledu na věk)</li>
+      <li class="list-group-item">Pokud má věrnostní kartu → sleva 2 $ z normální ceny</li>
+      <li class="list-group-item"><strong>Slevy neplatí</strong> na lístky zdarma</li>
+    </ul>
+
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Vytvoř boolean proměnné <code>isTuesday</code> a <code>hasLoyaltyCard</code>.
+      Podmínku pro věrnostní kartu řeš až po určení základní ceny.
+    </div>
+
+    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#hintTicket" aria-expanded="false">
+      Nápověda (kroky)
+    </button>
+
+    <div class="collapse mt-3" id="hintTicket">
+      <div class="card card-body">
+        <ol class="mb-0">
+          <li>Nastav proměnné: <code>age</code>, <code>isTuesday</code>, <code>hasLoyaltyCard</code>.</li>
+          <li>Urči základní cenu do proměnné <code>price</code> pomocí <code>if / else if / else</code>.</li>
+          <li>Úterý řeš dřív než věk (přebije věkové ceny).</li>
+          <li>Věrnostní kartu aplikuj jen pokud <code>price &gt; 0</code> a není úterý: <code>price &gt; 0 &amp;&amp; !isTuesday &amp;&amp; hasLoyaltyCard</code>.</li>
+          <li>Ošetři, aby cena neklesla pod nulu.</li>
+          <li>Na konci vypiš cenu do konzole.</li>
+        </ol>
+      </div>
+    </div>
+
+    <button class="btn btn-sm btn-outline-secondary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#solutionTicket" aria-expanded="false">
+      Řešení (až po pokusu)
+    </button>
+
+    <div class="collapse mt-3" id="solutionTicket">
+      <div class="card card-body">
+        <pre class="mb-0"><code class="language-js">let age = 30;
+let isTuesday = false;
+let hasLoyaltyCard = true;
+
+let price;
+
+// 1) Základní cena
+if (age < 3) {
+  price = 0;
+} else if (isTuesday) {
+  price = 5;
+} else if (age <= 12) {
+  price = 5;
+} else if (age <= 17) {
+  price = 7;
+} else if (age <= 64) {
+  price = 10;
+} else {
+  price = 6;
+}
+
+// 2) Sleva věrnostní kartou (neplatí v úterý ani pro zdarma)
+if (price > 0 && !isTuesday && hasLoyaltyCard) {
+  price -= 2;
+}
+
+// 3) Cena nesmí být záporná
+if (price < 0) {
+  price = 0;
+}
+
+console.log("Cena lístku je $" + price);</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co jsme se naučili</h3>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Vnořený if</strong> je if uvnitř if – používá se, když druhá podmínka dává smysl až po splnění první.</li>
+      <li class="list-group-item"><strong>&& (AND)</strong> vyžaduje pravdu na obou stranách.</li>
+      <li class="list-group-item"><strong>|| (OR)</strong> stačí pravda na jedné straně.</li>
+      <li class="list-group-item"><strong>! (NOT)</strong> obrací boolean.</li>
+      <li class="list-group-item">Díky kombinaci podmínek umíme řešit reálné scénáře (role uživatele, licence, slevy, pravidla v praxi).</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Když začne být podmínka dlouhá, rozděl ji na menší části do proměnných – bude čitelnější.
+    </div>
+  </div>
+
+</section>
