@@ -91,7 +91,8 @@ a{ color: inherit; text-decoration: none; }
 .heroPhoto img{
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover;        /* místo contain */
+  object-position: center;  /* nebo třeba: 50% 35% */
   display: block;
   filter: grayscale(100%) contrast(1.06);
   opacity: 0.92;
@@ -136,8 +137,8 @@ a{ color: inherit; text-decoration: none; }
 .navBtn:hover{
   animation: none;
   transform: translateY(-1px) scale(1.06);
-  background: rgba(0,0,0,0.34);
-  border-color: rgba(255,255,255,0.24);
+  background: rgba(255, 255, 255, 0.513);
+  border-color: rgba(0, 0, 0, 0.771);
 }
 .navBtn:active{ transform: translateY(0) scale(1.02); }
 .navBtn:focus-visible{ outline: 2px solid rgba(255,255,255,0.35); outline-offset: 4px; }
@@ -1510,3 +1511,172 @@ html.is-sheet-open .tile--contact:hover .tile__title{
 }
 
 .modalAction.is-disabled{ opacity: 0.45; pointer-events: none; }
+
+
+/* =========================
+   MOBILE GALLERY FIX (fit images on phones)
+   ========================= */
+.galleryModal{
+  --modalPad: clamp(10px, 2.2vw, 18px);
+  padding:
+    calc(var(--modalPad) + env(safe-area-inset-top))
+    calc(var(--modalPad) + env(safe-area-inset-right))
+    calc(var(--modalPad) + env(safe-area-inset-bottom))
+    calc(var(--modalPad) + env(safe-area-inset-left));
+}
+
+.galleryModal__frame{ min-height: 0; }
+.galleryModal__body{ min-height: 0; }
+
+/* Use dynamic viewport units when available (mobile browser bars) */
+@supports (height: 100dvh){
+  .galleryModal__frame{
+    max-height: calc(100dvh - (var(--modalPad) * 2));
+  }
+}
+
+/* Mobile: carousel fills the remaining space under the header, images always fit */
+@media (max-width: 900px){
+  .galleryModal__frame{
+    width: 100%;
+    height: 100%;
+    max-height: calc(100vh - (var(--modalPad) * 2));
+  }
+
+  .galleryModal__header{
+    padding: 10px 10px;
+    gap: 10px;
+  }
+
+  .galleryModal__body{
+    padding: 10px;
+    /* keep vertical overflow only when the modal contains extra text (project modal) */
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .galleryModal .carousel--modal{
+    height: 100%;
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+  }
+
+  .galleryModal .carousel--modal .carousel__viewport{
+    height: 100%;
+    min-height: 0;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .galleryModal .carousel--modal .carousel__track{
+    height: 100%;
+    gap: 10px;
+  }
+
+  .galleryModal .carousel--modal .carousel__slide{
+    flex: 0 0 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .galleryModal .carousel--modal .carousel__slide img{
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .carBtn{ --size: 40px; }
+}
+
+/* =========================
+   COMMIN / Coming-soon shake
+   ========================= */
+@keyframes nopeShake{
+  0%{ transform: translateX(0); }
+  15%{ transform: translateX(-7px); }
+  30%{ transform: translateX(7px); }
+  45%{ transform: translateX(-5px); }
+  60%{ transform: translateX(5px); }
+  75%{ transform: translateX(-3px); }
+  90%{ transform: translateX(3px); }
+  100%{ transform: translateX(0); }
+}
+
+.flipCard.is-shaking{
+  animation: nopeShake 420ms var(--ease);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .flipCard.is-shaking{ animation: none; }
+}
+/* HERO text overlay */
+.heroSection{
+  position: relative;
+}
+
+.heroText{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(92vw, 980px);
+  text-align: center;
+  z-index: 2;
+  pointer-events: none; /* aby to neblokovalo kliknutí na šipku */
+}
+
+/* "podpis" – script font (fallbacky když nebude font) */
+.heroName{
+  margin: 0;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: rgba(255,255,255,0.95);
+  font-size: clamp(44px, 7vw, 92px);
+  line-height: 1.02;
+
+  /* čitelnost na různých pozadích */
+  text-shadow:
+    0 2px 12px rgba(0,0,0,0.55),
+    0 14px 38px rgba(0,0,0,0.45);
+}
+
+/* linka pod jménem */
+.heroName::after{
+  content:"";
+  display: block;
+  width: min(78%, 560px);
+  height: 2px;
+  margin: clamp(8px, 1.2vw, 14px) auto 0;
+  background: rgba(255,255,255,0.85);
+  opacity: 0.9;
+}
+
+/* podtitulek */
+.heroSubtitle{
+  margin: clamp(10px, 1.6vw, 16px) 0 0;
+  font-size: clamp(16px, 2.2vw, 28px);
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  color: rgba(255,255,255,0.92);
+  text-shadow: 0 2px 10px rgba(0,0,0,0.55);
+}
+
+/* Mobile drobnost: víc vzduchu */
+@media (max-width: 520px){
+  .heroText{ top: 52%; }
+  .heroName::after{ width: 86%; }
+}
+.heroName{ font-family: "Allura", cursive; }
+.heroSubtitle{ font-family: "Inter", system-ui, sans-serif; }
+.heroText{
+  position: absolute;
+  left: clamp(16px, 3vw, 40px);
+  top:  clamp(16px, 3vw, 40px);
+  transform: none;        /* zruší vycentrování */
+  width: auto;
+  text-align: left;
+  z-index: 2;
+  pointer-events: none;
+}
