@@ -1,77 +1,359 @@
-<!-- 7.1.x Rastrová grafika — GIMP (Layer Groups — Skupiny vrstev) -->
-<section id="section7-1-x" class="container my-5">
-  <h3 class="mb-4">7.1.3 GIMP — Skupiny vrstev (Layer Groups)</h3>
+<!-- TEMPLATE B: Grafická lekce (s galerií) -->
+<section id="section-photopea-1-2" class="lesson">
 
-  <!-- Co se naučíš -->
-  <div class="container my-4 p-4 border rounded bg-light">
-    <h3 class="mb-3">Co se naučíš?</h3>
-    <p>Pochopíš princip <em>skupin vrstev</em> v GIMPu, jejich výhody při organizaci projektu i při aplikaci společných efektů. Naučíš se vytvářet, vnořovat (nested) a maskovat celé skupiny vrstev, což ti umožní tvořit složitější a přehlednější kompozice.</p>
-    <ul class="list-group list-group-flush mb-3">
-      <li class="list-group-item"><strong>Vytvoření skupiny vrstev</strong>: jak založit, přejmenovat a vkládat vrstvy dovnitř skupiny.</li>
-      <li class="list-group-item"><strong>Organizace kompozice</strong>: přetahování vrstev dovnitř i ven, změna pořadí, zobrazení/skrývání všech vrstev najednou.</li>
-      <li class="list-group-item"><strong>Masky vrstev uvnitř skupiny</strong>: přidání samostatných masek k jednotlivým vrstvám.</li>
-      <li class="list-group-item"><strong>Maska celé skupiny</strong>: aplikace efektů a výřezů na všechny vrstvy ve skupině.</li>
-      <li class="list-group-item"><strong>Kombinované efekty</strong>: jak se masky jednotlivých vrstev a maska skupiny navzájem ovlivňují.</li>
-      <li class="list-group-item"><strong>Nested Layer Groups</strong>: vnořené skupiny vrstev (skupina ve skupině) a jejich využití pro složité kompozice.</li>
+  <header class="lesson__header">
+    <h2 class="lesson__title">1.2 Zkratky, text a vrstvy: základní workflow pro rychlou práci</h2>
+    <p class="lesson__lead">
+      V téhle části si otevřeš přehled klávesových zkratek, vyzkoušíš práci s textem (warp, transform, clipping mask, drop shadow),
+      a hlavně pochopíš vrstvy: pořadí, opacity, viditelnost, zamykání a nastavení Auto Select.
+    </p>
+  </header>
+
+  <article class="card">
+    <h3 class="card__title">Co se naučíš?</h3>
+    <ul class="checklist">
+      <li><strong>Keyboard Shortcuts</strong> – kde najít kompletní přehled zkratek a jak si z nich udělat tahák.</li>
+      <li><strong>Text Tool (T)</strong> – font, velikost, styl, zarovnání, potvrzení a rychlá změna měřítka (Transform).</li>
+      <li><strong>Warp text</strong> – ohýbání textu (Rise / Arch apod.) a jemné doladění.</li>
+      <li><strong>Clipping mask</strong> – vyplnění textu fotkou + přidání stínu (FX / Drop Shadow).</li>
+      <li><strong>Layer Styles</strong> – gradient overlay, bevel &amp; emboss, shadow, texture, kopírování stylu a uložení presetu.</li>
+      <li><strong>Vrstvy</strong> – stacking order, opacity, visibility, lock, výběr více vrstev a Auto Select.</li>
     </ul>
-    <div class="alert alert-info" role="alert">
-      <strong>Tip:</strong> Skupiny vrstev slouží nejen pro pořádek, ale i pro <em>sdílené efekty</em> – například jedna maska ovlivní všechny vrstvy uvnitř.
+
+    <div class="note note--info">
+      <strong>Tip:</strong> Pokud PhotoPea reaguje pomalu, dělej změny po menších krocích a po každé větší úpravě ulož pracovní verzi.
     </div>
+  </article>
+
+  <div class="actions">
+    <a class="btn btn--primary" href="URL_MATERIÁLY" target="_blank" rel="noopener">Stáhnout materiály</a>
+    <a class="btn btn--ghost" href="https://www.photopea.com" target="_blank" rel="noopener">Oficiální zdroj</a>
   </div>
 
-  <!-- Výukové video -->
-  <div class="ratio ratio-16x9 mb-4">
-    <iframe src="https://www.youtube.com/embed/K_oKPFBSWUw" 
-            title="GIMP Layer Groups Tutorial" 
-            allowfullscreen 
-            class="rounded border"></iframe>
-       
+  <div class="accordion">
+
+    <details class="acc" open>
+      <summary class="acc__sum">1) Klávesové zkratky: kde je najdeš a proč se vyplatí</summary>
+      <div class="acc__body">
+
+        <ol class="steps">
+          <li>V horním menu najdi položku <strong>More</strong> (více).</li>
+          <li>Klikni na <strong>Keyboard Shortcuts</strong> – otevře se seznam všech zkratek (dá se scrollovat).</li>
+          <li>Všímej si rozdílů mezi systémy:
+            <ul class="checklist">
+              <li>Na Macu často uvidíš symbol pro <strong>Command</strong>, na PC se stejné zkratky typicky dělají přes <strong>Ctrl</strong>.</li>
+              <li>Symbol „Option“ odpovídá <strong>Alt</strong> (Windows) / <strong>Option</strong> (Mac).</li>
+            </ul>
+          </li>
+          <li>Doporučení do praxe:
+            <ul class="checklist">
+              <li>Udělej si screenshot zkratek a vytiskni ho.</li>
+              <li>Nebo si napiš 5–10 nejčastějších zkratek na Post-it a dej ho vedle klávesnice.</li>
+            </ul>
+          </li>
+          <li>Minimum, které chceš umět hned:
+            <ul class="checklist">
+              <li><strong>Deselect</strong> (zrušení výběru) – používá se pořád.</li>
+              <li><strong>Undo</strong> – vrácení kroku.</li>
+            </ul>
+          </li>
+        </ol>
+
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">2) Rychlý příklad zkratek: vyplnění výběru barvou (Foreground)</summary>
+      <div class="acc__body">
+
+        <ol class="steps">
+          <li>Vytvoř si libovolný výběr (např. Lasso Tool).</li>
+          <li>Zkus dva scénáře:
+            <ul class="checklist">
+              <li>Stiskni <strong>Delete</strong> → vymaže obsah do průhledna (u průhledných vrstev).</li>
+              <li>Stiskni <strong>Alt/Option + Backspace</strong> → vyplní výběr <strong>Foreground</strong> barvou.</li>
+            </ul>
+          </li>
+          <li>Všimni si, že to vychází z aktuální barvy v barevných vzornících (Foreground/Background).</li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Tip:</strong> Pokud ti nefunguje „Backspace“ tak, jak čekáš (hlavně na různých klávesnicích), mrkni do Keyboard Shortcuts – někdy je mapování odlišné.
+        </div>
+
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">3) Text Tool (T): font, velikost, potvrzení a rychlé zvětšení transformací</summary>
+      <div class="acc__body">
+
+        <ol class="steps">
+          <li>Vyber <strong>Type Tool</strong> (T). V Options bar se objeví nastavení fontu.</li>
+          <li>Nastav:
+            <ul class="checklist">
+              <li>font (Font)</li>
+              <li>řez (např. Regular/Bold)</li>
+              <li>zarovnání (Left/Center/Right)</li>
+              <li>velikost (pt)</li>
+            </ul>
+          </li>
+          <li>Klikni do plátna a napiš slovo (např. <strong>WAVE</strong>).</li>
+          <li>Výběr textu:
+            <ul class="checklist">
+              <li>Dvojklik často označí jedno slovo.</li>
+              <li>Trojklik označí celý řádek (praktické při úpravě).</li>
+            </ul>
+          </li>
+          <li>Když je text pořád malý:
+            <ul class="checklist">
+              <li>Nemusíš hádat obří hodnoty font-size – použij <strong>Transform</strong> a text prostě natáhni.</li>
+              <li>Vyber Move Tool a použij <strong>Free Transform</strong> (obvykle Ctrl/Cmd + T) a zvětši text ručně.</li>
+            </ul>
+          </li>
+          <li>Pozor na kurzor:
+            <ul class="checklist">
+              <li>Na textu se objeví „I-beam“ (editace textu).</li>
+              <li>Mimo text se objeví Move Tool a můžeš objekt posouvat.</li>
+            </ul>
+          </li>
+        </ol>
+
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">4) Warp Text: ohnutí textu do tvaru (Rise/Arch) a doladění</summary>
+      <div class="acc__body">
+
+        <ol class="steps">
+          <li>Vyber Text Tool a klikni na textovou vrstvu.</li>
+          <li>V Options bar najdi tlačítko <strong>Warp</strong>.</li>
+          <li>V dialogu zvol <strong>Style</strong> (např. Rise/Arch/Upper).</li>
+          <li>Dolaď:
+            <ul class="checklist">
+              <li><strong>Bend</strong> – jak moc se text ohne.</li>
+              <li><strong>Horizontal / Vertical Distortion</strong> – deformace do stran / nahoru-dolů.</li>
+            </ul>
+          </li>
+          <li>Potvrď OK a potom potvrď text (checkmark).</li>
+        </ol>
+
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">5) Clipping mask: vyplnění textu fotkou + Drop Shadow</summary>
+      <div class="acc__body">
+
+        <ol class="steps">
+          <li>Duplikuj fotku (Background) na novou vrstvu:
+            <ul class="checklist">
+              <li>Right click na vrstvu → <strong>Duplicate Layer</strong>.</li>
+              <li>Přesuň duplikát <strong>nad text</strong>.</li>
+              <li>Přejmenuj (např. <em>clipped_text</em>), ať se v tom neztratíš.</li>
+            </ul>
+          </li>
+          <li>Vypni původní background (oko), ať vidíš efekt čistě.</li>
+          <li>Clipping:
+            <ul class="checklist">
+              <li>Right click na vrstvě s fotkou, která je <strong>nad textem</strong>.</li>
+              <li>Zvol <strong>Clipping mask</strong>.</li>
+              <li>Fotka se „ořízne“ do tvaru písmen.</li>
+            </ul>
+          </li>
+          <li>Drop shadow:
+            <ul class="checklist">
+              <li>Vyber <strong>textovou vrstvu</strong> (ne tu clipped fotku).</li>
+              <li>Klikni na <strong>FX</strong> (Effects) → <strong>Drop Shadow</strong>.</li>
+              <li>Dolaď <strong>Opacity</strong> (klidně 100 %), <strong>Size</strong>, <strong>Spread</strong>.</li>
+            </ul>
+          </li>
+          <li>Princip:
+            <ul class="checklist">
+              <li><strong>Size</strong> = rozmazání/„fuzzy“ okraj stínu.</li>
+              <li><strong>Spread</strong> = „tvrdý“/plochý stín (zvětšuje solidní část).</li>
+            </ul>
+          </li>
+        </ol>
+
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">6) Layer Styles: gradient, bevel, vnitřní efekty a kopírování stylu</summary>
+      <div class="acc__body">
+
+        <ol class="steps">
+          <li>Vytvoř nový dokument (např. Print → Letter → Landscape).</li>
+          <li>Napiš text (např. HELLO), vyber zajímavější font a případně použij Warp.</li>
+          <li>Klikni na <strong>FX</strong> (Effects) a otevři <strong>Blending options</strong>.</li>
+          <li>Gradient Overlay:
+            <ul class="checklist">
+              <li>Neklikej jen na checkbox – klikni na <strong>název</strong> (Gradient Overlay), aby se otevřely volby.</li>
+              <li>Nastav barvy (např. tmavě modrá → světle modrá) a 100% opacity.</li>
+            </ul>
+          </li>
+          <li>Bevel &amp; Emboss:
+            <ul class="checklist">
+              <li>Klikni na název, zvedni <strong>Depth</strong>, dolaď <strong>Size</strong>.</li>
+            </ul>
+          </li>
+          <li>Další efekty podle chuti:
+            <ul class="checklist">
+              <li>Drop Shadow</li>
+              <li>Inner Shadow / Inner Glow</li>
+              <li>Texture (pokud sedí k stylu)</li>
+            </ul>
+          </li>
+          <li>Pozadí:
+            <ul class="checklist">
+              <li>Klikni na Background a použij <strong>Edit → Fill</strong> (Custom color), aby text líp vynikl.</li>
+            </ul>
+          </li>
+          <li>Kopírování stylu:
+            <ul class="checklist">
+              <li>Right click na „hotové“ vrstvě → <strong>Layer style → Copy</strong>.</li>
+              <li>Right click na nové vrstvě → <strong>Layer style → Paste</strong>.</li>
+            </ul>
+          </li>
+          <li>Uložení stylu:
+            <ul class="checklist">
+              <li>Otevři Layer Style dialog (dvojklik na FX) a použij <strong>New</strong> pro uložení presetu.</li>
+              <li>Bez účtu může být potřeba styly znovu načíst v nové práci.</li>
+            </ul>
+          </li>
+        </ol>
+
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">7) Vrstvy: stacking order, opacity, viditelnost, lock a Auto Select</summary>
+      <div class="acc__body">
+
+        <ol class="steps">
+          <li>Představ si vrstvy jako „palačinky“/karty nad sebou:
+            <ul class="checklist">
+              <li>Co je nahoře, zakrývá to, co je pod tím.</li>
+              <li>Pořadí se jmenuje <strong>stacking order</strong>.</li>
+            </ul>
+          </li>
+          <li>Přesun vrstvy:
+            <ul class="checklist">
+              <li>Klikni na vrstvu a táhni ji nahoru/dolů.</li>
+              <li>Všímej si „tlustší čáry“, která ukazuje, kam se vrstva vloží.</li>
+            </ul>
+          </li>
+          <li>Opacity:
+            <ul class="checklist">
+              <li>Sniž opacity a uvidíš, co je pod vrstvou.</li>
+            </ul>
+          </li>
+          <li>Delete vs. Visibility:
+            <ul class="checklist">
+              <li><strong>Delete</strong> vrstvu smaže.</li>
+              <li>Oko (visibility) ji jen skryje – dá se vrátit zpět.</li>
+            </ul>
+          </li>
+          <li>Lock:
+            <ul class="checklist">
+              <li>Ikona zámku zabrání posunu/úpravám.</li>
+              <li>Více vrstev vybereš přes <strong>Shift</strong> a zamkneš je najednou.</li>
+            </ul>
+          </li>
+          <li>Auto Select (v Options bar u Move Tool):
+            <ul class="checklist">
+              <li><strong>On</strong> – klik na objekt vybere jeho vrstvu automaticky.</li>
+              <li><strong>Off</strong> – vrstvu musíš vybrat v panelu Layers ručně.</li>
+            </ul>
+          </li>
+          <li>Typická past:
+            <ul class="checklist">
+              <li>Když je nahoře velká (i skoro průhledná) vrstva, klikání může pořád vybírat ji.</li>
+              <li>Řešení: zámek horní vrstvy, nebo vypnutí její viditelnosti, nebo vypnout Auto Select a vybrat vrstvu ručně.</li>
+            </ul>
+          </li>
+          <li>Praxe:
+            <ul class="checklist">
+              <li>Otevři cvičení „bullseye / target“ a seřaď vrstvy tak, aby vznikl terč.</li>
+              <li>Vyzkoušej: změnit pořadí, snížit opacity, zapnout/vypnout Auto Select, zamknout vrstvu.</li>
+            </ul>
+          </li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Rychlá diagnostika:</strong> Když „to nejde“, v 90 % je to tím, že jsi na špatné vrstvě, máš zamčeno, nebo máš Auto Select v opačném stavu, než čekáš.
+        </div>
+
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">8) Výběry a jedna vrstva vs. více vrstev (proč se „lepí“)</summary>
+      <div class="acc__body">
+
+        <p>
+          Když máš vše na <strong>jedné vrstvě</strong>, výběrem (např. Magic Wand) můžeš dočasně posunout část obrazu.
+          Jakmile ale výběr zrušíš, ta část se stane „součástí“ vrstvy – jako bys ji k ní přilepil.
+          U <strong>více vrstev</strong> se objekty hýbou nezávisle a můžeš je kdykoliv přerovnat.
+        </p>
+
+        <ol class="steps">
+          <li>Na „single layer“ dokumentu:
+            <ul class="checklist">
+              <li>Vyber část (Magic Wand).</li>
+              <li>Přesuň ji Move Tool.</li>
+              <li>Zruš výběr (Deselect) a zkus ji znovu posunout – bez nového výběru se hýbe všechno.</li>
+            </ul>
+          </li>
+          <li>Na „multi layer“ dokumentu:
+            <ul class="checklist">
+              <li>Každý objekt je na vlastní vrstvě.</li>
+              <li>Stačí Move Tool a objekty posouváš bez výběru.</li>
+              <li>Můžeš měnit pořadí (stacking order) kdykoliv.</li>
+            </ul>
+          </li>
+        </ol>
+
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">9) Mini projekt: „food plate“ a práce se selection tools</summary>
+      <div class="acc__body">
+
+        <ol class="steps">
+          <li>V projektu budeš vybírat objekty (jídlo) a skládat je na jednu „uměleckou“ kompozici.</li>
+          <li>Základní pravidla:
+            <ul class="checklist">
+              <li>Každý objekt drž na <strong>samostatné vrstvě</strong>.</li>
+              <li>Udržuj si možnost kompozici ladit (posun, otočení, pořadí, opacity).</li>
+            </ul>
+          </li>
+          <li>Kompozice (prakticky):
+            <ul class="checklist">
+              <li>Mysli na <strong>barvy</strong> a „bílé místo“ (air/white space).</li>
+              <li>Jednodušší je vybírat objekty z čistého pozadí než z rušného.</li>
+              <li>Začni jednoduchými tvary (kruh/talíř, hrnek), složitější nech na později (např. vajíčka, nepravidelné okraje).</li>
+            </ul>
+          </li>
+          <li>Cíl: vytvořit „plating“, který vypadá promyšleně (jako z restaurace), ne jako náhodná hromada.</li>
+        </ol>
+
+      </div>
+    </details>
+
   </div>
 
-  <!-- Teorie + textový výklad -->
-  <div class="container my-4 p-4 border rounded bg-white">
-    <h3 class="mb-3">Teorie a postup krok za krokem</h3>
-    <ol class="mb-3">
-      <li>Vytvoř nový projekt (prázdné plátno) a přetáhni obrázek do GIMPu. Vrstva se objeví v panelu vrstev – přejmenuj ji například na <em>Sunflowers</em>.</li>
-      <li>V panelu vrstev klikni na <strong>Create a new layer group</strong> (ikona složky) a přejmenuj ji na <em>Nature Photos</em>.</li>
-      <li>Přetáhni vrstvu <strong>Sunflowers</strong> do této skupiny. Dotted obrys kolem celé skupiny potvrzuje, že ji vkládáš dovnitř.</li>
-      <li>Do stejné kompozice přidej další vrstvy – např. <em>Hiker</em> a <em>Wheat</em> – a umísti je do skupiny. Můžeš měnit pořadí přetažením.</li>
-      <li>Ikona <strong>minus</strong> u skupiny umožňuje její <em>sbalení/rozbalení</em>. Kliknutím na „oko“ u skupiny skryješ/zobrazíš všechny vrstvy naráz.</li>
-      <li>Všimni si, že náhled skupiny (thumbnail) zobrazuje kombinovaný obsah všech vrstev uvnitř.</li>
-      <li>Přidej masku k jednotlivým vrstvám (<em>Hiker</em>, <em>Wheat</em>) — volba <strong>Add Layer Mask → White (Full Opacity)</strong>.</li>
-      <li>Použij <strong>Gradient Tool</strong> (např. <em>Linear</em> nebo <em>Bilinear</em>) k vytvoření přechodu mezi vrstvami.</li>
-      <li>Přidej masku ke <strong>skupině vrstev</strong> – například obdélníkový výběr, invertuj jej (<kbd>Ctrl+I</kbd>) a zvol <em>Add Layer Mask → Selection (Inverted)</em>.</li>
-      <li>Tímto se skryje vše mimo vybranou oblast, a vznikne <strong>spojený efekt masek</strong> – jednotlivé vrstvy mají své masky a skupina má navíc vlastní.</li>
-      <li>Vytvoř novou vrstvu <em>Background</em>, přetáhni ji pod skupinu a vyplň černou barvou (<kbd>Shift+B</kbd>, <kbd>X</kbd> přepne FG/BG).</li>
-      <li>Pomocí <strong>Move Tool (M)</strong> uprav pozice obrázků ve skupině – přesuň „Hiker“ a „Sunflowers“ pro lepší kompozici.</li>
-      <li>Vyzkoušej vytvořit <strong>vnořenou skupinu (Nested Group)</strong> – klikni znovu na „New Layer Group“ uvnitř již existující skupiny a vlož do ní nové vrstvy. Tento proces lze opakovat neomezeně (výkon závisí na počítači).</li>
-    </ol>
-
-    <div class="alert alert-secondary">
-      <strong>🧠 Shrnutí principu:</strong> 
-      Skupiny vrstev umožňují kombinovat více masek a efektů do jedné struktury. 
-      Každá vrstva může mít vlastní masku, ale i skupina jako celek může být maskovaná. 
-      To poskytuje obrovskou flexibilitu pro složité kompozice.
-    </div>
-  </div>
-
-  <!-- Shrnutí -->
-  <div class="container my-4 p-4 border rounded bg-light">
-    <h3 class="mb-3">Shrnutí</h3>
-    <ul class="list-group list-group-flush mb-0">
-      <li class="list-group-item">Umíš vytvořit <strong>skupinu vrstev</strong> a organizovat do ní více obrázků.</li>
-      <li class="list-group-item">Zvládneš přetahovat vrstvy dovnitř i ven a měnit jejich pořadí.</li>
-      <li class="list-group-item">Rozumíš principu <strong>masek</strong> – můžeš je použít na jednotlivé vrstvy i na celou skupinu.</li>
-      <li class="list-group-item">Dokážeš kombinovat (skládat) efekty masek pro složitější kompozici.</li>
-      <li class="list-group-item">Umíš vytvořit <strong>vnořené skupiny</strong> pro přehlednější práci a komplexní úpravy.</li>
-      <li class="list-group-item">Zvládneš přidat pozadí a přesně doladit rozmístění vrstev pro čistý finální výsledek.</li>
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+    <ul class="checklist">
+      <li>Zkratky najdeš v <strong>More → Keyboard Shortcuts</strong>; stačí si zapamatovat pár nejdůležitějších a zrychlíš práci.</li>
+      <li>Text umíš ohnout (Warp), zvětšit transformací a vyplnit fotkou přes Clipping Mask + zvýraznit Drop Shadow.</li>
+      <li>Layer Styles jsou nedestruktivní – můžeš je vypínat, kopírovat/pastovat a ukládat jako preset.</li>
+      <li>Vrstvy = pořadí, opacity, viditelnost, zámek a Auto Select. Když „to nejde“, kontroluj tyhle věci jako první.</li>
     </ul>
-  </div>
- <div>
-<a href="  https://www.figma.com/proto/gLCHk1r3VFPW3STlil8C7k/Gimp4?page-id=0%3A1&node-id=4-3&p=f&viewport=495%2C30%2C1&t=MEuB47bJnweyFME6-1&scaling=min-zoom&content-scaling=fixed" 
-   class="btn btn-primary" target="_blank">
-  Zobrazit vzor 3-1
-</a>
-  </div>
+  </article>
 
 </section>
