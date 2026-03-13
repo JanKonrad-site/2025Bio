@@ -4,27 +4,52 @@
 <section id="section5-2-1" class="lesson">
 
   <header class="lesson__header">
-    <h2 class="lesson__title">3.2.1 SQLite v Pythonu – první databáze „laboratorně“ (krok za krokem s ověřováním)</h2>
+    <h2 class="lesson__title">3.2.1 SQLite v Pythonu – první databáze úplně pomalu a polopatě</h2>
     <p class="lesson__lead">
-      V této lekci budeme postupovat velmi pomalu. Vždy uděláš malou změnu v kódu, spustíš skript a ověříš výsledek.
-      Cílem je, aby bylo jasné, co přesně dělá každý řádek: připojení, vytvoření tabulky, vložení dat a kontrolní dotazy.
+      V této lekci nebudeme nic uspěchávat. Nepůjdeme stylem „zkopíruj hotový kód a doufej, že to funguje“.
+      Naopak: po každém malém kroku skript spustíš, podíváš se do konzole a ověříš si, co se právě stalo.
+      Cílem není jen „aby to jelo“, ale aby bylo jasné, co dělá <code>connect()</code>, co dělá <code>execute()</code>,
+      proč existuje <code>commit()</code> a proč databázi na konci zavíráme pomocí <code>close()</code>.
     </p>
   </header>
 
   <article class="card">
+    <h3 class="card__title">Co je vlastně databáze v této lekci?</h3>
+    <p>
+      Budeme používat <strong>SQLite</strong>. To je jednoduchá databáze, která nepotřebuje žádný server.
+      Nepřipojuješ se nikam na internet. Databáze je v tomto případě normálně <strong>soubor</strong>,
+      který bude uložený vedle tvého Python skriptu.
+    </p>
+    <p>
+      Ten soubor se bude jmenovat <code>movies.db</code>.
+      Uvnitř toho souboru budou tabulky a v nich data.
+    </p>
+
+    <div class="note note--info">
+      <strong>Představa:</strong><br>
+      <code>movies.db</code> = krabice<br>
+      tabulka <code>movies</code> = jeden šanon uvnitř krabice<br>
+      jednotlivé řádky = jednotlivé kartičky / záznamy
+    </div>
+  </article>
+
+  <article class="card">
     <h3 class="card__title">Pravidla práce v této lekci</h3>
     <ul class="checklist">
-      <li>Po každém kroku skript <strong>spusť</strong> a zkontroluj <strong>výpis</strong> v konzoli.</li>
-      <li>Po každém kroku si ověř i <strong>soubor ve složce</strong> (Průzkumník → F5).</li>
-      <li>Vždy pracujeme s jedním souborem databáze: <code>movies.db</code> vedle skriptu.</li>
+      <li>Po každém kroku skript <strong>spusť</strong>.</li>
+      <li>Po každém kroku zkontroluj <strong>výpis v konzoli</strong>.</li>
+      <li>Po každém kroku zkontroluj i <strong>soubor ve složce</strong> (Průzkumník → F5).</li>
+      <li>Nepřeskakuj kroky. Tady je důležitější pochopení než rychlost.</li>
+      <li>Celou dobu budeme pracovat s jedním databázovým souborem: <code>movies.db</code>.</li>
     </ul>
+
     <div class="note note--info">
-      <strong>Doporučení:</strong> Spouštěj z terminálu ve složce skriptu (<code>powershell</code> v adresním řádku složky).
+      <strong>Důležité:</strong> databáze se tady nechová jako proměnná v paměti.
+      Je to soubor na disku. Takže některé změny opravdu uvidíš až po spuštění skriptu a po obnovení složky.
     </div>
   </article>
 
   <div class="actions">
-    <a class="btn btn--primary" href="#" target="_blank" rel="noopener">Primární akce (např. zadání)</a>
     <a class="btn btn--ghost" href="https://docs.python.org/3/library/sqlite3.html" target="_blank" rel="noopener">Python sqlite3</a>
   </div>
 
@@ -32,9 +57,18 @@
 
     <!-- KROK 0 -->
     <details class="acc" open>
-      <summary class="acc__sum">Krok 0: Startovní soubor – jen cesta k databázi a kontrola existence</summary>
+      <summary class="acc__sum">Krok 0: Zjisti, kde databáze bude, a ověř, jestli už existuje</summary>
       <div class="acc__body">
-        <p>Vytvoř soubor <code>lab_db.py</code> a vlož pouze:</p>
+        <p>
+          Než databázi otevřeme, je dobré vědět dvě věci:
+        </p>
+
+        <ol class="steps">
+          <li><strong>Kde přesně</strong> bude databázový soubor uložený.</li>
+          <li>Jestli ten soubor <strong>už existuje</strong>, nebo ještě ne.</li>
+        </ol>
+
+        <p>Vytvoř soubor <code>lab_db.py</code> a vlož do něj toto:</p>
 
         <pre><code class="language-python">import sqlite3
 from pathlib import Path
@@ -46,25 +80,40 @@ print("DB exists:", DB_FILE.exists())
 
 input("ENTER pro ukončení...")</code></pre>
 
+        <h4>Co znamenají jednotlivé řádky?</h4>
+        <ul class="bullets">
+          <li><code>import sqlite3</code> – načítáme knihovnu pro práci s databází SQLite.</li>
+          <li><code>from pathlib import Path</code> – budeme pohodlně pracovat s cestou k souboru.</li>
+          <li><code>DB_FILE = ...</code> – říkáme: databáze se bude jmenovat <code>movies.db</code> a bude ležet vedle tohoto skriptu.</li>
+          <li><code>DB_FILE.exists()</code> – vrátí <code>True</code> nebo <code>False</code> podle toho, jestli soubor už existuje.</li>
+        </ul>
+
         <ol class="steps">
           <li>Spusť: <code>python lab_db.py</code></li>
-          <li>Ověř, že vidíš cestu k DB souboru.</li>
-          <li><code>DB exists</code> bude pravděpodobně <code>False</code>.</li>
+          <li>Podívej se na vypsanou cestu.</li>
+          <li>Podívej se na hodnotu <code>DB exists</code>.</li>
         </ol>
 
         <div class="note note--info">
-          <strong>Co ověřujeme:</strong> kde přesně bude databáze ležet a zda soubor existuje.
+          <strong>Co teď čekáme:</strong><br>
+          Pokud databázi ještě nikdo nevytvořil, pravděpodobně uvidíš <code>False</code>.<br>
+          To je v pořádku. Zatím jsme databázi ještě neotevřeli ani nevytvořili.
         </div>
       </div>
     </details>
 
     <!-- KROK 1 -->
     <details class="acc">
-      <summary class="acc__sum">Krok 1: Otevření a zavření databáze (connect/close) + ověření souboru</summary>
+      <summary class="acc__sum">Krok 1: Otevření databáze pomocí <code>connect()</code> a zavření pomocí <code>close()</code></summary>
       <div class="acc__body">
         <p>
-          Teď přidáme otevření databáze pomocí <code>sqlite3.connect()</code>.
-          SQLite při prvním připojení obvykle vytvoří databázový soubor, pokud ještě neexistuje.
+          Teď uděláme první skutečný kontakt s databází.
+          Použijeme <code>sqlite3.connect(...)</code>.
+        </p>
+
+        <p>
+          Tím Python řekne:
+          <strong>„Otevři databázi v tomto souboru. Pokud soubor ještě neexistuje, vytvoř ho.“</strong>
         </p>
 
         <pre><code class="language-python">import sqlite3
@@ -84,24 +133,47 @@ print("Connection closed.")
 print("DB exists AFTER close:", DB_FILE.exists())
 input("ENTER pro ukončení...")</code></pre>
 
+        <h4>Co je tady nové?</h4>
+        <ul class="bullets">
+          <li><code>conn = sqlite3.connect(...)</code> – otevře spojení s databází.</li>
+          <li><code>conn</code> je zkratka od <strong>connection</strong>, tedy spojení.</li>
+          <li><code>conn.close()</code> – spojení korektně zavře.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Představa:</strong><br>
+          Databáze je jako sešit.<br>
+          <code>connect()</code> = otevřít sešit<br>
+          <code>close()</code> = zavřít sešit
+        </div>
+
         <ol class="steps">
           <li>Spusť skript.</li>
-          <li>V Průzkumníku obnov (F5) a ověř, že se objevil <code>movies.db</code>.</li>
-          <li>V konzoli se <code>DB exists AFTER close</code> typicky změní na <code>True</code>.</li>
+          <li>Podívej se, jestli se ve složce objevil soubor <code>movies.db</code>.</li>
+          <li>V konzoli si všimni rozdílu mezi <code>BEFORE</code> a <code>AFTER</code>.</li>
         </ol>
 
         <div class="note note--info">
-          <strong>Co ověřujeme:</strong> že <code>connect</code> skutečně pracuje se souborem databáze a že jej umíme vytvořit/otevřít.
+          <strong>Co ověřujeme:</strong><br>
+          Nepracujeme zatím s tabulkou ani s daty. Jen si dokazujeme, že Python umí databázový soubor otevřít
+          a že SQLite ten soubor umí vytvořit.
         </div>
       </div>
     </details>
 
     <!-- KROK 2 -->
     <details class="acc" open>
-      <summary class="acc__sum">Krok 2: Přesun do funkce – stejný test, ale přes <code>open_and_close_db()</code></summary>
+      <summary class="acc__sum">Krok 2: Přesun do funkce – stejná práce, jen přehledněji</summary>
       <div class="acc__body">
         <p>
-          Stejný postup dáme do funkce. Důležité: funkce se nevykoná, dokud ji nezavoláš.
+          Teď uděláme úplně to samé, ale zabalíme to do funkce.
+          Důvod je jednoduchý: nechceme mít všechno naházené jen tak pod sebe.
+        </p>
+
+        <p>
+          Funkce je pojmenovaný blok kódu.
+          Sama od sebe se ale <strong>nespustí</strong>. Jen existuje.
+          Spustí se až ve chvíli, kdy ji zavoláš.
         </p>
 
         <pre><code class="language-python">import sqlite3
@@ -125,24 +197,36 @@ if __name__ == "__main__":
     open_and_close_db()
     input("ENTER pro ukončení...")</code></pre>
 
-        <ol class="steps">
-          <li>Spusť skript.</li>
-          <li>Výpis musí odpovídat tomu, co jsi viděl v kroku 1.</li>
-        </ol>
+        <h4>Co je zde důležité pochopit?</h4>
+        <ul class="bullets">
+          <li><code>def open_and_close_db():</code> – tady funkci jen vytváříš.</li>
+          <li><code>open_and_close_db()</code> – tady ji opravdu spouštíš.</li>
+        </ul>
 
         <div class="note note--info">
-          <strong>Co ověřujeme:</strong> že rozumíš rozdílu „definice funkce“ vs. „volání funkce“.
+          <strong>Typická chyba začátečníka:</strong><br>
+          Napíše funkci, ale zapomene ji zavolat. Program pak „nic nedělá“ a student neví proč.
         </div>
+
+        <ol class="steps">
+          <li>Spusť skript.</li>
+          <li>Výpis by měl být skoro stejný jako v předchozím kroku.</li>
+        </ol>
       </div>
     </details>
 
     <!-- KROK 3 -->
     <details class="acc">
-      <summary class="acc__sum">Krok 3: Vytvoření tabulky (CREATE TABLE) + ověření přes seznam tabulek</summary>
+      <summary class="acc__sum">Krok 3: Vytvoření tabulky – první skutečná struktura databáze</summary>
       <div class="acc__body">
         <p>
-          Vytvoříme tabulku <code>movies</code>. Nejdřív provedeme SQL příkaz a potom si ověříme, že tabulka opravdu existuje,
-          pomocí dotazu do <code>sqlite_master</code>.
+          Databázový soubor už máme. Ale zatím je skoro prázdný.
+          Teď v něm vytvoříme tabulku <code>movies</code>.
+        </p>
+
+        <p>
+          Tabulka je něco jako tabulka v Excelu:
+          má sloupce a v nich budou uložená data.
         </p>
 
         <pre><code class="language-python">def create_table_movies():
@@ -174,23 +258,76 @@ if __name__ == "__main__":
 
     input("ENTER pro ukončení...")</code></pre>
 
+        <h4>Co dělá <code>conn.execute(...)</code>?</h4>
+        <p>
+          To znamená:
+          <strong>„Na tomto spojení s databází proveď SQL příkaz.“</strong>
+        </p>
+
+        <p>
+          V našem případě je SQL příkaz:
+        </p>
+
+        <pre><code class="language-sql">CREATE TABLE IF NOT EXISTS movies (
+    id    INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT    NOT NULL,
+    year  INTEGER
+);</code></pre>
+
+        <h4>Rozbor SQL úplně jednoduše:</h4>
+        <ul class="bullets">
+          <li><code>CREATE TABLE</code> – vytvoř tabulku</li>
+          <li><code>IF NOT EXISTS</code> – ale jen pokud ještě neexistuje</li>
+          <li><code>movies</code> – název tabulky</li>
+          <li><code>id INTEGER PRIMARY KEY AUTOINCREMENT</code> – číselné ID, které se bude samo navyšovat</li>
+          <li><code>title TEXT NOT NULL</code> – název filmu, text, nesmí být prázdný</li>
+          <li><code>year INTEGER</code> – rok, celé číslo, může být i prázdný</li>
+        </ul>
+
+        <h4>Proč je tam <code>conn.commit()</code>?</h4>
+        <p>
+          <code>commit()</code> znamená:
+          <strong>„Potvrď a ulož změny natrvalo.“</strong>
+        </p>
+
+        <p>
+          Bez <code>commit()</code> bys sice mohl příkaz provést,
+          ale změna by nemusela být definitivně uložená.
+        </p>
+
+        <div class="note note--info">
+          <strong>Představa:</strong><br>
+          <code>execute()</code> = něco jsi napsal do sešitu<br>
+          <code>commit()</code> = opravdu jsi to uložil<br>
+          <code>close()</code> = zavřel jsi sešit
+        </div>
+
+        <h4>A co dělá <code>list_tables()</code>?</h4>
+        <p>
+          Tato funkce se podívá do interní tabulky SQLite jménem <code>sqlite_master</code>.
+          To je takový „seznam objektů“ v databázi.
+          Díky tomu si umíme ověřit, jestli tabulka <code>movies</code> opravdu vznikla.
+        </p>
+
         <ol class="steps">
           <li>Spusť skript.</li>
-          <li>Ve výpisu tabulek musí být <code>movies</code>.</li>
+          <li>Ve výpisu hledej, jestli mezi tabulkami vidíš <code>movies</code>.</li>
         </ol>
 
         <div class="note note--info">
-          <strong>Co ověřujeme:</strong> že SQL příkaz <code>CREATE TABLE</code> opravdu změnil strukturu databáze.
+          <strong>Co teď víme:</strong><br>
+          Už nejen že existuje databázový soubor, ale uvnitř už existuje i konkrétní tabulka.
         </div>
       </div>
     </details>
 
     <!-- KROK 4 -->
     <details class="acc" open>
-      <summary class="acc__sum">Krok 4: Ověření, že tabulka je prázdná (COUNT před vložením)</summary>
+      <summary class="acc__sum">Krok 4: Ověření, že tabulka je zatím prázdná</summary>
       <div class="acc__body">
         <p>
-          Před vložením dat si změříme počet záznamů. Tím dostaneš pevný výchozí bod pro ověření INSERTu.
+          Než něco vložíme, je dobré si změřit výchozí stav.
+          Prostě zjistíme, kolik řádků je teď v tabulce.
         </p>
 
         <pre><code class="language-python">def count_movies():
@@ -207,16 +344,44 @@ if __name__ == "__main__":
 
     input("ENTER pro ukončení...")</code></pre>
 
-        <p><strong>Očekávání:</strong> při první práci s tabulkou to bude obvykle 0.</p>
+        <h4>Co tady dělá SQL dotaz?</h4>
+        <pre><code class="language-sql">SELECT COUNT(*) FROM movies;</code></pre>
+
+        <ul class="bullets">
+          <li><code>SELECT</code> – vyber / přečti data</li>
+          <li><code>COUNT(*)</code> – spočítej počet řádků</li>
+          <li><code>FROM movies</code> – v tabulce <code>movies</code></li>
+        </ul>
+
+        <h4>Co znamená <code>fetchone()[0]</code>?</h4>
+        <p>
+          Databáze vrátí výsledek jako řádek.
+          U <code>COUNT(*)</code> dostaneme jeden řádek a v něm jedno číslo.
+        </p>
+
+        <p>
+          Takže:
+        </p>
+
+        <ul class="bullets">
+          <li><code>fetchone()</code> – vezmi jeden vrácený řádek</li>
+          <li><code>[0]</code> – vezmi první hodnotu z toho řádku</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Očekávání:</strong><br>
+          Pokud jsi ještě do tabulky nic nevložil, výsledek bude pravděpodobně <code>0</code>.
+        </div>
       </div>
     </details>
 
     <!-- KROK 5 -->
     <details class="acc">
-      <summary class="acc__sum">Krok 5: INSERT (vložíme jeden film) + ověření přes COUNT</summary>
+      <summary class="acc__sum">Krok 5: INSERT – vložení jednoho filmu do tabulky</summary>
       <div class="acc__body">
         <p>
-          Teď přidáme funkci <code>insert_movie()</code> a ověříme, že se počet záznamů zvýšil přesně o 1.
+          Teď uděláme to, co od databáze většina lidí čeká:
+          uložíme do ní data.
         </p>
 
         <pre><code class="language-python">def insert_movie(title, year):
@@ -243,24 +408,65 @@ if __name__ == "__main__":
     print("Expected change:", after - before)
     input("ENTER pro ukončení...")</code></pre>
 
+        <h4>Rozbor INSERTu:</h4>
+        <pre><code class="language-sql">INSERT INTO movies (title, year) VALUES (?, ?);</code></pre>
+
+        <ul class="bullets">
+          <li><code>INSERT INTO</code> – vlož do tabulky</li>
+          <li><code>movies</code> – název tabulky</li>
+          <li><code>(title, year)</code> – do kterých sloupců zapisujeme</li>
+          <li><code>VALUES (?, ?)</code> – sem se dosadí skutečné hodnoty</li>
+        </ul>
+
+        <h4>Proč tam nejsou hodnoty napsané natvrdo?</h4>
+        <p>
+          Protože používáme parametry:
+        </p>
+
+        <pre><code class="language-python">(title, year)</code></pre>
+
+        <p>
+          To je bezpečnější a správný způsob práce s databází.
+        </p>
+
+        <h4>Co dělá tato část?</h4>
+        <pre><code class="language-python">year = int(year_text) if year_text else None</code></pre>
+
+        <p>
+          Přeloženo úplně lidsky:
+        </p>
+
+        <ul class="bullets">
+          <li>Pokud uživatel něco napsal, převedeme to na číslo pomocí <code>int()</code>.</li>
+          <li>Pokud nic nenapsal a jen zmáčkl Enter, uloží se <code>None</code>.</li>
+        </ul>
+
+        <p>
+          <code>None</code> se v SQLite uloží jako <code>NULL</code>, tedy „žádná hodnota“.
+        </p>
+
         <ol class="steps">
           <li>Spusť skript.</li>
-          <li>Zadej film.</li>
-          <li><code>Expected change</code> musí být 1.</li>
+          <li>Zadej název filmu.</li>
+          <li>Zadej rok nebo nech pole prázdné.</li>
+          <li>Zkontroluj, že <code>Expected change</code> je <code>1</code>.</li>
         </ol>
 
         <div class="note note--info">
-          <strong>Co ověřujeme:</strong> že <code>INSERT</code> opravdu uložil data a <code>commit()</code> je potvrdil.
+          <strong>Co tím dokazujeme:</strong><br>
+          Že jsme opravdu vložili jeden nový řádek do tabulky
+          a že <code>commit()</code> změnu skutečně uložil.
         </div>
       </div>
     </details>
 
     <!-- KROK 6 -->
     <details class="acc">
-      <summary class="acc__sum">Krok 6: Výpis obsahu tabulky (SELECT) – první čtení dat</summary>
+      <summary class="acc__sum">Krok 6: SELECT – přečtení a výpis uložených filmů</summary>
       <div class="acc__body">
         <p>
-          Přidáme první čtení dat: vypíšeme uložené filmy. To je přímý důkaz, že data v tabulce opravdu jsou.
+          Teď už nechceme jen věřit počítadlu řádků.
+          Chceme vidět skutečný obsah tabulky.
         </p>
 
         <pre><code class="language-python">def list_movies():
@@ -280,28 +486,97 @@ if __name__ == "__main__":
 
     input("ENTER pro ukončení...")</code></pre>
 
+        <h4>Rozbor SQL:</h4>
+        <pre><code class="language-sql">SELECT id, title, year FROM movies ORDER BY id DESC;</code></pre>
+
+        <ul class="bullets">
+          <li><code>SELECT id, title, year</code> – chceme tyto tři sloupce</li>
+          <li><code>FROM movies</code> – z tabulky <code>movies</code></li>
+          <li><code>ORDER BY id DESC</code> – seřaď podle ID od nejvyššího k nejnižšímu</li>
+        </ul>
+
+        <h4>Co dělá <code>fetchall()</code>?</h4>
+        <p>
+          Vrátí všechny nalezené řádky najednou.
+          Výsledek je seznam řádků.
+        </p>
+
+        <h4>Co dělá tento řádek?</h4>
+        <pre><code class="language-python">yr = year if year is not None else "?"</code></pre>
+
+        <p>
+          Pokud film rok má, vypíše se rok.
+          Pokud je rok v databázi prázdný, vypíše se místo něj otazník.
+        </p>
+
+        <ol class="steps">
+          <li>Spusť skript.</li>
+          <li>Podívej se, kolik řádků databáze vrací.</li>
+          <li>Zkontroluj, že vidíš skutečně uložené filmy.</li>
+        </ol>
+
         <div class="note note--info">
-          <strong>Co ověřujeme:</strong> že umíme data nejen zapisovat, ale i číst (SELECT).
+          <strong>Teď už umíš obě hlavní věci:</strong><br>
+          data do databáze uložit i data z databáze přečíst.
+        </div>
+      </div>
+    </details>
+
+    <!-- DŮLEŽITÉ POJMY -->
+    <details class="acc">
+      <summary class="acc__sum">Co přesně znamená <code>conn.execute()</code>, <code>conn.commit()</code> a <code>conn.close()</code>?</summary>
+      <div class="acc__body">
+        <p><strong><code>conn.execute(...)</code></strong></p>
+        <p>
+          Znamená:
+          <strong>„Proveď SQL příkaz nad touto databází.“</strong>
+        </p>
+
+        <p><strong><code>conn.commit()</code></strong></p>
+        <p>
+          Znamená:
+          <strong>„Potvrď a ulož změny natrvalo.“</strong>
+        </p>
+
+        <p><strong><code>conn.close()</code></strong></p>
+        <p>
+          Znamená:
+          <strong>„Zavři spojení s databází, už s ní teď nebudu pracovat.“</strong>
+        </p>
+
+        <div class="note note--info">
+          <strong>Zapamatuj si to takto:</strong><br>
+          <code>connect()</code> = otevřít<br>
+          <code>execute()</code> = něco udělat<br>
+          <code>commit()</code> = uložit změnu<br>
+          <code>close()</code> = zavřít
         </div>
       </div>
     </details>
 
     <!-- Vysvětlení __main__ -->
     <details class="acc">
-      <summary class="acc__sum">Poznámka: proč používáme <code>if __name__ == "__main__":</code> v těchto testech</summary>
+      <summary class="acc__sum">Proč používáme <code>if __name__ == "__main__":</code>?</summary>
       <div class="acc__body">
         <p>
-          Každý krok v této lekci má svůj „testovací běh“. Ten chceme spustit jen tehdy, když soubor spouštíme jako program.
-          Pokud bychom jednou tyto funkce importovali do jiného souboru, nechceme, aby se testy spouštěly automaticky.
+          Tento blok říká:
+          <strong>„Následující kód spusť jen tehdy, když tento soubor spouštím přímo.“</strong>
+        </p>
+
+        <p>
+          To je praktické hlavně u testování.
+          Funkce chceme mít definované pořád, ale nechceme, aby se testy spouštěly automaticky při importu do jiného souboru.
         </p>
 
         <ul class="bullets">
-          <li>Přímé spuštění: <code>python lab_db.py</code> → <code>__name__</code> je <code>"__main__"</code>.</li>
-          <li>Import: <code>import lab_db</code> → <code>__name__</code> je <code>"lab_db"</code>.</li>
+          <li><code>python lab_db.py</code> → testovací část se spustí</li>
+          <li><code>import lab_db</code> → testovací část se nespustí</li>
         </ul>
 
         <div class="note note--info">
-          <strong>Smysl v metodice:</strong> v každém kroku máme kontrolovaný „spouštěcí bod“ pro test.
+          <strong>Jednoduše:</strong><br>
+          Funkce = nástroje<br>
+          <code>if __name__ == "__main__":</code> = místo, kde si ty nástroje zkoušíš
         </div>
       </div>
     </details>
@@ -309,22 +584,27 @@ if __name__ == "__main__":
   </div>
 
   <article class="card">
-    <h3 class="card__title">Krátké cvičení (na upevnění)</h3>
-    <ol class="steps">
-      <li>Spusť krok 5 dvakrát a ověř, že <code>Expected change</code> je pokaždé 1 a celkový počet roste.</li>
-      <li>V kroku 6 přidej do SELECTu jen filmy s rokem (kde year není NULL).</li>
-      <li>Vytvoř stejný systém pro tabulku <code>games</code> (název + platforma).</li>
-    </ol>
+    <h3 class="card__title">Co si máš z této lekce opravdu odnést</h3>
+    <ul class="checklist">
+      <li>Databáze SQLite je v této lekci obyčejný soubor <code>.db</code>.</li>
+      <li><code>connect()</code> otevře spojení s databází.</li>
+      <li><code>execute()</code> provede SQL příkaz.</li>
+      <li><code>commit()</code> uloží změny natrvalo.</li>
+      <li><code>close()</code> zavře databázi.</li>
+      <li><code>CREATE TABLE</code> vytvoří tabulku.</li>
+      <li><code>INSERT</code> vloží data.</li>
+      <li><code>SELECT</code> data čte.</li>
+    </ul>
   </article>
 
   <article class="card">
-    <h3 class="card__title">Shrnutí</h3>
-    <ul class="checklist">
-      <li>Umíš otevřít a zavřít databázi (<code>connect</code>/<code>close</code>) a ověřit existenci souboru.</li>
-      <li>Umíš vytvořit tabulku (<code>CREATE TABLE</code>) a ověřit ji přes <code>sqlite_master</code>.</li>
-      <li>Umíš vložit záznam (<code>INSERT</code>) a ověřit změnu přes <code>COUNT(*)</code>.</li>
-      <li>Umíš číst data (<code>SELECT</code>) a vypsat obsah tabulky.</li>
-    </ul>
+    <h3 class="card__title">Krátké cvičení</h3>
+    <ol class="steps">
+      <li>Spusť vložení filmu dvakrát a ověř, že počet řádků roste.</li>
+      <li>Zkus vložit jeden film bez roku a ověř, že se místo roku vypíše <code>?</code>.</li>
+      <li>Vytvoř novou tabulku <code>games</code> se sloupci <code>id</code>, <code>title</code>, <code>platform</code>.</li>
+      <li>Zkus pro tabulku <code>games</code> udělat stejnou trojici funkcí: vytvořit, vložit, vypsat.</li>
+    </ol>
   </article>
 
 </section>
