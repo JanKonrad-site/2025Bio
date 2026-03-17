@@ -24,6 +24,217 @@
       U dlouhých výrazů si klidně napiš pomocné proměnné.
     </div>
   </div>
+  <!-- Tlačítko k modálu (vložíš třeba pod odstavec o precedence/short-circuit) -->
+<button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalLogicPrecedence">
+  🔎 Precedence & short-circuit (detailní vysvětlení)
+</button>
+
+<!-- =========================================================
+     MODÁL: Precedence + short-circuit + vyhodnocování výrazů
+========================================================= -->
+<div class="modal fade" id="modalLogicPrecedence" tabindex="-1" aria-labelledby="modalLogicPrecedenceLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLogicPrecedenceLabel">Precedence, short-circuit a vyhodnocování výrazů (výroková logika v praxi)</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          V JavaScriptu (a obecně v programování) se často setkáš s dlouhými logickými výrazy.
+          Aby sis byl jistý/á, co se vyhodnotí jako první, potřebuješ znát dvě věci:
+          <strong>precedence</strong> (prioritu operátorů) a <strong>short-circuit</strong> (zkrácené vyhodnocování).
+        </p>
+
+        <hr>
+
+        <h6>1) Co je „precedence“?</h6>
+        <p class="mb-2">
+          <strong>Precedence</strong> = <strong>priorita operátorů</strong>. Říká, které operátory se vyhodnotí dřív,
+          když ve výrazu nejsou závorky. Je to podobné jako v matematice (násobení má přednost před sčítáním).
+        </p>
+
+        <div class="alert alert-info" role="alert">
+          <strong>Pravidlo:</strong> Když si nejsi jistý/á, dej závorky. Závorky precedence „přebijí“ a zpřehlední výpočet.
+        </div>
+
+        <h6>2) Priorita logických operátorů (to nejdůležitější pro tuhle lekci)</h6>
+        <table class="table table-bordered">
+          <thead class="table-light">
+            <tr>
+              <th>Operátor</th>
+              <th>Jak se čte</th>
+              <th>Co dělá</th>
+              <th>Priorita</th>
+              <th>Příklad</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>!</code></td>
+              <td>NOT</td>
+              <td>obrátí boolean</td>
+              <td><strong>nejvyšší</strong></td>
+              <td><code>!false</code> → <code>true</code></td>
+            </tr>
+            <tr>
+              <td><code>&&</code></td>
+              <td>AND</td>
+              <td>true jen když obě strany true</td>
+              <td><strong>střední</strong></td>
+              <td><code>true && false</code> → <code>false</code></td>
+            </tr>
+            <tr>
+              <td><code>||</code></td>
+              <td>OR</td>
+              <td>true když aspoň jedna strana true</td>
+              <td><strong>nižší</strong></td>
+              <td><code>false || true</code> → <code>true</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="mb-0">
+          Z toho plyne praktická pomůcka:
+          <strong>Nejdřív se vyhodnotí <code>!</code>, potom <code>&&</code>, a nakonec <code>||</code>.</strong>
+        </p>
+
+        <hr>
+
+        <h6>3) Výroková logika: pravdivostní tabulky</h6>
+        <p class="mb-2">
+          Logické operátory jsou přímo převzaté z výrokové logiky:
+          proměnné A a B jsou „výroky“ (true/false) a operátor určí výsledek.
+        </p>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="card shadow-sm">
+              <div class="card-header bg-light"><strong>AND (&&)</strong></div>
+              <div class="card-body">
+                <table class="table table-bordered mb-0">
+                  <thead class="table-light">
+                    <tr><th>A</th><th>B</th><th>A && B</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>true</td><td>true</td><td><strong>true</strong></td></tr>
+                    <tr><td>true</td><td>false</td><td>false</td></tr>
+                    <tr><td>false</td><td>true</td><td>false</td></tr>
+                    <tr><td>false</td><td>false</td><td>false</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card shadow-sm">
+              <div class="card-header bg-light"><strong>OR (||)</strong></div>
+              <div class="card-body">
+                <table class="table table-bordered mb-0">
+                  <thead class="table-light">
+                    <tr><th>A</th><th>B</th><th>A || B</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>true</td><td>true</td><td><strong>true</strong></td></tr>
+                    <tr><td>true</td><td>false</td><td><strong>true</strong></td></tr>
+                    <tr><td>false</td><td>true</td><td><strong>true</strong></td></tr>
+                    <tr><td>false</td><td>false</td><td>false</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card shadow-sm mt-3">
+          <div class="card-header bg-light"><strong>NOT (!)</strong></div>
+          <div class="card-body">
+            <table class="table table-bordered mb-0">
+              <thead class="table-light">
+                <tr><th>A</th><th>!A</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>true</td><td>false</td></tr>
+                <tr><td>false</td><td><strong>true</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <hr>
+
+        <h6>4) Co je „short-circuit“?</h6>
+        <p class="mb-2">
+          <strong>Short-circuit</strong> = „zkrácené vyhodnocování“.
+          JavaScript někdy <strong>nevyhodnocuje celý výraz</strong>, protože už dopředu ví výsledek.
+          To je důležité nejen kvůli výkonu, ale i kvůli bezpečnosti (např. zabrání chybám).
+        </p>
+
+        <table class="table table-bordered">
+          <thead class="table-light">
+            <tr>
+              <th>Výraz</th>
+              <th>Proč se to zastaví</th>
+              <th>Výsledek</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>false && (cokoliv)</code></td>
+              <td>AND potřebuje obě strany true, ale levá je false → výsledek je jistý</td>
+              <td><code>false</code></td>
+            </tr>
+            <tr>
+              <td><code>true || (cokoliv)</code></td>
+              <td>OR stačí jedna true, levá je true → výsledek je jistý</td>
+              <td><code>true</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="alert alert-warning" role="alert">
+          <strong>Příklad z praxe:</strong>
+          <code>user && user.name</code> – když <code>user</code> je <code>null</code>/<code>undefined</code>, druhá část se nevyhodnotí
+          a nepadne to. (V moderním JS se často používá i <code>?.</code>, ale to je další téma.)
+        </div>
+
+        <hr>
+
+        <h6>5) Pravidla pro vyhodnocování složených výrazů (kroková metoda)</h6>
+        <p class="mb-2">
+          Když máš výraz typu <code>true && isStudent || false || !isStudent</code>, udělej tohle:
+        </p>
+        <ol>
+          <li><strong>Dosaď hodnoty</strong> proměnných (např. <code>isStudent = false</code>).</li>
+          <li><strong>Vyřeš NOT</strong> (<code>!</code>) – má nejvyšší prioritu.</li>
+          <li><strong>Vyřeš AND</strong> (<code>&&</code>).</li>
+          <li><strong>Vyřeš OR</strong> (<code>||</code>).</li>
+          <li>Sleduj, jestli se uplatní <strong>short-circuit</strong> (někdy se část výrazu přeskočí).</li>
+        </ol>
+
+        <h6 class="mt-3">Detailní rozbor konkrétního výrazu (isStudent = false)</h6>
+        <pre class="bg-light p-3 rounded"><code class="language-js">true && isStudent || false || !isStudent</code></pre>
+
+        <ol class="mb-0">
+          <li><strong>Dosaď:</strong> <code>true && false || false || !false</code></li>
+          <li><strong>NOT:</strong> <code>!false</code> → <code>true</code> → výraz je <code>true && false || false || true</code></li>
+          <li><strong>AND:</strong> <code>true && false</code> → <code>false</code> → výraz je <code>false || false || true</code></li>
+          <li><strong>OR:</strong> <code>false || false</code> → <code>false</code> → výraz je <code>false || true</code></li>
+          <li><strong>OR:</strong> <code>false || true</code> → <code>true</code></li>
+        </ol>
+
+        <div class="alert alert-success mt-3 mb-0" role="alert">
+          <strong>Závěr:</strong> Výraz vyjde <code>true</code>.
+          Klíč je precedence (<code>!</code> před <code>&&</code> před <code>||</code>) + systematické zjednodušování.
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
 
   <!-- =======================================================
        A) MINI TAHÁK: precedence + short-circuit (před ternary)
