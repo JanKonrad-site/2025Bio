@@ -1,0 +1,796 @@
+<!-- =========================================================
+     3.3.5 – Ternární operátor + kvíz (porovnání, if, logika) + tahák
+========================================================= -->
+
+<section id="section3-3-5" class="container my-5">
+  <h3 class="mb-4">3.3.5 Ternární operátor (?:) a logika rozhodování – podrobný výklad + kvíz</h3>
+
+  <!-- Co se naučíš -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co se naučíš?</h3>
+    <p>
+      Tady už kód začíná „přemýšlet“. Zopakujeme a zafixujeme rozhodování pomocí porovnání a logických operátorů
+      a přidáme <strong>ternární operátor</strong> – krátký zápis pro jednoduché <code>if/else</code>.
+    </p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Porovnání</strong>: výsledkem je vždy boolean (<code>true</code>/<code>false</code>).</li>
+      <li class="list-group-item"><strong>Logické operátory</strong>: <code>&&</code>, <code>||</code>, <code>!</code> a jejich čtení.</li>
+      <li class="list-group-item"><strong>Pořadí vyhodnocování</strong>: <code>!</code> → <code>&&</code> → <code>||</code> (a proč je to důležité).</li>
+      <li class="list-group-item"><strong>Ternární operátor</strong>: <code>podmínka ? hodnota1 : hodnota2</code>.</li>
+      <li class="list-group-item"><strong>Short-circuit</strong>: výraz se zastaví ve chvíli, kdy už je výsledek jistý.</li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Vždy si u podmínky řekni: „Co je otázka?“ a „Jaká je odpověď – true/false?“.
+      U dlouhých výrazů si klidně napiš pomocné proměnné.
+    </div>
+  </div>
+  <!-- Tlačítko k modálu (vložíš třeba pod odstavec o precedence/short-circuit) -->
+<button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#modalLogicPrecedence">
+  🔎 Precedence & short-circuit (detailní vysvětlení)
+</button>
+
+<!-- =========================================================
+     MODÁL: Precedence + short-circuit + vyhodnocování výrazů
+========================================================= -->
+<div class="modal fade" id="modalLogicPrecedence" tabindex="-1" aria-labelledby="modalLogicPrecedenceLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLogicPrecedenceLabel">Precedence, short-circuit a vyhodnocování výrazů (výroková logika v praxi)</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          V JavaScriptu (a obecně v programování) se často setkáš s dlouhými logickými výrazy.
+          Aby sis byl jistý/á, co se vyhodnotí jako první, potřebuješ znát dvě věci:
+          <strong>precedence</strong> (prioritu operátorů) a <strong>short-circuit</strong> (zkrácené vyhodnocování).
+        </p>
+
+        <hr>
+
+        <h6>1) Co je „precedence“?</h6>
+        <p class="mb-2">
+          <strong>Precedence</strong> = <strong>priorita operátorů</strong>. Říká, které operátory se vyhodnotí dřív,
+          když ve výrazu nejsou závorky. Je to podobné jako v matematice (násobení má přednost před sčítáním).
+        </p>
+
+        <div class="alert alert-info" role="alert">
+          <strong>Pravidlo:</strong> Když si nejsi jistý/á, dej závorky. Závorky precedence „přebijí“ a zpřehlední výpočet.
+        </div>
+
+        <h6>2) Priorita logických operátorů (to nejdůležitější pro tuhle lekci)</h6>
+        <table class="table table-bordered">
+          <thead class="table-light">
+            <tr>
+              <th>Operátor</th>
+              <th>Jak se čte</th>
+              <th>Co dělá</th>
+              <th>Priorita</th>
+              <th>Příklad</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>!</code></td>
+              <td>NOT</td>
+              <td>obrátí boolean</td>
+              <td><strong>nejvyšší</strong></td>
+              <td><code>!false</code> → <code>true</code></td>
+            </tr>
+            <tr>
+              <td><code>&&</code></td>
+              <td>AND</td>
+              <td>true jen když obě strany true</td>
+              <td><strong>střední</strong></td>
+              <td><code>true && false</code> → <code>false</code></td>
+            </tr>
+            <tr>
+              <td><code>||</code></td>
+              <td>OR</td>
+              <td>true když aspoň jedna strana true</td>
+              <td><strong>nižší</strong></td>
+              <td><code>false || true</code> → <code>true</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="mb-0">
+          Z toho plyne praktická pomůcka:
+          <strong>Nejdřív se vyhodnotí <code>!</code>, potom <code>&&</code>, a nakonec <code>||</code>.</strong>
+        </p>
+
+        <hr>
+
+        <h6>3) Výroková logika: pravdivostní tabulky</h6>
+        <p class="mb-2">
+          Logické operátory jsou přímo převzaté z výrokové logiky:
+          proměnné A a B jsou „výroky“ (true/false) a operátor určí výsledek.
+        </p>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="card shadow-sm">
+              <div class="card-header bg-light"><strong>AND (&&)</strong></div>
+              <div class="card-body">
+                <table class="table table-bordered mb-0">
+                  <thead class="table-light">
+                    <tr><th>A</th><th>B</th><th>A && B</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>true</td><td>true</td><td><strong>true</strong></td></tr>
+                    <tr><td>true</td><td>false</td><td>false</td></tr>
+                    <tr><td>false</td><td>true</td><td>false</td></tr>
+                    <tr><td>false</td><td>false</td><td>false</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card shadow-sm">
+              <div class="card-header bg-light"><strong>OR (||)</strong></div>
+              <div class="card-body">
+                <table class="table table-bordered mb-0">
+                  <thead class="table-light">
+                    <tr><th>A</th><th>B</th><th>A || B</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>true</td><td>true</td><td><strong>true</strong></td></tr>
+                    <tr><td>true</td><td>false</td><td><strong>true</strong></td></tr>
+                    <tr><td>false</td><td>true</td><td><strong>true</strong></td></tr>
+                    <tr><td>false</td><td>false</td><td>false</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card shadow-sm mt-3">
+          <div class="card-header bg-light"><strong>NOT (!)</strong></div>
+          <div class="card-body">
+            <table class="table table-bordered mb-0">
+              <thead class="table-light">
+                <tr><th>A</th><th>!A</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>true</td><td>false</td></tr>
+                <tr><td>false</td><td><strong>true</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <hr>
+
+        <h6>4) Co je „short-circuit“?</h6>
+        <p class="mb-2">
+          <strong>Short-circuit</strong> = „zkrácené vyhodnocování“.
+          JavaScript někdy <strong>nevyhodnocuje celý výraz</strong>, protože už dopředu ví výsledek.
+          To je důležité nejen kvůli výkonu, ale i kvůli bezpečnosti (např. zabrání chybám).
+        </p>
+
+        <table class="table table-bordered">
+          <thead class="table-light">
+            <tr>
+              <th>Výraz</th>
+              <th>Proč se to zastaví</th>
+              <th>Výsledek</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>false && (cokoliv)</code></td>
+              <td>AND potřebuje obě strany true, ale levá je false → výsledek je jistý</td>
+              <td><code>false</code></td>
+            </tr>
+            <tr>
+              <td><code>true || (cokoliv)</code></td>
+              <td>OR stačí jedna true, levá je true → výsledek je jistý</td>
+              <td><code>true</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="alert alert-warning" role="alert">
+          <strong>Příklad z praxe:</strong>
+          <code>user && user.name</code> – když <code>user</code> je <code>null</code>/<code>undefined</code>, druhá část se nevyhodnotí
+          a nepadne to. (V moderním JS se často používá i <code>?.</code>, ale to je další téma.)
+        </div>
+
+        <hr>
+
+        <h6>5) Pravidla pro vyhodnocování složených výrazů (kroková metoda)</h6>
+        <p class="mb-2">
+          Když máš výraz typu <code>true && isStudent || false || !isStudent</code>, udělej tohle:
+        </p>
+        <ol>
+          <li><strong>Dosaď hodnoty</strong> proměnných (např. <code>isStudent = false</code>).</li>
+          <li><strong>Vyřeš NOT</strong> (<code>!</code>) – má nejvyšší prioritu.</li>
+          <li><strong>Vyřeš AND</strong> (<code>&&</code>).</li>
+          <li><strong>Vyřeš OR</strong> (<code>||</code>).</li>
+          <li>Sleduj, jestli se uplatní <strong>short-circuit</strong> (někdy se část výrazu přeskočí).</li>
+        </ol>
+
+        <h6 class="mt-3">Detailní rozbor konkrétního výrazu (isStudent = false)</h6>
+        <pre class="bg-light p-3 rounded"><code class="language-js">true && isStudent || false || !isStudent</code></pre>
+
+        <ol class="mb-0">
+          <li><strong>Dosaď:</strong> <code>true && false || false || !false</code></li>
+          <li><strong>NOT:</strong> <code>!false</code> → <code>true</code> → výraz je <code>true && false || false || true</code></li>
+          <li><strong>AND:</strong> <code>true && false</code> → <code>false</code> → výraz je <code>false || false || true</code></li>
+          <li><strong>OR:</strong> <code>false || false</code> → <code>false</code> → výraz je <code>false || true</code></li>
+          <li><strong>OR:</strong> <code>false || true</code> → <code>true</code></li>
+        </ol>
+
+        <div class="alert alert-success mt-3 mb-0" role="alert">
+          <strong>Závěr:</strong> Výraz vyjde <code>true</code>.
+          Klíč je precedence (<code>!</code> před <code>&&</code> před <code>||</code>) + systematické zjednodušování.
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- =======================================================
+       A) MINI TAHÁK: precedence + short-circuit (před ternary)
+  ======================================================== -->
+  <h5 class="mt-5">Než začneme: pořadí operátorů (precedence) a short-circuit</h5>
+  <p>
+    U logických výrazů se často plete, co se vyhodnotí první. V JavaScriptu (a ve většině jazyků) platí:
+    <strong>nejdřív NOT</strong>, pak <strong>AND</strong>, potom <strong>OR</strong>.
+  </p>
+
+  <div class="card shadow-sm mb-4">
+    <div class="card-header bg-light"><strong>Rychlý přehled: precedence</strong></div>
+    <div class="card-body">
+      <table class="table table-bordered mb-3">
+        <thead class="table-light">
+          <tr>
+            <th>Operátor</th>
+            <th>Čte se</th>
+            <th>Priorita</th>
+            <th>Příklad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>!</code></td>
+            <td>NOT (obrátí boolean)</td>
+            <td>nejvyšší</td>
+            <td><code>!false</code> → <code>true</code></td>
+          </tr>
+          <tr>
+            <td><code>&&</code></td>
+            <td>AND (obě podmínky)</td>
+            <td>střední</td>
+            <td><code>true && false</code> → <code>false</code></td>
+          </tr>
+          <tr>
+            <td><code>||</code></td>
+            <td>OR (stačí jedna)</td>
+            <td>nižší</td>
+            <td><code>false || true</code> → <code>true</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="alert alert-warning mb-0" role="alert">
+        <strong>Short-circuit:</strong> JavaScript se často zastaví dřív:
+        <ul class="mb-0">
+          <li><code>false && (cokoliv)</code> → hned <code>false</code> (druhá část se ani nemusí vyhodnotit)</li>
+          <li><code>true || (cokoliv)</code> → hned <code>true</code></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================
+       B) TERNARY OPERATOR
+  ======================================================== -->
+  <h5 class="mt-5">Ternární operátor (?:) – kratší zápis pro jednoduché if/else</h5>
+  <p>
+    Ternární operátor je zkratka pro situace, kdy chceš vybrat <strong>jednu ze dvou hodnot</strong>.
+    Typicky: „Pokud platí podmínka, použij A, jinak použij B.“
+  </p>
+
+  <div class="row g-3 mb-4">
+    <div class="col-md-6">
+      <div class="card h-100 shadow-sm">
+        <div class="card-header bg-primary text-white">Klasický zápis if / else</div>
+        <div class="card-body">
+          <pre class="mb-0"><code class="language-js">let number = 10;
+let message;
+
+if (number &gt; 0) {
+  message = "Kladné číslo";
+} else {
+  message = "Není kladné";
+}
+
+console.log(message);</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card h-100 shadow-sm">
+        <div class="card-header bg-primary text-white">Stejné řešení ternárním operátorem</div>
+        <div class="card-body">
+          <pre class="mb-0"><code class="language-js">let number = 10;
+
+let message = (number &gt; 0)
+  ? "Kladné číslo"
+  : "Není kladné";
+
+console.log(message);</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Jak se ternární operátor čte?</h3>
+    <p class="mb-2">
+      Obecný tvar:
+    </p>
+    <pre class="bg-white p-3 rounded border"><code class="language-js">podmínka ? hodnotaKdyžTrue : hodnotaKdyžFalse</code></pre>
+
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Podmínka</strong> → otázka, která vrátí <code>true</code>/<code>false</code>.</li>
+      <li class="list-group-item"><strong>?</strong> → „pokud je to pravda…“</li>
+      <li class="list-group-item"><strong>:</strong> → „jinak…“</li>
+      <li class="list-group-item"><strong>Výsledek</strong> → celý výraz vrátí jednu ze dvou hodnot.</li>
+    </ul>
+
+    <div class="alert alert-info mb-0" role="alert">
+      <strong>Kdy ho používat:</strong> když vybíráš mezi dvěma hodnotami a vejde se to přehledně do jednoho řádku.
+      <br>
+      <strong>Kdy radši ne:</strong> když je logika složitá, má víc kroků, nebo by ternary udělalo kód nepřehledný.
+    </div>
+  </div>
+
+  <!-- =======================================================
+       C) EXERCISE: Can you drive (ternary)
+  ======================================================== -->
+  <h5 class="mt-5">🧩 Cvičení: Můžeš řídit? (ternární operátor)</h5>
+  <p>
+    Máš proměnnou <code>age</code>. Pomocí ternárního operátoru vypiš do konzole:
+    <strong>„Můžeš řídit.“</strong> pokud je <code>age &gt;= 18</code>,
+    jinak <strong>„Jsi moc mladý/á na řízení.“</strong>
+  </p>
+
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Zadání</h3>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Vstup</strong>: <code>let age = 17;</code> (zkoušej různé hodnoty)</li>
+      <li class="list-group-item"><strong>Podmínka</strong>: <code>age &gt;= 18</code></li>
+      <li class="list-group-item"><strong>Výstup</strong>: <code>console.log(...)</code> s ternárním výrazem</li>
+    </ul>
+
+    <div class="alert alert-info" role="alert">
+      <strong>Tip:</strong> Nejprve si to klidně napiš jako if/else a pak to přepiš do ternary.
+    </div>
+
+    <pre class="bg-white p-3 rounded border mb-3"><code class="language-js">let age = 17;
+
+// sem napiš svůj ternární operátor</code></pre>
+
+    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#hint-ternary-drive" aria-expanded="false">
+      Nápověda
+    </button>
+    <div class="collapse mt-3" id="hint-ternary-drive">
+      <div class="card card-body">
+        <p class="mb-2">Ternární operátor má tvar:</p>
+        <pre class="mb-0"><code class="language-js">condition ? valueIfTrue : valueIfFalse</code></pre>
+      </div>
+    </div>
+
+    <button class="btn btn-sm btn-outline-secondary mt-3" type="button" data-bs-toggle="collapse" data-bs-target="#solution-ternary-drive" aria-expanded="false">
+      Řešení (až po pokusu)
+    </button>
+    <div class="collapse mt-3" id="solution-ternary-drive">
+      <div class="card card-body">
+        <h6 class="mb-2">Hotové řešení</h6>
+        <pre class="mb-3"><code class="language-js">let age = 17;
+
+console.log(age >= 18 ? "Můžeš řídit." : "Jsi moc mladý/á na řízení.");</code></pre>
+
+        <h6 class="mb-2">Pro kontrolu: ekvivalent v if/else</h6>
+        <pre class="mb-0"><code class="language-js">if (age >= 18) {
+  console.log("Můžeš řídit.");
+} else {
+  console.log("Jsi moc mladý/á na řízení.");
+}</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================
+       D) QUIZ – podle screenshotů (CZ) + modaly s vysvětlením
+       Styl kompatibilní s onclick="checkAnswer(this, true/false)"
+  ======================================================== -->
+  <hr class="my-5">
+  <h5 class="mt-4">Kvíz: Porovnání, if, logické operátory (+ short-circuit)</h5>
+  <p class="text-muted">
+    Klikni na odpověď. Po volbě se možnosti uzamknou. Tlačítko „Vysvětlit podrobněji“ se má objevit až po odpovědi (dle tvé logiky kvízu).
+  </p>
+
+  <div id="quiz-logic-ternary" class="quiz-wrap">
+
+    <!-- Q1 -->
+    <div class="quiz-question mb-4"
+         data-explain="Správně: <code>===</code> (strict equality) porovnává <strong>hodnotu i typ</strong>. Číslo <code>5</code> není totéž co řetězec <code>&quot;5&quot;</code>, proto je výsledek <code>false</code>.">
+      <p><strong>1. Jaký bude výsledek porovnání <code>5 === "5"</code>?</strong></p>
+      <div class="btn-group-vertical w-100">
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">true</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)">false</button>
+      </div>
+      <div class="quiz-feedback mt-2 small"></div>
+      <button class="btn btn-link px-0 mt-1 d-none quiz-more" type="button" data-bs-toggle="modal" data-bs-target="#js335ModalQ1">
+        Vysvětlit podrobněji
+      </button>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-question mb-4"
+         data-explain="Správně: Klíčové slovo <code>if</code> spouští kód jen tehdy, když je podmínka <code>true</code>.">
+      <p><strong>2. Jaké klíčové slovo spustí kód na základě podmínky, která musí být pravdivá?</strong></p>
+      <div class="btn-group-vertical w-100">
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">check for</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">when</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">condition</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)">if</button>
+      </div>
+      <div class="quiz-feedback mt-2 small"></div>
+      <button class="btn btn-link px-0 mt-1 d-none quiz-more" type="button" data-bs-toggle="modal" data-bs-target="#js335ModalQ2">
+        Vysvětlit podrobněji
+      </button>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-question mb-4"
+         data-explain="Správně: Podmínka <code>age &gt; 18</code> je při <code>age = 20</code> pravdivá, takže se do konzole vypíše <code>&quot;You can enter&quot;</code>.">
+      <p><strong>3. Co udělá tento kód?</strong></p>
+      <pre class="mb-2"><code class="language-js">let age = 20;
+
+if (age &gt; 18) {
+  console.log("You can enter");
+}</code></pre>
+      <div class="btn-group-vertical w-100">
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">Nic se nestane</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)"><code>"You can enter"</code> se vypíše do konzole</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">Vznikne chyba syntaxe</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)"><code>"age &gt; 18"</code> se vypíše do konzole</button>
+      </div>
+      <div class="quiz-feedback mt-2 small"></div>
+      <button class="btn btn-link px-0 mt-1 d-none quiz-more" type="button" data-bs-toggle="modal" data-bs-target="#js335ModalQ3">
+        Vysvětlit podrobněji
+      </button>
+    </div>
+
+    <!-- Q4 -->
+    <div class="quiz-question mb-4"
+         data-explain="Správně: Operátor <code>&&</code> (AND) vrací <code>true</code> jen tehdy, když jsou <strong>obě</strong> strany <code>true</code>.">
+      <p><strong>4. Co dělá operátor <code>&&</code>?</strong></p>
+      <div class="btn-group-vertical w-100">
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">Spouští kód víckrát</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">Spojuje dvě funkce</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)">Vrátí true, pokud jsou obě strany true</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">Kontroluje, zda jsou hodnoty stejné</button>
+      </div>
+      <div class="quiz-feedback mt-2 small"></div>
+      <button class="btn btn-link px-0 mt-1 d-none quiz-more" type="button" data-bs-toggle="modal" data-bs-target="#js335ModalQ4">
+        Vysvětlit podrobněji
+      </button>
+    </div>
+
+    <!-- Q5 -->
+    <div class="quiz-question mb-4"
+         data-explain="Správně: <code>true && false</code> je <code>false</code>. U AND musí být pravda na obou stranách.">
+      <p><strong>5. Co vypíše tento kód?</strong></p>
+      <pre class="mb-2"><code class="language-js">let loggedIn = true;
+let isAdmin = false;
+
+console.log(loggedIn && isAdmin);</code></pre>
+      <div class="btn-group-vertical w-100">
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)"><code>true</code></button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)"><code>false</code></button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)"><code>"truefalse"</code></button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)"><code>"loggedIn && isAdmin"</code></button>
+      </div>
+      <div class="quiz-feedback mt-2 small"></div>
+      <button class="btn btn-link px-0 mt-1 d-none quiz-more" type="button" data-bs-toggle="modal" data-bs-target="#js335ModalQ5">
+        Vysvětlit podrobněji
+      </button>
+    </div>
+
+    <!-- Q6 -->
+    <div class="quiz-question mb-4"
+         data-explain="Správně: Podmínka <code>isMember</code> je <code>true</code>, takže se <code>discount</code> nastaví na 10 a to se vypíše.">
+      <p><strong>6. Co bude výsledkem tohoto kódu?</strong></p>
+      <pre class="mb-2"><code class="language-js">let discount = 0;
+let isMember = true;
+
+if (isMember) {
+  discount = 10;
+}
+
+console.log(discount);</code></pre>
+      <div class="btn-group-vertical w-100">
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)"><code>0</code></button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)"><code>undefined</code></button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)"><code>10</code></button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)"><code>true</code></button>
+      </div>
+      <div class="quiz-feedback mt-2 small"></div>
+      <button class="btn btn-link px-0 mt-1 d-none quiz-more" type="button" data-bs-toggle="modal" data-bs-target="#js335ModalQ6">
+        Vysvětlit podrobněji
+      </button>
+    </div>
+
+    <!-- Q7 (HARD) -->
+    <div class="quiz-question mb-4"
+         data-explain="Správně: Výraz vyjde <code>true</code>. Důvod je v pořadí vyhodnocování (<code>!</code> před <code>&&</code> před <code>||</code>) a v tom, že <code>!isStudent</code> je při <code>false</code> rovno <code>true</code>.">
+      <p><strong>7. HARD: Jaký je výsledek tohoto výrazu, když <code>isStudent</code> je na začátku <code>false</code>?</strong></p>
+      <pre class="mb-2"><code class="language-js">true && isStudent || false || !isStudent</code></pre>
+
+      <div class="btn-group-vertical w-100">
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)"><code>true</code></button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)"><code>false</code></button>
+      </div>
+
+      <div class="quiz-feedback mt-2 small"></div>
+      <button class="btn btn-link px-0 mt-1 d-none quiz-more" type="button" data-bs-toggle="modal" data-bs-target="#js335ModalQ7">
+        Vysvětlit podrobněji
+      </button>
+    </div>
+
+    <button type="button" class="btn btn-sm btn-outline-primary" onclick="resetQuiz('quiz-logic-ternary')">
+      Resetovat kvíz
+    </button>
+  </div>
+
+  <!-- =======================================================
+       MODALY – podrobné vysvětlení (proč)
+  ======================================================== -->
+
+  <!-- Modal Q1 -->
+  <div class="modal fade" id="js335ModalQ1" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Otázka 1 – Proč 5 === "5" vyjde false?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p><code>===</code> je <strong>strict equality</strong> – kontroluje:</p>
+        <ul>
+          <li><strong>hodnotu</strong> (value)</li>
+          <li><strong>datový typ</strong> (type)</li>
+        </ul>
+        <p>
+          Číslo <code>5</code> (number) není totéž co <code>"5"</code> (string), takže:
+          <code>5 === "5"</code> → <code>false</code>.
+        </p>
+        <hr>
+        <p class="mb-0">
+          Pokud bys použil <code>==</code>, JavaScript by zkusil typy převést (coercion) a
+          <code>5 == "5"</code> by vyšlo <code>true</code>. Proto se v praxi často preferuje <code>===</code>.
+        </p>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- Modal Q2 -->
+  <div class="modal fade" id="js335ModalQ2" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Otázka 2 – K čemu je if?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p><code>if</code> je základní konstrukce pro rozhodování:</p>
+        <pre class="mb-0"><code class="language-js">if (podminka) {
+  // provede se jen když je podminka true
+}</code></pre>
+        <hr>
+        <p class="mb-0">
+          Podmínka je obvykle porovnání (např. <code>age &gt;= 18</code>), které vrací boolean.
+        </p>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- Modal Q3 -->
+  <div class="modal fade" id="js335ModalQ3" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Otázka 3 – Proč se vypíše "You can enter"?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Máme <code>age = 20</code>. Podmínka je <code>age &gt; 18</code>.</p>
+        <ul>
+          <li><code>20 &gt; 18</code> → <code>true</code></li>
+          <li>kód uvnitř bloku <code>if</code> se tedy provede</li>
+        </ul>
+        <p class="mb-0">
+          Pokud bys změnil age na 18 nebo 17, podmínka by byla <code>false</code> a nic by se nevypsalo.
+        </p>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- Modal Q4 -->
+  <div class="modal fade" id="js335ModalQ4" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Otázka 4 – Jak funguje && (AND)?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p><code>&&</code> vrátí <code>true</code> jen tehdy, když jsou <strong>obě</strong> strany <code>true</code>.</p>
+        <table class="table table-bordered">
+          <thead class="table-light"><tr><th>A</th><th>B</th><th>A && B</th></tr></thead>
+          <tbody>
+            <tr><td>true</td><td>true</td><td><strong>true</strong></td></tr>
+            <tr><td>true</td><td>false</td><td>false</td></tr>
+            <tr><td>false</td><td>true</td><td>false</td></tr>
+            <tr><td>false</td><td>false</td><td>false</td></tr>
+          </tbody>
+        </table>
+        <div class="alert alert-info mb-0" role="alert">
+          <strong>Short-circuit:</strong> když je levá strana <code>false</code>, pravá se často ani nevyhodnotí.
+        </div>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- Modal Q5 -->
+  <div class="modal fade" id="js335ModalQ5" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Otázka 5 – Proč loggedIn && isAdmin vyjde false?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Máme:</p>
+        <ul>
+          <li><code>loggedIn = true</code></li>
+          <li><code>isAdmin = false</code></li>
+        </ul>
+        <p>
+          Výraz <code>loggedIn && isAdmin</code> je tedy <code>true && false</code> → <code>false</code>.
+        </p>
+        <hr>
+        <p class="mb-0">
+          AND vyžaduje pravdu na obou stranách. Stačí jedna <code>false</code> a celý výraz je <code>false</code>.
+        </p>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- Modal Q6 -->
+  <div class="modal fade" id="js335ModalQ6" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Otázka 6 – Proč je výstup 10?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>Nejdřív je <code>discount = 0</code>. Pak:</p>
+        <ul>
+          <li><code>isMember</code> je <code>true</code>, takže se provede blok <code>if</code>.</li>
+          <li>Uvnitř se <code>discount</code> nastaví na <code>10</code>.</li>
+          <li>Na konci se vypíše aktuální hodnota <code>discount</code>, tedy <code>10</code>.</li>
+        </ul>
+        <p class="mb-0">
+          Kdyby bylo <code>isMember = false</code>, blok by se přeskočil a výstup by zůstal <code>0</code>.
+        </p>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- Modal Q7 (HARD) -->
+  <div class="modal fade" id="js335ModalQ7" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Otázka 7 – Detailní rozbor (HARD)</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Volba <strong>false</strong> je špatně, protože výraz se vyhodnotí na <strong>true</strong>.
+          Když je <code>isStudent = false</code>, rozložme to krok po kroku:
+        </p>
+
+        <ol>
+          <li>
+            <code>true && isStudent</code> → <code>true && false</code> → <strong>false</strong>
+          </li>
+          <li>
+            Dál máme: <code>false || false</code> → stále <strong>false</strong>
+          </li>
+          <li>
+            Nakonec: <code>!isStudent</code> → <code>!false</code> → <strong>true</strong>
+          </li>
+          <li>
+            Celý výraz tedy: <code>false || false || true</code> → <strong>true</strong>
+          </li>
+        </ol>
+
+        <div class="alert alert-info" role="alert">
+          <strong>Klíčové je pořadí operátorů:</strong> <code>!</code> se vyhodnotí před <code>&&</code> a to před <code>||</code>.
+          A taky platí short-circuit – výraz se zastaví, jakmile je výsledek jistý.
+        </div>
+
+        <p class="mb-0">
+          Tohle je přesně ten typ příkladu, kde pomáhá dělat si „mezivýsledky“ a postupně to zjednodušovat.
+        </p>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- =======================================================
+       E) TAHÁK – Summary Cheat Sheet (CZ)
+  ======================================================== -->
+  <hr class="my-5">
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Tahák: Shrnutí klíčových pojmů</h3>
+    <p>
+      Tady už kód opravdu rozhoduje a reaguje. Tohle jsou nejdůležitější věci, které chceš mít v hlavě,
+      když píšeš logiku a podmínky.
+    </p>
+
+    <h5 class="mt-4">1) Porovnávací operátory</h5>
+    <p class="mb-2">Slouží k porovnání dvou hodnot. Výsledek je vždy boolean (<code>true</code>/<code>false</code>):</p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><code>===</code> – shodná hodnota <strong>a</strong> typ (doporučeno)</li>
+      <li class="list-group-item"><code>!==</code> – neshodná hodnota nebo typ</li>
+      <li class="list-group-item"><code>&gt;</code>, <code>&lt;</code> – větší / menší</li>
+      <li class="list-group-item"><code>&gt;=</code>, <code>&lt;=</code> – větší rovno / menší rovno</li>
+    </ul>
+
+    <h5 class="mt-4">2) Logické operátory</h5>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><code>&&</code> (AND) – <code>true</code> jen když jsou <strong>obě</strong> strany true</li>
+      <li class="list-group-item"><code>||</code> (OR) – <code>true</code> když je <strong>aspoň jedna</strong> strana true</li>
+      <li class="list-group-item"><code>!</code> (NOT) – obrátí boolean: <code>!true</code> → <code>false</code>, <code>!false</code> → <code>true</code></li>
+    </ul>
+
+    <h5 class="mt-4">3) if / else / else if</h5>
+    <pre class="bg-white p-3 rounded border"><code class="language-js">if (condition) {
+  // když je condition true
+} else if (otherCondition) {
+  // když první neplatí, ale tahle ano
+} else {
+  // když neplatí žádná z podmínek
+}</code></pre>
+
+    <h5 class="mt-4">4) Vnořený if (nested if)</h5>
+    <p class="mb-2">if uvnitř if – užitečné, když druhá podmínka dává smysl až po splnění první:</p>
+    <pre class="bg-white p-3 rounded border"><code class="language-js">if (isLoggedIn) {
+  if (isAdmin) {
+    console.log("Admin panel");
+  }
+}</code></pre>
+
+    <h5 class="mt-4">5) Short-circuit (zastavení vyhodnocování)</h5>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><code>false && cokoliv</code> → hned <code>false</code> (druhá část se nemusí řešit)</li>
+      <li class="list-group-item"><code>true || cokoliv</code> → hned <code>true</code></li>
+    </ul>
+    <div class="alert alert-info" role="alert">
+      <strong>Pořadí:</strong> <code>!</code> se vyhodnocuje před <code>&&</code> a to před <code>||</code>. Když si nejsi jistý/á, použij závorky.
+    </div>
+
+    <h5 class="mt-4">6) Ternární operátor (?:)</h5>
+    <p class="mb-2">Zkratka pro jednoduché „if/else“ při výběru ze dvou hodnot:</p>
+    <pre class="bg-white p-3 rounded border mb-0"><code class="language-js">console.log(age >= 18 ? "Můžeš řídit." : "Jsi moc mladý/á na řízení.");</code></pre>
+  </div>
+
+</section>
