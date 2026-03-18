@@ -1,148 +1,145 @@
 <!-- =========================================================
-3.2.1 – SQLite v Pythonu: extrémně pomalý postup (laboratoř) – otevři → ověř → vytvoř → ověř → vlož → ověř
+3.2.1 – SQLite v Pythonu: otevření databáze, vytvoření tabulky, první zápis a ověření
 ========================================================= -->
 <section id="section5-2-1" class="lesson">
 
   <header class="lesson__header">
-    <h2 class="lesson__title">3.2.1 SQLite v Pythonu – první databáze „laboratorně“ (krok za krokem s ověřováním)</h2>
+    <h2 class="lesson__title">3.2.1 SQLite v Pythonu – otevření databáze a první data (krok za krokem)</h2>
     <p class="lesson__lead">
-      V této lekci budeme postupovat velmi pomalu. Vždy uděláš malou změnu v kódu, spustíš skript a ověříš výsledek.
-      Cílem je, aby bylo jasné, co přesně dělá každý řádek: připojení, vytvoření tabulky, vložení dat a kontrolní dotazy.
+      Navazujeme na 3.2.0 (cesta k souboru databáze). Teď poprvé databázi v Pythonu otevřeme, vytvoříme tabulku,
+      uložíme jeden záznam a průběžně ověříme, co se skutečně stalo (soubor, tabulka, počet záznamů).
     </p>
   </header>
 
   <article class="card">
-    <h3 class="card__title">Pravidla práce v této lekci</h3>
+    <h3 class="card__title">Co se v této lekci naučíš?</h3>
     <ul class="checklist">
-      <li>Po každém kroku skript <strong>spusť</strong> a zkontroluj <strong>výpis</strong> v konzoli.</li>
-      <li>Po každém kroku si ověř i <strong>soubor ve složce</strong> (Průzkumník → F5).</li>
-      <li>Vždy pracujeme s jedním souborem databáze: <code>movies.db</code> vedle skriptu.</li>
+      <li>
+        <strong>Otevření databáze</strong> – co dělá <code>sqlite3.connect()</code> a co je <code>conn</code>.
+        <button type="button" class="mini-help" data-modal-open="modal-connect-conn">?</button>
+      </li>
+      <li>
+        <strong>Vytvoření tabulky</strong> – <code>CREATE TABLE IF NOT EXISTS</code> a jak ověřit, že tabulka existuje.
+        <button type="button" class="mini-help" data-modal-open="modal-create-table">?</button>
+      </li>
+      <li>
+        <strong>Uložení dat</strong> – <code>INSERT</code> s parametry <code>?</code>.
+        <button type="button" class="mini-help" data-modal-open="modal-insert-params">?</button>
+      </li>
+      <li>
+        <strong>Ověření výsledku</strong> – <code>SELECT COUNT(*)</code> a čtení výsledku přes <code>fetchone()</code>.
+        <button type="button" class="mini-help" data-modal-open="modal-fetchone">?</button>
+      </li>
+      <li>
+        <strong>commit() a close()</strong> – proč se změny potvrzují a proč spojení zavíráme.
+        <button type="button" class="mini-help" data-modal-open="modal-commit-close">?</button>
+      </li>
     </ul>
+
     <div class="note note--info">
-      <strong>Doporučení:</strong> Spouštěj z terminálu ve složce skriptu (<code>powershell</code> v adresním řádku složky).
+      <strong>Doporučení:</strong> Spouštěj skript z terminálu ve složce se souborem (kvůli ověřování souboru <code>movies.db</code>).
     </div>
   </article>
 
   <div class="actions">
-    <a class="btn btn--primary" href="#" target="_blank" rel="noopener">Primární akce (např. zadání)</a>
-    <a class="btn btn--ghost" href="https://docs.python.org/3/library/sqlite3.html" target="_blank" rel="noopener">Python sqlite3</a>
+    <a class="btn btn--primary" href="#" target="_blank" rel="noopener">
+      Primární akce (např. startovací soubor / zadání)
+    </a>
+    <a class="btn btn--ghost" href="https://docs.python.org/3/library/sqlite3.html" target="_blank" rel="noopener">
+      Python sqlite3 (dokumentace)
+    </a>
   </div>
 
   <div class="accordion">
 
-    <!-- KROK 0 -->
+    <!-- 0) Startovní soubor -->
     <details class="acc" open>
-      <summary class="acc__sum">Krok 0: Startovní soubor – jen cesta k databázi a kontrola existence</summary>
-      <div class="acc__body">
-        <p>Vytvoř soubor <code>lab_db.py</code> a vlož pouze:</p>
-
-        <pre><code class="language-python">import sqlite3
-from pathlib import Path
-
-DB_FILE = Path(__file__).resolve().with_name("movies.db")
-
-print("DB path:", DB_FILE)
-print("DB exists:", DB_FILE.exists())
-
-input("ENTER pro ukončení...")</code></pre>
-
-        <ol class="steps">
-          <li>Spusť: <code>python lab_db.py</code></li>
-          <li>Ověř, že vidíš cestu k DB souboru.</li>
-          <li><code>DB exists</code> bude pravděpodobně <code>False</code>.</li>
-        </ol>
-
-        <div class="note note--info">
-          <strong>Co ověřujeme:</strong> kde přesně bude databáze ležet a zda soubor existuje.
-        </div>
-      </div>
-    </details>
-
-    <!-- KROK 1 -->
-    <details class="acc">
-      <summary class="acc__sum">Krok 1: Otevření a zavření databáze (connect/close) + ověření souboru</summary>
+      <summary class="acc__sum">0) Start: vytvoř soubor a připrav proměnnou <code>DB_FILE</code></summary>
       <div class="acc__body">
         <p>
-          Teď přidáme otevření databáze pomocí <code>sqlite3.connect()</code>.
-          SQLite při prvním připojení obvykle vytvoří databázový soubor, pokud ještě neexistuje.
+          Vytvoř soubor <code>db_step_open_create_insert.py</code>. Na začátek vlož stejný základ jako v 3.2.0:
+          importy a cestu k databázi.
         </p>
 
         <pre><code class="language-python">import sqlite3
 from pathlib import Path
 
-DB_FILE = Path(__file__).resolve().with_name("movies.db")
+DB_FILE = Path(__file__).resolve().with_name("movies.db")</code></pre>
 
-print("DB path:", DB_FILE)
-print("DB exists BEFORE connect:", DB_FILE.exists())
+        <p>
+          Tady se děje víc věcí najednou:
+          <code>Path(__file__)</code> vytvoří objekt cesty,
+          <code>.resolve()</code> zjistí skutečnou absolutní cestu k aktuálnímu souboru
+          a <code>.with_name("movies.db")</code> vezme stejnou složku, ale změní název souboru na <code>movies.db</code>.
+          <button type="button" class="mini-help" data-modal-open="modal-db-file-path">Dovysvětlení</button>
+        </p>
 
-conn = sqlite3.connect(str(DB_FILE))
-print("Connection opened:", conn)
-
-conn.close()
-print("Connection closed.")
-
-print("DB exists AFTER close:", DB_FILE.exists())
-input("ENTER pro ukončení...")</code></pre>
-
-        <ol class="steps">
-          <li>Spusť skript.</li>
-          <li>V Průzkumníku obnov (F5) a ověř, že se objevil <code>movies.db</code>.</li>
-          <li>V konzoli se <code>DB exists AFTER close</code> typicky změní na <code>True</code>.</li>
-        </ol>
-
-        <div class="note note--info">
-          <strong>Co ověřujeme:</strong> že <code>connect</code> skutečně pracuje se souborem databáze a že jej umíme vytvořit/otevřít.
-        </div>
+        <p>
+          V této lekci budeme ověřovat, co se děje. Proto budeme občas vypisovat:
+          <code>DB_FILE</code> a <code>DB_FILE.exists()</code>.
+          <button type="button" class="mini-help" data-modal-open="modal-exists">?</button>
+        </p>
       </div>
     </details>
 
-    <!-- KROK 2 -->
+    <!-- 1) Otevření databáze (connect) -->
     <details class="acc" open>
-      <summary class="acc__sum">Krok 2: Přesun do funkce – stejný test, ale přes <code>open_and_close_db()</code></summary>
+      <summary class="acc__sum">1) Krok 1: otevření databáze (co dělá <code>connect</code>)</summary>
       <div class="acc__body">
         <p>
-          Stejný postup dáme do funkce. Důležité: funkce se nevykoná, dokud ji nezavoláš.
+          SQLite databáze je soubor. Připojení se otevře pomocí <code>sqlite3.connect(...)</code>.
+          Výsledkem je objekt <code>conn</code> (connection) – přes něj posíláme SQL příkazy.
+          <button type="button" class="mini-help" data-modal-open="modal-connect-conn">Dovysvětlení</button>
         </p>
 
-        <pre><code class="language-python">import sqlite3
-from pathlib import Path
-
-DB_FILE = Path(__file__).resolve().with_name("movies.db")
-
-def open_and_close_db():
+        <pre><code class="language-python">def open_and_close_db():
     print("DB path:", DB_FILE)
-    print("DB exists BEFORE connect:", DB_FILE.exists())
+    print("DB exists before connect:", DB_FILE.exists())
 
     conn = sqlite3.connect(str(DB_FILE))
-    print("Connection opened:", conn)
-
     conn.close()
-    print("Connection closed.")
 
-    print("DB exists AFTER close:", DB_FILE.exists())
+    print("DB exists after close:", DB_FILE.exists())</code></pre>
 
-if __name__ == "__main__":
+        <p>
+          Proč je tam <code>str(DB_FILE)</code>?
+          Protože <code>DB_FILE</code> je objekt typu <code>Path</code> a zde ho převádíme na běžný textový řetězec.
+          <button type="button" class="mini-help" data-modal-open="modal-str-dbfile">?</button>
+        </p>
+
+        <p>
+          Přidej spouštěcí blok, aby se funkce opravdu vykonala:
+        </p>
+
+        <pre><code class="language-python">if __name__ == "__main__":
     open_and_close_db()
     input("ENTER pro ukončení...")</code></pre>
 
-        <ol class="steps">
-          <li>Spusť skript.</li>
-          <li>Výpis musí odpovídat tomu, co jsi viděl v kroku 1.</li>
-        </ol>
+        <p>
+          Tento zápis říká: „Následující kód spusť jen tehdy, když tento soubor běží jako hlavní program.“
+          <button type="button" class="mini-help" data-modal-open="modal-name-main">Dovysvětlení</button>
+        </p>
+
+        <p><strong>Spusť a ověř:</strong></p>
+        <ul class="bullets">
+          <li>Před připojením bývá <code>False</code>.</li>
+          <li>Po zavření připojení se typicky objeví soubor a <code>exists()</code> bude <code>True</code>.</li>
+        </ul>
 
         <div class="note note--info">
-          <strong>Co ověřujeme:</strong> že rozumíš rozdílu „definice funkce“ vs. „volání funkce“.
+          <strong>Co jsme ověřili?</strong> Umíme databázi „otevřít“ a víme, kam se ukládá soubor.
         </div>
       </div>
     </details>
 
-    <!-- KROK 3 -->
+    <!-- 2) CREATE TABLE -->
     <details class="acc">
-      <summary class="acc__sum">Krok 3: Vytvoření tabulky (CREATE TABLE) + ověření přes seznam tabulek</summary>
+      <summary class="acc__sum">2) Krok 2: vytvoření tabulky (CREATE TABLE) a význam jednotlivých částí</summary>
       <div class="acc__body">
         <p>
-          Vytvoříme tabulku <code>movies</code>. Nejdřív provedeme SQL příkaz a potom si ověříme, že tabulka opravdu existuje,
-          pomocí dotazu do <code>sqlite_master</code>.
+          Tabulka je struktura pro ukládání záznamů. V SQLite ji vytvoříme SQL příkazem <code>CREATE TABLE</code>.
+          Tento příkaz posíláme přes <code>conn.execute(...)</code>.
+          <button type="button" class="mini-help" data-modal-open="modal-execute">?</button>
         </p>
 
         <pre><code class="language-python">def create_table_movies():
@@ -157,79 +154,114 @@ if __name__ == "__main__":
     """)
 
     conn.commit()
-    conn.close()
+    conn.close()</code></pre>
 
-def list_tables():
-    conn = sqlite3.connect(str(DB_FILE))
-    rows = conn.execute("SELECT name FROM sqlite_master WHERE type='table';").fetchall()
-    conn.close()
-    return [r[0] for r in rows]
+        <p><strong>Co znamenají části SQL:</strong></p>
+        <ul class="bullets">
+          <li><code>CREATE TABLE</code> – vytvoří tabulku.</li>
+          <li>
+            <code>IF NOT EXISTS</code> – druhé spuštění nespadne (tabulka už existuje).
+            <button type="button" class="mini-help" data-modal-open="modal-create-table">?</button>
+          </li>
+          <li><code>movies</code> – název tabulky.</li>
+          <li><code>id INTEGER PRIMARY KEY AUTOINCREMENT</code> – automatické číselné ID (unikátní).</li>
+          <li><code>title TEXT NOT NULL</code> – text, který nesmí být prázdný (<code>NULL</code>).</li>
+          <li><code>year INTEGER</code> – rok (může zůstat nevyplněný = <code>NULL</code>).</li>
+        </ul>
 
-if __name__ == "__main__":
-    open_and_close_db()
+        <p>
+          Po změně struktury databáze voláme <code>commit()</code>, aby se změna opravdu zapsala do souboru.
+          Potom dává smysl spojení zavřít přes <code>close()</code>.
+          <button type="button" class="mini-help" data-modal-open="modal-commit-close">Dovysvětlení</button>
+        </p>
 
-    print("--- creating table ---")
+        <p><strong>Spusť a ověř:</strong> uprav spouštěcí blok takto:</p>
+
+        <pre><code class="language-python">if __name__ == "__main__":
     create_table_movies()
-    print("Tables:", list_tables())
-
+    print("DB exists:", DB_FILE.exists())
     input("ENTER pro ukončení...")</code></pre>
 
-        <ol class="steps">
-          <li>Spusť skript.</li>
-          <li>Ve výpisu tabulek musí být <code>movies</code>.</li>
-        </ol>
-
         <div class="note note--info">
-          <strong>Co ověřujeme:</strong> že SQL příkaz <code>CREATE TABLE</code> opravdu změnil strukturu databáze.
+          <strong>Proč <code>commit()</code>?</strong> Potvrzuje změny (např. vytvoření tabulky) do databázového souboru.
         </div>
       </div>
     </details>
 
-    <!-- KROK 4 -->
-    <details class="acc" open>
-      <summary class="acc__sum">Krok 4: Ověření, že tabulka je prázdná (COUNT před vložením)</summary>
+    <!-- 3) Ověření, že tabulka existuje -->
+    <details class="acc">
+      <summary class="acc__sum">3) Krok 3: ověření tabulky (čtení metadat SQLite)</summary>
       <div class="acc__body">
         <p>
-          Před vložením dat si změříme počet záznamů. Tím dostaneš pevný výchozí bod pro ověření INSERTu.
+          Abychom neověřovali jen existenci souboru, zjistíme, jaké tabulky databáze skutečně obsahuje.
+          SQLite to eviduje v systémové tabulce <code>sqlite_master</code>.
+          <button type="button" class="mini-help" data-modal-open="modal-sqlite-master">?</button>
+        </p>
+
+        <pre><code class="language-python">def list_tables():
+    conn = sqlite3.connect(str(DB_FILE))
+    rows = conn.execute("SELECT name FROM sqlite_master WHERE type='table';").fetchall()
+    conn.close()
+    return [r[0] for r in rows]</code></pre>
+
+        <p>
+          Metoda <code>fetchall()</code> vrátí všechny nalezené řádky najednou.
+          Každý řádek je zde n-tice, takže <code>r[0]</code> znamená „vezmi první hodnotu z každého řádku“.
+        </p>
+
+        <p>Spouštěcí blok:</p>
+
+        <pre><code class="language-python">if __name__ == "__main__":
+    create_table_movies()
+    print("Tables:", list_tables())
+    input("ENTER pro ukončení...")</code></pre>
+
+        <p><strong>Spusť a ověř:</strong> ve výpisu musí být <code>movies</code>.</p>
+      </div>
+    </details>
+
+    <!-- 4) INSERT + ověření COUNT -->
+    <details class="acc" open>
+      <summary class="acc__sum">4) Krok 4: uložíme film (INSERT) a ověříme to přes COUNT(*)</summary>
+      <div class="acc__body">
+        <p>
+          Teď uložíme jeden záznam. Pro ověření použijeme <code>SELECT COUNT(*)</code>,
+          což je nejjednodušší kontrola, že se počet řádků změnil.
+        </p>
+
+        <pre><code class="language-python">def insert_movie(title, year):
+    conn = sqlite3.connect(str(DB_FILE))
+    conn.execute(
+        "INSERT INTO movies (title, year) VALUES (?, ?);",
+        (title, year)
+    )
+    conn.commit()
+    conn.close()</code></pre>
+
+        <p>
+          Znak <code>?</code> je zástupné místo pro hodnotu. SQLite tam bezpečně dosadí data z n-tice
+          <code>(title, year)</code>.
+          <button type="button" class="mini-help" data-modal-open="modal-insert-params">Dovysvětlení</button>
         </p>
 
         <pre><code class="language-python">def count_movies():
     conn = sqlite3.connect(str(DB_FILE))
     n = conn.execute("SELECT COUNT(*) FROM movies;").fetchone()[0]
     conn.close()
-    return n
+    return n</code></pre>
 
-if __name__ == "__main__":
-    create_table_movies()
-
-    before = count_movies()
-    print("Count BEFORE insert:", before)
-
-    input("ENTER pro ukončení...")</code></pre>
-
-        <p><strong>Očekávání:</strong> při první práci s tabulkou to bude obvykle 0.</p>
-      </div>
-    </details>
-
-    <!-- KROK 5 -->
-    <details class="acc">
-      <summary class="acc__sum">Krok 5: INSERT (vložíme jeden film) + ověření přes COUNT</summary>
-      <div class="acc__body">
         <p>
-          Teď přidáme funkci <code>insert_movie()</code> a ověříme, že se počet záznamů zvýšil přesně o 1.
+          Tady je dobré rozumět tomu, proč je na konci <code>.fetchone()[0]</code>.
+          <button type="button" class="mini-help" data-modal-open="modal-fetchone">Dovysvětlení</button>
         </p>
 
-        <pre><code class="language-python">def insert_movie(title, year):
-    conn = sqlite3.connect(str(DB_FILE))
-    conn.execute("INSERT INTO movies (title, year) VALUES (?, ?);", (title, year))
-    conn.commit()
-    conn.close()
+        <p>Spouštěcí blok (před/po):</p>
 
-if __name__ == "__main__":
+        <pre><code class="language-python">if __name__ == "__main__":
     create_table_movies()
 
     before = count_movies()
-    print("Count BEFORE:", before)
+    print("Count before:", before)
 
     title = input("Název filmu: ").strip()
     year_text = input("Rok (ENTER = nevyplnit): ").strip()
@@ -238,93 +270,357 @@ if __name__ == "__main__":
     insert_movie(title, year)
 
     after = count_movies()
-    print("Count AFTER:", after)
+    print("Count after:", after)
 
-    print("Expected change:", after - before)
     input("ENTER pro ukončení...")</code></pre>
 
-        <ol class="steps">
-          <li>Spusť skript.</li>
-          <li>Zadej film.</li>
-          <li><code>Expected change</code> musí být 1.</li>
-        </ol>
-
-        <div class="note note--info">
-          <strong>Co ověřujeme:</strong> že <code>INSERT</code> opravdu uložil data a <code>commit()</code> je potvrdil.
-        </div>
-      </div>
-    </details>
-
-    <!-- KROK 6 -->
-    <details class="acc">
-      <summary class="acc__sum">Krok 6: Výpis obsahu tabulky (SELECT) – první čtení dat</summary>
-      <div class="acc__body">
         <p>
-          Přidáme první čtení dat: vypíšeme uložené filmy. To je přímý důkaz, že data v tabulce opravdu jsou.
+          Výraz <code>int(year_text) if year_text else None</code> je zkrácený zápis podmínky:
+          pokud uživatel něco zadal, převedeme to na číslo, jinak uložíme <code>None</code>.
         </p>
 
-        <pre><code class="language-python">def list_movies():
-    conn = sqlite3.connect(str(DB_FILE))
-    rows = conn.execute("SELECT id, title, year FROM movies ORDER BY id DESC;").fetchall()
-    conn.close()
-    return rows
-
-if __name__ == "__main__":
-    create_table_movies()
-
-    rows = list_movies()
-    print("Rows:", len(rows))
-    for (movie_id, title, year) in rows:
-        yr = year if year is not None else "?"
-        print(f"#{movie_id} | {title} ({yr})")
-
-    input("ENTER pro ukončení...")</code></pre>
-
-        <div class="note note--info">
-          <strong>Co ověřujeme:</strong> že umíme data nejen zapisovat, ale i číst (SELECT).
-        </div>
+        <p><strong>Spusť a ověř:</strong> <code>after</code> musí být o 1 vyšší než <code>before</code>.</p>
       </div>
     </details>
 
-    <!-- Vysvětlení __main__ -->
+    <!-- 5) if __name__ == "__main__" -->
     <details class="acc">
-      <summary class="acc__sum">Poznámka: proč používáme <code>if __name__ == "__main__":</code> v těchto testech</summary>
+      <summary class="acc__sum">5) Proč máme <code>if __name__ == "__main__":</code> (a co přesně dělá)</summary>
       <div class="acc__body">
         <p>
-          Každý krok v této lekci má svůj „testovací běh“. Ten chceme spustit jen tehdy, když soubor spouštíme jako program.
-          Pokud bychom jednou tyto funkce importovali do jiného souboru, nechceme, aby se testy spouštěly automaticky.
+          Soubor může být použit dvěma způsoby: (1) spustím ho jako program, (2) naimportuji ho jako modul.
+          Python podle toho nastaví proměnnou <code>__name__</code>.
+          <button type="button" class="mini-help" data-modal-open="modal-name-main">Dovysvětlení</button>
         </p>
 
         <ul class="bullets">
-          <li>Přímé spuštění: <code>python lab_db.py</code> → <code>__name__</code> je <code>"__main__"</code>.</li>
-          <li>Import: <code>import lab_db</code> → <code>__name__</code> je <code>"lab_db"</code>.</li>
+          <li>Při přímém spuštění: <code>__name__ == "__main__"</code></li>
+          <li>Při importu: <code>__name__</code> je název souboru (modulu), např. <code>"db_step_open_create_insert"</code></li>
         </ul>
 
+        <p>
+          Blok <code>if __name__ == "__main__":</code> tedy říká:
+          „spusť následující část jen tehdy, když tento soubor běží jako hlavní program“.
+          Je to standardní způsob, jak mít v jednom souboru definice funkcí a zároveň testovací běh.
+        </p>
+
+        <p><strong>Volitelná kontrola:</strong></p>
+        <pre><code class="language-python">print("__name__:", __name__)</code></pre>
+
+        <p>
+          Studentům se často plete rozdíl mezi <code>=</code> a <code>==</code>.
+          Tady je správně <code>==</code>, protože porovnáváme hodnoty, nic nepřiřazujeme.
+        </p>
+
         <div class="note note--info">
-          <strong>Smysl v metodice:</strong> v každém kroku máme kontrolovaný „spouštěcí bod“ pro test.
+          <strong>Praktický přínos:</strong> Později budeš chtít funkce importovat do jiné aplikace. Díky této podmínce se při importu nespustí testovací část.
         </div>
+      </div>
+    </details>
+
+    <!-- 6) Kompletní řešení -->
+    <details class="acc">
+      <summary class="acc__sum">6) Kompletní soubor po lekci 3.2.1 (pro kontrolu)</summary>
+      <div class="acc__body">
+        <pre><code class="language-python">import sqlite3
+from pathlib import Path
+
+DB_FILE = Path(__file__).resolve().with_name("movies.db")
+
+def open_and_close_db():
+    print("DB path:", DB_FILE)
+    print("DB exists before connect:", DB_FILE.exists())
+    conn = sqlite3.connect(str(DB_FILE))
+    conn.close()
+    print("DB exists after close:", DB_FILE.exists())
+
+def create_table_movies():
+    conn = sqlite3.connect(str(DB_FILE))
+    conn.execute("""
+    CREATE TABLE IF NOT EXISTS movies (
+        id    INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT    NOT NULL,
+        year  INTEGER
+    );
+    """)
+    conn.commit()
+    conn.close()
+
+def list_tables():
+    conn = sqlite3.connect(str(DB_FILE))
+    rows = conn.execute("SELECT name FROM sqlite_master WHERE type='table';").fetchall()
+    conn.close()
+    return [r[0] for r in rows]
+
+def insert_movie(title, year):
+    conn = sqlite3.connect(str(DB_FILE))
+    conn.execute("INSERT INTO movies (title, year) VALUES (?, ?);", (title, year))
+    conn.commit()
+    conn.close()
+
+def count_movies():
+    conn = sqlite3.connect(str(DB_FILE))
+    n = conn.execute("SELECT COUNT(*) FROM movies;").fetchone()[0]
+    conn.close()
+    return n
+
+if __name__ == "__main__":
+    # 1) Ověření cesty + existence
+    open_and_close_db()
+
+    # 2) Tabulka
+    create_table_movies()
+    print("Tables:", list_tables())
+
+    # 3) Ověření dat
+    before = count_movies()
+    print("Count before:", before)
+
+    title = input("Název filmu: ").strip()
+    year_text = input("Rok (ENTER = nevyplnit): ").strip()
+    year = int(year_text) if year_text else None
+
+    insert_movie(title, year)
+
+    after = count_movies()
+    print("Count after:", after)
+
+    input("ENTER pro ukončení...")</code></pre>
       </div>
     </details>
 
   </div>
 
+  <!-- Cvičení -->
   <article class="card">
-    <h3 class="card__title">Krátké cvičení (na upevnění)</h3>
+    <h3 class="card__title">Cvičení (krátké)</h3>
     <ol class="steps">
-      <li>Spusť krok 5 dvakrát a ověř, že <code>Expected change</code> je pokaždé 1 a celkový počet roste.</li>
-      <li>V kroku 6 přidej do SELECTu jen filmy s rokem (kde year není NULL).</li>
-      <li>Vytvoř stejný systém pro tabulku <code>games</code> (název + platforma).</li>
+      <li>Spusť skript a vlož dva různé filmy. Po každém vložení si zapiš hodnoty <code>Count before</code> a <code>Count after</code>.</li>
+      <li>Změň název tabulky z <code>movies</code> na <code>games</code> (v <code>CREATE TABLE</code>, <code>INSERT</code> i <code>COUNT</code>) a ověř, že vše funguje.</li>
+      <li>Přidej do tabulky nový sloupec <code>genre TEXT</code> a zkontroluj, že tabulka se stále vytvoří (zatím ho nemusíš ukládat).</li>
     </ol>
   </article>
 
+  <!-- Shrnutí -->
   <article class="card">
     <h3 class="card__title">Shrnutí</h3>
     <ul class="checklist">
-      <li>Umíš otevřít a zavřít databázi (<code>connect</code>/<code>close</code>) a ověřit existenci souboru.</li>
-      <li>Umíš vytvořit tabulku (<code>CREATE TABLE</code>) a ověřit ji přes <code>sqlite_master</code>.</li>
-      <li>Umíš vložit záznam (<code>INSERT</code>) a ověřit změnu přes <code>COUNT(*)</code>.</li>
-      <li>Umíš číst data (<code>SELECT</code>) a vypsat obsah tabulky.</li>
+      <li>Otevření databáze dělá <code>sqlite3.connect()</code> a vrací spojení <code>conn</code>.</li>
+      <li>Tabulku vytvoříš SQL příkazem <code>CREATE TABLE</code> přes <code>conn.execute()</code>.</li>
+      <li>Změny se potvrdí pomocí <code>commit()</code> a spojení uzavřeš <code>close()</code>.</li>
+      <li>Uložení záznamu ověříš dotazem <code>SELECT COUNT(*)</code>.</li>
+      <li><code>if __name__ == "__main__":</code> spouští testovací běh jen při přímém spuštění souboru.</li>
     </ul>
   </article>
 
+  <!-- Test -->
+  <article class="card">
+    <h3 class="card__title">Test: otevření DB, tabulka, vložení a ověření</h3>
+
+    <div class="quiz-question">
+      <p><strong>1. Co vrací <code>sqlite3.connect(...)</code>?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Objekt spojení (<code>conn</code>) k databázi</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Seznam tabulek</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">SQL dotaz jako text</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>2. Co dělá <code>conn.execute("...")</code>?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Provede SQL příkaz v databázi</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Zavře databázi</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Vytvoří nový Python soubor</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>3. Proč používáme <code>IF NOT EXISTS</code> u <code>CREATE TABLE</code>?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Aby skript šel spustit opakovaně bez chyby „tabulka už existuje“</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Aby se tabulka smazala při každém spuštění</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Aby se databáze uložila do cloudu</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>4. Co dělá <code>commit()</code>?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Potvrdí změny a uloží je do databázového souboru</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Vypíše obsah tabulky</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Přejmenuje databázi</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>5. Co ověřuje dotaz <code>SELECT COUNT(*) FROM movies</code>?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Počet záznamů v tabulce</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Strukturu tabulky</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Existenci souboru <code>.db</code></button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p><strong>6. Kdy se vykoná blok <code>if __name__ == "__main__":</code>?</strong></p>
+      <div class="quiz-answers">
+        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Když soubor spustíme přímo jako hlavní program</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Když soubor importujeme v jiném skriptu</button>
+        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Vždy, bez ohledu na způsob spuštění</button>
+      </div>
+    </div>
+
+  </article>
+
+  <!-- MODÁLY -->
+  <div class="lesson-modals">
+
+    <div class="lesson-modal" id="modal-db-file-path" hidden>
+      <div class="lesson-modal__backdrop" data-modal-close></div>
+      <div class="lesson-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="modal-db-file-path-title">
+        <button class="lesson-modal__close" type="button" data-modal-close>&times;</button>
+        <h3 id="modal-db-file-path-title">Jak funguje <code>Path(__file__).resolve().with_name("movies.db")</code>?</h3>
+        <p><strong><code>__file__</code></strong> je speciální proměnná s cestou k aktuálnímu Python souboru.</p>
+        <p><strong><code>Path(__file__)</code></strong> z ní vytvoří objekt cesty.</p>
+        <p><strong><code>.resolve()</code></strong> zjistí absolutní skutečnou cestu k souboru.</p>
+        <p><strong><code>.with_name("movies.db")</code></strong> ponechá stejnou složku, ale změní název souboru na <code>movies.db</code>.</p>
+        <p>Prakticky: databáze bude uložena ve stejné složce jako tento Python soubor.</p>
+      </div>
+    </div>
+
+    <div class="lesson-modal" id="modal-exists" hidden>
+      <div class="lesson-modal__backdrop" data-modal-close></div>
+      <div class="lesson-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="modal-exists-title">
+        <button class="lesson-modal__close" type="button" data-modal-close>&times;</button>
+        <h3 id="modal-exists-title">Co dělá <code>DB_FILE.exists()</code>?</h3>
+        <p>Metoda <code>exists()</code> vrací <code>True</code> nebo <code>False</code> podle toho, zda soubor nebo složka opravdu existuje.</p>
+        <p>V našem případě ověřujeme, jestli už databázový soubor <code>movies.db</code> vznikl.</p>
+      </div>
+    </div>
+
+    <div class="lesson-modal" id="modal-str-dbfile" hidden>
+      <div class="lesson-modal__backdrop" data-modal-close></div>
+      <div class="lesson-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="modal-str-dbfile-title">
+        <button class="lesson-modal__close" type="button" data-modal-close>&times;</button>
+        <h3 id="modal-str-dbfile-title">Proč používáme <code>str(DB_FILE)</code>?</h3>
+        <p><code>DB_FILE</code> je objekt typu <code>Path</code>, ne obyčejný text.</p>
+        <p><code>str(...)</code> ho převede na řetězec, například:</p>
+        <pre><code class="language-python">WindowsPath('C:/projekt/movies.db')
+# po převodu:
+'C:/projekt/movies.db'</code></pre>
+        <p>Tím pádem ho můžeme snadno předat funkci <code>sqlite3.connect(...)</code>.</p>
+      </div>
+    </div>
+
+    <div class="lesson-modal" id="modal-connect-conn" hidden>
+      <div class="lesson-modal__backdrop" data-modal-close></div>
+      <div class="lesson-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="modal-connect-conn-title">
+        <button class="lesson-modal__close" type="button" data-modal-close>&times;</button>
+        <h3 id="modal-connect-conn-title">Co dělá <code>sqlite3.connect()</code> a co je <code>conn</code>?</h3>
+        <p><code>sqlite3.connect(...)</code> otevře připojení k databázi.</p>
+        <p>Vrací objekt spojení, který si často ukládáme do proměnné <code>conn</code> jako zkratku pro <em>connection</em>.</p>
+        <p>Přes <code>conn</code> pak provádíme SQL dotazy, potvrzujeme změny a zavíráme spojení.</p>
+        <pre><code class="language-python">conn = sqlite3.connect(str(DB_FILE))
+conn.execute("SELECT 1;")
+conn.close()</code></pre>
+      </div>
+    </div>
+
+    <div class="lesson-modal" id="modal-execute" hidden>
+      <div class="lesson-modal__backdrop" data-modal-close></div>
+      <div class="lesson-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="modal-execute-title">
+        <button class="lesson-modal__close" type="button" data-modal-close>&times;</button>
+        <h3 id="modal-execute-title">Co dělá <code>conn.execute(...)</code>?</h3>
+        <p>Znamená to: „na tomto databázovém spojení proveď SQL příkaz“.</p>
+        <pre><code class="language-python">conn.execute("CREATE TABLE test (id INTEGER);")</code></pre>
+        <p>Samotný SQL příkaz je textový řetězec. Metoda <code>execute()</code> ho pošle databázi ke zpracování.</p>
+      </div>
+    </div>
+
+    <div class="lesson-modal" id="modal-create-table" hidden>
+      <div class="lesson-modal__backdrop" data-modal-close></div>
+      <div class="lesson-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="modal-create-table-title">
+        <button class="lesson-modal__close" type="button" data-modal-close>&times;</button>
+        <h3 id="modal-create-table-title">Proč <code>CREATE TABLE IF NOT EXISTS</code>?</h3>
+        <p><code>CREATE TABLE</code> vytvoří novou tabulku.</p>
+        <p><code>IF NOT EXISTS</code> přidává pojistku: když tabulka už existuje, skript nespadne chybou.</p>
+        <p>To je praktické při opakovaném spouštění stejného programu během vývoje.</p>
+      </div>
+    </div>
+
+    <div class="lesson-modal" id="modal-commit-close" hidden>
+      <div class="lesson-modal__backdrop" data-modal-close></div>
+      <div class="lesson-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="modal-commit-close-title">
+        <button class="lesson-modal__close" type="button" data-modal-close>&times;</button>
+        <h3 id="modal-commit-close-title">Proč voláme <code>commit()</code> a <code>close()</code>?</h3>
+        <p><strong><code>commit()</code></strong> potvrdí změny v databázi. Bez něj se nová tabulka nebo vložený řádek nemusí uložit natrvalo.</p>
+        <p><strong><code>close()</code></strong> ukončí spojení s databází. Je to dobrý zvyk – po práci spojení zavřít.</p>
+        <p>Jednoduché pravidlo:</p>
+        <ul class="bullets">
+          <li>měníš data nebo strukturu → obvykle <code>commit()</code></li>
+          <li>končíš práci → <code>close()</code></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="lesson-modal" id="modal-sqlite-master" hidden>
+      <div class="lesson-modal__backdrop" data-modal-close></div>
+      <div class="lesson-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="modal-sqlite-master-title">
+        <button class="lesson-modal__close" type="button" data-modal-close>&times;</button>
+        <h3 id="modal-sqlite-master-title">Co je <code>sqlite_master</code>?</h3>
+        <p>Je to interní systémová tabulka SQLite, ve které databáze eviduje své objekty – například tabulky, indexy nebo pohledy.</p>
+        <p>Když se ptáme:</p>
+        <pre><code class="language-sql">SELECT name FROM sqlite_master WHERE type='table';</code></pre>
+        <p>získáváme seznam tabulek, které databáze skutečně obsahuje.</p>
+      </div>
+    </div>
+
+    <div class="lesson-modal" id="modal-insert-params" hidden>
+      <div class="lesson-modal__backdrop" data-modal-close></div>
+      <div class="lesson-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="modal-insert-params-title">
+        <button class="lesson-modal__close" type="button" data-modal-close>&times;</button>
+        <h3 id="modal-insert-params-title">Proč používáme <code>?</code> v <code>INSERT</code>?</h3>
+        <p>Znak <code>?</code> je zástupné místo pro hodnotu.</p>
+        <pre><code class="language-python">conn.execute(
+    "INSERT INTO movies (title, year) VALUES (?, ?);",
+    (title, year)
+)</code></pre>
+        <p>SQLite vezme hodnoty z n-tice <code>(title, year)</code> a bezpečně je dosadí na správná místa.</p>
+        <p>Je to lepší než ručně skládat SQL text, protože je to přehlednější a bezpečnější.</p>
+      </div>
+    </div>
+
+    <div class="lesson-modal" id="modal-fetchone" hidden>
+      <div class="lesson-modal__backdrop" data-modal-close></div>
+      <div class="lesson-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="modal-fetchone-title">
+        <button class="lesson-modal__close" type="button" data-modal-close>&times;</button>
+        <h3 id="modal-fetchone-title">Jak funguje <code>fetchone()[0]</code>?</h3>
+        <p><code>fetchone()</code> vrátí jeden řádek výsledku dotazu.</p>
+        <p>U dotazu:</p>
+        <pre><code class="language-sql">SELECT COUNT(*) FROM movies;</code></pre>
+        <p>vrátí SQLite jeden řádek s jednou hodnotou, například:</p>
+        <pre><code class="language-python">(5,)</code></pre>
+        <p>Proto píšeme <code>[0]</code> – vezmeme první hodnotu z n-tice. Výsledek pak bude prosté číslo <code>5</code>.</p>
+      </div>
+    </div>
+
+    <div class="lesson-modal" id="modal-name-main" hidden>
+      <div class="lesson-modal__backdrop" data-modal-close></div>
+      <div class="lesson-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="modal-name-main-title">
+        <button class="lesson-modal__close" type="button" data-modal-close>&times;</button>
+        <h3 id="modal-name-main-title">Jak přesně funguje <code>if __name__ == "__main__":</code>?</h3>
+        <p><code>__name__</code> je speciální proměnná, kterou Python nastavuje automaticky.</p>
+        <ul class="bullets">
+          <li>když soubor spustíš přímo → <code>__name__</code> je <code>"__main__"</code></li>
+          <li>když soubor jen importuješ → <code>__name__</code> je název modulu</li>
+        </ul>
+        <p>Podmínka tedy říká: spusť tento blok jen při přímém spuštění souboru.</p>
+        <pre><code class="language-python">if __name__ == "__main__":
+    open_and_close_db()</code></pre>
+        <p>Díky tomu můžeš mít v jednom souboru definice funkcí i testovací běh programu.</p>
+      </div>
+    </div>
+
+  </div>
 </section>
