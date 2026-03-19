@@ -1,3 +1,67 @@
+<style>
+  .code-puzzle{
+    margin-top: 18px;
+    padding: 18px;
+    border: 1px solid var(--stroke, rgba(255,255,255,.12));
+    border-radius: 16px;
+    background: var(--panel, rgba(255,255,255,.04));
+  }
+
+  .code-puzzle__header h4{
+    margin: 0 0 8px;
+  }
+
+  .code-puzzle__header p{
+    margin: 0 0 14px;
+  }
+
+  .code-puzzle__items{
+    display: grid;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .code-puzzle__item{
+    width: 100%;
+    text-align: left;
+    border: 1px solid var(--stroke, rgba(255,255,255,.12));
+    background: #fff;
+    color: #111;
+    border-radius: 12px;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+
+  .code-puzzle__item:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(0,0,0,.08);
+  }
+
+  .code-puzzle__controls{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+
+  .code-puzzle__feedback{
+    min-height: 24px;
+    font-weight: 600;
+  }
+
+  .code-puzzle__feedback.is-ok{
+    color: #15803d;
+  }
+
+  .code-puzzle__feedback.is-bad{
+    color: #b91c1c;
+  }
+
+  .code-puzzle__result{
+    margin-top: 14px;
+  }
+</style>
 <section id="section6-1-6" class="lesson">
 
   <header class="lesson__header">
@@ -510,3 +574,95 @@ loadMovies();</code></pre>
     </div>
   </div>
 </div>
+<article class="card">
+  <h3 class="card__title">Minihra – sestav celý informační systém</h3>
+  <p>
+    Seřaď kroky tak, aby správně proběhl celý tok dat od spuštění backendu až po zobrazení filmů
+    v tabulce na webové stránce.
+  </p>
+
+  <div class="code-puzzle" data-puzzle-id="puzzle-6-1-6-full-flow">
+    <div class="code-puzzle__header">
+      <h4>Sestav finální tok systému</h4>
+      <p>
+        Kliknutím označíš kartičku, druhým kliknutím ji prohodíš s jinou.
+        Když bude pořadí správně, ukáže se výsledný přehled kódu a toku aplikace.
+      </p>
+    </div>
+
+    <div class="code-puzzle__items" data-puzzle-items>
+      <button type="button" class="code-puzzle__item" data-step="2">
+        Backend zavolá <code>run_server()</code> a začne čekat na požadavky.
+      </button>
+
+      <button type="button" class="code-puzzle__item" data-step="5">
+        Server rozpozná cestu <code>/api/movies</code>, zavolá <code>get_movies()</code> a pošle JSON.
+      </button>
+
+      <button type="button" class="code-puzzle__item" data-step="1">
+        Po spuštění souboru backend nejdřív zavolá <code>init_db()</code> a připraví databázi.
+      </button>
+
+      <button type="button" class="code-puzzle__item" data-step="6">
+        Frontend přečte JSON odpověď a vypíše filmy do tabulky <code>moviesTable</code>.
+      </button>
+
+      <button type="button" class="code-puzzle__item" data-step="4">
+        Po načtení stránky se ve frontendu spustí JavaScript a zavolá <code>fetch("/api/movies")</code>.
+      </button>
+
+      <button type="button" class="code-puzzle__item" data-step="3">
+        Uživatel otevře v prohlížeči adresu serveru a backend vrátí soubor <code>index.html</code>.
+      </button>
+    </div>
+
+    <div class="code-puzzle__controls">
+      <button type="button" class="btn btn--sm btn--ghost" data-puzzle-check>
+        Zkontrolovat
+      </button>
+      <button type="button" class="btn btn--sm btn--ghost" data-puzzle-reset>
+        Zamíchat znovu
+      </button>
+    </div>
+
+    <div class="code-puzzle__feedback" data-puzzle-feedback></div>
+
+    <div class="code-puzzle__result" data-puzzle-result hidden>
+      <div class="codeblock">
+        <div class="codeblock__bar">
+          <strong class="codeblock__title">Výsledný tok systému + klíčový kód</strong>
+          <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-puzzle-616-result">
+            Kopírovat
+          </button>
+        </div>
+        <pre id="code-puzzle-616-result"><code class="language-python">if __name__ == "__main__":
+    init_db()
+    run_server()
+
+# uživatel otevře http://127.0.0.1:8000
+# server vrátí index.html
+
+# frontend:
+const res = await fetch("/api/movies");
+const movies = await res.json();
+
+# backend:
+if path == "/api/movies":
+    data = get_movies()
+    self._send_json(data)
+    return
+
+# frontend:
+for(const m of movies){
+  const tr = document.createElement("tr");
+  tr.innerHTML = `
+    &lt;td&gt;${m.id}&lt;/td&gt;
+    &lt;td&gt;${m.title}&lt;/td&gt;
+    &lt;td&gt;${m.year ?? ""}&lt;/td&gt;
+  `;
+  tbody.appendChild(tr);
+}</code></pre>
+      </div>
+    </div>
+  </div>
+</article>

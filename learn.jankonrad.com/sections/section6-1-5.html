@@ -1,3 +1,67 @@
+<style>
+  .code-puzzle{
+    margin-top: 18px;
+    padding: 18px;
+    border: 1px solid var(--stroke, rgba(255,255,255,.12));
+    border-radius: 16px;
+    background: var(--panel, rgba(255,255,255,.04));
+  }
+
+  .code-puzzle__header h4{
+    margin: 0 0 8px;
+  }
+
+  .code-puzzle__header p{
+    margin: 0 0 14px;
+  }
+
+  .code-puzzle__items{
+    display: grid;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .code-puzzle__item{
+    width: 100%;
+    text-align: left;
+    border: 1px solid var(--stroke, rgba(255,255,255,.12));
+    background: #fff;
+    color: #111;
+    border-radius: 12px;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+
+  .code-puzzle__item:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(0,0,0,.08);
+  }
+
+  .code-puzzle__controls{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+
+  .code-puzzle__feedback{
+    min-height: 24px;
+    font-weight: 600;
+  }
+
+  .code-puzzle__feedback.is-ok{
+    color: #15803d;
+  }
+
+  .code-puzzle__feedback.is-bad{
+    color: #b91c1c;
+  }
+
+  .code-puzzle__result{
+    margin-top: 14px;
+  }
+</style>
 <section id="section6-1-5" class="lesson">
 
   <header class="lesson__header">
@@ -556,3 +620,78 @@ const movies = await res.json();</code></pre>
     </div>
   </div>
 </div>
+<article class="card">
+  <h3 class="card__title">Minihra – sestav routování serveru</h3>
+  <p>
+    Seřaď kroky tak, aby server správně rozlišil, kdy má vrátit JSON data, kdy HTML stránku
+    a kdy chybovou odpověď 404.
+  </p>
+
+  <div class="code-puzzle" data-puzzle-id="puzzle-6-1-5-routing">
+    <div class="code-puzzle__header">
+      <h4>Sestav metodu <code>do_GET()</code></h4>
+      <p>
+        Kliknutím označíš kartičku, druhým kliknutím ji prohodíš s jinou.
+        Když bude pořadí správně, ukáže se výsledný Python kód.
+      </p>
+    </div>
+
+    <div class="code-puzzle__items" data-puzzle-items>
+      <button type="button" class="code-puzzle__item" data-step="4">
+        Když je cesta <code>/</code> nebo <code>/index.html</code>, pošli soubor <code>index.html</code>.
+      </button>
+
+      <button type="button" class="code-puzzle__item" data-step="1">
+        Rozpoznej cestu požadavku přes <code>urlparse(self.path)</code> a ulož ji do proměnné <code>path</code>.
+      </button>
+
+      <button type="button" class="code-puzzle__item" data-step="5">
+        Když cesta neodpovídá ničemu známému, vrať text <code>404 Not Found</code> se stavem 404.
+      </button>
+
+      <button type="button" class="code-puzzle__item" data-step="3">
+        Když je cesta <code>/api/movies</code>, načti data přes <code>get_movies()</code> a pošli je jako JSON.
+      </button>
+
+      <button type="button" class="code-puzzle__item" data-step="2">
+        Začni metodu <code>do_GET(self)</code>, ve které bude server rozhodovat podle cesty.
+      </button>
+    </div>
+
+    <div class="code-puzzle__controls">
+      <button type="button" class="btn btn--sm btn--ghost" data-puzzle-check>
+        Zkontrolovat
+      </button>
+      <button type="button" class="btn btn--sm btn--ghost" data-puzzle-reset>
+        Zamíchat znovu
+      </button>
+    </div>
+
+    <div class="code-puzzle__feedback" data-puzzle-feedback></div>
+
+    <div class="code-puzzle__result" data-puzzle-result hidden>
+      <div class="codeblock">
+        <div class="codeblock__bar">
+          <strong class="codeblock__title">Výsledný kód – routování serveru</strong>
+          <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-puzzle-615-result">
+            Kopírovat
+          </button>
+        </div>
+        <pre id="code-puzzle-615-result"><code class="language-python">def do_GET(self):
+    parsed = urlparse(self.path)
+    path = parsed.path
+
+    if path == "/api/movies":
+        data = get_movies()
+        self._send_json(data)
+        return
+
+    if path == "/" or path == "/index.html":
+        self._send_file(Path(__file__).resolve().with_name("index.html"))
+        return
+
+    self._send_text("404 Not Found", status=404)</code></pre>
+      </div>
+    </div>
+  </div>
+</article>

@@ -5,6 +5,70 @@
     <p class="lesson__lead">
       V této kapitole začneme stavět backend našeho informačního systému. Nepůjdeme ještě na celý server najednou — nejdřív si opravdu pomalu vysvětlíme, jaké moduly Python potřebuje, jak si najde databázi a jak se k ní připojí.
     </p>
+    <style>
+      .code-puzzle{
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid var(--stroke, rgba(255,255,255,.12));
+  border-radius: 16px;
+  background: var(--panel, rgba(255,255,255,.04));
+}
+
+.code-puzzle__header h4{
+  margin: 0 0 8px;
+}
+
+.code-puzzle__header p{
+  margin: 0 0 14px;
+}
+
+.code-puzzle__items{
+  display: grid;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.code-puzzle__item{
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--stroke, rgba(255,255,255,.12));
+  background: #fff;
+  color: #111;
+  border-radius: 12px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.code-puzzle__item:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.08);
+}
+
+.code-puzzle__controls{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.code-puzzle__feedback{
+  min-height: 24px;
+  font-weight: 600;
+}
+
+.code-puzzle__feedback.is-ok{
+  color: #15803d;
+}
+
+.code-puzzle__feedback.is-bad{
+  color: #b91c1c;
+}
+
+.code-puzzle__result{
+  margin-top: 14px;
+}
+    </style>
   </header>
 
   <!-- Co se naučíš -->
@@ -501,3 +565,70 @@ from urllib.parse import urlparse</code></pre>
     </div>
   </div>
 </div>
+<article class="card">
+  <h3 class="card__title">Minihra – sestav základ backendu</h3>
+  <p>
+    Seřaď kroky tak, aby vznikl správný základ backendového souboru pro náš informační systém.
+    Neřešíš ještě celý server — jen jeho první stavební bloky.
+  </p>
+
+  <div class="code-puzzle" data-puzzle-id="puzzle-6-1-2-backend-base">
+    <div class="code-puzzle__header">
+      <h4>Sestav základ backendu</h4>
+      <p>
+        Kliknutím označíš kartičku, dalším kliknutím ji prohodíš s jinou.  
+        Když bude pořadí správně, ukáže se výsledný Python kód.
+      </p>
+    </div>
+
+    <div class="code-puzzle__items" data-puzzle-items>
+      <button type="button" class="code-puzzle__item" data-step="3">
+        Vytvoř funkci <code>connect()</code>, která otevře SQLite databázi a vrátí spojení.
+      </button>
+
+      <button type="button" class="code-puzzle__item" data-step="1">
+        Načti importy, které backend bude potřebovat.
+      </button>
+
+      <button type="button" class="code-puzzle__item" data-step="4">
+        Tím je připravený základ backendu pro další kapitoly.
+      </button>
+
+      <button type="button" class="code-puzzle__item" data-step="2">
+        Ulož do proměnné <code>DB_FILE</code> cestu k databázi ve stejné složce jako Python soubor.
+      </button>
+    </div>
+
+    <div class="code-puzzle__controls">
+      <button type="button" class="btn btn--sm btn--ghost" data-puzzle-check>
+        Zkontrolovat
+      </button>
+      <button type="button" class="btn btn--sm btn--ghost" data-puzzle-reset>
+        Zamíchat znovu
+      </button>
+    </div>
+
+    <div class="code-puzzle__feedback" data-puzzle-feedback></div>
+
+    <div class="code-puzzle__result" data-puzzle-result hidden>
+      <div class="codeblock">
+        <div class="codeblock__bar">
+          <strong class="codeblock__title">Výsledný kód – 6.1.2 Backendový základ</strong>
+          <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-puzzle-612-result">
+            Kopírovat
+          </button>
+        </div>
+        <pre id="code-puzzle-612-result"><code class="language-python">import json
+import sqlite3
+from pathlib import Path
+from http.server import HTTPServer, BaseHTTPRequestHandler
+from urllib.parse import urlparse
+
+DB_FILE = Path(__file__).resolve().with_name("movies.db")
+
+def connect():
+    return sqlite3.connect(str(DB_FILE))</code></pre>
+      </div>
+    </div>
+  </div>
+</article>
