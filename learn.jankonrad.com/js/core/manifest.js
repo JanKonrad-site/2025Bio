@@ -185,7 +185,8 @@ export const NAV_TREE = [
             { title: "6.1.2 Moduly, funkce a cesty", href: "#section6-1-2" },
             { title: "6.1.3 Vytvoření tabulky, relace a příkazy", href: "#section6-1-3" },
              { title: "6.1.4 Vytvoření tabulky, relace a příkazy(2)", href: "#section6-1-4" },
-              { title: "6.1.5 Vytvoření tabulky, relace a příkazy(2)", href: "#section6-1-5" }
+              { title: "6.1.5 Vytvoření tabulky, relace a příkazy(2)", href: "#section6-1-5" },
+              { title: "6.1.6 Vytvoření tabulky, relace a příkazy(2)", href: "#section6-1-6" }
           ]
         },
         {

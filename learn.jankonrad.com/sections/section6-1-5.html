@@ -1,0 +1,558 @@
+<section id="section6-1-5" class="lesson">
+
+  <header class="lesson__header">
+    <h2 class="lesson__title">6.1.5 Backend – cesty serveru, HTML, JSON a 404</h2>
+    <p class="lesson__lead">
+      V minulé kapitole jsme rozjeli úplný základ serveru a první textovou odpověď. Teď server naučíme rozlišovat,
+      o jakou adresu si klient říká, a podle toho vrátit buď HTML stránku, JSON data z databáze, nebo chybovou odpověď 404.
+    </p>
+  </header>
+
+  <!-- Co se naučíš -->
+  <article class="card">
+    <h3 class="card__title">Co se naučíš?</h3>
+
+    <ul class="checklist">
+      <li><strong>Rozpoznání cesty požadavku</strong> – pochopíš, jak server pozná, jestli klient chce stránku, API data nebo neexistující adresu.</li>
+      <li><strong>Metody <code>_send_json()</code> a <code>_send_file()</code></strong> – zjistíš, jak server pošle JSON nebo celý HTML soubor.</li>
+      <li><strong>Skutečné <code>do_GET(self)</code></strong> – uvidíš, jak se skládá hlavní rozhodovací logika serveru.</li>
+      <li><strong>Propojení s frontendem</strong> – pochopíš, proč frontend volá <code>/api/movies</code> a proč server posílá <code>index.html</code>.</li>
+    </ul>
+
+    <div class="note note--info">
+      <strong>Tip:</strong> Tohle je první chvíle, kdy backend opravdu „mluví“ s frontendem. Jedna cesta vrací stránku, druhá data a třetí vrací chybu.
+    </div>
+  </article>
+
+  <!-- Akce / odkazy -->
+  <div class="actions">
+    <a class="btn btn--primary" href="./movies_server.py" target="_blank" rel="noopener">
+      Otevřít backendový soubor
+    </a>
+
+    <a class="btn btn--ghost" href="./index.html" target="_blank" rel="noopener">
+      Otevřít frontend
+    </a>
+  </div>
+
+  <!-- Akordeony -->
+  <div class="accordion">
+
+    <!-- 1) Proč rozlišujeme cesty -->
+    <details class="acc" open>
+      <summary class="acc__sum">1) Proč server musí rozlišovat různé cesty</summary>
+      <div class="acc__body">
+
+        <p>
+          Když uživatel otevře server v prohlížeči, neznamená to vždy totéž. Jednou chce načíst samotnou stránku,
+          jindy chce JavaScript na stránce načíst data z API. A někdy uživatel nebo prohlížeč požádá o cestu,
+          která v našem projektu vůbec neexistuje.
+        </p>
+
+        <ol class="steps">
+          <li>Když klient otevře <code>/</code>, chceme vrátit HTML stránku.</li>
+          <li>Když frontend zavolá <code>/api/movies</code>, chceme vrátit data jako JSON.</li>
+          <li>Když přijde jiná cesta, chceme vrátit chybovou odpověď 404.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Jeden server tedy může obsluhovat více „adres“.</li>
+          <li>Každá adresa může vracet jiný typ obsahu.</li>
+          <li>Právě to je základ routování na serveru.</li>
+        </ul>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal-routes-why">
+            Více informací
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 2) _send_json -->
+    <details class="acc">
+      <summary class="acc__sum">2) První blok kódu – metoda <code>_send_json()</code></summary>
+      <div class="acc__body">
+
+        <p>
+          Ve finálním backendu je připravená pomocná metoda pro JSON odpověď. Ta se používá hlavně pro API cestu
+          <code>/api/movies</code>. :contentReference[oaicite:2]{index=2}
+        </p>
+
+        <pre><code id="code-send-json">def _send_json(self, data, status=200):
+    body = json.dumps(data, ensure_ascii=False).encode("utf-8")
+
+    self.send_response(status)
+    self.send_header("Content-Type", "application/json; charset=utf-8")
+    self.send_header("Content-Length", str(len(body)))
+    self.end_headers()
+    self.wfile.write(body)</code></pre>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost copy-btn"
+                  type="button"
+                  data-copy-target="code-send-json">
+            Kopírovat blok
+          </button>
+
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal-send-json-breakdown">
+            Více informací
+          </button>
+        </div>
+
+        <ol class="steps">
+          <li><code>data</code> jsou Python data, která chceme poslat klientovi.</li>
+          <li><code>json.dumps(...)</code> je převede na JSON text.</li>
+          <li><code>ensure_ascii=False</code> dovolí zachovat české znaky bez zbytečného přepisování.</li>
+          <li><code>encode("utf-8")</code> převede text na bajty.</li>
+          <li><code>Content-Type</code> říká klientovi, že odpověď je JSON.</li>
+          <li><code>wfile.write(body)</code> pošle hotové tělo odpovědi.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Tato metoda je podobná <code>_send_text()</code>, ale posílá JSON.</li>
+          <li>Klient pak ví, že má odpověď číst jako data, ne jako obyčejný text.</li>
+          <li>Právě to frontend očekává při volání <code>fetch("/api/movies")</code>. :contentReference[oaicite:3]{index=3}</li>
+        </ul>
+
+      </div>
+    </details>
+
+    <!-- 3) _send_file -->
+    <details class="acc">
+      <summary class="acc__sum">3) Druhý blok kódu – metoda <code>_send_file()</code></summary>
+      <div class="acc__body">
+
+        <p>
+          Když klient chce samotnou stránku, server nevrací JSON, ale celý HTML soubor. K tomu slouží tato metoda. :contentReference[oaicite:4]{index=4}
+        </p>
+
+        <pre><code id="code-send-file">def _send_file(self, filepath: Path, status=200, content_type="text/html; charset=utf-8"):
+    if not filepath.exists():
+        self._send_text("Soubor nenalezen.", status=404)
+        return
+
+    body = filepath.read_bytes()
+    self.send_response(status)
+    self.send_header("Content-Type", content_type)
+    self.send_header("Content-Length", str(len(body)))
+    self.end_headers()
+    self.wfile.write(body)</code></pre>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost copy-btn"
+                  type="button"
+                  data-copy-target="code-send-file">
+            Kopírovat blok
+          </button>
+
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal-send-file-breakdown">
+            Více informací
+          </button>
+        </div>
+
+        <ol class="steps">
+          <li><code>filepath</code> je cesta k souboru, který chceme poslat.</li>
+          <li><code>if not filepath.exists():</code> ověří, jestli soubor opravdu existuje.</li>
+          <li>Když soubor chybí, vrátí se textová chyba se stavem 404.</li>
+          <li><code>read_bytes()</code> načte celý soubor jako bajty.</li>
+          <li><code>Content-Type</code> říká klientovi, že jde o HTML obsah.</li>
+          <li><code>wfile.write(body)</code> pošle celý soubor klientovi.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Tady server nečte databázi.</li>
+          <li>Tady server jen vezme soubor z disku a pošle ho do prohlížeče.</li>
+          <li>To je přesně to, co potřebujeme pro <code>index.html</code>.</li>
+        </ul>
+
+      </div>
+    </details>
+
+    <!-- 4) rozbor urlparse -->
+    <details class="acc">
+      <summary class="acc__sum">4) Třetí blok kódu – rozpoznání cesty přes <code>urlparse(self.path)</code></summary>
+      <div class="acc__body">
+
+        <p>
+          Aby server věděl, co vrátit, musí se nejdřív podívat, jakou cestu klient požaduje.
+          Ve finálním backendu to začíná takto: :contentReference[oaicite:5]{index=5}
+        </p>
+
+        <pre><code id="code-urlparse">parsed = urlparse(self.path)
+path = parsed.path</code></pre>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost copy-btn"
+                  type="button"
+                  data-copy-target="code-urlparse">
+            Kopírovat blok
+          </button>
+
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal-urlparse-path">
+            Více informací
+          </button>
+        </div>
+
+        <ol class="steps">
+          <li><code>self.path</code> obsahuje cestu z příchozího HTTP požadavku.</li>
+          <li><code>urlparse(...)</code> tuto cestu rozebere na části.</li>
+          <li><code>parsed.path</code> vytáhne jen čistou cestu bez dalších částí.</li>
+          <li>Výsledek uložíme do proměnné <code>path</code>, se kterou se pak snadno pracuje.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Když klient požádá o <code>/api/movies</code>, proměnná <code>path</code> bude mít tuto hodnotu.</li>
+          <li>Když klient otevře hlavní stránku, cesta bude třeba <code>/</code>.</li>
+          <li>Podle této hodnoty potom server rozhoduje.</li>
+        </ul>
+
+      </div>
+    </details>
+
+    <!-- 5) skutečné do_GET -->
+    <details class="acc">
+      <summary class="acc__sum">5) Čtvrtý blok kódu – skutečné <code>do_GET(self)</code></summary>
+      <div class="acc__body">
+
+        <p>
+          Tohle je hlavní rozhodovací část serveru. Přesně takto je logika rozepsaná i ve finálním backendu. :contentReference[oaicite:6]{index=6}
+        </p>
+
+        <pre><code id="code-real-do-get">def do_GET(self):
+    parsed = urlparse(self.path)
+    path = parsed.path
+
+    # 1) API endpoint: /api/movies
+    if path == "/api/movies":
+        data = get_movies()
+        self._send_json(data)
+        return
+
+    # 2) Frontend: / nebo /index.html
+    if path == "/" or path == "/index.html":
+        self._send_file(Path(__file__).resolve().with_name("index.html"))
+        return
+
+    # 3) všechno ostatní: 404
+    self._send_text("404 Not Found", status=404)</code></pre>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost copy-btn"
+                  type="button"
+                  data-copy-target="code-real-do-get">
+            Kopírovat blok
+          </button>
+
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal-do-get-routes">
+            Více informací
+          </button>
+        </div>
+
+        <p>
+          Tohle je velmi důležitý moment. Poprvé je tu na jednom místě vidět propojení backendu, databáze i frontendu.
+        </p>
+
+        <div class="accordion">
+          <details class="acc" open>
+            <summary class="acc__sum">5.1 Cesta <code>/api/movies</code></summary>
+            <div class="acc__body">
+              <p>
+                Když klient chce <code>/api/movies</code>, backend zavolá <code>get_movies()</code>
+                a pošle výsledek jako JSON přes <code>_send_json(...)</code>. :contentReference[oaicite:7]{index=7}
+              </p>
+              <ul class="bullets">
+                <li>Tady se propojí databáze s API.</li>
+                <li>Data jdou z Pythonu do JSONu.</li>
+                <li>To je přesně cesta, kterou používá frontend. :contentReference[oaicite:8]{index=8}</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="acc">
+            <summary class="acc__sum">5.2 Cesta <code>/</code> nebo <code>/index.html</code></summary>
+            <div class="acc__body">
+              <p>
+                Když klient otevře hlavní adresu serveru, backend pošle soubor <code>index.html</code>.
+              </p>
+              <ul class="bullets">
+                <li>Tady server nevrací JSON.</li>
+                <li>Tady vrací skutečnou webovou stránku.</li>
+                <li>Právě díky tomu se stránka zobrazí v prohlížeči.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="acc">
+            <summary class="acc__sum">5.3 Všechno ostatní = 404</summary>
+            <div class="acc__body">
+              <p>
+                Když cesta neodpovídá žádné známé variantě, server vrátí text <code>404 Not Found</code> a stav 404.
+              </p>
+              <ul class="bullets">
+                <li>To znamená „nenalezeno“.</li>
+                <li>Klient tak pozná, že daná cesta na serveru neexistuje.</li>
+                <li>To je normální a správné chování webového serveru.</li>
+              </ul>
+            </div>
+          </details>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 6) Propojení s frontendem -->
+    <details class="acc">
+      <summary class="acc__sum">6) Jak se to propojí s frontendem</summary>
+      <div class="acc__body">
+
+        <p>
+          Ve frontendu se při načtení stránky volá tento kód: :contentReference[oaicite:9]{index=9}
+        </p>
+
+        <pre><code id="code-fetch-api">const res = await fetch("/api/movies");
+const movies = await res.json();</code></pre>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost copy-btn"
+                  type="button"
+                  data-copy-target="code-fetch-api">
+            Kopírovat blok
+          </button>
+        </div>
+
+        <ol class="steps">
+          <li>Uživatel otevře server v prohlížeči.</li>
+          <li>Server vrátí <code>index.html</code>.</li>
+          <li>Uvnitř stránky se spustí JavaScript.</li>
+          <li>JavaScript zavolá <code>fetch("/api/movies")</code>.</li>
+          <li>Server rozpozná cestu <code>/api/movies</code>.</li>
+          <li>Backend zavolá <code>get_movies()</code> a pošle JSON.</li>
+          <li>Frontend tento JSON přečte a vypíše do tabulky.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Tady už je krásně vidět celý směr toku dat.</li>
+          <li>Frontend si data nevymýšlí sám.</li>
+          <li>Vždy si je vyžádá od backendu.</li>
+        </ul>
+
+      </div>
+    </details>
+
+    <!-- 7) Co má být hotové -->
+    <details class="acc">
+      <summary class="acc__sum">7) Co máš mít po této kapitole hotové</summary>
+      <div class="acc__body">
+
+        <p>
+          Po této kapitole už server umí rozlišit hlavní typy požadavků, které náš jednoduchý informační systém potřebuje.
+        </p>
+
+        <ol class="steps">
+          <li>Máš metodu <code>_send_json()</code> pro JSON odpověď.</li>
+          <li>Máš metodu <code>_send_file()</code> pro poslání HTML souboru.</li>
+          <li>Máš v <code>do_GET()</code> logiku pro <code>/api/movies</code>.</li>
+          <li>Máš v <code>do_GET()</code> logiku pro <code>/</code> a <code>/index.html</code>.</li>
+          <li>Máš i výchozí chování pro neexistující cesty: 404.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Tohle už je skutečný základ webového backendu.</li>
+          <li>V další lekci se všechno finálně spojí a spustí jako celek.</li>
+          <li>Tam už půjdeme od startu serveru až po vykreslenou tabulku v prohlížeči.</li>
+        </ul>
+
+      </div>
+    </details>
+
+  </div>
+
+  <!-- Shrnutí -->
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+
+    <ul class="checklist">
+      <li>Žák chápe, že server rozlišuje různé cesty podle adresy požadavku.</li>
+      <li>Žák ví, že <code>_send_json()</code> posílá data pro API a <code>_send_file()</code> posílá HTML soubor.</li>
+      <li>Žák rozumí tomu, že <code>/api/movies</code> vrací JSON a <code>/</code> nebo <code>/index.html</code> vrací stránku.</li>
+      <li>Žák ví, proč existuje odpověď <code>404 Not Found</code>.</li>
+    </ul>
+  </article>
+
+  <!-- Volitelné: Zdroje -->
+  <article class="card">
+    <h3 class="card__title">Odkazy na použité zdroje</h3>
+    <ol class="steps">
+      <li><a href="./movies_server.py" target="_blank" rel="noopener">Ukázkový backend projektu – movies_server.py</a></li>
+      <li><a href="./index.html" target="_blank" rel="noopener">Ukázkový frontend projektu – index.html</a></li>
+    </ol>
+  </article>
+
+</section>
+
+<!-- MODAL 1 -->
+<div class="modal" id="modal-routes-why" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Proč server potřebuje více cest</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Jedna webová aplikace téměř nikdy nevrací jen jednu jedinou odpověď na všechno.
+        </p>
+        <ul class="bullets">
+          <li>hlavní stránka vrací HTML,</li>
+          <li>API vrací data,</li>
+          <li>neplatná cesta vrací chybu.</li>
+        </ul>
+        <p>
+          Rozlišování cest je proto základní povinnost serveru.
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 2 -->
+<div class="modal" id="modal-send-json-breakdown" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Rozbor _send_json() po krocích</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Tato metoda vezme Python data a pošle je klientovi jako JSON odpověď.
+        </p>
+        <ul class="bullets">
+          <li><code>json.dumps(...)</code> převádí Python data na JSON text,</li>
+          <li><code>Content-Type</code> říká, že jde o JSON,</li>
+          <li><code>wfile.write(...)</code> pošle tělo odpovědi klientovi.</li>
+        </ul>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 3 -->
+<div class="modal" id="modal-send-file-breakdown" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Rozbor _send_file() po krocích</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Tato metoda vezme soubor z disku a pošle ho klientovi.
+        </p>
+        <ul class="bullets">
+          <li>nejdřív ověří, jestli soubor existuje,</li>
+          <li>pak načte jeho obsah jako bajty,</li>
+          <li>nakonec nastaví hlavičky a soubor odešle.</li>
+        </ul>
+        <p>
+          Je vhodná hlavně pro HTML soubory a další statický obsah.
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 4 -->
+<div class="modal" id="modal-urlparse-path" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Co přesně dělá urlparse(self.path)</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          <code>self.path</code> obsahuje cestu z příchozího požadavku. Funkce <code>urlparse(...)</code>
+          ji rozloží na části a my si pak vezmeme čistou cestu přes <code>parsed.path</code>.
+        </p>
+        <ul class="bullets">
+          <li>To je přehlednější než pracovat se syrovým řetězcem.</li>
+          <li>Server pak snadno porovnává, jestli jde o <code>/</code> nebo třeba <code>/api/movies</code>.</li>
+        </ul>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 5 -->
+<div class="modal" id="modal-do-get-routes" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Jak číst do_GET() jako celek</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Celou logiku můžeš číst takto:
+        </p>
+        <ul class="bullets">
+          <li>zjisti, jakou cestu klient chce,</li>
+          <li>když chce API, vrať JSON,</li>
+          <li>když chce stránku, vrať HTML soubor,</li>
+          <li>jinak vrať 404.</li>
+        </ul>
+        <p>
+          To je hlavní routovací logika našeho jednoduchého serveru.
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+
+    </div>
+  </div>
+</div>

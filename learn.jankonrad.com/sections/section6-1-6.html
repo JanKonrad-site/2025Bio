@@ -1,0 +1,512 @@
+<section id="section6-1-6" class="lesson">
+
+  <header class="lesson__header">
+    <h2 class="lesson__title">6.1.6 Finální lekce – spuštění celého informačního systému</h2>
+    <p class="lesson__lead">
+      V této závěrečné kapitole spojíme všechny předchozí bloky do jednoho celku. Už nejde jen o jednotlivé funkce nebo části serveru
+      – teď si krok za krokem ukážeme, jak se po spuštění backendu načte stránka, jak frontend požádá o data a jak se výsledky propíšou do tabulky v prohlížeči.
+    </p>
+  </header>
+
+  <!-- Co se naučíš -->
+  <article class="card">
+    <h3 class="card__title">Co se naučíš?</h3>
+
+    <ul class="checklist">
+      <li><strong>Spuštění finálního backendu</strong> – pochopíš, co se děje při startu programu a proč se volá <code>init_db()</code> a potom <code>run_server()</code>.</li>
+      <li><strong>Celý tok dat</strong> – projdeš si cestu od databáze až po zobrazení filmů v HTML tabulce.</li>
+      <li><strong>Spolupráci frontendu a backendu</strong> – uvidíš, jak se propojí <code>fetch("/api/movies")</code> s routou <code>/api/movies</code> na serveru.</li>
+      <li><strong>Ladění chyb</strong> – naučíš se rozpoznat nejčastější problémy, když se stránka nenačte nebo tabulka zůstane prázdná.</li>
+    </ul>
+
+    <div class="note note--info">
+      <strong>Tip:</strong> Tohle je chvíle, kdy už neřešíme izolované kusy kódu. Díváme se na projekt jako na jeden propojený systém.
+    </div>
+  </article>
+
+  <!-- Akce / odkazy -->
+  <div class="actions">
+    <a class="btn btn--primary" href="./movies_server.py" target="_blank" rel="noopener">
+      Otevřít backendový soubor
+    </a>
+
+    <a class="btn btn--ghost" href="./index.html" target="_blank" rel="noopener">
+      Otevřít frontend
+    </a>
+  </div>
+
+  <!-- Akordeony -->
+  <div class="accordion">
+
+    <!-- 1) Finální start -->
+    <details class="acc" open>
+      <summary class="acc__sum">1) Jak se celý systém spustí</summary>
+      <div class="acc__body">
+
+        <p>
+          Ve finálním backendu se na konci souboru nachází tato spouštěcí část. Právě ta rozhodne, co se stane ve chvíli,
+          kdy soubor opravdu spustíš v Pythonu. :contentReference[oaicite:2]{index=2}
+        </p>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">movies_server.py – spouštěcí část</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-final-main">Kopírovat</button>
+          </div>
+          <pre id="code-final-main"><code class="language-python">if __name__ == "__main__":
+    init_db()
+    run_server()</code></pre>
+        </div>
+
+        <ol class="steps">
+          <li><code>if __name__ == "__main__":</code> znamená, že tento blok se spustí při přímém spuštění souboru.</li>
+          <li><code>init_db()</code> připraví databázi a ověří, že tabulka <code>movies</code> existuje.</li>
+          <li><code>run_server()</code> vytvoří server a spustí nekonečné čekání na požadavky.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Nejdřív připravíme databázi.</li>
+          <li>Teprve potom pustíme server.</li>
+          <li>To je správné pořadí, protože server má startovat do připraveného prostředí.</li>
+        </ul>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal-final-main">
+            Více informací
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 2) run_server -->
+    <details class="acc">
+      <summary class="acc__sum">2) Co přesně dělá <code>run_server()</code></summary>
+      <div class="acc__body">
+
+        <p>
+          Samotné spuštění serveru je ve finálním backendu zapsáno takto: :contentReference[oaicite:3]{index=3}
+        </p>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">movies_server.py – run_server()</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-final-run-server">Kopírovat</button>
+          </div>
+          <pre id="code-final-run-server"><code class="language-python">def run_server(host="127.0.0.1", port=8000):
+    server = HTTPServer((host, port), RequestHandler)
+    print(f"Server běží na http://{host}:{port}")
+    print("Zastavíš ho: CTRL+C")
+    server.serve_forever()</code></pre>
+        </div>
+
+        <ol class="steps">
+          <li><code>host="127.0.0.1"</code> znamená, že server běží lokálně na tomto počítači.</li>
+          <li><code>port=8000</code> je číslo portu, na kterém server naslouchá.</li>
+          <li><code>HTTPServer((host, port), RequestHandler)</code> vytvoří server a propojí ho s naší třídou handleru.</li>
+          <li><code>serve_forever()</code> spustí trvalé čekání na požadavky.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Když program po spuštění „jen běží a čeká“, není to chyba.</li>
+          <li>Je to správné chování serveru.</li>
+          <li>Server má být připraven, dokud ho ručně nezastavíš.</li>
+        </ul>
+
+      </div>
+    </details>
+
+    <!-- 3) celý tok dat -->
+    <details class="acc">
+      <summary class="acc__sum">3) Celý tok dat – od databáze až po tabulku ve stránce</summary>
+      <div class="acc__body">
+
+        <p>
+          Tohle je nejdůležitější myšlenka celé kapitoly. Když uživatel otevře adresu serveru v prohlížeči,
+          odehraje se ve skutečnosti několik navazujících kroků.
+        </p>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">Tok dat v projektu</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-final-flow">Kopírovat</button>
+          </div>
+          <pre id="code-final-flow"><code class="language-text">1) uživatel otevře http://127.0.0.1:8000
+2) server vrátí index.html
+3) v index.html se spustí JavaScript
+4) JavaScript zavolá /api/movies
+5) backend zavolá get_movies()
+6) backend pošle JSON
+7) frontend vypíše data do tabulky</code></pre>
+        </div>
+
+        <ol class="steps">
+          <li>Uživatel otevře hlavní adresu serveru.</li>
+          <li>Server rozpozná cestu <code>/</code> a pošle soubor <code>index.html</code>. :contentReference[oaicite:4]{index=4}</li>
+          <li>Po načtení stránky se spustí JavaScript ve frontendu. :contentReference[oaicite:5]{index=5}</li>
+          <li>JavaScript pošle požadavek na <code>/api/movies</code>. :contentReference[oaicite:6]{index=6}</li>
+          <li>Server rozpozná cestu <code>/api/movies</code> a zavolá <code>get_movies()</code>. :contentReference[oaicite:7]{index=7}</li>
+          <li>Server vrátí data jako JSON. :contentReference[oaicite:8]{index=8}</li>
+          <li>Frontend JSON přečte a vypíše ho do tabulky. :contentReference[oaicite:9]{index=9}</li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Pamatuj:</strong> frontend si data pouze vyžádá a zobrazí. Samotná data připravuje backend a původně pocházejí z databáze.
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 4) frontend -->
+    <details class="acc">
+      <summary class="acc__sum">4) Co přesně dělá frontend po načtení stránky</summary>
+      <div class="acc__body">
+
+        <p>
+          Ve frontendu se po načtení stránky spustí tato funkce a na konci se opravdu zavolá <code>loadMovies()</code>. :contentReference[oaicite:10]{index=10}
+        </p>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">index.html – načtení filmů</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-final-frontend">Kopírovat</button>
+          </div>
+          <pre id="code-final-frontend"><code class="language-javascript">async function loadMovies(){
+  const status = document.getElementById("status");
+  const tbody = document.querySelector("#moviesTable tbody");
+
+  try{
+    const res = await fetch("/api/movies");
+    const movies = await res.json();
+
+    tbody.innerHTML = "";
+    for(const m of movies){
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        &lt;td&gt;${m.id}&lt;/td&gt;
+        &lt;td&gt;${m.title}&lt;/td&gt;
+        &lt;td&gt;${m.year ?? ""}&lt;/td&gt;
+      `;
+      tbody.appendChild(tr);
+    }
+
+    status.textContent = movies.length
+      ? `Načteno filmů: ${movies.length}`
+      : "Databáze je zatím prázdná.";
+  }catch(err){
+    console.error(err);
+    status.textContent = "Chyba: nepodařilo se načíst data. Je spuštěný server?";
+  }
+}
+
+loadMovies();</code></pre>
+        </div>
+
+        <ol class="steps">
+          <li>Najde se prvek <code>status</code> a tělo tabulky <code>tbody</code>.</li>
+          <li>Pošle se požadavek na <code>/api/movies</code>.</li>
+          <li>Odpověď serveru se převede z JSONu na data.</li>
+          <li>Tabulka se vyčistí a znovu naplní řádky.</li>
+          <li>Na konci se aktualizuje stavová hláška.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Frontend tedy neobsahuje filmy natvrdo v HTML.</li>
+          <li>Filmy se doplní až po komunikaci se serverem.</li>
+          <li>To je velmi důležitý princip moderních webových aplikací.</li>
+        </ul>
+
+      </div>
+    </details>
+
+    <!-- 5) backend API -->
+    <details class="acc">
+      <summary class="acc__sum">5) Co přesně udělá backend při volání <code>/api/movies</code></summary>
+      <div class="acc__body">
+
+        <p>
+          Ve finálním backendu se cesta <code>/api/movies</code> obsluhuje takto: :contentReference[oaicite:11]{index=11}
+        </p>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">movies_server.py – API route</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-final-api-route">Kopírovat</button>
+          </div>
+          <pre id="code-final-api-route"><code class="language-python">if path == "/api/movies":
+    data = get_movies()
+    self._send_json(data)
+    return</code></pre>
+        </div>
+
+        <ol class="steps">
+          <li>Server v <code>do_GET()</code> zjistí, že cesta je <code>/api/movies</code>.</li>
+          <li>Zavolá <code>get_movies()</code>, která načte filmy z databáze.</li>
+          <li>Výsledek uloží do proměnné <code>data</code>.</li>
+          <li><code>self._send_json(data)</code> pošle data jako JSON odpověď.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Tady se propojí databáze s webem.</li>
+          <li>Bez této části by <code>fetch("/api/movies")</code> neměl co načíst.</li>
+          <li>To je jádro celého informačního systému.</li>
+        </ul>
+
+      </div>
+    </details>
+
+    <!-- 6) Jak to otestovat -->
+    <details class="acc">
+      <summary class="acc__sum">6) Jak finální projekt správně otestovat</summary>
+      <div class="acc__body">
+
+        <p>
+          Při finálním testu je důležité neudělat zbytečnou metodickou chybu: nestačí otevřít <code>index.html</code> dvojklikem.
+          Musí běžet server.
+        </p>
+
+        <ol class="steps">
+          <li>Spusť <code>movies_server.py</code> v Pythonu.</li>
+          <li>Počkej, až se v konzoli objeví adresa serveru.</li>
+          <li>Otevři v prohlížeči <code>http://127.0.0.1:8000</code>.</li>
+          <li>Stránka se načte a JavaScript automaticky požádá o data.</li>
+          <li>Když je v databázi obsah, objeví se v tabulce.</li>
+          <li>Když je databáze prázdná, uvidíš stavovou hlášku o prázdné databázi. :contentReference[oaicite:12]{index=12}</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Tohle je správný způsob testování webového backendu.</li>
+          <li>Backend i frontend musí běžet jako jeden celek.</li>
+          <li>Teprve pak se ukáže, že projekt opravdu funguje end-to-end.</li>
+        </ul>
+
+      </div>
+    </details>
+
+    <!-- 7) Ladění -->
+    <details class="acc">
+      <summary class="acc__sum">7) Nejčastější chyby a jak je poznat</summary>
+      <div class="acc__body">
+
+        <div class="accordion">
+
+          <details class="acc" open>
+            <summary class="acc__sum">7.1 Stránka se vůbec nenačte</summary>
+            <div class="acc__body">
+              <p>
+                Nejčastější příčina: server neběží nebo jsi otevřel špatnou adresu.
+              </p>
+              <ul class="bullets">
+                <li>zkontroluj, že je v konzoli spuštěný <code>movies_server.py</code>,</li>
+                <li>zkontroluj adresu <code>http://127.0.0.1:8000</code>,</li>
+                <li>zkontroluj, že port odpovídá tomu, co vypisuje server. :contentReference[oaicite:13]{index=13}</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="acc">
+            <summary class="acc__sum">7.2 Stránka se načte, ale tabulka je prázdná</summary>
+            <div class="acc__body">
+              <p>
+                Tady jsou dvě hlavní možnosti:
+              </p>
+              <ul class="bullets">
+                <li>databáze opravdu neobsahuje žádné filmy,</li>
+                <li>API cesta <code>/api/movies</code> nevrací data správně.</li>
+              </ul>
+              <p>
+                Když je databáze prázdná, frontend podle připraveného kódu vypíše zprávu
+                <code>Databáze je zatím prázdná.</code> :contentReference[oaicite:14]{index=14}
+              </p>
+            </div>
+          </details>
+
+          <details class="acc">
+            <summary class="acc__sum">7.3 Ve stránce se objeví chyba načítání</summary>
+            <div class="acc__body">
+              <p>
+                Ve frontendu je připraven i <code>catch</code> blok, který při chybě vypíše zprávu
+                o nepodařeném načtení dat. :contentReference[oaicite:15]{index=15}
+              </p>
+              <ul class="bullets">
+                <li>zkontroluj, jestli server opravdu běží,</li>
+                <li>zkontroluj, jestli backend obsahuje cestu <code>/api/movies</code>,</li>
+                <li>zkontroluj konzoli prohlížeče i konzoli Pythonu.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="acc">
+            <summary class="acc__sum">7.4 Frontend používá <code>status</code>, ale prvek chybí</summary>
+            <div class="acc__body">
+              <p>
+                Ve vašem aktuálním <code>index.html</code> se v JavaScriptu používá
+                <code>document.getElementById("status")</code>, ale v ukázce HTML není žádný odpovídající prvek vidět. :contentReference[oaicite:16]{index=16}
+              </p>
+              <ul class="bullets">
+                <li>do stránky je potřeba doplnit třeba <code>&lt;p id="status"&gt;Načítám data...&lt;/p&gt;</code>,</li>
+                <li>jinak bude proměnná <code>status</code> prázdná,</li>
+                <li>a při zápisu <code>status.textContent = ...</code> vznikne chyba.</li>
+              </ul>
+
+              <div class="codeblock">
+                <div class="codeblock__bar">
+                  <strong class="codeblock__title">Doplnění do index.html</strong>
+                  <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-fix-status">Kopírovat</button>
+                </div>
+                <pre id="code-fix-status"><code class="language-html">&lt;p id="status"&gt;Načítám data...&lt;/p&gt;</code></pre>
+              </div>
+            </div>
+          </details>
+
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 8) Co si odnést -->
+    <details class="acc">
+      <summary class="acc__sum">8) Co si z celé kapitoly odnést</summary>
+      <div class="acc__body">
+
+        <p>
+          Tahle závěrečná lekce není hlavně o novém příkazu. Je o tom, že už umíš vidět projekt jako jeden propojený celek.
+        </p>
+
+        <ol class="steps">
+          <li>Databáze ukládá filmy.</li>
+          <li>Backend je načte.</li>
+          <li>Server je nabídne přes API.</li>
+          <li>Frontend si je vyžádá.</li>
+          <li>JavaScript je vykreslí do tabulky.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Tohle je skutečný jednoduchý informační systém.</li>
+          <li>Nejde už jen o samostatný Python skript.</li>
+          <li>Jde o spolupráci více vrstev najednou.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Pamatuj:</strong> hodnotou takového projektu není jen to, že „něco běží“. Hodnotou je, že rozumíš, jak spolu jednotlivé části komunikují.
+        </div>
+
+      </div>
+    </details>
+
+  </div>
+
+  <!-- Shrnutí -->
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+
+    <ul class="checklist">
+      <li>Žák chápe, že po spuštění backendu se nejdřív připraví databáze a potom se rozběhne server. :contentReference[oaicite:17]{index=17}</li>
+      <li>Žák umí popsat celý tok dat od databáze až po tabulku v prohlížeči. </li>
+      <li>Žák rozumí tomu, jak se propojí <code>fetch("/api/movies")</code> s route <code>/api/movies</code> na backendu. </li>
+      <li>Žák umí najít několik typických chyb a ví, kde hledat jejich příčinu. :contentReference[oaicite:20]{index=20}</li>
+    </ul>
+  </article>
+
+  <!-- Volitelné: Zdroje -->
+  <article class="card">
+    <h3 class="card__title">Odkazy na použité zdroje</h3>
+    <ol class="steps">
+      <li><a href="./movies_server.py" target="_blank" rel="noopener">Ukázkový backend projektu – movies_server.py</a></li>
+      <li><a href="./index.html" target="_blank" rel="noopener">Ukázkový frontend projektu – index.html</a></li>
+    </ol>
+  </article>
+
+</section>
+
+<!-- MODAL 1 -->
+<div class="modal" id="modal-final-main" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Proč je pořadí init_db() → run_server() správně</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Server by měl startovat až tehdy, když je jeho prostředí připravené.
+        </p>
+        <ul class="bullets">
+          <li><code>init_db()</code> připraví databázi a tabulku,</li>
+          <li><code>run_server()</code> potom spustí obsluhu požadavků,</li>
+          <li>díky tomu server nezačne běžet „napůl připravený“.</li>
+        </ul>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 2 -->
+<div class="modal" id="modal-end-to-end" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Co znamená, že projekt funguje end-to-end</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          End-to-end znamená, že funguje celý řetězec od vstupu až po výsledek.
+        </p>
+        <ul class="bullets">
+          <li>nejen databáze,</li>
+          <li>nejen server,</li>
+          <li>nejen HTML stránka,</li>
+          <li>ale všechno dohromady jako jeden celek.</li>
+        </ul>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 3 -->
+<div class="modal" id="modal-troubleshooting" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Jak postupovat při ladění</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Když něco nefunguje, nehádej. Postupuj systematicky:
+        </p>
+        <ul class="bullets">
+          <li>běží server?</li>
+          <li>otevřel jsem správnou adresu?</li>
+          <li>vrací <code>/api/movies</code> data?</li>
+          <li>má HTML všechny potřebné prvky?</li>
+          <li>není chyba v konzoli prohlížeče nebo Pythonu?</li>
+        </ul>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+
+    </div>
+  </div>
+</div>
