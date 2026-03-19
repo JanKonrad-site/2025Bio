@@ -1,0 +1,444 @@
+<section id="section6-1-1" class="lesson">
+
+  <header class="lesson__header">
+    <h2 class="lesson__title">X.X.X Rychlé opakování: HTML, JavaScript a stránka pro výpis filmů</h2>
+    <p class="lesson__lead">
+      Než se pustíme do backendu a serveru, krátce si zopakujeme, co dělá webová stránka na straně uživatele.
+      Nepůjde o celý kurz HTML a JavaScriptu — jen o to, co opravdu potřebujeme k pochopení našeho jednoduchého informačního systému.
+    </p>
+  </header>
+
+  <!-- Co se naučíš -->
+  <article class="card">
+    <h3 class="card__title">Co se naučíš?</h3>
+
+    <ul class="checklist">
+      <li><strong>HTML kostra stránky</strong> – pochopíš, co na stránce znamenají tagy jako <code>table</code>, <code>thead</code>, <code>tbody</code>, <code>tr</code> a <code>td</code>.</li>
+      <li><strong>JavaScript na stránce</strong> – zjistíš, jak skript najde prvky v HTML a jak s nimi pracuje.</li>
+      <li><strong>Načítání dat ze serveru</strong> – uvidíš, proč stránka sama o sobě nezná data a musí si o ně říct backendu.</li>
+      <li><strong>Praktická orientace</strong> – připravíš si půdu pro další kapitoly, kde budeme po malých blocích stavět backend v Pythonu.</li>
+    </ul>
+
+    <div class="note note--info">
+      <strong>Tip:</strong> Cílem této lekce není umět HTML a JavaScript dokonale. Cílem je nebát se souboru <code>index.html</code> a rozumět tomu, co se v něm děje.
+    </div>
+  </article>
+
+  <!-- Akce / odkazy -->
+  <div class="actions">
+    <a class="btn btn--primary" href="./index.html" target="_blank" rel="noopener">
+      Otevřít ukázkový frontend
+    </a>
+
+    <a class="btn btn--ghost" href="./movies_server.py" target="_blank" rel="noopener">
+      Zobrazit serverový soubor
+    </a>
+  </div>
+
+  <!-- Akordeony -->
+  <div class="accordion">
+
+    <!-- 1) Proč to vůbec řešíme -->
+    <details class="acc" open>
+      <summary class="acc__sum">1) Proč nezačínáme rovnou backendem</summary>
+      <div class="acc__body">
+
+        <p>
+          Backend a server budou pro žáky nová témata. Jenže náš výsledný projekt nebude tvořit jen Pythonový server.
+          Součástí systému je i webová stránka, která data zobrazí uživateli. Kdybychom přeskočili HTML a JavaScript úplně,
+          žáci by sice možná dokázali opsat hotový kód, ale nerozuměli by tomu, proč se po načtení stránky objeví tabulka,
+          odkud se berou data a proč se bez spuštěného serveru nic nenačte.
+        </p>
+
+        <ol class="steps">
+          <li>Na stránce je připravené místo pro data – například tabulka filmů.</li>
+          <li>JavaScript po otevření stránky pošle požadavek na server.</li>
+          <li>Server sáhne do databáze a vrátí data.</li>
+          <li>JavaScript přijatá data vloží do tabulky.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Frontend = to, co vidí uživatel v prohlížeči.</li>
+          <li>Backend = to, co běží na serveru a zpracovává data.</li>
+          <li>Databáze = místo, kde jsou data uložená.</li>
+        </ul>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal-html-js-overview">
+            Více informací
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 2) Mapa systému -->
+    <details class="acc">
+      <summary class="acc__sum">2) Rychlá mapa našeho systému</summary>
+      <div class="acc__body">
+
+        <p>
+          Náš jednoduchý informační systém má tři části. Je dobré si je hned na začátku pojmenovat, protože se k nim budeme
+          vracet v každé další kapitole.
+        </p>
+
+        <div class="accordion">
+          <details class="acc" open>
+            <summary class="acc__sum">2.1 Frontend – stránka v prohlížeči</summary>
+            <div class="acc__body">
+              <p>
+                Frontend je soubor <code>index.html</code>. Obsahuje tabulku a JavaScript. Tabulka je místo, kam se budou
+                vypisovat filmy. JavaScript se postará o to, aby se data načetla ze serveru a zobrazila.
+              </p>
+              <ul class="bullets">
+                <li>Uživatel otevře stránku.</li>
+                <li>Stránka se vykreslí v prohlížeči.</li>
+                <li>Skript začne pracovat až po načtení stránky.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="acc">
+            <summary class="acc__sum">2.2 Backend – Pythonový server</summary>
+            <div class="acc__body">
+              <p>
+                Backend je soubor <code>movies_server.py</code>. Ten spustí server, obslouží požadavek na cestě
+                <code>/api/movies</code> a vrátí seznam filmů ve formátu JSON.
+              </p>
+              <ul class="bullets">
+                <li>Server čeká na požadavky.</li>
+                <li>Když přijde dotaz, rozhodne se podle adresy, co vrátí.</li>
+                <li>Jednou může vrátit HTML stránku, jindy data z databáze.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="acc">
+            <summary class="acc__sum">2.3 Databáze – uložená data</summary>
+            <div class="acc__body">
+              <p>
+                Databáze <code>movies.db</code> obsahuje tabulku filmů. Backend se na ni umí připojit, přečíst z ní data
+                a poslat je dál do stránky.
+              </p>
+              <ul class="bullets">
+                <li>Databáze si pamatuje data i po vypnutí programu.</li>
+                <li>Frontend do databáze přímo nevidí.</li>
+                <li>Mezi stránkou a databází stojí server.</li>
+              </ul>
+            </div>
+          </details>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 3) HTML -->
+    <details class="acc">
+      <summary class="acc__sum">3) HTML – co už na stránce máme připravené</summary>
+      <div class="acc__body">
+
+        <p>
+          HTML je kostra stránky. Určuje, co na stránce bude: nadpisy, odstavce, tabulky, tlačítka nebo obrázky.
+          V našem případě je nejdůležitější tabulka, do které budeme vypisovat filmy, a krátká textová hláška o stavu načítání.
+        </p>
+
+        <p>
+          Pro naši ukázku je dobré mít v HTML tuto jednoduchou část:
+        </p>
+
+        <pre><code id="code-html-1">&lt;p id="status"&gt;Načítám data...&lt;/p&gt;
+
+&lt;table id="moviesTable"&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;ID&lt;/th&gt;
+      &lt;th&gt;Název&lt;/th&gt;
+      &lt;th&gt;Rok&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;&lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost copy-btn"
+                  type="button"
+                  data-copy-target="code-html-1">
+            Kopírovat blok
+          </button>
+
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal-html-tags">
+            Více informací
+          </button>
+        </div>
+
+        <ol class="steps">
+          <li><code>&lt;p id="status"&gt;</code> je odstavec, do kterého budeme zapisovat zprávy jako „Načítám data…“ nebo „Načteno filmů: 5“.</li>
+          <li><code>&lt;table&gt;</code> vytváří tabulku.</li>
+          <li><code>&lt;thead&gt;</code> je hlavička tabulky – tedy názvy sloupců.</li>
+          <li><code>&lt;tr&gt;</code> znamená jeden řádek tabulky.</li>
+          <li><code>&lt;th&gt;</code> je buňka hlavičky tabulky.</li>
+          <li><code>&lt;tbody&gt;</code> je tělo tabulky – sem budeme JavaScriptem doplňovat skutečná data.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>HTML ještě samo nic nenačítá. Jen připraví místo, kam data později přijdou.</li>
+          <li>Prázdný <code>&lt;tbody&gt;</code> je v pořádku – při načtení stránky tam zatím žádná data nejsou.</li>
+          <li>Prvek <code>status</code> je důležitý, protože ho později najdeme pomocí JavaScriptu.</li>
+        </ul>
+
+      </div>
+    </details>
+
+    <!-- 4) JavaScript -->
+    <details class="acc">
+      <summary class="acc__sum">4) JavaScript – jak stránka najde tabulku a načte data</summary>
+      <div class="acc__body">
+
+        <p>
+          JavaScript je jazyk, který stránku „oživí“. Umí najít prvky v HTML, vytvořit nové řádky tabulky,
+          poslat dotaz na server a výsledek zobrazit.
+        </p>
+
+        <p>
+          Na úplný začátek nám stačí pochopit tento malý blok:
+        </p>
+
+        <pre><code id="code-js-1">const status = document.getElementById("status");
+const tbody = document.querySelector("#moviesTable tbody");
+
+const res = await fetch("/api/movies");
+const movies = await res.json();</code></pre>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost copy-btn"
+                  type="button"
+                  data-copy-target="code-js-1">
+            Kopírovat blok
+          </button>
+
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal-js-terms">
+            Více informací
+          </button>
+        </div>
+
+        <ol class="steps">
+          <li><code>const</code> vytváří proměnnou, jejíž odkaz nechceme později měnit.</li>
+          <li><code>document</code> znamená celou právě otevřenou webovou stránku.</li>
+          <li><code>getElementById("status")</code> najde prvek, který má v HTML atribut <code>id="status"</code>.</li>
+          <li><code>querySelector("#moviesTable tbody")</code> najde v tabulce její část <code>tbody</code>.</li>
+          <li><code>fetch("/api/movies")</code> pošle požadavek na server.</li>
+          <li><code>await</code> znamená „počkej, než odpověď opravdu dorazí“.</li>
+          <li><code>res.json()</code> převede odpověď serveru z JSONu na data, se kterými už JavaScript umí pracovat.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Stránka si data nevymýšlí sama — musí si o ně požádat backend.</li>
+          <li>Adresa <code>/api/movies</code> je cesta na serveru, která vrací seznam filmů.</li>
+          <li>Bez spuštěného serveru nebude mít <code>fetch()</code> odkud data získat.</li>
+        </ul>
+
+      </div>
+    </details>
+
+    <!-- 5) Co je JSON -->
+    <details class="acc">
+      <summary class="acc__sum">5) Co je JSON a proč se nám hodí</summary>
+      <div class="acc__body">
+
+        <p>
+          Když server pošle data do stránky, potřebuje je zapsat v nějakém formátu, kterému rozumí obě strany.
+          Pro tento účel se velmi často používá JSON.
+        </p>
+
+        <pre><code id="code-json-1">[
+  { "id": 1, "title": "Titanic", "year": 1997 },
+  { "id": 2, "title": "Avatar", "year": 2009 }
+]</code></pre>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost copy-btn"
+                  type="button"
+                  data-copy-target="code-json-1">
+            Kopírovat blok
+          </button>
+        </div>
+
+        <ol class="steps">
+          <li>Hranaté závorky <code>[ ]</code> znamenají seznam více položek.</li>
+          <li>Složené závorky <code>{ }</code> znamenají jeden objekt – tedy jednu položku s vlastnostmi.</li>
+          <li><code>"id"</code>, <code>"title"</code> a <code>"year"</code> jsou názvy vlastností.</li>
+          <li>Za dvojtečkou je jejich hodnota.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Každý film je v JSONu jeden objekt.</li>
+          <li>Celý seznam filmů je pole objektů.</li>
+          <li>JavaScript si taková data umí snadno převzít a projít je jedno po druhém.</li>
+        </ul>
+
+      </div>
+    </details>
+
+    <!-- 6) Co si odnést -->
+    <details class="acc">
+      <summary class="acc__sum">6) Co si z této lekce odnést do dalších kapitol</summary>
+      <div class="acc__body">
+
+        <p>
+          Tato kapitola je hlavně orientační. Nemá z vás udělat frontend vývojáře. Má vám dát jistotu, že když v dalších
+          lekcích uvidíte soubor <code>index.html</code>, tabulku, JavaScript a volání serveru, nebudete mít pocit, že se díváte
+          na něco úplně cizího.
+        </p>
+
+        <ol class="steps">
+          <li>HTML připraví kostru stránky.</li>
+          <li>JavaScript si najde prvky v HTML.</li>
+          <li>JavaScript požádá server o data.</li>
+          <li>Server vrátí data z databáze.</li>
+          <li>JavaScript je vloží do tabulky.</li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Pamatuj:</strong> frontend zobrazuje, backend obsluhuje a databáze ukládá.
+        </div>
+
+      </div>
+    </details>
+
+  </div>
+
+  <!-- Shrnutí -->
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+
+    <ul class="checklist">
+      <li>Žák chápe, že webová stránka je jen jedna část celého informačního systému.</li>
+      <li>Žák pozná základní HTML tagy použité v jednoduché tabulce.</li>
+      <li>Žák rozumí tomu, že JavaScript umí najít prvky ve stránce a načíst data ze serveru.</li>
+      <li>Žák ví, že JSON je běžný formát pro přenos dat mezi backendem a frontendem.</li>
+    </ul>
+  </article>
+
+  <!-- Volitelné: Zdroje -->
+  <article class="card">
+    <h3 class="card__title">Odkazy na použité zdroje</h3>
+    <ol class="steps">
+      <li><a href="./index.html" target="_blank" rel="noopener">Ukázkový frontend projektu – index.html</a></li>
+      <li><a href="./movies_server.py" target="_blank" rel="noopener">Ukázkový backend projektu – movies_server.py</a></li>
+    </ol>
+  </article>
+
+</section>
+
+<!-- MODAL 1 -->
+<div class="modal" id="modal-html-js-overview" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Jak spolu mluví stránka, server a databáze</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Představ si tři oddělené světy:
+        </p>
+        <ul class="bullets">
+          <li><strong>Databáze</strong> si pamatuje data.</li>
+          <li><strong>Server</strong> umí tato data přečíst a poslat dál.</li>
+          <li><strong>Stránka</strong> je zobrazí uživateli.</li>
+        </ul>
+        <p>
+          Stránka běží v prohlížeči, databáze je uložená jako soubor a server je prostředník mezi nimi.
+          Frontend tedy nečte databázi přímo. Vždy se ptá serveru.
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="./movies_server.py" target="_blank" rel="noopener">Otevřít backend</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 2 -->
+<div class="modal" id="modal-html-tags" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Rychlé zopakování HTML tagů</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          HTML používá značky, kterým říkáme tagy. Ty určují, co se na stránce zobrazí a jaký to má význam.
+        </p>
+        <ul class="bullets">
+          <li><code>&lt;p&gt;</code> – odstavec textu.</li>
+          <li><code>&lt;table&gt;</code> – tabulka.</li>
+          <li><code>&lt;thead&gt;</code> – hlavička tabulky.</li>
+          <li><code>&lt;tbody&gt;</code> – tělo tabulky, kam vkládáme data.</li>
+          <li><code>&lt;tr&gt;</code> – jeden řádek tabulky.</li>
+          <li><code>&lt;th&gt;</code> – hlavičková buňka.</li>
+          <li><code>&lt;td&gt;</code> – obyčejná datová buňka.</li>
+        </ul>
+        <p>
+          Důležité je, že HTML ještě samo nic nepočítá a nic nestahuje. Jen připraví kostru stránky.
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="./index.html" target="_blank" rel="noopener">Otevřít frontend</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 3 -->
+<div class="modal" id="modal-js-terms" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Rychlé zopakování pojmů z JavaScriptu</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          V této lekci stačí rozumět několika pojmům:
+        </p>
+        <ul class="bullets">
+          <li><code>document</code> – právě otevřená webová stránka.</li>
+          <li><code>getElementById()</code> – najde prvek podle jeho <code>id</code>.</li>
+          <li><code>querySelector()</code> – najde první prvek, který odpovídá zadanému selektoru.</li>
+          <li><code>fetch()</code> – pošle požadavek na server.</li>
+          <li><code>await</code> – počká na dokončení asynchronní operace.</li>
+          <li><code>json()</code> – převede JSON odpověď na data pro JavaScript.</li>
+        </ul>
+        <p>
+          Nemusíš si vše pamatovat nazpaměť. Důležité je vědět, co ten příkaz přibližně dělá a proč tam je.
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="./index.html" target="_blank" rel="noopener">Otevřít frontend</a>
+      </div>
+
+    </div>
+  </div>
+</div>

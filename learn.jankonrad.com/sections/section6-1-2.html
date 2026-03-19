@@ -1,0 +1,503 @@
+<section id="section6-1-2" class="lesson">
+
+  <header class="lesson__header">
+    <h2 class="lesson__title">6.1.2 Backend – první stavební bloky serveru</h2>
+    <p class="lesson__lead">
+      V této kapitole začneme stavět backend našeho informačního systému. Nepůjdeme ještě na celý server najednou — nejdřív si opravdu pomalu vysvětlíme, jaké moduly Python potřebuje, jak si najde databázi a jak se k ní připojí.
+    </p>
+  </header>
+
+  <!-- Co se naučíš -->
+  <article class="card">
+    <h3 class="card__title">Co se naučíš?</h3>
+
+    <ul class="checklist">
+      <li><strong>Importy v Pythonu</strong> – pochopíš, proč si na začátku souboru načítáme cizí moduly a k čemu budou v našem projektu sloužit.</li>
+      <li><strong>Cestu k databázi</strong> – zjistíš, proč nepíšeme jen prostý název souboru, ale používáme <code>Path(__file__).resolve().with_name(...)</code>.</li>
+      <li><strong>Funkci <code>connect()</code></strong> – uvidíš, jak vytvořit malé, přehledné místo pro připojení k SQLite databázi.</li>
+      <li><strong>Myšlení po blocích</strong> – naučíš se stavět backend z malých částí, kterým rozumíš, místo slepého kopírování celého velkého souboru.</li>
+    </ul>
+
+    <div class="note note--info">
+      <strong>Tip:</strong> V této lekci ještě server nic „neobsluhuje“. Jen si připravujeme nástroje, bez kterých by další části backendu nemohly fungovat.
+    </div>
+  </article>
+
+  <!-- Akce / odkazy -->
+  <div class="actions">
+    <a class="btn btn--primary" href="./movies_server.py" target="_blank" rel="noopener">
+      Otevřít backendový soubor
+    </a>
+
+    <a class="btn btn--ghost" href="./movies.db" target="_blank" rel="noopener">
+      Zobrazit databázový soubor
+    </a>
+  </div>
+
+  <!-- Akordeony -->
+  <div class="accordion">
+
+    <!-- 1) Proč backend začíná importy -->
+    <details class="acc" open>
+      <summary class="acc__sum">1) Proč backend nezačíná serverem, ale importy</summary>
+      <div class="acc__body">
+
+        <p>
+          Když píšeme Pythonový backend, nezačínáme tím, že hned spustíme server. Nejdřív musíme Pythonu říct,
+          jaké nástroje budeme používat. K tomu slouží <strong>importy</strong>. Import znamená:
+          „načti mi modul nebo konkrétní část modulu, protože ji budu v tomto souboru potřebovat“.
+        </p>
+
+        <ol class="steps">
+          <li>Python spustí soubor odshora dolů.</li>
+          <li>Na začátku si načte potřebné moduly.</li>
+          <li>Teprve potom může používat jejich funkce, třídy a nástroje.</li>
+          <li>Kdyby import chyběl, Python by daný název neznal a skončil by chybou.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li><strong>Modul</strong> je hotová část Pythonu nebo knihovna s užitečnými nástroji.</li>
+          <li><strong>Import</strong> je způsob, jak si tyto nástroje zpřístupnit v našem souboru.</li>
+          <li>Importy patří obvykle na začátek souboru.</li>
+        </ul>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal-backend-imports-overview">
+            Více informací
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 2) Importy -->
+    <details class="acc">
+      <summary class="acc__sum">2) První blok kódu – importy, které backend potřebuje</summary>
+      <div class="acc__body">
+
+        <p>
+          Na začátku našeho backendového souboru se nachází tento blok:
+        </p>
+
+        <pre><code id="code-backend-imports">import json
+import sqlite3
+from pathlib import Path
+from http.server import HTTPServer, BaseHTTPRequestHandler
+from urllib.parse import urlparse</code></pre>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost copy-btn"
+                  type="button"
+                  data-copy-target="code-backend-imports">
+            Kopírovat blok
+          </button>
+
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal-backend-import-lines">
+            Více informací
+          </button>
+        </div>
+
+        <p>
+          Tento blok zatím jen říká, jaké nástroje budeme během dalších kapitol používat.
+          Nemusíš se leknout, že je toho více. V této lekci si detailně vysvětlíme hlavně ty části,
+          které potřebujeme hned teď: <code>sqlite3</code> a <code>Path</code>. Ostatní si připravujeme dopředu.
+        </p>
+
+        <div class="accordion">
+          <details class="acc" open>
+            <summary class="acc__sum">2.1 Co dělá <code>import json</code></summary>
+            <div class="acc__body">
+              <p>
+                Modul <code>json</code> budeme později používat při posílání dat ze serveru do stránky.
+                Server vrátí seznam filmů jako JSON, aby mu JavaScript ve frontendu rozuměl.
+              </p>
+              <ul class="bullets">
+                <li>Zatím ho ještě aktivně nepoužíváme.</li>
+                <li>Patří ale ke skutečnému backendu, který budeme postupně skládat.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="acc">
+            <summary class="acc__sum">2.2 Co dělá <code>import sqlite3</code></summary>
+            <div class="acc__body">
+              <p>
+                Toto je pro tuto kapitolu velmi důležitý import. Modul <code>sqlite3</code> nám umožní komunikovat
+                s SQLite databází, tedy se souborem <code>movies.db</code>.
+              </p>
+              <ul class="bullets">
+                <li>Pomocí něj databázi otevřeme.</li>
+                <li>Pomocí něj budeme spouštět SQL příkazy.</li>
+                <li>Pomocí něj budeme číst i zapisovat data.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="acc">
+            <summary class="acc__sum">2.3 Co znamená <code>from pathlib import Path</code></summary>
+            <div class="acc__body">
+              <p>
+                Tady už je syntaktický tvar trochu jiný. Neimportujeme celý modul <code>pathlib</code>,
+                ale bereme si z něj konkrétní nástroj: <code>Path</code>.
+              </p>
+              <ul class="bullets">
+                <li><code>pathlib</code> je modul pro práci s cestami k souborům.</li>
+                <li><code>Path</code> je třída, která umí s cestami pracovat přehledněji než obyčejný text.</li>
+                <li>Budeme ji používat pro nalezení databáze i HTML souboru.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="acc">
+            <summary class="acc__sum">2.4 Co dělá <code>from http.server import HTTPServer, BaseHTTPRequestHandler</code></summary>
+            <div class="acc__body">
+              <p>
+                Tyto dvě části budou důležité později, až budeme stavět samotný server. Zatím je stačí chápat takto:
+              </p>
+              <ul class="bullets">
+                <li><code>HTTPServer</code> vytvoří server, který bude čekat na požadavky.</li>
+                <li><code>BaseHTTPRequestHandler</code> je základ pro třídu, která rozhodne, co server vrátí.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="acc">
+            <summary class="acc__sum">2.5 Co dělá <code>from urllib.parse import urlparse</code></summary>
+            <div class="acc__body">
+              <p>
+                Tento nástroj budeme potřebovat při rozpoznávání adresy požadavku. Pomůže nám zjistit,
+                jestli uživatel žádá HTML stránku, nebo například data na adrese <code>/api/movies</code>.
+              </p>
+            </div>
+          </details>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 3) Cesta k databázi -->
+    <details class="acc">
+      <summary class="acc__sum">3) Druhý blok kódu – jak backend najde soubor <code>movies.db</code></summary>
+      <div class="acc__body">
+
+        <p>
+          Teď přichází velmi důležitý řádek. Ten uloží do proměnné cestu k databázi:
+        </p>
+
+        <pre><code id="code-db-file">DB_FILE = Path(__file__).resolve().with_name("movies.db")</code></pre>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost copy-btn"
+                  type="button"
+                  data-copy-target="code-db-file">
+            Kopírovat blok
+          </button>
+
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal-db-file-breakdown">
+            Více informací
+          </button>
+        </div>
+
+        <p>
+          Tento jeden řádek je krátký, ale je v něm schováno hodně významu. Proto si ho rozebereme opravdu pomalu.
+        </p>
+
+        <ol class="steps">
+          <li><code>DB_FILE</code> je název proměnné.</li>
+          <li><code>=</code> znamená přiřazení hodnoty do proměnné.</li>
+          <li><code>Path(...)</code> vytváří objekt cesty k souboru.</li>
+          <li><code>__file__</code> je speciální proměnná Pythonu – obsahuje cestu k právě spuštěnému souboru.</li>
+          <li><code>resolve()</code> převede cestu na úplnou, jistou cestu.</li>
+          <li><code>with_name("movies.db")</code> vezme stejnou složku a nahradí název souboru jménem <code>movies.db</code>.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Výsledkem je cesta k databázi, která leží ve stejné složce jako backendový soubor.</li>
+          <li>To je spolehlivější než napsat jen prosté <code>"movies.db"</code>.</li>
+          <li>Když celý projekt přesuneš jinam, kód si databázi najde znovu správně.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Poznámka:</strong> Název <code>DB_FILE</code> je velkými písmeny, protože se chová jako důležitá konfigurační hodnota, kterou si připravíme jednou a pak ji používáme dál.
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 4) connect -->
+    <details class="acc">
+      <summary class="acc__sum">4) Třetí blok kódu – funkce <code>connect()</code></summary>
+      <div class="acc__body">
+
+        <p>
+          Když už backend ví, kde databáze leží, může si připravit malou funkci pro připojení:
+        </p>
+
+        <pre><code id="code-connect-fn">def connect():
+    return sqlite3.connect(str(DB_FILE))</code></pre>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost copy-btn"
+                  type="button"
+                  data-copy-target="code-connect-fn">
+            Kopírovat blok
+          </button>
+
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal-connect-breakdown">
+            Více informací
+          </button>
+        </div>
+
+        <p>
+          Tato funkce je malá, ale velmi užitečná. Díky ní nebudeme řádek pro připojení k databázi psát stále dokola.
+        </p>
+
+        <ol class="steps">
+          <li><code>def</code> znamená „definuji funkci“.</li>
+          <li><code>connect</code> je název funkce.</li>
+          <li><code>()</code> znamená, že funkce zatím nepotřebuje žádné vstupní parametry.</li>
+          <li><code>:</code> ukončuje hlavičku funkce a otevírá její tělo.</li>
+          <li><code>return</code> znamená „vrať výsledek“.</li>
+          <li><code>sqlite3.connect(...)</code> otevře spojení s databází SQLite.</li>
+          <li><code>str(DB_FILE)</code> převede objekt cesty na obyčejný text, který <code>sqlite3</code> bezpečně přijme.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Po zavolání <code>connect()</code> dostaneme spojení s databází.</li>
+          <li>Toto spojení si potom uložíme třeba do proměnné <code>conn</code>.</li>
+          <li>Stejnou funkci použijeme později při vytváření tabulky i při čtení dat.</li>
+        </ul>
+
+      </div>
+    </details>
+
+    <!-- 5) Proč to dáváme do funkce -->
+    <details class="acc">
+      <summary class="acc__sum">5) Proč nepíšeme připojení k databázi pokaždé znovu</summary>
+      <div class="acc__body">
+
+        <p>
+          Začátečník často napíše připojení k databázi přímo tam, kde ho zrovna potřebuje. To sice může fungovat,
+          ale kód se začne opakovat. A opakující se kód bývá zbytečně nepřehledný.
+        </p>
+
+        <ol class="steps">
+          <li>Když máme funkci <code>connect()</code>, píšeme jen <code>conn = connect()</code>.</li>
+          <li>Když budeme chtít logiku připojení změnit, změníme ji jen na jednom místě.</li>
+          <li>Kód je kratší a čitelnější.</li>
+          <li>Pro větší projekty je to velmi důležitý návyk.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Jedna malá pomocná funkce může zjednodušit celý zbytek backendu.</li>
+          <li>Tohle je dobrý příklad programátorského pořádku.</li>
+          <li>Nejde jen o to, aby kód fungoval, ale aby se v něm člověk vyznal.</li>
+        </ul>
+
+      </div>
+    </details>
+
+    <!-- 6) Co má být po této kapitole hotové -->
+    <details class="acc">
+      <summary class="acc__sum">6) Co máš mít po této kapitole hotové</summary>
+      <div class="acc__body">
+
+        <p>
+          Po dokončení této kapitoly ještě server nebude obsluhovat web ani API. To je v pořádku.
+          Teď jen připravujeme pevné základy, na kterých budeme v dalších kapitolách stavět.
+        </p>
+
+        <ol class="steps">
+          <li>Na začátku souboru máš importy.</li>
+          <li>Pod nimi máš proměnnou <code>DB_FILE</code>.</li>
+          <li>Pod ní máš funkci <code>connect()</code>.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Backend už ví, jaké nástroje bude používat.</li>
+          <li>Backend už ví, kde je databáze.</li>
+          <li>Backend už se umí k databázi připojit.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Pamatuj:</strong> zatím nepíšeme celý systém naráz. Stavíme si nářadí, které budeme za chvíli potřebovat.
+        </div>
+
+      </div>
+    </details>
+
+  </div>
+
+  <!-- Shrnutí -->
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+
+    <ul class="checklist">
+      <li>Žák ví, co je import a proč se používá na začátku Python souboru.</li>
+      <li>Žák rozumí tomu, že <code>Path(__file__).resolve().with_name("movies.db")</code> hledá databázi ve stejné složce jako backend.</li>
+      <li>Žák chápe, že funkce <code>connect()</code> vrací spojení s databází SQLite.</li>
+      <li>Žák začíná chápat backend jako systém složený z malých přehledných bloků.</li>
+    </ul>
+  </article>
+
+  <!-- Volitelné: Zdroje -->
+  <article class="card">
+    <h3 class="card__title">Odkazy na použité zdroje</h3>
+    <ol class="steps">
+      <li><a href="./movies_server.py" target="_blank" rel="noopener">Ukázkový backend projektu – movies_server.py</a></li>
+      <li><a href="./movies.db" target="_blank" rel="noopener">Databázový soubor projektu – movies.db</a></li>
+    </ol>
+  </article>
+
+</section>
+
+<!-- MODAL 1 -->
+<div class="modal" id="modal-backend-imports-overview" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Co je import v Pythonu</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Import je příkaz, kterým si do svého souboru zpřístupníš nástroje z jiného modulu.
+          Python má spoustu hotových modulů už zabudovaných.
+        </p>
+        <ul class="bullets">
+          <li><code>sqlite3</code> – práce s SQLite databází.</li>
+          <li><code>json</code> – převod dat do formátu JSON.</li>
+          <li><code>pathlib</code> – práce s cestami k souborům.</li>
+          <li><code>http.server</code> – jednoduchý HTTP server.</li>
+        </ul>
+        <p>
+          Bez importu by Python názvy těchto nástrojů neznal.
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="./movies_server.py" target="_blank" rel="noopener">Otevřít backend</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 2 -->
+<div class="modal" id="modal-backend-import-lines" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Jak číst jednotlivé importy</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          V Pythonu existují dva časté způsoby importu:
+        </p>
+        <ul class="bullets">
+          <li><code>import modul</code> – načte celý modul.</li>
+          <li><code>from modul import Něco</code> – vezme z modulu konkrétní část.</li>
+        </ul>
+        <p>
+          Proto máme například:
+        </p>
+        <ul class="bullets">
+          <li><code>import sqlite3</code> – používáme celý modul.</li>
+          <li><code>from pathlib import Path</code> – chceme konkrétně třídu <code>Path</code>.</li>
+        </ul>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="./movies_server.py" target="_blank" rel="noopener">Otevřít backend</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 3 -->
+<div class="modal" id="modal-db-file-breakdown" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Rozbor řádku s DB_FILE</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Řádek
+          <code>DB_FILE = Path(__file__).resolve().with_name("movies.db")</code>
+          znamená:
+        </p>
+        <ul class="bullets">
+          <li>vezmi právě spuštěný soubor,</li>
+          <li>zjisti jeho přesnou cestu,</li>
+          <li>zachovej stejnou složku,</li>
+          <li>ale název souboru změň na <code>movies.db</code>.</li>
+        </ul>
+        <p>
+          Tím získáme jistotu, že backend hledá databázi na správném místě.
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="./movies.db" target="_blank" rel="noopener">Otevřít databázi</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 4 -->
+<div class="modal" id="modal-connect-breakdown" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Rozbor funkce connect()</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Funkce <code>connect()</code> je malá pomocná funkce. Její jediný úkol je otevřít spojení s databází a toto spojení vrátit.
+        </p>
+        <ul class="bullets">
+          <li><code>def</code> – začátek definice funkce.</li>
+          <li><code>connect</code> – název funkce.</li>
+          <li><code>return</code> – vrácení výsledku.</li>
+          <li><code>sqlite3.connect(...)</code> – otevření databáze.</li>
+          <li><code>str(DB_FILE)</code> – převod cesty na text.</li>
+        </ul>
+        <p>
+          Později ji použijeme třeba takto:
+          <code>conn = connect()</code>
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="./movies_server.py" target="_blank" rel="noopener">Otevřít backend</a>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -173,7 +173,19 @@ export const NAV_TREE = [
             { title: "5.1 Úvod do databází", href: "#section5" },
             { title: "5.1.2 Moduly, funkce a cesty", href: "#section5-1-2" },
             { title: "5.1.3 Vytvoření tabulky, relace a příkazy", href: "#section5-1-3" },
-             { title: "5.1.4 Vytvoření tabulky, relace a příkazy(2)", href: "#section5-1-3" }
+             { title: "5.1.4 Vytvoření tabulky, relace a příkazy(2)", href: "#section5-1-4" },
+              { title: "5.1.5 Vytvoření tabulky, relace a příkazy(2)", href: "#section5-1-5" }
+          ]
+        },
+         {
+          title: "6. Serverová infrastruktura, jednoduchý backend a API",
+          href: "#section6",
+          children: [
+            { title: "6.1.1 Úvod do serverové infrastruktury", href: "#section6-1-1" },
+            { title: "6.1.2 Moduly, funkce a cesty", href: "#section6-1-2" },
+            { title: "6.1.3 Vytvoření tabulky, relace a příkazy", href: "#section6-1-3" },
+             { title: "6.1.4 Vytvoření tabulky, relace a příkazy(2)", href: "#section6-1-4" },
+              { title: "6.1.5 Vytvoření tabulky, relace a příkazy(2)", href: "#section6-1-5" }
           ]
         },
         {
