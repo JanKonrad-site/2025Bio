@@ -1,0 +1,658 @@
+<section id="section6-1-3" class="lesson">
+
+  <header class="lesson__header">
+    <h2 class="lesson__title">6.1.3 Backend – načtení filmů z databáze pro web</h2>
+    <p class="lesson__lead">
+      Databázi už znáš z předchozích lekcí. Teď ale data nebudeme číst kvůli výpisu přes <code>print()</code> do konzole,
+      ale kvůli tomu, aby je backend mohl poslat webové stránce. Právě k tomu slouží funkce <code>get_movies()</code>.
+    </p>
+     <style>
+      .code-puzzle{
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid var(--stroke, rgba(255,255,255,.12));
+  border-radius: 16px;
+  background: var(--panel, rgba(255,255,255,.04));
+}
+
+.code-puzzle__header h4{
+  margin: 0 0 8px;
+}
+
+.code-puzzle__header p{
+  margin: 0 0 14px;
+}
+
+.code-puzzle__items{
+  display: grid;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.code-puzzle__item{
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--stroke, rgba(255,255,255,.12));
+  background: #fff;
+  color: #111;
+  border-radius: 12px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.code-puzzle__item:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.08);
+}
+
+.code-puzzle__controls{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.code-puzzle__feedback{
+  min-height: 24px;
+  font-weight: 600;
+}
+
+.code-puzzle__feedback.is-ok{
+  color: #15803d;
+}
+
+.code-puzzle__feedback.is-bad{
+  color: #b91c1c;
+}
+
+.code-puzzle__result{
+  margin-top: 14px;
+}
+    </style>
+  </header>
+
+  <!-- Co se naučíš -->
+  <article class="card">
+    <h3 class="card__title">Co se naučíš?</h3>
+
+    <ul class="checklist">
+      <li><strong>Funkci <code>get_movies()</code></strong> – pochopíš, jak backend načte data z databáze a vrátí je dál.</li>
+      <li><strong>Rozdíl mezi řádky z DB a daty pro web</strong> – uvidíš, proč nestačí jen <code>fetchall()</code>, ale proč data ještě převádíme.</li>
+      <li><strong>Seznam slovníků</strong> – zjistíš, proč je tento tvar vhodný pro JSON a JavaScript.</li>
+      <li><strong>Novou roli backendu</strong> – backend už nebude jen „pracovat s databází“, ale začne fungovat jako prostředník pro web.</li>
+    </ul>
+
+    <div class="note note--info">
+      <strong>Tip:</strong> SQL dotaz <code>SELECT</code> už znáš. V této lekci je nové hlavně to, že data načítáme pro webovou stránku, ne pro konzolový výpis.
+    </div>
+  </article>
+
+  <!-- Akce / odkazy -->
+  <div class="actions">
+    <a class="btn btn--primary" href="./movies_server.py" target="_blank" rel="noopener">
+      Otevřít backendový soubor
+    </a>
+
+    <a class="btn btn--ghost" href="./index.html" target="_blank" rel="noopener">
+      Otevřít frontend
+    </a>
+  </div>
+
+  <!-- Akordeony -->
+  <div class="accordion">
+
+    <!-- 1) Proč nová funkce -->
+    <details class="acc" open>
+      <summary class="acc__sum">1) Proč nestačí jen vypsat filmy do konzole</summary>
+      <div class="acc__body">
+
+        <p>
+          V předchozích databázových lekcích jsme data načetli a pak je třeba vypsali přes <code>print()</code>.
+          To je v pořádku pro konzolovou aplikaci. Jenže webová stránka tento výpis nevidí.
+          Web potřebuje, aby backend data <strong>vrátil</strong> v použitelné podobě, ne aby je jen vypsal do terminálu.
+        </p>
+
+        <ol class="steps">
+          <li>Backend načte řádky z databáze.</li>
+          <li>Řádky upraví do přehlednějšího tvaru.</li>
+          <li>Funkce je vrátí jako výsledek.</li>
+          <li>Server je později pošle do frontendu jako JSON.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Konzole je pro programátora.</li>
+          <li>JSON a frontend jsou pro webovou aplikaci.</li>
+          <li>Proto potřebujeme funkci, která data připraví pro další vrstvu systému.</li>
+        </ul>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal-getmovies-why">
+            Více informací
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 2) Celá funkce -->
+    <details class="acc">
+      <summary class="acc__sum">2) Celý blok kódu – funkce <code>get_movies()</code></summary>
+      <div class="acc__body">
+
+        <p>
+          V našem backendu je načítání filmů řešené takto:
+        </p>
+
+        <pre><code id="code-get-movies">def get_movies():
+    conn = connect()
+    rows = conn.execute("SELECT id, title, year FROM movies ORDER BY id DESC;").fetchall()
+    conn.close()
+
+    # převedeme na seznam slovníků → snadné pro JSON
+    movies = []
+    for (movie_id, title, year) in rows:
+        movies.append({
+            "id": movie_id,
+            "title": title,
+            "year": year
+        })
+
+    return movies</code></pre>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost copy-btn"
+                  type="button"
+                  data-copy-target="code-get-movies">
+            Kopírovat blok
+          </button>
+
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal-getmovies-overview">
+            Více informací
+          </button>
+        </div>
+
+        <p>
+          Celá funkce vypadá delší než <code>connect()</code>, ale ve skutečnosti se skládá jen ze čtyř jednoduchých částí:
+          připojit se, načíst řádky, převést je do vhodného tvaru a vrátit výsledek.
+        </p>
+
+      </div>
+    </details>
+
+    <!-- 3) Připojení a SELECT -->
+    <details class="acc">
+      <summary class="acc__sum">3) První část – připojení a SQL dotaz</summary>
+      <div class="acc__body">
+
+        <p>
+          Úvod funkce využívá to, co už znáš z předchozí kapitoly:
+        </p>
+
+        <pre><code id="code-get-movies-select">conn = connect()
+rows = conn.execute("SELECT id, title, year FROM movies ORDER BY id DESC;").fetchall()
+conn.close()</code></pre>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost copy-btn"
+                  type="button"
+                  data-copy-target="code-get-movies-select">
+            Kopírovat blok
+          </button>
+        </div>
+
+        <ol class="steps">
+          <li><code>conn = connect()</code> otevře spojení s databází.</li>
+          <li><code>conn.execute(...)</code> pošle databázi SQL dotaz.</li>
+          <li><code>SELECT id, title, year FROM movies</code> vybere tři sloupce z tabulky <code>movies</code>.</li>
+          <li><code>ORDER BY id DESC</code> seřadí výsledky od nejvyššího ID dolů.</li>
+          <li><code>fetchall()</code> vezme všechny nalezené řádky.</li>
+          <li><code>conn.close()</code> spojení zase zavře.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Tato část není nová databázová magie – je to navázání na předchozí SQLite lekce.</li>
+          <li>Nové bude až to, co s výsledkem uděláme potom.</li>
+          <li>Proměnná <code>rows</code> teď ještě není připravená přímo pro web.</li>
+        </ul>
+
+      </div>
+    </details>
+
+    <!-- 4) Co je rows -->
+    <details class="acc">
+      <summary class="acc__sum">4) Co je v proměnné <code>rows</code></summary>
+      <div class="acc__body">
+
+        <p>
+          Po <code>fetchall()</code> dostaneme seznam databázových řádků. Každý řádek je n-tice (tuple),
+          například takto:
+        </p>
+
+        <pre><code id="code-rows-example">[
+    (3, "Interstellar", 2014),
+    (2, "Avatar", 2009),
+    (1, "Titanic", 1997)
+]</code></pre>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost copy-btn"
+                  type="button"
+                  data-copy-target="code-rows-example">
+            Kopírovat blok
+          </button>
+
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal-rows-tuples">
+            Více informací
+          </button>
+        </div>
+
+        <ol class="steps">
+          <li>Celá vnější hranatá závorka znamená seznam více řádků.</li>
+          <li>Každý vnitřní prvek je jeden řádek z databáze.</li>
+          <li>Pořadí odpovídá sloupcům v SQL dotazu: <code>id</code>, <code>title</code>, <code>year</code>.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Pro Python je to naprosto použitelné.</li>
+          <li>Pro web ale chceme přehlednější tvar s pojmenovanými klíči.</li>
+          <li>Proto následuje převod na slovníky.</li>
+        </ul>
+
+      </div>
+    </details>
+
+    <!-- 5) Převod na slovníky -->
+    <details class="acc">
+      <summary class="acc__sum">5) Druhá část – převod řádků na seznam slovníků</summary>
+      <div class="acc__body">
+
+        <p>
+          Tohle je nejdůležitější nová část celé lekce:
+        </p>
+
+        <pre><code id="code-movies-list">movies = []
+for (movie_id, title, year) in rows:
+    movies.append({
+        "id": movie_id,
+        "title": title,
+        "year": year
+    })</code></pre>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost copy-btn"
+                  type="button"
+                  data-copy-target="code-movies-list">
+            Kopírovat blok
+          </button>
+
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal-dicts-json">
+            Více informací
+          </button>
+        </div>
+
+        <p>
+          Tento blok znamená: „vezmi každý řádek z databáze a převeď ho na slovník se srozumitelnými názvy klíčů“.
+        </p>
+
+        <ol class="steps">
+          <li><code>movies = []</code> vytvoří prázdný seznam.</li>
+          <li><code>for (movie_id, title, year) in rows:</code> projde všechny řádky z databáze.</li>
+          <li>Python tuple rovnou rozbalí do tří proměnných.</li>
+          <li><code>movies.append(...)</code> přidá do seznamu nový prvek.</li>
+          <li>Tím novým prvkem je slovník s klíči <code>"id"</code>, <code>"title"</code> a <code>"year"</code>.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Výsledek už není seznam tuple, ale seznam slovníků.</li>
+          <li>To je mnohem čitelnější pro JSON i JavaScript.</li>
+          <li>Frontend pak může snadno psát třeba <code>m.title</code> nebo <code>m.year</code>.</li>
+        </ul>
+
+      </div>
+    </details>
+
+    <!-- 6) return -->
+    <details class="acc">
+      <summary class="acc__sum">6) Poslední řádek – <code>return movies</code></summary>
+      <div class="acc__body">
+
+        <p>
+          Na konci funkce stojí tento řádek:
+        </p>
+
+        <pre><code id="code-return-movies">return movies</code></pre>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost copy-btn"
+                  type="button"
+                  data-copy-target="code-return-movies">
+            Kopírovat blok
+          </button>
+        </div>
+
+        <ol class="steps">
+          <li><code>return</code> znamená „vrať výsledek funkce“.</li>
+          <li><code>movies</code> je hotový seznam slovníků.</li>
+          <li>Kdokoli později zavolá <code>get_movies()</code>, dostane tato data jako výsledek.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Funkce nic nevypisuje do konzole.</li>
+          <li>Funkce jen připraví a vrátí data.</li>
+          <li>To je přesně to, co backend pro web potřebuje.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Pamatuj:</strong> konzolová aplikace často něco vypisuje. Serverové funkce ale často spíš vracejí data další části programu.
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 7) Propojení s frontendem -->
+    <details class="acc">
+      <summary class="acc__sum">7) Proč tento tvar dat vyhovuje frontendu</summary>
+      <div class="acc__body">
+
+        <p>
+          Ve frontendu se při vypisování filmů používají vlastnosti <code>m.id</code>, <code>m.title</code> a <code>m.year</code>.
+          To znamená, že JavaScript očekává objekt s pojmenovanými položkami, ne tuple s číselnými pozicemi. :contentReference[oaicite:2]{index=2}
+        </p>
+
+        <pre><code id="code-frontend-objects">for(const m of movies){
+  const tr = document.createElement("tr");
+  tr.innerHTML = `
+    &lt;td&gt;${m.id}&lt;/td&gt;
+    &lt;td&gt;${m.title}&lt;/td&gt;
+    &lt;td&gt;${m.year ?? ""}&lt;/td&gt;
+  `;
+}</code></pre>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost copy-btn"
+                  type="button"
+                  data-copy-target="code-frontend-objects">
+            Kopírovat blok
+          </button>
+        </div>
+
+        <ol class="steps">
+          <li>JavaScript bere jeden film jako objekt <code>m</code>.</li>
+          <li>Uvnitř používá klíče <code>id</code>, <code>title</code> a <code>year</code>.</li>
+          <li>Právě proto backend převádí databázové řádky na slovníky se stejnými názvy.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Backend a frontend si tak „rozumí“.</li>
+          <li>Tohle je velmi důležitá myšlenka v informačních systémech.</li>
+          <li>Jedna vrstva připraví data tak, aby je druhá vrstva snadno převzala.</li>
+        </ul>
+
+      </div>
+    </details>
+
+    <!-- 8) Hotový stav -->
+    <details class="acc">
+      <summary class="acc__sum">8) Co máš mít po této kapitole hotové</summary>
+      <div class="acc__body">
+
+        <p>
+          Po této kapitole už backend umí načíst seznam filmů z databáze a připravit ho ve tvaru,
+          který se hodí pro JSON a pozdější poslání do webu.
+        </p>
+
+        <ol class="steps">
+          <li>Máš funkci <code>get_movies()</code>.</li>
+          <li>Ta otevře databázi.</li>
+          <li>Načte filmy přes <code>SELECT</code>.</li>
+          <li>Převede je na seznam slovníků.</li>
+          <li>Vrátí výsledek přes <code>return</code>.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Ještě neposíláme HTTP odpověď.</li>
+          <li>Ještě neběží samotný server.</li>
+          <li>Ale datová část pro API už je připravená.</li>
+        </ul>
+
+      </div>
+    </details>
+
+  </div>
+
+  <!-- Shrnutí -->
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+
+    <ul class="checklist">
+      <li>Žák chápe, že <code>get_movies()</code> nečte data pro konzoli, ale pro webovou vrstvu backendu.</li>
+      <li>Žák rozumí tomu, že <code>fetchall()</code> vrací seznam databázových řádků.</li>
+      <li>Žák ví, proč se řádky převádějí na seznam slovníků.</li>
+      <li>Žák chápe, že klíče <code>id</code>, <code>title</code> a <code>year</code> jsou připravené tak, aby je frontend snadno použil.</li>
+    </ul>
+  </article>
+
+  <!-- Zdroje -->
+  <article class="card">
+    <h3 class="card__title">Odkazy na použité zdroje</h3>
+    <ol class="steps">
+      <li><a href="./movies_server.py" target="_blank" rel="noopener">Ukázkový backend projektu – movies_server.py</a></li>
+      <li><a href="./index.html" target="_blank" rel="noopener">Ukázkový frontend projektu – index.html</a></li>
+    </ol>
+  </article>
+
+</section>
+
+<!-- MODAL 1 -->
+<div class="modal" id="modal-getmovies-why" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Proč už nestačí print()</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          <code>print()</code> vypisuje text do konzole. To je dobré pro programátora nebo pro konzolovou aplikaci.
+          Webová stránka ale potřebuje data dostat jako hodnotu, kterou backend pošle dál.
+        </p>
+        <ul class="bullets">
+          <li>Konzole = výstup pro člověka v terminálu.</li>
+          <li>Vrácená data = vstup pro další část programu.</li>
+          <li>Serverové funkce proto často vracejí, místo aby vypisovaly.</li>
+        </ul>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 2 -->
+<div class="modal" id="modal-getmovies-overview" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Jak číst funkci get_movies() jako celek</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Celou funkci můžeš číst takto:
+        </p>
+        <ul class="bullets">
+          <li>připoj se k databázi,</li>
+          <li>načti všechny filmy,</li>
+          <li>převeď řádky na slovníky,</li>
+          <li>vrať hotový seznam.</li>
+        </ul>
+        <p>
+          To je přesně úloha této funkce. Neposílá ještě HTTP odpověď, jen připraví data.
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 3 -->
+<div class="modal" id="modal-rows-tuples" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Řádky z databáze vs. data pro web</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Databáze vrací výsledky jako řádky v určitém pořadí. To je výborné pro Python a SQL,
+          ale pro web se lépe pracuje s pojmenovanými klíči.
+        </p>
+        <ul class="bullets">
+          <li><code>(1, "Titanic", 1997)</code> = tuple podle pozice</li>
+          <li><code>{ "id": 1, "title": "Titanic", "year": 1997 }</code> = objekt podle názvu</li>
+        </ul>
+        <p>
+          Druhý tvar je přirozenější pro JSON a JavaScript.
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 4 -->
+<div class="modal" id="modal-dicts-json" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Proč právě seznam slovníků</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Slovník v Pythonu velmi dobře odpovídá objektu v JSONu.
+        </p>
+        <ul class="bullets">
+          <li>Python: <code>{"id": 1, "title": "Titanic", "year": 1997}</code></li>
+          <li>JSON: <code>{ "id": 1, "title": "Titanic", "year": 1997 }</code></li>
+        </ul>
+        <p>
+          Proto je převod na slovníky praktický mezikrok mezi databází a webem.
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<article class="card">
+  <h3 class="card__title">Minihra – sestav funkci <code>get_movies()</code></h3>
+  <p>
+    Seřaď kroky tak, aby backend správně načetl filmy z databáze a připravil je pro webovou stránku.
+    Neřešíš ještě HTTP odpověď — jen datovou část backendu.
+  </p>
+
+  <div class="code-puzzle" data-puzzle-id="puzzle-6-1-3-get-movies">
+    <div class="code-puzzle__header">
+      <h4>Sestav funkci <code>get_movies()</code></h4>
+      <p>
+        Kliknutím označíš kartičku, druhým kliknutím ji prohodíš s jinou.
+        Když bude pořadí správně, ukáže se výsledný Python kód.
+      </p>
+    </div>
+
+    <div class="code-puzzle__items" data-puzzle-items>
+      <button type="button" class="code-puzzle__item" data-step="4">
+        Vytvoř prázdný seznam <code>movies</code> a projdi všechny načtené řádky.
+      </button>
+
+      <button type="button" class="code-puzzle__item" data-step="1">
+        Připoj se k databázi přes funkci <code>connect()</code>.
+      </button>
+
+      <button type="button" class="code-puzzle__item" data-step="6">
+        Vrať hotový seznam filmů pomocí <code>return movies</code>.
+      </button>
+
+      <button type="button" class="code-puzzle__item" data-step="2">
+        Načti řádky z tabulky <code>movies</code> pomocí <code>SELECT</code> a <code>fetchall()</code>.
+      </button>
+
+      <button type="button" class="code-puzzle__item" data-step="5">
+        Každý řádek převeď na slovník s klíči <code>id</code>, <code>title</code> a <code>year</code>.
+      </button>
+
+      <button type="button" class="code-puzzle__item" data-step="3">
+        Zavři databázové spojení přes <code>conn.close()</code>.
+      </button>
+    </div>
+
+    <div class="code-puzzle__controls">
+      <button type="button" class="btn btn--sm btn--ghost" data-puzzle-check>
+        Zkontrolovat
+      </button>
+      <button type="button" class="btn btn--sm btn--ghost" data-puzzle-reset>
+        Zamíchat znovu
+      </button>
+    </div>
+
+    <div class="code-puzzle__feedback" data-puzzle-feedback></div>
+
+    <div class="code-puzzle__result" data-puzzle-result hidden>
+      <div class="codeblock">
+        <div class="codeblock__bar">
+          <strong class="codeblock__title">Výsledný kód – funkce get_movies()</strong>
+          <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-puzzle-613-result">
+            Kopírovat
+          </button>
+        </div>
+        <pre id="code-puzzle-613-result"><code class="language-python">def get_movies():
+    conn = connect()
+    rows = conn.execute("SELECT id, title, year FROM movies ORDER BY id DESC;").fetchall()
+    conn.close()
+
+    movies = []
+    for (movie_id, title, year) in rows:
+        movies.append({
+            "id": movie_id,
+            "title": title,
+            "year": year
+        })
+
+    return movies</code></pre>
+      </div>
+    </div>
+  </div>
+</article>

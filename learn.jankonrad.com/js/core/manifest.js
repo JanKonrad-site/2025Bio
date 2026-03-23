@@ -106,8 +106,8 @@ export const NAV_TREE = [
                 { title: "3.3.1 Základy programování v JavaScriptu – úvod", href: "#section3-3-1" },
                 { title: "3.3.2 Proměnné a datové typy", href: "#section3-3-2" },
                 { title: "3.3.3 Podmínky", href: "#section3-3-3" },
-                { title: "3.3.4 Vstup/Output", href: "#section3-3-4" },
-                { title: "3.3.5 Operátory", href: "#section3-3-5" },
+                { title: "3.3.4 Vnořené podmínky a logické operátory", href: "#section3-3-4" },
+                { title: "3.3.5 Ternární operátor (?:) a logika rozhodování", href: "#section3-3-5" },
                 { title: "3.3.6 Řetězce", href: "#section3-3-6" },
                 { title: "3.3.7 Kolekce", href: "#section3-3-7" },
                 { title: "3.3.8 Funkce", href: "#section3-3-8" },
@@ -172,7 +172,21 @@ export const NAV_TREE = [
           children: [
             { title: "5.1 Úvod do databází", href: "#section5" },
             { title: "5.1.2 Moduly, funkce a cesty", href: "#section5-1-2" },
-            { title: "5.1.3 Vytvoření tabulky, relace a příkazy", href: "#section5-1-3" }
+            { title: "5.1.3 Vytvoření tabulky, relace a příkazy", href: "#section5-1-3" },
+             { title: "5.1.4 Vytvoření tabulky, relace a příkazy(2)", href: "#section5-1-4" },
+              { title: "5.1.5 Vytvoření tabulky, relace a příkazy(2)", href: "#section5-1-5" }
+          ]
+        },
+         {
+          title: "6. Serverová infrastruktura, jednoduchý backend a API",
+          href: "#section6",
+          children: [
+            { title: "6.1.1 Úvod do serverové infrastruktury", href: "#section6-1-1" },
+            { title: "6.1.2 Moduly, funkce a cesty", href: "#section6-1-2" },
+            { title: "6.1.3 Vytvoření tabulky, relace a příkazy", href: "#section6-1-3" },
+             { title: "6.1.4 Vytvoření tabulky, relace a příkazy(2)", href: "#section6-1-4" },
+              { title: "6.1.5 Vytvoření tabulky, relace a příkazy(2)", href: "#section6-1-5" },
+              { title: "6.1.6 Vytvoření tabulky, relace a příkazy(2)", href: "#section6-1-6" }
           ]
         },
         {

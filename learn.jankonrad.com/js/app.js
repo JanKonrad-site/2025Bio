@@ -15,6 +15,7 @@ import { initModalRuntime } from "./core/ui-modal.js";
 import { initCollapseRuntime } from "./core/ui-collapse.js";
 import { initThemeSwitcher } from "./core/theme.js";
 
+
 console.info("[APP] starting…", import.meta.url);
 
 function byId(id) { return document.getElementById(id); }
@@ -144,4 +145,5 @@ const loader = createLoader({
   safeImport("./features/quadratic.js", "initQuadratic");
   safeImport("./features/img-viewer.js", "initImgViewers");
   safeImport("./features/jc-runner.js", "initJcRunner");
+  safeImport("./features/code-puzzle.js", "initCodePuzzles");
 })();
