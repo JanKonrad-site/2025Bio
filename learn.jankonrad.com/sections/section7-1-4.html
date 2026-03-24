@@ -1,197 +1,384 @@
-<!-- 7.1.3 Rastrová grafika — GIMP (Změna pozadí — slečna; dle sešitu) -->
-<section id="section7-1-4" class="container my-5">
-  <h3 class="mb-4">7.1.4 GIMP — Změna pozadí (slečna)</h3>
+<!-- TEMPLATE B: Grafická lekce (s galerií) -->
+<section id="section7-1-4" class="lesson">
 
-  <!-- Co se naučíš -->
-  <div class="container my-4 p-4 border rounded bg-light">
-    <h3 class="mb-3">Co se naučíš?</h3>
-    <p>Ne-destruktivně vyměnit pozadí portrétu pomocí <em>masky vrstvy</em>, výběrů a jejich doostření/zjemnění. Vše přesně podle sešitu, s vysvětlením pojmů.</p>
-    <ul class="list-group list-group-flush mb-3">
-      <li class="list-group-item"><strong>Maska vrstvy</strong>: princip a ovládání (bílá/černá/šedá).</li>
-      <li class="list-group-item"><strong>Výběry</strong>: Free Select / Paths, Quick Mask, Feather, Grow/Shrink, Feather radius.</li>
-      <li class="list-group-item"><strong>Prolínání</strong>: štětec na masce, gradient na masce, jemné okraje (vlasy).</li>
-      <li class="list-group-item"><strong>Kompozice</strong>: pořadí vrstev (Model nahoře, Pozadí dole), zarovnání a měřítko.</li>
-      <li class="list-group-item"><strong>Export</strong>: zachování průhlednosti (PNG) vs. sloučení (JPG).</li>
+  <header class="lesson__header">
+    <h2 class="lesson__title">7.1.3 Layer Styles, fonty a vrstvy ve PhotoPea</h2>
+    <p class="lesson__lead">
+      V této kapitole si vyzkoušíš nedestruktivní „Layer Styles“ (FX) na textu, práci s gradientem, bevel/emboss,
+      stíny a další efekty. Naučíš se styly kopírovat, ukládat jako preset a také si přidáš vlastní font.
+      Na závěr si upevníš práci s vrstvami: pořadí, opacity, viditelnost, zámek a Auto Select.
+    </p>
+  </header>
+
+  <article class="card">
+    <h3 class="card__title">Co se naučíš?</h3>
+    <ul class="checklist">
+      <li><strong>Layer Styles (FX)</strong> – jak fungují a proč jsou nedestruktivní.</li>
+      <li><strong>Gradient Overlay</strong> – barvy, opacity, typ přechodu a nutnost potvrzovat dialogy.</li>
+      <li><strong>Bevel &amp; Emboss + Drop Shadow</strong> – „plastický“ text a čitelnost na pozadí.</li>
+      <li><strong>Další efekty</strong> – Inner Shadow / Inner Glow / Texture a jak je rozumně dávkovat.</li>
+      <li><strong>Kopírování a uložení stylu</strong> – Copy/Paste layer style a uložení presetu.</li>
+      <li><strong>Instalace fontu</strong> – Load Font a praktické poznámky k ukládání fontů v prohlížeči.</li>
+      <li><strong>Vrstvy</strong> – stacking order, opacity, eye (visibility), lock, Auto Select a časté chyby.</li>
     </ul>
-    <div class="alert alert-info" role="alert">
-      <strong>Tip:</strong> Pracuj <em>na masce</em>, ne na obrázku. Je to vratné – obraz zůstává nedotčený.
+
+    <div class="note note--info">
+      <strong>Tip:</strong> Pokud něco „nezůstane“ nastavené, zkontroluj, že jsi v dialogu kliknul na <strong>OK</strong>.
+      U PhotoPea je běžné, že bez potvrzení se změny neuloží.
     </div>
+  </article>
+
+  <div class="actions">
+    <a class="btn btn--primary" href="../Assets/PhotoPea/2_Basic/8-11/assets/1_Layers+Practice.psd" target="_blank" rel="noopener" download="PSD_1">Stáhnout materiály</a>
+    <a class="btn btn--primary" href="../Assets/PhotoPea/2_Basic/8-11/assets/2_Layers+Practice.psd" target="_blank" rel="noopener" download="PSD_2">Stáhnout materiály</a>
   </div>
 
-  <!-- Materiály (uprav si cestu podle svých souborů) -->
-  <div class="d-flex flex-wrap gap-2 align-items-center mb-4">
-    <a class="btn btn-primary" href="https://github.com/JanKonrad-site/GimpAssets.git" target="_blank" rel="noopener">⬇️ Soubory ke cvičení (slečna + pozadí)</a>
+  <div class="accordion">
+
+    <details class="acc" open>
+      <summary class="acc__sum">1) Co jsou Layer Styles (FX) a proč jsou „nedestruktivní“</summary>
+      <div class="acc__body">
+
+        <ol class="steps">
+          <li>Layer Styles (FX) jsou <strong>efekty přidané k vrstvě</strong> (nejčastěji k textu).</li>
+          <li>Výhoda: jsou <strong>nedestruktivní</strong>:
+            <ul class="checklist">
+              <li>můžeš je kdykoliv vypnout/zapnout,</li>
+              <li>můžeš je upravit (dvojklik na efekt),</li>
+              <li>můžeš vypínat jednotlivé části (např. jen stín nebo jen gradient).</li>
+            </ul>
+          </li>
+          <li>Poznámka k kompatibilitě:
+            <ul class="checklist">
+              <li>Soubor vytvořený v Photoshopu se může po otevření v PhotoPea chovat divně (fonty se mohou „rozpadnout“).</li>
+              <li>Proto budeme styly tvořit přímo ve PhotoPea v novém dokumentu.</li>
+            </ul>
+          </li>
+        </ol>
+
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">2) Nový dokument + text + Warp (Rise)</summary>
+      <div class="acc__body">
+
+        <ol class="steps">
+          <li>Vytvoř nový dokument:
+            <ul class="checklist">
+              <li><strong>New Project</strong> → <strong>Print</strong> → <strong>Letter</strong></li>
+              <li>Orientace: <strong>Landscape</strong></li>
+              <li>Pozadí: bílé (zatím)</li>
+            </ul>
+          </li>
+          <li>Vyber <strong>Text Tool (T)</strong> a napiš slovo <strong>HELLO</strong>.</li>
+          <li>Změň font na něco výraznějšího (např. „Airstream“ nebo jiný stylový font).</li>
+          <li>Warp:
+            <ul class="checklist">
+              <li>Vrať se na Text Tool, označ text a zvol <strong>Warp</strong>.</li>
+              <li>Vyber styl <strong>Rise</strong> a dolaď <strong>Bend</strong>.</li>
+              <li>Horizontal/Vertical distortion nech klidně na 0, pokud nemáš důvod deformovat.</li>
+            </ul>
+          </li>
+          <li>Potvrď změny (OK + checkmark u textu).</li>
+        </ol>
+
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">3) Gradient Overlay: barvy, opacity a nejčastější chyba</summary>
+      <div class="acc__body">
+
+        <ol class="steps">
+          <li>V panelu <strong>Layers</strong> vyber textovou vrstvu.</li>
+          <li>Dole klikni na <strong>FX</strong> a otevři <strong>Blending Options</strong>.</li>
+          <li>Vlevo vyber <strong>Gradient Overlay</strong>:
+            <ul class="checklist">
+              <li>Neklikej jen na checkbox – klikni na <strong>název</strong> „Gradient Overlay“, aby se otevřely jeho volby.</li>
+            </ul>
+          </li>
+          <li>Vyber základní gradient (např. černá → bílá) jako výchozí šablonu.</li>
+          <li>Uprav barvy:
+            <ul class="checklist">
+              <li>Double klik na <strong>černý</strong> stop → nastav <strong>tmavě modrou</strong>.</li>
+              <li>Double klik na <strong>bílý</strong> stop → nastav <strong>světle modrou</strong>.</li>
+              <li>Opacity obou stop nech <strong>100%</strong>, ať je přechod „solidní“.</li>
+            </ul>
+          </li>
+          <li>Nejčastější chyba:
+            <ul class="checklist">
+              <li>Po změně barev je potřeba <strong>potvrdit OK</strong> v dialogu gradientu a potom <strong>OK</strong> v celém Layer Style dialogu.</li>
+              <li>Když OK nedáš, PhotoPea změny „nepřilepí“.</li>
+            </ul>
+          </li>
+          <li>Doladění:
+            <ul class="checklist">
+              <li>Typ: Linear / Radial / Angle…</li>
+              <li>Angle (směr) – podle toho, jak chceš světlo.</li>
+            </ul>
+          </li>
+        </ol>
+
+        <!-- GALERIE (placeholder, doplň své obrázky) -->
+        <figure class="gallery">
+          <div class="jk-frame is-16x9">
+            <img
+              id="img-7-1-3-1"
+              class="jk-media"
+              loading="lazy"
+              decoding="async"
+              src="URL_OBR_7_1_3_GRADIENT_1"
+              alt="Gradient Overlay: výběr gradientu, změna stop a potvrzení OK">
+
+            <button class="gallery__nav gallery__nav--prev" type="button" data-gallery-prev="img-7-1-3-1" aria-label="Předchozí">‹</button>
+            <button class="gallery__nav gallery__nav--next" type="button" data-gallery-next="img-7-1-3-1" aria-label="Další">›</button>
+
+            <span class="gallery__hint">Klikni pro fullscreen</span>
+          </div>
+
+          <figcaption class="gallery__meta">
+            <span class="gmeta">Gradient Overlay: klik na název efektu + potvrzení OK.</span>
+          </figcaption>
+
+          <div data-gallery-src="img-7-1-3-1"
+               data-images='[
+                 "URL_OBR_7_1_3_GRADIENT_1",
+                 "URL_OBR_7_1_3_GRADIENT_2"
+               ]'></div>
+        </figure>
+        <!-- /GALERIE -->
+
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">4) Bevel &amp; Emboss + Drop Shadow: „plastický“ text</summary>
+      <div class="acc__body">
+
+        <ol class="steps">
+          <li>V Layer Style dialogu klikni na <strong>Bevel &amp; Emboss</strong> (na název).</li>
+          <li>Uprav:
+            <ul class="checklist">
+              <li><strong>Depth</strong> – síla plastického efektu (začni mírně).</li>
+              <li><strong>Size</strong> – jak „velká“ je hrana.</li>
+              <li>Když je to moc, uber Depth/Size.</li>
+            </ul>
+          </li>
+          <li>Pak klikni na <strong>Drop Shadow</strong> (na název) a dolaď:
+            <ul class="checklist">
+              <li>Opacity (klidně vyšší, aby text vynikl).</li>
+              <li>Size (měkkost stínu).</li>
+              <li>Spread (tvrdší okraj – opatrně).</li>
+            </ul>
+          </li>
+          <li>Experiment:
+            <ul class="checklist">
+              <li>Když dáš Spread hodně vysoko, stín bude „tvrdý“ a vypadá to jako vystřižený text.</li>
+              <li>Mírný Spread + větší Size = přirozenější.</li>
+            </ul>
+          </li>
+          <li>Potvrď OK.</li>
+        </ol>
+
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">5) Texture + Inner Shadow/Glow: jemné efekty navíc</summary>
+      <div class="acc__body">
+
+        <ol class="steps">
+          <li>Pokud chceš „materiálový“ pocit, zkus <strong>Texture</strong> (kde je dostupná).</li>
+          <li>Vyber texturu, která dává smysl (např. něco jako „rough steel“ efekt).</li>
+          <li>Pro zvýraznění hran:
+            <ul class="checklist">
+              <li><strong>Inner Shadow</strong> – udělá dovnitř stín, může přidat hloubku.</li>
+              <li><strong>Inner Glow</strong> – může vytvořit „obroušení“ okrajů.</li>
+            </ul>
+          </li>
+          <li>Pravidlo: přidávej po jednom a testuj. U stylů je snadné to přehnat.</li>
+        </ol>
+
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">6) Pozadí: Edit → Fill (Custom color)</summary>
+      <div class="acc__body">
+
+        <ol class="steps">
+          <li>Klikni na vrstvu pozadí (Background).</li>
+          <li>Jdi na <strong>Edit → Fill</strong>.</li>
+          <li>Vyber <strong>Custom color</strong> a nastav:
+            <ul class="checklist">
+              <li>světle šedou s lehkým modrým nádechem,</li>
+              <li>tak, aby text dobře vystoupil.</li>
+            </ul>
+          </li>
+          <li>Potvrď OK.</li>
+        </ol>
+
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">7) Zapínání/vypínání stylů + kopírování na jiný text</summary>
+      <div class="acc__body">
+
+        <ol class="steps">
+          <li>V Layers panelu rozbal textovou vrstvu – uvidíš seznam efektů.</li>
+          <li>Vyzkoušej:
+            <ul class="checklist">
+              <li>vypnout všechny efekty (očko u FX),</li>
+              <li>vypnout jen jeden efekt (např. stín nebo gradient).</li>
+            </ul>
+          </li>
+          <li>Kopírování stylu:
+            <ul class="checklist">
+              <li>Right click na vrstvě se stylem → <strong>Layer Style → Copy</strong>.</li>
+              <li>Right click na nové textové vrstvě → <strong>Layer Style → Paste</strong>.</li>
+            </ul>
+          </li>
+          <li>Tohle je nejrychlejší způsob, jak dělat „konzistentní“ design.</li>
+        </ol>
+
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">8) Uložení Layer Style jako preset (New) + poznámka k webové verzi</summary>
+      <div class="acc__body">
+
+        <ol class="steps">
+          <li>Dvojklik na FX otevře Layer Style dialog.</li>
+          <li>Klikni na tlačítko <strong>New</strong> – uložíš styl jako preset.</li>
+          <li>Výhoda:
+            <ul class="checklist">
+              <li>Style můžeš používat opakovaně bez ručního nastavování.</li>
+            </ul>
+          </li>
+          <li>Poznámka:
+            <ul class="checklist">
+              <li>Protože to běží v prohlížeči, dostupnost presetů může záviset na tom, jak je to uložené (cache / účet).</li>
+              <li>Když nechceš riskovat ztrátu, exportuj si PSD se stylem jako šablonu.</li>
+            </ul>
+          </li>
+        </ol>
+
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">9) Instalace vlastního fontu (Load Font)</summary>
+      <div class="acc__body">
+
+        <ol class="steps">
+          <li>Stáhni font z webu (ideálně takový, který je zdarma i pro zamýšlené použití).</li>
+          <li>V PhotoPea vyber Text Tool, označ text a otevři seznam fontů.</li>
+          <li>Klikni na <strong>Load Font</strong>.</li>
+          <li>Vyber stažený font (často je v ZIP a PhotoPea ho umí načíst i tak).</li>
+          <li>Po načtení zadej do vyhledávání fontů část názvu (např. „beyond“) a vyber ho.</li>
+          <li>Praktická poznámka:
+            <ul class="checklist">
+              <li>Font se často „udrží“ v prohlížeči (cache), ale když cache vymažeš, může zmizet.</li>
+              <li>Proto si ZIP s fontem nech uložený bokem.</li>
+            </ul>
+          </li>
+        </ol>
+
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">10) Vrstvy: pořadí, opacity, eye, delete, lock a Auto Select</summary>
+      <div class="acc__body">
+
+        <ol class="steps">
+          <li><strong>Stacking order</strong>:
+            <ul class="checklist">
+              <li>Vrstva nahoře zakrývá vrstvy pod ní.</li>
+              <li>Pořadí měníš tažením vrstvy nahoru/dolů.</li>
+            </ul>
+          </li>
+          <li><strong>Opacity</strong>:
+            <ul class="checklist">
+              <li>Sniž opacity a uvidíš vrstvy pod ní.</li>
+              <li>Pozor: i skoro neviditelná vrstva může blokovat výběr pod ní.</li>
+            </ul>
+          </li>
+          <li><strong>Delete vs. Eye</strong>:
+            <ul class="checklist">
+              <li>Delete = smaže vrstvu.</li>
+              <li>Eye = jen skryje (lepší při experimentování).</li>
+            </ul>
+          </li>
+          <li><strong>Background layer</strong>:
+            <ul class="checklist">
+              <li>Bývá zamčená a chová se jinak než běžné vrstvy.</li>
+              <li>Šachovnice znamená průhlednost (nic tam není).</li>
+            </ul>
+          </li>
+          <li><strong>Lock</strong>:
+            <ul class="checklist">
+              <li>Zamkneš vrstvu, aby se omylem nepohnula.</li>
+              <li>Více vrstev vybereš přes Shift a zamkneš najednou.</li>
+            </ul>
+          </li>
+          <li><strong>Auto Select</strong> (jen u Move Tool v Options bar):
+            <ul class="checklist">
+              <li>On: kliknutý objekt automaticky vybere svou vrstvu.</li>
+              <li>Off: musíš vybrat vrstvu ručně v panelu Layers.</li>
+            </ul>
+          </li>
+          <li>Častá past:
+            <ul class="checklist">
+              <li>Když „nejde“ hýbat objektem, skoro vždy je problém: špatná vrstva / zámek / Auto Select.</li>
+            </ul>
+          </li>
+        </ol>
+
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary class="acc__sum">11) Cvičení: Bullseye (terč) – seřazení vrstev do správného pořadí</summary>
+      <div class="acc__body">
+
+        <ol class="steps">
+          <li>Otevři soubor „Layer practice“ (terč), kde budou vrstvy schválně rozházené.</li>
+          <li>Úkol: přesuň vrstvy tak, aby vznikl správný terč (od největší po nejmenší).</li>
+          <li>Po cestě si vyzkoušej:
+            <ul class="checklist">
+              <li>měnit pořadí vrstev,</li>
+              <li>měnit opacity,</li>
+              <li>skrýt vrstvu (eye),</li>
+              <li>zamknout vrstvu (lock),</li>
+              <li>zapnout/vypnout Auto Select.</li>
+            </ul>
+          </li>
+          <li>Bonus: vyber více vrstev přes Shift a posuň je najednou.</li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Rychlá diagnostika:</strong> Když se ti vrstva „nechce“ chytit správně, přibliž si panel Layers a sleduj,
+          kam se vrstva vloží (indikace tlustší čáry může být někdy nenápadná).
+        </div>
+
+      </div>
+    </details>
+
   </div>
 
-  <!-- Akordeon kapitoly -->
-  <div class="accordion" id="gimpGirlBG">
-
-    <!-- 1) Teorie: Maska vrstvy + pracovní nastavení -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="h-girl-theory">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c-girl-theory" aria-expanded="true" aria-controls="c-girl-theory">
-          1) Teorie: Maska vrstvy + příprava pracovního prostředí & Změna pozadí: nástroje Paintbrush, a masky vrstvy & Uložení projektu  (1. Úkol)
-        </button>
-      </h2>
-      <div id="c-girl-theory" class="accordion-collapse collapse show" aria-labelledby="h-girl-theory" data-bs-parent="#gimpGirlBG">
-        <div class="accordion-body">
-          <div class="alert alert-secondary mb-3">
-            <strong>🧠 Co je maska vrstvy?</strong><br>
-            Maska řídí <em>viditelnost</em> vrstvy: <strong>bílá</strong> = viditelné, <strong>černá</strong> = průhledné, <strong>šedá</strong> = poloprůhledné. Malujeme na masku (ne do obrázku), takže úprava je <em>nedestruktivní</em>.
-          </div>
-          <ol class="mb-3">
-            <li><kbd>File</kbd> → <kbd>Open</kbd> → otevři <strong>obrázek model-in-red-chair</strong> (vrstva <em>Model</em>.</li>
-            <li><kbd>File</kbd> → <kbd>Open as Layers</kbd> → otevři <strong>obrázek Canyon</strong> (vrstva <em>Canyon</em>.</li>
-            <li>Přesuň vrstvu <strong>model-in-red-chair</strong>, na první pořadí v kompozici.</li>
-            <li>Přidej masku vrstvy u obrázku <strong>model-in-red-chair</strong> -> full opacity.</li>
-            <li>Ujisti se, že máš kolem náhledu zelené ohraničení, to signalizuje, že praciješ s vrstvou, né s obrázkem. (žluté ohraničení)</li>
-            <li>Vyberte nástroj <strong>PaintBrush Tool</strong></li>
-            <li>Nastavte <strong>Foreground color</strong> na Černou, a začněte malovat na masku tak, abychom vybrali černou na masce vše, kde není slečna na červené židli.</li>
-            <li>Podrobné nastavení nástrojů, nalezneme na pod výběrem nástrojů viz. obrázek </li>
-            <li>Změnu přiblížení, můžeme změnit na dolním okraji šipky směřující dolů, nebo <kbd>CONTROL + Kolečko (nahoru, dolů)</kbd></li>
-            <li>Změnu náhledu vrstev a masky vrstvy, můžeme změnit v pravém rohu vedle pole vrstev, viz. obrázek.</li>
-            <li>Uložte projekt jako 3-1 do projektové složky.</li>
-          </ol>
-
-          <div class="ratio ratio-16x9 mb-2">
-            <img id="img-girl-theory" class="img-contained rounded border"
-                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/1.png"
-                 alt="Vrstvy: Model nad Background, příprava pracovního prostředí">
-          </div>
-          <div class="d-flex justify-content-between">
-            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-girl-theory">◀</button>
-            <small class="text-muted">Model + Background</small>
-            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-girl-theory">▶</button>
-          </div>
-          <div data-gallery-src="img-girl-theory"
-               data-images='[
-             
-                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/2.png",
-                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/3.png",
-                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/4.png",
-                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/5.png",
-                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/6.png",
-                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/7.png",
-                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/8.png",
-                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/9.png",
-                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/10.png",
-                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/11.png",
-                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/12.png",
-                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/13.png",
-                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/14.png",
-                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/15.png",
-                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/16.png",
-                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/17.png",
-                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/18.png",
-                  "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/19.png"
-                    
-                              
-               ]'></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 2) Výběr postavy (Free Select / Paths / Quick Mask) -->
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="h-girl-select">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c-girl-select" aria-expanded="false" aria-controls="c-girl-select">
-          2) Vytvoření efektu Grandient, mezi dvěma vrstvy (2. úkol)
-        </button>
-      </h2>
-      <div id="c-girl-select" class="accordion-collapse collapse" aria-labelledby="h-girl-select" data-bs-parent="#gimpGirlBG">
-        <div class="accordion-body">
-          <div class="alert alert-secondary mb-3">
-            <strong>Grandient Tool</strong><br>
-            <em>Gradient Tool</em> na masce vytvoří plynulý přechod mezi vrstvami. Hodí se u rozmazaného pozadí, kouře, vlasů apod. Nastav <em>FG → BG</em>, podle potřeby <em>Reverse</em>, tvar <em>Linear</em> nebo <em>Radial</em>.
-          </div>
-          <ol class="mb-3">
-            <li>Otevřete novou kompozici 4-1</li>
-        <li>Vyber nástroj Grandient</li>
-        <li>NAstav nástroj následovně:
-          <ul>
-            <li>Foreground To Background</li>
-            <li>Shaoe: Radial</li>
-            <li>Někdy je potřeba prokliknout možnost reverse.</li>
-          </ul>
-        </li>
-            <li>Nastavte v kompozici <strong>Grandient</strong> do středu slečny, a táhněte směrem do dolního okraje.</li>
-            <li>Nastavte mid a end pointy. (Jak moc se bude vrstva plynule měnit z bíle do černé)</li>
-            <li>Potvrďte klávesou Enter</li>
-            <li>Uložte projekt jako 3-2</li>
-          </ol>
-
-          <div class="ratio ratio-16x9 mb-2">
-            <img id="img-girl-select" class="img-contained rounded border"
-                 src="https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/20.png"
-                 alt="Tvorba a jemnění výběru postavy">
-          </div>
-          <div class="d-flex justify-content-between">
-            <button class="btn btn-sm btn-outline-secondary" data-gallery-prev="img-girl-select">◀</button>
-            <small class="text-muted">Výběr & Feather</small>
-            <button class="btn btn-sm btn-outline-secondary" data-gallery-next="img-girl-select">▶</button>
-          </div>
-          <div data-gallery-src="img-girl-select"
-               data-images='[
-                   "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/21.png",
-                    "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/22.png",
-                    "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/23.png",
-                    "https://jankonrad-site.github.io/2025Bio/learn.jankonrad.com/Assets/img/gimp/Lekce2-1/24.png"
-                   
-               ]'></div>
-        </div>
-      </div>
-    </div>
-
-   
-  <!-- Shrnutí -->
-  <div class="container my-4 p-4 border rounded bg-light">
-    <h3 class="mb-3">Shrnutí</h3>
-    <ul class="list-group list-group-flush mb-0">
-      <li class="list-group-item">Porozumíš principu <strong>masky vrstvy</strong> – bílá = viditelné, černá = skryté, šedá = poloprůhledné – a chápeš, že úprava je <em>nedestruktivní</em>.</li>
-      <li class="list-group-item">Naučíš se <strong>správně vrstvit obrázky</strong> (model nahoře, pozadí dole) a přidat masku k horní vrstvě.</li>
-      <li class="list-group-item">Pomocí <strong>štětce (Paintbrush)</strong> odstraníš původní pozadí tak, že na masce maluješ černou barvou mimo postavu.</li>
-      <li class="list-group-item">Zvládneš orientaci v <strong>Tool Options</strong>, přepínání mezi vrstvou a maskou, a práci s <strong>přiblížením</strong> (Ctrl + kolečko).</li>
-      <li class="list-group-item">Použiješ <strong>Gradient Tool</strong> na masce k vytvoření plynulého přechodu mezi dvěma vrstvami (např. postava ↔ pozadí).</li>
-      <li class="list-group-item">Pochopíš, jak <strong>prolínání</strong> a přechody vytvářejí přirozené spojení mezi vrstvami.</li>
-      <li class="list-group-item">Uložíš projekt jako <strong>.XCF</strong> (pro úpravy) a vyexportuješ finální výsledek do <strong>PNG nebo JPG</strong>.</li>
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+    <ul class="checklist">
+      <li>Layer Styles (FX) jsou nedestruktivní: dají se upravovat, vypínat a kopírovat.</li>
+      <li>U Gradient Overlay vždy klikni na název efektu (ne jen checkbox) a změny potvrzuj přes OK.</li>
+      <li>Bevel &amp; Emboss + Drop Shadow zvýší čitelnost a dodají textu „objem“.</li>
+      <li>Fonty jde do PhotoPea načítat přes Load Font; drž si ZIP bokem pro případ vymazání cache.</li>
+      <li>Vrstvy: pořadí, opacity, eye, lock a Auto Select jsou první věci, které kontroluješ, když „to nejde“.</li>
     </ul>
-  </div>
-   <div>
-<a href="https://www.figma.com/proto/o4Sesbpg3vRamXzaMQw1fp/Gimp3?page-id=0%3A1&node-id=1-2&viewport=12%2C361%2C0.61&t=jpwisNk10mqd8qJE-1&scaling=contain&content-scaling=fixed" 
-   class="btn btn-primary" target="_blank">
-  Zobrazit vzor 4-1
-</a>
-  </div>
-  <hr>
-   <div>
-<a href="https://www.figma.com/proto/Lv01iRkWHnAPVrk9wyeF1C/Gimp3-2?page-id=0%3A1&node-id=1-2&viewport=12%2C361%2C0.61&t=mG4SmcLUupPeaaAN-1&scaling=contain&content-scaling=fixed" 
-   class="btn btn-primary" target="_blank">
-  Zobrazit vzor 4-2
-</a>
-  </div>
+  </article>
+
 </section>
-
-<!-- Galerie helper (stejný jako u předchozích lekcí) -->
-<style>
-  .img-contained { width:100%; height:100%; object-fit:contain; object-position:center; }
-</style>
-<script>
-(function(){
-  function parseImages(el){ try { return JSON.parse(el.getAttribute('data-images')||'[]'); } catch(e){ return []; } }
-  function setImg(id, src){ const img = document.getElementById(id); if(img){ img.src = src; } }
-  function move(dir, btn){
-    const id = btn.getAttribute(dir===-1?'data-gallery-prev':'data-gallery-next'); if(!id) return;
-    const holder = document.querySelector('[data-gallery-src="'+id+'"]'); if(!holder) return;
-    const list = parseImages(holder); if(!list.length) return;
-    const img = document.getElementById(id);
-    const current = img.src.split('/').pop();
-    let idx = list.findIndex(x => x.split('/').pop() === current); if(idx===-1) idx = 0;
-    const next = (idx + dir + list.length) % list.length;
-    setImg(id, list[next]);
-  }
-  document.addEventListener('click', e => {
-    if(e.target.matches('[data-gallery-prev]')) { e.preventDefault(); move(-1, e.target); }
-    if(e.target.matches('[data-gallery-next]')) { e.preventDefault(); move(1, e.target); }
-  });
-})();
-</script>
