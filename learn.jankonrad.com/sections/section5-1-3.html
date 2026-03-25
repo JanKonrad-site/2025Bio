@@ -1,17 +1,32 @@
 <!-- =========================================================
+
 3.2.1 – SQLite v Pythonu: otevření databáze, vytvoření tabulky, první zápis a ověření
+=======
+3.2.3 – SQLite miniaplikace „Moje filmy“ (skládáš si ji z BLOKŮ)
+- 1 soubor: movies_app.py
+- Nekopíruješ pořád celé řešení.
+- Vždy jen přidáš jeden BLOK (funkci / část main smyčky) do skeletonu.
+
 ========================================================= -->
-<section id="section5-2-1" class="lesson">
+<section id="section5-2-3" class="lesson">
 
   <header class="lesson__header">
+
     <h2 class="lesson__title">3.2.1 SQLite v Pythonu – otevření databáze a první data (krok za krokem)</h2>
     <p class="lesson__lead">
       Navazujeme na 3.2.0 (cesta k souboru databáze). Teď poprvé databázi v Pythonu otevřeme, vytvoříme tabulku,
       uložíme jeden záznam a průběžně ověříme, co se skutečně stalo (soubor, tabulka, počet záznamů).
+
+    <h2 class="lesson__title">3.2.3 SQLite v Pythonu – miniaplikace „Moje filmy“ (skládání z bloků)</h2>
+    <p class="lesson__lead">
+      V této lekci máš jeden soubor <code>movies_app.py</code>. Do něj postupně přidáváš malé bloky kódu (funkce).
+      Menu a hlavní smyčku si skládáš ručně – přesně tak, aby sis uvědomoval(a), co kam patří.
+
     </p>
   </header>
 
   <article class="card">
+
     <h3 class="card__title">Co se v této lekci naučíš?</h3>
     <ul class="checklist">
       <li>
@@ -128,23 +143,109 @@ DB_FILE = Path(__file__).resolve().with_name("movies.db")</code></pre>
 
         <div class="note note--info">
           <strong>Co jsme ověřili?</strong> Umíme databázi „otevřít“ a víme, kam se ukládá soubor.
+=======
+    <h3 class="card__title">Workflow (jak pracuješ)</h3>
+    <ol class="steps">
+      <li>Vytvoř <strong>jeden</strong> soubor: <code>movies_app.py</code>.</li>
+      <li>Vlož <strong>Skeleton</strong> (Krok 0).</li>
+      <li>Pak už jen kopíruj <strong>jednotlivé BLOKY</strong> (Krok 1, 2, 3…) a vkládej je na správné místo.</li>
+      <li>Po každém bloku program spusť a ověř výstup.</li>
+    </ol>
+    <div class="note note--info">
+      <strong>Pravidlo:</strong> Funkce vkládej do části „FUNKCE (tady přidáváš bloky)“. Hlavní běh patří do části „MAIN“.
+    </div>
+  </article>
+
+  <div class="accordion">
+
+    <!-- ===================================================== -->
+    <!-- KROK 0: Skeleton (jediné, co kopíruješ celé) -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 0: Skeleton souboru (základ, do kterého budeš vkládat bloky)</summary>
+      <div class="acc__body">
+
+        <p><strong>Teď opravdu kopíruješ celý soubor.</strong> To je jediná výjimka. Dál už kopíruješ jen bloky.</p>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">movies_app.py (Skeleton)</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-323-skeleton">Kopírovat</button>
+          </div>
+          <pre id="code-323-skeleton"><code class="language-python">import sqlite3
+from pathlib import Path
+
+DB_FILE = Path(__file__).resolve().with_name("movies.db")
+
+# =========================================================
+# FUNKCE (tady budeš postupně vkládat bloky)
+# =========================================================
+
+# [BLOCKS_GO_HERE]
+
+
+# =========================================================
+# MAIN (tady bude hlavní běh programu – menu + smyčka)
+# =========================================================
+if __name__ == "__main__":
+    # [MAIN_GOES_HERE]
+    pass</code></pre>
         </div>
+
+        <h6>Ověření</h6>
+        <ol class="steps">
+          <li>Spusť: <code>python movies_app.py</code></li>
+          <li>Nic se nestane (to je správně) – zatím je tam jen <code>pass</code>.</li>
+        </ol>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="5-1-4">
+            Modál: __name__ / __file__
+          </button>
+
+        </div>
+
       </div>
     </details>
+
 
     <!-- 2) CREATE TABLE -->
     <details class="acc">
       <summary class="acc__sum">2) Krok 2: vytvoření tabulky (CREATE TABLE) a význam jednotlivých částí</summary>
+=======
+    <!-- ===================================================== -->
+    <!-- KROK 1: connect() + init_db() -->
+    <!-- ===================================================== -->
+    <details class="acc">
+      <summary class="acc__sum">Krok 1: Přidej blok „Databázové připojení + vytvoření tabulky“</summary>
+
       <div class="acc__body">
+
         <p>
+
           Tabulka je struktura pro ukládání záznamů. V SQLite ji vytvoříme SQL příkazem <code>CREATE TABLE</code>.
           Tento příkaz posíláme přes <code>conn.execute(...)</code>.
           <button type="button" class="mini-help" data-modal-open="modal-execute">?</button>
+
+          Vlož následující blok do části <code># [BLOCKS_GO_HERE]</code> (nad MAIN).
+          Tohle je „motor“: umíme se připojit a připravit tabulku.
+
         </p>
 
-        <pre><code class="language-python">def create_table_movies():
-    conn = sqlite3.connect(str(DB_FILE))
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">BLOCK 1 – connect() + init_db()</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-323-block1">Kopírovat</button>
+          </div>
+          <pre id="code-323-block1"><code class="language-python">def connect():
+    # str(DB_FILE) = jistota, že sqlite3 dostane obyčejný text (cestu)
+    return sqlite3.connect(str(DB_FILE))
 
+def init_db():
+    # 1) připojit
+    conn = connect()
+
+    # 2) poslat SQL příkaz (vytvoří tabulku, pokud ještě neexistuje)
     conn.execute("""
     CREATE TABLE IF NOT EXISTS movies (
         id    INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -153,7 +254,9 @@ DB_FILE = Path(__file__).resolve().with_name("movies.db")</code></pre>
     );
     """)
 
+    # 3) potvrdit změny
     conn.commit()
+
     conn.close()</code></pre>
 
         <p><strong>Co znamenají části SQL:</strong></p>
@@ -184,9 +287,50 @@ DB_FILE = Path(__file__).resolve().with_name("movies.db")</code></pre>
 
         <div class="note note--info">
           <strong>Proč <code>commit()</code>?</strong> Potvrzuje změny (např. vytvoření tabulky) do databázového souboru.
+
+    # 4) zavřít spojení
+    conn.close()</code></pre>
         </div>
+
+        <p>
+          Teď si do MAIN části (místo <code>pass</code>) napiš ručně 2 řádky:
+          <strong>zavolej init_db()</strong> a <strong>vypiš DB cestu</strong>.
+        </p>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">MAIN – test pro Krok 1</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-323-main-test1">Kopírovat</button>
+          </div>
+          <pre id="code-323-main-test1"><code class="language-python">init_db()
+print("DB path:", DB_FILE)
+print("DB exists:", DB_FILE.exists())
+input("ENTER...")</code></pre>
+        </div>
+
+        <h6>Ověření</h6>
+        <ol class="steps">
+          <li>Spusť program.</li>
+          <li>Ve složce se objeví <code>movies.db</code>.</li>
+          <li>Vypíše se cesta a existence DB.</li>
+        </ol>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-path-methods">
+            Modál: resolve / with_name / exists
+          </button>
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-str-dbfile">
+            Modál: proč str(DB_FILE)
+          </button>
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-commit">
+            Modál: commit()
+          </button>
+
+        </div>
+
       </div>
     </details>
+
 
     <!-- 3) Ověření, že tabulka existuje -->
     <details class="acc">
@@ -263,11 +407,31 @@ DB_FILE = Path(__file__).resolve().with_name("movies.db")</code></pre>
     before = count_movies()
     print("Count before:", before)
 
+    <!-- ===================================================== -->
+    <!-- KROK 2: add_movie() -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 2: Přidej blok „Vložení filmu“ (INSERT)</summary>
+      <div class="acc__body">
+
+        <p>Vlož blok do části funkcí. V MAIN pak ručně otestuješ, že vložení funguje.</p>
+>>>>>>> 9de45eebf75297f9acaec659102241050f06e54d
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">BLOCK 2 – add_movie()</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-323-block2">Kopírovat</button>
+          </div>
+          <pre id="code-323-block2"><code class="language-python">def add_movie():
     title = input("Název filmu: ").strip()
     year_text = input("Rok (ENTER = nevyplnit): ").strip()
     year = int(year_text) if year_text else None
 
-    insert_movie(title, year)
+    conn = connect()
+    conn.execute("INSERT INTO movies (title, year) VALUES (?, ?);", (title, year))
+    conn.commit()
+    conn.close()
+
 
     after = count_movies()
     print("Count after:", after)
@@ -286,8 +450,153 @@ DB_FILE = Path(__file__).resolve().with_name("movies.db")</code></pre>
     <!-- 5) if __name__ == "__main__" -->
     <details class="acc">
       <summary class="acc__sum">5) Proč máme <code>if __name__ == "__main__":</code> (a co přesně dělá)</summary>
-      <div class="acc__body">
+
+    print("Uloženo.")</code></pre>
+        </div>
+
         <p>
+          Do MAIN (pod <code>init_db()</code>) si ručně přidej test: zavolej <code>add_movie()</code>.
+        </p>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">MAIN – test pro Krok 2</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-323-main-test2">Kopírovat</button>
+          </div>
+          <pre id="code-323-main-test2"><code class="language-python">init_db()
+add_movie()
+input("ENTER...")</code></pre>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-sql-insert">
+            Modál: INSERT + (?, ?)
+          </button>
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-ternary">
+            Modál: year = ... if ... else ...
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 3: fetch_movies() + print_movies() -->
+    <!-- ===================================================== -->
+    <details class="acc">
+      <summary class="acc__sum">Krok 3: Přidej blok „Čtení a výpis filmů“ (SELECT + for)</summary>
+      <div class="acc__body">
+
+        <p>Vlož blok do funkcí. V MAIN pak ručně otestuješ výpis.</p>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">BLOCK 3 – fetch_movies() + print_movies()</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-323-block3">Kopírovat</button>
+          </div>
+          <pre id="code-323-block3"><code class="language-python">def fetch_movies():
+    conn = connect()
+    rows = conn.execute("SELECT id, title, year FROM movies ORDER BY id DESC;").fetchall()
+    conn.close()
+    return rows
+
+def print_movies(rows):
+    print("Obsah databáze:")
+    for (movie_id, title, year) in rows:
+        yr = year if year is not None else "?"
+        print(f"#{movie_id} | {title} ({yr})")</code></pre>
+        </div>
+
+        <p>
+          Do MAIN si ručně dej test: načti řádky a vytiskni je.
+        </p>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">MAIN – test pro Krok 3</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-323-main-test3">Kopírovat</button>
+          </div>
+          <pre id="code-323-main-test3"><code class="language-python">init_db()
+rows = fetch_movies()
+print_movies(rows)
+input("ENTER...")</code></pre>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-for-loop">
+            Modál: for + rozbalení (movie_id, title, year)
+          </button>
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-ternary">
+            Modál: ternární výraz
+          </button>
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-sql-language">
+            Modál: SELECT/FROM/ORDER BY
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 4: list_tables() + show_db_info() -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 4: Přidej blok „Info o DB“ (sqlite_master + sqlite_sequence)</summary>
+>>>>>>> 9de45eebf75297f9acaec659102241050f06e54d
+      <div class="acc__body">
+
+        <p>Vlož blok do funkcí. Pak si ručně otestuješ voláním v MAIN.</p>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">BLOCK 4 – list_tables() + show_db_info()</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-323-block4">Kopírovat</button>
+          </div>
+          <pre id="code-323-block4"><code class="language-python">def list_tables():
+    conn = connect()
+    rows = conn.execute("SELECT name FROM sqlite_master WHERE type='table';").fetchall()
+    conn.close()
+    return [name for (name,) in rows]
+
+def show_db_info():
+    print("DB path:", DB_FILE)
+    print("DB exists:", DB_FILE.exists())
+    print("Tables:", list_tables())</code></pre>
+        </div>
+
+        <p><strong>MAIN test:</strong></p>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">MAIN – test pro Krok 4</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-323-main-test4">Kopírovat</button>
+          </div>
+          <pre id="code-323-main-test4"><code class="language-python">init_db()
+show_db_info()
+input("ENTER...")</code></pre>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-fetchall-tuples">
+            Modál: proč [('movies',), ...]
+          </button>
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-sqlite-sequence">
+            Modál: sqlite_sequence
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 5: Menu (student píše sám, jen šablona) -->
+    <!-- ===================================================== -->
+    <details class="acc">
+      <summary class="acc__sum">Krok 5: Menu – napíšeš si ho sám (jen výpis voleb)</summary>
+      <div class="acc__body">
+
+        <p>
+
           Soubor může být použit dvěma způsoby: (1) spustím ho jako program, (2) naimportuji ho jako modul.
           Python podle toho nastaví proměnnou <code>__name__</code>.
           <button type="button" class="mini-help" data-modal-open="modal-name-main">Dovysvětlení</button>
@@ -297,6 +606,43 @@ DB_FILE = Path(__file__).resolve().with_name("movies.db")</code></pre>
           <li>Při přímém spuštění: <code>__name__ == "__main__"</code></li>
           <li>Při importu: <code>__name__</code> je název souboru (modulu), např. <code>"db_step_open_create_insert"</code></li>
         </ul>
+=======
+          Teď si vytvoř vlastní funkci <code>menu()</code>. Je to čistě výpis textu.
+          Není to databázová logika – jen „ovládání“ aplikace.
+        </p>
+
+        <div class="note note--info">
+          <strong>Tvůj úkol:</strong> napiš funkci <code>menu()</code> tak, aby vypsala:
+          <code>1) Přidat film</code>, <code>2) Vypsat filmy</code>, <code>3) Info o DB</code>, <code>0) Konec</code>.
+        </div>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">BLOCK 5 – menu() šablona</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-323-menu">Kopírovat</button>
+          </div>
+          <pre id="code-323-menu"><code class="language-python">def menu():
+    print()
+    # sem napiš 4 printy s volbami</code></pre>
+        </div>
+
+        <p><strong>Rychlý test do MAIN:</strong> zavolej <code>menu()</code> a ukonči program.</p>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 6: while True smyčka (student skládá ručně) -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 6: Hlavní smyčka aplikace (while True) – sem už lepíš ručně jen řádky</summary>
+      <div class="acc__body">
+
+        <p>
+          Teď přijde hlavní skládání: do MAIN si ručně poskládáš smyčku.
+          Nechci ti sem dát hotový celý MAIN, protože pointa je, že ty sám/sama propojíš volby s funkcemi.
+        </p>
+
 
         <p>
           Blok <code>if __name__ == "__main__":</code> tedy říká:
@@ -313,8 +659,54 @@ DB_FILE = Path(__file__).resolve().with_name("movies.db")</code></pre>
         </p>
 
         <div class="note note--info">
+D
           <strong>Praktický přínos:</strong> Později budeš chtít funkce importovat do jiné aplikace. Díky této podmínce se při importu nespustí testovací část.
+=======
+          <strong>Postup skládání MAIN:</strong>
+          <ol class="steps">
+            <li>Na začátek MAIN dej <code>init_db()</code>.</li>
+            <li>Pak napiš <code>while True:</code>.</li>
+            <li>Uvnitř smyčky zavolej <code>menu()</code>.</li>
+            <li>Načti volbu: <code>choice = input(...).strip()</code>.</li>
+            <li>Přidej větvení pro volby 1/2/3/0.</li>
+          </ol>
+
         </div>
+
+        <p><strong>Šablona smyčky (kopíruj, zbytek doplníš ručně):</strong></p>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">MAIN – šablona smyčky</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-323-main-loop">Kopírovat</button>
+          </div>
+          <pre id="code-323-main-loop"><code class="language-python">init_db()
+
+while True:
+    menu()
+    choice = input("Volba: ").strip()
+
+    # sem doplň if/elif/else pro volby</code></pre>
+        </div>
+
+        <p><strong>Nápověda: co má dělat která volba</strong></p>
+        <ul class="bullets">
+          <li><code>"1"</code> → <code>add_movie()</code></li>
+          <li><code>"2"</code> → <code>rows = fetch_movies()</code> + <code>print_movies(rows)</code></li>
+          <li><code>"3"</code> → <code>show_db_info()</code></li>
+          <li><code>"0"</code> → <code>break</code></li>
+          <li>jinak → <code>print("Neplatná volba.")</code></li>
+        </ul>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-while-loop">
+            Modál: while True + break
+          </button>
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-if-elif">
+            Modál: if/elif/else
+          </button>
+        </div>
+
       </div>
     </details>
 
@@ -393,6 +785,7 @@ if __name__ == "__main__":
 
   <!-- Cvičení -->
   <article class="card">
+EAD
     <h3 class="card__title">Cvičení (krátké)</h3>
     <ol class="steps">
       <li>Spusť skript a vlož dva různé filmy. Po každém vložení si zapiš hodnoty <code>Count before</code> a <code>Count after</code>.</li>
@@ -410,6 +803,15 @@ if __name__ == "__main__":
       <li>Změny se potvrdí pomocí <code>commit()</code> a spojení uzavřeš <code>close()</code>.</li>
       <li>Uložení záznamu ověříš dotazem <code>SELECT COUNT(*)</code>.</li>
       <li><code>if __name__ == "__main__":</code> spouští testovací běh jen při přímém spuštění souboru.</li>
+
+    <h3 class="card__title">Hotový stav – kontrolní seznam</h3>
+    <ul class="checklist">
+      <li>Program se spustí a ukáže menu.</li>
+      <li>Volba 1 vloží film a napíše „Uloženo.“</li>
+      <li>Volba 2 vypíše filmy ve formátu <code>#id | title (year)</code>.</li>
+      <li>Volba 3 vypíše cestu k DB + tabulky.</li>
+      <li>Volba 0 program ukončí.</li>
+
     </ul>
   </article>
 

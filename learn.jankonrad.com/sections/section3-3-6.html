@@ -1,0 +1,486 @@
+<!-- =========================================================
+     3.3.4 – Smyčky a opakování (while, for, break, continue)
+========================================================= -->
+<section id="section3-3-4" class="container my-5">
+
+  <h3 class="mb-4">3.3.4 Smyčky a opakování – while, for, break a continue</h3>
+
+  <!-- Co se naučíš -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co se naučíš?</h3>
+    <p>
+      Smyčky jsou jeden z nejdůležitějších nástrojů v programování – umožní ti opakovat akci
+      bez toho, aby ses u toho „kopíroval“ desetkrát stejný kód.
+    </p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>while</strong>: opakování „dokud platí podmínka“.</li>
+      <li class="list-group-item"><strong>for</strong>: ideální na počítání (vše v jedné hlavičce).</li>
+      <li class="list-group-item"><strong>infinite loop</strong>: proč vzniká a jak se mu vyhnout.</li>
+      <li class="list-group-item"><strong>break</strong>: ukončení smyčky okamžitě.</li>
+      <li class="list-group-item"><strong>continue</strong>: přeskočení jedné iterace.</li>
+    </ul>
+    <div class="alert alert-info mb-0" role="alert">
+      <strong>Tip:</strong> Vždy si hlídej, že se podmínka smyčky jednou stane <code>false</code> (jinak vytvoříš nekonečnou smyčku).
+    </div>
+  </div>
+
+  <!-- Setup ve VS Code -->
+  <h5 class="mt-5">0) Příprava projektu ve VS Code (index + app.js)</h5>
+  <p>
+    V každé kapitole pracuj ve vlastní složce (např. <code>3.3.4-loops</code>):
+    vytvoř <code>index.html</code> a <code>app.js</code>, a skript připoj přes <code>src</code>.
+  </p>
+
+  <details class="mb-4">
+    <summary><strong>Šablona souborů (klikni pro zobrazení)</strong></summary>
+    <div class="mt-3">
+      <p class="mb-2"><strong>index.html</strong></p>
+      <pre class="bg-light p-3 rounded"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="cs"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8" /&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+  &lt;title&gt;3.3.4 – Smyčky&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;h1&gt;3.3.4 – Smyčky&lt;/h1&gt;
+  &lt;p&gt;Otevři DevTools → Console.&lt;/p&gt;
+
+  &lt;script src="app.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+      <p class="mb-2 mt-3"><strong>app.js</strong></p>
+      <pre class="bg-light p-3 rounded"><code class="language-js">// Sem budeš psát kód z kapitoly.</code></pre>
+    </div>
+  </details>
+
+  <hr class="my-5">
+
+  <!-- 1) WHILE -->
+  <h5>1) while smyčka (opakuj, dokud platí podmínka)</h5>
+  <p>
+    <code>while</code> funguje podobně jako <code>if</code> – má podmínku v závorkách.
+    Rozdíl je v tom, že <strong>neprovede blok jen jednou</strong>, ale opakuje ho pořád dokola,
+    <strong>dokud je podmínka true</strong>.
+  </p>
+
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h6 class="mb-2">Jak přesně probíhá jedna smyčka?</h6>
+    <ol class="mb-0">
+      <li>Vyhodnotí se podmínka (<code>true/false</code>).</li>
+      <li>Když je <code>true</code>, provede se blok v <code>{ }</code>.</li>
+      <li>Na konci bloku typicky aktualizuješ „počítadlo“.</li>
+      <li>Vrátí se zpět na začátek a znovu kontroluje podmínku.</li>
+      <li>Když se podmínka stane <code>false</code>, smyčka skončí.</li>
+    </ol>
+  </div>
+
+  <p class="mb-2"><strong>Ukázka: počítání 0 až 9</strong></p>
+  <pre class="bg-light p-3 rounded"><code class="language-js">let counter = 0;
+
+while (counter &lt; 10) {
+  console.log(counter);
+  counter++; // bez tohohle by to byla nekonečná smyčka
+}</code></pre>
+
+  <div class="alert alert-warning" role="alert">
+    <strong>Pozor:</strong> Když nikdy nezměníš hodnotu, která ovlivňuje podmínku, smyčka může běžet „navždy“ (infinite loop).
+  </div>
+
+  <!-- 2) EXERCISE WHILE -->
+  <h5 class="mt-5">2) Cvičení: while smyčka (1 až 10 + speciální zpráva pro 7)</h5>
+  <p>
+    Napiš <code>while</code> smyčku, která vypíše čísla od <strong>1 do 10</strong>.  
+    Ale když bude hodnota <strong>7</strong>, místo čísla vypiš text:
+    <code>"7 je moje oblíbené číslo"</code>.
+  </p>
+
+  <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal334HintWhile">
+    Nápověda (volitelné)
+  </button>
+
+  <details class="mt-3">
+    <summary><strong>Řešení (zobraz až po pokusu)</strong></summary>
+    <pre class="bg-light p-3 rounded mt-2"><code class="language-js">let i = 1;
+
+while (i &lt;= 10) {
+  let message = i;
+
+  if (i === 7) {
+    message = "7 je moje oblíbené číslo";
+  }
+
+  console.log(message);
+  i++;
+}</code></pre>
+
+    <div class="alert alert-info mb-0" role="alert">
+      <strong>Proč to funguje:</strong> Smyčka opakuje blok, dokud <code>i &lt;= 10</code>. Uvnitř vždycky zvýšíš <code>i</code>,
+      takže podmínka jednou přestane platit.
+    </div>
+  </details>
+
+  <hr class="my-5">
+
+  <!-- 4) FOR -->
+  <h5>3) for smyčka (vše na jednom řádku: start, podmínka, krok)</h5>
+  <p>
+    <code>for</code> je často nejlepší volba pro „počítací“ smyčky. V závorce jsou tři části oddělené středníky:
+  </p>
+
+  <ul class="list-group mb-3">
+    <li class="list-group-item"><strong>Inicializace</strong> (spustí se jednou): <code>let i = 0</code></li>
+    <li class="list-group-item"><strong>Podmínka</strong> (kontroluje se před každou iterací): <code>i &lt; 10</code></li>
+    <li class="list-group-item"><strong>Krok</strong> (spustí se po každé iteraci): <code>i++</code></li>
+  </ul>
+
+  <pre class="bg-light p-3 rounded"><code class="language-js">for (let i = 0; i &lt; 10; i++) {
+  console.log(i);
+}</code></pre>
+
+  <div class="alert alert-info" role="alert">
+    <strong>Kdy co použít?</strong><br>
+    <strong>for</strong> → když víš „kolikrát“ (typicky počítání).<br>
+    <strong>while</strong> → když nevíš přesný počet opakování a jedeš „dokud se něco nestane“.
+  </div>
+
+  <!-- 5) BREAK / CONTINUE -->
+  <h5 class="mt-5">4) break a continue (ovládání smyčky)</h5>
+  <p>
+    <strong>break</strong> smyčku okamžitě ukončí.  
+    <strong>continue</strong> přeskočí zbytek aktuální iterace a skočí na další.
+  </p>
+
+  <div class="row g-3">
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-header bg-light"><strong>break (ukonči smyčku)</strong></div>
+        <div class="card-body">
+          <pre class="bg-light p-3 rounded mb-0"><code class="language-js">for (let i = 0; i &lt; 10; i++) {
+  if (i === 5) break;
+  console.log(i);
+}
+// vypíše: 0 1 2 3 4</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-header bg-light"><strong>continue (přeskoč iteraci)</strong></div>
+        <div class="card-body">
+          <pre class="bg-light p-3 rounded mb-0"><code class="language-js">for (let i = 0; i &lt; 10; i++) {
+  if (i === 5) continue;
+  console.log(i);
+}
+// vypíše: 0 1 2 3 4 6 7 8 9</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6) EXERCISE EVEN 2..100 skip 50 -->
+  <h5 class="mt-5">5) Cvičení: sudá čísla 2 až 100, ale 50 přeskoč</h5>
+  <p>
+    Napiš program, který počítá od <strong>2 do 100</strong> a vypisuje jen <strong>sudá čísla</strong>.
+    Ale když je číslo <strong>50</strong>, tak ho <strong>nevypíše</strong> (přeskočí).
+  </p>
+
+  <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal334HintEven">
+    Nápověda (volitelné)
+  </button>
+
+  <details class="mt-3">
+    <summary><strong>Řešení A (podmínka „sudé a ne 50“)</strong></summary>
+    <pre class="bg-light p-3 rounded mt-2"><code class="language-js">for (let i = 2; i &lt;= 100; i++) {
+  if (i % 2 === 0 && i !== 50) {
+    console.log(i);
+  }
+}</code></pre>
+  </details>
+
+  <details class="mt-2">
+    <summary><strong>Řešení B (continue na 50)</strong></summary>
+    <pre class="bg-light p-3 rounded mt-2"><code class="language-js">for (let i = 2; i &lt;= 100; i++) {
+  if (i === 50) {
+    continue;
+  }
+  if (i % 2 === 0) {
+    console.log(i);
+  }
+}</code></pre>
+  </details>
+
+  <details class="mt-2 mb-4">
+    <summary><strong>Řešení C (krok po 2)</strong></summary>
+    <pre class="bg-light p-3 rounded mt-2"><code class="language-js">for (let i = 2; i &lt;= 100; i += 2) {
+  if (i !== 50) console.log(i);
+}</code></pre>
+  </details>
+
+  <hr class="my-5">
+
+  <!-- 8) QUIZ (4 questions) -->
+  <h5 class="mt-4">Kvíz: Smyčky (while, for, continue)</h5>
+  <p class="text-muted">
+    Klikni na odpověď. Po volbě se otázka uzamkne a zobrazí se vysvětlení. Dole můžeš kvíz resetovat.
+  </p>
+
+  <div id="quiz-334-loops" class="quiz-wrap">
+
+    <!-- Q1 -->
+    <div class="quiz-question mb-4"
+         data-explain="Správně: <code>while</code> opakuje blok kódu <strong>tak dlouho, dokud</strong> je podmínka v závorkách <code>true</code>.">
+      <p><strong>1. Co dělá smyčka <code>while</code> v JavaScriptu?</strong></p>
+      <div class="btn-group-vertical w-100">
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">Opakuje kód, dokud se podmínka nestane <code>true</code></button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">Spustí kód jen tehdy, když je podmínka <code>true</code> (jen jednou)</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)">Opakuje kód, dokud je podmínka <code>true</code></button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">Opakuje kód pouze pevně daný počet opakování</button>
+      </div>
+      <div class="quiz-feedback mt-2 small"></div>
+      <button class="btn btn-link px-0 mt-1 d-none quiz-more" type="button" data-bs-toggle="modal" data-bs-target="#js334ModalQ1">
+        Vysvětlit podrobněji
+      </button>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-question mb-4"
+         data-explain="Správně: Smyčka běží pro <code>i = 1, 2, 3</code>. Když se <code>i</code> zvýší na 4, podmínka <code>i &lt; 4</code> už neplatí.">
+      <p><strong>2. Co bude výstup tohoto kódu?</strong></p>
+      <pre class="mb-2"><code class="language-js">let i = 1;
+
+while (i &lt; 4) {
+  console.log(i);
+  i++;
+}</code></pre>
+
+      <div class="btn-group-vertical w-100">
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)">1 2 3</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">1 2 3 4</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">0 1 2 3</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">1 2</button>
+      </div>
+      <div class="quiz-feedback mt-2 small"></div>
+      <button class="btn btn-link px-0 mt-1 d-none quiz-more" type="button" data-bs-toggle="modal" data-bs-target="#js334ModalQ2">
+        Vysvětlit podrobněji
+      </button>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-question mb-4"
+         data-explain="Správně: <code>continue</code> přeskočí iteraci, kde <code>i === 3</code>. Proto se vypíše 1, 2, 4, 5.">
+      <p><strong>3. Co tento kód vypíše?</strong></p>
+      <pre class="mb-2"><code class="language-js">for (let i = 1; i &lt;= 5; i++) {
+  if (i === 3) {
+    continue;
+  }
+  console.log(i);
+}</code></pre>
+
+      <div class="btn-group-vertical w-100">
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)">1 2 4 5</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">1 2 3 4 5</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">2 3 4 5</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">1 2</button>
+      </div>
+      <div class="quiz-feedback mt-2 small"></div>
+      <button class="btn btn-link px-0 mt-1 d-none quiz-more" type="button" data-bs-toggle="modal" data-bs-target="#js334ModalQ3">
+        Vysvětlit podrobněji
+      </button>
+    </div>
+
+    <!-- Q4 -->
+    <div class="quiz-question mb-4"
+         data-explain="Správně: Smyčka se ani jednou nespustí, protože podmínka <code>i &lt; 5</code> je hned na začátku <code>false</code> (i = 10).">
+      <p><strong>4. Co se stane v tomto kódu?</strong></p>
+      <pre class="mb-2"><code class="language-js">let i = 10;
+
+while (i &lt; 5) {
+  console.log(i);
+  i++;
+}</code></pre>
+
+      <div class="btn-group-vertical w-100">
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)">Nevypíše se nic</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">Vypíše 10 a skončí</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">Vypíše čísla od 10 do 4</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">Vznikne chyba</button>
+      </div>
+      <div class="quiz-feedback mt-2 small"></div>
+      <button class="btn btn-link px-0 mt-1 d-none quiz-more" type="button" data-bs-toggle="modal" data-bs-target="#js334ModalQ4">
+        Vysvětlit podrobněji
+      </button>
+    </div>
+
+    <button type="button" class="btn btn-sm btn-outline-primary" onclick="resetQuiz('quiz-334-loops')">
+      Resetovat kvíz
+    </button>
+  </div>
+
+  <hr class="my-5">
+
+  <!-- Tahák -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Tahák: Smyčky – rychlé shrnutí</h3>
+
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">
+        <strong>while</strong>:
+        <code>while (podmínka) { ... }</code>
+        → opakuje blok, dokud je podmínka <code>true</code>.
+      </li>
+      <li class="list-group-item">
+        <strong>for</strong>:
+        <code>for (start; podmínka; krok) { ... }</code>
+        → start proběhne 1×, podmínka se kontroluje před každou iterací, krok se provede po iteraci.
+      </li>
+      <li class="list-group-item">
+        <strong>Nekonečná smyčka</strong>:
+        vznikne, když se podmínka nikdy nestane <code>false</code>
+        (typicky zapomeneš <code>i++</code>).
+      </li>
+      <li class="list-group-item">
+        <strong>break</strong>:
+        okamžitě ukončí smyčku.
+      </li>
+      <li class="list-group-item">
+        <strong>continue</strong>:
+        přeskočí aktuální iteraci a pokračuje další.
+      </li>
+      <li class="list-group-item">
+        <strong>Sudá/lichá čísla</strong>:
+        <code>n % 2 === 0</code> → sudé,
+        <code>n % 2 !== 0</code> → liché.
+      </li>
+    </ul>
+
+    <div class="alert alert-info mb-0" role="alert">
+      <strong>Nejčastější vzorec:</strong> „počítadlo + podmínka + krok“.
+      Jakmile tohle držíš pod kontrolou, smyčky přestanou být strašák.
+    </div>
+  </div>
+
+</section>
+
+<!-- =========================================================
+     MODÁLY – NÁPOVĚDY
+========================================================= -->
+<div class="modal fade" id="modal334HintWhile" tabindex="-1" aria-labelledby="modal334HintWhileLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal334HintWhileLabel">Nápověda: while 1–10 + speciální 7</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <ul>
+        <li>Začni proměnnou <code>i = 1</code>.</li>
+        <li>Podmínka smyčky bude <code>i &lt;= 10</code>.</li>
+        <li>Uvnitř smyčky použij <code>if (i === 7)</code> a vypiš speciální text.</li>
+        <li>Na konci nezapomeň <code>i++</code>, jinak vznikne nekonečná smyčka.</li>
+      </ul>
+    </div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="modal334HintEven" tabindex="-1" aria-labelledby="modal334HintEvenLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal334HintEvenLabel">Nápověda: sudá čísla 2–100, ale ne 50</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <ul>
+        <li>Sudé číslo poznáš přes <code>i % 2 === 0</code>.</li>
+        <li>Číslo 50 buď vyfiltruješ podmínkou <code>i !== 50</code>, nebo ho přeskočíš přes <code>continue</code>.</li>
+        <li>Nejkratší varianta: <code>for (let i = 2; i &lt;= 100; i += 2)</code> a jen ošetřit 50.</li>
+      </ul>
+    </div>
+  </div></div>
+</div>
+
+<!-- =========================================================
+     MODÁLY – KVÍZ (Vysvětlit podrobněji)
+========================================================= -->
+<div class="modal fade" id="js334ModalQ1" tabindex="-1" aria-labelledby="js334ModalQ1Label" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="js334ModalQ1Label">Detail: co přesně dělá while</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <p><strong>while = „dokud platí, opakuj“</strong></p>
+      <ul>
+        <li>Podmínka se kontroluje <strong>před každou iterací</strong>.</li>
+        <li>Když je hned na začátku <code>false</code>, smyčka se nespustí ani jednou.</li>
+        <li>Nejčastější chyba: zapomenout změnit proměnnou v podmínce → nekonečná smyčka.</li>
+      </ul>
+      <pre class="bg-light p-3 rounded"><code class="language-js">let i = 0;
+while (i &lt; 3) {
+  console.log(i);
+  i++;
+}
+// 0 1 2</code></pre>
+    </div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="js334ModalQ2" tabindex="-1" aria-labelledby="js334ModalQ2Label" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="js334ModalQ2Label">Detail: proč je výstup 1 2 3</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <p><strong>Krokování:</strong></p>
+      <ol>
+        <li><code>i = 1</code>, test <code>1 &lt; 4</code> → true → vypíše 1 → <code>i++</code> → 2</li>
+        <li><code>2 &lt; 4</code> → true → vypíše 2 → <code>i++</code> → 3</li>
+        <li><code>3 &lt; 4</code> → true → vypíše 3 → <code>i++</code> → 4</li>
+        <li><code>4 &lt; 4</code> → false → konec</li>
+      </ol>
+    </div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="js334ModalQ3" tabindex="-1" aria-labelledby="js334ModalQ3Label" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="js334ModalQ3Label">Detail: continue v for smyčce</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <p>
+        <code>continue</code> znamená „přeskoč zbytek iterace a jdi na další“.
+        V tomhle kódu se přeskočí právě chvíle, kdy <code>i === 3</code>.
+      </p>
+      <pre class="bg-light p-3 rounded"><code class="language-js">for (let i = 1; i &lt;= 5; i++) {
+  if (i === 3) continue;
+  console.log(i);
+}
+// 1 2 4 5</code></pre>
+    </div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="js334ModalQ4" tabindex="-1" aria-labelledby="js334ModalQ4Label" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="js334ModalQ4Label">Detail: proč se smyčka nespustí</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <p>
+        <code>while</code> testuje podmínku hned na začátku. Když je <code>false</code>, blok se nikdy neprovede.
+      </p>
+      <pre class="bg-light p-3 rounded"><code class="language-js">let i = 10;
+while (i &lt; 5) {
+  console.log(i);
+  i++;
+}
+// i &lt; 5 je hned false, takže se nic nevypíše</code></pre>
+    </div>
+  </div></div>
+</div>

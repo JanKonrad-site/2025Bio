@@ -1,0 +1,711 @@
+<section id="section6-1-4" class="lesson">
+
+  <header class="lesson__header">
+    <h2 class="lesson__title">6.1.4 Backend – první odpověď serveru</h2>
+    <p class="lesson__lead">
+      V minulé kapitole jsme si připravili backend tak, aby uměl načíst data z databáze. Teď uděláme další krok:
+      backend už nebude jen pracovat s daty, ale začne skutečně fungovat jako server, který přijímá požadavky a posílá odpovědi.
+    </p>
+    <style>
+  .code-puzzle{
+    margin-top: 18px;
+    padding: 18px;
+    border: 1px solid var(--stroke, rgba(255,255,255,.12));
+    border-radius: 16px;
+    background: var(--panel, rgba(255,255,255,.04));
+  }
+
+  .code-puzzle__header h4{
+    margin: 0 0 8px;
+  }
+
+  .code-puzzle__header p{
+    margin: 0 0 14px;
+  }
+
+  .code-puzzle__items{
+    display: grid;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .code-puzzle__item{
+    width: 100%;
+    text-align: left;
+    border: 1px solid var(--stroke, rgba(255,255,255,.12));
+    background: #fff;
+    color: #111;
+    border-radius: 12px;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+
+  .code-puzzle__item:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(0,0,0,.08);
+  }
+
+  .code-puzzle__controls{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+
+  .code-puzzle__feedback{
+    min-height: 24px;
+    font-weight: 600;
+  }
+
+  .code-puzzle__feedback.is-ok{
+    color: #15803d;
+  }
+
+  .code-puzzle__feedback.is-bad{
+    color: #b91c1c;
+  }
+
+  .code-puzzle__result{
+    margin-top: 14px;
+  }
+</style>
+  </header>
+
+  <!-- Co se naučíš -->
+  <article class="card">
+    <h3 class="card__title">Co se naučíš?</h3>
+
+    <ul class="checklist">
+      <li><strong>Třídu <code>RequestHandler</code></strong> – pochopíš, proč server potřebuje speciální třídu pro obsluhu požadavků.</li>
+      <li><strong>Metodu <code>do_GET(self)</code></strong> – zjistíš, co se stane, když prohlížeč pošle na server běžný GET požadavek.</li>
+      <li><strong>První textovou odpověď</strong> – uvidíš, jak server vrátí jednoduchý text místo HTML nebo JSON.</li>
+      <li><strong>Funkci <code>run_server()</code></strong> – pochopíš, jak se server skutečně spustí a proč potom „čeká“ na požadavky.</li>
+    </ul>
+
+    <div class="note note--info">
+      <strong>Tip:</strong> Ve finálním souboru je <code>RequestHandler</code> už rozšířený o JSON, HTML soubory a 404 odpovědi. V této lekci si ale nejdřív oddělíme úplný základ: server přijme požadavek a pošle jednoduchou textovou odpověď. :contentReference[oaicite:1]{index=1}
+    </div>
+  </article>
+
+  <!-- Akce / odkazy -->
+  <div class="actions">
+    <a class="btn btn--primary" href="./movies_server.py" target="_blank" rel="noopener">
+      Otevřít backendový soubor
+    </a>
+
+    <a class="btn btn--ghost" href="./index.html" target="_blank" rel="noopener">
+      Otevřít frontend
+    </a>
+  </div>
+
+  <!-- Akordeony -->
+  <div class="accordion">
+
+    <!-- 1) Proč už nestačí jen funkce -->
+    <details class="acc" open>
+      <summary class="acc__sum">1) Proč už nestačí jen funkce jako <code>get_movies()</code></summary>
+      <div class="acc__body">
+
+        <p>
+          Funkce <code>get_movies()</code> umí načíst data z databáze a vrátit je jako výsledek. To je důležité.
+          Jenže prohlížeč nevolá běžné Python funkce přímo. Prohlížeč posílá na server HTTP požadavky.
+          Proto teď potřebujeme novou vrstvu: objekt, který umí takový požadavek přijmout, rozpoznat ho a odpovědět na něj.
+        </p>
+
+        <ol class="steps">
+          <li>Prohlížeč pošle požadavek na server.</li>
+          <li>Server tento požadavek zachytí.</li>
+          <li>Nějaký kus kódu rozhodne, co má vrátit.</li>
+          <li>Server odešle odpověď zpět prohlížeči.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Funkce jako <code>get_movies()</code> řeší data.</li>
+          <li><code>RequestHandler</code> bude řešit komunikaci přes web.</li>
+          <li>Teprve spojením těchto dvou vrstev vznikne skutečný backend pro stránku.</li>
+        </ul>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal-request-response">
+            Více informací
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 2) Třída RequestHandler -->
+    <details class="acc">
+      <summary class="acc__sum">2) První blok kódu – třída <code>RequestHandler</code></summary>
+      <div class="acc__body">
+
+        <p>
+          Ve finálním backendu je server postavený na této třídě: :contentReference[oaicite:2]{index=2}
+        </p>
+
+        <pre><code id="code-request-handler">class RequestHandler(BaseHTTPRequestHandler):
+    pass</code></pre>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost copy-btn"
+                  type="button"
+                  data-copy-target="code-request-handler">
+            Kopírovat blok
+          </button>
+
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal-handler-class">
+            Více informací
+          </button>
+        </div>
+
+        <p>
+          Tohle je zatím jen úplný základ. Ještě nic neumí, ale vytváříme si vlastní třídu,
+          která bude dědit chování z <code>BaseHTTPRequestHandler</code>.
+        </p>
+
+        <ol class="steps">
+          <li><code>class</code> znamená, že definujeme třídu.</li>
+          <li><code>RequestHandler</code> je název naší vlastní třídy.</li>
+          <li><code>(BaseHTTPRequestHandler)</code> znamená, že z této základní třídy dědíme.</li>
+          <li><code>:</code> ukončuje hlavičku třídy a otevírá její tělo.</li>
+          <li><code>pass</code> znamená „zatím tu nic nedělej“.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Třída je něco jako plán nebo šablona objektu.</li>
+          <li>Základní handler už umí obecné HTTP chování.</li>
+          <li>My do něj budeme postupně dopisovat naši konkrétní logiku.</li>
+        </ul>
+
+      </div>
+    </details>
+
+    <!-- 3) Pomocná metoda _send_text -->
+    <details class="acc">
+      <summary class="acc__sum">3) Druhý blok kódu – pomocná metoda <code>_send_text()</code></summary>
+      <div class="acc__body">
+
+        <p>
+          Ve finálním backendu už existuje metoda <code>_send_text()</code>, která umí poslat textovou HTTP odpověď. :contentReference[oaicite:3]{index=3}
+          Pro tuto lekci si ji vysvětlíme jako první stavební blok odpovědi serveru:
+        </p>
+
+        <pre><code id="code-send-text">def _send_text(self, text, status=200, content_type="text/plain; charset=utf-8"):
+    body = text.encode("utf-8")
+    self.send_response(status)
+    self.send_header("Content-Type", content_type)
+    self.send_header("Content-Length", str(len(body)))
+    self.end_headers()
+    self.wfile.write(body)</code></pre>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost copy-btn"
+                  type="button"
+                  data-copy-target="code-send-text">
+            Kopírovat blok
+          </button>
+
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal-send-text-breakdown">
+            Více informací
+          </button>
+        </div>
+
+        <p>
+          Na první pohled je to delší blok. Ale ve skutečnosti jen připraví text, nastaví základní informace o odpovědi
+          a potom text odešle klientovi.
+        </p>
+
+        <ol class="steps">
+          <li><code>def _send_text(...)</code> definuje metodu uvnitř třídy.</li>
+          <li><code>self</code> odkazuje na konkrétní handler, který právě obsluhuje požadavek.</li>
+          <li><code>text</code> je text, který chceme vrátit.</li>
+          <li><code>status=200</.</li>
+          <li><code>status=200</code> je výchozí HTTP stavový kód „OK“.</li>
+          <li><code>body = text.encode("utf-8")</code> převede text na bajty, které lze skutečně poslat po síti.</li>
+          <li><code>send_response(...)</code> nastaví stav odpovědi.</li>
+          <li><code>send_header(...)</code> přidá hlavičky odpovědi.</li>
+          <li><code>end_headers()</code> ukončí část s hlavičkami.</li>
+          <li><code>wfile.write(body)</code> zapíše samotné tělo odpovědi.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Tohle je první reálná metoda, která skutečně něco pošle klientovi.</li>
+          <li>Text zatím není HTML stránka ani JSON.</li>
+          <li>Je to jen jednoduchá, ale plnohodnotná webová odpověď.</li>
+        </ul>
+
+      </div>
+    </details>
+
+    <!-- 4) do_GET -->
+    <details class="acc">
+      <summary class="acc__sum">4) Třetí blok kódu – metoda <code>do_GET(self)</code></summary>
+      <div class="acc__body">
+
+        <p>
+          Teď přidáme metodu, která se spustí tehdy, když server dostane GET požadavek.
+          Ve finálním backendu je <code>do_GET()</code> už delší a rozpoznává více cest, :contentReference[oaicite:4]{index=4} minimální verzí. fileciteturn3file0
+        </p>
+
+        <pre><code id="code-do-get">def do_GET(self):
+    self._send_text("Server běží.")</code></pre>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost copy-btn"
+                  type="button"
+                  data-copy-target="code-do-get">
+            Kopírovat blok
+          </button>
+
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal-do-get">
+            Více informací
+          </button>
+        </div>
+
+        <p>
+          Tato metoda říká velmi jednoduchou věc:
+          „Když přijde GET požadavek, pošli zpět text Server běží.“
+        </p>
+
+        <ol class="steps">
+          <li><code>def do_GET(self):</code> je speciální metoda handleru pro GET požadavky.</li>
+          <li>Když uživatel otevře adresu v prohlížeči, velmi často jde právě o GET.</li>
+          <li><code>self._send_text(...)</code> zavolá naši pomocnou metodu.</li>
+          <li>Server tedy nevrací databázi ani HTML, ale jen krátký text.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Toto je ideální první test serveru.</li>
+          <li>Neřešíme ještě cesty jako <code>/api/movies</code>.</li>
+          <li>Jen si ověřujeme, že server umí odpovědět.</li>
+        </ul>
+
+      </div>
+    </details>
+
+    <!-- 5) Jak to složit dohromady -->
+    <details class="acc">
+      <summary class="acc__sum">5) Jak má třída vypadat dohromady</summary>
+      <div class="acc__body">
+
+        <p>
+          Po spojení předchozích bloků bude mít naše třída tuto podobu:
+        </p>
+
+        <pre><code id="code-handler-full">class RequestHandler(BaseHTTPRequestHandler):
+
+    def _send_text(self, text, status=200, content_type="text/plain; charset=utf-8"):
+        body = text.encode("utf-8")
+        self.send_response(status)
+        self.send_header("Content-Type", content_type)
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def do_GET(self):
+        self._send_text("Server běží.")</code></pre>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost copy-btn"
+                  type="button"
+                  data-copy-target="code-handler-full">
+            Kopírovat blok
+          </button>
+        </div>
+
+        <ol class="steps">
+          <li>Nejprve definujeme třídu.</li>
+          <li>Do ní vložíme pomocnou metodu <code>_send_text()</code>.</li>
+          <li>Pod ni vložíme <code>do_GET()</code>.</li>
+          <li>Obě metody musí být správně odsazené uvnitř třídy.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Odsazení je v Pythonu zásadní.</li>
+          <li>Když se metoda neodsadí správně, Python ji nebude chápat jako součást třídy.</li>
+          <li>Třída teď už opravdu umí odpovědět na jednoduchý GET požadavek.</li>
+        </ul>
+
+      </div>
+    </details>
+
+    <!-- 6) run_server -->
+    <details class="acc">
+      <summary class="acc__sum">6) Čtvrtý blok kódu – spuštění serveru přes <code>run_server()</code></summary>
+      <div class="acc__body">
+
+        <p>
+          Třída sama o sobě nestačí. Musíme ještě skutečně vytvořit server a spustit ho.
+          Ve finálním backendu to :contentReference[oaicite:5]{index=5}_server()</code>. fileciteturn3file0
+        </p>
+
+        <pre><code id="code-run-server">def run_server(host="127.0.0.1", port=8000):
+    server = HTTPServer((host, port), RequestHandler)
+    print(f"Server běží na http://{host}:{port}")
+    print("Zastavíš ho: CTRL+C")
+    server.serve_forever()</code></pre>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost copy-btn"
+                  type="button"
+                  data-copy-target="code-run-server">
+            Kopírovat blok
+          </button>
+
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal-run-server">
+            Více informací
+          </button>
+        </div>
+
+        <ol class="steps">
+          <li><code>def run_server(...)</code> definuje funkci pro spuštění serveru.</li>
+          <li><code>host="127.0.0.1"</code> znamená, že server poběží lokálně na tomto počítači.</li>
+          <li><code>port=8000</code> je číslo portu, na kterém bude server naslouchat.</li>
+          <li><code>HTTPServer((host, port), RequestHandler)</code> vytvoří server a propojí ho s naší třídou handleru.</li>
+          <li><code>serve_forever()</code> spustí nekonečné čekání na požadavky.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Server po spuštění „visí“ a čeká.</li>
+          <li>To není chyba, to je správné chování serveru.</li>
+          <li>Zastavuje se ručně, například přes <code>CTRL+C</code>.</li>
+        </ul>
+
+      </div>
+    </details>
+
+    <!-- 7) Jak to spustit -->
+    <details class="acc">
+      <summary class="acc__sum">7) Jak to poprvé spustit a otestovat</summary>
+      <div class="acc__body">
+
+        <p>
+          Abychom server skutečně spustili, potřebujeme dole v souboru zavolat:
+        </p>
+
+        <pre><code id="code-main-run">if __name__ == "__main__":
+    run_server()</code></pre>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost copy-btn"
+                  type="button"
+                  data-copy-target="code-main-run">
+            Kopírovat blok
+          </button>
+        </div>
+
+        <ol class="steps">
+          <li>Soubor spusť v Pythonu.</li>
+          <li>V konzoli uvidíš adresu serveru, například <code>http://127.0.0.1:8000</code>.</li>
+          <li>Tuto adresu otevři v prohlížeči.</li>
+          <li>Místo stránky zatím uvidíš text <code>Server běží.</code></li>
+        </ol>
+
+        <ul class="bullets">
+          <li>To je v této chvíli správně.</li>
+          <li>Zatím jsme neřešili HTML ani API.</li>
+          <li>Jen jsme ověřili, že server funguje a umí odpovědět.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Pamatuj:</strong> první úspěch serveru není hezká stránka. První úspěch serveru je už to, že přijme požadavek a pošle smysluplnou odpověď.
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 8) Co má být po kapitole hotové -->
+    <details class="acc">
+      <summary class="acc__sum">8) Co máš mít po této kapitole hotové</summary>
+      <div class="acc__body">
+
+        <p>
+          Po této kapitole ještě neposíláme HTML soubor ani JSON z databáze. Ale už máme skutečný základ serveru:
+          třídu handleru, první textovou odpověď a funkci pro spuštění serveru.
+        </p>
+
+        <ol class="steps">
+          <li>Máš třídu <code>RequestHandler</code>.</li>
+          <li>Uvnitř ní máš metodu <code>_send_text()</code>.</li>
+          <li>Uvnitř ní máš také <code>do_GET()</code>.</li>
+          <li>Máš funkci <code>run_server()</code>.</li>
+          <li>Server jde spustit a v prohlížeči vrátí textovou odpověď.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Teď už opravdu máme server.</li>
+          <li>V další lekci ho naučíme rozlišovat cesty.</li>
+          <li>Až potom přidáme HTML stránku, API a 404 odpověď.</li>
+        </ul>
+
+      </div>
+    </details>
+
+  </div>
+
+  <!-- Shrnutí -->
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+
+    <ul class="checklist">
+      <li>Žák chápe, že <code>RequestHandler</code> obsluhuje HTTP požadavky.</li>
+      <li>Žák ví, že metoda <code>do_GET()</code> se spustí při GET požadavku.</li>
+      <li>Žák rozumí tomu, že <code>_send_text()</code> pošle jednoduchou textovou odpověď klientovi.</li>
+      <li>Žák chápe, že <code>run_server()</code> vytvoří a spustí server, který potom čeká na požadavky.</li>
+    </ul>
+  </article>
+
+  <!-- Volitelné: Zdroje -->
+  <article class="card">
+    <h3 class="card__title">Odkazy na použité zdroje</h3>
+    <ol class="steps">
+      <li><a href="./movies_server.py" target="_blank" rel="noopener">Ukázkový backend projektu – movies_server.py</a></li>
+      <li><a href="./index.html" target="_blank" rel="noopener">Ukázkový frontend projektu – index.html</a></li>
+    </ol>
+  </article>
+
+</section>
+
+<!-- MODAL 1 -->
+<div class="modal" id="modal-request-response" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Co je request a response</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Web funguje jako rozhovor mezi klientem a serverem:
+        </p>
+        <ul class="bullets">
+          <li><strong>request</strong> = požadavek od klienta na server,</li>
+          <li><strong>response</strong> = odpověď serveru klientovi.</li>
+        </ul>
+        <p>
+          Když do prohlížeče zadáš adresu, prohlížeč pošle request.
+          Server ho přijme a vrátí response.
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 2 -->
+<div class="modal" id="modal-handler-class" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Co znamená třída a dědičnost zde konkrétně</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Třída <code>RequestHandler</code> je naše vlastní specializace základního HTTP handleru.
+        </p>
+        <ul class="bullets">
+          <li><code>BaseHTTPRequestHandler</code> už zná obecná pravidla HTTP.</li>
+          <li>My do něj dopisujeme naši konkrétní logiku.</li>
+          <li>Dědičnost tedy znamená: převezmi základ a rozšiř ho o vlastní chování.</li>
+        </ul>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 3 -->
+<div class="modal" id="modal-send-text-breakdown" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Rozbor _send_text() po krocích</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Tato metoda dělá tři hlavní věci:
+        </p>
+        <ul class="bullets">
+          <li>připraví tělo odpovědi,</li>
+          <li>nastaví HTTP stav a hlavičky,</li>
+          <li>pošle data klientovi.</li>
+        </ul>
+        <p>
+          Díky tomu nemusíme stejnou logiku psát znovu a znovu v každé části serveru.
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 4 -->
+<div class="modal" id="modal-do-get" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Co přesně znamená do_GET(self)</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          <code>do_GET()</code> je speciální metoda, kterou základní HTTP handler očekává.
+        </p>
+        <ul class="bullets">
+          <li>Když přijde GET požadavek, zavolá se tato metoda.</li>
+          <li>Uvnitř ní rozhodujeme, co server vrátí.</li>
+          <li>Později v ní budeme rozlišovat i různé cesty, například <code>/</code> a <code>/api/movies</code>.</li>
+        </ul>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 5 -->
+<div class="modal" id="modal-run-server" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Proč server po spuštění jen čeká</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Server není program, který něco spočítá a hned skončí. Jeho úkolem je běžet a čekat,
+          až ho klient osloví.
+        </p>
+        <ul class="bullets">
+          <li><code>serve_forever()</code> znamená „obsluhuj požadavky pořád dokola“.</li>
+          <li>Proto server po spuštění nevypíše „Hotovo“ a nekončí.</li>
+          <li>Naopak tím dává najevo, že je připravený.</li>
+        </ul>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+
+    </div>
+  </div>
+ 
+</div>
+
+ <article class="card">
+  <h3 class="card__title">Minihra – sestav první odpověď serveru</h3>
+  <p>
+    Seřaď kroky tak, aby backend uměl přijmout jednoduchý GET požadavek
+    a vrátit textovou odpověď do prohlížeče.
+  </p>
+
+  <div class="code-puzzle" data-puzzle-id="puzzle-6-1-4-first-response">
+    <div class="code-puzzle__header">
+      <h4>Sestav první funkční server</h4>
+      <p>
+        Kliknutím označíš kartičku, druhým kliknutím ji prohodíš s jinou.
+        Když bude pořadí správně, ukáže se výsledný Python kód.
+      </p>
+    </div>
+
+    <div class="code-puzzle__items" data-puzzle-items>
+      <button type="button" class="code-puzzle__item" data-step="3">
+        Přidej metodu <code>do_GET(self)</code>, která při GET požadavku zavolá <code>self._send_text("Server běží.")</code>.
+      </button>
+
+      <button type="button" class="code-puzzle__item" data-step="1">
+        Vytvoř třídu <code>RequestHandler</code>, která dědí z <code>BaseHTTPRequestHandler</code>.
+      </button>
+
+      <button type="button" class="code-puzzle__item" data-step="4">
+        Vytvoř funkci <code>run_server()</code>, která propojí <code>HTTPServer</code> s třídou <code>RequestHandler</code>.
+      </button>
+
+      <button type="button" class="code-puzzle__item" data-step="2">
+        Do třídy přidej pomocnou metodu <code>_send_text()</code>, která připraví a odešle textovou HTTP odpověď.
+      </button>
+
+      <button type="button" class="code-puzzle__item" data-step="5">
+        Spusť server a otestuj ho v prohlížeči na adrese <code>http://127.0.0.1:8000</code>.
+      </button>
+    </div>
+
+    <div class="code-puzzle__controls">
+      <button type="button" class="btn btn--sm btn--ghost" data-puzzle-check>
+        Zkontrolovat
+      </button>
+      <button type="button" class="btn btn--sm btn--ghost" data-puzzle-reset>
+        Zamíchat znovu
+      </button>
+    </div>
+
+    <div class="code-puzzle__feedback" data-puzzle-feedback></div>
+
+    <div class="code-puzzle__result" data-puzzle-result hidden>
+      <div class="codeblock">
+        <div class="codeblock__bar">
+          <strong class="codeblock__title">Výsledný kód – první odpověď serveru</strong>
+          <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-puzzle-614-result">
+            Kopírovat
+          </button>
+        </div>
+        <pre id="code-puzzle-614-result"><code class="language-python">class RequestHandler(BaseHTTPRequestHandler):
+
+    def _send_text(self, text, status=200, content_type="text/plain; charset=utf-8"):
+        body = text.encode("utf-8")
+        self.send_response(status)
+        self.send_header("Content-Type", content_type)
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def do_GET(self):
+        self._send_text("Server běží.")
+
+def run_server(host="127.0.0.1", port=8000):
+    server = HTTPServer((host, port), RequestHandler)
+    print(f"Server běží na http://{host}:{port}")
+    print("Zastavíš ho: CTRL+C")
+    server.serve_forever()</code></pre>
+      </div>
+    </div>
+  </div>
+</article>
