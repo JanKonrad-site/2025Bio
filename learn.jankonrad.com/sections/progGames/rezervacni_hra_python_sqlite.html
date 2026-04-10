@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hra – Sestav rezervační systém v Pythonu a SQLite</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --panel-2: #1f2937;
+      --panel-3: #0b1220;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-2: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --border: #334155;
+      --shadow: 0 20px 50px rgba(0,0,0,.35);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, Segoe UI, Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(56,189,248,.18), transparent 25%),
+        radial-gradient(circle at top right, rgba(34,197,94,.12), transparent 30%),
+        linear-gradient(180deg, #020617 0%, #0f172a 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .wrap {
+      width: min(1450px, calc(100% - 32px));
+      margin: 24px auto 40px;
+    }
+
+    .hero, .panel {
+      background: linear-gradient(180deg, rgba(17,24,39,.94), rgba(15,23,42,.94));
+      border: 1px solid rgba(148,163,184,.18);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .hero {
+      padding: 28px;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      margin: 0 0 12px;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.05;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 900px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .badge {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,.22);
+      background: rgba(15,23,42,.8);
+      color: #dbeafe;
+      font-size: 14px;
+    }
+
+    .topbar {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .panel {
+      padding: 20px;
+    }
+
+    .panel h2 {
+      margin: 0 0 12px;
+      font-size: 22px;
+    }
+
+    .panel p, .panel li {
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .panel ul {
+      padding-left: 20px;
+      margin: 10px 0 0;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 16px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 14px;
+      transition: transform .12s ease, opacity .12s ease, background .12s ease;
+    }
+
+    button:hover { transform: translateY(-1px); }
+    button:active { transform: translateY(0); }
+
+    .btn-primary { background: linear-gradient(135deg, #0ea5e9, #2563eb); color: white; }
+    .btn-secondary { background: #1e293b; color: #e2e8f0; border: 1px solid #334155; }
+    .btn-success { background: linear-gradient(135deg, #16a34a, #22c55e); color: white; }
+    .btn-warning { background: linear-gradient(135deg, #f59e0b, #ea580c); color: white; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .stat {
+      background: rgba(2,6,23,.56);
+      border: 1px solid rgba(148,163,184,.16);
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .stat__label {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .stat__value {
+      font-size: 26px;
+      font-weight: 800;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: 460px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .blocks-area, .slots-area, .result-area {
+      min-height: 200px;
+    }
+
+    .code-bank {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 320px;
+    }
+
+    .code-block {
+      background: linear-gradient(180deg, rgba(15,23,42,.96), rgba(2,6,23,.96));
+      border: 1px solid rgba(56,189,248,.28);
+      border-radius: 16px;
+      padding: 12px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
+      cursor: grab;
+      user-select: none;
+    }
+
+    .code-block.dragging { opacity: .45; }
+
+    .code-block__title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .code-block__tag {
+      font-size: 12px;
+      color: #0f172a;
+      background: #bae6fd;
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 13px;
+      line-height: 1.55;
+      color: #dbeafe;
+    }
+
+    .skeleton {
+      background: rgba(2,6,23,.56);
+      border: 1px solid rgba(148,163,184,.16);
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .skeleton pre {
+      color: #cbd5e1;
+    }
+
+    .slots {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .slot {
+      border: 2px dashed rgba(148,163,184,.24);
+      background: rgba(15,23,42,.72);
+      border-radius: 16px;
+      padding: 12px;
+      min-height: 92px;
+      transition: border-color .12s ease, background .12s ease, transform .12s ease;
+    }
+
+    .slot.drag-over {
+      border-color: var(--accent);
+      background: rgba(14,165,233,.08);
+      transform: translateY(-2px);
+    }
+
+    .slot.correct {
+      border-color: rgba(34,197,94,.82);
+      background: rgba(34,197,94,.09);
+    }
+
+    .slot.wrong {
+      border-color: rgba(239,68,68,.82);
+      background: rgba(239,68,68,.08);
+    }
+
+    .slot__head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+      align-items: center;
+    }
+
+    .slot__index {
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .slot__hint {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .slot__empty {
+      color: #64748b;
+      font-style: italic;
+      font-size: 14px;
+      padding-top: 6px;
+    }
+
+    .slot .code-block {
+      margin-top: 8px;
+      cursor: grab;
+    }
+
+    .feedback {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      font-weight: 700;
+      display: none;
+    }
+
+    .feedback.show { display: block; }
+    .feedback.ok { background: rgba(34,197,94,.12); border: 1px solid rgba(34,197,94,.35); color: #bbf7d0; }
+    .feedback.error { background: rgba(239,68,68,.10); border: 1px solid rgba(239,68,68,.35); color: #fecaca; }
+    .feedback.info { background: rgba(56,189,248,.10); border: 1px solid rgba(56,189,248,.35); color: #bae6fd; }
+
+    .hint-box {
+      margin-top: 12px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(245,158,11,.10);
+      border: 1px solid rgba(245,158,11,.35);
+      color: #fde68a;
+      display: none;
+    }
+
+    .hint-box.show { display: block; }
+
+    .result-area {
+      margin-top: 20px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 480px;
+      resize: vertical;
+      border-radius: 18px;
+      background: #020617;
+      border: 1px solid rgba(148,163,184,.22);
+      color: #e2e8f0;
+      padding: 16px;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .copy-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .small-note {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .locked {
+      color: #86efac;
+      font-size: 12px;
+      font-weight: 800;
+      border-radius: 999px;
+      padding: 4px 8px;
+      background: rgba(34,197,94,.14);
+      border: 1px solid rgba(34,197,94,.25);
+    }
+
+    @media (max-width: 1100px) {
+      .topbar, .workspace { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 720px) {
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .wrap { width: min(100% - 20px, 1450px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>Hra: sestav rezervační systém v Pythonu a SQLite</h1>
+      <p>
+        Student má za úkol přetahat bloky Python kódu do správného pořadí tak, aby vznikl funkční konzolový rezervační systém.
+        Jakmile je pořadí správně, dole se automaticky vygeneruje celý finální skript ke zkopírování.
+      </p>
+      <div class="badges">
+        <span class="badge">Python</span>
+        <span class="badge">SQLite</span>
+        <span class="badge">drag &amp; drop</span>
+        <span class="badge">nápovědy</span>
+        <span class="badge">výstupní kód ke zkopírování</span>
+      </div>
+    </section>
+
+    <section class="topbar">
+      <div class="panel">
+        <h2>Jak se to hraje</h2>
+        <ul>
+          <li>Vlevo jsou pomíchané bloky kódu.</li>
+          <li>Vpravo jsou sloty s nápovědami, kam jednotlivé bloky patří.</li>
+          <li>Blok přetáhni do slotu. Když chceš, můžeš ho zase vrátit zpět do levého panelu.</li>
+          <li>Tlačítko <strong>Zkontrolovat</strong> ověří správné pořadí.</li>
+          <li>Po správném složení se dole objeví celý hotový Python skript.</li>
+        </ul>
+        <div class="controls">
+          <button class="btn-primary" id="checkBtn">Zkontrolovat</button>
+          <button class="btn-warning" id="hintBtn">Nápověda</button>
+          <button class="btn-secondary" id="shuffleBtn">Zamíchat znovu</button>
+          <button class="btn-secondary" id="resetBtn">Vymazat sloty</button>
+        </div>
+        <div class="feedback" id="feedback"></div>
+        <div class="hint-box" id="hintBox"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Skóre a průběh</h2>
+        <p>
+          Tohle je schválně udělané jako malá logická hra. Čím méně kontrol a nápověd použiješ, tím lepší skóre získáš.
+        </p>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat__label">Správně umístěno</div>
+            <div class="stat__value" id="placedStat">0 / 12</div>
+          </div>
+          <div class="stat">
+            <div class="stat__label">Kontroly</div>
+            <div class="stat__value" id="checksStat">0</div>
+          </div>
+          <div class="stat">
+            <div class="stat__label">Nápovědy</div>
+            <div class="stat__value" id="hintsStat">0</div>
+          </div>
+          <div class="stat">
+            <div class="stat__label">Skóre</div>
+            <div class="stat__value" id="scoreStat">100</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="workspace">
+      <div class="panel blocks-area">
+        <h2>Pomíchané bloky</h2>
+        <p>Začni třeba tím, že najdeš importy, databázový soubor a hlavní část programu.</p>
+        <div class="code-bank" id="bank"></div>
+      </div>
+
+      <div class="panel slots-area">
+        <h2>Místo pro skládání</h2>
+        <div class="skeleton">
+<pre>import sqlite3
+from pathlib import Path
+
+DB_FILE = Path(__file__).resolve().with_name("reservations.db")
+
+# =========================================================
+# FUNKCE (sem vkládáš bloky)
+# =========================================================
+...pořadí funkcí...
+
+# =========================================================
+# MAIN
+# =========================================================
+...spuštění programu...</pre>
+        </div>
+
+        <div class="slots" id="slots"></div>
+      </div>
+    </section>
+
+    <section class="panel result-area">
+      <h2>Výsledný skript ke zkopírování</h2>
+      <p class="small-note">Tady se objeví celý Python kód až ve chvíli, kdy je program složen správně.</p>
+      <textarea id="resultCode" readonly placeholder="Nejprve správně slož celý program..."></textarea>
+      <div class="copy-row">
+        <button class="btn-success" id="copyBtn">Kopírovat kód</button>
+        <span class="small-note" id="copyInfo">Zatím není co kopírovat.</span>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const blocksData = [
+      {
+        id: "imports",
+        title: "Importy a práce s cestou k DB",
+        tag: "začátek",
+        code: `import sqlite3\nfrom pathlib import Path\n\nDB_FILE = Path(__file__).resolve().with_name("reservations.db")`
+      },
+      {
+        id: "connect",
+        title: "Funkce connect()",
+        tag: "funkce",
+        code: `def connect():\n    return sqlite3.connect(str(DB_FILE))`
+      },
+      {
+        id: "init_db",
+        title: "Vytvoření tabulky",
+        tag: "funkce",
+        code: `def init_db():\n    conn = connect()\n    conn.execute("""\n    CREATE TABLE IF NOT EXISTS reservations (\n        id        INTEGER PRIMARY KEY AUTOINCREMENT,\n        name      TEXT    NOT NULL,\n        date      TEXT    NOT NULL,\n        arrival   TEXT    NOT NULL,\n        departure TEXT    NOT NULL\n    );\n    """)\n    conn.commit()\n    conn.close()`
+      },
+      {
+        id: "add_reservation",
+        title: "Přidání rezervace",
+        tag: "funkce",
+        code: `def add_reservation():\n    name = input("Jméno: ").strip()\n    date = input("Datum (YYYY-MM-DD): ").strip()\n    arrival = input("Příchod (HH:MM): ").strip()\n    departure = input("Odchod (HH:MM): ").strip()\n\n    conn = connect()\n    conn.execute(\n        "INSERT INTO reservations (name, date, arrival, departure) VALUES (?, ?, ?, ?);",\n        (name, date, arrival, departure)\n    )\n    conn.commit()\n    conn.close()\n    print("Uloženo.")`
+      },
+      {
+        id: "fetch_reservations",
+        title: "Načtení rezervací z DB",
+        tag: "funkce",
+        code: `def fetch_reservations():\n    conn = connect()\n    rows = conn.execute("""\n        SELECT id, name, date, arrival, departure\n        FROM reservations\n        ORDER BY date ASC, arrival ASC;\n    """).fetchall()\n    conn.close()\n    return rows`
+      },
+      {
+        id: "print_reservations",
+        title: "Výpis rezervací",
+        tag: "funkce",
+        code: `def print_reservations(rows):\n    if not rows:\n        print("Žádné rezervace.")\n        return\n\n    print("Rezervace:")\n    for (rid, name, date, arrival, departure) in rows:\n        print(f"#{rid} | {name} | {date} | {arrival}-{departure}")`
+      },
+      {
+        id: "menu",
+        title: "Textové menu",
+        tag: "funkce",
+        code: `def menu():\n    print()\n    print("1) Přidat rezervaci")\n    print("2) Vypsat rezervace")\n    print("0) Konec")`
+      },
+      {
+        id: "main_guard",
+        title: "Spuštění programu",
+        tag: "main",
+        code: `if __name__ == "__main__":`
+      },
+      {
+        id: "main_init",
+        title: "Inicializace databáze",
+        tag: "main",
+        code: `    init_db()`
+      },
+      {
+        id: "main_loop",
+        title: "Hlavní while smyčka",
+        tag: "main",
+        code: `    while True:\n        menu()\n        choice = input("Volba: ").strip()`
+      },
+      {
+        id: "main_branching",
+        title: "Reakce na volbu 1 a 2",
+        tag: "main",
+        code: `        if choice == "1":\n            add_reservation()\n\n        elif choice == "2":\n            rows = fetch_reservations()\n            print_reservations(rows)`
+      },
+      {
+        id: "main_end",
+        title: "Konec a neplatná volba",
+        tag: "main",
+        code: `        elif choice == "0":\n            break\n\n        else:\n            print("Neplatná volba.")`
+      }
+    ];
+
+    const slotHints = [
+      "Úplný začátek souboru: importy a cesta k databázi.",
+      "Nejdřív potřebujeme funkci, která otevře spojení s databází.",
+      "Potom funkce, která případně vytvoří tabulku reservations.",
+      "Teď funkce pro vložení nové rezervace.",
+      "Následuje načtení rezervací z databáze.",
+      "Teď potřebujeme rezervace hezky vypsat do konzole.",
+      "Krátká funkce, která ukáže menu uživateli.",
+      "Začátek hlavní spouštěcí části programu.",
+      "Ještě před smyčkou je potřeba připravit databázi.",
+      "Pak začíná nekonečná smyčka s menu a načtením volby.",
+      "Tady se řeší možnosti 1 a 2.",
+      "Závěr větvení: konec programu a chyba volby."
+    ];
+
+    const hintMessages = [
+      "Začni tím, že najdeš úplný začátek souboru: importy a řádek s DB_FILE.",
+      "V části funkcí jdi logicky: připojení → vytvoření tabulky → přidání → načtení → výpis → menu.",
+      "V main části musí být nejdřív if __name__ == \"__main__\": a hned pod tím init_db().",
+      "Větvení uvnitř while smyčky je rozdělené do dvou bloků: nejprve volby 1 a 2, potom volba 0 a else.",
+      "Když si nejsi jistý, dívej se na odsazení. To v Pythonu prozradí, co patří do které části programu."
+    ];
+
+    const correctOrder = [
+      "imports",
+      "connect",
+      "init_db",
+      "add_reservation",
+      "fetch_reservations",
+      "print_reservations",
+      "menu",
+      "main_guard",
+      "main_init",
+      "main_loop",
+      "main_branching",
+      "main_end"
+    ];
+
+    const fullCode = `import sqlite3
+from pathlib import Path
+
+DB_FILE = Path(__file__).resolve().with_name("reservations.db")
+
+# =========================================================
+# FUNKCE (sem vkládáš bloky)
+# =========================================================
+def connect():
+    return sqlite3.connect(str(DB_FILE))
+
+def init_db():
+    conn = connect()
+    conn.execute("""
+    CREATE TABLE IF NOT EXISTS reservations (
+        id        INTEGER PRIMARY KEY AUTOINCREMENT,
+        name      TEXT    NOT NULL,
+        date      TEXT    NOT NULL,
+        arrival   TEXT    NOT NULL,
+        departure TEXT    NOT NULL
+    );
+    """)
+    conn.commit()
+    conn.close()
+
+def add_reservation():
+    name = input("Jméno: ").strip()
+    date = input("Datum (YYYY-MM-DD): ").strip()
+    arrival = input("Příchod (HH:MM): ").strip()
+    departure = input("Odchod (HH:MM): ").strip()
+
+    conn = connect()
+    conn.execute(
+        "INSERT INTO reservations (name, date, arrival, departure) VALUES (?, ?, ?, ?);",
+        (name, date, arrival, departure)
+    )
+    conn.commit()
+    conn.close()
+    print("Uloženo.")
+
+def fetch_reservations():
+    conn = connect()
+    rows = conn.execute("""
+        SELECT id, name, date, arrival, departure
+        FROM reservations
+        ORDER BY date ASC, arrival ASC;
+    """).fetchall()
+    conn.close()
+    return rows
+
+def print_reservations(rows):
+    if not rows:
+        print("Žádné rezervace.")
+        return
+
+    print("Rezervace:")
+    for (rid, name, date, arrival, departure) in rows:
+        print(f"#{rid} | {name} | {date} | {arrival}-{departure}")
+
+def menu():
+    print()
+    print("1) Přidat rezervaci")
+    print("2) Vypsat rezervace")
+    print("0) Konec")
+
+# =========================================================
+# MAIN
+# =========================================================
+if __name__ == "__main__":
+    init_db()
+
+    while True:
+        menu()
+        choice = input("Volba: ").strip()
+
+        if choice == "1":
+            add_reservation()
+
+        elif choice == "2":
+            rows = fetch_reservations()
+            print_reservations(rows)
+
+        elif choice == "0":
+            break
+
+        else:
+            print("Neplatná volba.")`;
+
+    const bank = document.getElementById("bank");
+    const slotsEl = document.getElementById("slots");
+    const feedback = document.getElementById("feedback");
+    const hintBox = document.getElementById("hintBox");
+    const resultCode = document.getElementById("resultCode");
+    const placedStat = document.getElementById("placedStat");
+    const checksStat = document.getElementById("checksStat");
+    const hintsStat = document.getElementById("hintsStat");
+    const scoreStat = document.getElementById("scoreStat");
+    const copyInfo = document.getElementById("copyInfo");
+
+    let draggedId = null;
+    let checks = 0;
+    let hintsUsed = 0;
+    let shownHintIndex = 0;
+
+    function shuffle(array) {
+      const a = [...array];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function createBlock(block) {
+      const el = document.createElement("div");
+      el.className = "code-block";
+      el.draggable = true;
+      el.dataset.blockId = block.id;
+      el.innerHTML = `
+        <div class="code-block__title">
+          <span>${block.title}</span>
+          <span class="code-block__tag">${block.tag}</span>
+        </div>
+        <pre>${escapeHtml(block.code)}</pre>
+      `;
+
+      el.addEventListener("dragstart", () => {
+        draggedId = block.id;
+        el.classList.add("dragging");
+      });
+
+      el.addEventListener("dragend", () => {
+        el.classList.remove("dragging");
+      });
+
+      el.addEventListener("click", () => {
+        if (el.parentElement && el.parentElement.id === 'bank') {
+          quickPlace(block.id);
+        } else {
+          moveBlockBackToBank(block.id);
+        }
+      });
+
+      return el;
+    }
+
+    function createSlot(index) {
+      const slot = document.createElement("div");
+      slot.className = "slot";
+      slot.dataset.index = index;
+      slot.innerHTML = `
+        <div class="slot__head">
+          <div class="slot__index">Pozice ${index + 1}</div>
+          <div class="slot__hint">${slotHints[index]}</div>
+        </div>
+        <div class="slot__empty">Sem přetáhni blok kódu.</div>
+      `;
+
+      slot.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        slot.classList.add("drag-over");
+      });
+
+      slot.addEventListener("dragleave", () => {
+        slot.classList.remove("drag-over");
+      });
+
+      slot.addEventListener("drop", (e) => {
+        e.preventDefault();
+        slot.classList.remove("drag-over");
+        if (!draggedId) return;
+        placeInSlot(draggedId, index);
+      });
+
+      return slot;
+    }
+
+    function escapeHtml(text) {
+      return text
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;");
+    }
+
+    function render(shuffled = false) {
+      const currentBlocks = shuffled ? shuffle(blocksData) : [...blocksData];
+      bank.innerHTML = "";
+      slotsEl.innerHTML = "";
+
+      currentBlocks.forEach(block => bank.appendChild(createBlock(block)));
+      slotHints.forEach((_, index) => slotsEl.appendChild(createSlot(index)));
+
+      draggedId = null;
+      resultCode.value = "";
+      copyInfo.textContent = "Zatím není co kopírovat.";
+      hideFeedback();
+      hintBox.className = "hint-box";
+      hintBox.textContent = "";
+      updateStats();
+
+    }
+
+    function handleBankDragOver(e) {
+      e.preventDefault();
+    }
+
+    function handleBankDrop(e) {
+      e.preventDefault();
+      if (!draggedId) return;
+      moveBlockBackToBank(draggedId);
+    }
+
+    function getBlockElement(blockId) {
+      return document.querySelector(`[data-block-id="${blockId}"]`);
+    }
+
+    function getSlot(index) {
+      return document.querySelector(`.slot[data-index="${index}"]`);
+    }
+
+    function clearVisualMarks() {
+      document.querySelectorAll('.slot').forEach(slot => {
+        slot.classList.remove('correct', 'wrong');
+      });
+    }
+
+    function placeInSlot(blockId, slotIndex) {
+      const blockEl = getBlockElement(blockId);
+      const slot = getSlot(slotIndex);
+      if (!blockEl || !slot) return;
+
+      const existingBlock = slot.querySelector('.code-block');
+      if (existingBlock) {
+        bank.appendChild(existingBlock);
+      }
+
+      const existingParent = blockEl.parentElement;
+      if (existingParent && existingParent.classList.contains('slot')) {
+        const oldEmpty = existingParent.querySelector('.slot__empty');
+        if (oldEmpty) oldEmpty.style.display = 'block';
+      }
+
+      slot.appendChild(blockEl);
+      const empty = slot.querySelector('.slot__empty');
+      if (empty) empty.style.display = 'none';
+
+      clearVisualMarks();
+      updateStats();
+    }
+
+    function quickPlace(blockId) {
+      const slots = [...document.querySelectorAll('.slot')];
+      const firstEmpty = slots.find(slot => !slot.querySelector('.code-block'));
+      if (firstEmpty) {
+        placeInSlot(blockId, Number(firstEmpty.dataset.index));
+      } else {
+        showFeedback('Všechny sloty jsou obsazené. Některý blok nejdřív vrať zpět vlevo.', 'info');
+      }
+    }
+
+    function moveBlockBackToBank(blockId) {
+      const blockEl = getBlockElement(blockId);
+      if (!blockEl) return;
+      const oldParent = blockEl.parentElement;
+      bank.appendChild(blockEl);
+      if (oldParent && oldParent.classList.contains('slot')) {
+        const empty = oldParent.querySelector('.slot__empty');
+        if (empty) empty.style.display = 'block';
+      }
+      clearVisualMarks();
+      updateStats();
+    }
+
+    function getCurrentOrder() {
+      const slots = [...document.querySelectorAll('.slot')];
+      return slots.map(slot => slot.querySelector('.code-block')?.dataset.blockId || null);
+    }
+
+    function updateStats() {
+      const order = getCurrentOrder();
+      const placed = order.filter(Boolean).length;
+      const correctPlaced = order.filter((id, i) => id === correctOrder[i]).length;
+      const score = Math.max(0, 100 - checks * 5 - hintsUsed * 8);
+
+      placedStat.textContent = `${correctPlaced} / ${correctOrder.length}`;
+      checksStat.textContent = String(checks);
+      hintsStat.textContent = String(hintsUsed);
+      scoreStat.textContent = String(score);
+    }
+
+    function showFeedback(text, type) {
+      feedback.textContent = text;
+      feedback.className = `feedback show ${type}`;
+    }
+
+    function hideFeedback() {
+      feedback.className = 'feedback';
+      feedback.textContent = '';
+    }
+
+    function validate() {
+      checks += 1;
+      clearVisualMarks();
+      const order = getCurrentOrder();
+      const wrongPositions = [];
+      let allFilled = true;
+
+      order.forEach((id, i) => {
+        const slot = getSlot(i);
+        if (!id) {
+          allFilled = false;
+          slot.classList.add('wrong');
+          wrongPositions.push(i + 1);
+          return;
+        }
+        if (id === correctOrder[i]) {
+          slot.classList.add('correct');
+        } else {
+          slot.classList.add('wrong');
+          wrongPositions.push(i + 1);
+        }
+      });
+
+      updateStats();
+
+      if (!allFilled) {
+        showFeedback(`Ještě nejsou vyplněné všechny pozice. Zkontroluj sloty: ${wrongPositions.join(', ')}.`, 'error');
+        resultCode.value = '';
+        copyInfo.textContent = 'Zatím není co kopírovat.';
+        return;
+      }
+
+      if (wrongPositions.length === 0) {
+        showFeedback('Skvělé. Program je složený správně a dole máš celý finální kód ke zkopírování.', 'ok');
+        resultCode.value = fullCode;
+        copyInfo.textContent = 'Hotovo. Kód je připraven ke kopírování.';
+      } else {
+        showFeedback(`Některé bloky jsou špatně. Oprav pozice: ${wrongPositions.join(', ')}.`, 'error');
+        resultCode.value = '';
+        copyInfo.textContent = 'Finální kód se odemkne až po správném složení.';
+      }
+    }
+
+    function showNextHint() {
+      const msg = hintMessages[Math.min(shownHintIndex, hintMessages.length - 1)];
+      hintsUsed += 1;
+      shownHintIndex += 1;
+      hintBox.textContent = msg;
+      hintBox.classList.add('show');
+      updateStats();
+    }
+
+    function resetSlots() {
+      document.querySelectorAll('.slot .code-block').forEach(block => bank.appendChild(block));
+      document.querySelectorAll('.slot .slot__empty').forEach(empty => empty.style.display = 'block');
+      clearVisualMarks();
+      hideFeedback();
+      resultCode.value = '';
+      copyInfo.textContent = 'Zatím není co kopírovat.';
+      updateStats();
+    }
+
+    async function copyResult() {
+      if (!resultCode.value.trim()) {
+        copyInfo.textContent = 'Nejdřív správně slož program.';
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(resultCode.value);
+        copyInfo.textContent = 'Kód zkopírován do schránky.';
+      } catch {
+        resultCode.select();
+        document.execCommand('copy');
+        copyInfo.textContent = 'Kód zkopírován do schránky.';
+      }
+    }
+
+    document.getElementById('checkBtn').addEventListener('click', validate);
+    document.getElementById('hintBtn').addEventListener('click', showNextHint);
+    document.getElementById('shuffleBtn').addEventListener('click', () => {
+      checks = 0;
+      hintsUsed = 0;
+      shownHintIndex = 0;
+      render(true);
+    });
+    document.getElementById('resetBtn').addEventListener('click', resetSlots);
+    document.getElementById('copyBtn').addEventListener('click', copyResult);
+    bank.addEventListener('dragover', handleBankDragOver);
+    bank.addEventListener('drop', handleBankDrop);
+
+    checks = 0;
+    hintsUsed = 0;
+    shownHintIndex = 0;
+    render(true);
+  </script>
+</body>
+</html>
