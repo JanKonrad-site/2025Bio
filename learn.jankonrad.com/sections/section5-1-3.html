@@ -1,201 +1,334 @@
 <!-- =========================================================
-3.6.0 – SQLite miniaplikace: Rezervační systém (konzole)
-- 2×45 minut (stihnutelné)
-- 1 soubor: reservations_app.py
-- skládáš z BLOKŮ (skeleton + bloky funkcí + ručně MAIN smyčka)
+3.6.0 – Rezervace: nejdřív lineárně (bez funkcí), potom refaktor do funkcí
++ MINI-HRA: skládání bloků → odhalení kódu
 ========================================================= -->
+<style>
+  /* assets/css/blockgame.css */
+
+.blockgame {
+  border: 1px solid var(--border, #ddd);
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.blockgame__cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.blockgame__title {
+  margin: 0 0 10px 0;
+}
+
+.blockgame__pool {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.blockgame__stack {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+}
+
+.blockgame__item {
+  padding: 8px 10px;
+  border: 1px dashed var(--border, #ddd);
+  border-radius: 10px;
+}
+
+.blockgame__reveal {
+  margin-top: 12px;
+}
+
+@media (max-width: 900px) {
+  .blockgame__cols {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
 <section id="section5-6-0" class="lesson">
 
   <header class="lesson__header">
-    <h2 class="lesson__title">3.6.0 Rezervační systém v Pythonu – konzole + SQLite (skládání z bloků)</h2>
+    <h2 class="lesson__title">3.6.0 Rezervační systém – konzole + SQLite (nejdřív jednoduše, potom jako aplikace)</h2>
     <p class="lesson__lead">
-      Vytvoříš jednoduchý rezervační systém, který běží v konzoli. Data se ukládají do databáze SQLite
-      (<code>reservations.db</code>) vedle skriptu. Aplikace umí rezervaci přidat a vypsat.
+      Vytvoříš jednoduchý rezervační systém do konzole. Nejprve to uděláme <strong>bez funkcí</strong> (abychom se neztratili),
+      a teprve potom to přepíšeme do „aplikace“ s menu. Data se ukládají do SQLite souboru <code>reservations.db</code>.
     </p>
   </header>
 
-  <!-- Co se naučíš -->
   <article class="card">
-    <h3 class="card__title">Co se v této lekci naučíš?</h3>
-
+    <h3 class="card__title">Co bude výstup na konci?</h3>
     <ul class="checklist">
-      <li><strong>Databázový soubor</strong> – kde je DB uložená a jak to ověřit (<code>Path</code>, <code>__file__</code>, <code>exists()</code>).</li>
-      <li><strong>Tabulka a záznam</strong> – jak vytvořit tabulku pro rezervace (<code>CREATE TABLE</code>).</li>
-      <li><strong>Zápis dat</strong> – jak vložit rezervaci do tabulky (<code>INSERT</code> + <code>?</code> parametry).</li>
-      <li><strong>Čtení dat</strong> – jak načíst rezervace a vypsat je (<code>SELECT</code>, <code>fetchall()</code>, <code>for</code>).</li>
-      <li><strong>Menu aplikace</strong> – jak to celé spojit do <code>while True</code> smyčky.</li>
+      <li>Databáze <code>reservations.db</code> existuje ve stejné složce jako skript.</li>
+      <li>Tabulka <code>reservations</code> se vytvoří (pokud ještě neexistuje).</li>
+      <li>Umíš vložit rezervaci: <strong>jméno, datum, příchod, odchod</strong>.</li>
+      <li>Umíš rezervace <strong>načíst a vypsat</strong> v konzoli.</li>
+      <li>(Bonus) Přepíšeš řešení do „aplikace“ s menu (funkce + while smyčka).</li>
     </ul>
 
     <div class="note note--info">
-      <strong>Formáty vstupu:</strong>
-      datum piš jako <code>YYYY-MM-DD</code> (např. 2026-04-10),
-      čas jako <code>HH:MM</code> (např. 14:30).
-      Zatím nepoužíváme datetime knihovny – držíme to jednoduché.
+      <strong>Formát vstupu:</strong>
+      datum piš <code>YYYY-MM-DD</code> (např. 2026-04-10),
+      čas piš <code>HH:MM</code> (např. 14:30).
+      Zatím neřešíme validaci – nejdřív pochopíme tok programu.
     </div>
   </article>
 
-  <!-- Akce -->
   <div class="actions">
-    <a class="btn btn--ghost" href="https://docs.python.org/3/library/sqlite3.html" target="_blank" rel="noopener">
-      Python sqlite3 (dokumentace)
-    </a>
-    <a class="btn btn--ghost" href="https://docs.python.org/3/library/pathlib.html" target="_blank" rel="noopener">
-      Python pathlib (dokumentace)
-    </a>
+    <a class="btn btn--ghost" href="https://docs.python.org/3/library/sqlite3.html" target="_blank" rel="noopener">sqlite3 (docs)</a>
+    <a class="btn btn--ghost" href="https://docs.python.org/3/library/pathlib.html" target="_blank" rel="noopener">pathlib (docs)</a>
   </div>
 
   <div class="accordion">
 
     <!-- ===================================================== -->
-    <!-- KROK 0: Skeleton (jediné, co kopíruješ celé) -->
+    <!-- 0) MINI-HRA: slož bloky → odhal kód -->
     <!-- ===================================================== -->
     <details class="acc" open>
-      <summary class="acc__sum">Krok 0: Skeleton souboru (zkopíruješ 1× celý)</summary>
+      <summary class="acc__sum">0) Mini-hra: poskládej tok programu (a odhal výsledný kód)</summary>
       <div class="acc__body">
+
         <p>
-          Vytvoř soubor <code>reservations_app.py</code>. Tenhle skeleton je jediná část, kterou kopíruješ celou.
-          Dál už kopíruješ jen jednotlivé BLOKY.
+          Než začneš psát, zkus si „v hlavě“ poskládat správné pořadí kroků.
+          Klikáním přidáváš bloky do „skládačky“. Když je pořadí správně, odhalí se celý kód.
+        </p>
+
+        <div class="blockgame" data-target="imports,dbfile,print_before,connect,create_table,commit1,input_fields,insert,commit2,select,close,print_rows,print_after">
+          <div class="blockgame__cols">
+
+            <div class="blockgame__col">
+              <h4 class="blockgame__title">Bloky</h4>
+              <div class="blockgame__pool">
+                <button class="btn btn--ghost blockgame__btn" type="button" data-block="imports">1) Importy</button>
+                <button class="btn btn--ghost blockgame__btn" type="button" data-block="dbfile">2) DB_FILE (cesta)</button>
+                <button class="btn btn--ghost blockgame__btn" type="button" data-block="print_before">3) Vypiš cestu + exists BEFORE</button>
+                <button class="btn btn--ghost blockgame__btn" type="button" data-block="connect">4) connect()</button>
+                <button class="btn btn--ghost blockgame__btn" type="button" data-block="create_table">5) CREATE TABLE</button>
+                <button class="btn btn--ghost blockgame__btn" type="button" data-block="commit1">6) commit() po CREATE</button>
+                <button class="btn btn--ghost blockgame__btn" type="button" data-block="input_fields">7) Načti vstupy (jméno/datum/čas)</button>
+                <button class="btn btn--ghost blockgame__btn" type="button" data-block="insert">8) INSERT rezervace</button>
+                <button class="btn btn--ghost blockgame__btn" type="button" data-block="commit2">9) commit() po INSERT</button>
+                <button class="btn btn--ghost blockgame__btn" type="button" data-block="select">10) SELECT rezervací</button>
+                <button class="btn btn--ghost blockgame__btn" type="button" data-block="close">11) close()</button>
+                <button class="btn btn--ghost blockgame__btn" type="button" data-block="print_rows">12) for → výpis řádků</button>
+                <button class="btn btn--ghost blockgame__btn" type="button" data-block="print_after">13) exists AFTER + pauza</button>
+              </div>
+
+              <div class="actions">
+                <button class="btn btn--sm btn--ghost" type="button" data-bg-undo>Zpět</button>
+                <button class="btn btn--sm btn--ghost" type="button" data-bg-reset>Vymazat</button>
+              </div>
+            </div>
+
+            <div class="blockgame__col">
+              <h4 class="blockgame__title">Tvoje skládání</h4>
+              <ol class="blockgame__stack" data-bg-stack></ol>
+
+              <div class="note note--info" data-bg-status>
+                Skládej bloky. Až bude pořadí správně, objeví se kód.
+              </div>
+
+              <div class="blockgame__reveal" data-bg-reveal hidden>
+                <div class="codeblock">
+                  <div class="codeblock__bar">
+                    <strong class="codeblock__title">✅ Odhalený kód (lineární verze)</strong>
+                    <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-res-linear">Kopírovat</button>
+                  </div>
+                  <pre id="code-res-linear"><code class="language-python"></code></pre>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <div class="note note--info">
+          <strong>Smysl hry:</strong> Nejde o rychlost. Jde o to vědět, co musí přijít dřív (např. bez <code>connect</code> nejde <code>execute</code>).
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- 1) LINEÁRNÍ VERZE – nejjednodušší tok -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">1) Nejjednodušší verze (bez funkcí): DB → tabulka → vlož → načti → vypiš</summary>
+      <div class="acc__body">
+
+        <p>
+          Tohle je nejčitelnější varianta: jede se shora dolů. Neřešíme zatím menu ani funkce.
+          Jen pochopíme tok: <strong>connect → execute → commit → SELECT → fetchall → for → print</strong>.
         </p>
 
         <div class="codeblock">
           <div class="codeblock__bar">
-            <strong class="codeblock__title">reservations_app.py (Skeleton)</strong>
-            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-res-skeleton">Kopírovat</button>
+            <strong class="codeblock__title">reservations_linear.py</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-res-linear-fixed">Kopírovat</button>
           </div>
 
-          <pre id="code-res-skeleton"><code class="language-python">import sqlite3
+          <pre id="code-res-linear-fixed"><code class="language-python">import sqlite3
+from pathlib import Path
+
+DB_FILE = Path(__file__).resolve().with_name("reservations.db")
+
+if __name__ == "__main__":
+    # 1) Kontrola: kam míří DB soubor
+    print("DB path:", DB_FILE)
+    print("DB exists BEFORE:", DB_FILE.exists())
+
+    # 2) Připojení k DB (pokud soubor neexistuje, SQLite ho vytvoří)
+    conn = sqlite3.connect(str(DB_FILE))
+
+    # 3) Vytvoření tabulky (pokud ještě neexistuje)
+    conn.execute("""
+    CREATE TABLE IF NOT EXISTS reservations (
+        id        INTEGER PRIMARY KEY AUTOINCREMENT,
+        name      TEXT    NOT NULL,
+        date      TEXT    NOT NULL,
+        arrival   TEXT    NOT NULL,
+        departure TEXT    NOT NULL
+    );
+    """)
+    conn.commit()
+
+    # 4) Vstup od uživatele
+    name = input("Jméno: ").strip()
+    date = input("Datum (YYYY-MM-DD): ").strip()
+    arrival = input("Příchod (HH:MM): ").strip()
+    departure = input("Odchod (HH:MM): ").strip()
+
+    # 5) INSERT – uložení rezervace
+    conn.execute(
+        "INSERT INTO reservations (name, date, arrival, departure) VALUES (?, ?, ?, ?);",
+        (name, date, arrival, departure)
+    )
+    conn.commit()
+
+    # 6) SELECT – načtení všech rezervací
+    rows = conn.execute("""
+        SELECT id, name, date, arrival, departure
+        FROM reservations
+        ORDER BY date ASC, arrival ASC;
+    """).fetchall()
+
+    # 7) Zavřeme DB
+    conn.close()
+
+    # 8) Výpis výsledku
+    print("\n--- Rezervace v databázi ---")
+    for (rid, name, date, arrival, departure) in rows:
+        print(f"#{rid} | {name} | {date} | {arrival}-{departure}")
+
+    print("\nDB exists AFTER:", DB_FILE.exists())
+    input("ENTER pro ukončení...")</code></pre>
+        </div>
+
+        <h6>Ověření</h6>
+        <ol class="steps">
+          <li>Spusť soubor.</li>
+          <li>Vlož jednu rezervaci.</li>
+          <li>Na konci se musí vypsat seznam rezervací (minimálně 1 řádek).</li>
+        </ol>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-connect-conn">
+            Modál: connect + conn
+          </button>
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-sql-insert">
+            Modál: INSERT + ?
+          </button>
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-for-loop">
+            Modál: for (rozbalení tuple)
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- 2) REFRAKTOR: převedeme do funkcí -->
+    <!-- ===================================================== -->
+    <details class="acc">
+      <summary class="acc__sum">2) Refaktor: stejná logika, ale jako „aplikace“ (funkce + menu)</summary>
+      <div class="acc__body">
+
+        <p>
+          Teď už umíš tok programu. Teprve teď dává smysl rozdělit to do funkcí, aby se to dalo používat opakovaně.
+          Princip se nemění – jen to uklidíme.
+        </p>
+
+        <div class="note note--info">
+          <strong>Pravidlo:</strong> Funkce = balíček kroků. Uvnitř funkce pořád platí stejná sekvence:
+          <code>connect → execute → commit (když měním) → close</code>.
+        </div>
+
+        <h6>Krok 2.1: Skeleton aplikace (1 soubor)</h6>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">reservations_app.py (Skeleton)</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-res-app-skeleton">Kopírovat</button>
+          </div>
+
+          <pre id="code-res-app-skeleton"><code class="language-python">import sqlite3
 from pathlib import Path
 
 DB_FILE = Path(__file__).resolve().with_name("reservations.db")
 
 # =========================================================
-# FUNKCE (sem budeš postupně vkládat BLOKY)
+# FUNKCE (sem vkládáš bloky)
 # =========================================================
 
 # [BLOCKS_GO_HERE]
 
 
 # =========================================================
-# MAIN (tady bude menu + while smyčka)
+# MAIN
 # =========================================================
 if __name__ == "__main__":
     # [MAIN_GOES_HERE]
     pass</code></pre>
         </div>
 
-        <h6>Ověření</h6>
-        <ol class="steps">
-          <li>Spusť: <code>python reservations_app.py</code></li>
-          <li>Nic se nestane (správně) – zatím je tam jen <code>pass</code>.</li>
-        </ol>
-
-        <div class="actions">
-          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-name-main">
-            Modál: if __name__ == "__main__"
-          </button>
-          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-path-basics">
-            Modál: Path / resolve / with_name / exists
-          </button>
-        </div>
-      </div>
-    </details>
-
-    <!-- ===================================================== -->
-    <!-- KROK 1: connect() + init_db() -->
-    <!-- ===================================================== -->
-    <details class="acc">
-      <summary class="acc__sum">Krok 1: Databázový motor (connect + init_db)</summary>
-      <div class="acc__body">
-
-        <p>
-          Teď přidáš „motor“: umíme se připojit k databázi a vytvořit tabulku <code>reservations</code>.
-          Vlož blok do části <code># [BLOCKS_GO_HERE]</code>.
-        </p>
+        <h6>Krok 2.2: bloky funkcí (kopíruj postupně)</h6>
 
         <div class="codeblock">
           <div class="codeblock__bar">
-            <strong class="codeblock__title">BLOCK 1 – connect() + init_db()</strong>
-            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-res-block1">Kopírovat</button>
+            <strong class="codeblock__title">BLOCK A – connect() + init_db()</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-res-app-blockA">Kopírovat</button>
           </div>
 
-          <pre id="code-res-block1"><code class="language-python">def connect():
-    # str(DB_FILE) = jistota, že sqlite3 dostane obyčejný text cesty
+          <pre id="code-res-app-blockA"><code class="language-python">def connect():
     return sqlite3.connect(str(DB_FILE))
 
 def init_db():
     conn = connect()
-
     conn.execute("""
     CREATE TABLE IF NOT EXISTS reservations (
-        id      INTEGER PRIMARY KEY AUTOINCREMENT,
-        name    TEXT    NOT NULL,
-        date    TEXT    NOT NULL,
-        arrival TEXT    NOT NULL,
-        departure TEXT  NOT NULL
+        id        INTEGER PRIMARY KEY AUTOINCREMENT,
+        name      TEXT    NOT NULL,
+        date      TEXT    NOT NULL,
+        arrival   TEXT    NOT NULL,
+        departure TEXT    NOT NULL
     );
     """)
-
     conn.commit()
     conn.close()</code></pre>
         </div>
 
-        <p>
-          Teď místo <code>pass</code> do MAIN vlož tento mini test:
-        </p>
-
         <div class="codeblock">
           <div class="codeblock__bar">
-            <strong class="codeblock__title">MAIN – test pro Krok 1</strong>
-            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-res-main1">Kopírovat</button>
+            <strong class="codeblock__title">BLOCK B – add_reservation()</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-res-app-blockB">Kopírovat</button>
           </div>
 
-          <pre id="code-res-main1"><code class="language-python">init_db()
-print("DB path:", DB_FILE)
-print("DB exists:", DB_FILE.exists())
-input("ENTER...")</code></pre>
-        </div>
-
-        <h6>Ověření</h6>
-        <ol class="steps">
-          <li>Spusť program.</li>
-          <li>Ve složce se objeví soubor <code>reservations.db</code>.</li>
-          <li>V konzoli uvidíš cestu a <code>DB exists: True</code>.</li>
-        </ol>
-
-        <div class="actions">
-          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-create-table">
-            Modál: CREATE TABLE IF NOT EXISTS
-          </button>
-          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-commit-close">
-            Modál: commit() + close()
-          </button>
-          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-str-dbfile">
-            Modál: proč str(DB_FILE)
-          </button>
-        </div>
-
-      </div>
-    </details>
-
-    <!-- ===================================================== -->
-    <!-- KROK 2: add_reservation() -->
-    <!-- ===================================================== -->
-    <details class="acc" open>
-      <summary class="acc__sum">Krok 2: Přidání rezervace (INSERT) – add_reservation()</summary>
-      <div class="acc__body">
-
-        <p>
-          Teď přidáme funkci, která se zeptá na údaje a vloží je do DB.
-          Vlož blok do funkcí.
-        </p>
-
-        <div class="codeblock">
-          <div class="codeblock__bar">
-            <strong class="codeblock__title">BLOCK 2 – add_reservation()</strong>
-            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-res-block2">Kopírovat</button>
-          </div>
-
-          <pre id="code-res-block2"><code class="language-python">def add_reservation():
+          <pre id="code-res-app-blockB"><code class="language-python">def add_reservation():
     name = input("Jméno: ").strip()
     date = input("Datum (YYYY-MM-DD): ").strip()
     arrival = input("Příchod (HH:MM): ").strip()
@@ -208,53 +341,16 @@ input("ENTER...")</code></pre>
     )
     conn.commit()
     conn.close()
-
     print("Uloženo.")</code></pre>
         </div>
 
-        <p>
-          Teď do MAIN udělej test: zavolej <code>add_reservation()</code>.
-        </p>
-
         <div class="codeblock">
           <div class="codeblock__bar">
-            <strong class="codeblock__title">MAIN – test pro Krok 2</strong>
-            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-res-main2">Kopírovat</button>
+            <strong class="codeblock__title">BLOCK C – fetch_reservations() + print_reservations()</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-res-app-blockC">Kopírovat</button>
           </div>
 
-          <pre id="code-res-main2"><code class="language-python">init_db()
-add_reservation()
-input("ENTER...")</code></pre>
-        </div>
-
-        <div class="actions">
-          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-sql-insert">
-            Modál: INSERT + parametry ?
-          </button>
-        </div>
-
-      </div>
-    </details>
-
-    <!-- ===================================================== -->
-    <!-- KROK 3: fetch + print -->
-    <!-- ===================================================== -->
-    <details class="acc">
-      <summary class="acc__sum">Krok 3: Načtení a výpis rezervací (SELECT + for)</summary>
-      <div class="acc__body">
-
-        <p>
-          Teď přidáme dvě funkce: jedna načte rezervace z DB, druhá je vypíše.
-          Vlož blok do funkcí.
-        </p>
-
-        <div class="codeblock">
-          <div class="codeblock__bar">
-            <strong class="codeblock__title">BLOCK 3 – fetch_reservations() + print_reservations()</strong>
-            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-res-block3">Kopírovat</button>
-          </div>
-
-          <pre id="code-res-block3"><code class="language-python">def fetch_reservations():
+          <pre id="code-res-app-blockC"><code class="language-python">def fetch_reservations():
     conn = connect()
     rows = conn.execute("""
         SELECT id, name, date, arrival, departure
@@ -271,153 +367,50 @@ def print_reservations(rows):
 
     print("Rezervace:")
     for (rid, name, date, arrival, departure) in rows:
-        print(f"#{rid} | {name} | {date} | {arrival}–{departure}")</code></pre>
+        print(f"#{rid} | {name} | {date} | {arrival}-{departure}")</code></pre>
         </div>
 
-        <p>Teď do MAIN udělej test: načti řádky a vypiš je.</p>
+        <h6>Krok 2.3: menu si napíšeš sám</h6>
 
         <div class="codeblock">
           <div class="codeblock__bar">
-            <strong class="codeblock__title">MAIN – test pro Krok 3</strong>
-            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-res-main3">Kopírovat</button>
+            <strong class="codeblock__title">BLOCK D – menu() šablona</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-res-app-blockD">Kopírovat</button>
           </div>
 
-          <pre id="code-res-main3"><code class="language-python">init_db()
-rows = fetch_reservations()
-print_reservations(rows)
-input("ENTER...")</code></pre>
-        </div>
-
-        <div class="actions">
-          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-for-loop">
-            Modál: for + rozbalení tuple
-          </button>
-          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-sql-language">
-            Modál: SELECT / FROM / ORDER BY
-          </button>
-        </div>
-
-      </div>
-    </details>
-
-    <!-- ===================================================== -->
-    <!-- KROK 4: filtr podle data (stihnutelné) -->
-    <!-- ===================================================== -->
-    <details class="acc" open>
-      <summary class="acc__sum">Krok 4: (Druhá hodina) Výpis rezervací jen pro konkrétní datum</summary>
-      <div class="acc__body">
-
-        <p>
-          Přidáme funkci, která se zeptá na datum a vypíše jen rezervace pro ten den.
-          Vlož blok do funkcí.
-        </p>
-
-        <div class="codeblock">
-          <div class="codeblock__bar">
-            <strong class="codeblock__title">BLOCK 4 – show_reservations_for_date()</strong>
-            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-res-block4">Kopírovat</button>
-          </div>
-
-          <pre id="code-res-block4"><code class="language-python">def show_reservations_for_date():
-    d = input("Datum (YYYY-MM-DD): ").strip()
-
-    conn = connect()
-    rows = conn.execute("""
-        SELECT id, name, date, arrival, departure
-        FROM reservations
-        WHERE date = ?
-        ORDER BY arrival ASC;
-    """, (d,)).fetchall()
-    conn.close()
-
-    print_reservations(rows)</code></pre>
-        </div>
-
-        <div class="note note--info">
-          <strong>Všimni si:</strong> i když je jen jeden parametr, musí to být tuple, tedy <code>(d,)</code> (čárka je důležitá).
-        </div>
-
-        <div class="actions">
-          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-params-single">
-            Modál: proč (d,)
-          </button>
-        </div>
-
-      </div>
-    </details>
-
-    <!-- ===================================================== -->
-    <!-- KROK 5: menu (student píše) -->
-    <!-- ===================================================== -->
-    <details class="acc">
-      <summary class="acc__sum">Krok 5: Menu – napíšeš si ho sám (jen výpis voleb)</summary>
-      <div class="acc__body">
-
-        <div class="note note--info">
-          <strong>Úkol:</strong> vytvoř funkci <code>menu()</code>, která vypíše:
-          <br><code>1) Přidat rezervaci</code>
-          <br><code>2) Vypsat všechny rezervace</code>
-          <br><code>3) Vypsat rezervace pro datum</code>
-          <br><code>0) Konec</code>
-        </div>
-
-        <div class="codeblock">
-          <div class="codeblock__bar">
-            <strong class="codeblock__title">BLOCK 5 – menu() šablona</strong>
-            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-res-menu">Kopírovat</button>
-          </div>
-
-          <pre id="code-res-menu"><code class="language-python">def menu():
+          <pre id="code-res-app-blockD"><code class="language-python">def menu():
     print()
-    # sem napiš 4× print s volbami</code></pre>
+    print("1) Přidat rezervaci")
+    print("2) Vypsat rezervace")
+    print("0) Konec")</code></pre>
         </div>
 
-      </div>
-    </details>
-
-    <!-- ===================================================== -->
-    <!-- KROK 6: hlavní smyčka -->
-    <!-- ===================================================== -->
-    <details class="acc" open>
-      <summary class="acc__sum">Krok 6: Hlavní smyčka (while True) – skládáš ručně</summary>
-      <div class="acc__body">
-
-        <p>
-          Teď propojíš menu s funkcemi. Sem záměrně nedávám hotovou verzi,
-          protože cílem je, abys to skládal(a) sám/sama.
-        </p>
+        <h6>Krok 2.4: MAIN smyčka (poskládáš ručně)</h6>
 
         <div class="codeblock">
           <div class="codeblock__bar">
             <strong class="codeblock__title">MAIN – šablona smyčky</strong>
-            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-res-mainloop">Kopírovat</button>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-res-app-mainloop">Kopírovat</button>
           </div>
 
-          <pre id="code-res-mainloop"><code class="language-python">init_db()
+          <pre id="code-res-app-mainloop"><code class="language-python">init_db()
 
 while True:
     menu()
     choice = input("Volba: ").strip()
 
-    # sem doplň if/elif/else pro volby</code></pre>
-        </div>
+    if choice == "1":
+        add_reservation()
 
-        <p><strong>Nápověda: co má dělat která volba</strong></p>
-        <ul class="bullets">
-          <li><code>"1"</code> → <code>add_reservation()</code></li>
-          <li><code>"2"</code> → <code>rows = fetch_reservations()</code> + <code>print_reservations(rows)</code></li>
-          <li><code>"3"</code> → <code>show_reservations_for_date()</code></li>
-          <li><code>"0"</code> → <code>break</code></li>
-          <li>jinak → <code>print("Neplatná volba.")</code></li>
-        </ul>
+    elif choice == "2":
+        rows = fetch_reservations()
+        print_reservations(rows)
 
-        <div class="actions">
-          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-while-loop">
-            Modál: while True + break
-          </button>
-          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-if-elif">
-            Modál: if/elif/else
-          </button>
+    elif choice == "0":
+        break
+
+    else:
+        print("Neplatná volba.")</code></pre>
         </div>
 
       </div>
@@ -429,227 +422,10 @@ while True:
   <article class="card">
     <h3 class="card__title">Shrnutí</h3>
     <ul class="checklist">
-      <li>DB je soubor <code>reservations.db</code> vedle skriptu.</li>
-      <li>Tabulka <code>reservations</code> drží údaje: jméno, datum, příchod, odchod.</li>
-      <li>INSERT ukládá data, SELECT je načítá.</li>
-      <li>Menu + while smyčka propojí funkce do aplikace.</li>
+      <li>Nejdřív jsme to udělali lineárně, abychom pochopili tok programu.</li>
+      <li>Pak jsme stejný tok přepsali do funkcí a přidali menu.</li>
+      <li>Databáze je pořád jen soubor a SQL jsou textové příkazy.</li>
     </ul>
   </article>
 
-  <!-- Test -->
-  <article class="card">
-    <h3 class="card__title">Test (krátký)</h3>
-
-    <div class="quiz-question">
-      <p><strong>1. Proč používáme <code>IF NOT EXISTS</code> u <code>CREATE TABLE</code>?</strong></p>
-      <div class="quiz-answers">
-        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Aby šel skript spustit opakovaně bez chyby</button>
-        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Aby se tabulka vždy smazala</button>
-        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Aby SQLite fungovalo rychleji</button>
-      </div>
-    </div>
-
-    <div class="quiz-question">
-      <p><strong>2. K čemu je <code>commit()</code>?</strong></p>
-      <div class="quiz-answers">
-        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Potvrdí změny (např. INSERT) do databáze</button>
-        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Vypíše tabulky</button>
-        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Zavře DB</button>
-      </div>
-    </div>
-
-    <div class="quiz-question">
-      <p><strong>3. Proč používáme <code>?</code> v INSERT?</strong></p>
-      <div class="quiz-answers">
-        <button class="btn btn--ghost" onclick="checkAnswer(this, true)">Aby se hodnoty předaly bezpečně jako parametry</button>
-        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Protože to SQLite vyžaduje vždy</button>
-        <button class="btn btn--ghost" onclick="checkAnswer(this, false)">Aby se do DB ukládal otazník</button>
-      </div>
-    </div>
-
-  </article>
-
 </section>
-
-
-<!-- =========================================================
-MODÁLY (umísti na konec stránky mezi ostatní modály)
-========================================================= -->
-
-<div class="modal" id="modal-name-main" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="modal-dialog"><div class="modal-content">
-    <div class="modal-header">
-      <h3 class="modal-title">if __name__ == "__main__"</h3>
-      <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
-    </div>
-    <div class="modal-body">
-      <p>
-        Tenhle blok se spustí jen tehdy, když soubor spouštíš přímo.
-        Při importu souboru do jiného skriptu se nespustí.
-      </p>
-      <pre><code class="language-python">if __name__ == "__main__":
-    # sem patří hlavní běh programu</code></pre>
-    </div>
-    <div class="modal-footer"><button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button></div>
-  </div></div>
-</div>
-
-<div class="modal" id="modal-path-basics" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="modal-dialog"><div class="modal-content">
-    <div class="modal-header">
-      <h3 class="modal-title">Path / resolve / with_name / exists</h3>
-      <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
-    </div>
-    <div class="modal-body">
-      <ul class="bullets">
-        <li><code>__file__</code> = cesta k aktuálnímu .py souboru</li>
-        <li><code>Path(__file__)</code> = objekt cesty</li>
-        <li><code>resolve()</code> = absolutní „vyřešená“ cesta</li>
-        <li><code>with_name("reservations.db")</code> = stejná složka, jiný název souboru</li>
-        <li><code>exists()</code> = ověření, že soubor opravdu existuje</li>
-      </ul>
-    </div>
-    <div class="modal-footer"><button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button></div>
-  </div></div>
-</div>
-
-<div class="modal" id="modal-create-table" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="modal-dialog"><div class="modal-content">
-    <div class="modal-header">
-      <h3 class="modal-title">CREATE TABLE IF NOT EXISTS</h3>
-      <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
-    </div>
-    <div class="modal-body">
-      <p><code>CREATE TABLE</code> vytvoří tabulku. <code>IF NOT EXISTS</code> je pojistka, aby to šlo spustit opakovaně.</p>
-    </div>
-    <div class="modal-footer"><button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button></div>
-  </div></div>
-</div>
-
-<div class="modal" id="modal-commit-close" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="modal-dialog"><div class="modal-content">
-    <div class="modal-header">
-      <h3 class="modal-title">commit() a close()</h3>
-      <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
-    </div>
-    <div class="modal-body">
-      <ul class="bullets">
-        <li><code>commit()</code> = potvrdí změny (CREATE/INSERT/DELETE) do databáze</li>
-        <li><code>close()</code> = ukončí spojení k DB (dobrý zvyk)</li>
-      </ul>
-    </div>
-    <div class="modal-footer"><button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button></div>
-  </div></div>
-</div>
-
-<div class="modal" id="modal-str-dbfile" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="modal-dialog"><div class="modal-content">
-    <div class="modal-header">
-      <h3 class="modal-title">Proč str(DB_FILE)</h3>
-      <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
-    </div>
-    <div class="modal-body">
-      <p><code>DB_FILE</code> je objekt <code>Path</code>. <code>str(DB_FILE)</code> ho převede na textovou cestu.</p>
-    </div>
-    <div class="modal-footer"><button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button></div>
-  </div></div>
-</div>
-
-<div class="modal" id="modal-sql-insert" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="modal-dialog"><div class="modal-content">
-    <div class="modal-header">
-      <h3 class="modal-title">INSERT a parametry ?</h3>
-      <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
-    </div>
-    <div class="modal-body">
-      <p>Parametry posíláš zvlášť, aby se SQL neskládalo ručně a bylo bezpečné:</p>
-      <pre><code class="language-python">conn.execute(
-  "INSERT INTO reservations (name, date, arrival, departure) VALUES (?, ?, ?, ?);",
-  (name, date, arrival, departure)
-)</code></pre>
-    </div>
-    <div class="modal-footer"><button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button></div>
-  </div></div>
-</div>
-
-<div class="modal" id="modal-for-loop" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="modal-dialog"><div class="modal-content">
-    <div class="modal-header">
-      <h3 class="modal-title">for cyklus + rozbalení tuple</h3>
-      <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
-    </div>
-    <div class="modal-body">
-      <p>Každý řádek z DB je tuple (n-tice). Rozbalíš ho přímo v hlavičce cyklu:</p>
-      <pre><code class="language-python">for (rid, name, date, arrival, departure) in rows:
-    print(rid, name)</code></pre>
-    </div>
-    <div class="modal-footer"><button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button></div>
-  </div></div>
-</div>
-
-<div class="modal" id="modal-sql-language" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="modal-dialog"><div class="modal-content">
-    <div class="modal-header">
-      <h3 class="modal-title">SQL: SELECT / FROM / ORDER BY</h3>
-      <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
-    </div>
-    <div class="modal-body">
-      <ul class="bullets">
-        <li><code>SELECT</code> = které sloupce chci</li>
-        <li><code>FROM</code> = z jaké tabulky</li>
-        <li><code>ORDER BY</code> = jak seřadit výsledek</li>
-      </ul>
-    </div>
-    <div class="modal-footer"><button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button></div>
-  </div></div>
-</div>
-
-<div class="modal" id="modal-params-single" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="modal-dialog"><div class="modal-content">
-    <div class="modal-header">
-      <h3 class="modal-title">Proč (d,) a ne (d)</h3>
-      <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
-    </div>
-    <div class="modal-body">
-      <p>
-        <code>(d)</code> je jen d v závorkách (není to tuple).
-        Jednoprvkový tuple je <code>(d,)</code> – čárka je rozhodující.
-      </p>
-    </div>
-    <div class="modal-footer"><button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button></div>
-  </div></div>
-</div>
-
-<div class="modal" id="modal-while-loop" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="modal-dialog"><div class="modal-content">
-    <div class="modal-header">
-      <h3 class="modal-title">while True + break</h3>
-      <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
-    </div>
-    <div class="modal-body">
-      <p><code>while True</code> běží pořád. Ukončíš ho <code>break</code> (např. při volbě 0).</p>
-    </div>
-    <div class="modal-footer"><button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button></div>
-  </div></div>
-</div>
-
-<div class="modal" id="modal-if-elif" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="modal-dialog"><div class="modal-content">
-    <div class="modal-header">
-      <h3 class="modal-title">if / elif / else v menu</h3>
-      <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
-    </div>
-    <div class="modal-body">
-      <pre><code class="language-python">if choice == "1":
-    add_reservation()
-elif choice == "2":
-    rows = fetch_reservations()
-    print_reservations(rows)
-elif choice == "0":
-    break
-else:
-    print("Neplatná volba.")</code></pre>
-    </div>
-    <div class="modal-footer"><button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button></div>
-  </div></div>
-</div>
