@@ -1,0 +1,631 @@
+<!-- =========================================================
+     3.3.5 – FUNKCE (co jsou, vytvoření, scope, parametry)
+========================================================= -->
+<section id="section3-3-7" class="container my-5">
+
+  <h3 class="mb-4">3.3.7 Funkce – základní nástroj pro čistý a opakovatelný kód</h3>
+
+  <!-- Co se naučíš -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co se naučíš?</h3>
+    <p>
+      Funkce jsou „balíčky instrukcí“, které si můžeš pojmenovat a spouštět kdykoliv znovu.
+      Díky tomu nebudeš kopírovat stejný kód pořád dokola a tvoje programy budou přehlednější.
+    </p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>Co je funkce</strong>: proč ji používáme a jak ti šetří práci.</li>
+      <li class="list-group-item"><strong>Deklarace vs volání</strong>: proč se po vytvoření funkce nic nevypíše.</li>
+      <li class="list-group-item"><strong>Scope</strong>: kde proměnné „žijí“ (global / function / block).</li>
+      <li class="list-group-item"><strong>Parametry a argumenty</strong>: jak udělat funkci „flexibilní“.</li>
+      <li class="list-group-item"><strong>Funkce + smyčka</strong>: praktický nástroj <code>printRange(start, end)</code>.</li>
+    </ul>
+    <div class="alert alert-info mb-0" role="alert">
+      <strong>Tip:</strong> Když se ti kód opakuje 2× a víc, je to kandidát na funkci.
+    </div>
+  </div>
+
+  <!-- 0) VS Code setup -->
+  <h5 class="mt-5">0) Příprava projektu ve VS Code (index + app.js)</h5>
+  <p>
+    Stejně jako předtím: pro tuto kapitolu si udělej složku (např. <code>3.3.5-functions</code>) a uvnitř:
+    <code>index.html</code> + <code>app.js</code>.
+  </p>
+
+  <details class="mb-4">
+    <summary><strong>Šablona souborů (klikni pro zobrazení)</strong></summary>
+    <div class="mt-3">
+      <p class="mb-2"><strong>index.html</strong></p>
+      <pre class="bg-light p-3 rounded"><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="cs"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8" /&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+  &lt;title&gt;3.3.5 – Funkce&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;3.3.5 – Funkce&lt;/h1&gt;
+  &lt;p&gt;Otevři DevTools → Console.&lt;/p&gt;
+
+  &lt;script src="app.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+      <p class="mb-2 mt-3"><strong>app.js</strong></p>
+      <pre class="bg-light p-3 rounded"><code class="language-js">// Sem budeš psát kód z kapitoly.</code></pre>
+    </div>
+  </details>
+
+  <hr class="my-5">
+
+  <!-- 1) Co je funkce -->
+  <h5>1) Co je funkce (a proč ji vůbec chceme)</h5>
+  <p>
+    JavaScript má spoustu hotových funkcí – třeba <code>alert()</code>, <code>console.log()</code>,
+    <code>Math.random()</code> nebo různé funkce na práci s textem a datem.
+    Ale hlavní síla je v tom, že si umíš napsat <strong>vlastní</strong>.
+  </p>
+
+  <div class="row g-3 mb-4">
+    <div class="col-md-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header bg-light"><strong>Funkce = znovupoužitelný „recept“</strong></div>
+        <div class="card-body">
+          <p class="mb-2">
+            Funkce je <strong>pojmenovaný blok kódu</strong>, který můžeš spustit kdykoliv.
+            Místo kopírování kódu ho napíšeš jednou a pak ho jen „zavoláš“.
+          </p>
+          <div class="alert alert-secondary mb-0" role="alert">
+            Příklad z praxe: „skok ve hře“ = pohyb nahoru + animace + zvuk. Nechceš to psát pokaždé znovu.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-header bg-light"><strong>Kdy použít funkci</strong></div>
+        <div class="card-body">
+          <ul class="mb-0">
+            <li>Když se něco opakuje.</li>
+            <li>Když chceš kód zpřehlednit (pojmenovat kus logiky).</li>
+            <li>Když chceš snadno změnit chování na jednom místě.</li>
+            <li>Když chceš udělat „nástroj“, který funguje s různými vstupy.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="my-5">
+
+  <!-- 2) První funkce -->
+  <h5>2) Vytvoř si první funkci (deklarace vs volání)</h5>
+  <p>
+    Funkci vytvoříš (deklaruješ) klíčovým slovem <code>function</code>, jménem a tělem v <code>{ }</code>.
+    Důležitý detail: <strong>deklarace funkci nespustí</strong>. Spustí ji až <strong>volání</strong>.
+  </p>
+
+  <pre class="bg-light p-3 rounded"><code class="language-js">function sayHello() {
+  console.log("Hello World!");
+}
+
+// Zatím se nic nestane (funkce jen existuje)
+sayHello(); // teď se spustí a vypíše text</code></pre>
+
+  <div class="alert alert-info" role="alert">
+    <strong>Zapamatuj si:</strong><br>
+    <strong>Deklarace</strong> = „vytvoř funkci“ (ulož instrukce).<br>
+    <strong>Volání</strong> = „spusť funkci“ (vykonej instrukce).
+  </div>
+
+  <details class="mb-4">
+    <summary><strong>Mini úkol: zavolej funkci 4×</strong></summary>
+    <div class="mt-3">
+      <p class="mb-2">Zavolej <code>sayHello()</code> čtyřikrát a sleduj konzoli.</p>
+      <pre class="bg-light p-3 rounded"><code class="language-js">sayHello();
+sayHello();
+sayHello();
+sayHello();</code></pre>
+    </div>
+  </details>
+
+  <hr class="my-5">
+
+  <!-- 3) Scope -->
+  <h5>3) Scope (kde proměnné „žijí“ a kdo je může používat)</h5>
+  <p>
+    <strong>Scope</strong> říká, <em>kde</em> můžeš proměnnou použít.
+    Jinak řečeno: kde je proměnná „viditelná“ a kde už ne.
+  </p>
+
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h6 class="mb-3">Přehled scope (rychlá tabulka)</h6>
+
+    <table class="table table-bordered mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>Typ scope</th>
+          <th>Kde vzniká</th>
+          <th>Kde je dostupná</th>
+          <th>Poznámka</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Global scope</strong></td>
+          <td>Mimo funkce / mimo blok</td>
+          <td>„Skoro všude“ (i uvnitř funkcí)</td>
+          <td>Pozor na kolize názvů a „nechtěné přepisování“.</td>
+        </tr>
+        <tr>
+          <td><strong>Function scope</strong></td>
+          <td>Uvnitř funkce</td>
+          <td>Jen uvnitř té funkce</td>
+          <td>Bezpečné: zvenku se to nedá omylem přepsat.</td>
+        </tr>
+        <tr>
+          <td><strong>Block scope</strong></td>
+          <td>Uvnitř bloku <code>{ }</code> (if/for/while)</td>
+          <td>Jen uvnitř toho bloku</td>
+          <td>Platí pro <code>let</code> a <code>const</code>. <code>var</code> blok nerespektuje.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="mb-2"><strong>Global → funkce vidí globální proměnnou:</strong></p>
+  <pre class="bg-light p-3 rounded"><code class="language-js">let greeting = "Ahoj!"; // globální proměnná
+
+function showGreeting() {
+  console.log(greeting); // funguje, protože funkce vidí globál
+}
+
+showGreeting();</code></pre>
+
+  <p class="mb-2 mt-4"><strong>Funkce → zvenku neuvidíš proměnnou uvnitř funkce:</strong></p>
+  <pre class="bg-light p-3 rounded"><code class="language-js">function testScope() {
+  let localValue = 123; // lokální (function scope)
+  console.log(localValue); // OK
+}
+
+testScope();
+console.log(localValue); // ❌ ReferenceError (neexistuje mimo funkci)</code></pre>
+
+  <div class="alert alert-warning" role="alert">
+    <strong>Proč je to dobré?</strong> Lokální proměnné chráníš před tím, aby je někdo omylem měnil z jiné části programu.
+  </div>
+
+  <details class="mb-4">
+    <summary><strong>Block scope: proč je <code>let</code> bezpečnější než <code>var</code> (klikni)</strong></summary>
+    <div class="mt-3">
+      <pre class="bg-light p-3 rounded"><code class="language-js">if (true) {
+  let x = "jen uvnitř bloku";
+}
+// console.log(x); // ❌ nejde
+
+if (true) {
+  var y = "var blok nerespektuje";
+}
+console.log(y); // ✅ jde (a to je často zdroj bugů)</code></pre>
+
+      <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal335Scope">
+        Vysvětlit podrobněji (scope)
+      </button>
+    </div>
+  </details>
+
+  <hr class="my-5">
+
+  <!-- 4) Parametr a argument -->
+  <h5>4) Parametry a argumenty (udělej funkci flexibilní)</h5>
+  <p>
+    Zatím funkce dělala pořád to samé. Parametry umožní poslat do funkce „vstup“.
+  </p>
+
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h6 class="mb-2">Důležité rozlišení</h6>
+    <ul class="mb-0">
+      <li><strong>Parametr</strong> = „proměnná“ v definici funkce (uvnitř závorek při deklaraci).</li>
+      <li><strong>Argument</strong> = konkrétní hodnota, kterou pošleš při volání funkce.</li>
+    </ul>
+  </div>
+
+  <p class="mb-2"><strong>Ukázka: pozdrav různých lidí</strong></p>
+  <pre class="bg-light p-3 rounded"><code class="language-js">function sayHello(name) { // name = parametr
+  console.log("Ahoj " + name);
+}
+
+sayHello("Tom");    // "Tom" = argument
+sayHello("Alice");  // "Alice" = argument</code></pre>
+
+  <p class="mb-2 mt-4"><strong>Více parametrů: sčítání dvou čísel</strong></p>
+  <pre class="bg-light p-3 rounded"><code class="language-js">function addNumbers(num1, num2) {
+  console.log(num1 + num2);
+}
+
+addNumbers(5, 3); // 8</code></pre>
+
+  <div class="alert alert-info" role="alert">
+    <strong>Pořadí argumentů je důležité:</strong> první argument jde do prvního parametru, druhý do druhého, atd.
+  </div>
+
+  <!-- Mini exercise: další operace -->
+  <h5 class="mt-5">Mini cvičení: další matematické funkce</h5>
+  <p>
+    Vytvoř podobné funkce pro:
+    <strong>odčítání</strong>, <strong>násobení</strong> a <strong>dělení</strong>.
+    Funkce ať vezmou dvě čísla a vypíšou výsledek.
+  </p>
+
+  <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal335MathHint">
+    Nápověda (volitelné)
+  </button>
+
+  <details class="mt-3 mb-4">
+    <summary><strong>Řešení (zobraz až po pokusu)</strong></summary>
+    <pre class="bg-light p-3 rounded mt-2"><code class="language-js">function subtractNumbers(num1, num2) {
+  console.log(num1 - num2);
+}
+
+function multiplyNumbers(num1, num2) {
+  console.log(num1 * num2);
+}
+
+function divideNumbers(num1, num2) {
+  console.log(num1 / num2);
+}
+
+subtractNumbers(10, 4); // 6
+multiplyNumbers(6, 7);  // 42
+divideNumbers(20, 5);   // 4</code></pre>
+  </details>
+
+  <hr class="my-5">
+
+  <!-- 5) Exercise: Custom Range Printer -->
+  <h5>5) Cvičení: Custom Range Printer (funkce + smyčka)</h5>
+  <p>
+    Napiš funkci <code>printRange(start, end)</code>, která vypíše do konzole všechna čísla
+    od <code>start</code> až po <code>end</code> (včetně).
+  </p>
+
+  <div class="alert alert-secondary" role="alert">
+    <strong>Příklad:</strong> <code>printRange(3, 7)</code> → vypíše: 3 4 5 6 7
+  </div>
+
+  <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal335RangeHint">
+    Nápověda (volitelné)
+  </button>
+
+  <details class="mt-3">
+    <summary><strong>Řešení (zobraz až po pokusu)</strong></summary>
+    <div class="mt-2">
+      <pre class="bg-light p-3 rounded"><code class="language-js">function printRange(start, end) {
+  for (let i = start; i &lt;= end; i++) {
+    console.log(i);
+  }
+}
+
+printRange(3, 7);
+printRange(10, 15);</code></pre>
+
+      <div class="alert alert-info mb-0" role="alert">
+        <strong>Co je na tom důležité:</strong><br>
+        Funkce je „stroj“: jednou ji napíšeš a pak ji používáš s různými čísly.
+        Smyčka uvnitř funkce bere start/end jako „živá“ data (ne pevně napsaná).
+      </div>
+    </div>
+  </details>
+
+  <hr class="my-5">
+
+  <!-- KVÍZ -->
+  <h5 class="mt-4">Kvíz: Funkce, scope, parametry</h5>
+  <p class="text-muted">
+    Klikni na odpověď. Po volbě se otázka uzamkne a uvidíš vysvětlení. Tlačítkem dole můžeš kvíz resetovat.
+  </p>
+
+  <div id="quiz-335-functions" class="quiz-wrap">
+
+    <!-- Q1 -->
+    <div class="quiz-question mb-4"
+         data-explain="Správně: Funkce je pojmenovaný znovupoužitelný blok kódu, který spustíš voláním."
+         data-more="Funkce ti umožní psát kód jednou a používat ho vícekrát. Navíc zlepšuje čitelnost: místo dlouhé logiky vidíš např. <code>jump()</code> nebo <code>printRange()</code>.">
+      <p><strong>1. Co je funkce v JavaScriptu?</strong></p>
+      <div class="btn-group-vertical w-100">
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">Proměnná, která ukládá text</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)">Znovupoužitelný blok kódu</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">Speciální typ smyčky</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">Operátor pro porovnání</button>
+      </div>
+      <div class="quiz-feedback mt-2 small"></div>
+      <button class="btn btn-link px-0 mt-1 d-none quiz-more" type="button" data-bs-toggle="modal" data-bs-target="#js335ModalQ1">
+        Vysvětlit podrobněji
+      </button>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-question mb-4"
+         data-explain="Správně: Funkci deklaruješ pomocí <code>function</code>, jména, závorek a těla <code>{ }</code>."
+         data-more="Deklarace funkce ji ještě nespustí. Aby se kód uvnitř vykonal, musíš funkci zavolat: <code>sayHello()</code>."
+    >
+      <p><strong>2. Který zápis správně vytvoří (deklaruje) funkci?</strong></p>
+      <div class="btn-group-vertical w-100">
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)">function sayHello() { console.log("Ahoj"); }</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">sayHello = function { console.log("Ahoj"); }</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">create sayHello() { console.log("Ahoj"); }</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">function = sayHello()</button>
+      </div>
+      <div class="quiz-feedback mt-2 small"></div>
+      <button class="btn btn-link px-0 mt-1 d-none quiz-more" type="button" data-bs-toggle="modal" data-bs-target="#js335ModalQ2">
+        Vysvětlit podrobněji
+      </button>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-question mb-4"
+         data-explain="Správně: Funkci spustíš tak, že napíšeš její jméno a závorky: <code>sayHello()</code>."
+         data-more="Bez závorek jen odkazuješ na funkci. Závorky znamenají: „spusť ji teď“."
+    >
+      <p><strong>3. Jak funkci zavoláš (spustíš)?</strong></p>
+      <div class="btn-group-vertical w-100">
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)">sayHello();</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">call sayHello;</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">sayHello = run;</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">run(sayHello);</button>
+      </div>
+      <div class="quiz-feedback mt-2 small"></div>
+      <button class="btn btn-link px-0 mt-1 d-none quiz-more" type="button" data-bs-toggle="modal" data-bs-target="#js335ModalQ3">
+        Vysvětlit podrobněji
+      </button>
+    </div>
+
+    <!-- Q4 -->
+    <div class="quiz-question mb-4"
+         data-explain="Správně: Proměnná vytvořená uvnitř funkce má function scope, takže mimo funkci ji nevidíš."
+         data-more="To je bezpečnostní výhoda: zvenku ji nemůžeš omylem přepsat. Pokud ji chceš použít i venku, musíš ji vrátit (<code>return</code>) nebo uložit do proměnné v globálu (to se ale často nedoporučuje)."
+    >
+      <p><strong>4. Co platí pro proměnnou vytvořenou uvnitř funkce?</strong></p>
+      <div class="btn-group-vertical w-100">
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)">Je dostupná jen uvnitř té funkce</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">Je dostupná všude v programu</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">Je dostupná jen uvnitř <code>if</code> bloků</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">Je dostupná jen uvnitř <code>for</code> smyčky</button>
+      </div>
+      <div class="quiz-feedback mt-2 small"></div>
+      <button class="btn btn-link px-0 mt-1 d-none quiz-more" type="button" data-bs-toggle="modal" data-bs-target="#js335ModalQ4">
+        Vysvětlit podrobněji
+      </button>
+    </div>
+
+    <!-- Q5 -->
+    <div class="quiz-question mb-4"
+         data-explain="Správně: Parametr je v definici funkce, argument je konkrétní hodnota při volání."
+         data-more="Příklad: <code>function greet(name)</code> → <code>name</code> je parametr. <code>greet('Tom')</code> → <code>'Tom'</code> je argument."
+    >
+      <p><strong>5. Jaký je rozdíl mezi parametrem a argumentem?</strong></p>
+      <div class="btn-group-vertical w-100">
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, true)">Parametr je „placeholder“ v definici, argument je hodnota při volání</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">Parametr je hodnota, argument je název funkce</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">Parametr je vždy číslo, argument je vždy text</button>
+        <button class="btn btn-outline-secondary text-start" onclick="checkAnswer(this, false)">Žádný rozdíl neexistuje</button>
+      </div>
+      <div class="quiz-feedback mt-2 small"></div>
+      <button class="btn btn-link px-0 mt-1 d-none quiz-more" type="button" data-bs-toggle="modal" data-bs-target="#js335ModalQ5">
+        Vysvětlit podrobněji
+      </button>
+    </div>
+
+    <button type="button" class="btn btn-sm btn-outline-primary" onclick="resetQuiz('quiz-335-functions')">
+      Resetovat kvíz
+    </button>
+  </div>
+
+  <hr class="my-5">
+
+  <!-- Tahák -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Tahák: Funkce – rychlé shrnutí</h3>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item">
+        <strong>Deklarace funkce:</strong><br>
+        <code>function name() { ... }</code>
+      </li>
+      <li class="list-group-item">
+        <strong>Volání funkce:</strong><br>
+        <code>name();</code>
+      </li>
+      <li class="list-group-item">
+        <strong>Parametr vs argument:</strong><br>
+        Parametr je v definici (<code>function greet(name)</code>), argument při volání (<code>greet("Tom")</code>).
+      </li>
+      <li class="list-group-item">
+        <strong>Scope:</strong><br>
+        Globální proměnné vidíš skoro všude. Lokální (uvnitř funkce) vidíš jen uvnitř funkce.
+        <code>let</code>/<code>const</code> respektují bloky, <code>var</code> ne.
+      </li>
+      <li class="list-group-item">
+        <strong>Funkce + smyčka = nástroj:</strong><br>
+        <code>printRange(start, end)</code> je „stroj“ na výpis rozsahu čísel.
+      </li>
+    </ul>
+    <div class="alert alert-info mb-0" role="alert">
+      <strong>Pravidlo čistého kódu:</strong> Pokud to pojmenuješ dobře (např. <code>printRange</code>), kód se čte sám.
+    </div>
+  </div>
+
+</section>
+
+<!-- =========================================================
+     MODÁLY – HINTY / DETAILY
+========================================================= -->
+
+<!-- Scope detail -->
+<div class="modal fade" id="modal335Scope" tabindex="-1" aria-labelledby="modal335ScopeLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal335ScopeLabel">Scope detailně: proč je to důležité</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <p>
+        <strong>Scope</strong> je „hranice viditelnosti“ proměnné. Pomáhá ti:
+      </p>
+      <ul>
+        <li>Neudělat nechtěný bug přepsáním hodnoty z jiné části programu.</li>
+        <li>Vyhnout se konfliktům názvů (stejný název v jiné funkci nevadí).</li>
+        <li>Udržet program přehledný (proměnné existují jen tam, kde dávají smysl).</li>
+      </ul>
+
+      <h6 class="mt-3">Častý problém s <code>var</code></h6>
+      <pre class="bg-light p-3 rounded"><code class="language-js">for (var i = 0; i &lt; 3; i++) {}
+console.log(i); // ✅ 3 (var „proteče“ ven)
+
+for (let j = 0; j &lt; 3; j++) {}
+// console.log(j); // ❌ j není definované (správně)</code></pre>
+
+      <p class="text-muted mb-0"><small><em>Proto dnes skoro vždy používáme <strong>let/const</strong>.</em></small></p>
+    </div>
+  </div></div>
+</div>
+
+<!-- Math hint -->
+<div class="modal fade" id="modal335MathHint" tabindex="-1" aria-labelledby="modal335MathHintLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal335MathHintLabel">Nápověda: matematické funkce</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <ul>
+        <li>Zkopíruj <code>addNumbers</code> a změň jen název + operátor.</li>
+        <li>Odčítání: <code>-</code>, násobení: <code>*</code>, dělení: <code>/</code>.</li>
+        <li>Parametry mohou zůstat stejné (<code>num1</code>, <code>num2</code>) – jsou lokální.</li>
+      </ul>
+    </div>
+  </div></div>
+</div>
+
+<!-- Range hint -->
+<div class="modal fade" id="modal335RangeHint" tabindex="-1" aria-labelledby="modal335RangeHintLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal335RangeHintLabel">Nápověda: printRange(start, end)</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <ol>
+        <li>Definuj funkci se dvěma parametry: <code>start</code> a <code>end</code>.</li>
+        <li>Uvnitř udělej <code>for</code> smyčku od <code>start</code> do <code>end</code> včetně.</li>
+        <li>Vypisuj <code>i</code> přes <code>console.log(i)</code>.</li>
+      </ol>
+      <pre class="bg-light p-3 rounded"><code class="language-js">function printRange(start, end) {
+  // for smyčka sem
+}</code></pre>
+    </div>
+  </div></div>
+</div>
+
+<!-- =========================================================
+     MODÁLY – KVÍZ (Vysvětlit podrobněji)
+========================================================= -->
+<div class="modal fade" id="js335ModalQ1" tabindex="-1" aria-labelledby="js335ModalQ1Label" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="js335ModalQ1Label">Detail: proč funkce šetří práci</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <p>
+        Když později změníš, co má „pozdrav“ dělat, upravíš to jen v jednom místě (v těle funkce) a všechny výskyty
+        se automaticky chovají podle nové verze.
+      </p>
+      <pre class="bg-light p-3 rounded"><code class="language-js">function greet() {
+  console.log("Ahoj!");
+}
+
+// 20× v kódu jen voláš greet();
+// a když chceš změnu, upravíš jen greet()</code></pre>
+    </div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="js335ModalQ2" tabindex="-1" aria-labelledby="js335ModalQ2Label" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="js335ModalQ2Label">Detail: správný tvar deklarace</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <p><strong>Function declaration</strong> vypadá takto:</p>
+      <pre class="bg-light p-3 rounded"><code class="language-js">function name(parameters) {
+  // body
+}</code></pre>
+      <p class="mb-0 text-muted"><small>Brzy si ukážeme i další způsoby (function expression, arrow functions), ale začínáme nejčistší klasikou.</small></p>
+    </div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="js335ModalQ3" tabindex="-1" aria-labelledby="js335ModalQ3Label" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="js335ModalQ3Label">Detail: volání funkce</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <p>
+        Závorky <code>()</code> jsou signál: „teď to spusť“. Bez závorek máš jen odkaz na funkci jako na hodnotu.
+      </p>
+      <pre class="bg-light p-3 rounded"><code class="language-js">function test() { console.log("OK"); }
+
+test;   // jen odkaz
+test(); // spustí se</code></pre>
+    </div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="js335ModalQ4" tabindex="-1" aria-labelledby="js335ModalQ4Label" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="js335ModalQ4Label">Detail: function scope</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <p>
+        Lokální proměnné existují jen v „prostoru“ té funkce. Říká se tomu <strong>execution context</strong>.
+      </p>
+      <pre class="bg-light p-3 rounded"><code class="language-js">function a() {
+  let x = 1;
+  console.log(x);
+}
+
+function b() {
+  let x = 2; // stejné jméno, žádný konflikt
+  console.log(x);
+}
+
+a(); // 1
+b(); // 2</code></pre>
+    </div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="js335ModalQ5" tabindex="-1" aria-labelledby="js335ModalQ5Label" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="js335ModalQ5Label">Detail: parametr vs argument</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <p><strong>Jedna věta na zapamatování:</strong></p>
+      <div class="alert alert-info" role="alert">
+        Parametr je „krabička“ v definici funkce, argument je „obsah“, který do krabičky vložíš při volání.
+      </div>
+      <pre class="bg-light p-3 rounded"><code class="language-js">function greet(name) {   // parametr: name
+  console.log("Ahoj " + name);
+}
+
+greet("Tom"); // argument: "Tom"</code></pre>
+    </div>
+  </div></div>
+</div>
