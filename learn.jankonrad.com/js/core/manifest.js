@@ -90,7 +90,7 @@ export const NAV_TREE = [
       href: "#section3-2-5",
       children: [
         { title: "3.2.5 Úvod do pokročilého CSS", href: "#section3-2-5" },
-        { title: "3.2.6 Responsivita a media queries", href: "#section3-2-6" },
+        { title: "3.2.6 Atribute selector, pseudo-classes, transition, position", href: "#section3-2-6" },
         { title: "3.2.7 Flexbox a Grid pokročile", href: "#section3-2-7" },
         { title: "3.2.8 Animace a transformace", href: "#section3-2-8" },
         { title: "3.2.9 Praktický projekt – vytvoření jednoduché stránky", href: "#section3-2-9" },

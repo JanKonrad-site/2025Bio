@@ -1,0 +1,681 @@
+<section id="advanced-css-b" class="container my-5">
+
+  <h3 class="mb-4">3.2.6 Pokročilé CSS – atributové selektory, pseudo-třídy, transition a position</h3>
+
+  <!-- Co se naučíš -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">Co se naučíš?</h4>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Používat <strong>attribute selector</strong> pro výběr prvků podle atributu nebo jeho hodnoty.</li>
+      <li class="list-group-item">Pracovat s důležitými <strong>pseudo-třídami</strong> jako <code>:hover</code>, <code>:focus</code>, <code>:checked</code>, <code>:valid</code>, <code>:invalid</code>, <code>:first-child</code>, <code>:last-child</code> a <code>:nth-child()</code>.</li>
+      <li class="list-group-item">Používat <strong>transition</strong> pro plynulé hover efekty a jemnější interakce.</li>
+      <li class="list-group-item">Pochopit vlastnost <strong>position</strong> a rozdíl mezi <code>relative</code>, <code>absolute</code>, <code>fixed</code> a <code>sticky</code>.</li>
+      <li class="list-group-item">Lépe chápat logiku CSS selektorů a vztahů mezi prvky.</li>
+    </ul>
+  </div>
+
+  <!-- ===================================================== -->
+  <!-- 1) ATTRIBUTE SELECTOR -->
+  <h4 class="mt-5 mb-3">1️⃣ Attribute selector – výběr podle atributu</h4>
+
+  <div class="container my-4 p-4 border rounded bg-white">
+    <p>
+      Attribute selector slouží k tomu, aby sis v CSS vybral prvky podle jejich atributů.
+      Můžeš například stylovat odkazy s konkrétním <code>target</code>, obrázky s určitým <code>alt</code>,
+      ale velmi často se používá hlavně u <strong>formulářových prvků</strong>.
+    </p>
+    <p>
+      Typická situace: chceš jinak stylovat pole pro email, jinak heslo a jinak odesílací tlačítko.
+      Všechny jsou to sice prvky <code>input</code>, ale mají jinou hodnotu atributu <code>type</code>.
+    </p>
+    <button class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#modalAttributeSelector">
+      Teorie: Attribute selector
+    </button>
+    <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalBoxSizingInputs">
+      Proč mají inputy různou šířku?
+    </button>
+  </div>
+
+  <!-- Modal: attribute selector -->
+  <div class="modal fade" id="modalAttributeSelector" tabindex="-1" aria-labelledby="modalAttributeSelectorLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalAttributeSelectorLabel">Attribute selector – jak funguje</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Základní zápis vypadá takto:</p>
+<pre><code>input[type="email"] {
+  border: 2px solid steelblue;
+}</code></pre>
+          <ul>
+            <li><code>input</code> = vybíráme prvek input</li>
+            <li><code>[type="email"]</code> = ale jen ten, který má atribut <code>type</code> nastavený na <code>email</code></li>
+          </ul>
+          <p>Tímto způsobem můžeš stylovat různé inputy odděleně, i když mají stejný tag.</p>
+          <p class="mb-0">
+            Často se používá i zápis více selektorů najednou:
+          </p>
+<pre><code>input[type="email"],
+input[type="password"] {
+  width: 250px;
+}</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: box sizing -->
+  <div class="modal fade" id="modalBoxSizingInputs" tabindex="-1" aria-labelledby="modalBoxSizingInputsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalBoxSizingInputsLabel">Proč mají inputy jinou skutečnou velikost?</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            I když zadáš stejnou šířku a výšku, inputy mohou na stránce působit různě velké.
+            Důvodem je <strong>box model</strong>.
+          </p>
+          <p>
+            Ve výchozím stavu je <code>box-sizing: content-box;</code>, což znamená:
+            šířka a výška se vztahují jen na obsah, ale <strong>padding</strong> a <strong>border</strong> se přičítají navíc.
+          </p>
+<pre><code>input {
+  box-sizing: border-box;
+}</code></pre>
+          <p class="mb-0">
+            Když použiješ <code>border-box</code>, padding i border se započítají dovnitř prvku,
+            takže prvky drží přesnější velikost.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Accordion: attribute selector -->
+  <div class="accordion mb-4" id="acc-attr">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="attr-h1">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#attr-c1">
+          HTML: jednoduchý formulář
+        </button>
+      </h2>
+      <div id="attr-c1" class="accordion-collapse collapse show" data-bs-parent="#acc-attr">
+        <div class="accordion-body">
+<pre><code>&lt;form class="login-form"&gt;
+  &lt;input type="email" placeholder="Zadej email"&gt;
+  &lt;input type="password" placeholder="Zadej heslo"&gt;
+  &lt;input type="submit" value="Přihlásit"&gt;
+&lt;/form&gt;</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="attr-h2">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#attr-c2">
+          CSS: stylování podle atributu type
+        </button>
+      </h2>
+      <div id="attr-c2" class="accordion-collapse collapse" data-bs-parent="#acc-attr">
+        <div class="accordion-body">
+<pre><code>.login-form {
+  padding: 20px;
+}
+
+input {
+  margin: 5px;
+  box-sizing: border-box;
+}
+
+input[type="email"],
+input[type="password"] {
+  width: 260px;
+  height: 40px;
+  padding: 8px 12px;
+  border: 1px solid #94a3b8;
+  border-radius: 8px;
+}
+
+input[type="submit"] {
+  width: 260px;
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  background-color: #2563eb;
+  color: white;
+  font-weight: bold;
+}</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================== -->
+  <!-- 2) PSEUDO CLASSES -->
+  <h4 class="mt-5 mb-3">2️⃣ Pseudo-třídy – stylování podle stavu prvku</h4>
+
+  <div class="container my-4 p-4 border rounded bg-white">
+    <p>
+      Pseudo-třídy umožňují stylovat prvek podle jeho <strong>stavu</strong>.
+      Například když na prvek najedeš myší, klikneš na něj, vložíš kurzor do inputu,
+      zaškrtneš checkbox nebo chceš stylovat první či poslední dítě rodiče.
+    </p>
+    <button class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#modalPseudoBasic">
+      Nejdůležitější pseudo-třídy
+    </button>
+    <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalNthChild">
+      first-child, last-child a nth-child()
+    </button>
+  </div>
+
+  <!-- Modal: pseudo basic -->
+  <div class="modal fade" id="modalPseudoBasic" tabindex="-1" aria-labelledby="modalPseudoBasicLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalPseudoBasicLabel">Pseudo-třídy – základní přehled</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <ul>
+            <li><code>:hover</code> – když uživatel najede myší na prvek</li>
+            <li><code>:visited</code> – navštívený odkaz</li>
+            <li><code>:active</code> – moment kliknutí na odkaz nebo tlačítko</li>
+            <li><code>:focus</code> – když je kurzor uvnitř inputu</li>
+            <li><code>:valid</code> – když je hodnota ve formuláři správná</li>
+            <li><code>:invalid</code> – když je hodnota neplatná</li>
+            <li><code>:checked</code> – zaškrtnutý checkbox nebo radio button</li>
+          </ul>
+          <div class="alert alert-secondary mb-0">
+            <strong>Doporučení:</strong> <code>:hover</code> používej hlavně u prvků,
+            které jsou klikatelné nebo interaktivní. Uživatel pak lépe pozná, že s nimi může pracovat.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: nth-child -->
+  <div class="modal fade" id="modalNthChild" tabindex="-1" aria-labelledby="modalNthChildLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalNthChildLabel">first-child, last-child a nth-child()</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Tyto pseudo-třídy pracují se strukturou HTML:</p>
+<pre><code>li:first-child { ... }
+li:last-child  { ... }
+li:nth-child(5) { ... }
+li:nth-child(even) { ... }
+li:nth-child(odd) { ... }
+li:nth-child(3n) { ... }</code></pre>
+          <ul class="mb-0">
+            <li><code>:first-child</code> = první dítě rodiče</li>
+            <li><code>:last-child</code> = poslední dítě rodiče</li>
+            <li><code>:nth-child(5)</code> = páté dítě</li>
+            <li><code>:nth-child(even)</code> = sudé prvky</li>
+            <li><code>:nth-child(odd)</code> = liché prvky</li>
+            <li><code>:nth-child(3n)</code> = každý třetí prvek</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Accordion: pseudo -->
+  <div class="accordion mb-4" id="acc-pseudo">
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="pseudo-h1">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#pseudo-c1">
+          CSS: hover, visited a active u odkazu
+        </button>
+      </h2>
+      <div id="pseudo-c1" class="accordion-collapse collapse show" data-bs-parent="#acc-pseudo">
+        <div class="accordion-body">
+<pre><code>a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+a:visited {
+  color: #7c3aed;
+}
+
+a:active {
+  color: #dc2626;
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="pseudo-h2">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pseudo-c2">
+          CSS: focus, valid a invalid u formuláře
+        </button>
+      </h2>
+      <div id="pseudo-c2" class="accordion-collapse collapse" data-bs-parent="#acc-pseudo">
+        <div class="accordion-body">
+<pre><code>input[type="email"] {
+  border: 2px solid #cbd5e1;
+  padding: 10px;
+  border-radius: 8px;
+  outline: none;
+}
+
+input[type="email"]:focus {
+  border-color: #2563eb;
+  background-color: #eff6ff;
+}
+
+input[type="email"]:valid {
+  border-color: #16a34a;
+}
+
+input[type="email"]:invalid {
+  border-color: #dc2626;
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="pseudo-h3">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pseudo-c3">
+          CSS: checked + next sibling (to-do list efekt)
+        </button>
+      </h2>
+      <div id="pseudo-c3" class="accordion-collapse collapse" data-bs-parent="#acc-pseudo">
+        <div class="accordion-body">
+          <p>HTML:</p>
+<pre><code>&lt;label&gt;
+  &lt;input type="checkbox"&gt;
+  &lt;span&gt;Dokončit domácí úkol&lt;/span&gt;
+&lt;/label&gt;</code></pre>
+          <p>CSS:</p>
+<pre><code>input[type="checkbox"]:checked + span {
+  text-decoration: line-through;
+  color: gray;
+}</code></pre>
+          <div class="alert alert-info mt-3 mb-0">
+            Tady se kombinuje <strong>attribute selector</strong>, <strong>pseudo-třída</strong>
+            a <strong>next sibling kombinátor</strong>.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="pseudo-h4">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pseudo-c4">
+          CSS: first-child, last-child a nth-child()
+        </button>
+      </h2>
+      <div id="pseudo-c4" class="accordion-collapse collapse" data-bs-parent="#acc-pseudo">
+        <div class="accordion-body">
+<pre><code>li:first-child {
+  border: 2px solid black;
+}
+
+li:last-child {
+  border: 2px solid black;
+}
+
+li:nth-child(5) {
+  background-color: #fde68a;
+}
+
+li:nth-child(even) {
+  background-color: #f1f5f9;
+}
+
+li:nth-child(3n) {
+  color: #2563eb;
+}</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================== -->
+  <!-- 3) TRANSITION -->
+  <h4 class="mt-5 mb-3">3️⃣ Transition – plynulé přechody mezi stavy</h4>
+
+  <div class="container my-4 p-4 border rounded bg-white">
+    <p>
+      Vlastnost <code>transition</code> slouží k tomu, aby změna stylu nebyla skoková,
+      ale <strong>plynulá</strong>. Nejčastěji se používá u hover efektů.
+    </p>
+    <p>
+      Důležité pravidlo: <strong>transition se většinou zapisuje do výchozího stavu prvku, ne do hoveru</strong>.
+      Díky tomu je animace plynulá jak při najetí myší, tak při jejím odjetí.
+    </p>
+    <button class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#modalTransition">
+      Teorie: transition
+    </button>
+    <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalTimingFunctions">
+      Timing functions
+    </button>
+  </div>
+
+  <!-- Modal: transition -->
+  <div class="modal fade" id="modalTransition" tabindex="-1" aria-labelledby="modalTransitionLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalTransitionLabel">Transition – základní princip</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Základní zápis:</p>
+<pre><code>.box {
+  transition: 1s;
+}
+
+.box:hover {
+  border-radius: 30px;
+  background-color: tomato;
+}</code></pre>
+          <p>
+            Tento zápis znamená: změna mezi normálním stavem a hover stavem potrvá 1 sekundu.
+          </p>
+          <p class="mb-0">
+            Můžeš také určit konkrétní vlastnost:
+          </p>
+<pre><code>transition: border-radius 1s;</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: timing functions -->
+  <div class="modal fade" id="modalTimingFunctions" tabindex="-1" aria-labelledby="modalTimingFunctionsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalTimingFunctionsLabel">Transition timing function</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Timing function určuje <strong>průběh rychlosti</strong> animace:</p>
+          <ul>
+            <li><code>linear</code> – stále stejná rychlost</li>
+            <li><code>ease</code> – pomalý start, zrychlení, pomalý konec</li>
+            <li><code>ease-in</code> – pomalý začátek</li>
+            <li><code>ease-out</code> – pomalý konec</li>
+            <li><code>ease-in-out</code> – pomalý začátek i konec</li>
+          </ul>
+<pre><code>transition: 300ms ease-in-out;</code></pre>
+          <div class="alert alert-secondary mb-0">
+            V praxi často velmi dobře funguje krátká animace kolem
+            <code>150ms</code> až <code>300ms</code> s funkcí <code>ease-in-out</code>.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Accordion: transition -->
+  <div class="accordion mb-4" id="acc-transition">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="trans-h1">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#trans-c1">
+          HTML: jednoduchý box
+        </button>
+      </h2>
+      <div id="trans-c1" class="accordion-collapse collapse show" data-bs-parent="#acc-transition">
+        <div class="accordion-body">
+<pre><code>&lt;div class="transition-box"&gt;Najetí myší&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="trans-h2">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#trans-c2">
+          CSS: hover efekt s transition
+        </button>
+      </h2>
+      <div id="trans-c2" class="accordion-collapse collapse" data-bs-parent="#acc-transition">
+        <div class="accordion-body">
+<pre><code>.transition-box {
+  width: 220px;
+  height: 120px;
+  background-color: steelblue;
+  color: white;
+  display: grid;
+  place-items: center;
+  border-radius: 0;
+  transition: 300ms ease-in-out;
+}
+
+.transition-box:hover {
+  background-color: tomato;
+  border-radius: 24px;
+  transform: scale(1.05);
+}</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================== -->
+  <!-- 4) POSITION -->
+  <h4 class="mt-5 mb-3">4️⃣ Position – přesné umístění prvků</h4>
+
+  <div class="container my-4 p-4 border rounded bg-white">
+    <p>
+      Vlastnost <code>position</code> určuje, jak bude prvek umístěn v layoutu.
+      Když použiješ jinou hodnotu než <code>static</code>, můžeš navíc pracovat s vlastnostmi
+      <code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code> a také <code>z-index</code>.
+    </p>
+    <button class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#modalPositionTypes">
+      Typy position
+    </button>
+    <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalAbsoluteRelative">
+      Absolute + relative
+    </button>
+  </div>
+
+  <!-- Modal: position types -->
+  <div class="modal fade" id="modalPositionTypes" tabindex="-1" aria-labelledby="modalPositionTypesLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalPositionTypesLabel">Přehled hodnot position</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <ul>
+            <li><code>static</code> – výchozí stav, bez speciálního chování</li>
+            <li><code>relative</code> – posun relativně vůči původní poloze prvku</li>
+            <li><code>absolute</code> – pozice vůči nejbližšímu předkovi, který má nastavenou position</li>
+            <li><code>fixed</code> – prvek je přichycený k oknu prohlížeče</li>
+            <li><code>sticky</code> – prvek se chová normálně, ale při scrollu se „přilepí“</li>
+          </ul>
+          <p class="mb-0">
+            U pozicovaných prvků se často používá i <code>z-index</code>, který určuje,
+            která vrstva bude nad ostatními.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: absolute relative -->
+  <div class="modal fade" id="modalAbsoluteRelative" tabindex="-1" aria-labelledby="modalAbsoluteRelativeLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalAbsoluteRelativeLabel">Proč se absolute často kombinuje s relative?</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Prvek s <code>position: absolute;</code> se umisťuje vůči nejbližšímu rodiči,
+            který má nastavenou position. Pokud takový rodič není, bere se jako reference celé <code>body</code>.
+          </p>
+<pre><code>.parent {
+  position: relative;
+}
+
+.child {
+  position: absolute;
+  top: 0;
+  right: 0;
+}</code></pre>
+          <p class="mb-0">
+            To je velmi častý vzor například u ikonky v rohu boxu, tlačítka uvnitř inputu,
+            badge prvku nebo překryvného štítku.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Accordion: position -->
+  <div class="accordion mb-4" id="acc-position">
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="pos-h1">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#pos-c1">
+          CSS: position relative
+        </button>
+      </h2>
+      <div id="pos-c1" class="accordion-collapse collapse show" data-bs-parent="#acc-position">
+        <div class="accordion-body">
+<pre><code>.box {
+  position: relative;
+  top: 20px;
+  left: 20px;
+}</code></pre>
+          <p class="mb-0">
+            Prvek se posune vzhledem ke své původní poloze.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="pos-h2">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pos-c2">
+          CSS: fixed + centrování na obrazovce
+        </button>
+      </h2>
+      <div id="pos-c2" class="accordion-collapse collapse" data-bs-parent="#acc-position">
+        <div class="accordion-body">
+<pre><code>.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}</code></pre>
+          <div class="alert alert-info mt-3 mb-0">
+            Tento princip se často používá u modálních oken nebo vyskakovacích panelů.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="pos-h3">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pos-c3">
+          CSS: sticky navigace
+        </button>
+      </h2>
+      <div id="pos-c3" class="accordion-collapse collapse" data-bs-parent="#acc-position">
+        <div class="accordion-body">
+<pre><code>.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}</code></pre>
+          <p class="mb-0">
+            Navigace zůstane při scrollování „přilepená“ nahoře.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="pos-h4">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pos-c4">
+          CSS: absolute uvnitř rodiče
+        </button>
+      </h2>
+      <div id="pos-c4" class="accordion-collapse collapse" data-bs-parent="#acc-position">
+        <div class="accordion-body">
+          <p>HTML:</p>
+<pre><code>&lt;div class="search-box"&gt;
+  &lt;input type="text" placeholder="Hledat..."&gt;
+  &lt;button class="search-btn"&gt;🔍&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+          <p>CSS:</p>
+<pre><code>.search-box {
+  position: relative;
+  width: 300px;
+}
+
+.search-btn {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="pos-h5">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pos-c5">
+          CSS: z-index a vrstvy
+        </button>
+      </h2>
+      <div id="pos-c5" class="accordion-collapse collapse" data-bs-parent="#acc-position">
+        <div class="accordion-body">
+<pre><code>.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 100;
+}
+
+.modal-window {
+  position: fixed;
+  z-index: 200;
+}</code></pre>
+          <p class="mb-0">
+            Vyšší <code>z-index</code> znamená vyšší vrstvu nad ostatními prvky.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h4 class="mb-3">📘 Shrnutí kapitoly</h4>
+    <ul class="mb-0">
+      <li><strong>Attribute selector</strong> vybírá prvky podle atributu a jeho hodnoty, například <code>input[type="email"]</code>.</li>
+      <li><strong>Pseudo-třídy</strong> stylují prvky podle stavu nebo pozice ve struktuře, např. <code>:hover</code>, <code>:focus</code>, <code>:checked</code>, <code>:nth-child()</code>.</li>
+      <li><strong>Transition</strong> dělá změny plynulé a zlepšuje uživatelský zážitek.</li>
+      <li><strong>Position</strong> umožňuje přesněji umisťovat prvky a pracovat s vrstvami přes <code>z-index</code>.</li>
+      <li>V pokročilejším CSS často nejde jen o znalost vlastností, ale hlavně o pochopení <strong>logiky selektorů a vztahů mezi prvky</strong>.</li>
+    </ul>
+  </div>
+
+</section>
