@@ -1,444 +1,660 @@
-<section id="section6-1-1" class="lesson">
+<!-- =========================================================
+6.1.2 – Backend, server a API (teorie před stavbou backendu)
+========================================================= -->
+<section id="section6-1-2" class="lesson">
 
   <header class="lesson__header">
-    <h2 class="lesson__title">X.X.X Rychlé opakování: HTML, JavaScript a stránka pro výpis filmů</h2>
+    <h2 class="lesson__title">6.1.2 Backend, server a API – proč je potřebujeme v našem rezervačním systému</h2>
     <p class="lesson__lead">
-      Než se pustíme do backendu a serveru, krátce si zopakujeme, co dělá webová stránka na straně uživatele.
-      Nepůjde o celý kurz HTML a JavaScriptu — jen o to, co opravdu potřebujeme k pochopení našeho jednoduchého informačního systému.
+      V minulé části jsme si ukázali, že Python umí zapisovat rezervace do SQLite databáze.
+      Teď si vysvětlíme, co je <strong>backend</strong>, co znamená <strong>server</strong>,
+      co je <strong>API</strong> a proč bez backendu webová stránka neumí sama pracovat s databází.
+      V další lekci už na to navážeme prakticky a skutečně server postavíme.
     </p>
   </header>
 
-  <!-- Co se naučíš -->
   <article class="card">
-    <h3 class="card__title">Co se naučíš?</h3>
-
+    <h3 class="card__title">Co se v této lekci naučíš?</h3>
     <ul class="checklist">
-      <li><strong>HTML kostra stránky</strong> – pochopíš, co na stránce znamenají tagy jako <code>table</code>, <code>thead</code>, <code>tbody</code>, <code>tr</code> a <code>td</code>.</li>
-      <li><strong>JavaScript na stránce</strong> – zjistíš, jak skript najde prvky v HTML a jak s nimi pracuje.</li>
-      <li><strong>Načítání dat ze serveru</strong> – uvidíš, proč stránka sama o sobě nezná data a musí si o ně říct backendu.</li>
-      <li><strong>Praktická orientace</strong> – připravíš si půdu pro další kapitoly, kde budeme po malých blocích stavět backend v Pythonu.</li>
+      <li>Co je <strong>frontend</strong>, <strong>backend</strong>, <strong>server</strong> a <strong>databáze</strong>.</li>
+      <li>Co je <strong>API</strong> a proč ho v našem projektu potřebujeme.</li>
+      <li>Proč je pro nás <strong>FastAPI</strong> dobrá volba na první backend.</li>
+      <li>Jak vypadá nejmenší možný server ve FastAPI.</li>
+      <li>Co znamená zápis <code>@app.get("/")</code>.</li>
+      <li>Jak bude propojená konzole, databáze a webová stránka v našem rezervačním systému.</li>
     </ul>
 
     <div class="note note--info">
-      <strong>Tip:</strong> Cílem této lekce není umět HTML a JavaScript dokonale. Cílem je nebát se souboru <code>index.html</code> a rozumět tomu, co se v něm děje.
+      <strong>Cíl celé kapitoly:</strong> Nechceme jen opisovat kód. Chceme přesně pochopit,
+      <strong>proč backend vzniká</strong>, <strong>kde v projektu sedí</strong> a
+      <strong>jakou práci dělá mezi webem a databází</strong>.
     </div>
   </article>
 
-  <!-- Akce / odkazy -->
-  <div class="actions">
-    <a class="btn btn--primary" href="./index.html" target="_blank" rel="noopener">
-      Otevřít ukázkový frontend
-    </a>
-
-    <a class="btn btn--ghost" href="./movies_server.py" target="_blank" rel="noopener">
-      Zobrazit serverový soubor
-    </a>
-  </div>
-
-  <!-- Akordeony -->
-  <div class="accordion">
-
-    <!-- 1) Proč to vůbec řešíme -->
-    <details class="acc" open>
-      <summary class="acc__sum">1) Proč nezačínáme rovnou backendem</summary>
-      <div class="acc__body">
-
-        <p>
-          Backend a server budou pro žáky nová témata. Jenže náš výsledný projekt nebude tvořit jen Pythonový server.
-          Součástí systému je i webová stránka, která data zobrazí uživateli. Kdybychom přeskočili HTML a JavaScript úplně,
-          žáci by sice možná dokázali opsat hotový kód, ale nerozuměli by tomu, proč se po načtení stránky objeví tabulka,
-          odkud se berou data a proč se bez spuštěného serveru nic nenačte.
-        </p>
-
-        <ol class="steps">
-          <li>Na stránce je připravené místo pro data – například tabulka filmů.</li>
-          <li>JavaScript po otevření stránky pošle požadavek na server.</li>
-          <li>Server sáhne do databáze a vrátí data.</li>
-          <li>JavaScript přijatá data vloží do tabulky.</li>
-        </ol>
-
-        <ul class="bullets">
-          <li>Frontend = to, co vidí uživatel v prohlížeči.</li>
-          <li>Backend = to, co běží na serveru a zpracovává data.</li>
-          <li>Databáze = místo, kde jsou data uložená.</li>
-        </ul>
-
-        <div class="actions">
-          <button class="btn btn--sm btn--ghost modal-trigger"
-                  type="button"
-                  data-modal-open="modal-html-js-overview">
-            Více informací
-          </button>
-        </div>
-
-      </div>
-    </details>
-
-    <!-- 2) Mapa systému -->
-    <details class="acc">
-      <summary class="acc__sum">2) Rychlá mapa našeho systému</summary>
-      <div class="acc__body">
-
-        <p>
-          Náš jednoduchý informační systém má tři části. Je dobré si je hned na začátku pojmenovat, protože se k nim budeme
-          vracet v každé další kapitole.
-        </p>
-
-        <div class="accordion">
-          <details class="acc" open>
-            <summary class="acc__sum">2.1 Frontend – stránka v prohlížeči</summary>
-            <div class="acc__body">
-              <p>
-                Frontend je soubor <code>index.html</code>. Obsahuje tabulku a JavaScript. Tabulka je místo, kam se budou
-                vypisovat filmy. JavaScript se postará o to, aby se data načetla ze serveru a zobrazila.
-              </p>
-              <ul class="bullets">
-                <li>Uživatel otevře stránku.</li>
-                <li>Stránka se vykreslí v prohlížeči.</li>
-                <li>Skript začne pracovat až po načtení stránky.</li>
-              </ul>
-            </div>
-          </details>
-
-          <details class="acc">
-            <summary class="acc__sum">2.2 Backend – Pythonový server</summary>
-            <div class="acc__body">
-              <p>
-                Backend je soubor <code>movies_server.py</code>. Ten spustí server, obslouží požadavek na cestě
-                <code>/api/movies</code> a vrátí seznam filmů ve formátu JSON.
-              </p>
-              <ul class="bullets">
-                <li>Server čeká na požadavky.</li>
-                <li>Když přijde dotaz, rozhodne se podle adresy, co vrátí.</li>
-                <li>Jednou může vrátit HTML stránku, jindy data z databáze.</li>
-              </ul>
-            </div>
-          </details>
-
-          <details class="acc">
-            <summary class="acc__sum">2.3 Databáze – uložená data</summary>
-            <div class="acc__body">
-              <p>
-                Databáze <code>movies.db</code> obsahuje tabulku filmů. Backend se na ni umí připojit, přečíst z ní data
-                a poslat je dál do stránky.
-              </p>
-              <ul class="bullets">
-                <li>Databáze si pamatuje data i po vypnutí programu.</li>
-                <li>Frontend do databáze přímo nevidí.</li>
-                <li>Mezi stránkou a databází stojí server.</li>
-              </ul>
-            </div>
-          </details>
-        </div>
-
-      </div>
-    </details>
-
-    <!-- 3) HTML -->
-    <details class="acc">
-      <summary class="acc__sum">3) HTML – co už na stránce máme připravené</summary>
-      <div class="acc__body">
-
-        <p>
-          HTML je kostra stránky. Určuje, co na stránce bude: nadpisy, odstavce, tabulky, tlačítka nebo obrázky.
-          V našem případě je nejdůležitější tabulka, do které budeme vypisovat filmy, a krátká textová hláška o stavu načítání.
-        </p>
-
-        <p>
-          Pro naši ukázku je dobré mít v HTML tuto jednoduchou část:
-        </p>
-
-        <pre><code id="code-html-1">&lt;p id="status"&gt;Načítám data...&lt;/p&gt;
-
-&lt;table id="moviesTable"&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;ID&lt;/th&gt;
-      &lt;th&gt;Název&lt;/th&gt;
-      &lt;th&gt;Rok&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;&lt;/tbody&gt;
-&lt;/table&gt;</code></pre>
-
-        <div class="actions">
-          <button class="btn btn--sm btn--ghost copy-btn"
-                  type="button"
-                  data-copy-target="code-html-1">
-            Kopírovat blok
-          </button>
-
-          <button class="btn btn--sm btn--ghost modal-trigger"
-                  type="button"
-                  data-modal-open="modal-html-tags">
-            Více informací
-          </button>
-        </div>
-
-        <ol class="steps">
-          <li><code>&lt;p id="status"&gt;</code> je odstavec, do kterého budeme zapisovat zprávy jako „Načítám data…“ nebo „Načteno filmů: 5“.</li>
-          <li><code>&lt;table&gt;</code> vytváří tabulku.</li>
-          <li><code>&lt;thead&gt;</code> je hlavička tabulky – tedy názvy sloupců.</li>
-          <li><code>&lt;tr&gt;</code> znamená jeden řádek tabulky.</li>
-          <li><code>&lt;th&gt;</code> je buňka hlavičky tabulky.</li>
-          <li><code>&lt;tbody&gt;</code> je tělo tabulky – sem budeme JavaScriptem doplňovat skutečná data.</li>
-        </ol>
-
-        <ul class="bullets">
-          <li>HTML ještě samo nic nenačítá. Jen připraví místo, kam data později přijdou.</li>
-          <li>Prázdný <code>&lt;tbody&gt;</code> je v pořádku – při načtení stránky tam zatím žádná data nejsou.</li>
-          <li>Prvek <code>status</code> je důležitý, protože ho později najdeme pomocí JavaScriptu.</li>
-        </ul>
-
-      </div>
-    </details>
-
-    <!-- 4) JavaScript -->
-    <details class="acc">
-      <summary class="acc__sum">4) JavaScript – jak stránka najde tabulku a načte data</summary>
-      <div class="acc__body">
-
-        <p>
-          JavaScript je jazyk, který stránku „oživí“. Umí najít prvky v HTML, vytvořit nové řádky tabulky,
-          poslat dotaz na server a výsledek zobrazit.
-        </p>
-
-        <p>
-          Na úplný začátek nám stačí pochopit tento malý blok:
-        </p>
-
-        <pre><code id="code-js-1">const status = document.getElementById("status");
-const tbody = document.querySelector("#moviesTable tbody");
-
-const res = await fetch("/api/movies");
-const movies = await res.json();</code></pre>
-
-        <div class="actions">
-          <button class="btn btn--sm btn--ghost copy-btn"
-                  type="button"
-                  data-copy-target="code-js-1">
-            Kopírovat blok
-          </button>
-
-          <button class="btn btn--sm btn--ghost modal-trigger"
-                  type="button"
-                  data-modal-open="modal-js-terms">
-            Více informací
-          </button>
-        </div>
-
-        <ol class="steps">
-          <li><code>const</code> vytváří proměnnou, jejíž odkaz nechceme později měnit.</li>
-          <li><code>document</code> znamená celou právě otevřenou webovou stránku.</li>
-          <li><code>getElementById("status")</code> najde prvek, který má v HTML atribut <code>id="status"</code>.</li>
-          <li><code>querySelector("#moviesTable tbody")</code> najde v tabulce její část <code>tbody</code>.</li>
-          <li><code>fetch("/api/movies")</code> pošle požadavek na server.</li>
-          <li><code>await</code> znamená „počkej, než odpověď opravdu dorazí“.</li>
-          <li><code>res.json()</code> převede odpověď serveru z JSONu na data, se kterými už JavaScript umí pracovat.</li>
-        </ol>
-
-        <ul class="bullets">
-          <li>Stránka si data nevymýšlí sama — musí si o ně požádat backend.</li>
-          <li>Adresa <code>/api/movies</code> je cesta na serveru, která vrací seznam filmů.</li>
-          <li>Bez spuštěného serveru nebude mít <code>fetch()</code> odkud data získat.</li>
-        </ul>
-
-      </div>
-    </details>
-
-    <!-- 5) Co je JSON -->
-    <details class="acc">
-      <summary class="acc__sum">5) Co je JSON a proč se nám hodí</summary>
-      <div class="acc__body">
-
-        <p>
-          Když server pošle data do stránky, potřebuje je zapsat v nějakém formátu, kterému rozumí obě strany.
-          Pro tento účel se velmi často používá JSON.
-        </p>
-
-        <pre><code id="code-json-1">[
-  { "id": 1, "title": "Titanic", "year": 1997 },
-  { "id": 2, "title": "Avatar", "year": 2009 }
-]</code></pre>
-
-        <div class="actions">
-          <button class="btn btn--sm btn--ghost copy-btn"
-                  type="button"
-                  data-copy-target="code-json-1">
-            Kopírovat blok
-          </button>
-        </div>
-
-        <ol class="steps">
-          <li>Hranaté závorky <code>[ ]</code> znamenají seznam více položek.</li>
-          <li>Složené závorky <code>{ }</code> znamenají jeden objekt – tedy jednu položku s vlastnostmi.</li>
-          <li><code>"id"</code>, <code>"title"</code> a <code>"year"</code> jsou názvy vlastností.</li>
-          <li>Za dvojtečkou je jejich hodnota.</li>
-        </ol>
-
-        <ul class="bullets">
-          <li>Každý film je v JSONu jeden objekt.</li>
-          <li>Celý seznam filmů je pole objektů.</li>
-          <li>JavaScript si taková data umí snadno převzít a projít je jedno po druhém.</li>
-        </ul>
-
-      </div>
-    </details>
-
-    <!-- 6) Co si odnést -->
-    <details class="acc">
-      <summary class="acc__sum">6) Co si z této lekce odnést do dalších kapitol</summary>
-      <div class="acc__body">
-
-        <p>
-          Tato kapitola je hlavně orientační. Nemá z vás udělat frontend vývojáře. Má vám dát jistotu, že když v dalších
-          lekcích uvidíte soubor <code>index.html</code>, tabulku, JavaScript a volání serveru, nebudete mít pocit, že se díváte
-          na něco úplně cizího.
-        </p>
-
-        <ol class="steps">
-          <li>HTML připraví kostru stránky.</li>
-          <li>JavaScript si najde prvky v HTML.</li>
-          <li>JavaScript požádá server o data.</li>
-          <li>Server vrátí data z databáze.</li>
-          <li>JavaScript je vloží do tabulky.</li>
-        </ol>
-
-        <div class="note note--info">
-          <strong>Pamatuj:</strong> frontend zobrazuje, backend obsluhuje a databáze ukládá.
-        </div>
-
-      </div>
-    </details>
-
-  </div>
-
-  <!-- Shrnutí -->
   <article class="card">
-    <h3 class="card__title">Shrnutí</h3>
+    <h3 class="card__title">Jak to navazuje na náš projekt</h3>
+    <ol class="steps">
+      <li>Máme Python skript, který v konzoli ukládá rezervace do <code>reservations.db</code>.</li>
+      <li>Chceme, aby stejná data šla zobrazit také na webové stránce.</li>
+      <li>Webová stránka ale neumí sama otevřít SQLite databázi na disku.</li>
+      <li>Proto mezi stránku a databázi vložíme <strong>backend</strong>.</li>
+      <li>Backend poběží jako <strong>server</strong> a stránce bude data poskytovat přes <strong>API</strong>.</li>
+    </ol>
 
-    <ul class="checklist">
-      <li>Žák chápe, že webová stránka je jen jedna část celého informačního systému.</li>
-      <li>Žák pozná základní HTML tagy použité v jednoduché tabulce.</li>
-      <li>Žák rozumí tomu, že JavaScript umí najít prvky ve stránce a načíst data ze serveru.</li>
-      <li>Žák ví, že JSON je běžný formát pro přenos dat mezi backendem a frontendem.</li>
-    </ul>
+    <div class="note note--info">
+      <strong>Jedna věta, kterou si zapamatuj:</strong>
+      <br>
+      <strong>Databáze data ukládá, backend s nimi pracuje a webová stránka je zobrazuje.</strong>
+    </div>
   </article>
 
-  <!-- Volitelné: Zdroje -->
+  <div class="accordion">
+
+    <!-- ===================================================== -->
+    <!-- KROK 1 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 1: kde v projektu sedí frontend, backend, server a databáze</summary>
+      <div class="acc__body">
+
+        <p>
+          Nejdřív si musíme ujasnit, že webová aplikace se obvykle neskládá jen z jedné věci.
+          Má několik částí a každá dělá něco jiného.
+        </p>
+
+        <ul class="bullets">
+          <li><strong>Frontend</strong> = to, co vidí uživatel v prohlížeči (HTML, CSS, JavaScript).</li>
+          <li><strong>Backend</strong> = Python program, který běží na serveru a řeší logiku aplikace.</li>
+          <li><strong>Databáze</strong> = místo, kde se ukládají data.</li>
+          <li><strong>Server</strong> = běžící program, který čeká na požadavky a vrací odpovědi.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>V našem projektu:</strong>
+          <br>
+          Frontend = stránka s výpisem rezervací
+          <br>
+          Backend = Python + FastAPI
+          <br>
+          Databáze = <code>reservations.db</code>
+        </div>
+
+        <details class="acc" open>
+          <summary class="acc__sum">Vysvětlení úplně lidsky</summary>
+          <div class="acc__body">
+            <ul class="bullets">
+              <li>Frontend je „obličej“ aplikace – to, na co klikáš a co vidíš.</li>
+              <li>Backend je „mozek“ aplikace – rozhoduje, co se má stát.</li>
+              <li>Databáze je „paměť“ aplikace – uchovává informace.</li>
+              <li>Server je způsob, jak backend běží a komunikuje s okolím.</li>
+            </ul>
+          </div>
+        </details>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-frontend-backend">
+            Modál: frontend × backend × databáze
+          </button>
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-server">
+            Modál: co je server
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 2 -->
+    <!-- ===================================================== -->
+    <details class="acc">
+      <summary class="acc__sum">Krok 2: co je API a proč ho vůbec potřebujeme</summary>
+      <div class="acc__body">
+
+        <p>
+          API je způsob, jak spolu komunikují dva programy.
+          V našem případě to znamená, že webová stránka pošle požadavek backendu
+          a backend vrátí odpověď.
+        </p>
+
+        <ul class="bullets">
+          <li>Stránka si řekne: „Pošli mi seznam rezervací.“</li>
+          <li>Backend otevře databázi a data načte.</li>
+          <li>Backend vrátí odpověď zpět stránce.</li>
+          <li>Stránka data zobrazí uživateli.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Důležité:</strong> Browser obvykle <strong>nepracuje přímo se SQLite souborem na disku</strong>.
+          Právě proto potřebujeme backend, který bude mezi stránkou a databází.
+        </div>
+
+        <details class="acc" open>
+          <summary class="acc__sum">Proč nepřipojíme stránku rovnou na databázi?</summary>
+          <div class="acc__body">
+            <ul class="bullets">
+              <li>Databáze je soubor na disku serveru nebo tvého počítače.</li>
+              <li>Browser neumí bezpečně a přímo pracovat s Python modulem <code>sqlite3</code>.</li>
+              <li>Kdyby to šlo přímo, bylo by to nebezpečné a špatně řiditelné.</li>
+              <li>Proto databázi obsluhuje backend a browser komunikuje s backendem přes API.</li>
+            </ul>
+          </div>
+        </details>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-api">
+            Modál: co je API
+          </button>
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-browser-db">
+            Modál: proč stránka neotevře SQLite sama
+          </button>
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-http">
+            Modál: GET a POST
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 3 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 3: proč budeme používat zrovna FastAPI</summary>
+      <div class="acc__body">
+
+        <p>
+          Na backend v Pythonu existuje více frameworků. My zvolíme <strong>FastAPI</strong>,
+          protože je přehledné, krátké a na výuku backendu velmi vhodné.
+        </p>
+
+        <ul class="bullets">
+          <li>Kód je krátký a dobře čitelný.</li>
+          <li>Rychle vytvoříš první funkční server.</li>
+          <li>Snadno se v něm vysvětlují cesty jako <code>/</code> nebo <code>/reservations</code>.</li>
+          <li>Dobře se propojuje s Pythonem a naší SQLite databází.</li>
+          <li>Hodí se pro malé i větší projekty.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Pro naši výuku je nejdůležitější:</strong>
+          <br>
+          Ve FastAPI velmi rychle uvidíš vztah:
+          <br>
+          <strong>URL adresa → Python funkce → odpověď serveru</strong>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-fastapi">
+            Modál: proč FastAPI
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 4 -->
+    <!-- ===================================================== -->
+    <details class="acc">
+      <summary class="acc__sum">Krok 4: nejmenší možný backend ve FastAPI</summary>
+      <div class="acc__body">
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">main.py</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-fastapi-min">Kopírovat</button>
+          </div>
+          <pre id="code-612-fastapi-min"><code class="language-python">from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def read_root():
+    return {"message": "Ahoj ze serveru"}</code></pre>
+        </div>
+
+        <details class="acc" open>
+          <summary class="acc__sum">Vysvětlení kódu „slovo od slova“</summary>
+          <div class="acc__body">
+            <ul class="bullets">
+              <li><code>from fastapi import FastAPI</code> = importujeme třídu <code>FastAPI</code>.</li>
+              <li><code>app = FastAPI()</code> = vytvoříme objekt aplikace, tedy náš backend.</li>
+              <li><code>@app.get("/")</code> = říkáme: když přijde požadavek na adresu <code>/</code>, spusť funkci pod tímto řádkem.</li>
+              <li><code>def read_root():</code> = obyčejná Python funkce, kterou FastAPI použije pro obsluhu této adresy.</li>
+              <li><code>return {"message": "Ahoj ze serveru"}</code> = server vrátí odpověď ve formě dat.</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="acc">
+          <summary class="acc__sum">Co si z toho odnést</summary>
+          <div class="acc__body">
+            <ul class="bullets">
+              <li>Každá adresa na serveru může mít vlastní Python funkci.</li>
+              <li>Backend tedy není nic jiného než Python kód, který reaguje na URL adresy.</li>
+              <li>Teď ještě nečteme databázi. Jen vracíme pevně napsanou odpověď.</li>
+            </ul>
+          </div>
+        </details>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-route">
+            Modál: co je route / endpoint
+          </button>
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-json">
+            Modál: co je JSON
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 5 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 5: jak server spustíme</summary>
+      <div class="acc__body">
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">terminál</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-uvicorn">Kopírovat</button>
+          </div>
+          <pre id="code-612-uvicorn"><code class="language-bash">uvicorn main:app --reload</code></pre>
+        </div>
+
+        <details class="acc" open>
+          <summary class="acc__sum">Vysvětlení příkazu „slovo od slova“</summary>
+          <div class="acc__body">
+            <ul class="bullets">
+              <li><code>uvicorn</code> = program, který umí spustit Python web server.</li>
+              <li><code>main:app</code> = vezmi soubor <code>main.py</code> a v něm hledej proměnnou <code>app</code>.</li>
+              <li><code>--reload</code> = když uložíš změny v souboru, server se během vývoje automaticky restartuje.</li>
+            </ul>
+          </div>
+        </details>
+
+        <div class="note note--info">
+          <strong>Po spuštění:</strong>
+          <br>
+          Server obvykle poběží na adrese <code>http://127.0.0.1:8000</code>
+          <br>
+          a tam uvidíš odpověď ze své FastAPI aplikace.
+        </div>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-uvicorn">
+            Modál: co je Uvicorn
+          </button>
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-localhost">
+            Modál: 127.0.0.1 / localhost
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 6 -->
+    <!-- ===================================================== -->
+    <details class="acc">
+      <summary class="acc__sum">Krok 6: jak to celé zapadne do našeho rezervačního systému</summary>
+      <div class="acc__body">
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">struktura projektu (plán)</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-structure">Kopírovat</button>
+          </div>
+          <pre id="code-612-structure"><code class="language-text">rezervacni_system/
+├── reservations_console.py
+├── main.py
+├── reservations.db
+└── templates/
+    └── index.html</code></pre>
+        </div>
+
+        <details class="acc" open>
+          <summary class="acc__sum">Co bude dělat každý soubor</summary>
+          <div class="acc__body">
+            <ul class="bullets">
+              <li><code>reservations_console.py</code> = konzolový program, který zapisuje rezervace do databáze.</li>
+              <li><code>main.py</code> = backend ve FastAPI, který databázi čte a vrací data do prohlížeče.</li>
+              <li><code>reservations.db</code> = SQLite databáze, kde budou rezervace uložené.</li>
+              <li><code>templates/index.html</code> = HTML šablona stránky, která zobrazí rezervace.</li>
+            </ul>
+          </div>
+        </details>
+
+        <div class="note note--info">
+          <strong>To nejdůležitější:</strong>
+          <br>
+          Konzolová aplikace i backend budou pracovat se <strong>stejnou databází</strong>.
+          To znamená, že co zapíšeš v konzoli, backend potom může zobrazit na stránce.
+        </div>
+
+        <h6>Tok dat v našem projektu</h6>
+        <ol class="steps">
+          <li>V konzoli zadáš rezervaci.</li>
+          <li>Python ji uloží do <code>reservations.db</code>.</li>
+          <li>FastAPI server otevře stejnou databázi.</li>
+          <li>Načte rezervace a pošle je do stránky.</li>
+          <li>Webová stránka je zobrazí uživateli.</li>
+        </ol>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-shared-db">
+            Modál: proč oba programy vidí stejná data
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+  </div>
+
   <article class="card">
-    <h3 class="card__title">Odkazy na použité zdroje</h3>
-    <ol class="steps">
-      <li><a href="./index.html" target="_blank" rel="noopener">Ukázkový frontend projektu – index.html</a></li>
-      <li><a href="./movies_server.py" target="_blank" rel="noopener">Ukázkový backend projektu – movies_server.py</a></li>
-    </ol>
+    <h3 class="card__title">Mini kontrola: co už teď musíš chápat</h3>
+    <ul class="checklist">
+      <li>Backend je Python část aplikace, která běží na serveru.</li>
+      <li>API je způsob, jak si webová stránka říká backendu o data.</li>
+      <li>FastAPI použijeme proto, že se v něm backend dobře vysvětluje a rychle staví.</li>
+      <li>SQLite je souborová databáze, se kterou bude backend pracovat.</li>
+      <li>Webová stránka nebude sahat na databázi přímo – bude komunikovat s backendem.</li>
+      <li>V další lekci už vytvoříme skutečný server, který naše rezervace zobrazí na stránce.</li>
+    </ul>
   </article>
 
 </section>
 
-<!-- MODAL 1 -->
-<div class="modal" id="modal-html-js-overview" role="dialog" aria-modal="true" aria-hidden="true">
+
+
+<!-- =========================================================
+MODÁLY – Backend / API / FastAPI
+========================================================= -->
+
+<div class="modal" id="modal-frontend-backend" role="dialog" aria-modal="true" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-
       <div class="modal-header">
-        <h3 class="modal-title">Jak spolu mluví stránka, server a databáze</h3>
+        <h3 class="modal-title">Frontend × Backend × Databáze</h3>
         <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
       </div>
-
       <div class="modal-body">
-        <p>
-          Představ si tři oddělené světy:
-        </p>
         <ul class="bullets">
-          <li><strong>Databáze</strong> si pamatuje data.</li>
-          <li><strong>Server</strong> umí tato data přečíst a poslat dál.</li>
-          <li><strong>Stránka</strong> je zobrazí uživateli.</li>
+          <li><strong>Frontend</strong> = to, co vidí uživatel v prohlížeči.</li>
+          <li><strong>Backend</strong> = program na serveru, který řeší logiku aplikace.</li>
+          <li><strong>Databáze</strong> = místo, kde se ukládají data.</li>
         </ul>
         <p>
-          Stránka běží v prohlížeči, databáze je uložená jako soubor a server je prostředník mezi nimi.
-          Frontend tedy nečte databázi přímo. Vždy se ptá serveru.
+          V našem projektu bude frontend zobrazovat rezervace, backend je načte
+          a databáze je bude uchovávat.
         </p>
       </div>
-
       <div class="modal-footer">
         <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
-        <a class="btn btn--primary" href="./movies_server.py" target="_blank" rel="noopener">Otevřít backend</a>
       </div>
-
     </div>
   </div>
 </div>
 
-<!-- MODAL 2 -->
-<div class="modal" id="modal-html-tags" role="dialog" aria-modal="true" aria-hidden="true">
+<div class="modal" id="modal-server" role="dialog" aria-modal="true" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-
       <div class="modal-header">
-        <h3 class="modal-title">Rychlé zopakování HTML tagů</h3>
+        <h3 class="modal-title">Co je server?</h3>
         <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
       </div>
-
       <div class="modal-body">
         <p>
-          HTML používá značky, kterým říkáme tagy. Ty určují, co se na stránce zobrazí a jaký to má význam.
+          Server je běžící program, který čeká na požadavky a vrací odpovědi.
         </p>
         <ul class="bullets">
-          <li><code>&lt;p&gt;</code> – odstavec textu.</li>
-          <li><code>&lt;table&gt;</code> – tabulka.</li>
-          <li><code>&lt;thead&gt;</code> – hlavička tabulky.</li>
-          <li><code>&lt;tbody&gt;</code> – tělo tabulky, kam vkládáme data.</li>
-          <li><code>&lt;tr&gt;</code> – jeden řádek tabulky.</li>
-          <li><code>&lt;th&gt;</code> – hlavičková buňka.</li>
-          <li><code>&lt;td&gt;</code> – obyčejná datová buňka.</li>
+          <li>Někdo otevře webovou adresu.</li>
+          <li>Server požadavek přijme.</li>
+          <li>Backend rozhodne, co vrátit.</li>
+          <li>Server pošle odpověď zpět.</li>
         </ul>
         <p>
-          Důležité je, že HTML ještě samo nic nepočítá a nic nestahuje. Jen připraví kostru stránky.
+          V našem případě bude server spuštěný Python program s FastAPI.
         </p>
       </div>
-
       <div class="modal-footer">
         <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
-        <a class="btn btn--primary" href="./index.html" target="_blank" rel="noopener">Otevřít frontend</a>
       </div>
-
     </div>
   </div>
 </div>
 
-<!-- MODAL 3 -->
-<div class="modal" id="modal-js-terms" role="dialog" aria-modal="true" aria-hidden="true">
+<div class="modal" id="modal-api" role="dialog" aria-modal="true" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-
       <div class="modal-header">
-        <h3 class="modal-title">Rychlé zopakování pojmů z JavaScriptu</h3>
+        <h3 class="modal-title">Co je API?</h3>
         <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
       </div>
-
       <div class="modal-body">
         <p>
-          V této lekci stačí rozumět několika pojmům:
+          API je domluvený způsob komunikace mezi programy.
         </p>
         <ul class="bullets">
-          <li><code>document</code> – právě otevřená webová stránka.</li>
-          <li><code>getElementById()</code> – najde prvek podle jeho <code>id</code>.</li>
-          <li><code>querySelector()</code> – najde první prvek, který odpovídá zadanému selektoru.</li>
-          <li><code>fetch()</code> – pošle požadavek na server.</li>
-          <li><code>await</code> – počká na dokončení asynchronní operace.</li>
-          <li><code>json()</code> – převede JSON odpověď na data pro JavaScript.</li>
+          <li>Frontend pošle požadavek.</li>
+          <li>Backend ho zpracuje.</li>
+          <li>Backend vrátí odpověď.</li>
         </ul>
         <p>
-          Nemusíš si vše pamatovat nazpaměť. Důležité je vědět, co ten příkaz přibližně dělá a proč tam je.
+          API si můžeš představit jako „okénko“, přes které si jedna část systému říká druhé o data nebo akci.
         </p>
       </div>
-
       <div class="modal-footer">
         <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
-        <a class="btn btn--primary" href="./index.html" target="_blank" rel="noopener">Otevřít frontend</a>
       </div>
+    </div>
+  </div>
+</div>
 
+<div class="modal" id="modal-browser-db" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Proč stránka neotevře SQLite databázi sama?</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="bullets">
+          <li>SQLite je databázový soubor na disku.</li>
+          <li>Browser neumí používat Python modul <code>sqlite3</code>.</li>
+          <li>Práce s databází musí být řízená backendem.</li>
+          <li>Backend pak data předá stránce přes API.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Zjednodušeně:</strong>
+          <br>
+          stránka si o data řekne,
+          backend je vyzvedne z databáze,
+          stránka je pak jen zobrazí.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-http" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">GET a POST – dvě základní HTTP metody</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="bullets">
+          <li><code>GET</code> = chci data přečíst / získat.</li>
+          <li><code>POST</code> = chci na server něco poslat / vytvořit.</li>
+        </ul>
+        <p>
+          V našem projektu bude výpis rezervací typicky <code>GET</code>.
+          Přidání nové rezervace přes web by později bylo typicky <code>POST</code>.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-fastapi" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Proč budeme používat FastAPI?</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="bullets">
+          <li>Je přehledné a má krátký zápis.</li>
+          <li>Dobře se hodí pro výuku backendu.</li>
+          <li>Rychle v něm postavíš první funkční server.</li>
+          <li>Dobře se propojuje s Pythonem a databází.</li>
+        </ul>
+        <p>
+          Pro nás je nejdůležitější, že student jasně uvidí vztah:
+          <br>
+          <strong>adresa → Python funkce → odpověď</strong>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-route" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Co je route / endpoint?</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Route nebo endpoint je konkrétní adresa na serveru, kterou backend obsluhuje.
+        </p>
+        <ul class="bullets">
+          <li><code>/</code> = domovská adresa</li>
+          <li><code>/reservations</code> = třeba adresa pro výpis rezervací</li>
+        </ul>
+        <p>
+          Zápis <code>@app.get("/")</code> znamená:
+          „Když někdo otevře adresu <code>/</code>, spusť tuto funkci.“
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-json" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Co je JSON?</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          JSON je běžný textový formát pro předávání dat mezi frontendem a backendem.
+        </p>
+        <pre><code class="language-json">{
+  "message": "Ahoj ze serveru"
+}</code></pre>
+        <p>
+          Vypadá podobně jako Python slovník, ale používá se jako standardní datový formát na webu.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-uvicorn" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Co je Uvicorn?</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Uvicorn je program, který umí spustit Python webovou aplikaci jako server.
+        </p>
+        <ul class="bullets">
+          <li>Bez něj by soubor <code>main.py</code> nebyl webovým serverem.</li>
+          <li>Uvicorn spustí naši FastAPI aplikaci a otevře ji na webové adrese.</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-localhost" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Co znamená 127.0.0.1 nebo localhost?</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="bullets">
+          <li><code>127.0.0.1</code> = adresa tvého vlastního počítače.</li>
+          <li><code>localhost</code> = lidsky čitelný název pro totéž.</li>
+          <li>Když spustíš server lokálně, běží zatím jen u tebe.</li>
+        </ul>
+        <p>
+          Proto adresa jako <code>http://127.0.0.1:8000</code> znamená:
+          „otevři webový server, který běží přímo na mém počítači.“
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-shared-db" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Proč oba programy vidí stejná data?</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Protože oba programy pracují se stejným souborem <code>reservations.db</code>.
+        </p>
+        <ul class="bullets">
+          <li>Konzolový program data do databáze zapisuje.</li>
+          <li>FastAPI backend stejnou databázi čte.</li>
+          <li>Co jeden program uloží, druhý program může zobrazit.</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
     </div>
   </div>
 </div>
