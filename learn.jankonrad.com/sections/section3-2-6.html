@@ -31,8 +31,11 @@
     <button class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#modalAttributeSelector">
       Teorie: Attribute selector
     </button>
-    <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalBoxSizingInputs">
+    <button class="btn btn-outline-secondary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#modalBoxSizingInputs">
       Proč mají inputy různou šířku?
+    </button>
+    <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalGridCenterBody">
+      Proč formulář vycentrujeme přes grid?
     </button>
   </div>
 
@@ -95,6 +98,34 @@ input[type="password"] {
     </div>
   </div>
 
+  <!-- Modal: body grid center -->
+  <div class="modal fade" id="modalGridCenterBody" tabindex="-1" aria-labelledby="modalGridCenterBodyLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalGridCenterBodyLabel">Proč použít <code>min-height: 100vh; display: grid; place-items: center;</code></h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Tento zápis se často používá, když chceme vycentrovat obsah přesně doprostřed obrazovky:</p>
+<pre><code>body {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+}</code></pre>
+          <ul>
+            <li><code>min-height: 100vh;</code> znamená, že body bude mít minimálně výšku celé obrazovky.</li>
+            <li><code>display: grid;</code> zapne gridový režim.</li>
+            <li><code>place-items: center;</code> vycentruje obsah současně <strong>vodorovně i svisle</strong>.</li>
+          </ul>
+          <p class="mb-0">
+            Je to krátký a velmi přehledný způsob, jak umístit například formulář doprostřed stránky.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Accordion: attribute selector -->
   <div class="accordion mb-4" id="acc-attr">
     <div class="accordion-item">
@@ -117,24 +148,37 @@ input[type="password"] {
     <div class="accordion-item">
       <h2 class="accordion-header" id="attr-h2">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#attr-c2">
-          CSS: stylování podle atributu type
+          CSS: stylování podle atributu type + vycentrování formuláře
         </button>
       </h2>
       <div id="attr-c2" class="accordion-collapse collapse" data-bs-parent="#acc-attr">
         <div class="accordion-body">
-<pre><code>.login-form {
+<pre><code>body {
+  min-height: 100vh;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  font-family: system-ui, sans-serif;
+  background: #f8fafc;
+}
+
+.login-form {
   padding: 20px;
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.08);
 }
 
 input {
-  margin: 5px;
+  display: block;
+  margin: 8px 0;
   box-sizing: border-box;
 }
 
 input[type="email"],
 input[type="password"] {
   width: 260px;
-  height: 40px;
+  height: 42px;
   padding: 8px 12px;
   border: 1px solid #94a3b8;
   border-radius: 8px;
@@ -142,12 +186,13 @@ input[type="password"] {
 
 input[type="submit"] {
   width: 260px;
-  height: 40px;
+  height: 42px;
   border: none;
   border-radius: 8px;
   background-color: #2563eb;
   color: white;
   font-weight: bold;
+  cursor: pointer;
 }</code></pre>
         </div>
       </div>
@@ -232,12 +277,25 @@ li:nth-child(3n) { ... }</code></pre>
   <div class="accordion mb-4" id="acc-pseudo">
 
     <div class="accordion-item">
-      <h2 class="accordion-header" id="pseudo-h1">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#pseudo-c1">
+      <h2 class="accordion-header" id="pseudo-h1a">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#pseudo-c1a">
+          HTML: odkaz pro hover, visited a active
+        </button>
+      </h2>
+      <div id="pseudo-c1a" class="accordion-collapse collapse show" data-bs-parent="#acc-pseudo">
+        <div class="accordion-body">
+<pre><code>&lt;a href="https://example.com" target="_blank"&gt;Otevřít ukázkový odkaz&lt;/a&gt;</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="pseudo-h1b">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pseudo-c1b">
           CSS: hover, visited a active u odkazu
         </button>
       </h2>
-      <div id="pseudo-c1" class="accordion-collapse collapse show" data-bs-parent="#acc-pseudo">
+      <div id="pseudo-c1b" class="accordion-collapse collapse" data-bs-parent="#acc-pseudo">
         <div class="accordion-body">
 <pre><code>a {
   color: #2563eb;
@@ -261,12 +319,25 @@ a:active {
     </div>
 
     <div class="accordion-item">
-      <h2 class="accordion-header" id="pseudo-h2">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pseudo-c2">
+      <h2 class="accordion-header" id="pseudo-h2a">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pseudo-c2a">
+          HTML: input pro focus, valid a invalid
+        </button>
+      </h2>
+      <div id="pseudo-c2a" class="accordion-collapse collapse" data-bs-parent="#acc-pseudo">
+        <div class="accordion-body">
+<pre><code>&lt;input type="email" placeholder="Zadej svůj email"&gt;</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="pseudo-h2b">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pseudo-c2b">
           CSS: focus, valid a invalid u formuláře
         </button>
       </h2>
-      <div id="pseudo-c2" class="accordion-collapse collapse" data-bs-parent="#acc-pseudo">
+      <div id="pseudo-c2b" class="accordion-collapse collapse" data-bs-parent="#acc-pseudo">
         <div class="accordion-body">
 <pre><code>input[type="email"] {
   border: 2px solid #cbd5e1;
@@ -292,19 +363,29 @@ input[type="email"]:invalid {
     </div>
 
     <div class="accordion-item">
-      <h2 class="accordion-header" id="pseudo-h3">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pseudo-c3">
-          CSS: checked + next sibling (to-do list efekt)
+      <h2 class="accordion-header" id="pseudo-h3a">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pseudo-c3a">
+          HTML: checkbox a text vedle něj
         </button>
       </h2>
-      <div id="pseudo-c3" class="accordion-collapse collapse" data-bs-parent="#acc-pseudo">
+      <div id="pseudo-c3a" class="accordion-collapse collapse" data-bs-parent="#acc-pseudo">
         <div class="accordion-body">
-          <p>HTML:</p>
 <pre><code>&lt;label&gt;
   &lt;input type="checkbox"&gt;
   &lt;span&gt;Dokončit domácí úkol&lt;/span&gt;
 &lt;/label&gt;</code></pre>
-          <p>CSS:</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="pseudo-h3b">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pseudo-c3b">
+          CSS: checked + next sibling (to-do list efekt)
+        </button>
+      </h2>
+      <div id="pseudo-c3b" class="accordion-collapse collapse" data-bs-parent="#acc-pseudo">
+        <div class="accordion-body">
 <pre><code>input[type="checkbox"]:checked + span {
   text-decoration: line-through;
   color: gray;
@@ -318,12 +399,34 @@ input[type="email"]:invalid {
     </div>
 
     <div class="accordion-item">
-      <h2 class="accordion-header" id="pseudo-h4">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pseudo-c4">
+      <h2 class="accordion-header" id="pseudo-h4a">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pseudo-c4a">
+          HTML: seznam pro first-child, last-child a nth-child()
+        </button>
+      </h2>
+      <div id="pseudo-c4a" class="accordion-collapse collapse" data-bs-parent="#acc-pseudo">
+        <div class="accordion-body">
+<pre><code>&lt;ol&gt;
+  &lt;li&gt;První položka&lt;/li&gt;
+  &lt;li&gt;Druhá položka&lt;/li&gt;
+  &lt;li&gt;Třetí položka&lt;/li&gt;
+  &lt;li&gt;Čtvrtá položka&lt;/li&gt;
+  &lt;li&gt;Pátá položka&lt;/li&gt;
+  &lt;li&gt;Šestá položka&lt;/li&gt;
+  &lt;li&gt;Sedmá položka&lt;/li&gt;
+  &lt;li&gt;Osmá položka&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="pseudo-h4b">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pseudo-c4b">
           CSS: first-child, last-child a nth-child()
         </button>
       </h2>
-      <div id="pseudo-c4" class="accordion-collapse collapse" data-bs-parent="#acc-pseudo">
+      <div id="pseudo-c4b" class="accordion-collapse collapse" data-bs-parent="#acc-pseudo">
         <div class="accordion-body">
 <pre><code>li:first-child {
   border: 2px solid black;
@@ -549,12 +652,25 @@ li:nth-child(3n) {
   <div class="accordion mb-4" id="acc-position">
 
     <div class="accordion-item">
-      <h2 class="accordion-header" id="pos-h1">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#pos-c1">
+      <h2 class="accordion-header" id="pos-h1a">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#pos-c1a">
+          HTML: box pro position relative
+        </button>
+      </h2>
+      <div id="pos-c1a" class="accordion-collapse collapse show" data-bs-parent="#acc-position">
+        <div class="accordion-body">
+<pre><code>&lt;div class="box"&gt;Posunutý box&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="pos-h1b">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pos-c1b">
           CSS: position relative
         </button>
       </h2>
-      <div id="pos-c1" class="accordion-collapse collapse show" data-bs-parent="#acc-position">
+      <div id="pos-c1b" class="accordion-collapse collapse" data-bs-parent="#acc-position">
         <div class="accordion-body">
 <pre><code>.box {
   position: relative;
@@ -569,12 +685,25 @@ li:nth-child(3n) {
     </div>
 
     <div class="accordion-item">
-      <h2 class="accordion-header" id="pos-h2">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pos-c2">
+      <h2 class="accordion-header" id="pos-h2a">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pos-c2a">
+          HTML: popup pro fixed centrování
+        </button>
+      </h2>
+      <div id="pos-c2a" class="accordion-collapse collapse" data-bs-parent="#acc-position">
+        <div class="accordion-body">
+<pre><code>&lt;div class="popup"&gt;Jsem vycentrované okno&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="pos-h2b">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pos-c2b">
           CSS: fixed + centrování na obrazovce
         </button>
       </h2>
-      <div id="pos-c2" class="accordion-collapse collapse" data-bs-parent="#acc-position">
+      <div id="pos-c2b" class="accordion-collapse collapse" data-bs-parent="#acc-position">
         <div class="accordion-body">
 <pre><code>.popup {
   position: fixed;
@@ -590,12 +719,25 @@ li:nth-child(3n) {
     </div>
 
     <div class="accordion-item">
-      <h2 class="accordion-header" id="pos-h3">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pos-c3">
+      <h2 class="accordion-header" id="pos-h3a">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pos-c3a">
+          HTML: navigace pro sticky
+        </button>
+      </h2>
+      <div id="pos-c3a" class="accordion-collapse collapse" data-bs-parent="#acc-position">
+        <div class="accordion-body">
+<pre><code>&lt;nav class="navbar"&gt;Jsem sticky navigace&lt;/nav&gt;</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="pos-h3b">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pos-c3b">
           CSS: sticky navigace
         </button>
       </h2>
-      <div id="pos-c3" class="accordion-collapse collapse" data-bs-parent="#acc-position">
+      <div id="pos-c3b" class="accordion-collapse collapse" data-bs-parent="#acc-position">
         <div class="accordion-body">
 <pre><code>.navbar {
   position: sticky;
@@ -610,19 +752,29 @@ li:nth-child(3n) {
     </div>
 
     <div class="accordion-item">
-      <h2 class="accordion-header" id="pos-h4">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pos-c4">
-          CSS: absolute uvnitř rodiče
+      <h2 class="accordion-header" id="pos-h4a">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pos-c4a">
+          HTML: tlačítko uvnitř search boxu
         </button>
       </h2>
-      <div id="pos-c4" class="accordion-collapse collapse" data-bs-parent="#acc-position">
+      <div id="pos-c4a" class="accordion-collapse collapse" data-bs-parent="#acc-position">
         <div class="accordion-body">
-          <p>HTML:</p>
 <pre><code>&lt;div class="search-box"&gt;
   &lt;input type="text" placeholder="Hledat..."&gt;
   &lt;button class="search-btn"&gt;🔍&lt;/button&gt;
 &lt;/div&gt;</code></pre>
-          <p>CSS:</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="pos-h4b">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pos-c4b">
+          CSS: absolute uvnitř rodiče
+        </button>
+      </h2>
+      <div id="pos-c4b" class="accordion-collapse collapse" data-bs-parent="#acc-position">
+        <div class="accordion-body">
 <pre><code>.search-box {
   position: relative;
   width: 300px;
@@ -639,12 +791,26 @@ li:nth-child(3n) {
     </div>
 
     <div class="accordion-item">
-      <h2 class="accordion-header" id="pos-h5">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pos-c5">
+      <h2 class="accordion-header" id="pos-h5a">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pos-c5a">
+          HTML: overlay a modální okno
+        </button>
+      </h2>
+      <div id="pos-c5a" class="accordion-collapse collapse" data-bs-parent="#acc-position">
+        <div class="accordion-body">
+<pre><code>&lt;div class="overlay"&gt;&lt;/div&gt;
+&lt;div class="modal-window"&gt;Obsah modálního okna&lt;/div&gt;</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="pos-h5b">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pos-c5b">
           CSS: z-index a vrstvy
         </button>
       </h2>
-      <div id="pos-c5" class="accordion-collapse collapse" data-bs-parent="#acc-position">
+      <div id="pos-c5b" class="accordion-collapse collapse" data-bs-parent="#acc-position">
         <div class="accordion-body">
 <pre><code>.overlay {
   position: fixed;
