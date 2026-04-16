@@ -7,10 +7,11 @@
   <header class="lesson__header">
     <h2 class="lesson__title">6.1.2 Backend, server, API a virtuální prostředí – jak připravit projekt na webovou část</h2>
     <p class="lesson__lead">
-      V minulé části vznikla databáze <code>reservations.db</code> a konzolový program, který do ní umí zapisovat rezervace.
-      Teď je potřeba pochopit, jak tento projekt posunout dál: jak z lokálního Python skriptu vznikne
-      <strong>backend</strong>, proč potřebujeme <strong>server</strong>, co je <strong>API</strong>,
-      proč budeme používat <strong>FastAPI</strong> a jakou roli v tom hraje <strong>virtuální prostředí</strong>.
+      V minulé části vznikla databáze <code>reservations.db</code> a konzolový program,
+      který do ní umí zapisovat rezervace. Teď je potřeba pochopit, jak se z lokálního
+      Python skriptu stane <strong>backend</strong>, proč je potřeba <strong>server</strong>,
+      co je <strong>API</strong>, proč budeme používat <strong>FastAPI</strong>
+      a jakou roli v tom všem hraje <strong>virtuální prostředí</strong>.
       V další lekci už na tuto teorii naváže skutečný backend v Pythonu.
     </p>
   </header>
@@ -19,10 +20,11 @@
     <h3 class="card__title">Co se v této lekci naučíš</h3>
     <ul class="checklist">
       <li>Co je <strong>frontend</strong>, <strong>backend</strong>, <strong>server</strong> a <strong>databáze</strong>.</li>
-      <li>Co je <strong>API</strong> a proč bez něj webová stránka přímo nepracuje s databází.</li>
+      <li>Co je <strong>API</strong> a proč webová stránka běžně nepracuje přímo s databází.</li>
       <li>Proč je pro tento projekt vhodné <strong>FastAPI</strong>.</li>
-      <li>Že <strong>FastAPI není součást základní instalace Pythonu</strong> a musí se doinstalovat jako balíček.</li>
-      <li>Co je <strong>virtuální prostředí</strong>, jak funguje a proč se používá pro konkrétní projekt.</li>
+      <li>Že <strong>FastAPI není součást základní instalace Pythonu</strong> a musí se doinstalovat.</li>
+      <li>Co je <strong>virtuální prostředí</strong>, jak funguje a proč patří ke konkrétnímu projektu.</li>
+      <li>Jak se ve Windows vytváří a aktivuje <code>.venv</code>.</li>
       <li>Jak vypadá nejmenší možný backend ve FastAPI.</li>
       <li>Jak bude propojená konzole, databáze, backend a webová stránka v našem rezervačním systému.</li>
     </ul>
@@ -30,8 +32,8 @@
     <div class="note note--info">
       <strong>Cíl kapitoly:</strong>
       <br>
-      Přesně pochopit, <strong>kde backend v projektu sedí</strong>, <strong>proč vzniká</strong>,
-      <strong>jak komunikuje s databází</strong> a <strong>proč potřebuje vlastní balíčky a vlastní prostředí</strong>.
+      Přesně pochopit, kde backend v projektu sedí, proč vzniká,
+      jak komunikuje s databází a proč potřebuje vlastní balíčky a vlastní prostředí.
     </div>
   </article>
 
@@ -40,7 +42,7 @@
     <ol class="steps">
       <li>Existuje databáze <code>reservations.db</code>.</li>
       <li>Existuje Python program, který do této databáze zapisuje rezervace přes konzoli.</li>
-      <li>Další krok je zobrazit tato data i na webové stránce.</li>
+      <li>Další krok je zobrazit stejná data i na webové stránce.</li>
       <li>Webová stránka ale nebude pracovat s databází přímo.</li>
       <li>Mezi stránku a databázi proto vstoupí backend, který poběží jako server.</li>
     </ol>
@@ -62,7 +64,8 @@
       <div class="acc__body">
 
         <p>
-          Webová aplikace se obvykle neskládá z jediné části. Každá část má jiný úkol a teprve dohromady tvoří celý systém.
+          Webová aplikace se obvykle neskládá z jediné části.
+          Každá část má jiný úkol a teprve dohromady tvoří celý systém.
         </p>
 
         <ul class="bullets">
@@ -115,7 +118,7 @@
 
         <p>
           API je rozhraní, přes které spolu komunikují programy.
-          V našem případě to znamená, že webová stránka pošle backendu požadavek
+          V tomto projektu to znamená, že webová stránka pošle backendu požadavek
           a backend vrátí odpověď.
         </p>
 
@@ -168,8 +171,9 @@
       <div class="acc__body">
 
         <p>
-          V Pythonu existuje více frameworků pro tvorbu backendu. Pro tento projekt budeme používat
-          <strong>FastAPI</strong>, protože je přehledné, krátké a dobře se na něm vysvětluje princip webového backendu.
+          V Pythonu existuje více frameworků pro tvorbu backendu.
+          Pro tento projekt budeme používat <strong>FastAPI</strong>,
+          protože je přehledné, krátké a dobře se na něm vysvětluje princip webového backendu.
         </p>
 
         <ul class="bullets">
@@ -203,7 +207,8 @@
       <div class="acc__body">
 
         <p>
-          V této části projektu se poprvé objevuje něco, co základní Python sám o sobě neobsahuje.
+          V této části projektu se poprvé objevuje něco,
+          co základní Python sám o sobě neobsahuje.
         </p>
 
         <ul class="bullets">
@@ -268,17 +273,19 @@
           <strong>Spojitost s projektem:</strong>
           <br>
           Virtuální prostředí patří ke konkrétní složce projektu.
-          Když se v této složce aktivuje, Python i terminál používají balíčky nainstalované právě pro tento projekt.
+          Když se v této složce aktivuje, Python i terminál používají balíčky
+          nainstalované právě pro tento projekt.
         </div>
 
         <details class="acc" open>
-          <summary class="acc__sum">Co se v něm ve skutečnosti děje</summary>
+          <summary class="acc__sum">Co se ve virtuálním prostředí děje technicky</summary>
           <div class="acc__body">
             <ul class="bullets">
               <li>Vytvoří se speciální složka, často pojmenovaná <code>.venv</code>.</li>
-              <li>Uvnitř je vlastní kopie nebo odkaz na Python interpreter a místo pro balíčky.</li>
-              <li>Po aktivaci prostředí se příkazy jako <code>python</code> nebo <code>pip</code> vztahují právě k tomuto prostředí.</li>
-              <li>Tím se oddělí balíčky tohoto projektu od ostatních projektů i od globální instalace Pythonu.</li>
+              <li>Uvnitř je vlastní Python interpreter a vlastní místo pro balíčky.</li>
+              <li>Na Windows obsahuje podsložku <code>Scripts</code>, kde jsou spouštěcí skripty a nástroje.</li>
+              <li>Balíčky instalované do tohoto prostředí se ukládají jen k tomuto projektu.</li>
+              <li>Když později projekt smažeš nebo přeneseš, můžeš prostředí jednoduše vytvořit znovu.</li>
             </ul>
           </div>
         </details>
@@ -299,6 +306,9 @@
           <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-venv">
             Modál: co je virtuální prostředí
           </button>
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-activation-optional">
+            Modál: proč aktivace není vždy nutná
+          </button>
         </div>
 
       </div>
@@ -308,66 +318,66 @@
     <!-- KROK 6 -->
     <!-- ===================================================== -->
     <details class="acc">
-      <summary class="acc__sum">Krok 6: vytvoření prostředí a instalace FastAPI</summary>
+      <summary class="acc__sum">Krok 6: vytvoření prostředí a instalace FastAPI ve Windows PowerShellu</summary>
       <div class="acc__body">
 
         <p>
-          Nejprve se vytvoří virtuální prostředí, pak se aktivuje a teprve potom se do něj nainstaluje FastAPI.
+          Ve Windows PowerShellu je bezpečné držet se příkazů,
+          které odpovídají skutečné Windows syntaxi.
         </p>
 
         <div class="codeblock">
           <div class="codeblock__bar">
-            <strong class="codeblock__title">Windows – vytvoření prostředí a instalace</strong>
+            <strong class="codeblock__title">Windows PowerShell – doporučený postup</strong>
             <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-install-win">Kopírovat</button>
           </div>
-          <pre id="code-612-install-win"><code class="language-bash">python -m venv .venv
-.venv\Scripts\activate
-python -m pip install "fastapi[standard]"</code></pre>
-        </div>
-
-        <div class="codeblock">
-          <div class="codeblock__bar">
-            <strong class="codeblock__title">macOS / Linux – vytvoření prostředí a instalace</strong>
-            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-install-mac">Kopírovat</button>
-          </div>
-          <pre id="code-612-install-mac"><code class="language-bash">python -m venv .venv
-source .venv/bin/activate
-python -m pip install "fastapi[standard]"</code></pre>
+          <pre id="code-612-install-win"><code class="language-powershell">py -m venv .venv
+.\.venv\Scripts\Activate.ps1
+py -m pip install "fastapi[standard]"</code></pre>
         </div>
 
         <details class="acc" open>
           <summary class="acc__sum">Vysvětlení příkazů „slovo od slova“</summary>
           <div class="acc__body">
             <ul class="bullets">
-              <li><code>python -m venv .venv</code> = vytvoř virtuální prostředí ve složce <code>.venv</code>.</li>
-              <li><code>.venv\Scripts\activate</code> = ve Windows aktivuj toto prostředí.</li>
-              <li><code>source .venv/bin/activate</code> = na macOS/Linux aktivuj toto prostředí.</li>
-              <li><code>python -m pip install "fastapi[standard]"</code> = nainstaluj FastAPI do právě aktivního prostředí.</li>
+              <li><code>py</code> = spouštěč Pythonu ve Windows.</li>
+              <li><code>-m venv</code> = spusť modul <code>venv</code> a vytvoř virtuální prostředí.</li>
+              <li><code>.venv</code> = název složky, ve které se prostředí vytvoří.</li>
+              <li><code>.\.venv\Scripts\Activate.ps1</code> = aktivuj prostředí v PowerShellu.</li>
+              <li><code>py -m pip install "fastapi[standard]"</code> = nainstaluj FastAPI a související nástroje.</li>
             </ul>
           </div>
         </details>
 
         <div class="note note--info">
-          <strong>Co znamená „do aktivního prostředí“:</strong>
+          <strong>Poznámka k Windows:</strong>
           <br>
-          Balíček se neinstaluje „někam obecně do počítače“, ale právě do prostředí,
-          které je v danou chvíli aktivované pro tento projekt.
+          Na některých instalacích funguje spolehlivě <code>py</code>,
+          zatímco příkaz <code>python</code> nemusí být správně dostupný.
+          Proto jsou zde Windows příklady zapsané přes <code>py</code>.
         </div>
 
-        <div class="codeblock">
-          <div class="codeblock__bar">
-            <strong class="codeblock__title">ověření instalace</strong>
-            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-install-check">Kopírovat</button>
+        <details class="acc">
+          <summary class="acc__sum">Častá chyba: proč zde nepoužívat <code>source .venv/bin/activate</code></summary>
+          <div class="acc__body">
+            <ul class="bullets">
+              <li><code>source .venv/bin/activate</code> patří do bash nebo zsh na Linuxu a macOS.</li>
+              <li>Windows PowerShell má jinou syntaxi a jinou cestu ke skriptům.</li>
+              <li>Ve Windows se používá složka <code>Scripts</code>, ne <code>bin</code>.</li>
+              <li>V PowerShellu se proto používá <code>.\.venv\Scripts\Activate.ps1</code>.</li>
+            </ul>
           </div>
-          <pre id="code-612-install-check"><code class="language-bash">python -m pip show fastapi</code></pre>
-        </div>
+        </details>
 
         <div class="actions">
-          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-pip">
-            Modál: co je pip
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-powershell-activate">
+            Modál: aktivace ve Windows PowerShellu
           </button>
-          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-fastapi-install">
-            Modál: proč FastAPI musíme instalovat
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-py-vs-python">
+            Modál: <code>py</code> × <code>python</code>
+          </button>
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-execution-policy">
+            Modál: chyba s Execute Policy
           </button>
         </div>
 
@@ -378,7 +388,56 @@ python -m pip install "fastapi[standard]"</code></pre>
     <!-- KROK 7 -->
     <!-- ===================================================== -->
     <details class="acc" open>
-      <summary class="acc__sum">Krok 7: nejmenší možný backend ve FastAPI</summary>
+      <summary class="acc__sum">Krok 7: když aktivace z nějakého důvodu nefunguje</summary>
+      <div class="acc__body">
+
+        <p>
+          Virtuální prostředí není nutné vždy aktivovat.
+          Přímo z něj lze spouštět Python i nainstalované nástroje přes jejich úplnou cestu.
+        </p>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">Windows PowerShell – přímé spuštění bez aktivace</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-no-activate">Kopírovat</button>
+          </div>
+          <pre id="code-612-no-activate"><code class="language-powershell">.\.venv\Scripts\python.exe -m pip install "fastapi[standard]"
+.\.venv\Scripts\fastapi.exe dev main.py</code></pre>
+        </div>
+
+        <details class="acc" open>
+          <summary class="acc__sum">Proč to funguje</summary>
+          <div class="acc__body">
+            <ul class="bullets">
+              <li>Spouští se přímo Python interpreter z vytvořeného prostředí.</li>
+              <li>Spouští se přímo nástroj <code>fastapi.exe</code> z téhož prostředí.</li>
+              <li>Tím se obejde problém s PATH i s aktivací.</li>
+              <li>Je to užitečné hlavně tehdy, když ve Windows nefunguje <code>python</code> nebo se nedaří aktivace přes PowerShell.</li>
+            </ul>
+          </div>
+        </details>
+
+        <div class="note note--info">
+          <strong>Prakticky:</strong>
+          <br>
+          Aktivace prostředí je pohodlná,
+          ale pro samotné použití prostředí není nezbytná.
+        </div>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-activation-optional">
+            Modál: proč aktivace není vždy nutná
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 8 -->
+    <!-- ===================================================== -->
+    <details class="acc">
+      <summary class="acc__sum">Krok 8: nejmenší možný backend ve FastAPI</summary>
       <div class="acc__body">
 
         <div class="codeblock">
@@ -432,25 +491,25 @@ def read_root():
     </details>
 
     <!-- ===================================================== -->
-    <!-- KROK 8 -->
+    <!-- KROK 9 -->
     <!-- ===================================================== -->
-    <details class="acc">
-      <summary class="acc__sum">Krok 8: spuštění serveru</summary>
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 9: spuštění serveru</summary>
       <div class="acc__body">
 
         <div class="note note--info">
           <strong>Pozor:</strong>
           <br>
-          Tento krok funguje až ve chvíli, kdy je aktivní virtuální prostředí
+          Tento krok funguje až ve chvíli, kdy je prostředí vytvořené
           a v něm je opravdu nainstalované FastAPI.
         </div>
 
         <div class="codeblock">
           <div class="codeblock__bar">
-            <strong class="codeblock__title">FastAPI CLI</strong>
+            <strong class="codeblock__title">spuštění přes FastAPI CLI</strong>
             <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-fastapi-dev">Kopírovat</button>
           </div>
-          <pre id="code-612-fastapi-dev"><code class="language-bash">fastapi dev main.py</code></pre>
+          <pre id="code-612-fastapi-dev"><code class="language-powershell">.\.venv\Scripts\fastapi.exe dev main.py</code></pre>
         </div>
 
         <div class="codeblock">
@@ -458,16 +517,18 @@ def read_root():
             <strong class="codeblock__title">alternativa přes Uvicorn</strong>
             <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-uvicorn">Kopírovat</button>
           </div>
-          <pre id="code-612-uvicorn"><code class="language-bash">uvicorn main:app --reload</code></pre>
+          <pre id="code-612-uvicorn"><code class="language-powershell">.\.venv\Scripts\uvicorn.exe main:app --reload</code></pre>
         </div>
 
         <details class="acc" open>
           <summary class="acc__sum">Vysvětlení příkazů „slovo od slova“</summary>
           <div class="acc__body">
             <ul class="bullets">
-              <li><code>fastapi dev main.py</code> = spusť vývojový server nad souborem <code>main.py</code>.</li>
-              <li><code>uvicorn</code> = program, který umí spustit Python web server.</li>
-              <li><code>main:app</code> = vezmi soubor <code>main.py</code> a v něm proměnnou <code>app</code>.</li>
+              <li><code>fastapi.exe</code> = příkazový nástroj FastAPI nainstalovaný v prostředí.</li>
+              <li><code>dev</code> = vývojový režim.</li>
+              <li><code>main.py</code> = soubor, ve kterém FastAPI hledá aplikaci.</li>
+              <li><code>uvicorn.exe</code> = server, který umí FastAPI aplikaci opravdu spustit.</li>
+              <li><code>main:app</code> = vezmi soubor <code>main.py</code> a uvnitř proměnnou <code>app</code>.</li>
               <li><code>--reload</code> = při změně souboru se server automaticky restartuje.</li>
             </ul>
           </div>
@@ -492,10 +553,10 @@ def read_root():
     </details>
 
     <!-- ===================================================== -->
-    <!-- KROK 9 -->
+    <!-- KROK 10 -->
     <!-- ===================================================== -->
-    <details class="acc" open>
-      <summary class="acc__sum">Krok 9: jak to celé zapadne do rezervačního systému</summary>
+    <details class="acc">
+      <summary class="acc__sum">Krok 10: jak to celé zapadne do rezervačního systému</summary>
       <div class="acc__body">
 
         <div class="codeblock">
@@ -561,7 +622,8 @@ def read_root():
       <li>FastAPI je framework pro tvorbu backendu v Pythonu.</li>
       <li>FastAPI není součást základní instalace Pythonu a musí se doinstalovat.</li>
       <li>Virtuální prostředí odděluje balíčky konkrétního projektu od ostatních projektů.</li>
-      <li>Balíčky se instalují přes <code>pip</code> do aktivního prostředí projektu.</li>
+      <li>Ve Windows PowerShellu je správná aktivace <code>.\.venv\Scripts\Activate.ps1</code>.</li>
+      <li>Když aktivace nefunguje, lze nástroje spouštět přímo z <code>.venv\Scripts\...</code>.</li>
       <li>Backend bude používat stejnou databázi jako konzolový program.</li>
       <li>V další lekci už vznikne skutečný server, který zobrazí rezervace na stránce.</li>
     </ul>
@@ -583,16 +645,27 @@ MODÁLY – Backend / API / FastAPI / venv
         <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
       </div>
       <div class="modal-body">
+        <p>
+          Většina webových aplikací se neskládá z jediné části.
+          Aby bylo jasné, kdo co dělá, je dobré tyto části od sebe oddělit.
+        </p>
         <ul class="bullets">
-          <li><strong>Frontend</strong> = viditelná část aplikace v prohlížeči.</li>
-          <li><strong>Backend</strong> = logická část aplikace běžící v Pythonu.</li>
-          <li><strong>Databáze</strong> = uložiště dat.</li>
+          <li><strong>Frontend</strong> = viditelná část aplikace v prohlížeči. Zde jsou tlačítka, formuláře, seznamy a vzhled stránky.</li>
+          <li><strong>Backend</strong> = logická část aplikace. Přijímá požadavky, pracuje s daty, rozhoduje, co se má stát, a vrací výsledek.</li>
+          <li><strong>Databáze</strong> = uložiště dat. V tomto projektu je to soubor <code>reservations.db</code>.</li>
         </ul>
         <p>
-          V rezervačním systému frontend rezervace zobrazí,
-          backend je načte nebo uloží
-          a databáze je uchová.
+          Frontend tedy nic „neví“ o tom, jak jsou data uložená uvnitř databáze.
+          O to se stará backend. Databáze sama nic nezobrazuje.
+          Jen uchovává informace.
         </p>
+        <div class="note note--info">
+          <strong>V našem projektu:</strong>
+          <br>
+          frontend rezervace zobrazí,
+          backend je načte nebo uloží,
+          databáze je uchová.
+        </div>
       </div>
       <div class="modal-footer">
         <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
@@ -611,16 +684,25 @@ MODÁLY – Backend / API / FastAPI / venv
       <div class="modal-body">
         <p>
           Server je program, který běží a čeká na požadavky.
-          Když nějaký požadavek přijde, server vrátí odpověď.
+          Jakmile nějaký požadavek přijde, server vrátí odpověď.
         </p>
         <ul class="bullets">
-          <li>Požadavek může přijít z prohlížeče.</li>
-          <li>Backend rozhodne, co se má stát.</li>
+          <li>Někdo otevře webovou adresu v prohlížeči.</li>
+          <li>Požadavek dorazí na server.</li>
+          <li>Backend rozhodne, co má server vrátit.</li>
           <li>Server pošle odpověď zpět.</li>
         </ul>
         <p>
-          V tomto projektu bude server tvořit Python aplikace využívající FastAPI.
+          V tomto projektu nebude server „nějaká vzdálená velká věc na internetu“.
+          Zatím poběží lokálně na vlastním počítači.
+          I tak je to server — jen místní, vývojový.
         </p>
+        <div class="note note--info">
+          <strong>Důležité:</strong>
+          <br>
+          Backend je logika.
+          Server je způsob, jak tato logika běží a zpřístupňuje se přes web.
+        </div>
       </div>
       <div class="modal-footer">
         <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
@@ -639,6 +721,8 @@ MODÁLY – Backend / API / FastAPI / venv
       <div class="modal-body">
         <p>
           API je rozhraní, přes které spolu komunikují programy.
+          Není to tlačítko ani obrazovka. Je to domluvený způsob,
+          jak si jedna část systému říká druhé o data nebo o akci.
         </p>
         <ul class="bullets">
           <li>Frontend pošle požadavek.</li>
@@ -646,8 +730,20 @@ MODÁLY – Backend / API / FastAPI / venv
           <li>Backend vrátí odpověď.</li>
         </ul>
         <p>
-          V praxi to znamená, že stránka si přes API říká o data nebo o provedení určité akce.
+          V praxi to může vypadat takto:
         </p>
+        <ol class="steps">
+          <li>Stránka požádá o seznam rezervací.</li>
+          <li>Backend otevře databázi.</li>
+          <li>Načte rezervace.</li>
+          <li>Vrátí data zpět.</li>
+          <li>Stránka je zobrazí.</li>
+        </ol>
+        <div class="note note--info">
+          <strong>Zapamatování:</strong>
+          <br>
+          API je „komunikační okénko“ mezi frontendem a backendem.
+        </div>
       </div>
       <div class="modal-footer">
         <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
@@ -664,12 +760,27 @@ MODÁLY – Backend / API / FastAPI / venv
         <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
       </div>
       <div class="modal-body">
+        <p>
+          SQLite databáze je soubor na disku. Je to interní část aplikace, ne něco,
+          co by prohlížeč běžně otevíral a obsluhoval.
+        </p>
         <ul class="bullets">
-          <li>SQLite je databázový soubor na disku.</li>
           <li>Webová stránka v prohlížeči neumí používat Python modul <code>sqlite3</code>.</li>
+          <li>Frontend běží jinak než Python skript a nemá přímý přístup k backendovým knihovnám.</li>
           <li>Práci s databází proto přebírá backend.</li>
-          <li>Backend pak data vrací stránce přes API.</li>
+          <li>Backend data vrátí stránce bezpečně a řízeně.</li>
         </ul>
+        <p>
+          Díky tomu zůstává projekt přehledný:
+          stránka zobrazuje, backend zpracovává, databáze ukládá.
+        </p>
+        <div class="note note--info">
+          <strong>Zjednodušeně:</strong>
+          <br>
+          stránka si o data řekne,
+          backend je vyzvedne z databáze,
+          stránka je pak jen zobrazí.
+        </div>
       </div>
       <div class="modal-footer">
         <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
@@ -686,14 +797,31 @@ MODÁLY – Backend / API / FastAPI / venv
         <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
       </div>
       <div class="modal-body">
+        <p>
+          Když spolu komunikuje prohlížeč a server, používají tzv. HTTP metody.
+          Pro první backend jsou nejdůležitější dvě:
+        </p>
         <ul class="bullets">
           <li><code>GET</code> = požadavek na získání dat.</li>
           <li><code>POST</code> = požadavek na odeslání nebo vytvoření dat.</li>
         </ul>
         <p>
-          Výpis rezervací bývá typicky <code>GET</code>.
-          Přidání nové rezervace přes web by typicky bylo <code>POST</code>.
+          V rezervačním systému bude výpis rezervací typicky <code>GET</code>.
+          Kdyby se později přidával formulář na vytvoření rezervace přes web,
+          šlo by typicky o <code>POST</code>.
         </p>
+        <p>
+          Proto se ve FastAPI setkáš se zápisy jako:
+        </p>
+        <pre><code class="language-python">@app.get("/")
+@app.post("/reservations")</code></pre>
+        <div class="note note--info">
+          <strong>Zapamatování:</strong>
+          <br>
+          GET = chci něco přečíst
+          <br>
+          POST = chci něco poslat nebo vytvořit
+        </div>
       </div>
       <div class="modal-footer">
         <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
@@ -710,12 +838,30 @@ MODÁLY – Backend / API / FastAPI / venv
         <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
       </div>
       <div class="modal-body">
+        <p>
+          FastAPI je framework pro tvorbu backendu v Pythonu.
+          Framework znamená hotový základ, který usnadňuje stavbu aplikace.
+        </p>
         <ul class="bullets">
-          <li>Má přehledný zápis.</li>
-          <li>Rychle se v něm vytváří první funkční server.</li>
-          <li>Dobře se v něm vysvětluje vazba mezi URL adresou a Python funkcí.</li>
-          <li>Dobře zapadá do Python projektu s databází.</li>
+          <li>Má přehledný a krátký zápis.</li>
+          <li>Rychle v něm vznikne první funkční server.</li>
+          <li>Dobře se na něm vysvětluje vazba mezi URL adresou a Python funkcí.</li>
+          <li>Umí vracet JSON, HTML i další typy odpovědí.</li>
         </ul>
+        <p>
+          Pro tuto výuku je klíčové, že i velmi malý program už ukáže,
+          jak backend funguje:
+        </p>
+        <pre><code class="language-python">app = FastAPI()
+
+@app.get("/")
+def read_root():
+    return {"message": "Ahoj ze serveru"}</code></pre>
+        <div class="note note--info">
+          <strong>Nejdůležitější myšlenka:</strong>
+          <br>
+          každá adresa na serveru může odpovídat určité Python funkci.
+        </div>
       </div>
       <div class="modal-footer">
         <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
@@ -733,14 +879,26 @@ MODÁLY – Backend / API / FastAPI / venv
       </div>
       <div class="modal-body">
         <p>
-          FastAPI není součást základní instalace Pythonu.
-          Je to externí balíček, který se do projektu přidává přes <code>pip</code>.
+          Python obsahuje velké množství vestavěných modulů,
+          ale neobsahuje všechno. FastAPI patří mezi externí balíčky.
         </p>
         <ul class="bullets">
-          <li>Nejdřív se balíček nainstaluje.</li>
-          <li>Teprve potom funguje import <code>from fastapi import FastAPI</code>.</li>
-          <li>Instalace patří do prostředí konkrétního projektu.</li>
+          <li>Základní Python obsahuje například <code>sqlite3</code>.</li>
+          <li>FastAPI je potřeba doinstalovat.</li>
+          <li>Dokud není nainstalované, import <code>from fastapi import FastAPI</code> nebude fungovat.</li>
         </ul>
+        <p>
+          Instalace probíhá přes správce balíčků <code>pip</code>.
+          Nejprve se balíček nainstaluje, teprve potom ho lze používat v kódu.
+        </p>
+        <pre><code class="language-powershell">py -m pip install "fastapi[standard]"</code></pre>
+        <div class="note note--info">
+          <strong>Rozdíl:</strong>
+          <br>
+          <code>pip install ...</code> = něco do prostředí přidám
+          <br>
+          <code>import ...</code> = něco už přidaného použiji v programu
+        </div>
       </div>
       <div class="modal-footer">
         <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
@@ -759,18 +917,26 @@ MODÁLY – Backend / API / FastAPI / venv
       <div class="modal-body">
         <p>
           Virtuální prostředí je oddělené prostředí pro jeden konkrétní Python projekt.
+          Nejčastěji se vytváří jako složka <code>.venv</code> uvnitř projektu.
         </p>
         <ul class="bullets">
           <li>Má vlastní balíčky.</li>
           <li>Odděluje projekt od ostatních projektů i od globální instalace Pythonu.</li>
-          <li>Po aktivaci používají příkazy <code>python</code> a <code>pip</code> právě toto prostředí.</li>
+          <li>Po aktivaci používají příkazy <code>python</code>, <code>pip</code> a další právě toto prostředí.</li>
         </ul>
-
+        <p>
+          To je důležité hlavně tehdy, když jeden projekt používá určitou verzi balíčku
+          a jiný projekt jinou. Bez oddělení by se tyto závislosti snadno pletly.
+        </p>
+        <p>
+          Virtuální prostředí neobsahuje samotný projektový kód.
+          Obsahuje hlavně technické zázemí projektu — interpreter, skripty a nainstalované balíčky.
+        </p>
         <div class="note note--info">
           <strong>Prakticky:</strong>
           <br>
-          složka <code>.venv</code> je technické zázemí projektu,
-          které drží jeho závislosti pohromadě.
+          složka <code>.venv</code> drží závislosti pohromadě
+          a zajišťuje, že backend běží nad správnou sadou balíčků.
         </div>
       </div>
       <div class="modal-footer">
@@ -790,12 +956,26 @@ MODÁLY – Backend / API / FastAPI / venv
       <div class="modal-body">
         <p>
           <code>pip</code> je správce Python balíčků.
+          Umí balíčky instalovat, aktualizovat i odstraňovat.
         </p>
         <ul class="bullets">
-          <li>Instaluje balíčky do prostředí.</li>
-          <li>Aktualizuje je nebo odstraňuje.</li>
-          <li>Když se použije <code>python -m pip</code>, instaluje se přes stejný Python, který je právě spuštěný.</li>
+          <li><code>install</code> = instalace balíčku</li>
+          <li><code>show</code> = zobrazení informací o balíčku</li>
+          <li><code>uninstall</code> = odinstalace</li>
         </ul>
+        <p>
+          V praxi je výhodné používat zápis:
+        </p>
+        <pre><code class="language-powershell">py -m pip install "fastapi[standard]"</code></pre>
+        <p>
+          Tím je jasné, že se <code>pip</code> spouští přes konkrétní Python interpreter,
+          který je právě použitý. Je to bezpečnější než spoléhat jen na samostatný příkaz <code>pip</code>.
+        </p>
+        <div class="note note--info">
+          <strong>Zapamatování:</strong>
+          <br>
+          <code>pip</code> = nástroj na správu balíčků
+        </div>
       </div>
       <div class="modal-footer">
         <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
@@ -812,18 +992,173 @@ MODÁLY – Backend / API / FastAPI / venv
         <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
       </div>
       <div class="modal-body">
+        <p>
+          Tyto pojmy se často pletou, ale je dobré je rozlišit:
+        </p>
         <ul class="bullets">
           <li><strong>Balíček</strong> = něco, co se instaluje přes <code>pip</code>.</li>
-          <li><strong>Modul</strong> = něco, co se potom používá v kódu přes <code>import</code>.</li>
+          <li><strong>Modul</strong> = něco, co se v Pythonu načítá pomocí <code>import</code>.</li>
         </ul>
 
-        <pre><code class="language-bash">python -m pip install "fastapi[standard]"</code></pre>
+        <pre><code class="language-powershell">py -m pip install "fastapi[standard]"</code></pre>
         <pre><code class="language-python">from fastapi import FastAPI</code></pre>
 
         <p>
           První řádek instaluje.
-          Druhý řádek používá.
+          Druhý řádek používá to, co už bylo nainstalované.
         </p>
+
+        <div class="note note--info">
+          <strong>Příklad:</strong>
+          <br>
+          FastAPI je balíček, který se instaluje.
+          Uvnitř něj je modul <code>fastapi</code>, který se importuje.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-py-vs-python" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title"><code>py</code> × <code>python</code> ve Windows</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Ve Windows mohou fungovat oba příkazy, ale nemusí to být vždy stejně spolehlivé.
+        </p>
+        <ul class="bullets">
+          <li><code>python</code> = běžný příkaz pro spuštění Pythonu.</li>
+          <li><code>py</code> = Windows launcher / manager pro Python.</li>
+        </ul>
+        <p>
+          V některých instalacích funguje bez problémů <code>python</code>.
+          V jiných může být spolehlivější <code>py</code>.
+          Pokud <code>python</code> v PowerShellu nefunguje, ale <code>py</code> ano,
+          je rozumné používat ve Windows právě <code>py</code>.
+        </p>
+        <pre><code class="language-powershell">py -m venv .venv
+py -m pip install "fastapi[standard]"</code></pre>
+        <div class="note note--info">
+          <strong>Praktické pravidlo:</strong>
+          <br>
+          ve Windows příkladech může být bezpečnější držet se <code>py</code>.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-powershell-activate" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Aktivace ve Windows PowerShellu</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Když se vytvoří virtuální prostředí ve složce <code>.venv</code>,
+          Windows do něj uloží skripty do podsložky <code>Scripts</code>.
+        </p>
+        <p>
+          Pro PowerShell je správná aktivace:
+        </p>
+        <pre><code class="language-powershell">.\.venv\Scripts\Activate.ps1</code></pre>
+        <p>
+          Tento příkaz změní aktuální shell tak,
+          aby používal Python a nástroje z právě vytvořeného prostředí.
+        </p>
+        <ul class="bullets">
+          <li>Po aktivaci se obvykle v promptu objeví něco jako <code>(.venv)</code>.</li>
+          <li>Příkaz <code>python</code> nebo <code>py</code> pak typicky pracuje v kontextu tohoto prostředí.</li>
+          <li>Stejně tak i balíčky instalované přes <code>pip</code>.</li>
+        </ul>
+        <p>
+          Důležité je nepoužívat unixový zápis <code>source .venv/bin/activate</code>,
+          protože ten do PowerShellu nepatří.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-execution-policy" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Co dělat, když PowerShell blokuje <code>Activate.ps1</code></h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Ve Windows může PowerShell blokovat spouštění některých skriptů.
+          Pak se může stát, že aktivace prostředí skončí chybou.
+        </p>
+        <p>
+          Jedno z běžných řešení je:
+        </p>
+        <pre><code class="language-powershell">Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code></pre>
+        <p>
+          Tím se povolí spouštění lokálních skriptů pro aktuálního uživatele.
+          Potom se dá zkusit aktivace znovu:
+        </p>
+        <pre><code class="language-powershell">.\.venv\Scripts\Activate.ps1</code></pre>
+        <div class="note note--info">
+          <strong>Když nechceš řešit aktivaci:</strong>
+          <br>
+          stále lze prostředí použít i bez aktivace
+          přímým spuštěním <code>.\.venv\Scripts\python.exe</code>
+          nebo <code>.\.venv\Scripts\fastapi.exe</code>.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-activation-optional" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Proč aktivace není vždy nutná</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Aktivace prostředí je pohodlná, ale není technicky povinná.
+        </p>
+        <p>
+          Důvod je jednoduchý:
+          ve složce virtuálního prostředí už existuje vlastní Python interpreter
+          a vlastní spouštěcí soubory balíčků.
+        </p>
+        <pre><code class="language-powershell">.\.venv\Scripts\python.exe -m pip install "fastapi[standard]"
+.\.venv\Scripts\fastapi.exe dev main.py</code></pre>
+        <p>
+          Když se používá tato úplná cesta,
+          je jedno, jestli je prostředí aktivované.
+          Příkazy míří přímo do správného prostředí.
+        </p>
+        <ul class="bullets">
+          <li>Je to užitečné při potížích s PowerShellem.</li>
+          <li>Je to užitečné, když nefunguje PATH.</li>
+          <li>Je to užitečné, když je potřeba mít jistotu, že se používá právě toto prostředí.</li>
+        </ul>
       </div>
       <div class="modal-footer">
         <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
@@ -841,7 +1176,8 @@ MODÁLY – Backend / API / FastAPI / venv
       </div>
       <div class="modal-body">
         <p>
-          Route nebo endpoint je konkrétní adresa na serveru, kterou backend obsluhuje.
+          Route nebo endpoint je konkrétní adresa na serveru,
+          kterou backend obsluhuje.
         </p>
         <ul class="bullets">
           <li><code>/</code> = domovská adresa</li>
@@ -850,6 +1186,16 @@ MODÁLY – Backend / API / FastAPI / venv
         <p>
           Zápis <code>@app.get("/")</code> znamená:
           „Když někdo otevře adresu <code>/</code>, spusť tuto funkci.“
+        </p>
+        <p>
+          Je důležité vidět, že zde jsou spojené dvě věci:
+        </p>
+        <ul class="bullets">
+          <li>adresa na webu</li>
+          <li>konkrétní Python funkce</li>
+        </ul>
+        <p>
+          Tím se backend mapuje na webové adresy.
         </p>
       </div>
       <div class="modal-footer">
@@ -874,8 +1220,22 @@ MODÁLY – Backend / API / FastAPI / venv
   "message": "Ahoj ze serveru"
 }</code></pre>
         <p>
-          Vypadá podobně jako Python slovník, ale na webu se používá jako standardní datový formát.
+          Vypadá podobně jako Python slovník,
+          ale na webu se používá jako standardní datový formát.
         </p>
+        <ul class="bullets">
+          <li>klíč = například <code>"message"</code></li>
+          <li>hodnota = například <code>"Ahoj ze serveru"</code></li>
+        </ul>
+        <p>
+          Když FastAPI vrátí Python slovník,
+          často ho automaticky převede právě na JSON odpověď.
+        </p>
+        <div class="note note--info">
+          <strong>Zapamatování:</strong>
+          <br>
+          JSON je běžný „jazyk dat“ pro webovou komunikaci.
+        </div>
       </div>
       <div class="modal-footer">
         <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
@@ -897,8 +1257,17 @@ MODÁLY – Backend / API / FastAPI / venv
         </p>
         <ul class="bullets">
           <li>Bez něj by soubor <code>main.py</code> nebyl webovým serverem.</li>
-          <li>Uvicorn spustí aplikaci a zpřístupní ji na webové adrese.</li>
+          <li>Uvicorn vezme objekt <code>app</code> a zpřístupní ho přes webovou adresu.</li>
+          <li>FastAPI CLI ho používá uvnitř pro vývojové spuštění.</li>
         </ul>
+        <p>
+          Proto můžeš backend spouštět buď vyšší vrstvou:
+        </p>
+        <pre><code class="language-powershell">.\.venv\Scripts\fastapi.exe dev main.py</code></pre>
+        <p>
+          nebo přímo přes Uvicorn:
+        </p>
+        <pre><code class="language-powershell">.\.venv\Scripts\uvicorn.exe main:app --reload</code></pre>
       </div>
       <div class="modal-footer">
         <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
@@ -915,11 +1284,18 @@ MODÁLY – Backend / API / FastAPI / venv
         <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
       </div>
       <div class="modal-body">
+        <p>
+          <code>127.0.0.1</code> je adresa vlastního počítače.
+          Název <code>localhost</code> je lidsky čitelný ekvivalent.
+        </p>
         <ul class="bullets">
-          <li><code>127.0.0.1</code> = adresa vlastního počítače.</li>
-          <li><code>localhost</code> = lidsky čitelný název pro totéž.</li>
-          <li>Když server běží lokálně, je dostupný jen na tomto počítači.</li>
+          <li><code>http://127.0.0.1:8000</code> = webový server běžící na tomto počítači</li>
+          <li><code>8000</code> = port, tedy konkrétní komunikační „brána“ serveru</li>
         </ul>
+        <p>
+          Když backend běží lokálně, neznamená to, že je automaticky veřejně dostupný na internetu.
+          Zatím je dostupný jen na tomto počítači.
+        </p>
       </div>
       <div class="modal-footer">
         <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
@@ -944,6 +1320,17 @@ MODÁLY – Backend / API / FastAPI / venv
           <li>Backend stejná data čte.</li>
           <li>Jedna databáze tedy slouží více částem téhož projektu.</li>
         </ul>
+        <p>
+          To je velmi důležitá vlastnost celého projektu.
+          Není potřeba mít dvě databáze ani dvě různé sady dat.
+          Jediný zdroj pravdy je jeden společný SQLite soubor.
+        </p>
+        <div class="note note--info">
+          <strong>Důsledek:</strong>
+          <br>
+          co se uloží v konzoli,
+          může být o chvíli později vidět na stránce.
+        </div>
       </div>
       <div class="modal-footer">
         <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
