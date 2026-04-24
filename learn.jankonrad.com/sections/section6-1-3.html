@@ -1,173 +1,529 @@
 <!-- =========================================================
-6.1.2 – Backend bez frameworku: co už Python umí sám
-(teorie + první jednoduchý server bez FastAPI)
+6.1.2 – Co je backend a jak funguje server
+(verze zaměřená hlavně na backend, server a komunikaci)
 ========================================================= -->
 <section id="section6-1-2" class="lesson">
 
   <header class="lesson__header">
-    <h2 class="lesson__title">6.1.2 Backend bez frameworku – co už Python umí sám</h2>
+    <h2 class="lesson__title">6.1.2 Co je backend a jak funguje server</h2>
     <p class="lesson__lead">
-      V minulé části vznikla databáze <code>reservations.db</code> a konzolový program,
-      který do ní umí zapisovat rezervace. Než do projektu přidáme framework,
-      je metodicky lepší pochopit, že velmi jednoduchý backend jde postavit
-      i pomocí toho, co už Python obsahuje v základu.
+      V předchozí části už vznikla data projektu a teď přichází další velké téma:
+      <strong>backend</strong>.
       <br><br>
-      V této lekci si proto ukážeme, že:
-      <strong>SQLite ukládá data</strong>,
-      <strong>jednoduchý HTTP server přijímá požadavky</strong>
-      a <strong>Python kód mezi tím tvoří backendovou logiku</strong>.
-      Až v další lekci na to navážeme FastAPI, které celý zápis zjednoduší.
+      Tato část není hlavně o databázi.
+      Databáze je jen jedna součást systému.
+      Hlavní cíl je pochopit,
+      <strong>co je server</strong>,
+      <strong>co je backend</strong>,
+      <strong>jak mezi sebou mluví prohlížeč a Python</strong>,
+      <strong>co je požadavek</strong>,
+      <strong>co je odpověď</strong>
+      a jak se z obyčejného Python skriptu stane program,
+      který naslouchá na adrese a vrací data přes web.
+      <br><br>
+      Nejdřív se vše vysvětlí obecně a pomalu.
+      Teprve potom se ten princip ukáže na našem souboru <code>server_basic.py</code>.
     </p>
   </header>
 
   <article class="card">
-    <h3 class="card__title">Co se v této lekci naučíš</h3>
+    <h3 class="card__title">Co se v této kapitole opravdu objasní</h3>
     <ul class="checklist">
-      <li>Že <strong>backend není automaticky totéž co framework</strong>.</li>
-      <li>Že Python už v základu obsahuje modul <code>sqlite3</code> pro práci s databází.</li>
-      <li>Že Python už v základu obsahuje i jednoduchý modul <code>http.server</code> pro webový server.</li>
-      <li>Jak spolu souvisí <strong>databáze</strong>, <strong>server</strong>, <strong>backend</strong> a <strong>frontend</strong>.</li>
-      <li>Jak vypadá nejmenší možný backend bez FastAPI.</li>
-      <li>Jak backend vrátí odpověď ve formátu JSON.</li>
-      <li>Jak backend přečte data z <code>reservations.db</code> a pošle je stránce.</li>
-      <li>Proč i přesto budeme v další lekci používat FastAPI.</li>
+      <li>Co je backend.</li>
+      <li>Co je server a proč to není totéž co backend.</li>
+      <li>Co znamená, že server „naslouchá“.</li>
+      <li>Co je požadavek a co je odpověď.</li>
+      <li>Co je HTTP a proč se používá právě na webu.</li>
+      <li>Co přesně znamená metoda <code>GET</code>.</li>
+      <li>Jak vypadá tok komunikace mezi prohlížečem, serverem a další částí aplikace.</li>
+      <li>Jak Python pozná, kterou část kódu má při požadavku spustit.</li>
+      <li>Jak se z adresy <code>/</code> nebo <code>/reservations</code> stane konkrétní odpověď.</li>
+      <li>Jak tento princip vypadá v souboru <code>server_basic.py</code>.</li>
     </ul>
 
     <div class="note note--info">
-      <strong>Cíl kapitoly:</strong>
+      <strong>Nejdůležitější myšlenka celé kapitoly:</strong>
       <br>
-      Pochopit backend nejdřív bez „kouzla frameworku“.
-      Student má nejprve vidět čistý princip:
-      <strong>požadavek → Python funkce → databáze → odpověď</strong>.
-    </div>
-  </article>
-
-  <article class="card">
-    <h3 class="card__title">Na co tato kapitola navazuje</h3>
-    <ol class="steps">
-      <li>Existuje databáze <code>reservations.db</code>.</li>
-      <li>Existuje konzolový Python program, který do ní zapisuje rezervace.</li>
-      <li>Další krok je zpřístupnit tato data přes web.</li>
-      <li>Nejdřív si ukážeme princip bez frameworku.</li>
-      <li>Teprve potom přejdeme na pohodlnější řešení ve FastAPI.</li>
-    </ol>
-
-    <div class="note note--info">
-      <strong>Jedna věta, kterou si zapamatuj:</strong>
-      <br>
-      <strong>Backend není název konkrétní knihovny. Backend je role programu v projektu.</strong>
+      <strong>Backend je vrstva logiky. Server je způsob, jak tato logika běží a jak je dostupná přes web.</strong>
     </div>
   </article>
 
   <div class="accordion">
 
     <!-- ===================================================== -->
-    <!-- KROK 1 -->
+    <!-- BLOK 1 -->
     <!-- ===================================================== -->
     <details class="acc" open>
-      <summary class="acc__sum">Krok 1: co je backend a proč to nemusí být hned FastAPI</summary>
+      <summary class="acc__sum">Blok 1: co je backend</summary>
       <div class="acc__body">
 
         <p>
-          Když se řekne backend, mnoho začátečníků si hned představí nějaký framework.
-          To ale není přesné.
-          Backend je především <strong>část aplikace, která zpracovává logiku a pracuje s daty</strong>.
+          Slovo <strong>backend</strong> neoznačuje konkrétní knihovnu ani konkrétní programovací jazyk.
+          Není to automaticky FastAPI, Flask, Django ani nic jiného.
+          Backend je hlavně <strong>role v aplikaci</strong>.
+        </p>
+
+        <p>
+          Když se řekne backend, myslí se tím ta část programu,
+          která:
         </p>
 
         <ul class="bullets">
-          <li><strong>Frontend</strong> = to, co vidí uživatel v prohlížeči.</li>
-          <li><strong>Backend</strong> = Python program, který rozhoduje, co se má stát.</li>
-          <li><strong>Databáze</strong> = místo, kde jsou uložená data.</li>
-          <li><strong>Server</strong> = běžící program, který čeká na požadavky a vrací odpovědi.</li>
+          <li>přijímá požadavky,</li>
+          <li>rozhoduje, co se má stát,</li>
+          <li>provádí logiku aplikace,</li>
+          <li>pracuje s daty nebo jinými částmi systému,</li>
+          <li>a nakonec vrací výsledek.</li>
         </ul>
 
+        <p>
+          Backend tedy není to, co se zobrazuje na stránce.
+          Backend je to, co stojí „za stránkou“.
+        </p>
+
         <div class="note note--info">
-          <strong>Důležité:</strong>
+          <strong>Zjednodušeně:</strong>
           <br>
-          Backend můžeš napsat i bez externího frameworku.
-          Framework je až další vrstva, která práci usnadňuje.
+          Frontend ukazuje.
+          Backend rozhoduje.
         </div>
 
-        <div class="actions">
-          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-backend-not-framework">
-            Modál: backend není framework
-          </button>
-          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-frontend-backend-basic">
-            Modál: frontend × backend × databáze
-          </button>
+        <h4>Příklad bez technických detailů</h4>
+        <p>
+          Představ si rezervační stránku.
+          Na obrazovce je tlačítko „Zobrazit rezervace“.
+          Samotné tlačítko je frontend.
+          Ale to, co po stisknutí rozhodne,
+          odkud se mají data načíst a co se má vrátit,
+          to už je backend.
+        </p>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- BLOK 2 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Blok 2: co je server a proč to není totéž co backend</summary>
+      <div class="acc__body">
+
+        <p>
+          Tady je důležité nepomíchat dva pojmy:
+          <strong>backend</strong> a <strong>server</strong>.
+        </p>
+
+        <p>
+          Backend je logika.
+          Server je program, který běží,
+          čeká na požadavky
+          a předává je backendové logice.
+        </p>
+
+        <ul class="bullets">
+          <li><strong>Backend</strong> = co se má stát.</li>
+          <li><strong>Server</strong> = program, který požadavek přijme a umožní odpověď odeslat zpět.</li>
+        </ul>
+
+        <p>
+          Jinak řečeno:
+          backend je „mozek“ rozhodování,
+          server je „komunikační brána“, přes kterou je backend dostupný.
+        </p>
+
+        <h4>Praktická představa</h4>
+        <p>
+          Když otevřeš v prohlížeči nějakou adresu,
+          neznamená to, že prohlížeč mluví přímo s nějakou funkcí v Pythonu.
+          Mluví se serverem.
+          Server požadavek přijme,
+          předá ho správné části backendu
+          a potom vrátí odpověď.
+        </p>
+
+        <div class="note note--info">
+          <strong>Jedna velmi přesná věta:</strong>
+          <br>
+          Server je běžící program,
+          který naslouchá na adrese a portu
+          a umí přijmout a vracet HTTP komunikaci.
         </div>
 
       </div>
     </details>
 
     <!-- ===================================================== -->
-    <!-- KROK 2 -->
+    <!-- BLOK 3 -->
     <!-- ===================================================== -->
     <details class="acc" open>
-      <summary class="acc__sum">Krok 2: co už Python umí sám – sqlite3 a http.server</summary>
+      <summary class="acc__sum">Blok 3: co znamená, že server „běží“ a „naslouchá“</summary>
       <div class="acc__body">
 
         <p>
-          Python už obsahuje velkou standardní knihovnu.
-          V našem projektu jsou teď důležité hlavně dva moduly:
+          Když se řekne, že server běží na adrese
+          <code>http://127.0.0.1:8000</code>,
+          znamená to, že existuje aktivní proces,
+          který:
         </p>
 
         <ul class="bullets">
-          <li><code>sqlite3</code> = práce s SQLite databází.</li>
-          <li><code>http.server</code> = jednoduchý HTTP server.</li>
+          <li>je spuštěný,</li>
+          <li>čeká na síťovou komunikaci,</li>
+          <li>naslouchá na určitém portu,</li>
+          <li>a je připraven reagovat na příchozí požadavky.</li>
+        </ul>
+
+        <h4>Co je adresa a co je port</h4>
+        <ul class="bullets">
+          <li><code>127.0.0.1</code> = tento počítač, tedy localhost.</li>
+          <li><code>8000</code> = port, tedy konkrétní komunikační místo.</li>
+        </ul>
+
+        <p>
+          To slovo <strong>naslouchat</strong> znamená,
+          že server neustále čeká:
+          „Přijde nějaký požadavek?
+          Chce někdo nějakou adresu?
+          Mám na něco odpovědět?“
+        </p>
+
+        <h4>Přesná představa</h4>
+        <p>
+          Server nesedí a „nespouští se znovu při každém kliknutí“.
+          Server už běží
+          a jednotlivé požadavky přicházejí k němu.
+          On je jeden po druhém zpracovává.
+        </p>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- BLOK 4 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Blok 4: co je požadavek a co je odpověď</summary>
+      <div class="acc__body">
+
+        <p>
+          Webová komunikace stojí na velmi jednoduché myšlence:
+        </p>
+
+        <ol class="steps">
+          <li>Klient pošle požadavek.</li>
+          <li>Server požadavek přijme.</li>
+          <li>Backend rozhodne, co se má stát.</li>
+          <li>Server vrátí odpověď.</li>
+        </ol>
+
+        <p>
+          V našem případě je klientem nejčastěji prohlížeč.
+        </p>
+
+        <h4>Co je požadavek</h4>
+        <p>
+          Požadavek je zpráva,
+          kterou klient posílá serveru.
+          V té zprávě je například:
+        </p>
+
+        <ul class="bullets">
+          <li>jaká adresa se požaduje,</li>
+          <li>jaká HTTP metoda se používá,</li>
+          <li>případně další informace v hlavičkách,</li>
+          <li>a někdy i data v těle požadavku.</li>
+        </ul>
+
+        <h4>Co je odpověď</h4>
+        <p>
+          Odpověď je zpráva,
+          kterou server vrací zpět klientovi.
+          V odpovědi bývá:
+        </p>
+
+        <ul class="bullets">
+          <li>stavový kód, například <code>200</code> nebo <code>404</code>,</li>
+          <li>hlavičky, například typ vráceného obsahu,</li>
+          <li>a samotné tělo odpovědi, tedy data.</li>
         </ul>
 
         <div class="note note--info">
-          <strong>Pozor na velmi důležitý rozdíl:</strong>
+          <strong>Úplný základ webu:</strong>
           <br>
-          <code>sqlite3</code> není náhrada za webový server.
-          <code>sqlite3</code> řeší ukládání a čtení dat.
-          <code>http.server</code> řeší příjem webových požadavků.
+          požadavek → zpracování → odpověď
         </div>
 
-        <details class="acc" open>
-          <summary class="acc__sum">Co dělá každý z těchto modulů</summary>
-          <div class="acc__body">
-            <ul class="bullets">
-              <li><code>sqlite3</code> otevře databázový soubor a pracuje s tabulkami a daty.</li>
-              <li><code>http.server</code> naslouchá na adrese a portu, například <code>127.0.0.1:8000</code>.</li>
-              <li>Backend propojí obě věci dohromady.</li>
-              <li>Frontend si pak říká backendu o data přes HTTP.</li>
-            </ul>
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- BLOK 5 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Blok 5: co je HTTP a proč ho používáme</summary>
+      <div class="acc__body">
+
+        <p>
+          Aby si klient a server rozuměli,
+          potřebují společný jazyk.
+          Tím jazykem je na webu nejčastěji <strong>HTTP</strong>.
+        </p>
+
+        <p>
+          HTTP určuje pravidla,
+          jak má vypadat požadavek
+          a jak má vypadat odpověď.
+        </p>
+
+        <h4>Příklad velmi zjednodušeného požadavku</h4>
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">Příklad HTTP požadavku</strong>
           </div>
-        </details>
-
-        <div class="actions">
-          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-sqlite3">
-            Modál: co je sqlite3
-          </button>
-          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-http-server">
-            Modál: co je http.server
-          </button>
+          <pre><code class="language-text">GET /reservations HTTP/1.1</code></pre>
         </div>
+
+        <h4>Co znamená každý kus</h4>
+        <ul class="bullets">
+          <li><code>GET</code> = jaký druh požadavku přichází.</li>
+          <li><code>/reservations</code> = kterou cestu klient požaduje.</li>
+          <li><code>HTTP/1.1</code> = podle jaké verze pravidel se komunikace vede.</li>
+        </ul>
+
+        <p>
+          Díky HTTP server ví,
+          co se po něm chce,
+          a klient ví,
+          jak má číst odpověď.
+        </p>
 
       </div>
     </details>
 
     <!-- ===================================================== -->
-    <!-- KROK 3 -->
+    <!-- BLOK 6 -->
     <!-- ===================================================== -->
     <details class="acc" open>
-      <summary class="acc__sum">Krok 3: nejmenší možný backend bez frameworku</summary>
+      <summary class="acc__sum">Blok 6: co přesně znamená GET</summary>
       <div class="acc__body">
 
         <p>
-          Nejdřív si ukažme úplné minimum:
-          server, který běží na počítači a na adrese <code>/</code>
-          vrátí jednoduchou JSON odpověď.
+          <code>GET</code> je HTTP metoda.
+          Její význam je:
+          <strong>chci získat odpověď nebo data</strong>.
+        </p>
+
+        <p>
+          To je velmi důležité.
+          GET není „název nějaké Python funkce“.
+          Je to informace,
+          kterou posílá klient serveru.
+        </p>
+
+        <h4>Jak o tom přemýšlet správně</h4>
+        <ul class="bullets">
+          <li><code>GET /</code> = chci to, co je na kořenové adrese.</li>
+          <li><code>GET /reservations</code> = chci seznam rezervací.</li>
+        </ul>
+
+        <h4>Co GET obvykle dělá</h4>
+        <ul class="bullets">
+          <li>načítá stránku,</li>
+          <li>načítá JSON data,</li>
+          <li>načítá obrázek,</li>
+          <li>načítá seznam položek.</li>
+        </ul>
+
+        <h4>Co GET typicky nedělá</h4>
+        <ul class="bullets">
+          <li>nevytváří novou rezervaci,</li>
+          <li>neposílá formulářová data jako hlavní účel,</li>
+          <li>nemění obsah databáze jako základní význam.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Nejpřesnější zkratka:</strong>
+          <br>
+          GET = „dej mi výsledek“
+        </div>
+
+        <h4>Příklad z běžného života</h4>
+        <p>
+          Otevření stránky v prohlížeči je ve většině případů GET.
+          Kliknutí na odkaz je ve většině případů GET.
+          Načtení seznamu dat z API je velmi často GET.
+        </p>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- BLOK 7 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Blok 7: co se stane od napsání adresy až po odpověď</summary>
+      <div class="acc__body">
+
+        <p>
+          Teď přijde úplně nejdůležitější tok celé kapitoly.
+          Co se stane,
+          když se do prohlížeče zadá třeba:
         </p>
 
         <div class="codeblock">
           <div class="codeblock__bar">
-            <strong class="codeblock__title">server_basic.py – úplné minimum</strong>
-            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-basic-server">Kopírovat</button>
+            <strong class="codeblock__title">Adresa rezervací</strong>
           </div>
-          <pre id="code-612-basic-server"><code class="language-python">from http.server import BaseHTTPRequestHandler, HTTPServer
+          <pre><code class="language-text">http://127.0.0.1:8000/reservations</code></pre>
+        </div>
+
+        <ol class="steps">
+          <li>Prohlížeč vytvoří HTTP požadavek.</li>
+          <li>Do požadavku zapíše, že jde o <code>GET</code>.</li>
+          <li>Do požadavku zapíše cestu <code>/reservations</code>.</li>
+          <li>Pošle tento požadavek na adresu <code>127.0.0.1</code> a port <code>8000</code>.</li>
+          <li>Server, který na tomto portu běží, požadavek přijme.</li>
+          <li>Server zjistí, že jde o GET požadavek.</li>
+          <li>Proto zavolá metodu <code>do_GET()</code>.</li>
+          <li>V metodě <code>do_GET()</code> se vyhodnotí, že cesta je <code>/reservations</code>.</li>
+          <li>Spustí se logika pro načtení rezervací.</li>
+          <li>Výsledek se převede na JSON.</li>
+          <li>Server vrátí odpověď zpět prohlížeči.</li>
+          <li>Prohlížeč odpověď zobrazí nebo s ní dál pracuje.</li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Tohle je backend v akci:</strong>
+          <br>
+          adresa sama nic nedělá.
+          Požadavek spustí kód.
+          Kód vyrobí odpověď.
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- BLOK 8 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Blok 8: jak Python pozná, co má spustit</summary>
+      <div class="acc__body">
+
+        <p>
+          V souboru <code>server_basic.py</code> se používá
+          <code>BaseHTTPRequestHandler</code>.
+          To je základní třída,
+          která už ví, jak obsluhovat HTTP požadavky.
+        </p>
+
+        <p>
+          Má jednoduché pravidlo:
+          podle typu HTTP metody hledá metodu se správným názvem.
+        </p>
+
+        <ul class="bullets">
+          <li>když přijde <code>GET</code>, hledá <code>do_GET()</code>,</li>
+          <li>když by přišel <code>POST</code>, hledala by <code>do_POST()</code>,</li>
+          <li>když by přišel <code>DELETE</code>, hledala by <code>do_DELETE()</code>.</li>
+        </ul>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">Místo, kam dorazí GET požadavek</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-do-get-real">Kopírovat</button>
+          </div>
+          <pre id="code-612-do-get-real"><code class="language-python">def do_GET(self):
+    ...</code></pre>
+        </div>
+
+        <p>
+          Tato metoda je tedy vstupní místo pro zpracování GET požadavku.
+          Neřeší ještě všechen web.
+          Řeší jen situaci:
+          „Přišel GET. Co s ním?“
+        </p>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- BLOK 9 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Blok 9: co je cesta serveru a jak funguje jednoduchý routing</summary>
+      <div class="acc__body">
+
+        <p>
+          Server nevrací vždy stejnou odpověď.
+          Rozhoduje se podle cesty,
+          která přišla v požadavku.
+        </p>
+
+        <p>
+          V našem případě jsou důležité dvě cesty:
+        </p>
+
+        <ul class="bullets">
+          <li><code>/</code> = základní kořenová cesta,</li>
+          <li><code>/reservations</code> = cesta pro seznam rezervací.</li>
+        </ul>
+
+        <p>
+          V kódu to vypadá takto:
+        </p>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">Rozhodování podle cesty</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-path-routing">Kopírovat</button>
+          </div>
+          <pre id="code-612-path-routing"><code class="language-python">if self.path == "/reservations":
+    ...
+elif self.path == "/":
+    ...
+else:
+    ...</code></pre>
+        </div>
+
+        <p>
+          Tohle je nejjednodušší možný routing.
+          Routing znamená:
+          <strong>mapování adresy na konkrétní logiku</strong>.
+        </p>
+
+        <h4>Co to znamená v praxi</h4>
+        <ul class="bullets">
+          <li>adresa <code>/</code> povede na jednu odpověď,</li>
+          <li>adresa <code>/reservations</code> povede na jinou odpověď,</li>
+          <li>jakákoliv jiná adresa dostane chybu <code>404</code>.</li>
+        </ul>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+<!-- BLOK 10 -->
+<!-- ===================================================== -->
+<details class="acc" open>
+  <summary class="acc__sum">Blok 10: úplně nejmenší server bez dalších témat – rozbor řádek po řádku</summary>
+  <div class="acc__body">
+
+    <p>
+      Teď přijde úplně nejmenší možná ukázka serveru.
+      Smysl této ukázky není postavit hotovou aplikaci,
+      ale opravdu přesně pochopit,
+      co dělá každý řádek
+      a jak se z obyčejného Python souboru stane program,
+      který odpovídá přes web.
+    </p>
+
+    <div class="codeblock">
+      <div class="codeblock__bar">
+        <strong class="codeblock__title">Nejmenší serverová ukázka</strong>
+        <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-mini-server">Kopírovat</button>
+      </div>
+      <pre id="code-612-mini-server"><code class="language-python">from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 
 
@@ -190,352 +546,693 @@ class MyHandler(BaseHTTPRequestHandler):
 server = HTTPServer(("127.0.0.1", 8000), MyHandler)
 print("Server běží na adrese: http://127.0.0.1:8000")
 server.serve_forever()</code></pre>
-        </div>
+    </div>
 
-        <details class="acc" open>
-          <summary class="acc__sum">Vysvětlení kódu „slovo od slova“</summary>
-          <div class="acc__body">
-            <ul class="bullets">
-              <li><code>from http.server import BaseHTTPRequestHandler, HTTPServer</code> = importujeme třídy pro jednoduchý HTTP server.</li>
-              <li><code>import json</code> = budeme vracet data ve formátu JSON.</li>
-              <li><code>class MyHandler(...)</code> = definujeme, jak se server zachová při požadavku.</li>
-              <li><code>def do_GET(self):</code> = co se má stát při HTTP metodě GET.</li>
-              <li><code>if self.path == "/"</code> = reagujeme na domovskou adresu.</li>
-              <li><code>json.dumps(...)</code> = převedeme Python slovník na JSON text.</li>
-              <li><code>self.send_response(200)</code> = vrátíme stav OK.</li>
-              <li><code>HTTPServer(("127.0.0.1", 8000), MyHandler)</code> = spustíme server na konkrétní adrese a portu.</li>
-              <li><code>serve_forever()</code> = server běží a čeká na další požadavky.</li>
-            </ul>
-          </div>
-        </details>
+    <h4>Rozbor opravdu řádek po řádku</h4>
 
-        <div class="note note--info">
-          <strong>To nejdůležitější:</strong>
-          <br>
-          Už tady existuje backend.
-          Není zde FastAPI, ale je zde Python server,
-          který umí přijmout požadavek a vrátit odpověď.
-        </div>
-
-        <div class="actions">
-          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-json">
-            Modál: co je JSON
-          </button>
-          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-route-basic">
-            Modál: co je route / adresa
-          </button>
-        </div>
-
-      </div>
-    </details>
-
-    <!-- ===================================================== -->
-    <!-- KROK 4 -->
-    <!-- ===================================================== -->
-    <details class="acc">
-      <summary class="acc__sum">Krok 4: spuštění serveru bez instalace dalších balíčků</summary>
-      <div class="acc__body">
-
-        <p>
-          Protože zatím používáme jen standardní knihovnu,
-          nemusíme nic instalovat přes <code>pip</code>.
-        </p>
-
-        <div class="codeblock">
-          <div class="codeblock__bar">
-            <strong class="codeblock__title">Windows PowerShell – spuštění jednoduchého serveru</strong>
-            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-run-basic">Kopírovat</button>
-          </div>
-          <pre id="code-612-run-basic"><code class="language-powershell">py server_basic.py</code></pre>
-        </div>
-
-        <p>
-          Po spuštění otevři v prohlížeči adresu:
-        </p>
-
-        <div class="codeblock">
-          <div class="codeblock__bar">
-            <strong class="codeblock__title">adresa serveru</strong>
-          </div>
-          <pre><code class="language-text">http://127.0.0.1:8000</code></pre>
-        </div>
-
-        <div class="note note--info">
-          <strong>Výhoda pro výuku:</strong>
-          <br>
-          Student teď jasně vidí, že backend není „něco nainstalovaného navíc“.
-          Je to normální Python program, který běží a čeká na požadavky.
-        </div>
-
-      </div>
-    </details>
-
-    <!-- ===================================================== -->
-    <!-- KROK 5 -->
-    <!-- ===================================================== -->
     <details class="acc" open>
-      <summary class="acc__sum">Krok 5: backend, který otevře databázi a vrátí rezervace</summary>
+      <summary class="acc__sum">Řádek 1: import tříd pro HTTP server</summary>
       <div class="acc__body">
-
-        <p>
-          Teď přidáme to nejdůležitější:
-          server nebude vracet jen pevně zapsanou zprávu,
-          ale skutečná data z databáze <code>reservations.db</code>.
-        </p>
-
         <div class="codeblock">
-          <div class="codeblock__bar">
-            <strong class="codeblock__title">server_reservations.py – čtení SQLite databáze</strong>
-            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-db-server">Kopírovat</button>
-          </div>
-          <pre id="code-612-db-server"><code class="language-python">from http.server import BaseHTTPRequestHandler, HTTPServer
-from pathlib import Path
-import sqlite3
-import json
-
-
-DB_FILE = Path(__file__).with_name("reservations.db")
-
-
-class ReservationHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        if self.path == "/reservations":
-            conn = sqlite3.connect(DB_FILE)
-            conn.row_factory = sqlite3.Row
-
-            rows = conn.execute("""
-                SELECT id, name, date, time
-                FROM reservations
-                ORDER BY id DESC
-            """).fetchall()
-
-            conn.close()
-
-            data = [dict(row) for row in rows]
-            body = json.dumps(data, ensure_ascii=False).encode("utf-8")
-
-            self.send_response(200)
-            self.send_header("Content-Type", "application/json; charset=utf-8")
-            self.send_header("Content-Length", str(len(body)))
-            self.end_headers()
-            self.wfile.write(body)
-
-        elif self.path == "/":
-            data = {"message": "Server běží", "endpoint": "/reservations"}
-            body = json.dumps(data, ensure_ascii=False).encode("utf-8")
-
-            self.send_response(200)
-            self.send_header("Content-Type", "application/json; charset=utf-8")
-            self.send_header("Content-Length", str(len(body)))
-            self.end_headers()
-            self.wfile.write(body)
-
-        else:
-            self.send_response(404)
-            self.end_headers()
-
-
-server = HTTPServer(("127.0.0.1", 8000), ReservationHandler)
-print("Server běží na adrese: http://127.0.0.1:8000")
-server.serve_forever()</code></pre>
+          <pre><code class="language-python">from http.server import BaseHTTPRequestHandler, HTTPServer</code></pre>
         </div>
-
-        <details class="acc" open>
-          <summary class="acc__sum">Co se v tomto kódu děje</summary>
-          <div class="acc__body">
-            <ol class="steps">
-              <li>Server přijme požadavek na adresu <code>/reservations</code>.</li>
-              <li>Python otevře soubor <code>reservations.db</code>.</li>
-              <li>Spustí SQL dotaz nad tabulkou <code>reservations</code>.</li>
-              <li>Výsledek převede na seznam slovníků.</li>
-              <li>Seznam odešle jako JSON odpověď.</li>
-            </ol>
-          </div>
-        </details>
-
-        <div class="note note--info">
-          <strong>Tady už je vidět celý princip backendu:</strong>
-          <br>
-          webový požadavek spustí Python kód,
-          ten otevře databázi,
-          načte data
-          a vrátí je přes web zpět.
-        </div>
-
-        <div class="actions">
-          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-browser-db">
-            Modál: proč stránka neotevře SQLite sama
-          </button>
-          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-shared-db">
-            Modál: proč oba programy vidí stejná data
-          </button>
-        </div>
-
-      </div>
-    </details>
-
-    <!-- ===================================================== -->
-    <!-- KROK 6 -->
-    <!-- ===================================================== -->
-    <details class="acc" open>
-      <summary class="acc__sum">Krok 6: proč frontend nepůjde přímo do SQLite databáze</summary>
-      <div class="acc__body">
 
         <p>
-          Tohle je velmi důležitý metodický bod.
-          Student by mohl dostat nápad:
-          „Když máme databázi jako soubor, proč ji prostě neotevřít rovnou ze stránky?“
+          Tímto řádkem se ze standardní knihovny Pythonu načtou dvě třídy:
         </p>
 
         <ul class="bullets">
-          <li>Protože prohlížeč neběží jako Python skript.</li>
-          <li>Protože frontend neumí použít Python modul <code>sqlite3</code>.</li>
-          <li>Protože databáze je interní vrstva projektu, ne něco, co má přímo obsluhovat prohlížeč.</li>
-          <li>Proto je mezi stránkou a databází potřeba backend.</li>
+          <li><code>BaseHTTPRequestHandler</code> = základ pro třídu, která bude umět zpracovat HTTP požadavek.</li>
+          <li><code>HTTPServer</code> = samotný server, který poběží na adrese a portu.</li>
         </ul>
 
-        <div class="note note--info">
-          <strong>Zjednodušeně:</strong>
-          <br>
-          stránka si o data řekne,
-          backend je načte,
-          stránka je jen zobrazí.
-        </div>
-
+        <p>
+          Jinými slovy:
+          první část říká,
+          <strong>jak se bude požadavek zpracovávat</strong>,
+          druhá část říká,
+          <strong>co bude fyzicky naslouchat na síti</strong>.
+        </p>
       </div>
     </details>
 
-    <!-- ===================================================== -->
-    <!-- KROK 7 -->
-    <!-- ===================================================== -->
-    <details class="acc">
-      <summary class="acc__sum">Krok 7: kde se v tom všem objeví virtuální prostředí</summary>
+    <details class="acc" open>
+      <summary class="acc__sum">Řádek 2: import modulu json</summary>
       <div class="acc__body">
+        <div class="codeblock">
+          <pre><code class="language-python">import json</code></pre>
+        </div>
 
         <p>
-          V této lekci ještě virtuální prostředí technicky nepotřebujeme,
-          protože jsme zatím nepřidali žádný externí balíček.
-          Ale je dobré už teď chápat, proč se brzy objeví.
+          Tento řádek načte modul <code>json</code>.
+          Ten budeme potřebovat proto,
+          že odpověď nechceme vracet jako Python slovník,
+          ale jako JSON text.
+        </p>
+
+        <p>
+          Python slovník:
+        </p>
+
+        <div class="codeblock">
+          <pre><code class="language-python">{"message": "Ahoj ze serveru"}</code></pre>
+        </div>
+
+        <p>
+          se díky modulu <code>json</code> převede na text,
+          který umí číst prohlížeč nebo JavaScript na stránce.
+        </p>
+      </div>
+    </details>
+
+    <details class="acc" open>
+      <summary class="acc__sum">Prázdné řádky: proč tam jsou</summary>
+      <div class="acc__body">
+        <p>
+          Prázdné řádky nic nespouštějí.
+          Slouží jen pro přehlednost.
+        </p>
+
+        <p>
+          V Pythonu se často oddělují:
         </p>
 
         <ul class="bullets">
-          <li>Když používáme jen standardní knihovnu, žádný externí balíček neinstalujeme.</li>
-          <li>Jakmile ale přidáme FastAPI, už budeme chtít oddělené prostředí projektu.</li>
-          <li>Virtuální prostředí drží projektové závislosti pohromadě.</li>
-          <li>Tím zabrání tomu, aby se různé projekty navzájem pletly.</li>
+          <li>importy,</li>
+          <li>definice tříd a funkcí,</li>
+          <li>hlavní spuštění programu.</li>
         </ul>
 
-        <div class="codeblock">
-          <div class="codeblock__bar">
-            <strong class="codeblock__title">Windows PowerShell – vytvoření prostředí pro další lekci</strong>
-            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-venv-preview">Kopírovat</button>
-          </div>
-          <pre id="code-612-venv-preview"><code class="language-powershell">py -m venv .venv</code></pre>
-        </div>
-
-        <div class="note note--info">
-          <strong>Teď ještě ne:</strong>
-          <br>
-          V této lekci jde hlavně o pochopení principu.
-          Virtuální prostředí bude prakticky důležité až ve chvíli,
-          kdy začneme instalovat FastAPI.
-        </div>
-
-        <div class="actions">
-          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-venv-later">
-            Modál: proč venv přijde až s FastAPI
-          </button>
-        </div>
-
+        <p>
+          Díky tomu je kód čitelnější.
+        </p>
       </div>
     </details>
 
+    <details class="acc" open>
+      <summary class="acc__sum">Řádek 4: definice třídy MyHandler</summary>
+      <div class="acc__body">
+        <div class="codeblock">
+          <pre><code class="language-python">class MyHandler(BaseHTTPRequestHandler):</code></pre>
+        </div>
+
+        <p>
+          Tady vzniká vlastní třída <code>MyHandler</code>.
+        </p>
+
+        <p>
+          Závorka s <code>BaseHTTPRequestHandler</code> znamená,
+          že tato třída z ní dědí.
+          Tedy:
+          přebírá její základní chování
+          a může si ho upravit nebo doplnit.
+        </p>
+
+        <p>
+          V praxi to znamená:
+          Python už má připravený základ pro zpracování HTTP požadavků
+          a my do něj jen dopíšeme,
+          co se má stát při konkrétní metodě,
+          například při <code>GET</code>.
+        </p>
+      </div>
+    </details>
+
+    <details class="acc" open>
+      <summary class="acc__sum">Řádek 5: definice metody do_GET</summary>
+      <div class="acc__body">
+        <div class="codeblock">
+          <pre><code class="language-python">def do_GET(self):</code></pre>
+        </div>
+
+        <p>
+          Tohle je jeden z nejdůležitějších řádků celé ukázky.
+        </p>
+
+        <p>
+          Název <code>do_GET</code> není vymyšlený náhodně.
+          Je to pravidlo.
+          Když server dostane HTTP požadavek metodou <code>GET</code>,
+          automaticky hledá metodu se jménem <code>do_GET</code>.
+        </p>
+
+        <p>
+          Parametr <code>self</code> znamená,
+          že tato metoda pracuje s konkrétní instancí handleru,
+          tedy s konkrétním zpracováním jednoho požadavku.
+        </p>
+
+        <div class="note note--info">
+          <strong>Přesně řečeno:</strong>
+          <br>
+          Když přijde GET požadavek,
+          Python zavolá právě tuto metodu.
+        </div>
+      </div>
+    </details>
+
+    <details class="acc" open>
+      <summary class="acc__sum">Řádek 6: kontrola cesty</summary>
+      <div class="acc__body">
+        <div class="codeblock">
+          <pre><code class="language-python">if self.path == "/":</code></pre>
+        </div>
+
+        <p>
+          Tady se kontroluje,
+          na jakou adresu přišel požadavek.
+        </p>
+
+        <p>
+          <code>self.path</code> obsahuje cestu z URL.
+          Například:
+        </p>
+
+        <ul class="bullets">
+          <li>pro <code>http://127.0.0.1:8000/</code> bude <code>self.path</code> rovno <code>"/"</code>,</li>
+          <li>pro <code>http://127.0.0.1:8000/reservations</code> bude <code>self.path</code> rovno <code>"/reservations"</code>.</li>
+        </ul>
+
+        <p>
+          Tento řádek tedy říká:
+          „Pokud přišla kořenová adresa, proveď následující blok kódu.“
+        </p>
+      </div>
+    </details>
+
+    <details class="acc" open>
+      <summary class="acc__sum">Řádek 7: vytvoření Python slovníku s daty</summary>
+      <div class="acc__body">
+        <div class="codeblock">
+          <pre><code class="language-python">data = {"message": "Ahoj ze serveru"}</code></pre>
+        </div>
+
+        <p>
+          Tady vznikne obyčejný Python slovník.
+        </p>
+
+        <p>
+          Zatím to ještě není HTTP odpověď.
+          Zatím to není ani JSON text.
+          Je to jen datová struktura uvnitř Pythonu.
+        </p>
+
+        <p>
+          Klíč <code>"message"</code> je název položky
+          a hodnota <code>"Ahoj ze serveru"</code> je text,
+          který se má vrátit.
+        </p>
+      </div>
+    </details>
+
+    <details class="acc" open>
+      <summary class="acc__sum">Řádek 8: převod slovníku na JSON a potom na bajty</summary>
+      <div class="acc__body">
+        <div class="codeblock">
+          <pre><code class="language-python">body = json.dumps(data, ensure_ascii=False).encode("utf-8")</code></pre>
+        </div>
+
+        <p>
+          Tento řádek dělá dvě různé věci najednou.
+        </p>
+
+        <h5>První část</h5>
+        <div class="codeblock">
+          <pre><code class="language-python">json.dumps(data, ensure_ascii=False)</code></pre>
+        </div>
+
+        <p>
+          převede Python slovník na JSON text.
+        </p>
+
+        <p>
+          Například:
+        </p>
+
+        <div class="codeblock">
+          <pre><code class="language-python">{"message": "Ahoj ze serveru"}</code></pre>
+        </div>
+
+        <p>
+          se převede na textovou JSON reprezentaci.
+        </p>
+
+        <p>
+          Parametr <code>ensure_ascii=False</code> říká,
+          že se české znaky nemají zbytečně převádět na escape sekvence
+          a mohou zůstat normálně čitelné.
+        </p>
+
+        <h5>Druhá část</h5>
+        <div class="codeblock">
+          <pre><code class="language-python">.encode("utf-8")</code></pre>
+        </div>
+
+        <p>
+          převede text na bajty.
+          To je potřeba proto,
+          že síťová komunikace nakonec pracuje s bajty,
+          ne s běžným Python stringem.
+        </p>
+
+        <p>
+          Proměnná <code>body</code> tedy obsahuje tělo odpovědi
+          připravené k odeslání.
+        </p>
+      </div>
+    </details>
+
+    <details class="acc" open>
+      <summary class="acc__sum">Řádek 10: odeslání stavového kódu 200</summary>
+      <div class="acc__body">
+        <div class="codeblock">
+          <pre><code class="language-python">self.send_response(200)</code></pre>
+        </div>
+
+        <p>
+          Tímto řádkem server říká:
+          „Požadavek byl zpracován úspěšně.“
+        </p>
+
+        <p>
+          Kód <code>200</code> znamená OK.
+          Je to základní HTTP stav pro úspěšnou odpověď.
+        </p>
+      </div>
+    </details>
+
+    <details class="acc" open>
+      <summary class="acc__sum">Řádek 11: hlavička Content-Type</summary>
+      <div class="acc__body">
+        <div class="codeblock">
+          <pre><code class="language-python">self.send_header("Content-Type", "application/json; charset=utf-8")</code></pre>
+        </div>
+
+        <p>
+          Tento řádek posílá hlavičku odpovědi.
+        </p>
+
+        <p>
+          Hlavička <code>Content-Type</code> říká klientovi,
+          jaký typ obsahu přichází.
+        </p>
+
+        <ul class="bullets">
+          <li><code>application/json</code> = vracený obsah je JSON,</li>
+          <li><code>charset=utf-8</code> = text je kódovaný jako UTF-8.</li>
+        </ul>
+
+        <p>
+          Díky tomu prohlížeč nebo JavaScript ví,
+          jak s odpovědí pracovat.
+        </p>
+      </div>
+    </details>
+
+    <details class="acc" open>
+      <summary class="acc__sum">Řádek 12: hlavička Content-Length</summary>
+      <div class="acc__body">
+        <div class="codeblock">
+          <pre><code class="language-python">self.send_header("Content-Length", str(len(body)))</code></pre>
+        </div>
+
+        <p>
+          Tady server říká,
+          jak dlouhé bude tělo odpovědi.
+        </p>
+
+        <p>
+          <code>len(body)</code> spočítá počet bajtů v proměnné <code>body</code>.
+          Protože hlavičky posílají text,
+          převede se délka ještě přes <code>str(...)</code> na řetězec.
+        </p>
+
+        <p>
+          Tahle hlavička není v malých ukázkách vždy nutná,
+          ale je správné ji ukázat,
+          protože patří k poctivému HTTP přístupu.
+        </p>
+      </div>
+    </details>
+
+    <details class="acc" open>
+      <summary class="acc__sum">Řádek 13: konec hlaviček</summary>
+      <div class="acc__body">
+        <div class="codeblock">
+          <pre><code class="language-python">self.end_headers()</code></pre>
+        </div>
+
+        <p>
+          Tímto řádkem server říká:
+          „Hlavičky jsou hotové, teď začne tělo odpovědi.“
+        </p>
+
+        <p>
+          Dokud se nezavolá <code>end_headers()</code>,
+          server ještě pořád skládá hlavičky.
+        </p>
+      </div>
+    </details>
+
+    <details class="acc" open>
+      <summary class="acc__sum">Řádek 14: odeslání samotných dat</summary>
+      <div class="acc__body">
+        <div class="codeblock">
+          <pre><code class="language-python">self.wfile.write(body)</code></pre>
+        </div>
+
+        <p>
+          Tady se konečně odešle skutečný obsah odpovědi.
+        </p>
+
+        <p>
+          <code>self.wfile</code> je výstupní proud,
+          přes který handler zapisuje data klientovi.
+        </p>
+
+        <p>
+          Metoda <code>write(body)</code> pošle bajty uložené v proměnné <code>body</code>.
+        </p>
+      </div>
+    </details>
+
+    <details class="acc" open>
+      <summary class="acc__sum">Řádek 15–17: co se stane při jiné cestě</summary>
+      <div class="acc__body">
+        <div class="codeblock">
+          <pre><code class="language-python">else:
+    self.send_response(404)
+    self.end_headers()</code></pre>
+        </div>
+
+        <p>
+          Pokud adresa není <code>/</code>,
+          provede se větev <code>else</code>.
+        </p>
+
+        <p>
+          Server pak vrátí stav <code>404</code>,
+          tedy:
+          „Taková cesta na tomto serveru neexistuje.“
+        </p>
+
+        <p>
+          Tělo odpovědi se tu neposílá,
+          vrací se jen samotný stav.
+        </p>
+      </div>
+    </details>
+
+    <details class="acc" open>
+      <summary class="acc__sum">Řádek 20: vytvoření serveru</summary>
+      <div class="acc__body">
+        <div class="codeblock">
+          <pre><code class="language-python">server = HTTPServer(("127.0.0.1", 8000), MyHandler)</code></pre>
+        </div>
+
+        <p>
+          Tímto řádkem se vytvoří instance serveru.
+        </p>
+
+        <p>
+          Do serveru se předávají dvě důležité věci:
+        </p>
+
+        <ul class="bullets">
+          <li><code>("127.0.0.1", 8000)</code> = adresa a port, na kterých má server běžet,</li>
+          <li><code>MyHandler</code> = třída, která říká, jak se mají požadavky zpracovávat.</li>
+        </ul>
+
+        <p>
+          Jinými slovy:
+          server teď ví,
+          kde má naslouchat
+          a komu má předat přijatý požadavek.
+        </p>
+      </div>
+    </details>
+
+    <details class="acc" open>
+      <summary class="acc__sum">Řádek 21: výpis informace do konzole</summary>
+      <div class="acc__body">
+        <div class="codeblock">
+          <pre><code class="language-python">print("Server běží na adrese: http://127.0.0.1:8000")</code></pre>
+        </div>
+
+        <p>
+          Tento řádek nic neposílá do prohlížeče.
+          Jen vypíše informaci do konzole,
+          aby bylo jasné,
+          kde server běží.
+        </p>
+
+        <p>
+          Je to užitečné hlavně při spuštění,
+          protože hned vidíš,
+          jakou adresu otevřít v prohlížeči.
+        </p>
+      </div>
+    </details>
+
+    <details class="acc" open>
+      <summary class="acc__sum">Řádek 22: spuštění serverové smyčky</summary>
+      <div class="acc__body">
+        <div class="codeblock">
+          <pre><code class="language-python">server.serve_forever()</code></pre>
+        </div>
+
+        <p>
+          Tohle je řádek,
+          který celý server opravdu rozběhne.
+        </p>
+
+        <p>
+          Metoda <code>serve_forever()</code> znamená:
+          server bude pořád běžet,
+          bude čekat na další a další požadavky
+          a nebude se po prvním požadavku ukončovat.
+        </p>
+
+        <p>
+          Bez tohoto řádku by se server sice vytvořil,
+          ale hned by skončil.
+        </p>
+
+        <div class="note note--info">
+          <strong>Tady se z definice stává běžící proces:</strong>
+          <br>
+          do této chvíle se server jen nastavoval,
+          tímto řádkem se skutečně spustí.
+        </div>
+      </div>
+    </details>
+
+    <h4>Celá logika této malé ukázky v jedné větě</h4>
+    <p>
+      Server běží na adrese <code>127.0.0.1:8000</code>,
+      čeká na GET požadavek,
+      při cestě <code>/</code> vrátí JSON zprávu
+      a při jiné cestě vrátí <code>404</code>.
+    </p>
+
+  </div>
+</details>
+
     <!-- ===================================================== -->
-    <!-- KROK 8 -->
+    <!-- BLOK 11 -->
     <!-- ===================================================== -->
     <details class="acc" open>
-      <summary class="acc__sum">Krok 8: proč i přesto přejdeme v další lekci na FastAPI</summary>
+      <summary class="acc__sum">Blok 11: jak ten samý princip vypadá v našem projektu</summary>
       <div class="acc__body">
 
         <p>
-          Jednoduchý backend bez frameworku je výborný pro pochopení principu.
-          Ale jakmile začne projekt růst, ruční práce rychle přibývá.
+          V aktuálním projektu je rozdělení rolí takovéto:
         </p>
 
         <ul class="bullets">
-          <li>Musíme ručně zpracovávat cesty jako <code>/</code> nebo <code>/reservations</code>.</li>
-          <li>Musíme ručně skládat odpovědi a hlavičky.</li>
-          <li>Musíme si sami držet pořádek v obsluze požadavků.</li>
-          <li>Kód je delší a méně pohodlný na rozšiřování.</li>
+          <li><code>app.py</code> připravuje databázovou část a umí přes konzoli pracovat s rezervacemi.</li>
+          <li><code>server_basic.py</code> obsluhuje webové požadavky.</li>
+          <li>Na adrese <code>/</code> vrací krátkou informaci, že server běží.</li>
+          <li>Na adrese <code>/reservations</code> vrací seznam rezervací jako JSON.</li>
         </ul>
 
-        <div class="note note--info">
-          <strong>Proto bude další krok tento:</strong>
-          <br>
-          stejný princip zachováme,
-          ale použijeme FastAPI,
-          které zápis zkrátí a zpřehlední.
-        </div>
-
-        <details class="acc" open>
-          <summary class="acc__sum">Co bude ve FastAPI pohodlnější</summary>
-          <div class="acc__body">
-            <ul class="bullets">
-              <li>kratší zápis rout a endpointů,</li>
-              <li>čistší práce s JSON odpověďmi,</li>
-              <li>lepší struktura backendu,</li>
-              <li>automatická dokumentace API.</li>
-            </ul>
-          </div>
-        </details>
-
-        <div class="actions">
-          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-fastapi-bridge">
-            Modál: proč po této lekci přejdeme na FastAPI
-          </button>
-        </div>
-
-      </div>
-    </details>
-
-    <!-- ===================================================== -->
-    <!-- KROK 9 -->
-    <!-- ===================================================== -->
-    <details class="acc">
-      <summary class="acc__sum">Krok 9: jak teď vypadá struktura projektu</summary>
-      <div class="acc__body">
+        <p>
+          Přesně takto je to teď rozdělené v souborech projektu. :contentReference[oaicite:2]{index=2} :contentReference[oaicite:3]{index=3}
+        </p>
 
         <div class="codeblock">
           <div class="codeblock__bar">
-            <strong class="codeblock__title">struktura projektu po této lekci</strong>
-            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-structure-basic">Kopírovat</button>
+            <strong class="codeblock__title">Aktuální struktura projektu</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-structure-current">Kopírovat</button>
           </div>
-          <pre id="code-612-structure-basic"><code class="language-text">rezervacni_system/
-├── reservations_console.py
+          <pre id="code-612-structure-current"><code class="language-text">Serverova_Infrastruktura/
+├── app.py
 ├── server_basic.py
-├── server_reservations.py
-├── reservations.db
-└── templates/
-    └── index.html</code></pre>
+└── reservations.db</code></pre>
         </div>
 
-        <details class="acc" open>
-          <summary class="acc__sum">Co dělá každý soubor</summary>
-          <div class="acc__body">
-            <ul class="bullets">
-              <li><code>reservations_console.py</code> = zapisuje rezervace přes konzoli.</li>
-              <li><code>server_basic.py</code> = nejmenší backend bez databáze.</li>
-              <li><code>server_reservations.py</code> = backend, který vrací rezervace z databáze.</li>
-              <li><code>reservations.db</code> = SQLite databáze se skutečnými daty.</li>
-              <li><code>templates/index.html</code> = frontend, který data později zobrazí.</li>
-            </ul>
+        <div class="note note--info">
+          <strong>Podstata rozdělení:</strong>
+          <br>
+          jedna část projektu připraví a spravuje data,
+          druhá část projektu je zpřístupní přes web.
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- BLOK 12 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Blok 12: kde se v tom řetězci objeví databáze</summary>
+      <div class="acc__body">
+
+        <p>
+          Databáze v této kapitole není hlavní téma.
+          Je ale dobré přesně vidět,
+          kde v celém toku stojí.
+        </p>
+
+        <p>
+          Databáze je jen jedna část z delšího řetězce:
+        </p>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">Celý tok komunikace</strong>
           </div>
-        </details>
+          <pre><code class="language-text">prohlížeč → server → backendová logika → data → odpověď → prohlížeč</code></pre>
+        </div>
+
+        <p>
+          Databáze je tedy uvnitř systému,
+          ne na jeho začátku.
+          Prohlížeč nemluví přímo s databází.
+          Prohlížeč mluví se serverem.
+          Server spustí backendovou logiku
+          a ta si teprve případně sáhne na data.
+        </p>
 
         <div class="note note--info">
-          <strong>V další lekci se struktura rozšíří:</strong>
+          <strong>Tím se vysvětluje i důležitý princip:</strong>
           <br>
-          přibude <code>.venv/</code> a nový backendový soubor postavený na FastAPI.
+          databáze není webová adresa.
+          Webová adresa spouští kód,
+          a ten se případně obrátí na databázi.
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- BLOK 13 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Blok 13: proč server nemá databázi sám zakládat</summary>
+      <div class="acc__body">
+
+        <p>
+          Tady už se databáze znovu nerozebírá do hloubky,
+          ale je potřeba říct jeden důležitý architektonický princip:
+        </p>
+
+        <p>
+          Server nemá při spuštění tiše připravovat celý projekt.
+          Server má hlavně <strong>obsluhovat požadavky</strong>.
+        </p>
+
+        <p>
+          Kdyby server při spuštění rovnou vytvářel novou databázi,
+          začaly by se míchat role:
+        </p>
+
+        <ul class="bullets">
+          <li>server by zároveň obsluhoval web,</li>
+          <li>a zároveň by tajně připravoval datovou vrstvu.</li>
+        </ul>
+
+        <p>
+          Čistší je mít to rozdělené:
+        </p>
+
+        <ul class="bullets">
+          <li><code>app.py</code> připraví databázi a data, :contentReference[oaicite:4]{index=4}</li>
+          <li><code>server_basic.py</code> data zpřístupní přes web. :contentReference[oaicite:5]{index=5}</li>
+        </ul>
+
+        <p>
+          Tím je jasné,
+          kdo za co zodpovídá.
+        </p>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- BLOK 14 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Blok 14: co znamenají odpovědi 200, 404 a 500</summary>
+      <div class="acc__body">
+
+        <p>
+          Server nevrací jen samotná data.
+          Vrací také stavovou informaci,
+          která říká, jak dopadlo zpracování požadavku.
+        </p>
+
+        <ul class="bullets">
+          <li><code>200</code> = vše proběhlo v pořádku.</li>
+          <li><code>404</code> = požadovaná cesta na serveru neexistuje.</li>
+          <li><code>500</code> = uvnitř serveru nastala chyba.</li>
+        </ul>
+
+        <h4>Příklady</h4>
+        <ul class="bullets">
+          <li><code>GET /</code> může vrátit <code>200</code> a zprávu, že server běží.</li>
+          <li><code>GET /reservations</code> může vrátit <code>200</code> a JSON se seznamem rezervací.</li>
+          <li><code>GET /neco-co-neexistuje</code> vrátí <code>404</code>.</li>
+          <li>Pokud se při načítání dat něco pokazí, může přijít <code>500</code>.</li>
+        </ul>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- BLOK 15 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Blok 15: proč to celé dává smysl ještě před FastAPI</summary>
+      <div class="acc__body">
+
+        <p>
+          Právě tahle čistá verze bez frameworku ukazuje,
+          co je na backendu opravdu podstatné.
+        </p>
+
+        <ul class="bullets">
+          <li>existuje server,</li>
+          <li>server naslouchá,</li>
+          <li>přijde požadavek,</li>
+          <li>spustí se správná část kódu,</li>
+          <li>vznikne odpověď,</li>
+          <li>odpověď se vrátí klientovi.</li>
+        </ul>
+
+        <p>
+          Až když je tenhle princip jasný,
+          začne mít FastAPI skutečný smysl.
+          Ne jako magie,
+          ale jako pohodlnější a kratší způsob,
+          jak ten samý princip zapsat.
+        </p>
+
+        <div class="note note--info">
+          <strong>Přesně řečeno:</strong>
+          <br>
+          FastAPI nemění podstatu backendu.
+          FastAPI jen dává lepší nástroje pro zápis stejné myšlenky.
         </div>
 
       </div>
@@ -544,312 +1241,19 @@ server.serve_forever()</code></pre>
   </div>
 
   <article class="card">
-    <h3 class="card__title">Co už po této lekci víš</h3>
+    <h3 class="card__title">Co je po této kapitole opravdu pevné</h3>
     <ul class="checklist">
-      <li>Backend není automaticky framework, ale role programu v aplikaci.</li>
-      <li>Python už v základu obsahuje <code>sqlite3</code> i <code>http.server</code>.</li>
-      <li><code>sqlite3</code> řeší databázi, ale ne webové API.</li>
-      <li><code>http.server</code> umí přijmout HTTP požadavek a vrátit odpověď.</li>
-      <li>Backend může zpracovat požadavek, otevřít databázi a vrátit JSON.</li>
-      <li>Frontend nepracuje přímo s databází, ale přes backend.</li>
-      <li>Jednoduchý backend bez frameworku je výborný pro pochopení principu.</li>
-      <li>V další lekci použijeme FastAPI jako pohodlnější a čistší zápis stejné myšlenky.</li>
+      <li>Backend je vrstva logiky, ne název frameworku.</li>
+      <li>Server je běžící program, který přijímá požadavky a vrací odpovědi.</li>
+      <li>Komunikace na webu stojí na modelu požadavek → zpracování → odpověď.</li>
+      <li>HTTP je společný jazyk mezi klientem a serverem.</li>
+      <li><code>GET</code> znamená požadavek na získání výsledku nebo dat.</li>
+      <li>Metoda <code>do_GET()</code> je v Pythonu místo, kam GET požadavek dopadne.</li>
+      <li>Cesta jako <code>/</code> nebo <code>/reservations</code> určuje, jaká logika se spustí.</li>
+      <li>Server vrací nejen data, ale i stavové kódy jako <code>200</code>, <code>404</code> a <code>500</code>.</li>
+      <li>V našem projektu obsluhuje webovou část <code>server_basic.py</code> a datovou přípravu zajišťuje <code>app.py</code>. :contentReference[oaicite:6]{index=6} :contentReference[oaicite:7]{index=7}</li>
+      <li>Další krok může být přepsání stejného principu do FastAPI.</li>
     </ul>
   </article>
 
 </section>
-
-
-
-<!-- =========================================================
-MODÁLY – backend bez frameworku / sqlite3 / http.server / přechod na FastAPI
-========================================================= -->
-
-<div class="modal" id="modal-backend-not-framework" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title">Backend není framework</h3>
-        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
-      </div>
-      <div class="modal-body">
-        <p>
-          Backend je část aplikace, která zpracovává logiku a pracuje s daty.
-          Framework je až nástroj, který tuto práci usnadňuje.
-        </p>
-        <ul class="bullets">
-          <li>Backend můžeš napsat i čistě v Pythonu.</li>
-          <li>Framework není definice backendu.</li>
-          <li>Framework je pomocník pro pohodlnější zápis.</li>
-        </ul>
-        <div class="note note--info">
-          <strong>Zapamatování:</strong>
-          <br>
-          Backend = role programu
-          <br>
-          Framework = nástroj, který backend pomáhá psát
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal" id="modal-frontend-backend-basic" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title">Frontend × Backend × Databáze</h3>
-        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
-      </div>
-      <div class="modal-body">
-        <ul class="bullets">
-          <li><strong>Frontend</strong> = stránka v prohlížeči.</li>
-          <li><strong>Backend</strong> = Python logika aplikace.</li>
-          <li><strong>Databáze</strong> = uložená data projektu.</li>
-        </ul>
-        <p>
-          Frontend zobrazuje, backend rozhoduje a databáze ukládá.
-        </p>
-        <div class="note note--info">
-          <strong>V našem projektu:</strong>
-          <br>
-          frontend ukáže rezervace,
-          backend je načte,
-          databáze je uchová.
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal" id="modal-sqlite3" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title">Co je sqlite3?</h3>
-        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
-      </div>
-      <div class="modal-body">
-        <p>
-          <code>sqlite3</code> je Python modul pro práci se SQLite databází.
-          Umožňuje otevřít databázový soubor, spouštět SQL dotazy a číst nebo ukládat data.
-        </p>
-        <ul class="bullets">
-          <li>Otevírá databázi.</li>
-          <li>Spouští SQL příkazy.</li>
-          <li>Vrací řádky z tabulek.</li>
-          <li>Ukládá změny přes <code>commit()</code>.</li>
-        </ul>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal" id="modal-http-server" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title">Co je http.server?</h3>
-        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
-      </div>
-      <div class="modal-body">
-        <p>
-          <code>http.server</code> je jednoduchý modul standardní knihovny,
-          který umí vytvořit základní HTTP server.
-        </p>
-        <ul class="bullets">
-          <li>Naslouchá na adrese a portu.</li>
-          <li>Přijímá požadavky typu GET.</li>
-          <li>Umožní vrátit odpověď klientovi.</li>
-        </ul>
-        <div class="note note--info">
-          <strong>Pozor:</strong>
-          <br>
-          Pro výuku je skvělý,
-          ale pro větší nebo produkční aplikaci není ideální.
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal" id="modal-json" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title">Co je JSON?</h3>
-        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
-      </div>
-      <div class="modal-body">
-        <p>
-          JSON je textový formát pro přenos dat mezi klientem a serverem.
-        </p>
-        <pre><code class="language-json">{
-  "message": "Ahoj ze serveru"
-}</code></pre>
-        <p>
-          Backend často vrací data právě takto,
-          protože je frontend umí snadno zpracovat.
-        </p>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal" id="modal-route-basic" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title">Co je route / adresa serveru?</h3>
-        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
-      </div>
-      <div class="modal-body">
-        <p>
-          Route je konkrétní cesta na serveru,
-          například <code>/</code> nebo <code>/reservations</code>.
-        </p>
-        <ul class="bullets">
-          <li><code>/</code> = domovská adresa serveru</li>
-          <li><code>/reservations</code> = výpis rezervací</li>
-        </ul>
-        <p>
-          Server podle této adresy pozná,
-          jakou část kódu má spustit.
-        </p>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal" id="modal-browser-db" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title">Proč stránka neotevře SQLite databázi sama?</h3>
-        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
-      </div>
-      <div class="modal-body">
-        <p>
-          Protože prohlížeč neběží jako Python prostředí
-          a neumí používat backendový modul <code>sqlite3</code>.
-        </p>
-        <ul class="bullets">
-          <li>Frontend zobrazuje.</li>
-          <li>Backend zpracovává.</li>
-          <li>Databáze ukládá.</li>
-        </ul>
-        <p>
-          Tato dělba rolí drží projekt přehledný a bezpečnější.
-        </p>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal" id="modal-shared-db" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title">Proč oba programy vidí stejná data?</h3>
-        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
-      </div>
-      <div class="modal-body">
-        <p>
-          Protože konzolový program i server pracují se stejným souborem
-          <code>reservations.db</code>.
-        </p>
-        <ul class="bullets">
-          <li>Konzole data zapisuje.</li>
-          <li>Server stejná data čte.</li>
-          <li>Jedna databáze je společný zdroj pravdy.</li>
-        </ul>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal" id="modal-venv-later" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title">Proč venv přijde až s FastAPI?</h3>
-        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
-      </div>
-      <div class="modal-body">
-        <p>
-          Dokud používáme jen standardní knihovnu,
-          nic dalšího neinstalujeme.
-        </p>
-        <p>
-          Jakmile ale přidáme FastAPI a další externí balíčky,
-          bude se hodit oddělit prostředí projektu do <code>.venv</code>.
-        </p>
-        <div class="note note--info">
-          <strong>Smysl:</strong>
-          <br>
-          nejdřív pochopit princip,
-          potom zavést projektové prostředí a framework.
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal" id="modal-fastapi-bridge" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title">Proč po této lekci přejdeme na FastAPI?</h3>
-        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
-      </div>
-      <div class="modal-body">
-        <p>
-          Protože princip už bude jasný.
-          A v tu chvíli už není důvod psát všechno ručně.
-        </p>
-        <ul class="bullets">
-          <li>FastAPI zkrátí kód.</li>
-          <li>Zpřehlední routy a odpovědi.</li>
-          <li>Usnadní další rozšiřování projektu.</li>
-          <li>Přidá automatickou dokumentaci API.</li>
-        </ul>
-        <div class="note note--info">
-          <strong>Pořadí výuky:</strong>
-          <br>
-          nejdřív pochopení,
-          potom pohodlnější nástroj
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
-      </div>
-    </div>
-  </div>
-</div>
