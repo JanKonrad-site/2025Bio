@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CodeCraft – Interaktivní hra (JavaScript)</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    /* drobnosti pro výstup */
+    #cc-output, #cc-expected { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================================================
+       ZADÁNÍ + INTERAKTIVNÍ HRA: CodeCraft
+  ========================================================= -->
+  <section id="section3-3-game" class="container my-5">
+
+    <h3 class="mb-4">Interaktivní hra: CodeCraft – skládej JavaScript a hned vidíš výsledek</h3>
+
+    <!-- Zadání -->
+    <div class="container my-4 p-4 border rounded bg-light">
+      <h3 class="mb-3">Zadání</h3>
+      <p>
+        Tvým cílem je splnit sérii „misí“ (mini úkolů), kde si procvičíš to, co jsme se doposud naučili:
+        <strong>proměnné</strong>, <strong>operátory</strong>, <strong>podmínky</strong>, <strong>smyčky</strong> a <strong>funkce</strong>.
+      </p>
+      <ul class="list-group list-group-flush mb-3">
+        <li class="list-group-item"><strong>Vyber misi</strong>: každá mise má jasně popsaný cíl a očekávaný výstup.</li>
+        <li class="list-group-item"><strong>Slož kód</strong>: můžeš použít bloky (tlačítka vlevo) nebo dopsat ručně.</li>
+        <li class="list-group-item"><strong>Spusť</strong>: uvidíš výstup v „Konzoli“ vpravo.</li>
+        <li class="list-group-item"><strong>Zkontroluj</strong>: porovná se výstup s očekávaným a přidají se body.</li>
+      </ul>
+      <div class="alert alert-info mb-0" role="alert">
+        <strong>Tip:</strong> V každé misi porovnávej svůj výstup s „Očekávaným výstupem“. Každý řádek se počítá.
+      </div>
+    </div>
+
+    <div class="row g-3 align-items-stretch">
+
+      <!-- LEVÝ PANEL -->
+      <div class="col-lg-3">
+        <div class="card shadow-sm h-100">
+          <div class="card-header bg-primary text-white">
+            Mise a bloky
+          </div>
+
+          <div class="card-body">
+
+            <label class="form-label fw-semibold">Vyber misi</label>
+            <select id="cc-mission" class="form-select mb-3"></select>
+
+            <div class="alert alert-info small" id="cc-goal-left" role="alert">
+              <strong>Cíl mise:</strong> načítám…
+            </div>
+
+            <div class="d-flex gap-2 mb-3">
+              <button class="btn btn-sm btn-outline-secondary" id="cc-reset-mission">Reset mise</button>
+              <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#ccHintModal">
+                Nápověda
+              </button>
+            </div>
+
+            <hr>
+
+            <p class="fw-semibold mb-2">Rychlé bloky (klik = vložit do kódu):</p>
+
+            <div class="accordion" id="ccBlocksAcc">
+
+              <!-- Proměnné -->
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="ccB1">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ccB1c">
+                    Proměnné
+                  </button>
+                </h2>
+                <div id="ccB1c" class="accordion-collapse collapse" data-bs-parent="#ccBlocksAcc">
+                  <div class="accordion-body">
+                    <div class="d-grid gap-2">
+                      <button class="btn btn-sm btn-outline-secondary text-start" data-snippet='let userName = "Tom";\n'>let userName = "Tom";</button>
+                      <button class="btn btn-sm btn-outline-secondary text-start" data-snippet='userName = "John";\n'>userName = "John";</button>
+                      <button class="btn btn-sm btn-outline-secondary text-start" data-snippet='let age = 31;\n'>let age = 31;</button>
+                      <button class="btn btn-sm btn-outline-secondary text-start" data-snippet='let isLoggedIn = false;\n'>let isLoggedIn = false;</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Výstup -->
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="ccB2">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ccB2c">
+                    Výstup
+                  </button>
+                </h2>
+                <div id="ccB2c" class="accordion-collapse collapse" data-bs-parent="#ccBlocksAcc">
+                  <div class="accordion-body">
+                    <div class="d-grid gap-2">
+                      <button class="btn btn-sm btn-outline-secondary text-start" data-snippet='console.log(userName);\n'>console.log(userName);</button>
+                      <button class="btn btn-sm btn-outline-secondary text-start" data-snippet='console.log(typeof userName);\n'>console.log(typeof userName);</button>
+                      <button class="btn btn-sm btn-outline-secondary text-start" data-snippet='alert("Ahoj!");\n'>alert("Ahoj!");</button>
+                    </div>
+                    <div class="text-muted small mt-2">
+                      Pozn.: v této hře se <code>alert()</code> vypíše do výstupu jako <em>ALERT: ...</em>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Operátory -->
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="ccB3">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ccB3c">
+                    Operátory
+                  </button>
+                </h2>
+                <div id="ccB3c" class="accordion-collapse collapse" data-bs-parent="#ccBlocksAcc">
+                  <div class="accordion-body">
+                    <div class="d-grid gap-2">
+                      <button class="btn btn-sm btn-outline-secondary text-start" data-snippet='console.log(7 + 4);\n'>console.log(7 + 4);</button>
+                      <button class="btn btn-sm btn-outline-secondary text-start" data-snippet='console.log("7" + "4");\n'>console.log("7" + "4");</button>
+                      <button class="btn btn-sm btn-outline-secondary text-start" data-snippet='console.log("7" + 4);\n'>console.log("7" + 4);</button>
+                      <button class="btn btn-sm btn-outline-secondary text-start" data-snippet='console.log(age > 20);\n'>console.log(age &gt; 20);</button>
+                      <button class="btn btn-sm btn-outline-secondary text-start" data-snippet='console.log(10 % 3);\n'>console.log(10 % 3);</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Podmínky -->
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="ccB4">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ccB4c">
+                    Podmínky
+                  </button>
+                </h2>
+                <div id="ccB4c" class="accordion-collapse collapse" data-bs-parent="#ccBlocksAcc">
+                  <div class="accordion-body">
+                    <div class="d-grid gap-2">
+                      <button class="btn btn-sm btn-outline-secondary text-start"
+                              data-snippet='if (condition) {\n  console.log("true větev");\n} else {\n  console.log("false větev");\n}\n'>
+                        if / else šablona
+                      </button>
+                      <button class="btn btn-sm btn-outline-secondary text-start"
+                              data-snippet='if (totalPrice >= 100) {\n  console.log("Sleva!");\n} else {\n  console.log("Bez slevy");\n}\n'>
+                        if (totalPrice &gt;= 100) …
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Smyčky -->
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="ccB5">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ccB5c">
+                    Smyčky
+                  </button>
+                </h2>
+                <div id="ccB5c" class="accordion-collapse collapse" data-bs-parent="#ccBlocksAcc">
+                  <div class="accordion-body">
+                    <div class="d-grid gap-2">
+                      <button class="btn btn-sm btn-outline-secondary text-start"
+                              data-snippet='let counter = 1;\nwhile (counter <= 10) {\n  console.log(counter);\n  counter++;\n}\n'>
+                        while 1..10 (šablona)
+                      </button>
+                      <button class="btn btn-sm btn-outline-secondary text-start"
+                              data-snippet='for (let i = 1; i <= 10; i++) {\n  console.log(i);\n}\n'>
+                        for 1..10 (šablona)
+                      </button>
+                      <button class="btn btn-sm btn-outline-secondary text-start"
+                              data-snippet='if (i === 7) {\n  console.log("7 je moje oblíbené číslo");\n} else {\n  console.log(i);\n}\n'>
+                        if (i === 7) …
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Funkce -->
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="ccB6">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ccB6c">
+                    Funkce
+                  </button>
+                </h2>
+                <div id="ccB6c" class="accordion-collapse collapse" data-bs-parent="#ccBlocksAcc">
+                  <div class="accordion-body">
+                    <div class="d-grid gap-2">
+                      <button class="btn btn-sm btn-outline-secondary text-start"
+                              data-snippet='function sayHello(name) {\n  console.log("Ahoj " + name);\n}\n'>
+                        function sayHello(name) …
+                      </button>
+                      <button class="btn btn-sm btn-outline-secondary text-start"
+                              data-snippet='function printRange(start, end) {\n  for (let i = start; i <= end; i++) {\n    console.log(i);\n  }\n}\n'>
+                        function printRange(start, end) …
+                      </button>
+                      <button class="btn btn-sm btn-outline-secondary text-start" data-snippet='printRange(3, 7);\n'>
+                        printRange(3, 7);
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div><!-- /accordion -->
+
+          </div>
+        </div>
+      </div>
+
+      <!-- EDITOR -->
+      <div class="col-lg-6">
+        <div class="card shadow-sm h-100">
+          <div class="card-header bg-light d-flex justify-content-between align-items-center">
+            <strong>Editor kódu</strong>
+            <span class="text-muted small">Bloky se vkládají do kurzoru</span>
+          </div>
+
+          <div class="card-body">
+            <div class="d-flex flex-wrap gap-2">
+              <button class="btn btn-sm btn-success" id="cc-run">Spustit</button>
+              <button class="btn btn-sm btn-outline-primary" id="cc-check">Zkontrolovat</button>
+              <button class="btn btn-sm btn-outline-secondary" id="cc-clear-output">Vyčistit výstup</button>
+            </div>
+
+            <label class="form-label mt-3 fw-semibold">Kód</label>
+
+            <!-- VÝRAZNÝ CÍL NAD EDITOREM -->
+            <div class="alert alert-primary" id="cc-goal-top" role="alert">
+              <strong>Cíl mise:</strong> načítám…
+            </div>
+
+            <textarea id="cc-code" class="form-control" rows="16" spellcheck="false"></textarea>
+
+            <div class="alert alert-warning mt-3 mb-0" role="alert">
+              <strong>Pozor:</strong> Pokud uděláš nekonečnou smyčku, hra ji po chvíli ukončí (ochrana proti zaseknutí).
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VÝSTUP -->
+      <div class="col-lg-3">
+        <div class="card shadow-sm h-100">
+          <div class="card-header bg-light">
+            <strong>Výstup a stav</strong>
+          </div>
+
+          <div class="card-body">
+
+            <div class="container p-3 border rounded bg-light mb-3">
+              <h6 class="mb-2">Stav hry</h6>
+              <div class="small">
+                <div><strong>Body:</strong> <span id="cc-score">0</span></div>
+                <div><strong>Splněno:</strong> <span id="cc-done">0</span> / <span id="cc-total">0</span></div>
+              </div>
+              <div class="alert alert-info small mt-2 mb-0" id="cc-goal">
+                Cíl se načte…
+              </div>
+            </div>
+
+            <h6 class="mb-2">Konzole</h6>
+            <pre id="cc-output" class="p-3 border rounded bg-light" style="min-height: 220px; white-space: pre-wrap;"></pre>
+
+            <div class="mt-3">
+              <h6 class="mb-2">Očekávaný výstup</h6>
+              <pre id="cc-expected" class="p-3 border rounded bg-light small" style="white-space: pre-wrap;"></pre>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /row -->
+  </section>
+
+  <!-- MODÁL: Nápověda -->
+  <div class="modal fade" id="ccHintModal" tabindex="-1" aria-labelledby="ccHintModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ccHintModalLabel">Nápověda k misi</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body" id="cc-hint-body"></div>
+    </div></div>
+  </div>
+
+  <!-- Bootstrap bundle (modály, accordion...) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+  /* =========================================================
+     CodeCraft – engine (spouštění kódu ve Workeru + kontrola)
+  ========================================================= */
+  (() => {
+    "use strict";
+
+    // ---------- Mise ----------
+    const missions = [
+      {
+        id: "m1",
+        title: "Mise 1: Proměnné a změna hodnoty",
+        goal: "Vypiš do konzole nejdřív jméno Tom, pak ho změň na John a vypiš znovu.",
+        starter:
+`// 1) Vytvoř proměnnou userName a nastav ji na "Tom"
+// 2) Vypiš userName do konzole
+// 3) Změň userName na "John"
+// 4) Vypiš userName do konzole
+
+`,
+        expected: `Tom\nJohn`,
+        hintHtml:
+`<p><strong>Co použít:</strong> <code>let userName = "Tom"</code>, <code>console.log(userName)</code>, pak <code>userName = "John"</code>.</p>
+<pre class="bg-light p-3 rounded"><code class="language-js">let userName = "Tom";
+console.log(userName);
+userName = "John";
+console.log(userName);</code></pre>`
+      },
+      {
+        id: "m2",
+        title: "Mise 2: Operátory + typeof",
+        goal: "Ukaž rozdíl mezi sčítáním čísel a spojováním řetězců + vypiš typeof pro text.",
+        starter:
+`// Vypiš do konzole:
+// 1) 7 + 4 (čísla)
+// 2) "7" + "4" (text)
+// 3) "7" + 4 (mix)
+// 4) typeof pro proměnnou name
+
+`,
+        expected: `11\n74\n74\nstring`,
+        hintHtml:
+`<p><strong>Co se učíš:</strong> operátor <code>+</code> dělá buď sčítání, nebo spojování (podle datových typů).</p>
+<pre class="bg-light p-3 rounded"><code class="language-js">console.log(7 + 4);
+console.log("7" + "4");
+console.log("7" + 4);
+
+let name = "abc123.?!";
+console.log(typeof name);</code></pre>`
+      },
+      {
+        id: "m3",
+        title: "Mise 3: Podmínka – sleva v e-shopu",
+        goal: "Pokud totalPrice ≥ 100, vypiš cenu po 30% slevě. Jinak vypiš, kolik chybí do slevy.",
+        starter:
+`let totalPrice = 85; // změň a testuj
+
+// Pokud totalPrice >= 100 → vypiš discountedPrice (30% sleva = platíš 70%)
+// Jinak vypiš: "Utrať ještě $X a získáš 30% slevu!"
+
+`,
+        expected: `Utrať ještě $15 a získáš 30% slevu!`,
+        hintHtml:
+`<p><strong>Tip:</strong> v else spočítej <code>100 - totalPrice</code>.</p>
+<pre class="bg-light p-3 rounded"><code class="language-js">let totalPrice = 85;
+
+if (totalPrice >= 100) {
+  let discountedPrice = totalPrice * 0.7;
+  console.log(discountedPrice);
+} else {
+  let amountNeeded = 100 - totalPrice;
+  console.log("Utrať ještě $" + amountNeeded + " a získáš 30% slevu!");
+}</code></pre>`
+      },
+      {
+        id: "m4",
+        title: "Mise 4: while 1..10 + oblíbená 7",
+        goal: "Napiš while smyčku 1..10. Pro 7 vypiš text: „7 je moje oblíbené číslo“.",
+        starter:
+`// Vytvoř counter = 1
+// while (counter <= 10) { ... }
+// Pokud counter === 7 → vypiš text
+// Jinak vypiš číslo
+// Pak counter zvyš
+
+`,
+        expected: `1\n2\n3\n4\n5\n6\n7 je moje oblíbené číslo\n8\n9\n10`,
+        hintHtml:
+`<p><strong>Struktura:</strong> counter, while podmínka, uvnitř if na 7, a nakonec <code>counter++</code>.</p>
+<pre class="bg-light p-3 rounded"><code class="language-js">let counter = 1;
+
+while (counter <= 10) {
+  if (counter === 7) {
+    console.log("7 je moje oblíbené číslo");
+  } else {
+    console.log(counter);
+  }
+  counter++;
+}</code></pre>`
+      },
+      {
+        id: "m5",
+        title: "Mise 5: Funkce printRange(start, end)",
+        goal: "Napiš funkci printRange(start, end), která vypíše čísla od start do end včetně. Otestuj na (3, 7).",
+        starter:
+`// Napiš funkci printRange(start, end)
+// Uvnitř použij for smyčku od start do end (včetně)
+// Vypisuj i
+// Nakonec zavolej printRange(3, 7)
+
+`,
+        expected: `3\n4\n5\n6\n7`,
+        hintHtml:
+`<p><strong>Tip:</strong> Funkce = znovupoužitelný stroj. Parametry = vstupy.</p>
+<pre class="bg-light p-3 rounded"><code class="language-js">function printRange(start, end) {
+  for (let i = start; i <= end; i++) {
+    console.log(i);
+  }
+}
+
+printRange(3, 7);</code></pre>`
+      }
+    ];
+
+    // ---------- UI refs ----------
+    const selMission = document.getElementById("cc-mission");
+    const taCode = document.getElementById("cc-code");
+    const out = document.getElementById("cc-output");
+    const expectedEl = document.getElementById("cc-expected");
+    const goalEl = document.getElementById("cc-goal");
+    const goalTopEl = document.getElementById("cc-goal-top");
+    const goalLeftEl = document.getElementById("cc-goal-left");
+    const hintBody = document.getElementById("cc-hint-body");
+
+    const btnRun = document.getElementById("cc-run");
+    const btnCheck = document.getElementById("cc-check");
+    const btnResetMission = document.getElementById("cc-reset-mission");
+    const btnClearOutput = document.getElementById("cc-clear-output");
+
+    const scoreEl = document.getElementById("cc-score");
+    const doneEl = document.getElementById("cc-done");
+    const totalEl = document.getElementById("cc-total");
+
+    // ---------- Stav ----------
+    let score = 0;
+    const done = new Set();
+
+    // ---------- Worker (sandbox) ----------
+    function makeWorker() {
+      const workerSource = `
+        function send(type, data) { self.postMessage({ type, data }); }
+
+        self.console = {
+          log: (...args) => send("log", args.map(a => String(a)).join(" "))
+        };
+
+        self.alert = (msg) => send("log", "ALERT: " + String(msg));
+
+        self.onmessage = (e) => {
+          const code = String(e.data || "");
+          try {
+            const fn = new Function(code);
+            fn();
+            send("done", null);
+          } catch (err) {
+            send("error", err && err.stack ? err.stack : String(err));
+            send("done", null);
+          }
+        };
+      `;
+      const blob = new Blob([workerSource], { type: "application/javascript" });
+      const url = URL.createObjectURL(blob);
+      return new Worker(url);
+    }
+
+    async function runCodeSafely(code, timeoutMs = 900) {
+      return new Promise((resolve) => {
+        const w = makeWorker();
+        const lines = [];
+        let finished = false;
+
+        const timer = setTimeout(() => {
+          if (finished) return;
+          finished = true;
+          w.terminate();
+          lines.push("⚠️ Ukončeno: kód běžel příliš dlouho (pravděpodobně nekonečná smyčka).");
+          resolve(lines.join("\n"));
+        }, timeoutMs);
+
+        w.onmessage = (e) => {
+          const { type, data } = e.data || {};
+          if (type === "log") lines.push(String(data));
+          if (type === "error") lines.push("❌ Chyba:\n" + String(data));
+          if (type === "done") {
+            if (finished) return;
+            finished = true;
+            clearTimeout(timer);
+            w.terminate();
+            resolve(lines.join("\n"));
+          }
+        };
+
+        w.postMessage(code);
+      });
+    }
+
+    // ---------- Helpers ----------
+    function normalize(s) {
+      return String(s || "")
+        .replace(/\r\n/g, "\n")
+        .split("\n")
+        .map(line => line.trimEnd())
+        .join("\n")
+        .trim();
+    }
+
+    function currentMission() {
+      const id = selMission.value;
+      return missions.find(m => m.id === id) || missions[0];
+    }
+
+    function setGoalEverywhere(html) {
+      if (goalEl) goalEl.innerHTML = html;
+      if (goalTopEl) goalTopEl.innerHTML = `<strong>Cíl mise:</strong> ${html}`;
+      if (goalLeftEl) goalLeftEl.innerHTML = `<strong>Cíl mise:</strong> ${html}`;
+    }
+
+    function loadMission(id) {
+      const m = missions.find(x => x.id === id) || missions[0];
+      taCode.value = m.starter;
+      expectedEl.textContent = m.expected;
+      hintBody.innerHTML = m.hintHtml;
+      out.textContent = "";
+
+      setGoalEverywhere(m.goal);
+    }
+
+    function updateScoreboard() {
+      scoreEl.textContent = String(score);
+      doneEl.textContent = String(done.size);
+      totalEl.textContent = String(missions.length);
+    }
+
+    // vložení do kurzoru
+    function insertAtCursor(textarea, snippet) {
+      const start = textarea.selectionStart ?? textarea.value.length;
+      const end = textarea.selectionEnd ?? textarea.value.length;
+      const before = textarea.value.slice(0, start);
+      const after = textarea.value.slice(end);
+      textarea.value = before + snippet + after;
+      const pos = start + snippet.length;
+      textarea.focus();
+      textarea.setSelectionRange(pos, pos);
+    }
+
+    // ---------- Bind blocks ----------
+    document.querySelectorAll("[data-snippet]").forEach(btn => {
+      btn.addEventListener("click", () => insertAtCursor(taCode, btn.getAttribute("data-snippet") || ""));
+    });
+
+    // ---------- Init missions dropdown ----------
+    missions.forEach(m => {
+      const opt = document.createElement("option");
+      opt.value = m.id;
+      opt.textContent = m.title;
+      selMission.appendChild(opt);
+    });
+
+    // ---------- Events ----------
+    selMission.addEventListener("change", () => loadMission(selMission.value));
+    btnResetMission.addEventListener("click", () => loadMission(selMission.value));
+    btnClearOutput.addEventListener("click", () => (out.textContent = ""));
+
+    btnRun.addEventListener("click", async () => {
+      out.textContent = "⏳ Spouštím…";
+      const result = await runCodeSafely(taCode.value);
+      out.textContent = result || "(žádný výstup)";
+    });
+
+    btnCheck.addEventListener("click", async () => {
+      out.textContent = "⏳ Spouštím a kontroluji…";
+      const m = currentMission();
+      const result = await runCodeSafely(taCode.value);
+      out.textContent = result || "(žádný výstup)";
+
+      const ok = normalize(result) === normalize(m.expected);
+
+      if (ok) {
+        if (!done.has(m.id)) {
+          done.add(m.id);
+          score += 1;
+        }
+        updateScoreboard();
+
+        const msg = `<span class="text-success fw-semibold">✅ Splněno!</span> ${m.goal}`;
+        setGoalEverywhere(msg);
+      } else {
+        const msg = `<span class="text-danger fw-semibold">❌ Zatím ne.</span> ${m.goal}
+          <div class="small text-muted mt-1">Tip: porovnej „Očekávaný výstup“ s tím, co se vypsalo.</div>`;
+        setGoalEverywhere(msg);
+      }
+    });
+
+    // ---------- Boot ----------
+    selMission.value = missions[0].id;
+    loadMission(missions[0].id);
+    updateScoreboard();
+  })();
+  </script>
+
+</body>
+</html>
