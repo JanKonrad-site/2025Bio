@@ -1,0 +1,487 @@
+<!-- HTML finální blok: Vibe coding / AI asistované kódování -->
+<section id="section7-5-1" class="lesson">
+
+  <header class="lesson__header">
+    <h2 class="lesson__title">7.5.1 Vibe coding: tvorba webové stránky s ChatGPT</h2>
+    <p class="lesson__lead">
+      V této kapitole se podíváš na tvorbu webové stránky z jiného pohledu: nebudeš jen ručně psát HTML a CSS, ale naučíš se využít ChatGPT jako pomocníka při návrhu, generování, kontrole a úpravě kódu.
+    </p>
+  </header>
+
+  <!-- Co se naučíš -->
+  <article class="card">
+    <h3 class="card__title">Co se naučíš?</h3>
+
+    <ul class="checklist">
+      <li><strong>Vysvětlit, co je jazykový model</strong> – pochopíš, že ChatGPT nečte myšlenky, ale odpovídá podle zadaného promptu.</li>
+      <li><strong>Rozpoznat slabý a silný prompt</strong> – zjistíš, proč nestačí napsat „vytvoř mi stránku“.</li>
+      <li><strong>Navrhnout vlastní zadání pro web</strong> – naučíš se popsat účel, obsah, vzhled a technická omezení stránky.</li>
+      <li><strong>Kontrolovat a upravovat AI výstup</strong> – využiješ znalosti HTML a CSS k tomu, abys poznal chyby a dokázal stránku vylepšit.</li>
+    </ul>
+
+    <div class="note note--info">
+      <strong>Tip:</strong> AI ti může pomoct psát kód rychleji, ale dobrý výsledek vznikne až tehdy, když víš, co chceš vytvořit, a dokážeš výstup zkontrolovat.
+    </div>
+  </article>
+
+  <!-- Akce / odkazy -->
+  <div class="actions">
+    <a class="btn btn--primary" href="https://chat.openai.com/" target="_blank" rel="noopener">
+      Otevřít ChatGPT
+    </a>
+
+    <a class="btn btn--ghost" href="https://help.openai.com/en/articles/10032626-prompt-engineering-best-practices-for-chatgpt" target="_blank" rel="noopener">
+      Doporučení k promptům
+    </a>
+  </div>
+
+  <!-- Akordeony -->
+  <div class="accordion">
+
+    <!-- 1) Proč nestačí obecný prompt -->
+    <details class="acc" open>
+      <summary class="acc__sum">1) Proč nestačí napsat „vytvoř mi stránku“?</summary>
+      <div class="acc__body">
+
+        <p>
+          Prompt je zadání, které posíláš jazykovému modelu. Když je zadání příliš obecné, model neví, jaký má být účel stránky, pro koho je určená, co má obsahovat ani jak má vypadat.
+        </p>
+
+        <p>
+          Slabý prompt:
+        </p>
+
+        <pre><code>Vytvoř mi webovou stránku.</code></pre>
+
+        <p>
+          Tento prompt je problémový, protože neříká:
+        </p>
+
+        <ul class="bullets">
+          <li>o čem má stránka být,</li>
+          <li>pro koho je určená,</li>
+          <li>jaké části má obsahovat,</li>
+          <li>jak má vypadat,</li>
+          <li>jaké HTML a CSS prvky má použít,</li>
+          <li>co nemá používat.</li>
+        </ul>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal7-5-1-prompts">
+            Ukázka slabého a silného promptu
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 2) Co je jazykový model -->
+    <details class="acc">
+      <summary class="acc__sum">2) Co je jazykový model a proč potřebuje přesné zadání?</summary>
+      <div class="acc__body">
+
+        <p>
+          Jazykový model je systém, který pracuje s textem. Dostane vstup, kterému říkáme prompt, a podle něj vytvoří odpověď. U tvorby webu může odpovědí být návrh struktury stránky, HTML kód, CSS styly nebo vysvětlení chyby.
+        </p>
+
+        <div class="accordion">
+          <details class="acc" open>
+            <summary class="acc__sum">2.1 ChatGPT není čtenář myšlenek</summary>
+            <div class="acc__body">
+              <p>
+                ChatGPT neví automaticky, jakou stránku máš v hlavě. Když mu nedáš dostatek informací, doplní si chybějící části podle pravděpodobnosti. Výsledek pak může být funkční, ale nemusí odpovídat tomu, co jsi skutečně chtěl.
+              </p>
+              <ul class="bullets">
+                <li>Čím přesnější zadání, tím použitelnější výsledek.</li>
+                <li>Čím méně kontextu, tím více si model domýšlí.</li>
+                <li>Člověk musí výsledek vždy zkontrolovat.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="acc">
+            <summary class="acc__sum">2.2 Proč jsme se učili HTML a CSS?</summary>
+            <div class="acc__body">
+              <p>
+                Základy HTML a CSS nejsou zbytečné ani ve chvíli, kdy používáš AI. Právě díky nim dokážeš poznat, jestli je výstup správně strukturovaný, čitelný a přiměřený tvým znalostem.
+              </p>
+              <ul class="bullets">
+                <li>Rozumíš značkám jako <code>h1</code>, <code>p</code>, <code>section</code>, <code>ul</code> nebo <code>a</code>.</li>
+                <li>Dokážeš upravit barvy, mezery, zarovnání a velikosti.</li>
+                <li>Poznáš, když AI použije zbytečně složitý nebo nevhodný kód.</li>
+              </ul>
+            </div>
+          </details>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal7-5-1-model">
+            Více o jazykovém modelu
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 3) Jak vytvořit dobrý prompt -->
+    <details class="acc">
+      <summary class="acc__sum">3) Jak vytvořit dobrý prompt pro webovou stránku?</summary>
+      <div class="acc__body">
+
+        <p>
+          Dobrý prompt má jasně popsat, co chceš vytvořit. Nejde jen o větu „udělej stránku“, ale o stručný návrh projektu.
+        </p>
+
+        <ol class="steps">
+          <li>Urči téma stránky.</li>
+          <li>Popiš účel stránky.</li>
+          <li>Napiš, pro koho stránka je.</li>
+          <li>Vyjmenuj požadované části stránky.</li>
+          <li>Popiš vzhled a atmosféru.</li>
+          <li>Uveď technická omezení.</li>
+          <li>Požádej o vysvětlení kódu.</li>
+        </ol>
+
+        <div class="note note--info">
+          <strong>Pomůcka:</strong> Dobrý prompt funguje jako zadání pro spolužáka. Kdyby podle něj měl někdo jiný vytvořit stránku, měl by přesně vědět, co po něm chceš.
+        </div>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal7-5-1-template">
+            Zobrazit šablonu promptu
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 4) Praktická aktivita -->
+    <details class="acc">
+      <summary class="acc__sum">4) Praktická aktivita: vytvoř vlastní web s pomocí ChatGPT</summary>
+      <div class="acc__body">
+
+        <p>
+          Tvým úkolem je vytvořit jednoduchou jednostránkovou webovou stránku. Nejdříve si ji navrhneš, potom připravíš prompt, použiješ ChatGPT a nakonec výsledek zkontroluješ a upravíš.
+        </p>
+
+        <ol class="steps">
+          <li>Vyber si téma stránky.</li>
+          <li>Vyplň návrhový list: účel, cílová skupina, obsah, vzhled, omezení.</li>
+          <li>Vytvoř konkrétní prompt podle šablony.</li>
+          <li>Vlož prompt do ChatGPT.</li>
+          <li>Zkopíruj HTML kód do editoru.</li>
+          <li>Spusť stránku v prohlížeči.</li>
+          <li>Zkontroluj výsledek pomocí checklistu.</li>
+          <li>Uprav prompt nebo kód podle toho, co je potřeba zlepšit.</li>
+        </ol>
+
+        <p>
+          Možná témata:
+        </p>
+
+        <ul class="bullets">
+          <li>školní klub,</li>
+          <li>oblíbený sport,</li>
+          <li>fiktivní kavárna,</li>
+          <li>třídní výlet,</li>
+          <li>osobní portfolio,</li>
+          <li>pozvánka na školní akci,</li>
+          <li>informační stránka o bezpečnosti na internetu.</li>
+        </ul>
+
+      </div>
+    </details>
+
+    <!-- 5) Kontrola a úpravy -->
+    <details class="acc">
+      <summary class="acc__sum">5) Jak zkontrolovat a vylepšit výsledek?</summary>
+      <div class="acc__body">
+
+        <p>
+          První odpověď od ChatGPT nemusí být finální verze. Vibe coding znamená, že s modelem vedeš dialog: zadáš požadavek, zkontroluješ výsledek, upřesníš zadání a postupně stránku vylepšuješ.
+        </p>
+
+        <div class="accordion">
+          <details class="acc" open>
+            <summary class="acc__sum">5.1 Checklist kontroly</summary>
+            <div class="acc__body">
+              <ul class="checklist">
+                <li>Má stránka správný hlavní nadpis?</li>
+                <li>Jsou použity přehledné sekce?</li>
+                <li>Je text srozumitelný pro cílovou skupinu?</li>
+                <li>Je HTML kód správně odsazený?</li>
+                <li>Je CSS přehledné a není zbytečně složité?</li>
+                <li>Funguje stránka v prohlížeči?</li>
+                <li>Vypadá stránka dobře i v užším okně?</li>
+                <li>Rozumíš hlavním částem kódu?</li>
+                <li>Umíš alespoň tři věci v kódu sám upravit?</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="acc">
+            <summary class="acc__sum">5.2 Navazující prompty pro úpravy</summary>
+            <div class="acc__body">
+              <p>
+                Když výsledek není ideální, neptej se znovu úplně od začátku. Požádej o konkrétní úpravu.
+              </p>
+
+              <ul class="bullets">
+                <li><code>Zjednoduš tento kód tak, aby používal jen základní HTML a CSS.</code></li>
+                <li><code>Vysvětli mi tento kód po částech jako pro začátečníka.</code></li>
+                <li><code>Zkontroluj, jestli je tento kód přehledný a správně strukturovaný.</code></li>
+                <li><code>Uprav vzhled stránky tak, aby působila moderněji, ale nepoužívej JavaScript.</code></li>
+                <li><code>Uprav CSS tak, aby stránka dobře vypadala i na mobilu.</code></li>
+              </ul>
+            </div>
+          </details>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger"
+                  type="button"
+                  data-modal-open="modal7-5-1-checklist">
+            Zobrazit hodnoticí checklist
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- 6) Odevzdání a reflexe -->
+    <details class="acc">
+      <summary class="acc__sum">6) Odevzdání a závěrečná reflexe</summary>
+      <div class="acc__body">
+
+        <p>
+          Na konci práce odevzdáš nejen hotovou stránku, ale také prompt a krátkou reflexi. Cílem není jen mít pěkný web, ale umět vysvětlit, jak vznikl.
+        </p>
+
+        <ol class="steps">
+          <li>Odevzdej finální HTML soubor.</li>
+          <li>Odevzdej finální prompt, který vedl k nejlepší verzi stránky.</li>
+          <li>Napiš krátkou reflexi: co udělala AI, co jsi rozhodl ty a co jsi musel upravit.</li>
+        </ol>
+
+        <ul class="bullets">
+          <li>Co mi ChatGPT výrazně usnadnil?</li>
+          <li>Co za mě ChatGPT nerozhodl?</li>
+          <li>Kde jsem musel použít znalosti HTML a CSS?</li>
+          <li>Jaký prompt fungoval lépe než první pokus?</li>
+          <li>Co bych příště zadal přesněji?</li>
+        </ul>
+
+      </div>
+    </details>
+
+  </div>
+
+  <!-- Shrnutí -->
+  <article class="card">
+    <h3 class="card__title">Shrnutí</h3>
+
+    <ul class="checklist">
+      <li>Umíš vysvětlit, proč obecný prompt obvykle nestačí k vytvoření dobré stránky.</li>
+      <li>Dokážeš připravit konkrétní prompt pro tvorbu webu pomocí ChatGPT.</li>
+      <li>Víš, proč jsou znalosti HTML a CSS důležité i při práci s AI.</li>
+      <li>Umíš výsledek zkontrolovat, upravit a obhájit vlastní rozhodnutí.</li>
+    </ul>
+
+    <div class="note note--info">
+      <strong>Hlavní myšlenka:</strong> AI může napsat kód rychle, ale člověk musí vědět, co chce vytvořit, umět výsledek zkontrolovat a dokázat ho upravit.
+    </div>
+  </article>
+
+  <!-- Zdroje -->
+  <article class="card">
+    <h3 class="card__title">Odkazy na použité zdroje</h3>
+    <ol class="steps">
+      <li><a href="https://help.openai.com/en/articles/7842364-how-chatgpt-and-our-language-models-are-developed" target="_blank" rel="noopener">OpenAI: How ChatGPT and our language models are developed</a></li>
+      <li><a href="https://help.openai.com/en/articles/10032626-prompt-engineering-best-practices-for-chatgpt" target="_blank" rel="noopener">OpenAI: Prompt engineering best practices for ChatGPT</a></li>
+      <li><a href="https://www.ibm.com/think/topics/vibe-coding" target="_blank" rel="noopener">IBM Think: What is vibe coding?</a></li>
+    </ol>
+  </article>
+
+</section>
+
+<!-- MODALY: umísti obvykle na konec stránky, mimo sekci -->
+
+<div class="modal" id="modal7-5-1-prompts" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Ukázka slabého a silného promptu</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Slabý prompt je příliš obecný:
+        </p>
+
+        <pre><code>Vytvoř mi webovou stránku.</code></pre>
+
+        <p>
+          Silnější prompt dává modelu konkrétní kontext:
+        </p>
+
+        <pre><code>Vytvoř jednoduchou jednostránkovou HTML stránku pro žáka 7. ročníku gymnázia o školním filmovém klubu.
+
+Stránka má obsahovat:
+- nadpis,
+- krátký úvod,
+- tři sekce: Program, Jak se přihlásit, Pravidla klubu,
+- jednoduché CSS přímo v souboru,
+- světlý moderní vzhled,
+- responzivní rozvržení,
+- žádný JavaScript,
+- komentáře v kódu, které vysvětlí hlavní části.
+
+Použij pouze HTML a CSS, které jsme se učili: h1, h2, p, ul, li, a, section, class, margin, padding, color, background-color, border-radius, font-family.</code></pre>
+
+        <p>
+          Rozdíl je v tom, že druhý prompt určuje téma, cílovou skupinu, strukturu, vzhled i technická omezení.
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://chat.openai.com/" target="_blank" rel="noopener">Vyzkoušet v ChatGPT</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal7-5-1-model" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Co je jazykový model?</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Jazykový model je nástroj, který pracuje s textem. Na základě zadaného promptu vytváří odpověď, například vysvětlení, návrh textu nebo programový kód.
+        </p>
+
+        <ul class="bullets">
+          <li>Nereaguje na naše myšlenky, ale na konkrétní zadání.</li>
+          <li>Když chybí důležité informace, model si je může domyslet.</li>
+          <li>Výsledek je potřeba kontrolovat, testovat a upravovat.</li>
+          <li>Znalost HTML a CSS pomáhá poznat, jestli je kód vhodný.</li>
+        </ul>
+
+        <p>
+          Při tvorbě webu proto nestačí jen požádat o stránku. Je potřeba popsat účel, obsah, vzhled, omezení a očekávaný výstup.
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://help.openai.com/en/articles/7842364-how-chatgpt-and-our-language-models-are-developed" target="_blank" rel="noopener">Zdroj OpenAI</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal7-5-1-template" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Šablona promptu pro tvorbu webu</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Tuto šablonu můžeš upravit podle vlastního tématu:
+        </p>
+
+        <pre><code>Chci vytvořit webovou stránku o: [téma]
+
+Účel stránky je: [informovat / pozvat / představit projekt / propagovat akci / ukázat portfolio]
+
+Cílová skupina je: [spolužáci / rodiče / učitelé / veřejnost]
+
+Stránka má obsahovat tyto části:
+1. [část]
+2. [část]
+3. [část]
+
+Vzhled stránky:
+- barvy:
+- styl:
+- rozvržení:
+- atmosféra:
+
+Technická omezení:
+- použij pouze HTML a CSS,
+- nepoužívej JavaScript,
+- CSS vlož do tagu style v hlavičce,
+- kód napiš jako jeden kompletní HTML soubor.
+
+Požadavky na kód:
+- používej sémantické prvky,
+- přidej komentáře,
+- kód má být přehledně odsazený,
+- nepoužívej věci, které jsme se neučili, nebo je vysvětli.
+
+Na konci mi napiš krátké vysvětlení, jak stránka funguje.</code></pre>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+        <a class="btn btn--primary" href="https://help.openai.com/en/articles/10032626-prompt-engineering-best-practices-for-chatgpt" target="_blank" rel="noopener">Doporučení k promptům</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal7-5-1-checklist" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3 class="modal-title">Checklist kontroly webu</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Po vygenerování stránky zkontroluj:
+        </p>
+
+        <ul class="checklist">
+          <li>Má stránka jasný účel?</li>
+          <li>Je poznat, pro koho je určena?</li>
+          <li>Má správný hlavní nadpis?</li>
+          <li>Obsahuje přehledné sekce?</li>
+          <li>Je text čitelný a srozumitelný?</li>
+          <li>Je HTML správně odsazené?</li>
+          <li>Je CSS přehledné?</li>
+          <li>Nepoužil ChatGPT zbytečně složitý kód?</li>
+          <li>Funguje stránka v prohlížeči?</li>
+          <li>Umíš vysvětlit hlavní části kódu?</li>
+        </ul>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+
+    </div>
+  </div>
+</div>
