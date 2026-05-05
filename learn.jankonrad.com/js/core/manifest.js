@@ -109,8 +109,8 @@ export const NAV_TREE = [
                 { title: "3.3.4 Vnořené podmínky a logické operátory", href: "#section3-3-4" },
                 { title: "3.3.5 Ternární operátor (?:) a logika rozhodování", href: "#section3-3-5" },
                 { title: "3.3.6 Smyčky & opakování", href: "#section3-3-6" },
-                { title: "3.3.7 Funkce", href: "#section3-3-7" },
-                { title: "3.3.8 Funkce", href: "#section3-3-8" },
+                { title: "3.3.7 Funkce - Základy", href: "#section3-3-7" },
+                { title: "3.3.8 Funkce - return, hoisting, callbacky", href: "#section3-3-8" },
                 { title: "3.3.9 Test / Kalkulačka", href: "#section3-3-9" },
               ]
             }

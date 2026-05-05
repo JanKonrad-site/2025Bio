@@ -1,63 +1,42 @@
 <!-- =========================================================
-6.1.2 – GUI v Pythonu: jak z konzolového programu udělat okno
-(navazuje na existující script app.py s SQLite)
+6.1.2 – GUI v Pythonu: základní pojmy před prvním oknem
 ========================================================= -->
 <section id="section6-1-2" class="lesson">
 
   <header class="lesson__header">
-    <h2 class="lesson__title">6.1.2 GUI v Pythonu – jak z konzolového programu udělat okno s tlačítky</h2>
+    <h2 class="lesson__title">6.1.2 GUI v Pythonu – základní pojmy před prvním oknem</h2>
     <p class="lesson__lead">
-      V minulých částech vznikl funkční Python program,
-      který pracuje s databází <code>reservations.db</code>.
-      Umí vytvořit tabulku, přidávat rezervace a vypsat je do konzole.
+      Než vznikne první okno aplikace, je potřeba rozumět několika základním pojmům.
+      Bez nich vypadají zápisy jako <code>import tkinter as tk</code>,
+      <code>tk.Tk()</code> nebo <code>root.title(...)</code>
+      jen jako něco, co se opisuje zpaměti.
       <br><br>
-      Teď přijde další krok:
-      místo textového menu v konzoli se stejná logika začne ovládat přes
-      <strong>GUI</strong>, tedy grafické uživatelské rozhraní.
-      <br><br>
-      To znamená:
-      místo <code>input()</code> budou textová pole,
-      místo číselné volby budou tlačítka,
-      a místo textového výpisu v konzoli se data zobrazí v okně aplikace.
+      V této části se proto ještě nebude stavět formulář ani tabulka.
+      Nejdřív se opravdu poctivě vysvětlí,
+      co znamená modul, import, alias, třída, objekt, metoda
+      a co znamená tečka v zápisech jako <code>tk.Tk()</code> nebo <code>root.title()</code>.
     </p>
   </header>
 
   <article class="card">
-    <h3 class="card__title">Co se v této lekci naučíš</h3>
+    <h3 class="card__title">Co se v této části přesně objasní</h3>
     <ul class="checklist">
-      <li>Co znamená zkratka <strong>GUI</strong>.</li>
-      <li>Jaký je rozdíl mezi konzolovým programem a grafickou aplikací.</li>
-      <li>Proč je pro první GUI v Pythonu vhodný modul <strong>tkinter</strong>.</li>
-      <li>Jak vytvořit první okno aplikace.</li>
-      <li>Jak do okna vložit text, vstupní pole a tlačítko.</li>
-      <li>Jak reagovat na kliknutí tlačítka.</li>
-      <li>Jak napojit GUI na existující databázové funkce.</li>
-      <li>Jak převést konzolový rezervační systém na jednoduchou desktopovou aplikaci.</li>
+      <li>Co je <strong>modul</strong>.</li>
+      <li>Co dělá příkaz <strong>import</strong>.</li>
+      <li>Co znamená <strong>as tk</strong>.</li>
+      <li>Co je <strong>ttk</strong>.</li>
+      <li>Co je <strong>třída</strong>.</li>
+      <li>Co je <strong>objekt</strong>.</li>
+      <li>Co je <strong>metoda</strong>.</li>
+      <li>Co znamená tečka v zápisu <code>tk.Tk</code> nebo <code>root.title</code>.</li>
+      <li>Jak číst první čtyři řádky GUI programu opravdu slovo od slova.</li>
     </ul>
 
     <div class="note note--info">
-      <strong>Hlavní myšlenka této kapitoly:</strong>
+      <strong>Hlavní cíl:</strong>
       <br>
-      <strong>Logika programu zůstává stejná, mění se způsob ovládání.</strong>
-    </div>
-  </article>
-
-  <article class="card">
-    <h3 class="card__title">Na co tato kapitola navazuje</h3>
-    <ol class="steps">
-      <li>Existuje databázový soubor <code>reservations.db</code>.</li>
-      <li>Existuje funkce <code>connect()</code> pro připojení k databázi.</li>
-      <li>Existuje funkce <code>init_db()</code> pro vytvoření tabulky.</li>
-      <li>Existuje funkce <code>fetch_reservations()</code> pro načtení rezervací.</li>
-      <li>Existuje funkce <code>add_reservation()</code>, která zatím používá <code>input()</code>.</li>
-      <li>V další fázi se konzolové ovládání nahradí grafickým oknem.</li>
-    </ol>
-
-    <div class="note note--info">
-      <strong>Důležité:</strong>
-      <br>
-      Databáze ani základní logika se teď nevymýšlí znovu.
-      Staví se na tom, co už funguje. :contentReference[oaicite:1]{index=1}
+      Neopíšeme první GUI okno jen mechanicky,
+      ale pochopíme, <strong>co přesně Python na každém řádku dělá</strong>.
     </div>
   </article>
 
@@ -67,38 +46,39 @@
     <!-- KROK 1 -->
     <!-- ===================================================== -->
     <details class="acc" open>
-      <summary class="acc__sum">Krok 1: co je GUI</summary>
+      <summary class="acc__sum">Krok 1: co je modul</summary>
       <div class="acc__body">
 
         <p>
-          GUI je zkratka pro <strong>Graphical User Interface</strong>,
-          tedy grafické uživatelské rozhraní.
+          Modul je soubor s Python kódem,
+          který obsahuje něco užitečného,
+          co lze použít i v jiném programu.
         </p>
 
         <p>
-          Je to způsob ovládání programu pomocí vizuálních prvků,
-          například:
+          V modulu mohou být například:
         </p>
 
         <ul class="bullets">
-          <li>oken,</li>
-          <li>tlačítek,</li>
-          <li>textových polí,</li>
-          <li>seznamů,</li>
-          <li>nabídek.</li>
+          <li>funkce,</li>
+          <li>třídy,</li>
+          <li>proměnné,</li>
+          <li>další pomocné nástroje.</li>
         </ul>
 
         <p>
-          V konzolovém programu se hodnoty zadávají textově do terminálu.
-          V GUI aplikaci se stejné hodnoty zapisují do polí v okně.
+          Když se řekne, že <code>tkinter</code> je modul,
+          znamená to:
+          Python už má připravený kus kódu,
+          který umí pracovat s grafickým oknem,
+          tlačítky, textovými poli a dalšími GUI prvky.
         </p>
 
         <div class="note note--info">
-          <strong>Rozdíl jednou větou:</strong>
+          <strong>Zjednodušeně:</strong>
           <br>
-          Konzole = program se ovládá textem.
-          <br>
-          GUI = program se ovládá grafickými prvky.
+          Modul je hotová výbava,
+          kterou si program může načíst a používat.
         </div>
 
       </div>
@@ -108,38 +88,40 @@
     <!-- KROK 2 -->
     <!-- ===================================================== -->
     <details class="acc" open>
-      <summary class="acc__sum">Krok 2: proč začít právě s tkinter</summary>
+      <summary class="acc__sum">Krok 2: co dělá import</summary>
       <div class="acc__body">
 
         <p>
-          Pro první GUI v Pythonu je velmi vhodný modul <code>tkinter</code>.
+          Příkaz <code>import</code> znamená:
+          <strong>načti modul do programu, abych ho mohl používat</strong>.
         </p>
 
-        <ul class="bullets">
-          <li>Je jednoduchý na začátek.</li>
-          <li>Bývá součástí běžné instalace Pythonu.</li>
-          <li>Umožní rychle vytvořit první okno, tlačítko i vstupní pole.</li>
-          <li>Je ideální pro pochopení základních principů GUI.</li>
-        </ul>
-
         <p>
-          Na začátku je výhodné zůstat u co nejjednoduššího řešení.
-          Cílem není vytvořit „krásnou moderní aplikaci“,
-          ale pochopit, jak se GUI skládá.
+          Například:
         </p>
 
         <div class="codeblock">
           <div class="codeblock__bar">
-            <strong class="codeblock__title">Ověření, že tkinter funguje</strong>
-            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-test-tkinter">Kopírovat</button>
+            <strong class="codeblock__title">Základní import</strong>
           </div>
-          <pre id="code-612-test-tkinter"><code class="language-powershell">py -m tkinter</code></pre>
+          <pre><code class="language-python">import tkinter</code></pre>
         </div>
 
         <p>
-          Když se po spuštění otevře malé okno Tcl/Tk,
-          je všechno připravené a není potřeba nic doinstalovávat.
+          Tím se do programu načte modul <code>tkinter</code>.
         </p>
+
+        <p>
+          Od této chvíle může program používat to,
+          co je uvnitř modulu <code>tkinter</code>.
+        </p>
+
+        <div class="note note--info">
+          <strong>Přesně:</strong>
+          <br>
+          <code>import</code> nic nekreslí a nic neotevírá.
+          Jen zpřístupní modul pro další použití.
+        </div>
 
       </div>
     </details>
@@ -148,41 +130,62 @@
     <!-- KROK 3 -->
     <!-- ===================================================== -->
     <details class="acc" open>
-      <summary class="acc__sum">Krok 3: co se v programu změní a co zůstane stejné</summary>
+      <summary class="acc__sum">Krok 3: co znamená import tkinter as tk</summary>
       <div class="acc__body">
 
         <p>
-          Tohle je nejdůležitější metodický bod celé kapitoly.
+          Tohle je jeden z nejčastějších zápisů v tkinteru:
         </p>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">Import s aliasem</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-import-tk">Kopírovat</button>
+          </div>
+          <pre id="code-612-import-tk"><code class="language-python">import tkinter as tk</code></pre>
+        </div>
+
+        <h4>Rozbor slovo od slova</h4>
+
+        <ul class="bullets">
+          <li><code>import</code> = načti modul.</li>
+          <li><code>tkinter</code> = název modulu.</li>
+          <li><code>as</code> = pod jiným jménem.</li>
+          <li><code>tk</code> = nové kratší jméno modulu.</li>
+        </ul>
 
         <p>
-          Při přechodu z konzole na GUI se nemění všechno.
-          Ve skutečnosti se mění hlavně <strong>ovládání programu</strong>.
+          Celý řádek tedy znamená:
         </p>
 
-        <h4>Co zůstane stejné</h4>
-        <ul class="bullets">
-          <li>databáze <code>reservations.db</code>,</li>
-          <li>funkce <code>connect()</code>,</li>
-          <li>funkce <code>init_db()</code>,</li>
-          <li>funkce <code>fetch_reservations()</code>,</li>
-          <li>princip ukládání rezervace do tabulky <code>reservations</code>. :contentReference[oaicite:2]{index=2}</li>
-        </ul>
-
-        <h4>Co se změní</h4>
-        <ul class="bullets">
-          <li>místo menu v konzoli vznikne okno,</li>
-          <li>místo <code>input()</code> budou vstupní pole,</li>
-          <li>místo zadání čísla volby budou tlačítka,</li>
-          <li>místo výpisu přes <code>print()</code> se data zobrazí v grafickém seznamu.</li>
-        </ul>
-
         <div class="note note--info">
-          <strong>Jedna velmi přesná věta:</strong>
-          <br>
-          GUI není nový program od nuly.
-          GUI je nový způsob, jak ovládat stejnou logiku.
+          <strong>Načti modul <code>tkinter</code> a v tomto programu mu říkej zkráceně <code>tk</code>.</strong>
         </div>
+
+        <p>
+          Proč se to dělá?
+          Protože <code>tkinter</code> je delší název
+          a zkrácené <code>tk</code> se pohodlněji píše.
+        </p>
+
+        <h4>Bez aliasu</h4>
+        <div class="codeblock">
+          <pre><code class="language-python">import tkinter
+
+root = tkinter.Tk()</code></pre>
+        </div>
+
+        <h4>S aliasem</h4>
+        <div class="codeblock">
+          <pre><code class="language-python">import tkinter as tk
+
+root = tk.Tk()</code></pre>
+        </div>
+
+        <p>
+          Obojí znamená totéž.
+          Druhá varianta je jen kratší a přehlednější.
+        </p>
 
       </div>
     </details>
@@ -191,68 +194,49 @@
     <!-- KROK 4 -->
     <!-- ===================================================== -->
     <details class="acc" open>
-      <summary class="acc__sum">Krok 4: proč současná funkce add_reservation() nestačí pro GUI</summary>
+      <summary class="acc__sum">Krok 4: co je ttk</summary>
       <div class="acc__body">
 
         <p>
-          Ve stávajícím skriptu funkce <code>add_reservation()</code>
-          čte data přes <code>input()</code>. :contentReference[oaicite:3]{index=3}
+          Často se používá také tento zápis:
         </p>
 
         <div class="codeblock">
           <div class="codeblock__bar">
-            <strong class="codeblock__title">Současná konzolová verze</strong>
-            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-old-add">Kopírovat</button>
+            <strong class="codeblock__title">Import ttk</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-import-ttk">Kopírovat</button>
           </div>
-          <pre id="code-612-old-add"><code class="language-python">def add_reservation():
-    name = input("Jméno: ").strip()
-    date = input("Datum (YYYY-MM-DD): ").strip()
-    arrival = input("Příchod (HH:MM): ").strip()
-    departure = input("Odchod (HH:MM): ").strip()
-
-    conn = connect()
-    conn.execute(
-        "INSERT INTO reservations (name, date, arrival, departure) VALUES (?, ?, ?, ?);",
-        (name, date, arrival, departure)
-    )
-    conn.commit()
-    conn.close()
-    print("Uloženo.")</code></pre>
+          <pre id="code-612-import-ttk"><code class="language-python">from tkinter import ttk</code></pre>
         </div>
 
+        <h4>Rozbor slovo od slova</h4>
+        <ul class="bullets">
+          <li><code>from</code> = z něčeho vezmi,</li>
+          <li><code>tkinter</code> = z modulu tkinter,</li>
+          <li><code>import</code> = načti,</li>
+          <li><code>ttk</code> = část modulu tkinter jménem ttk.</li>
+        </ul>
+
         <p>
-          Tato verze funguje dobře v konzoli,
-          ale v grafické aplikaci se nehodí,
-          protože GUI nebude číst data z terminálu.
+          <code>ttk</code> je sada modernějších grafických prvků,
+          například hezčí tabulka nebo stylovanější widgety.
         </p>
 
         <p>
-          V GUI je potřeba mít funkci,
-          která dostane hodnoty jako parametry,
-          například:
+          V praxi to znamená:
+          modul <code>tkinter</code> obsahuje více částí
+          a jednou z nich je právě <code>ttk</code>.
         </p>
 
+        <h4>Příklad použití</h4>
         <div class="codeblock">
-          <div class="codeblock__bar">
-            <strong class="codeblock__title">Verze vhodná pro GUI</strong>
-            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-new-add">Kopírovat</button>
-          </div>
-          <pre id="code-612-new-add"><code class="language-python">def add_reservation_record(name, date, arrival, departure):
-    conn = connect()
-    conn.execute(
-        "INSERT INTO reservations (name, date, arrival, departure) VALUES (?, ?, ?, ?);",
-        (name, date, arrival, departure)
-    )
-    conn.commit()
-    conn.close()</code></pre>
+          <pre><code class="language-python">tree = ttk.Treeview(...)</code></pre>
         </div>
 
-        <div class="note note--info">
-          <strong>Důvod této změny:</strong>
-          <br>
-          GUI přečte text z polí v okně
-          a potom zavolá funkci s konkrétními hodnotami.
-        </div>
+        <p>
+          Tím se používá prvek <code>Treeview</code>,
+          který je uvnitř <code>ttk</code>.
+        </p>
 
       </div>
     </details>
@@ -261,36 +245,32 @@
     <!-- KROK 5 -->
     <!-- ===================================================== -->
     <details class="acc" open>
-      <summary class="acc__sum">Krok 5: první okno aplikace</summary>
+      <summary class="acc__sum">Krok 5: co je třída</summary>
       <div class="acc__body">
 
         <p>
-          Úplně první GUI aplikace může být velmi malá.
-          Stačí vytvořit okno a nechat ho otevřené.
+          Třída je v programování něco jako plán nebo šablona,
+          podle které se vytvářejí konkrétní objekty.
         </p>
 
-        <div class="codeblock">
-          <div class="codeblock__bar">
-            <strong class="codeblock__title">Úplně první okno</strong>
-            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-first-window">Kopírovat</button>
-          </div>
-          <pre id="code-612-first-window"><code class="language-python">import tkinter as tk
+        <p>
+          Představa z běžného života:
+        </p>
 
-root = tk.Tk()
-root.title("Moje první aplikace")
-root.mainloop()</code></pre>
-        </div>
-
-        <h4>Co znamená každý řádek</h4>
         <ul class="bullets">
-          <li><code>import tkinter as tk</code> = načte modul tkinter a zkrátí jeho název na <code>tk</code>.</li>
-          <li><code>root = tk.Tk()</code> = vytvoří hlavní okno aplikace.</li>
-          <li><code>root.title(...)</code> = nastaví titulek okna.</li>
-          <li><code>root.mainloop()</code> = spustí hlavní smyčku aplikace a udržuje okno otevřené.</li>
+          <li>třída = plán domu,</li>
+          <li>objekt = konkrétní postavený dům.</li>
         </ul>
 
+        <p>
+          V tkinteru je například <code>Tk</code> třída.
+          Ta představuje „typ hlavního okna aplikace“.
+        </p>
+
         <div class="note note--info">
-          <strong>Bez <code>mainloop()</code> by okno hned zmizelo.</strong>
+          <strong>Třída tedy není konkrétní okno.</strong>
+          <br>
+          Je to předpis, jak se takové okno vytvoří.
         </div>
 
       </div>
@@ -300,53 +280,41 @@ root.mainloop()</code></pre>
     <!-- KROK 6 -->
     <!-- ===================================================== -->
     <details class="acc" open>
-      <summary class="acc__sum">Krok 6: přidání textu, vstupních polí a tlačítka</summary>
+      <summary class="acc__sum">Krok 6: co je objekt</summary>
       <div class="acc__body">
 
         <p>
-          Jakmile existuje okno,
-          mohou se do něj vložit grafické prvky.
-          V tkinteru se jim často říká <strong>widgety</strong>.
+          Objekt je konkrétní vytvořená věc podle třídy.
         </p>
 
-        <h4>Nejdůležitější widgety pro tuto aplikaci</h4>
-        <ul class="bullets">
-          <li><code>Label</code> = textový popisek,</li>
-          <li><code>Entry</code> = vstupní pole pro text,</li>
-          <li><code>Button</code> = tlačítko,</li>
-          <li><code>Treeview</code> = tabulka nebo seznam dat.</li>
-        </ul>
+        <p>
+          Když třída představuje plán,
+          objekt je konkrétní výsledek podle toho plánu.
+        </p>
 
         <p>
-          Jednoduchý příklad s jedním polem a jedním tlačítkem může vypadat takto:
+          Například:
         </p>
 
         <div class="codeblock">
-          <div class="codeblock__bar">
-            <strong class="codeblock__title">Základní vstupní prvek s tlačítkem</strong>
-            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-label-entry-button">Kopírovat</button>
-          </div>
-          <pre id="code-612-label-entry-button"><code class="language-python">import tkinter as tk
-
-root = tk.Tk()
-root.title("Zkouška GUI")
-
-label = tk.Label(root, text="Jméno:")
-label.pack()
-
-entry = tk.Entry(root)
-entry.pack()
-
-button = tk.Button(root, text="Uložit")
-button.pack()
-
-root.mainloop()</code></pre>
+          <pre><code class="language-python">root = tk.Tk()</code></pre>
         </div>
 
         <p>
-          Tohle zatím nic neukládá do databáze,
-          ale ukazuje základní stavební kameny GUI.
+          znamená:
         </p>
+
+        <ul class="bullets">
+          <li><code>Tk</code> = třída,</li>
+          <li><code>tk.Tk()</code> = vytvoření objektu podle této třídy,</li>
+          <li><code>root</code> = proměnná, ve které je tento objekt uložený.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Přesně:</strong>
+          <br>
+          <code>root</code> je konkrétní hlavní okno aplikace.
+        </div>
 
       </div>
     </details>
@@ -355,37 +323,52 @@ root.mainloop()</code></pre>
     <!-- KROK 7 -->
     <!-- ===================================================== -->
     <details class="acc" open>
-      <summary class="acc__sum">Krok 7: co znamená kliknutí na tlačítko</summary>
+      <summary class="acc__sum">Krok 7: co znamená tečka</summary>
       <div class="acc__body">
 
         <p>
-          Tlačítko samo o sobě nic nedělá.
-          Musí mít přiřazenou funkci,
-          která se spustí po kliknutí.
+          Tečka v Pythonu znamená:
+          <strong>vezmi něco, co patří k něčemu jinému</strong>.
         </p>
 
-        <div class="codeblock">
-          <div class="codeblock__bar">
-            <strong class="codeblock__title">Tlačítko s reakcí na kliknutí</strong>
-            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-button-command">Kopírovat</button>
-          </div>
-          <pre id="code-612-button-command"><code class="language-python">def pozdrav():
-    print("Tlačítko bylo stisknuto.")
+        <p>
+          Tečka tedy propojuje celek a jeho část.
+        </p>
 
-button = tk.Button(root, text="Klikni", command=pozdrav)</code></pre>
+        <h4>Příklad 1</h4>
+        <div class="codeblock">
+          <pre><code class="language-python">tk.Tk</code></pre>
         </div>
 
-        <h4>Co je tady důležité</h4>
+        <p>
+          To znamená:
+          „vezmi <code>Tk</code> z modulu <code>tk</code>“
+        </p>
+
         <ul class="bullets">
-          <li><code>command=pozdrav</code> znamená: po kliknutí spusť funkci <code>pozdrav</code>.</li>
-          <li>Nezapisuje se <code>pozdrav()</code>, ale jen <code>pozdrav</code>.</li>
-          <li>Tím se nepouští funkce hned při vytvoření tlačítka, ale až po kliknutí.</li>
+          <li><code>tk</code> = modul tkinter pod zkráceným jménem,</li>
+          <li><code>Tk</code> = třída uvnitř tohoto modulu.</li>
+        </ul>
+
+        <h4>Příklad 2</h4>
+        <div class="codeblock">
+          <pre><code class="language-python">root.title</code></pre>
+        </div>
+
+        <p>
+          To znamená:
+          „vezmi <code>title</code> z objektu <code>root</code>“
+        </p>
+
+        <ul class="bullets">
+          <li><code>root</code> = konkrétní objekt, tedy okno,</li>
+          <li><code>title</code> = metoda, která patří tomuto objektu.</li>
         </ul>
 
         <div class="note note--info">
-          <strong>Klíčový princip GUI:</strong>
+          <strong>Tečka neznamená matematiku.</strong>
           <br>
-          Uživatel klikne → spustí se funkce.
+          Znamená přístup k něčemu, co patří modulu nebo objektu.
         </div>
 
       </div>
@@ -395,36 +378,43 @@ button = tk.Button(root, text="Klikni", command=pozdrav)</code></pre>
     <!-- KROK 8 -->
     <!-- ===================================================== -->
     <details class="acc" open>
-      <summary class="acc__sum">Krok 8: jak přečíst text z pole</summary>
+      <summary class="acc__sum">Krok 8: co je metoda</summary>
       <div class="acc__body">
 
         <p>
-          V GUI se data nezadávají přes <code>input()</code>,
-          ale přes vstupní pole.
-          Hodnota pole se přečte metodou <code>.get()</code>.
+          Metoda je funkce,
+          která patří konkrétnímu objektu nebo třídě.
+        </p>
+
+        <p>
+          Například:
         </p>
 
         <div class="codeblock">
-          <div class="codeblock__bar">
-            <strong class="codeblock__title">Čtení textu z Entry</strong>
-            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-entry-get">Kopírovat</button>
-          </div>
-          <pre id="code-612-entry-get"><code class="language-python">name = entry_name.get().strip()</code></pre>
+          <pre><code class="language-python">root.title("Rezervační systém")</code></pre>
         </div>
 
         <p>
-          To znamená:
+          Tady je <code>title</code> metoda objektu <code>root</code>.
         </p>
-
-        <ul class="bullets">
-          <li><code>entry_name</code> = konkrétní vstupní pole,</li>
-          <li><code>.get()</code> = vezmi text, který je v něm napsaný,</li>
-          <li><code>.strip()</code> = odstraň mezery na začátku a na konci.</li>
-        </ul>
 
         <p>
-          Přesně takto se pak v GUI načtou jméno, datum, příchod i odchod.
+          To znamená:
+          hlavní okno <code>root</code> má schopnost nastavit svůj titulek
+          a dělá to právě metodou <code>title(...)</code>.
         </p>
+
+        <h4>Rozdíl mezi funkcí a metodou</h4>
+        <ul class="bullets">
+          <li>funkce stojí samostatně, například <code>print("Ahoj")</code>,</li>
+          <li>metoda patří nějakému objektu, například <code>root.title(...)</code>.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Zjednodušeně:</strong>
+          <br>
+          metoda je „činnost“, kterou umí konkrétní objekt.
+        </div>
 
       </div>
     </details>
@@ -433,149 +423,33 @@ button = tk.Button(root, text="Klikni", command=pozdrav)</code></pre>
     <!-- KROK 9 -->
     <!-- ===================================================== -->
     <details class="acc" open>
-      <summary class="acc__sum">Krok 9: celá první GUI verze rezervační aplikace</summary>
+      <summary class="acc__sum">Krok 9: rozbor zápisu root = tk.Tk() opravdu po částech</summary>
       <div class="acc__body">
-
-        <p>
-          Teď už se všechny části spojí dohromady.
-          Vznikne samostatný soubor,
-          například <code>app_gui.py</code>.
-        </p>
 
         <div class="codeblock">
           <div class="codeblock__bar">
-            <strong class="codeblock__title">app_gui.py – první GUI verze nad existující databází</strong>
-            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-app-gui">Kopírovat</button>
+            <strong class="codeblock__title">Rozebíraný řádek</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-root-tk">Kopírovat</button>
           </div>
-          <pre id="code-612-app-gui"><code class="language-python">import tkinter as tk
-from tkinter import ttk, messagebox
-import sqlite3
-from pathlib import Path
+          <pre id="code-612-root-tk"><code class="language-python">root = tk.Tk()</code></pre>
+        </div>
 
-DB_FILE = Path(__file__).resolve().with_name("reservations.db")
+        <h4>Rozbor slovo od slova</h4>
+        <ul class="bullets">
+          <li><code>root</code> = proměnná, do které se něco uloží.</li>
+          <li><code>=</code> = přiřazení, tedy „ulož výsledek doprava do jména vlevo“.</li>
+          <li><code>tk</code> = zkrácené jméno modulu <code>tkinter</code>.</li>
+          <li><code>.</code> = vezmi něco z modulu <code>tk</code>.</li>
+          <li><code>Tk</code> = třída uvnitř modulu tkinter.</li>
+          <li><code>()</code> = zavolej, tedy vytvoř objekt podle této třídy.</li>
+        </ul>
 
+        <p>
+          Celý řádek tedy znamená:
+        </p>
 
-def connect():
-    return sqlite3.connect(str(DB_FILE))
-
-
-def init_db():
-    conn = connect()
-    conn.execute("""
-    CREATE TABLE IF NOT EXISTS reservations (
-        id        INTEGER PRIMARY KEY AUTOINCREMENT,
-        name      TEXT    NOT NULL,
-        date      TEXT    NOT NULL,
-        arrival   TEXT    NOT NULL,
-        departure TEXT    NOT NULL
-    );
-    """)
-    conn.commit()
-    conn.close()
-
-
-def add_reservation_record(name, date, arrival, departure):
-    conn = connect()
-    conn.execute(
-        "INSERT INTO reservations (name, date, arrival, departure) VALUES (?, ?, ?, ?);",
-        (name, date, arrival, departure)
-    )
-    conn.commit()
-    conn.close()
-
-
-def fetch_reservations():
-    conn = connect()
-    rows = conn.execute("""
-        SELECT id, name, date, arrival, departure
-        FROM reservations
-        ORDER BY date ASC, arrival ASC;
-    """).fetchall()
-    conn.close()
-    return rows
-
-
-def refresh_table():
-    for item in tree.get_children():
-        tree.delete(item)
-
-    rows = fetch_reservations()
-    for row in rows:
-        tree.insert("", tk.END, values=row)
-
-
-def save_reservation():
-    name = entry_name.get().strip()
-    date = entry_date.get().strip()
-    arrival = entry_arrival.get().strip()
-    departure = entry_departure.get().strip()
-
-    if not name or not date or not arrival or not departure:
-        messagebox.showwarning("Chyba", "Vyplň všechna pole.")
-        return
-
-    add_reservation_record(name, date, arrival, departure)
-    messagebox.showinfo("Hotovo", "Rezervace byla uložena.")
-
-    entry_name.delete(0, tk.END)
-    entry_date.delete(0, tk.END)
-    entry_arrival.delete(0, tk.END)
-    entry_departure.delete(0, tk.END)
-
-    refresh_table()
-
-
-init_db()
-
-root = tk.Tk()
-root.title("Rezervační systém")
-root.geometry("760x500")
-
-frame_form = tk.Frame(root, padx=10, pady=10)
-frame_form.pack(fill="x")
-
-tk.Label(frame_form, text="Jméno:").grid(row=0, column=0, sticky="w")
-entry_name = tk.Entry(frame_form, width=25)
-entry_name.grid(row=0, column=1, padx=5, pady=5)
-
-tk.Label(frame_form, text="Datum (YYYY-MM-DD):").grid(row=1, column=0, sticky="w")
-entry_date = tk.Entry(frame_form, width=25)
-entry_date.grid(row=1, column=1, padx=5, pady=5)
-
-tk.Label(frame_form, text="Příchod (HH:MM):").grid(row=2, column=0, sticky="w")
-entry_arrival = tk.Entry(frame_form, width=25)
-entry_arrival.grid(row=2, column=1, padx=5, pady=5)
-
-tk.Label(frame_form, text="Odchod (HH:MM):").grid(row=3, column=0, sticky="w")
-entry_departure = tk.Entry(frame_form, width=25)
-entry_departure.grid(row=3, column=1, padx=5, pady=5)
-
-btn_save = tk.Button(frame_form, text="Přidat rezervaci", command=save_reservation)
-btn_save.grid(row=4, column=0, columnspan=2, pady=10)
-
-frame_table = tk.Frame(root, padx=10, pady=10)
-frame_table.pack(fill="both", expand=True)
-
-columns = ("id", "name", "date", "arrival", "departure")
-tree = ttk.Treeview(frame_table, columns=columns, show="headings")
-
-tree.heading("id", text="ID")
-tree.heading("name", text="Jméno")
-tree.heading("date", text="Datum")
-tree.heading("arrival", text="Příchod")
-tree.heading("departure", text="Odchod")
-
-tree.column("id", width=50)
-tree.column("name", width=180)
-tree.column("date", width=120)
-tree.column("arrival", width=100)
-tree.column("departure", width=100)
-
-tree.pack(fill="both", expand=True)
-
-refresh_table()
-
-root.mainloop()</code></pre>
+        <div class="note note--info">
+          <strong>Vytvoř hlavní okno aplikace podle třídy <code>Tk</code> a ulož ho do proměnné <code>root</code>.</strong>
         </div>
 
       </div>
@@ -585,26 +459,31 @@ root.mainloop()</code></pre>
     <!-- KROK 10 -->
     <!-- ===================================================== -->
     <details class="acc" open>
-      <summary class="acc__sum">Krok 10: jak je aplikace složená</summary>
+      <summary class="acc__sum">Krok 10: rozbor zápisu root.title("Rezervační systém")</summary>
       <div class="acc__body">
 
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">Rozebíraný řádek</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-root-title">Kopírovat</button>
+          </div>
+          <pre id="code-612-root-title"><code class="language-python">root.title("Rezervační systém")</code></pre>
+        </div>
+
+        <h4>Rozbor slovo od slova</h4>
+        <ul class="bullets">
+          <li><code>root</code> = objekt hlavního okna.</li>
+          <li><code>.</code> = vezmi něco, co patří objektu <code>root</code>.</li>
+          <li><code>title</code> = metoda objektu <code>root</code>.</li>
+          <li><code>("Rezervační systém")</code> = zavolej tuto metodu a předej jí text jako argument.</li>
+        </ul>
+
         <p>
-          Tahle aplikace se skládá ze tří hlavních částí:
+          Celý řádek znamená:
         </p>
 
-        <ol class="steps">
-          <li><strong>Databázová logika</strong> – připojení, vytvoření tabulky, vložení záznamu, načtení dat.</li>
-          <li><strong>GUI prvky</strong> – okno, texty, pole, tlačítko, tabulka.</li>
-          <li><strong>Propojovací funkce</strong> – například <code>save_reservation()</code>, která vezme data z GUI a uloží je do databáze.</li>
-        </ol>
-
         <div class="note note--info">
-          <strong>Tohle je nejdůležitější vztah:</strong>
-          <br>
-          GUI sbírá vstup od uživatele,
-          funkce ho zpracuje,
-          databáze ho uloží,
-          a tabulka v okně se znovu načte.
+          <strong>Zavolej na hlavním okně metodu, která nastaví jeho titulek na „Rezervační systém“.</strong>
         </div>
 
       </div>
@@ -614,27 +493,32 @@ root.mainloop()</code></pre>
     <!-- KROK 11 -->
     <!-- ===================================================== -->
     <details class="acc" open>
-      <summary class="acc__sum">Krok 11: co dělá save_reservation()</summary>
+      <summary class="acc__sum">Krok 11: první čtyři řádky GUI programu rozebrané dohromady</summary>
       <div class="acc__body">
 
-        <p>
-          Funkce <code>save_reservation()</code> je hlavní spojka mezi GUI a databází.
-        </p>
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">První minimální GUI</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-mini-gui-all">Kopírovat</button>
+          </div>
+          <pre id="code-612-mini-gui-all"><code class="language-python">import tkinter as tk
 
+root = tk.Tk()
+root.title("Rezervační systém")
+root.mainloop()</code></pre>
+        </div>
+
+        <h4>Co ty řádky dohromady znamenají</h4>
         <ol class="steps">
-          <li>Přečte text ze čtyř vstupních polí.</li>
-          <li>Zkontroluje, že žádné pole není prázdné.</li>
-          <li>Zavolá <code>add_reservation_record(...)</code>.</li>
-          <li>Zobrazí potvrzovací okno.</li>
-          <li>Vymaže vstupní pole.</li>
-          <li>Obnoví tabulku rezervací v okně.</li>
+          <li>Načti modul tkinter a říkej mu zkráceně <code>tk</code>.</li>
+          <li>Pomocí třídy <code>Tk</code> vytvoř hlavní okno a ulož ho do <code>root</code>.</li>
+          <li>Nastav tomuto oknu titulek.</li>
+          <li>Spusť hlavní smyčku aplikace, aby okno zůstalo otevřené a reagovalo na události.</li>
         </ol>
 
         <p>
-          To je přesně to,
-          co dříve v konzolové verzi dělalo menu a funkce <code>add_reservation()</code>,
-          jen teď už ne přes textový vstup,
-          ale přes okno aplikace. :contentReference[oaicite:4]{index=4}
+          V této chvíli ještě neexistují tlačítka ani vstupní pole.
+          Existuje jen samotné okno.
         </p>
 
       </div>
@@ -644,64 +528,19 @@ root.mainloop()</code></pre>
     <!-- KROK 12 -->
     <!-- ===================================================== -->
     <details class="acc">
-      <summary class="acc__sum">Krok 12: jak aplikaci spustit</summary>
+      <summary class="acc__sum">Krok 12: co je teď opravdu pevné</summary>
       <div class="acc__body">
 
-        <p>
-          GUI verze bude uložená v novém souboru,
-          například <code>app_gui.py</code>.
-        </p>
-
-        <div class="codeblock">
-          <div class="codeblock__bar">
-            <strong class="codeblock__title">Spuštění GUI aplikace</strong>
-            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-run-gui">Kopírovat</button>
-          </div>
-          <pre id="code-612-run-gui"><code class="language-powershell">py app_gui.py</code></pre>
-        </div>
-
-        <p>
-          Po spuštění se otevře okno rezervačního systému.
-        </p>
-
-        <ul class="bullets">
-          <li>Do polí se zapíše jméno, datum, příchod a odchod.</li>
-          <li>Po stisknutí tlačítka se rezervace uloží.</li>
-          <li>Ve spodní části okna se zobrazí seznam uložených rezervací.</li>
+        <ul class="checklist">
+          <li><code>tkinter</code> je modul pro GUI v Pythonu.</li>
+          <li><code>import</code> načítá modul do programu.</li>
+          <li><code>as tk</code> vytváří zkrácené jméno modulu.</li>
+          <li><code>ttk</code> je část tkinteru s dalšími widgety.</li>
+          <li><code>Tk</code> je třída pro hlavní okno aplikace.</li>
+          <li><code>root</code> je konkrétní objekt vytvořený podle této třídy.</li>
+          <li>Tečka znamená přístup k něčemu, co patří modulu nebo objektu.</li>
+          <li><code>title</code> je metoda objektu <code>root</code>.</li>
         </ul>
-
-      </div>
-    </details>
-
-    <!-- ===================================================== -->
-    <!-- KROK 13 -->
-    <!-- ===================================================== -->
-    <details class="acc" open>
-      <summary class="acc__sum">Krok 13: jak teď vypadá struktura projektu</summary>
-      <div class="acc__body">
-
-        <div class="codeblock">
-          <div class="codeblock__bar">
-            <strong class="codeblock__title">Struktura projektu po přidání GUI</strong>
-            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-structure-gui">Kopírovat</button>
-          </div>
-          <pre id="code-612-structure-gui"><code class="language-text">rezervacni_system/
-├── app.py
-├── app_gui.py
-└── reservations.db</code></pre>
-        </div>
-
-        <ul class="bullets">
-          <li><code>app.py</code> = původní konzolová verze programu. :contentReference[oaicite:5]{index=5}</li>
-          <li><code>app_gui.py</code> = nová grafická verze stejné logiky.</li>
-          <li><code>reservations.db</code> = společná databáze pro obě verze programu.</li>
-        </ul>
-
-        <div class="note note--info">
-          <strong>Velmi důležité:</strong>
-          <br>
-          Konzolová i grafická verze mohou pracovat se stejnými daty.
-        </div>
 
       </div>
     </details>
@@ -709,16 +548,15 @@ root.mainloop()</code></pre>
   </div>
 
   <article class="card">
-    <h3 class="card__title">Co už po této lekci umíš</h3>
+    <h3 class="card__title">Co už po této části opravdu chápeš</h3>
     <ul class="checklist">
-      <li>Vysvětlit, co je GUI.</li>
-      <li>Rozlišit konzolový program a grafickou aplikaci.</li>
-      <li>Vytvořit první okno v tkinteru.</li>
-      <li>Přidat do okna text, vstupní pole a tlačítko.</li>
-      <li>Přiřadit tlačítku funkci přes <code>command=...</code>.</li>
-      <li>Přečíst hodnotu z pole přes <code>.get()</code>.</li>
-      <li>Napojit GUI na existující databázové funkce.</li>
-      <li>Vytvořit první jednoduchou desktopovou aplikaci nad SQLite databází.</li>
+      <li>Co je modul.</li>
+      <li>Co dělá import.</li>
+      <li>Co znamená alias přes <code>as</code>.</li>
+      <li>Co je třída a co je objekt.</li>
+      <li>Co je metoda.</li>
+      <li>Co znamená tečka v zápisu <code>tk.Tk()</code> nebo <code>root.title()</code>.</li>
+      <li>Jak číst úplně první řádky GUI programu poctivě slovo od slova.</li>
     </ul>
   </article>
 
