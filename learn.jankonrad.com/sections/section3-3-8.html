@@ -1,975 +1,690 @@
-<!DOCTYPE html>
-<html lang="cs">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CodeCraft – opakování JavaScriptu</title>
+<!-- =========================================================
+     3.3.8 Funkce – return, hoisting, callbacky (víc od jednoduchého ke složitému)
+========================================================= -->
+<section id="section3-3-8" class="container my-5">
 
-  <!-- Bootstrap 5 -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <header class="mb-4">
+    <h2 class="mb-1">3.3.8 Funkce v JavaScriptu – return, hoisting a callback funkce</h2>
+    <p class="text-muted mb-0">
+      V této kapitole se naučíš, jak funkce vrací hodnoty (<code>return</code>), proč lze některé funkce volat dřív
+      než jsou napsané (hoisting), a jak fungují callbacky (funkce předávané jako argument).
+    </p>
+  </header>
 
-  <style>
-    /* =========================
-       CodeCraft – clean EDU UI (bez emoji)
-       Scoped pouze pro #section3-3-game
-       ========================= */
-    #section3-3-game{
-      --cc-card: #ffffff;
-      --cc-border: rgba(15, 23, 42, .10);
-      --cc-text: #0f172a;
-      --cc-muted: rgba(15, 23, 42, .65);
-      --cc-primary: #2563eb;
-      --cc-primary-2: #1d4ed8;
-      --cc-ok: #16a34a;
-      --cc-bad: #dc2626;
-      --cc-radius: 16px;
+  <!-- Co se naučíš -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co se naučíš</h3>
+    <p class="mb-3">
+      Funkci si představ jako „stroj“: dostane vstup (argumenty), uvnitř něco udělá a může vrátit výstup.
+      Dokud funkce jen vypisuje do konzole, výsledek „vidíš“, ale program ho neumí dál používat.
+      <code>return</code> je způsob, jak výsledek opravdu předat zpět do zbytku kódu.
+    </p>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>return</strong>: jak se vrácená hodnota objeví přesně v místě volání funkce.</li>
+      <li class="list-group-item"><strong>console.log vs return</strong>: výpis pro tebe vs výstup pro program.</li>
+      <li class="list-group-item"><strong>return ukončuje funkci</strong>: kód pod return se nevykoná.</li>
+      <li class="list-group-item"><strong>hoisting</strong>: proč jde některé funkce volat „nahoře“.</li>
+      <li class="list-group-item"><strong>callback</strong>: funkce jako argument (co se má stát po dokončení).</li>
+    </ul>
+    <div class="alert alert-info mb-0" role="alert">
+      <strong>Tip:</strong> Kdykoli narazíš na <code>=</code>, <code>==</code>, <code>===</code>, otevři si připomínku:
+      <button class="btn btn-sm btn-outline-primary ms-2" data-bs-toggle="modal" data-bs-target="#js338EqualityModal">
+        Připomenout = vs == vs ===
+      </button>
+    </div>
+  </div>
 
-      position: relative;
-      color: var(--cc-text);
-    }
+  <div class="accordion" id="acc-3-3-8">
 
-    #section3-3-game::before{
-      content:"";
-      position:absolute;
-      inset:-28px -10px;
-      background:
-        radial-gradient(900px 260px at 10% 0%, rgba(37,99,235,.14), transparent 60%),
-        radial-gradient(800px 240px at 90% 10%, rgba(16,185,129,.10), transparent 60%),
-        linear-gradient(180deg, rgba(246,248,255,1), rgba(255,255,255,0));
-      z-index:-1;
-      border-radius: 28px;
-    }
+    <!-- =====================================================
+         LESSON 1: RETURN
+    ====================================================== -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="l338-1-head">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#l338-1" aria-expanded="true" aria-controls="l338-1">
+          1) Return: jak funguje vrácení hodnoty (od úplně jednoduchého příkladu)
+        </button>
+      </h2>
 
-    #section3-3-game h3{ letter-spacing: -.02em; }
-    #section3-3-game .text-muted{ color: var(--cc-muted) !important; }
+      <div id="l338-1" class="accordion-collapse collapse show" aria-labelledby="l338-1-head" data-bs-parent="#acc-3-3-8">
+        <div class="accordion-body">
 
-    #section3-3-game .card{
-      background: var(--cc-card);
-      border: 1px solid var(--cc-border);
-      border-radius: var(--cc-radius);
-      box-shadow: 0 12px 34px rgba(15, 23, 42, .07);
-      overflow: hidden;
-    }
-    #section3-3-game .card-header{
-      border-bottom: 1px solid var(--cc-border);
-      font-weight: 800;
-    }
-    #section3-3-game .card-header.bg-primary{
-      background: linear-gradient(135deg, var(--cc-primary), var(--cc-primary-2)) !important;
-      border-bottom: none;
-    }
+          <div class="row g-3">
+            <div class="col-lg-8">
+              <h3 class="h5">Nejjednodušší představa</h3>
+              <p class="mb-2">
+                Funkce je jako <strong>výrobní linka</strong>. Když ji zavoláš, „na chvíli se přepneš“ dovnitř,
+                linka něco udělá a na konci ti může podat hotový výrobek. Ten výrobek je <strong>return</strong>.
+              </p>
+              <ul class="mb-0">
+                <li><strong>Argumenty</strong> = suroviny (co do funkce posíláš)</li>
+                <li><strong>Tělo funkce</strong> = práce linky (výpočty, podmínky, smyčky)</li>
+                <li><strong>return hodnota</strong> = hotový výrobek (výsledek, se kterým jde dál pracovat)</li>
+              </ul>
+            </div>
+            <div class="col-lg-4">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="h6 mb-2">Tahák: 3 věty o return</h4>
+                  <ul class="mb-0">
+                    <li><code>return</code> vrátí hodnotu na místo volání</li>
+                    <li>po <code>return</code> funkce končí</li>
+                    <li>bez <code>return</code> funkce vrací <code>undefined</code></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
 
-    #section3-3-game .container.bg-light{
-      background: linear-gradient(180deg, rgba(255,255,255,1), rgba(248,250,252,1)) !important;
-      border: 1px solid var(--cc-border) !important;
-      border-radius: var(--cc-radius);
-      box-shadow: 0 12px 30px rgba(15,23,42,.06);
-    }
+          <hr class="my-4">
 
-    #section3-3-game .form-select{
-      border-radius: 12px;
-      border: 1px solid var(--cc-border);
-      box-shadow: 0 1px 0 rgba(15,23,42,.03);
-    }
+          <h4 class="h6">Příklad 0: funkce, která vrací pevnou hodnotu</h4>
+          <p class="mb-2">
+            Tohle je nejjednodušší „důkaz“, že volání funkce se chová jako hodnota:
+          </p>
+          <pre class="bg-light p-3 rounded"><code class="language-js">function giveMeFive() {
+  return 5;
+}
 
-    #section3-3-game .btn{ border-radius: 12px; font-weight: 700; }
-    #section3-3-game .btn-success{
-      background: linear-gradient(135deg, #22c55e, #16a34a);
-      border: none;
-      box-shadow: 0 12px 22px rgba(22,163,74,.22);
-    }
-    #section3-3-game .btn-outline-primary{ border-color: rgba(37,99,235,.35); }
-    #section3-3-game .btn-outline-primary:hover{ background: rgba(37,99,235,.08); }
-    #section3-3-game .btn-outline-secondary{ border-color: rgba(15,23,42,.15); }
+let x = giveMeFive();   // sem se uloží 5
+console.log(x);         // 5</code></pre>
 
-    #section3-3-game .accordion-item{
-      border: 1px solid var(--cc-border);
-      border-radius: 14px;
-      overflow: hidden;
-      margin-bottom: .55rem;
-      background: #fff;
-    }
-    #section3-3-game .accordion-button{
-      background: rgba(248,250,252,1);
-      font-weight: 800;
-    }
-    #section3-3-game .accordion-button:not(.collapsed){
-      background: rgba(37,99,235,.10);
-      color: #0b2b8f;
-      box-shadow: none;
-    }
-    #section3-3-game .accordion-button:focus{
-      box-shadow: 0 0 0 .22rem rgba(37,99,235,.18);
-    }
+          <p class="text-muted small mb-4">
+            Důležitá myšlenka: výraz <code>giveMeFive()</code> se po provedení funkce chová, jako kdyby tam bylo prostě <code>5</code>.
+          </p>
 
-    #section3-3-game [data-snippet]{
-      border-radius: 12px;
-      padding: .55rem .7rem;
-      background: #fff;
-      border: 1px solid rgba(15,23,42,.12);
-      box-shadow: 0 6px 14px rgba(15,23,42,.05);
-      transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
-      white-space: normal;
-      text-align: left;
-      line-height: 1.2;
-    }
-    #section3-3-game [data-snippet]:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 12px 22px rgba(15,23,42,.08);
-      border-color: rgba(37,99,235,.25);
-    }
+          <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#js338ReturnFlowModal">
+            Detailně: co se děje při volání funkce (krok za krokem)
+          </button>
 
-    #cc-code{
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
-      font-size: .95rem;
-      line-height: 1.45;
-      border-radius: 14px;
-      border: 1px solid rgba(15,23,42,.14);
-      background: #ffffff;
-      box-shadow: inset 0 1px 0 rgba(15,23,42,.03);
-      min-height: 320px;
-    }
-    #cc-code:focus{
-      border-color: rgba(37,99,235,.45);
-      box-shadow: 0 0 0 .22rem rgba(37,99,235,.14);
-    }
+          <hr class="my-4">
 
-    #cc-output, #cc-expected{
-      border-radius: 14px;
-      border: 1px solid rgba(15,23,42,.14);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
-      font-size: .92rem;
-      line-height: 1.45;
-      background: #0b1220;
-      color: #e6eaf2;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,.03);
-    }
-    #cc-expected{
-      background: #0f172a;
-      color: #e5e7eb;
-    }
+          <h4 class="h6">Příklad 1: funkce vrací výsledek výpočtu</h4>
+          <pre class="bg-light p-3 rounded"><code class="language-js">function addOne(n) {
+  return n + 1;
+}
 
-    /* Zadání mise – "quest box" */
-    #section3-3-game .cc-goal-box{
-      border: 1px solid rgba(37,99,235,.20);
-      background: linear-gradient(180deg, rgba(37,99,235,.10), rgba(255,255,255,1));
-      border-radius: 14px;
-      padding: .95rem 1rem;
-      box-shadow: 0 12px 24px rgba(37,99,235,.09);
-      position: relative;
-    }
-    #section3-3-game .cc-goal-box::before{
-      content:"";
-      position:absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 6px;
-      background: rgba(37,99,235,.35);
-    }
-    #section3-3-game .cc-goal--ok{
-      border-color: rgba(22,163,74,.25);
-      background: linear-gradient(180deg, rgba(22,163,74,.10), rgba(255,255,255,1));
-    }
-    #section3-3-game .cc-goal--ok::before{ background: rgba(22,163,74,.35); }
-    #section3-3-game .cc-goal--bad{
-      border-color: rgba(220,38,38,.25);
-      background: linear-gradient(180deg, rgba(220,38,38,.10), rgba(255,255,255,1));
-    }
-    #section3-3-game .cc-goal--bad::before{ background: rgba(220,38,38,.35); }
+console.log(addOne(10)); // 11</code></pre>
 
-    #section3-3-game .cc-goal-title{
-      font-weight: 900;
-      margin-bottom: .35rem;
-      padding-left: .2rem;
-    }
-    #section3-3-game .cc-goal-sub{
-      color: var(--cc-muted);
-      font-size: .92rem;
-      margin-bottom: .65rem;
-      padding-left: .2rem;
-    }
-    #section3-3-game .cc-goal-box ol,
-    #section3-3-game .cc-goal-box ul{
-      margin-bottom: .35rem;
-      padding-left: 1.1rem;
-    }
-    #section3-3-game .cc-goal-box li{ margin-bottom: .25rem; }
+          <p class="mb-4">
+            Tady je vidět, že <code>return</code> není „výpis“. Je to <strong>výstup funkce</strong>.
+            Hodnota se vrátí a teprve ty se rozhodneš, co s ní uděláš (vypsat, uložit, použít v podmínce…).
+          </p>
 
-    #section3-3-game .cc-badge{
-      display:inline-flex;
-      align-items:center;
-      padding:.25rem .55rem;
-      border-radius: 999px;
-      font-weight: 900;
-      font-size: .78rem;
-      border: 1px solid rgba(15,23,42,.12);
-      background: rgba(255,255,255,.85);
-      margin-right: .5rem;
-    }
-    #section3-3-game .cc-badge.ok{ color: var(--cc-ok); border-color: rgba(22,163,74,.22); }
-    #section3-3-game .cc-badge.bad{ color: var(--cc-bad); border-color: rgba(220,38,38,.22); }
+          <h4 class="h6">Příklad 2: proč console.log nestačí</h4>
+          <p class="mb-2">
+            Podívej, co udělá funkce, která jen vypisuje:
+          </p>
+          <pre class="bg-light p-3 rounded"><code class="language-js">function multiplyLog(a, b) {
+  console.log(a * b);
+}
 
-    @media (max-width: 991px){
-      #cc-code{ min-height: 260px; }
-      #cc-output{ min-height: 180px !important; }
-    }
-  </style>
-</head>
+let r = multiplyLog(5, 3); // co je v r?
+console.log(r);</code></pre>
 
-<body class="bg-white">
+          <p class="mb-2">
+            Výsledek:
+          </p>
+          <ul class="mb-4">
+            <li>na konzoli uvidíš <code>15</code> (protože uvnitř byl log)</li>
+            <li>pak uvidíš <code>undefined</code> (protože funkce nic nevrací)</li>
+          </ul>
 
-  <section id="section3-3-game" class="container my-5">
-    <h3 class="mb-4">Interaktivní hra: CodeCraft – opakování JavaScriptu</h3>
+          <h4 class="h6">Příklad 3: stejná věc správně s return</h4>
+          <pre class="bg-light p-3 rounded"><code class="language-js">function multiply(a, b) {
+  return a * b;
+}
 
-    <div class="container my-4 p-4 border rounded bg-light">
-      <h3 class="mb-3">Jak to funguje?</h3>
-      <p>
-        Vybereš misi, poskládáš program z bloků (nebo dopíšeš ručně), klikneš na <strong>Spustit</strong> a hned vidíš výstup.
-        Tlačítko <strong>Zkontrolovat</strong> porovná výstup s očekávaným a přičte body.
-      </p>
-      <ul class="list-group list-group-flush mb-3">
-        <li class="list-group-item"><strong>Proměnné</strong>: deklarace, změna hodnoty</li>
-        <li class="list-group-item"><strong>Typy</strong>: string/number + typeof</li>
-        <li class="list-group-item"><strong>Operátory</strong>: +, %, **</li>
-        <li class="list-group-item"><strong>Podmínky</strong>: if / else</li>
-        <li class="list-group-item"><strong>Smyčky</strong>: for/while + speciální případ</li>
-        <li class="list-group-item"><strong>Funkce</strong>: parametry + smyčka uvnitř funkce</li>
-      </ul>
-      <div class="alert alert-info mb-0" role="alert">
-        <strong>Tip:</strong> Dělej to po krocích. Po každých pár řádcích klikni Spustit.
+let r = multiply(5, 3); // r je 15
+console.log(r);</code></pre>
+
+          <hr class="my-4">
+
+          <h4 class="h6">Return ukončuje funkci</h4>
+          <pre class="bg-light p-3 rounded"><code class="language-js">function demo() {
+  console.log("A");
+  return "Hotovo";
+  console.log("B"); // nikdy se nespustí
+}</code></pre>
+
+          <p class="mb-4">
+            Jakmile se vykoná <code>return</code>, funkce skončí. To je důležité i v podmínkách:
+            když se <code>return</code> uvnitř <code>if</code> nespustí (podmínka je false), funkce pokračuje dál.
+          </p>
+
+          <h4 class="h6">Více returnů: funkce vrací různé hodnoty podle situace</h4>
+          <pre class="bg-light p-3 rounded"><code class="language-js">function isAdult(age) {
+  if (age >= 18) {
+    return true;
+  } else {
+    return false;
+  }
+}</code></pre>
+
+          <p class="mb-4">
+            Poznámka: výraz <code>age &gt;= 18</code> už sám o sobě vrací boolean, takže jde napsat i krátce:
+            <code>return age &gt;= 18;</code>
+          </p>
+
+          <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#js338ReturnCommonMistakesModal">
+            Nejčastější zmatky: proč nic nevidím, proč mám undefined, proč se něco nevykoná
+          </button>
+
+          <hr class="my-4">
+
+          <h3 class="h5">Mini cvičení: isEven(number)</h3>
+          <p class="mb-2">
+            Vytvoř funkci <code>isEven(number)</code>, která vrátí <code>true</code> pro sudé číslo a <code>false</code> pro liché.
+          </p>
+
+          <div class="card mb-3">
+            <div class="card-body">
+              <h4 class="h6 mb-2">Start (index.html + app.js)</h4>
+              <pre class="bg-light p-3 rounded mb-0"><code class="language-html">&lt;!-- index.html --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang="cs"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8" /&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+  &lt;title&gt;3.3.8&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;&lt;/body&gt;
+&lt;script src="app.js"&gt;&lt;/script&gt;
+&lt;/html&gt;</code></pre>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-body">
+              <h4 class="h6 mb-2">Úkol</h4>
+              <ol class="mb-3">
+                <li>Napiš funkci <code>isEven(number)</code>.</li>
+                <li>Uvnitř použij modulo: <code>number % 2</code>.</li>
+                <li>Otestuj: <code>console.log(isEven(20))</code> a <code>console.log(isEven(7))</code>.</li>
+              </ol>
+
+              <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#js338IsEvenHint">
+                Nápověda
+              </button>
+
+              <details class="mt-3">
+                <summary><strong>Řešení (referenční)</strong></summary>
+                <pre class="bg-light p-3 rounded mt-2 mb-0"><code class="language-js">function isEven(number) {
+  return number % 2 === 0;
+}
+
+console.log(isEven(20)); // true
+console.log(isEven(7));  // false</code></pre>
+              </details>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
 
-    <div class="row g-3 align-items-stretch">
+    <!-- =====================================================
+         LESSON 2: HOISTING
+    ====================================================== -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="l338-2-head">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#l338-2" aria-expanded="false" aria-controls="l338-2">
+          2) Hoisting: proč lze volat některé funkce dřív než jsou v kódu
+        </button>
+      </h2>
+      <div id="l338-2" class="accordion-collapse collapse" aria-labelledby="l338-2-head" data-bs-parent="#acc-3-3-8">
+        <div class="accordion-body">
 
-      <!-- LEVÝ PANEL -->
-      <div class="col-lg-3">
-        <div class="card shadow-sm h-100">
-          <div class="card-header bg-primary text-white">Mise a bloky</div>
-          <div class="card-body">
+          <h3 class="h5">Teorie (jednoduše)</h3>
+          <p class="mb-3">
+            Hoisting si představ jako „předběžné přečtení“. JavaScript si při startu daného scope všimne některých
+            deklarací dřív, než začne vykonávat kód řádek po řádku.
+          </p>
 
-            <label class="form-label fw-semibold">Vyber misi</label>
-            <select id="cc-mission" class="form-select mb-3"></select>
+          <div class="row g-3">
+            <div class="col-lg-6">
+              <div class="card h-100">
+                <div class="card-body">
+                  <h4 class="h6">Deklarace funkce (funguje i před zápisem)</h4>
+                  <pre class="bg-light p-3 rounded mb-0"><code class="language-js">doSomething();
 
-            <div class="d-flex gap-2 mb-3">
-              <button class="btn btn-sm btn-outline-secondary" id="cc-reset-mission">Reset mise</button>
-              <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#ccHintModal">Nápověda</button>
+function doSomething() {
+  console.log("Funguje to.");
+}</code></pre>
+                </div>
+              </div>
             </div>
 
-            <hr>
-
-            <p class="fw-semibold mb-2">Rychlé bloky (klik = vložit do kódu):</p>
-
-            <div class="accordion" id="ccBlocksAcc">
-
-              <!-- Základ -->
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="ccB0">
-                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#ccB0c" aria-expanded="true">
-                    Základ
-                  </button>
-                </h2>
-                <div id="ccB0c" class="accordion-collapse collapse show" data-bs-parent="#ccBlocksAcc">
-                  <div class="accordion-body">
-                    <div class="d-grid gap-2">
-                      <button class="btn btn-sm btn-outline-secondary" data-snippet='console.log("Text");\n'>console.log("Text");</button>
-                      <button class="btn btn-sm btn-outline-secondary" data-snippet='// komentář\n'>// komentář</button>
-                      <button class="btn btn-sm btn-outline-secondary" data-snippet='console.log(typeof value);\n'>console.log(typeof value);</button>
-                    </div>
-                  </div>
+            <div class="col-lg-6">
+              <div class="card h-100">
+                <div class="card-body">
+                  <h4 class="h6">Let/const (nepoužitelné před deklarací)</h4>
+                  <pre class="bg-light p-3 rounded mb-0"><code class="language-js">console.log(a); // ReferenceError
+let a = 10;</code></pre>
                 </div>
               </div>
-
-              <!-- Proměnné -->
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="ccB1">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ccB1c">
-                    Proměnné
-                  </button>
-                </h2>
-                <div id="ccB1c" class="accordion-collapse collapse" data-bs-parent="#ccBlocksAcc">
-                  <div class="accordion-body">
-                    <div class="d-grid gap-2">
-                      <button class="btn btn-sm btn-outline-secondary" data-snippet='let userName = "Tom";\n'>let userName = "Tom";</button>
-                      <button class="btn btn-sm btn-outline-secondary" data-snippet='userName = "John";\n'>userName = "John";</button>
-                      <button class="btn btn-sm btn-outline-secondary" data-snippet='let age = 31;\n'>let age = 31;</button>
-                      <button class="btn btn-sm btn-outline-secondary" data-snippet='let name = "abc123.?!";\n'>let name = "abc123.?!";</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Operátory -->
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="ccB2">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ccB2c">
-                    Operátory
-                  </button>
-                </h2>
-                <div id="ccB2c" class="accordion-collapse collapse" data-bs-parent="#ccBlocksAcc">
-                  <div class="accordion-body">
-                    <div class="d-grid gap-2">
-                      <button class="btn btn-sm btn-outline-secondary" data-snippet='console.log(7 + 4);\n'>console.log(7 + 4);</button>
-                      <button class="btn btn-sm btn-outline-secondary" data-snippet='console.log("7" + "4");\n'>console.log("7" + "4");</button>
-                      <button class="btn btn-sm btn-outline-secondary" data-snippet='console.log(a % b);\n'>console.log(a % b);</button>
-                      <button class="btn btn-sm btn-outline-secondary" data-snippet='console.log(4 ** 3);\n'>console.log(4 ** 3);</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Podmínky -->
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="ccB3">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ccB3c">
-                    Podmínky
-                  </button>
-                </h2>
-                <div id="ccB3c" class="accordion-collapse collapse" data-bs-parent="#ccBlocksAcc">
-                  <div class="accordion-body">
-                    <div class="d-grid gap-2">
-                      <button class="btn btn-sm btn-outline-secondary"
-                        data-snippet='if (condition) {\n  // true\n} else {\n  // false\n}\n'>if / else šablona</button>
-                      <button class="btn btn-sm btn-outline-secondary"
-                        data-snippet='let totalPrice = 85;\n'>let totalPrice = 85;</button>
-                      <button class="btn btn-sm btn-outline-secondary"
-                        data-snippet='// porovnání\nconsole.log(age > 20);\n'>console.log(age > 20);</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Smyčky -->
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="ccB4">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ccB4c">
-                    Smyčky
-                  </button>
-                </h2>
-                <div id="ccB4c" class="accordion-collapse collapse" data-bs-parent="#ccBlocksAcc">
-                  <div class="accordion-body">
-                    <div class="d-grid gap-2">
-                      <button class="btn btn-sm btn-outline-secondary"
-                        data-snippet='for (let i = 1; i <= 10; i++) {\n  // doplň výpis\n}\n'>for 1..10 (šablona)</button>
-                      <button class="btn btn-sm btn-outline-secondary"
-                        data-snippet='let counter = 1;\nwhile (counter <= 10) {\n  // doplň výpis\n  counter++;\n}\n'>while 1..10 (šablona)</button>
-                      <button class="btn btn-sm btn-outline-secondary"
-                        data-snippet='if (i === 7) {\n  // speciální výpis\n} else {\n  // běžný výpis\n}\n'>speciální případ 7 (šablona)</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Funkce -->
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="ccB5">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ccB5c">
-                    Funkce
-                  </button>
-                </h2>
-                <div id="ccB5c" class="accordion-collapse collapse" data-bs-parent="#ccBlocksAcc">
-                  <div class="accordion-body">
-                    <div class="d-grid gap-2">
-                      <button class="btn btn-sm btn-outline-secondary"
-                        data-snippet='function greet(name) {\n  console.log("Ahoj " + name);\n}\n'>greet(name) (šablona)</button>
-                      <button class="btn btn-sm btn-outline-secondary"
-                        data-snippet='function printRange(start, end) {\n  // doplň smyčku\n}\n'>printRange(start, end) (šablona)</button>
-                      <button class="btn btn-sm btn-outline-secondary"
-                        data-snippet='printRange(3, 7);\n'>printRange(3, 7);</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </div><!-- /accordion -->
+            </div>
           </div>
+
+          <button class="btn btn-sm btn-outline-primary mt-3" data-bs-toggle="modal" data-bs-target="#js338HoistingModal">
+            Detailně: declaration vs expression (kdy to spadne)
+          </button>
+
+          <hr class="my-4">
+
+          <h4 class="h6">Poznámka k var</h4>
+          <p class="mb-2">
+            U <code>var</code> se může objevit <code>undefined</code> (deklarace je „nahoře“, přiřazení až později).
+          </p>
+          <pre class="bg-light p-3 rounded mb-0"><code class="language-js">console.log(b); // undefined
+var b = 10;</code></pre>
+
         </div>
       </div>
+    </div>
 
-      <!-- EDITOR -->
-      <div class="col-lg-6">
-        <div class="card shadow-sm h-100">
-          <div class="card-header bg-light d-flex justify-content-between align-items-center">
-            <strong>Editor kódu</strong>
-            <span class="text-muted small">Bloky se vkládají do kurzoru</span>
-          </div>
-          <div class="card-body">
-            <div class="mb-2">
-              <div class="d-flex flex-wrap gap-2">
-                <button class="btn btn-sm btn-success" id="cc-run">Spustit</button>
-                <button class="btn btn-sm btn-outline-primary" id="cc-check">Zkontrolovat</button>
-                <button class="btn btn-sm btn-outline-secondary" id="cc-clear-output">Vyčistit výstup</button>
-              </div>
-            </div>
+    <!-- =====================================================
+         LESSON 3: CALLBACKS
+    ====================================================== -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="l338-3-head">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#l338-3" aria-expanded="false" aria-controls="l338-3">
+          3) Callback funkce: funkce jako argument (od jednoduchého příkladu)
+        </button>
+      </h2>
+      <div id="l338-3" class="accordion-collapse collapse" aria-labelledby="l338-3-head" data-bs-parent="#acc-3-3-8">
+        <div class="accordion-body">
 
-            <label class="form-label mt-3 fw-semibold">Kód</label>
-            <textarea id="cc-code" class="form-control" rows="16" spellcheck="false"></textarea>
+          <h3 class="h5">Teorie (přirovnání)</h3>
+          <p class="mb-2">
+            Callback si představ jako „instrukci na papírku“. Jedna funkce udělá práci a na konci se podívá na papírek:
+            „Co mám udělat potom?“ Ten papírek je callback.
+          </p>
+          <p class="mb-4">
+            Důležité pravidlo: když callback předáváš, <strong>nevoláš ho</strong>. Předáváš jen název funkce.
+          </p>
 
-            <div class="alert alert-warning mt-3 mb-0" role="alert">
-              <strong>Pozor:</strong> Pokud vytvoříš nekonečnou smyčku, hra ji po chvíli ukončí.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- VÝSTUP -->
-      <div class="col-lg-3">
-        <div class="card shadow-sm h-100">
-          <div class="card-header bg-light">
-            <strong>Výstup a stav</strong>
-          </div>
-          <div class="card-body">
-
-            <div class="container p-3 border rounded bg-light mb-3">
-              <h6 class="mb-2">Stav</h6>
-              <div class="small">
-                <div><strong>Body:</strong> <span id="cc-score">0</span></div>
-                <div><strong>Splněno:</strong> <span id="cc-done">0</span> / <span id="cc-total">0</span></div>
-              </div>
-
-              <div class="alert alert-info small mt-2 mb-0" id="cc-goal">Cíl mise se načte…</div>
-            </div>
-
-            <h6 class="mb-2">Konzole</h6>
-            <pre id="cc-output" class="p-3 border rounded bg-light" style="min-height: 220px; white-space: pre-wrap;"></pre>
-
-            <div class="mt-3">
-              <h6 class="mb-2">Očekávaný výstup</h6>
-              <pre id="cc-expected" class="p-3 border rounded bg-light small" style="white-space: pre-wrap;"></pre>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /row -->
-  </section>
-
-  <!-- MODÁL: Nápověda -->
-  <div class="modal fade" id="ccHintModal" tabindex="-1" aria-labelledby="ccHintModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="ccHintModalLabel">Nápověda k misi</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
-      </div>
-      <div class="modal-body" id="cc-hint-body"></div>
-    </div></div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-  <script>
-  /* =========================================================
-     CodeCraft – engine
-     - Mise postupně podle kapitol
-     - Řešení se odemkne až po splnění mise
-  ========================================================= */
-  (() => {
-    "use strict";
-
-    const missions = [
-      {
-        id: "vars",
-        title: "1) Proměnné: deklarace a změna hodnoty",
-        goalTitle: "Zadání: proměnné",
-        goalSub: "Procvičíš let, změnu hodnoty a výpis do konzole.",
-        steps: [
-          'Vytvoř proměnnou <code>userName</code> a nastav ji na <code>"Tom"</code>.',
-          'Vypiš do konzole: <code>Uživatel: Tom</code>.',
-          'Změň <code>userName</code> na <code>"John"</code>.',
-          'Vypiš do konzole: <code>Uživatel: John</code>.'
-        ],
-        checklist: [
-          "Použil/a jsi let.",
-          "Použil/a jsi console.log().",
-          "Výstup je přesně ve stejném tvaru jako očekávání."
-        ],
-        starter:
-`// 1) Proměnné
-// Napiš kód podle zadání a průběžně klikni "Spustit".
-
-`,
-        expected:
-`Uživatel: Tom
-Uživatel: John`,
-        hintHtml:
-`<div class="mb-2"><strong>Postup:</strong></div>
-<ul class="mb-0">
-  <li>Nejdřív vytvoř proměnnou a udělej první výpis.</li>
-  <li>Pak proměnnou přepiš a udělej druhý výpis.</li>
-  <li>Text výpisu musí přesně sedět (včetně dvojtečky a mezery).</li>
-</ul>`,
-        solutionHtml:
-`<pre class="bg-light p-3 rounded mb-0"><code>let userName = "Tom";
-console.log("Uživatel: " + userName);
-userName = "John";
-console.log("Uživatel: " + userName);</code></pre>`
-      },
-
-      {
-        id: "types",
-        title: "2) Datové typy: string/number + typeof",
-        goalTitle: "Zadání: typy",
-        goalSub: "Procvičíš string, number a typeof.",
-        steps: [
-          'Vytvoř <code>name</code> jako text <code>"abc123.?!"</code>.',
-          'Vytvoř <code>age</code> jako číslo <code>31</code>.',
-          'Vypiš <code>typeof name</code>.',
-          'Vypiš <code>typeof age</code>.'
-        ],
-        checklist: [
-          "Použil/a jsi string v uvozovkách.",
-          "Použil/a jsi number bez uvozovek.",
-          "Vypsal/a jsi oba typeof."
-        ],
-        starter:
-`// 2) Datové typy
-// Cílem je vypsat typeof pro text i číslo.
-
-`,
-        expected:
-`string
-number`,
-        hintHtml:
-`<div class="mb-2"><strong>Tahák:</strong></div>
-<ul class="mb-0">
-  <li>Text zapisuj do uvozovek.</li>
-  <li>Číslo zapisuj bez uvozovek.</li>
-  <li><code>typeof</code> vypíše typ hodnoty (např. string/number).</li>
-</ul>`,
-        solutionHtml:
-`<pre class="bg-light p-3 rounded mb-0"><code>let name = "abc123.?!";
-let age = 31;
-
-console.log(typeof name);
-console.log(typeof age);</code></pre>`
-      },
-
-      {
-        id: "ops",
-        title: "3) Operátory: +, %, ** (krátká série výpisů)",
-        goalTitle: "Zadání: operátory",
-        goalSub: "Procvičíš sčítání, modulo a umocňování.",
-        steps: [
-          'Vytvoř <code>a = 10</code> a <code>b = 5</code>.',
-          'Vypiš <code>a + b</code>.',
-          'Vypiš <code>a % b</code>.',
-          'Vypiš <code>4 ** 3</code>.'
-        ],
-        checklist: [
-          "Použil/a jsi +, % a **.",
-          "Výstup odpovídá očekávaným hodnotám."
-        ],
-        starter:
-`// 3) Operátory
-// Vypiš tři výsledky podle zadání.
-
-`,
-        expected:
-`15
-0
-64`,
-        hintHtml:
-`<div class="mb-2"><strong>Tahák:</strong></div>
-<ul class="mb-0">
-  <li><code>%</code> vrací zbytek po dělení.</li>
-  <li><code>**</code> je umocňování.</li>
-  <li>Každý výpis dej na samostatný řádek přes <code>console.log()</code>.</li>
-</ul>`,
-        solutionHtml:
-`<pre class="bg-light p-3 rounded mb-0"><code>let a = 10;
-let b = 5;
-
-console.log(a + b);
-console.log(a % b);
-console.log(4 ** 3);</code></pre>`
-      },
-
-      {
-        id: "if",
-        title: "4) Podmínky: sleva v e-shopu (if/else)",
-        goalTitle: "Zadání: if / else",
-        goalSub: "Procvičíš porovnání a dvě větve programu.",
-        steps: [
-          "Vytvoř <code>totalPrice = 85</code>.",
-          "Když <code>totalPrice >= 100</code>, vypiš cenu po 30% slevě (platíš 70%).",
-          'Jinak vypiš přesně: <code>Utrať ještě $15 a získáš 30% slevu!</code>'
-        ],
-        checklist: [
-          "Použil/a jsi porovnání >=.",
-          "Použil/a jsi if/else.",
-          "Text v else sedí přesně."
-        ],
-        starter:
-`// 4) Podmínky (sleva)
-// V této misi je totalPrice = 85, tedy poběží else větev.
-
-`,
-        expected:
-`Utrať ještě $15 a získáš 30% slevu!`,
-        hintHtml:
-`<div class="mb-2"><strong>Postup:</strong></div>
-<ul class="mb-0">
-  <li>Nejdřív si spočítej, kolik chybí do 100: <code>100 - totalPrice</code>.</li>
-  <li>V else vypiš přesně požadovanou větu.</li>
-  <li>V if větvi (pro test) použij <code>totalPrice * 0.7</code>.</li>
-</ul>`,
-        solutionHtml:
-`<pre class="bg-light p-3 rounded mb-0"><code>let totalPrice = 85;
-
-if (totalPrice >= 100) {
-  let discounted = totalPrice * 0.7;
-  console.log(discounted);
-} else {
-  let need = 100 - totalPrice;
-  console.log("Utrať ještě $" + need + " a získáš 30% slevu!");
-}</code></pre>`
-      },
-
-      {
-        id: "loop",
-        title: "5) Smyčky: 1..10 a speciální výpis pro 7",
-        goalTitle: "Zadání: smyčka",
-        goalSub: "Procvičíš opakování a podmínku uvnitř smyčky.",
-        steps: [
-          "Napiš smyčku, která vypíše čísla 1 až 10.",
-          "Když je číslo 7, vypiš místo čísla: <code>7 je moje oblíbené číslo</code>."
-        ],
-        checklist: [
-          "Smyčka vypisuje 10 řádků.",
-          "Řádek pro 7 je text, ne číslo."
-        ],
-        starter:
-`// 5) Smyčky
-// Můžeš použít for nebo while.
-
-`,
-        expected:
-`1
-2
-3
-4
-5
-6
-7 je moje oblíbené číslo
-8
-9
-10`,
-        hintHtml:
-`<div class="mb-2"><strong>Postup:</strong></div>
-<ul class="mb-0">
-  <li>Nejdřív udělej smyčku, která vypíše 1..10 (bez speciálního případu).</li>
-  <li>Pak přidej podmínku <code>if (i === 7)</code> a v té větvi vypiš text.</li>
-</ul>`,
-        solutionHtml:
-`<pre class="bg-light p-3 rounded mb-0"><code>for (let i = 1; i <= 10; i++) {
-  if (i === 7) {
-    console.log("7 je moje oblíbené číslo");
-  } else {
-    console.log(i);
-  }
-}</code></pre>`
-      },
-
-      {
-        id: "fn",
-        title: "6) Funkce: printRange(start, end)",
-        goalTitle: "Zadání: funkce",
-        goalSub: "Procvičíš parametry a smyčku uvnitř funkce.",
-        steps: [
-          "Vytvoř funkci <code>printRange(start, end)</code>.",
-          "Funkce má vypsat všechna čísla od start do end včetně (po řádcích).",
-          "Zavolej <code>printRange(3, 7)</code>."
-        ],
-        checklist: [
-          "Funkce má 2 parametry.",
-          "Uvnitř je smyčka od start do end.",
-          "Volání printRange(3, 7) vypíše 3..7."
-        ],
-        starter:
-`// 6) Funkce
-// Napiš printRange(start, end) a zavolej printRange(3, 7)
-
-`,
-        expected:
-`3
-4
-5
-6
-7`,
-        hintHtml:
-`<div class="mb-2"><strong>Tahák:</strong></div>
-<ul class="mb-0">
-  <li>Funkce: <code>function name(param1, param2) { ... }</code></li>
-  <li>Smyčka: <code>for (let i = start; i &lt;= end; i++)</code></li>
-  <li>Vypisuj <code>console.log(i)</code> uvnitř smyčky.</li>
-</ul>`,
-        solutionHtml:
-`<pre class="bg-light p-3 rounded mb-0"><code>function printRange(start, end) {
-  for (let i = start; i <= end; i++) {
-    console.log(i);
-  }
+          <div class="card mb-3">
+            <div class="card-body">
+              <h4 class="h6 mb-2">Nejjednodušší callback</h4>
+              <pre class="bg-light p-3 rounded mb-0"><code class="language-js">function afterWork(callback) {
+  console.log("Hotovo.");
+  callback();
 }
 
-printRange(3, 7);</code></pre>`
-      }
-    ];
+function sayBye() {
+  console.log("Konec.");
+}
 
-    // UI refs
-    const selMission = document.getElementById("cc-mission");
-    const taCode = document.getElementById("cc-code");
-    const out = document.getElementById("cc-output");
-    const expectedEl = document.getElementById("cc-expected");
-    const goalEl = document.getElementById("cc-goal");
-    const hintBody = document.getElementById("cc-hint-body");
+afterWork(sayBye);</code></pre>
+            </div>
+          </div>
 
-    const btnRun = document.getElementById("cc-run");
-    const btnCheck = document.getElementById("cc-check");
-    const btnResetMission = document.getElementById("cc-reset-mission");
-    const btnClearOutput = document.getElementById("cc-clear-output");
+          <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#js338CallbackDeepModal">
+            Detailně: proč se nepíše sayBye() při předání
+          </button>
 
-    const scoreEl = document.getElementById("cc-score");
-    const doneEl = document.getElementById("cc-done");
-    const totalEl = document.getElementById("cc-total");
+        </div>
+      </div>
+    </div>
 
-    // Stav
-    let score = 0;
-    const done = new Set(); // splněné mise
+    <!-- =====================================================
+         LESSON 4: EXERCISE
+    ====================================================== -->
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="l338-4-head">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#l338-4" aria-expanded="false" aria-controls="l338-4">
+          4) Cvičení: Login simulace s callbacky (kontrola chyb + early return)
+        </button>
+      </h2>
+      <div id="l338-4" class="accordion-collapse collapse" aria-labelledby="l338-4-head" data-bs-parent="#acc-3-3-8">
+        <div class="accordion-body">
 
-    // Goal boxy (top + left + right)
-    function ensureGoalTop() {
-      const cardBody = taCode.closest(".card-body");
-      let el = cardBody.querySelector("#cc-goal-top");
-      if (!el) {
-        el = document.createElement("div");
-        el.id = "cc-goal-top";
-        el.className = "cc-goal-box cc-goal--neutral mb-3";
-        cardBody.insertBefore(el, taCode);
-      }
-      return el;
-    }
+          <h3 class="h5">Zadání</h3>
+          <p class="mb-2">
+            Napiš funkci <code>login(username, password, callback)</code>. Správný login je <code>"admin"</code> + <code>"1234"</code>.
+            Při úspěchu zavolej callback. Při chybě vypiš jasnou hlášku a ukonči funkci pomocí <code>return</code>.
+          </p>
 
-    function ensureGoalLeft() {
-      const left = selMission.closest(".card-body");
-      let el = left.querySelector("#cc-goal-left");
-      if (!el) {
-        el = document.createElement("div");
-        el.id = "cc-goal-left";
-        el.className = "cc-goal-box cc-goal--neutral mb-3";
-        selMission.insertAdjacentElement("afterend", el);
-      }
-      return el;
-    }
+          <div class="card mb-3">
+            <div class="card-body">
+              <h4 class="h6 mb-2">Testy</h4>
+              <pre class="bg-light p-3 rounded mb-0"><code class="language-js">login("admin", "1234", loginAdmin);         // správně
+login("", "1234", loginAdmin);              // chybí username
+login("admin", "", loginAdmin);             // chybí password
+login("user", "1234", loginAdmin);          // špatné username
+login("admin", "password123", loginAdmin);  // špatné password</code></pre>
 
-    function setGoalState(state, html) {
-      const top = ensureGoalTop();
-      const left = ensureGoalLeft();
+              <button class="btn btn-sm btn-outline-secondary mt-3" data-bs-toggle="modal" data-bs-target="#js338LoginHints">
+                Nápovědy krok za krokem
+              </button>
+              <button class="btn btn-sm btn-outline-primary mt-3" data-bs-toggle="modal" data-bs-target="#js338AdminModal">
+                Co je admin
+              </button>
+            </div>
+          </div>
 
-      const cls =
-        "cc-goal-box " +
-        (state === "ok" ? "cc-goal--ok" : state === "bad" ? "cc-goal--bad" : "cc-goal--neutral");
+          <div class="card">
+            <div class="card-body">
+              <h4 class="h6 mb-2">Řešení (referenční)</h4>
+              <details>
+                <summary><strong>Zobrazit řešení</strong></summary>
+                <pre class="bg-light p-3 rounded mt-2 mb-0"><code class="language-js">function login(username, password, callback) {
+  if (!username) {
+    console.log("Chyba: chybí uživatelské jméno.");
+    return;
+  }
 
-      goalEl.className = cls + " small mt-2 mb-0";
-      goalEl.innerHTML = html;
+  if (!password) {
+    console.log("Chyba: chybí heslo.");
+    return;
+  }
 
-      top.className = cls + " mb-3";
-      top.innerHTML = html;
+  if (username !== "admin") {
+    console.log("Chyba: neplatné uživatelské jméno.");
+    return;
+  }
 
-      left.className = cls + " mb-3";
-      left.innerHTML = html;
-    }
+  if (password !== "1234") {
+    console.log("Chyba: nesprávné heslo.");
+    return;
+  }
 
-    function renderGoalHtml(m, state = "neutral") {
-      const badge =
-        state === "ok" ? `<span class="cc-badge ok">splněno</span>` :
-        state === "bad" ? `<span class="cc-badge bad">zkus znovu</span>` :
-        `<span class="cc-badge">mise</span>`;
+  callback();
+}
 
-      const steps = (m.steps || []).map(s => `<li>${s}</li>`).join("");
-      const checks = (m.checklist || []).map(s => `<li>${s}</li>`).join("");
+function loginAdmin() {
+  console.log("Přihlašuji do administrátorského účtu.");
+}</code></pre>
+              </details>
+            </div>
+          </div>
 
-      return `
-        <div class="cc-goal-title">${badge}${m.goalTitle}</div>
-        <div class="cc-goal-sub">${m.goalSub || ""}</div>
+        </div>
+      </div>
+    </div>
 
-        <div class="fw-semibold mb-1">Zadání</div>
-        <ol class="mb-3">${steps}</ol>
+  </div><!-- /accordion -->
 
-        <div class="fw-semibold mb-1">Kontrolní checklist</div>
-        <ul class="mb-0">${checks}</ul>
-      `;
-    }
+  <!-- Shrnutí -->
+  <div class="container my-4 p-4 border rounded bg-light">
+    <h3 class="mb-3">Co jsme se naučili</h3>
+    <ul class="list-group list-group-flush mb-3">
+      <li class="list-group-item"><strong>return</strong> vrací hodnotu do místa, kde byla funkce zavolána (volání funguje jako „hodnota“).</li>
+      <li class="list-group-item"><strong>console.log</strong> je jen výpis pro člověka, ne výstup pro další výpočty.</li>
+      <li class="list-group-item"><strong>po return</strong> funkce končí, kód pod ním se neprovede.</li>
+      <li class="list-group-item"><strong>===</strong> je bezpečné porovnání (hodnota i typ), <strong>==</strong> dělá automatické převody.</li>
+      <li class="list-group-item"><strong>callback</strong> je funkce předaná jako argument — voláš ji až uvnitř jiné funkce.</li>
+    </ul>
+    <div class="alert alert-info mb-0" role="alert">
+      <strong>Tip:</strong> Pokud si nejsi jistý, co funkce vrací, dočasně si přidej log uvnitř funkce i log venku.
+    </div>
+  </div>
 
-    // Worker sandbox
-    function makeWorker() {
-      const workerSource = `
-        function send(type, data) { self.postMessage({ type, data }); }
-        self.console = { log: (...args) => send("log", args.map(a => String(a)).join(" ")) };
-        self.alert = (msg) => send("log", "ALERT: " + String(msg));
-        self.onmessage = (e) => {
-          const code = String(e.data || "");
-          try {
-            const fn = new Function(code);
-            fn();
-            send("done", null);
-          } catch (err) {
-            send("error", err && err.stack ? err.stack : String(err));
-            send("done", null);
-          }
-        };
-      `;
-      const blob = new Blob([workerSource], { type: "application/javascript" });
-      const url = URL.createObjectURL(blob);
-      return new Worker(url);
-    }
+</section>
 
-    async function runCodeSafely(code, timeoutMs = 900) {
-      return new Promise((resolve) => {
-        const w = makeWorker();
-        const lines = [];
-        let finished = false;
+<!-- =========================================================
+     MODÁLY
+========================================================= -->
 
-        const timer = setTimeout(() => {
-          if (finished) return;
-          finished = true;
-          w.terminate();
-          lines.push("Ukončeno: kód běžel příliš dlouho (pravděpodobně nekonečná smyčka).");
-          resolve(lines.join("\n"));
-        }, timeoutMs);
+<!-- Modal: = vs == vs === -->
+<div class="modal fade" id="js338EqualityModal" tabindex="-1" aria-labelledby="js338EqualityModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="js338EqualityModalLabel">Připomenutí: = vs == vs === (a proč se v lekci používá ===)</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <table class="table table-bordered align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>Operátor</th>
+            <th>Co znamená</th>
+            <th>Příklad</th>
+            <th>Výsledek</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>=</code></td>
+            <td>Přiřazení hodnoty do proměnné</td>
+            <td><code>let x = 5;</code></td>
+            <td><code>x</code> je 5</td>
+          </tr>
+          <tr>
+            <td><code>==</code></td>
+            <td>Porovnání s převodem typů (může být zrádné)</td>
+            <td><code>5 == "5"</code></td>
+            <td><code>true</code></td>
+          </tr>
+          <tr>
+            <td><code>===</code></td>
+            <td>Striktní porovnání (hodnota i typ)</td>
+            <td><code>5 === "5"</code></td>
+            <td><code>false</code></td>
+          </tr>
+        </tbody>
+      </table>
 
-        w.onmessage = (e) => {
-          const { type, data } = e.data || {};
-          if (type === "log") lines.push(String(data));
-          if (type === "error") lines.push("Chyba:\n" + String(data));
-          if (type === "done") {
-            if (finished) return;
-            finished = true;
-            clearTimeout(timer);
-            w.terminate();
-            resolve(lines.join("\n"));
-          }
-        };
+      <div class="alert alert-info">
+        <strong>Doporučení:</strong> V moderním JavaScriptu používej téměř vždy <code>===</code> a <code>!==</code>.
+        Vyhneš se „automatickým převodům“ (coercion), které u <code>==</code> umí dělat překvapení.
+      </div>
 
-        w.postMessage(code);
-      });
-    }
+      <h6>Typické překvapení u <code>==</code></h6>
+      <pre class="bg-light p-3 rounded mb-0"><code class="language-js">false == 0        // true
+"" == 0           // true
+null == undefined // true</code></pre>
+    </div>
+  </div></div>
+</div>
 
-    function normalize(s) {
-      return String(s || "")
-        .replace(/\r\n/g, "\n")
-        .split("\n")
-        .map(line => line.trimEnd())
-        .join("\n")
-        .trim();
-    }
+<!-- Modal: Return flow -->
+<div class="modal fade" id="js338ReturnFlowModal" tabindex="-1" aria-labelledby="js338ReturnFlowModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="js338ReturnFlowModalLabel">Return krok za krokem: co se děje při volání funkce</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <p class="mb-2">Uvažuj tento řádek:</p>
+      <pre class="bg-light p-3 rounded"><code class="language-js">let r = addOne(10);</code></pre>
 
-    function currentMission() {
-      const id = selMission.value;
-      return missions.find(m => m.id === id) || missions[0];
-    }
+      <table class="table table-bordered align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>Krok</th>
+            <th>Co JavaScript udělá</th>
+            <th>Výsledek</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Začne vyhodnocovat pravou stranu: <code>addOne(10)</code></td>
+            <td>přepne se do funkce</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Nastaví parametr <code>n = 10</code></td>
+            <td>uvnitř funkce je <code>n</code> připravené</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Provede výpočet <code>n + 1</code></td>
+            <td>vznikne 11</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Narazí na <code>return 11</code> a ukončí funkci</td>
+            <td>funkce končí</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Vrácená hodnota se „objeví“ v místě volání</td>
+            <td>jako kdyby bylo <code>let r = 11;</code></td>
+          </tr>
+        </tbody>
+      </table>
 
-    function updateScoreboard() {
-      scoreEl.textContent = String(score);
-      doneEl.textContent = String(done.size);
-      totalEl.textContent = String(missions.length);
-    }
+      <div class="alert alert-secondary mb-0">
+        <strong>Mentální trik:</strong> Volání funkce si představ jako „díru“, do které se po doběhnutí doplní vrácená hodnota.
+      </div>
+    </div>
+  </div></div>
+</div>
 
-    function renderHintModal(m) {
-      const isDone = done.has(m.id);
+<!-- Modal: common mistakes -->
+<div class="modal fade" id="js338ReturnCommonMistakesModal" tabindex="-1" aria-labelledby="js338ReturnCommonMistakesModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="js338ReturnCommonMistakesModalLabel">Nejčastější zmatky u return</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <h6>1) „Nic se mi nevypsalo, tak to nefunguje“</h6>
+      <p>
+        Funkce může vracet hodnotu a nic nevypisovat. Když ji chceš vidět, musíš ji vypsat ty:
+      </p>
+      <pre class="bg-light p-3 rounded"><code class="language-js">function give() { return 5; }
+give();              // nic neuvidíš
+console.log(give()); // teď uvidíš 5</code></pre>
 
-      const solutionBlock = isDone
-        ? `<details class="mt-3">
-             <summary class="fw-semibold">Zobrazit řešení</summary>
-             <div class="mt-2">${m.solutionHtml || "<em>Řešení není k dispozici.</em>"}</div>
-           </details>`
-        : `<div class="mt-3 text-muted small">
-             Řešení se zpřístupní až po úspěšném splnění mise (tlačítko Zkontrolovat).
-           </div>`;
+      <h6 class="mt-3">2) „Proč mám undefined?“</h6>
+      <p>
+        Nejčastěji proto, že funkce nemá return. Nebo return běží jen v jedné větvi a v jiné ne:
+      </p>
+      <pre class="bg-light p-3 rounded"><code class="language-js">function f(x) {
+  if (x > 0) return "ok";
+  // tady return chybí → vrátí undefined
+}
+console.log(f(-1)); // undefined</code></pre>
 
-      hintBody.innerHTML = `
-        <div class="mb-2"><strong>Nápověda k misi:</strong> ${m.title}</div>
-        ${m.hintHtml || ""}
-        ${solutionBlock}
-      `;
-    }
+      <h6 class="mt-3">3) „Proč se mi část kódu nespustí?“</h6>
+      <p>
+        Protože return ukončí funkci:
+      </p>
+      <pre class="bg-light p-3 rounded mb-0"><code class="language-js">function g() {
+  return 1;
+  console.log("tohle nikdy");
+}</code></pre>
+    </div>
+  </div></div>
+</div>
 
-    function loadMission(id) {
-      const m = missions.find(x => x.id === id) || missions[0];
-      taCode.value = m.starter;
-      expectedEl.textContent = m.expected;
-      out.textContent = "";
-      setGoalState("neutral", renderGoalHtml(m, "neutral"));
-      renderHintModal(m);
-    }
+<!-- Modal: Hoisting detail -->
+<div class="modal fade" id="js338HoistingModal" tabindex="-1" aria-labelledby="js338HoistingModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="js338HoistingModalLabel">Hoisting detailně: deklarace vs výraz (function declaration vs expression)</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <h6>1) Function declaration (typicky funguje volání „před“)</h6>
+      <pre class="bg-light p-3 rounded"><code class="language-js">hello();
 
-    // Insert snippet at cursor
-    function insertAtCursor(textarea, snippet) {
-      const start = textarea.selectionStart ?? textarea.value.length;
-      const end = textarea.selectionEnd ?? textarea.value.length;
-      const before = textarea.value.slice(0, start);
-      const after = textarea.value.slice(end);
-      textarea.value = before + snippet + after;
-      const pos = start + snippet.length;
-      textarea.focus();
-      textarea.setSelectionRange(pos, pos);
-    }
+function hello() {
+  console.log("Ahoj");
+}</code></pre>
 
-    // Bind snippet buttons
-    document.querySelectorAll("[data-snippet]").forEach(btn => {
-      btn.addEventListener("click", () => insertAtCursor(taCode, btn.getAttribute("data-snippet") || ""));
-    });
+      <h6 class="mt-3">2) Function expression (závisí na proměnné)</h6>
+      <p class="mb-2">Tady se nejdřív musí vytvořit proměnná, teprve pak v ní je funkce:</p>
+      <pre class="bg-light p-3 rounded"><code class="language-js">sayHi(); // ReferenceError
 
-    // Init missions dropdown
-    missions.forEach(m => {
-      const opt = document.createElement("option");
-      opt.value = m.id;
-      opt.textContent = m.title;
-      selMission.appendChild(opt);
-    });
+const sayHi = function () {
+  console.log("Ahoj");
+};</code></pre>
 
-    // Events
-    selMission.addEventListener("change", () => loadMission(selMission.value));
-    btnResetMission.addEventListener("click", () => loadMission(selMission.value));
-    btnClearOutput.addEventListener("click", () => (out.textContent = ""));
+      <h6 class="mt-3">A proč var občas „nepadá“ hned?</h6>
+      <pre class="bg-light p-3 rounded mb-0"><code class="language-js">sayHi(); // TypeError: sayHi is not a function
 
-    // Když uživatel otevře modal, aktualizuj obsah podle stavu (splněno/nesplněno)
-    document.getElementById("ccHintModal").addEventListener("show.bs.modal", () => {
-      renderHintModal(currentMission());
-    });
+var sayHi = function () {
+  console.log("Ahoj");
+};</code></pre>
+    </div>
+  </div></div>
+</div>
 
-    btnRun.addEventListener("click", async () => {
-      out.textContent = "Spouštím...";
-      const result = await runCodeSafely(taCode.value);
-      out.textContent = result || "(žádný výstup)";
-    });
+<!-- Modal: isEven hint -->
+<div class="modal fade" id="js338IsEvenHint" tabindex="-1" aria-labelledby="js338IsEvenHintLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="js338IsEvenHintLabel">Nápověda: isEven(number)</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <ul class="mb-3">
+        <li>Modulo <code>%</code> vrací zbytek po dělení.</li>
+        <li>Sudé číslo: zbytek po dělení 2 je 0.</li>
+        <li><code>number % 2 === 0</code> už je boolean (true/false).</li>
+      </ul>
+      <pre class="bg-light p-3 rounded mb-0"><code class="language-js">return number % 2 === 0;</code></pre>
+    </div>
+  </div></div>
+</div>
 
-    btnCheck.addEventListener("click", async () => {
-      out.textContent = "Spouštím a kontroluji...";
-      const m = currentMission();
-      const result = await runCodeSafely(taCode.value);
-      out.textContent = result || "(žádný výstup)";
+<!-- Modal: Callback deep -->
+<div class="modal fade" id="js338CallbackDeepModal" tabindex="-1" aria-labelledby="js338CallbackDeepModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="js338CallbackDeepModalLabel">Callback detailně: proč se nepíše sayBye()</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <p class="mb-2">
+        Rozdíl je mezi „předat funkci“ a „spustit funkci“:
+      </p>
 
-      const ok = normalize(result) === normalize(m.expected);
+      <pre class="bg-light p-3 rounded"><code class="language-js">// Předávám funkci jako hodnotu (správně)
+afterWork(sayBye);
 
-      if (ok) {
-        if (!done.has(m.id)) {
-          done.add(m.id);
-          score += 1;
-        }
-        updateScoreboard();
-        setGoalState("ok", renderGoalHtml(m, "ok"));
-      } else {
-        setGoalState("bad", renderGoalHtml(m, "bad"));
-      }
+// Spouštím funkci hned (to nechci)
+afterWork(sayBye());</code></pre>
 
-      // po kontrole refresh obsahu modálu (aby se případně odemklo řešení)
-      renderHintModal(m);
-    });
+      <p class="mb-0">
+        Když napíšeš <code>sayBye()</code>, tak ji spustíš okamžitě a do <code>afterWork</code> se předá její výsledek
+        (většinou <code>undefined</code>). Callback potřebuješ předat bez závorek.
+      </p>
+    </div>
+  </div></div>
+</div>
 
-    // Boot
-    selMission.value = missions[0].id;
-    loadMission(missions[0].id);
-    updateScoreboard();
-  })();
-  </script>
-</body>
-</html>
+<!-- Modal: Admin -->
+<div class="modal fade" id="js338AdminModal" tabindex="-1" aria-labelledby="js338AdminModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="js338AdminModalLabel">Co je admin?</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <p>
+        Admin (administrátor) je uživatel s vyššími právy. V reálných systémech může upravovat obsah, nastavení,
+        spravovat uživatele apod. Tady je to jen zjednodušená role pro trénink podmínek a callbacku.
+      </p>
+    </div>
+  </div></div>
+</div>
+
+<!-- Modal: Login hints -->
+<div class="modal fade" id="js338LoginHints" tabindex="-1" aria-labelledby="js338LoginHintsLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="js338LoginHintsLabel">Nápovědy: login(username, password, callback)</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zavřít"></button>
+    </div>
+    <div class="modal-body">
+      <h6>Praktický postup (po malých krocích)</h6>
+      <ol class="mb-3">
+        <li>Nejprve ošetři prázdný username (<code>if (!username)</code>) a vrať se (<code>return</code>).</li>
+        <li>Pak prázdný password.</li>
+        <li>Pak špatné username.</li>
+        <li>Pak špatné password.</li>
+        <li>Když všechno sedí, zavolej <code>callback()</code>.</li>
+      </ol>
+
+      <div class="alert alert-info mb-0">
+        <strong>Proč return?</strong> Jakmile je chyba, nemá smysl pokračovat dál. Return to utně hned a kód je čitelnější.
+      </div>
+    </div>
+  </div></div>
+</div>
