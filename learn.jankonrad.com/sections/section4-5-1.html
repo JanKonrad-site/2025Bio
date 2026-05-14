@@ -1,0 +1,563 @@
+<!-- =========================================================
+6.1.2 – GUI v Pythonu: základní pojmy před prvním oknem
+========================================================= -->
+<section id="section4-5-1" class="lesson">
+
+  <header class="lesson__header">
+    <h2 class="lesson__title">4.5.1 GUI v Pythonu – základní pojmy před prvním oknem</h2>
+    <p class="lesson__lead">
+      Než vznikne první okno aplikace, je potřeba rozumět několika základním pojmům.
+      Bez nich vypadají zápisy jako <code>import tkinter as tk</code>,
+      <code>tk.Tk()</code> nebo <code>root.title(...)</code>
+      jen jako něco, co se opisuje zpaměti.
+      <br><br>
+      V této části se proto ještě nebude stavět formulář ani tabulka.
+      Nejdřív se opravdu poctivě vysvětlí,
+      co znamená modul, import, alias, třída, objekt, metoda
+      a co znamená tečka v zápisech jako <code>tk.Tk()</code> nebo <code>root.title()</code>.
+    </p>
+  </header>
+
+  <article class="card">
+    <h3 class="card__title">Co se v této části přesně objasní</h3>
+    <ul class="checklist">
+      <li>Co je <strong>modul</strong>.</li>
+      <li>Co dělá příkaz <strong>import</strong>.</li>
+      <li>Co znamená <strong>as tk</strong>.</li>
+      <li>Co je <strong>ttk</strong>.</li>
+      <li>Co je <strong>třída</strong>.</li>
+      <li>Co je <strong>objekt</strong>.</li>
+      <li>Co je <strong>metoda</strong>.</li>
+      <li>Co znamená tečka v zápisu <code>tk.Tk</code> nebo <code>root.title</code>.</li>
+      <li>Jak číst první čtyři řádky GUI programu opravdu slovo od slova.</li>
+    </ul>
+
+    <div class="note note--info">
+      <strong>Hlavní cíl:</strong>
+      <br>
+      Neopíšeme první GUI okno jen mechanicky,
+      ale pochopíme, <strong>co přesně Python na každém řádku dělá</strong>.
+    </div>
+  </article>
+
+  <div class="accordion">
+
+    <!-- ===================================================== -->
+    <!-- KROK 1 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 1: co je modul</summary>
+      <div class="acc__body">
+
+        <p>
+          Modul je soubor s Python kódem,
+          který obsahuje něco užitečného,
+          co lze použít i v jiném programu.
+        </p>
+
+        <p>
+          V modulu mohou být například:
+        </p>
+
+        <ul class="bullets">
+          <li>funkce,</li>
+          <li>třídy,</li>
+          <li>proměnné,</li>
+          <li>další pomocné nástroje.</li>
+        </ul>
+
+        <p>
+          Když se řekne, že <code>tkinter</code> je modul,
+          znamená to:
+          Python už má připravený kus kódu,
+          který umí pracovat s grafickým oknem,
+          tlačítky, textovými poli a dalšími GUI prvky.
+        </p>
+
+        <div class="note note--info">
+          <strong>Zjednodušeně:</strong>
+          <br>
+          Modul je hotová výbava,
+          kterou si program může načíst a používat.
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 2 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 2: co dělá import</summary>
+      <div class="acc__body">
+
+        <p>
+          Příkaz <code>import</code> znamená:
+          <strong>načti modul do programu, abych ho mohl používat</strong>.
+        </p>
+
+        <p>
+          Například:
+        </p>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">Základní import</strong>
+          </div>
+          <pre><code class="language-python">import tkinter</code></pre>
+        </div>
+
+        <p>
+          Tím se do programu načte modul <code>tkinter</code>.
+        </p>
+
+        <p>
+          Od této chvíle může program používat to,
+          co je uvnitř modulu <code>tkinter</code>.
+        </p>
+
+        <div class="note note--info">
+          <strong>Přesně:</strong>
+          <br>
+          <code>import</code> nic nekreslí a nic neotevírá.
+          Jen zpřístupní modul pro další použití.
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 3 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 3: co znamená import tkinter as tk</summary>
+      <div class="acc__body">
+
+        <p>
+          Tohle je jeden z nejčastějších zápisů v tkinteru:
+        </p>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">Import s aliasem</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-import-tk">Kopírovat</button>
+          </div>
+          <pre id="code-612-import-tk"><code class="language-python">import tkinter as tk</code></pre>
+        </div>
+
+        <h4>Rozbor slovo od slova</h4>
+
+        <ul class="bullets">
+          <li><code>import</code> = načti modul.</li>
+          <li><code>tkinter</code> = název modulu.</li>
+          <li><code>as</code> = pod jiným jménem.</li>
+          <li><code>tk</code> = nové kratší jméno modulu.</li>
+        </ul>
+
+        <p>
+          Celý řádek tedy znamená:
+        </p>
+
+        <div class="note note--info">
+          <strong>Načti modul <code>tkinter</code> a v tomto programu mu říkej zkráceně <code>tk</code>.</strong>
+        </div>
+
+        <p>
+          Proč se to dělá?
+          Protože <code>tkinter</code> je delší název
+          a zkrácené <code>tk</code> se pohodlněji píše.
+        </p>
+
+        <h4>Bez aliasu</h4>
+        <div class="codeblock">
+          <pre><code class="language-python">import tkinter
+
+root = tkinter.Tk()</code></pre>
+        </div>
+
+        <h4>S aliasem</h4>
+        <div class="codeblock">
+          <pre><code class="language-python">import tkinter as tk
+
+root = tk.Tk()</code></pre>
+        </div>
+
+        <p>
+          Obojí znamená totéž.
+          Druhá varianta je jen kratší a přehlednější.
+        </p>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 4 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 4: co je ttk</summary>
+      <div class="acc__body">
+
+        <p>
+          Často se používá také tento zápis:
+        </p>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">Import ttk</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-import-ttk">Kopírovat</button>
+          </div>
+          <pre id="code-612-import-ttk"><code class="language-python">from tkinter import ttk</code></pre>
+        </div>
+
+        <h4>Rozbor slovo od slova</h4>
+        <ul class="bullets">
+          <li><code>from</code> = z něčeho vezmi,</li>
+          <li><code>tkinter</code> = z modulu tkinter,</li>
+          <li><code>import</code> = načti,</li>
+          <li><code>ttk</code> = část modulu tkinter jménem ttk.</li>
+        </ul>
+
+        <p>
+          <code>ttk</code> je sada modernějších grafických prvků,
+          například hezčí tabulka nebo stylovanější widgety.
+        </p>
+
+        <p>
+          V praxi to znamená:
+          modul <code>tkinter</code> obsahuje více částí
+          a jednou z nich je právě <code>ttk</code>.
+        </p>
+
+        <h4>Příklad použití</h4>
+        <div class="codeblock">
+          <pre><code class="language-python">tree = ttk.Treeview(...)</code></pre>
+        </div>
+
+        <p>
+          Tím se používá prvek <code>Treeview</code>,
+          který je uvnitř <code>ttk</code>.
+        </p>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 5 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 5: co je třída</summary>
+      <div class="acc__body">
+
+        <p>
+          Třída je v programování něco jako plán nebo šablona,
+          podle které se vytvářejí konkrétní objekty.
+        </p>
+
+        <p>
+          Představa z běžného života:
+        </p>
+
+        <ul class="bullets">
+          <li>třída = plán domu,</li>
+          <li>objekt = konkrétní postavený dům.</li>
+        </ul>
+
+        <p>
+          V tkinteru je například <code>Tk</code> třída.
+          Ta představuje „typ hlavního okna aplikace“.
+        </p>
+
+        <div class="note note--info">
+          <strong>Třída tedy není konkrétní okno.</strong>
+          <br>
+          Je to předpis, jak se takové okno vytvoří.
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 6 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 6: co je objekt</summary>
+      <div class="acc__body">
+
+        <p>
+          Objekt je konkrétní vytvořená věc podle třídy.
+        </p>
+
+        <p>
+          Když třída představuje plán,
+          objekt je konkrétní výsledek podle toho plánu.
+        </p>
+
+        <p>
+          Například:
+        </p>
+
+        <div class="codeblock">
+          <pre><code class="language-python">root = tk.Tk()</code></pre>
+        </div>
+
+        <p>
+          znamená:
+        </p>
+
+        <ul class="bullets">
+          <li><code>Tk</code> = třída,</li>
+          <li><code>tk.Tk()</code> = vytvoření objektu podle této třídy,</li>
+          <li><code>root</code> = proměnná, ve které je tento objekt uložený.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Přesně:</strong>
+          <br>
+          <code>root</code> je konkrétní hlavní okno aplikace.
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 7 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 7: co znamená tečka</summary>
+      <div class="acc__body">
+
+        <p>
+          Tečka v Pythonu znamená:
+          <strong>vezmi něco, co patří k něčemu jinému</strong>.
+        </p>
+
+        <p>
+          Tečka tedy propojuje celek a jeho část.
+        </p>
+
+        <h4>Příklad 1</h4>
+        <div class="codeblock">
+          <pre><code class="language-python">tk.Tk</code></pre>
+        </div>
+
+        <p>
+          To znamená:
+          „vezmi <code>Tk</code> z modulu <code>tk</code>“
+        </p>
+
+        <ul class="bullets">
+          <li><code>tk</code> = modul tkinter pod zkráceným jménem,</li>
+          <li><code>Tk</code> = třída uvnitř tohoto modulu.</li>
+        </ul>
+
+        <h4>Příklad 2</h4>
+        <div class="codeblock">
+          <pre><code class="language-python">root.title</code></pre>
+        </div>
+
+        <p>
+          To znamená:
+          „vezmi <code>title</code> z objektu <code>root</code>“
+        </p>
+
+        <ul class="bullets">
+          <li><code>root</code> = konkrétní objekt, tedy okno,</li>
+          <li><code>title</code> = metoda, která patří tomuto objektu.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Tečka neznamená matematiku.</strong>
+          <br>
+          Znamená přístup k něčemu, co patří modulu nebo objektu.
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 8 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 8: co je metoda</summary>
+      <div class="acc__body">
+
+        <p>
+          Metoda je funkce,
+          která patří konkrétnímu objektu nebo třídě.
+        </p>
+
+        <p>
+          Například:
+        </p>
+
+        <div class="codeblock">
+          <pre><code class="language-python">root.title("Rezervační systém")</code></pre>
+        </div>
+
+        <p>
+          Tady je <code>title</code> metoda objektu <code>root</code>.
+        </p>
+
+        <p>
+          To znamená:
+          hlavní okno <code>root</code> má schopnost nastavit svůj titulek
+          a dělá to právě metodou <code>title(...)</code>.
+        </p>
+
+        <h4>Rozdíl mezi funkcí a metodou</h4>
+        <ul class="bullets">
+          <li>funkce stojí samostatně, například <code>print("Ahoj")</code>,</li>
+          <li>metoda patří nějakému objektu, například <code>root.title(...)</code>.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Zjednodušeně:</strong>
+          <br>
+          metoda je „činnost“, kterou umí konkrétní objekt.
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 9 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 9: rozbor zápisu root = tk.Tk() opravdu po částech</summary>
+      <div class="acc__body">
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">Rozebíraný řádek</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-root-tk">Kopírovat</button>
+          </div>
+          <pre id="code-612-root-tk"><code class="language-python">root = tk.Tk()</code></pre>
+        </div>
+
+        <h4>Rozbor slovo od slova</h4>
+        <ul class="bullets">
+          <li><code>root</code> = proměnná, do které se něco uloží.</li>
+          <li><code>=</code> = přiřazení, tedy „ulož výsledek doprava do jména vlevo“.</li>
+          <li><code>tk</code> = zkrácené jméno modulu <code>tkinter</code>.</li>
+          <li><code>.</code> = vezmi něco z modulu <code>tk</code>.</li>
+          <li><code>Tk</code> = třída uvnitř modulu tkinter.</li>
+          <li><code>()</code> = zavolej, tedy vytvoř objekt podle této třídy.</li>
+        </ul>
+
+        <p>
+          Celý řádek tedy znamená:
+        </p>
+
+        <div class="note note--info">
+          <strong>Vytvoř hlavní okno aplikace podle třídy <code>Tk</code> a ulož ho do proměnné <code>root</code>.</strong>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 10 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 10: rozbor zápisu root.title("Rezervační systém")</summary>
+      <div class="acc__body">
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">Rozebíraný řádek</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-root-title">Kopírovat</button>
+          </div>
+          <pre id="code-612-root-title"><code class="language-python">root.title("Rezervační systém")</code></pre>
+        </div>
+
+        <h4>Rozbor slovo od slova</h4>
+        <ul class="bullets">
+          <li><code>root</code> = objekt hlavního okna.</li>
+          <li><code>.</code> = vezmi něco, co patří objektu <code>root</code>.</li>
+          <li><code>title</code> = metoda objektu <code>root</code>.</li>
+          <li><code>("Rezervační systém")</code> = zavolej tuto metodu a předej jí text jako argument.</li>
+        </ul>
+
+        <p>
+          Celý řádek znamená:
+        </p>
+
+        <div class="note note--info">
+          <strong>Zavolej na hlavním okně metodu, která nastaví jeho titulek na „Rezervační systém“.</strong>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 11 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 11: první čtyři řádky GUI programu rozebrané dohromady</summary>
+      <div class="acc__body">
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">První minimální GUI</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-612-mini-gui-all">Kopírovat</button>
+          </div>
+          <pre id="code-612-mini-gui-all"><code class="language-python">import tkinter as tk
+
+root = tk.Tk()
+root.title("Rezervační systém")
+root.mainloop()</code></pre>
+        </div>
+
+        <h4>Co ty řádky dohromady znamenají</h4>
+        <ol class="steps">
+          <li>Načti modul tkinter a říkej mu zkráceně <code>tk</code>.</li>
+          <li>Pomocí třídy <code>Tk</code> vytvoř hlavní okno a ulož ho do <code>root</code>.</li>
+          <li>Nastav tomuto oknu titulek.</li>
+          <li>Spusť hlavní smyčku aplikace, aby okno zůstalo otevřené a reagovalo na události.</li>
+        </ol>
+
+        <p>
+          V této chvíli ještě neexistují tlačítka ani vstupní pole.
+          Existuje jen samotné okno.
+        </p>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 12 -->
+    <!-- ===================================================== -->
+    <details class="acc">
+      <summary class="acc__sum">Krok 12: co je teď opravdu pevné</summary>
+      <div class="acc__body">
+
+        <ul class="checklist">
+          <li><code>tkinter</code> je modul pro GUI v Pythonu.</li>
+          <li><code>import</code> načítá modul do programu.</li>
+          <li><code>as tk</code> vytváří zkrácené jméno modulu.</li>
+          <li><code>ttk</code> je část tkinteru s dalšími widgety.</li>
+          <li><code>Tk</code> je třída pro hlavní okno aplikace.</li>
+          <li><code>root</code> je konkrétní objekt vytvořený podle této třídy.</li>
+          <li>Tečka znamená přístup k něčemu, co patří modulu nebo objektu.</li>
+          <li><code>title</code> je metoda objektu <code>root</code>.</li>
+        </ul>
+
+      </div>
+    </details>
+
+  </div>
+
+  <article class="card">
+    <h3 class="card__title">Co už po této části opravdu chápeš</h3>
+    <ul class="checklist">
+      <li>Co je modul.</li>
+      <li>Co dělá import.</li>
+      <li>Co znamená alias přes <code>as</code>.</li>
+      <li>Co je třída a co je objekt.</li>
+      <li>Co je metoda.</li>
+      <li>Co znamená tečka v zápisu <code>tk.Tk()</code> nebo <code>root.title()</code>.</li>
+      <li>Jak číst úplně první řádky GUI programu poctivě slovo od slova.</li>
+    </ul>
+  </article>
+
+</section>

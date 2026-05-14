@@ -1,0 +1,963 @@
+<!-- =========================================================
+4.5.2 – GUI v Pythonu: první kroky k rezervačnímu systému
+(teorie + postupné testování + první grafická kostra bez logiky)
+========================================================= -->
+<section id="section4-5-2" class="lesson">
+
+  <header class="lesson__header">
+    <h2 class="lesson__title">4.5.2 GUI v Pythonu – první kroky k rezervačnímu systému</h2>
+    <p class="lesson__lead">
+      V minulých částech vznikl konzolový rezervační systém.
+      Program už umí pracovat s daty, ale zatím se ovládá přes textové menu.
+      <br><br>
+      Teď přichází další krok:
+      dát programu <strong>grafickou podobu</strong>.
+      To znamená, že místo konzolových voleb začne mít vlastní okno,
+      textové popisky, vstupní pole, tlačítka a tabulku.
+      <br><br>
+      V této části se ještě nebude řešit ukládání do databáze.
+      Cílem je nejdřív opravdu pochopit,
+      jak se GUI aplikace skládá,
+      co znamenají zápisy jako <code>import tkinter</code>,
+      <code>from tkinter import ttk</code>,
+      <code>root = tkinter.Tk()</code>,
+      <code>root.mainloop()</code>
+      a jak se jednotlivé prvky do okna přidávají a testují.
+    </p>
+  </header>
+
+  <article class="card">
+    <h3 class="card__title">Co se v této lekci naučíš</h3>
+    <ul class="checklist">
+      <li>Jak navázat na už hotový projekt a začít jeho grafickou verzi.</li>
+      <li>Co je GUI a proč je vhodné pro rezervační systém.</li>
+      <li>Co je modul, import, alias a část modulu.</li>
+      <li>Co znamenají zápisy <code>import tkinter</code> a <code>from tkinter import ttk</code>.</li>
+      <li>Co je objekt okna <code>root</code>.</li>
+      <li>Co je metoda a co znamená tečka v zápisu <code>root.title(...)</code>.</li>
+      <li>Proč je potřeba <code>mainloop()</code> a co dělá hlavní smyčka GUI aplikace.</li>
+      <li>Jak postupně testovat okno, text, tlačítko, formulář a tabulku.</li>
+      <li>Jak vytvořit první grafickou kostru budoucího rezervačního systému.</li>
+    </ul>
+
+    <div class="note note--info">
+      <strong>Hlavní cíl kapitoly:</strong>
+      <br>
+      Vytvořit první grafickou verzi rezervačního systému
+      a přitom poctivě pochopit, co dělá každý důležitý krok.
+    </div>
+  </article>
+
+  <article class="card">
+    <h3 class="card__title">Na co tato kapitola navazuje</h3>
+    <ol class="steps">
+      <li>Existuje konzolový program pro rezervace.</li>
+      <li>Existuje databázová logika a práce s daty.</li>
+      <li>Dalším krokem je připravit grafické rozhraní.</li>
+      <li>Nejdřív se ale nebude řešit ukládání, ale samotné GUI.</li>
+    </ol>
+
+    <div class="note note--info">
+      <strong>Důležité:</strong>
+      <br>
+      Tahle kapitola navazuje na předchozí práci,
+      ale zatím používá jen grafické prvky.
+      Logika rezervací se doplní až v další části.
+    </div>
+  </article>
+
+  <div class="accordion">
+
+    <!-- ===================================================== -->
+    <!-- KROK 1 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 1: co je GUI a proč na něj teď navázat</summary>
+      <div class="acc__body">
+
+        <p>
+          GUI je zkratka pro <strong>Graphical User Interface</strong>,
+          tedy grafické uživatelské rozhraní.
+        </p>
+
+        <p>
+          Zatím program fungoval v konzoli.
+          To znamená, že:
+        </p>
+
+        <ul class="bullets">
+          <li>vypisoval menu textem,</li>
+          <li>čekal na číselnou volbu,</li>
+          <li>a data se zadávala přes <code>input()</code>.</li>
+        </ul>
+
+        <p>
+          V GUI programu bude místo toho:
+        </p>
+
+        <ul class="bullets">
+          <li>okno aplikace,</li>
+          <li>textové popisky,</li>
+          <li>vstupní pole,</li>
+          <li>tlačítka,</li>
+          <li>tabulka s daty.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Smysl tohoto kroku:</strong>
+          <br>
+          Nezačíná se nový projekt.
+          Jen se ke stávající logice přidává nový způsob ovládání.
+        </div>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-gui-vs-console">
+            Modál: GUI × konzole
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 2 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 2: první importy – co je modul a co je ttk</summary>
+      <div class="acc__body">
+
+        <p>
+          Než vznikne první okno, musí se načíst potřebné moduly.
+        </p>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">První dva řádky GUI programu</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-452-imports">Kopírovat</button>
+          </div>
+          <pre id="code-452-imports"><code class="language-python">import tkinter
+from tkinter import ttk</code></pre>
+        </div>
+
+        <h4>Co znamená první řádek</h4>
+        <div class="codeblock">
+          <pre><code class="language-python">import tkinter</code></pre>
+        </div>
+
+        <ul class="bullets">
+          <li><code>import</code> = načti modul do programu.</li>
+          <li><code>tkinter</code> = modul pro tvorbu GUI v Pythonu.</li>
+        </ul>
+
+        <h4>Co znamená druhý řádek</h4>
+        <div class="codeblock">
+          <pre><code class="language-python">from tkinter import ttk</code></pre>
+        </div>
+
+        <ul class="bullets">
+          <li><code>from</code> = z něčeho vezmi,</li>
+          <li><code>tkinter</code> = z modulu tkinter,</li>
+          <li><code>import ttk</code> = načti část modulu jménem <code>ttk</code>.</li>
+        </ul>
+
+        <p>
+          <code>ttk</code> obsahuje další widgety,
+          například velmi užitečný prvek <code>Treeview</code>,
+          který se hodí pro tabulku rezervací.
+        </p>
+
+        <div class="note note--info">
+          <strong>Pro tuto lekci:</strong>
+          <br>
+          <code>tkinter</code> dodá základní prvky okna
+          a <code>ttk</code> se bude hodit hlavně pro tabulku.
+        </div>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-module-import">
+            Modál: co je modul a import
+          </button>
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-ttk">
+            Modál: co je ttk
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 3 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 3: první test – vytvoření samotného okna</summary>
+      <div class="acc__body">
+
+        <p>
+          Teď přijde první opravdu spustitelný krok.
+          Cílem není udělat celou aplikaci,
+          ale jen ověřit, že se umí vytvořit a zobrazit okno.
+        </p>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">První test GUI okna</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-452-window-test">Kopírovat</button>
+          </div>
+          <pre id="code-452-window-test"><code class="language-python">import tkinter
+
+root = tkinter.Tk()
+root.title("Rezervační systém")
+root.geometry("760x500")
+
+root.mainloop()</code></pre>
+        </div>
+
+        <h4>Jak tenhle test číst</h4>
+        <ul class="bullets">
+          <li><code>root = tkinter.Tk()</code> = vytvoř hlavní okno aplikace.</li>
+          <li><code>root.title(...)</code> = nastav titulek okna.</li>
+          <li><code>root.geometry(...)</code> = nastav velikost okna.</li>
+          <li><code>root.mainloop()</code> = spusť hlavní smyčku aplikace.</li>
+        </ul>
+
+        <h4>Co se má po spuštění stát</h4>
+        <ul class="bullets">
+          <li>otevře se prázdné okno,</li>
+          <li>v horní liště bude napsáno „Rezervační systém“,</li>
+          <li>okno zůstane otevřené, dokud ho někdo nezavře.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Tohle je první test:</strong>
+          <br>
+          Nepřidává se nic dalšího,
+          dokud není jisté, že funguje samotné okno.
+        </div>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-dot-method">
+            Modál: co znamená tečka a metoda
+          </button>
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-mainloop">
+            Modál: proč je potřeba mainloop()
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 4 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 4: proč je potřeba mainloop() a co je hlavní smyčka</summary>
+      <div class="acc__body">
+
+        <p>
+          To je jeden z nejdůležitějších principů celé GUI aplikace.
+        </p>
+
+        <p>
+          Když se vytvoří okno přes <code>tkinter.Tk()</code>,
+          ještě to neznamená, že bude samo fungovat.
+          Program totiž běží odshora dolů.
+          Kdyby došel na konec souboru, okamžitě by skončil.
+        </p>
+
+        <p>
+          A právě proto je potřeba:
+        </p>
+
+        <div class="codeblock">
+          <pre><code class="language-python">root.mainloop()</code></pre>
+        </div>
+
+        <p>
+          Tato metoda spustí <strong>hlavní smyčku GUI aplikace</strong>.
+        </p>
+
+        <p>
+          Smyčka znamená,
+          že program pořád dokola kontroluje:
+        </p>
+
+        <ul class="bullets">
+          <li>jestli někdo klikl myší,</li>
+          <li>jestli někdo píše do pole,</li>
+          <li>jestli se má okno překreslit,</li>
+          <li>jestli bylo okno zavřeno.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Jednoduše:</strong>
+          <br>
+          <code>mainloop()</code> drží GUI aplikaci naživu
+          a umožňuje jí reagovat na události.
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 5 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 5: druhý test – přidání textového popisku</summary>
+      <div class="acc__body">
+
+        <p>
+          Jakmile funguje samotné okno, je čas přidat první widget.
+          Nejjednodušší je textový popisek <code>Label</code>.
+        </p>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">Druhý test – Label</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-452-label-test">Kopírovat</button>
+          </div>
+          <pre id="code-452-label-test"><code class="language-python">import tkinter
+
+root = tkinter.Tk()
+root.title("Rezervační systém")
+root.geometry("760x500")
+
+label = tkinter.Label(root, text="Rezervační systém")
+label.pack()
+
+root.mainloop()</code></pre>
+        </div>
+
+        <h4>Co je zde nové</h4>
+        <ul class="bullets">
+          <li><code>tkinter.Label(...)</code> = vytvoření textového widgetu.</li>
+          <li><code>root</code> = rodič, tedy okno, do kterého Label patří.</li>
+          <li><code>text="Rezervační systém"</code> = text, který se zobrazí.</li>
+          <li><code>label.pack()</code> = vložení widgetu do okna.</li>
+        </ul>
+
+        <h4>Co se má po spuštění stát</h4>
+        <ul class="bullets">
+          <li>otevře se okno,</li>
+          <li>uvnitř bude vidět text „Rezervační systém“.</li>
+        </ul>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-widget">
+            Modál: co je widget
+          </button>
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-pack">
+            Modál: co dělá pack()
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 6 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 6: třetí test – přidání tlačítka</summary>
+      <div class="acc__body">
+
+        <p>
+          Dalším logickým krokem je tlačítko.
+          Zatím ještě nebude mít žádnou funkci,
+          ale ukáže se, jak se do okna přidává další widget.
+        </p>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">Třetí test – Button</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-452-button-test">Kopírovat</button>
+          </div>
+          <pre id="code-452-button-test"><code class="language-python">import tkinter
+
+root = tkinter.Tk()
+root.title("Rezervační systém")
+root.geometry("760x500")
+
+label = tkinter.Label(root, text="Rezervační systém")
+label.pack()
+
+button = tkinter.Button(root, text="Přidat rezervaci")
+button.pack()
+
+root.mainloop()</code></pre>
+        </div>
+
+        <h4>Co se má po spuštění stát</h4>
+        <ul class="bullets">
+          <li>otevře se okno,</li>
+          <li>zobrazí se text,</li>
+          <li>pod ním bude tlačítko.</li>
+        </ul>
+
+        <p>
+          Tlačítko zatím nic nedělá.
+          A to je správně.
+          V této chvíli se testuje jen jeho vytvoření a zobrazení.
+        </p>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 7 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 7: čtvrtý test – vstupní pole</summary>
+      <div class="acc__body">
+
+        <p>
+          Rezervační systém nebude mít jen text a tlačítka.
+          Bude potřebovat i místa,
+          kam se budou zapisovat údaje.
+          K tomu slouží <code>Entry</code>.
+        </p>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">Čtvrtý test – Entry</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-452-entry-test">Kopírovat</button>
+          </div>
+          <pre id="code-452-entry-test"><code class="language-python">import tkinter
+
+root = tkinter.Tk()
+root.title("Rezervační systém")
+root.geometry("760x500")
+
+label = tkinter.Label(root, text="Jméno:")
+label.pack()
+
+entry = tkinter.Entry(root)
+entry.pack()
+
+button = tkinter.Button(root, text="Přidat rezervaci")
+button.pack()
+
+root.mainloop()</code></pre>
+        </div>
+
+        <p>
+          Tady už se začíná objevovat to,
+          co bude později skutečný formulář.
+        </p>
+
+        <h4>Co se testuje</h4>
+        <ul class="bullets">
+          <li>zobrazení textového popisku,</li>
+          <li>zobrazení vstupního pole,</li>
+          <li>zobrazení tlačítka pod nimi.</li>
+        </ul>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 8 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 8: pátý test – seskupení prvků do LabelFrame</summary>
+      <div class="acc__body">
+
+        <p>
+          Když je widgetů víc,
+          je dobré je seskupit do části s vlastním názvem.
+          K tomu slouží <code>LabelFrame</code>.
+        </p>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">Pátý test – LabelFrame</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-452-frame-test">Kopírovat</button>
+          </div>
+          <pre id="code-452-frame-test"><code class="language-python">import tkinter
+
+root = tkinter.Tk()
+root.title("Rezervační systém")
+root.geometry("760x500")
+
+frame = tkinter.LabelFrame(root, text="Nová rezervace", padx=10, pady=10)
+frame.pack(padx=15, pady=15, fill="x")
+
+label = tkinter.Label(frame, text="Jméno:")
+label.pack()
+
+entry = tkinter.Entry(frame)
+entry.pack()
+
+button = tkinter.Button(frame, text="Přidat rezervaci")
+button.pack(pady=10)
+
+root.mainloop()</code></pre>
+        </div>
+
+        <h4>Co je důležité</h4>
+        <ul class="bullets">
+          <li><code>frame</code> je nový rodič pro vnitřní prvky.</li>
+          <li>Label, Entry i Button už nepatří přímo do <code>root</code>, ale do <code>frame</code>.</li>
+          <li>Díky tomu vzniká přehlednější část formuláře.</li>
+        </ul>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 9 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 9: šestý test – první tabulka přes ttk.Treeview</summary>
+      <div class="acc__body">
+
+        <p>
+          Druhá velká část budoucí aplikace bude seznam rezervací.
+          Pro něj se hodí <code>ttk.Treeview</code>.
+        </p>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">Šestý test – Treeview</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-452-tree-test">Kopírovat</button>
+          </div>
+          <pre id="code-452-tree-test"><code class="language-python">import tkinter
+from tkinter import ttk
+
+root = tkinter.Tk()
+root.title("Rezervační systém")
+root.geometry("760x500")
+
+tree = ttk.Treeview(root, columns=("id", "name"), show="headings")
+tree.heading("id", text="ID")
+tree.heading("name", text="Jméno")
+tree.pack(fill="both", expand=True)
+
+root.mainloop()</code></pre>
+        </div>
+
+        <h4>Co se testuje</h4>
+        <ul class="bullets">
+          <li>že se zobrazí tabulka,</li>
+          <li>že má záhlaví sloupců,</li>
+          <li>že se rozšiřuje do prostoru okna.</li>
+        </ul>
+
+        <div class="actions">
+          <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-treeview">
+            Modál: co je Treeview
+          </button>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 10 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 10: spojení všech otestovaných částí do jedné kostry</summary>
+      <div class="acc__body">
+
+        <p>
+          Teď už jsou otestované základní stavební kameny:
+        </p>
+
+        <ul class="bullets">
+          <li>hlavní okno,</li>
+          <li>Label,</li>
+          <li>Entry,</li>
+          <li>Button,</li>
+          <li>LabelFrame,</li>
+          <li>Treeview.</li>
+        </ul>
+
+        <p>
+          Až teď dává smysl spojit je do jedné větší ukázky.
+        </p>
+
+        <div class="codeblock">
+          <div class="codeblock__bar">
+            <strong class="codeblock__title">První grafická kostra rezervačního systému</strong>
+            <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-452-final-layout">Kopírovat</button>
+          </div>
+          <pre id="code-452-final-layout"><code class="language-python">import tkinter
+from tkinter import ttk
+
+root = tkinter.Tk()
+root.title("Rezervační systém")
+root.geometry("760x500")
+
+title_label = tkinter.Label(root, text="Rezervační systém", font=("Arial", 20, "bold"))
+title_label.pack(pady=10)
+
+subtitle_label = tkinter.Label(root, text="Grafická příprava aplikace")
+subtitle_label.pack(pady=5)
+
+form_frame = tkinter.LabelFrame(root, text="Nová rezervace", padx=10, pady=10)
+form_frame.pack(fill="x", padx=15, pady=10)
+
+label_name = tkinter.Label(form_frame, text="Jméno:")
+label_name.pack()
+
+entry_name = tkinter.Entry(form_frame, width=40)
+entry_name.pack(pady=5)
+
+label_date = tkinter.Label(form_frame, text="Datum (YYYY-MM-DD):")
+label_date.pack()
+
+entry_date = tkinter.Entry(form_frame, width=40)
+entry_date.pack(pady=5)
+
+label_arrival = tkinter.Label(form_frame, text="Příchod (HH:MM):")
+label_arrival.pack()
+
+entry_arrival = tkinter.Entry(form_frame, width=40)
+entry_arrival.pack(pady=5)
+
+label_departure = tkinter.Label(form_frame, text="Odchod (HH:MM):")
+label_departure.pack()
+
+entry_departure = tkinter.Entry(form_frame, width=40)
+entry_departure.pack(pady=5)
+
+button_add = tkinter.Button(form_frame, text="Přidat rezervaci")
+button_add.pack(pady=10)
+
+table_frame = tkinter.LabelFrame(root, text="Seznam rezervací", padx=10, pady=10)
+table_frame.pack(fill="both", expand=True, padx=15, pady=10)
+
+tree = ttk.Treeview(
+    table_frame,
+    columns=("id", "name", "date", "arrival", "departure"),
+    show="headings"
+)
+
+tree.heading("id", text="ID")
+tree.heading("name", text="Jméno")
+tree.heading("date", text="Datum")
+tree.heading("arrival", text="Příchod")
+tree.heading("departure", text="Odchod")
+
+tree.pack(fill="both", expand=True)
+
+root.mainloop()</code></pre>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 11 -->
+    <!-- ===================================================== -->
+    <details class="acc" open>
+      <summary class="acc__sum">Krok 11: co tahle verze umí a co ještě ne</summary>
+      <div class="acc__body">
+
+        <h4>Co už umí</h4>
+        <ul class="bullets">
+          <li>otevřít hlavní okno,</li>
+          <li>zobrazit nadpis aplikace,</li>
+          <li>zobrazit formulář pro novou rezervaci,</li>
+          <li>zobrazit tlačítko,</li>
+          <li>zobrazit tabulku pro seznam rezervací.</li>
+        </ul>
+
+        <h4>Co ještě neumí</h4>
+        <ul class="bullets">
+          <li>ukládat rezervaci do databáze,</li>
+          <li>načítat skutečné řádky,</li>
+          <li>reagovat na kliknutí tlačítka,</li>
+          <li>vyčistit pole po odeslání.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>A to je správně.</strong>
+          <br>
+          Tahle kapitola má vytvořit a otestovat vzhled.
+          Chování se doplní až v navazující části.
+        </div>
+
+      </div>
+    </details>
+
+    <!-- ===================================================== -->
+    <!-- KROK 12 -->
+    <!-- ===================================================== -->
+    <details class="acc">
+      <summary class="acc__sum">Krok 12: proč je důležité testovat po malých krocích</summary>
+      <div class="acc__body">
+
+        <p>
+          Kdyby se všechno napsalo najednou do jednoho velkého souboru,
+          bylo by těžší poznat, kde vznikla chyba.
+        </p>
+
+        <p>
+          Postupné testování má několik výhod:
+        </p>
+
+        <ul class="bullets">
+          <li>okamžitě je vidět, co už funguje,</li>
+          <li>je jasné, ve kterém kroku se případně objevil problém,</li>
+          <li>každý nový widget se pochopí samostatně,</li>
+          <li>větší finální kód pak nepůsobí jako jedna nepřehledná zeď textu.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Dobrá praxe:</strong>
+          <br>
+          nejdřív malé funkční testy,
+          potom větší celek.
+        </div>
+
+      </div>
+    </details>
+
+  </div>
+
+  <article class="card">
+    <h3 class="card__title">Co už po této lekci víš</h3>
+    <ul class="checklist">
+      <li>Jak navázat na předchozí práci a začít grafickou verzi programu.</li>
+      <li>Co znamenají importy <code>import tkinter</code> a <code>from tkinter import ttk</code>.</li>
+      <li>Že <code>root</code> je hlavní okno aplikace.</li>
+      <li>Co znamenají zápisy jako <code>root.title(...)</code> a <code>root.geometry(...)</code>.</li>
+      <li>Proč je potřeba <code>root.mainloop()</code>.</li>
+      <li>Jak postupně otestovat Label, Button, Entry, LabelFrame a Treeview.</li>
+      <li>Jak z těchto prvků vytvořit první grafickou kostru rezervačního systému.</li>
+    </ul>
+  </article>
+
+</section>
+
+
+
+<!-- =========================================================
+MODÁLY – GUI / import / ttk / metoda / smyčka / pack / treeview
+========================================================= -->
+
+<div class="modal" id="modal-gui-vs-console" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">GUI × konzolový program</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Konzolový program pracuje hlavně s textem.
+          Program vypíše nabídku a čeká, co se napíše do terminálu.
+        </p>
+        <p>
+          GUI program se ovládá přes viditelné prvky v okně:
+          tlačítka, pole, seznamy a tabulky.
+        </p>
+        <div class="note note--info">
+          <strong>Prakticky:</strong>
+          <br>
+          logika programu může zůstat podobná,
+          ale způsob ovládání je jiný.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-module-import" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Co je modul a co dělá import</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Modul je kus hotového Python kódu,
+          který si program může načíst a používat.
+        </p>
+        <p>
+          Příkaz <code>import</code> znamená:
+          načti modul do programu.
+        </p>
+        <pre><code class="language-python">import tkinter</code></pre>
+        <p>
+          Tím se zpřístupní vše potřebné pro tvorbu GUI přes modul <code>tkinter</code>.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-ttk" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Co je ttk</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          <code>ttk</code> je část modulu <code>tkinter</code>,
+          která obsahuje některé další widgety.
+        </p>
+        <p>
+          V této kapitole je důležitý hlavně kvůli prvku <code>Treeview</code>,
+          který se hodí jako tabulka pro výpis rezervací.
+        </p>
+        <pre><code class="language-python">from tkinter import ttk</code></pre>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-dot-method" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Tečka a metoda</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Zápis jako <code>root.title(...)</code> nebo <code>root.geometry(...)</code>
+          používá tečku.
+        </p>
+        <p>
+          Tečka znamená:
+          vezmi něco, co patří objektu <code>root</code>.
+        </p>
+        <ul class="bullets">
+          <li><code>root</code> = objekt hlavního okna,</li>
+          <li><code>title</code> = metoda tohoto objektu,</li>
+          <li><code>geometry</code> = další metoda tohoto objektu.</li>
+        </ul>
+        <p>
+          Metoda je akce, kterou objekt umí provést.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-mainloop" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Proč je potřeba mainloop()</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          <code>mainloop()</code> spustí hlavní smyčku GUI aplikace.
+        </p>
+        <p>
+          Díky ní program stále běží a kontroluje,
+          jestli někdo klikl, něco napsal nebo zavřel okno.
+        </p>
+        <pre><code class="language-python">root.mainloop()</code></pre>
+        <div class="note note--info">
+          <strong>Bez této smyčky by se program vytvořil a hned skončil.</strong>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-widget" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Co je widget</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Widget je grafický prvek uvnitř okna.
+        </p>
+        <p>
+          Například:
+        </p>
+        <ul class="bullets">
+          <li><code>Label</code> = text,</li>
+          <li><code>Entry</code> = vstupní pole,</li>
+          <li><code>Button</code> = tlačítko,</li>
+          <li><code>Treeview</code> = tabulka.</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-pack" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Co dělá pack()</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Samotné vytvoření widgetu ještě neznamená,
+          že se hned ukáže v okně.
+        </p>
+        <p>
+          Metoda <code>pack()</code> widget do okna umístí a tím ho zobrazí.
+        </p>
+        <pre><code class="language-python">label.pack()</code></pre>
+        <div class="note note--info">
+          <strong>Zjednodušeně:</strong>
+          <br>
+          vytvořit widget nestačí,
+          je potřeba ho i umístit.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-treeview" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Co je Treeview</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          <code>Treeview</code> je widget z části <code>ttk</code>.
+        </p>
+        <p>
+          Umí zobrazit data po řádcích a sloupcích,
+          takže se hodí jako tabulka.
+        </p>
+        <p>
+          V rezervačním systému bude později sloužit pro výpis rezervací.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+    </div>
+  </div>
+</div>

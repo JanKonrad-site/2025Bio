@@ -119,53 +119,62 @@ export const NAV_TREE = [
         
         
         {
-          title: "4. Programování v Pythonu",
-          href: "#section4",
-          children: [
-            {
-              title: "4.1 Základy Pythonu",
-              href: "#section4-1-základy-pythonu",
-              children: [
-                { title: "4.1.0 Úvod", href: "#section4-1-základy-pythonu" },
-                { title: "4.1.1 Proměnné a datové typy", href: "#section4-1-1" },
-                { title: "4.1.2 Podmínky", href: "#section4-1-2" },
-                { title: "4.1.3 Vstup/Output", href: "#section4-1-3" },
-                { title: "4.1.4 Operátory", href: "#section4-1-4" },
-                { title: "4.1.5 Řetězce", href: "#section4-1-5" },
-                { title: "4.1.6 Kolekce", href: "#section4-1-6" },
-                { title: "4.1.7 Funkce", href: "#section4-1-7final" },
-                { title: "4.1.8 Test / Kalkulačka", href: "#section4-1-8test" },
-              ]
-            },
-            {
-              title: "4.2 Projekty",
-              href: "#section4-2-1",
-              children: [
-                { title: "4.2.1 Projekt 1", href: "#section4-2-1" },
-                { title: "4.2.2 Projekt 2", href: "#section4-2-2" },
-                { title: "4.2.3 Projekt 3", href: "#section4-2-3final" },
-              ]
-            },
-            {
-              title: "4.3 Cykly",
-              href: "#section4-3-1for",
-              children: [
-                { title: "4.3.1 for", href: "#section4-3-1for" },
-                { title: "4.3.2 while", href: "#section4-3-2while" },
-                { title: "4.3.3 Cvičení", href: "#section4-3-3" },
-              ]
-            },
-            {
-              title: "4.4 Funkce a projekty",
-              href: "#section4-4-1",
-              children: [
-                { title: "4.4.1", href: "#section4-4-1" },
-                { title: "4.4.2", href: "#section4-4-2" },
-                { title: "4.4.3", href: "#section4-4-3" },
-              ]
-            }
-          ]
-        },
+  title: "4. Programování v Pythonu",
+  href: "#section4",
+  children: [
+    {
+      title: "4.1 Základy Pythonu",
+      href: "#section4-1-základy-pythonu",
+      children: [
+        { title: "4.1.0 Úvod", href: "#section4-1-základy-pythonu" },
+        { title: "4.1.1 Proměnné a datové typy", href: "#section4-1-1" },
+        { title: "4.1.2 Podmínky", href: "#section4-1-2" },
+        { title: "4.1.3 Vstup/Output", href: "#section4-1-3" },
+        { title: "4.1.4 Operátory", href: "#section4-1-4" },
+        { title: "4.1.5 Řetězce", href: "#section4-1-5" },
+        { title: "4.1.6 Kolekce", href: "#section4-1-6" },
+        { title: "4.1.7 Funkce", href: "#section4-1-7final" },
+        { title: "4.1.8 Test / Kalkulačka", href: "#section4-1-8test" },
+      ]
+    },
+    {
+      title: "4.2 Projekty",
+      href: "#section4-2-1",
+      children: [
+        { title: "4.2.1 Projekt 1", href: "#section4-2-1" },
+        { title: "4.2.2 Projekt 2", href: "#section4-2-2" },
+        { title: "4.2.3 Projekt 3", href: "#section4-2-3final" },
+      ]
+    },
+    {
+      title: "4.3 Cykly",
+      href: "#section4-3-1for",
+      children: [
+        { title: "4.3.1 for", href: "#section4-3-1for" },
+        { title: "4.3.2 while", href: "#section4-3-2while" },
+        { title: "4.3.3 Cvičení", href: "#section4-3-3" },
+      ]
+    },
+    {
+      title: "4.4 Funkce a projekty",
+      href: "#section4-4-1",
+      children: [
+        { title: "4.4.1", href: "#section4-4-1" },
+        { title: "4.4.2", href: "#section4-4-2" },
+        { title: "4.4.3", href: "#section4-4-3" },
+      ]
+    },
+    {
+      title: "4.5 GUI v Pythonu",
+      href: "#section4-5-1",
+      children: [
+        { title: "4.5.1 Úvod do GUI a Tkinteru", href: "#section4-5-1" },
+        { title: "4.5.2 Widgety, layouty a události", href: "#section4-5-2" },
+        { title: "4.5.3 Praktický projekt – jednoduchá GUI aplikace", href: "#section4-5-3" },
+      ]
+    }
+  ]
+},
         {
           title: "5. Databáze",
           href: "#section5",
