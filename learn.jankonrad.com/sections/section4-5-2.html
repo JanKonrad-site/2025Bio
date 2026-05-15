@@ -472,6 +472,11 @@ root.mainloop()</code></pre>
             <strong class="codeblock__title">Pátý test – LabelFrame</strong>
             <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-452-frame-test">Kopírovat</button>
           </div>
+          <div class="actions">
+  <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-labelframe-detail">
+    Modál: jak funguje LabelFrame a pack()
+  </button>
+</div>
           <pre id="code-452-frame-test"><code class="language-python">import tkinter
 
 root = tkinter.Tk()
@@ -520,6 +525,11 @@ root.mainloop()</code></pre>
             <strong class="codeblock__title">Šestý test – Treeview</strong>
             <button class="btn btn--sm btn--ghost" type="button" data-copy-target="code-452-tree-test">Kopírovat</button>
           </div>
+          <div class="actions">
+  <button class="btn btn--sm btn--ghost modal-trigger" type="button" data-modal-open="modal-treeview-detail">
+    Modál: jak funguje Treeview a show="headings"
+  </button>
+</div>
           <pre id="code-452-tree-test"><code class="language-python">import tkinter
 from tkinter import ttk
 
@@ -954,6 +964,490 @@ MODÁLY – GUI / import / ttk / metoda / smyčka / pack / treeview
         <p>
           V rezervačním systému bude později sloužit pro výpis rezervací.
         </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal" id="modal-labelframe-detail" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Jak funguje LabelFrame a pack()</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+
+        <p>
+          Podívej se na tyto dva řádky:
+        </p>
+
+        <pre><code class="language-python">frame = tkinter.LabelFrame(root, text="Nová rezervace", padx=10, pady=10)
+frame.pack(padx=15, pady=15, fill="x")</code></pre>
+
+        <p>
+          Na první pohled to může vypadat jako jeden celek,
+          ale ve skutečnosti se zde dějí dvě různé věci:
+        </p>
+
+        <ol class="steps">
+          <li>nejprve se vytvoří nový objekt typu <code>LabelFrame</code>,</li>
+          <li>potom se tento objekt metodou <code>pack()</code> umístí do okna.</li>
+        </ol>
+
+        <h4>První řádek: vytvoření rámu</h4>
+
+        <pre><code class="language-python">frame = tkinter.LabelFrame(root, text="Nová rezervace", padx=10, pady=10)</code></pre>
+
+        <ul class="bullets">
+          <li><code>frame</code> = proměnná, do které se uloží nový objekt.</li>
+          <li><code>=</code> = přiřazení, tedy ulož výsledek doprava do proměnné vlevo.</li>
+          <li><code>tkinter</code> = modul.</li>
+          <li><code>.</code> = vezmi něco z modulu <code>tkinter</code>.</li>
+          <li><code>LabelFrame</code> = třída pro rám s nadpisem.</li>
+          <li><code>(...)</code> = vytvoř objekt podle této třídy.</li>
+        </ul>
+
+        <p>
+          Celý řádek tedy znamená:
+        </p>
+
+        <div class="note note--info">
+          <strong>Vytvoř nový objekt typu <code>LabelFrame</code>, ulož ho do proměnné <code>frame</code> a nastav, že patří do objektu <code>root</code>.</strong>
+        </div>
+
+        <h4>Co znamená <code>root</code></h4>
+        <p>
+          První argument <code>root</code> říká,
+          kdo je rodič tohoto widgetu.
+        </p>
+
+        <p>
+          To znamená,
+          že rám bude vložen do hlavního okna aplikace.
+        </p>
+
+        <h4>Co znamená <code>text="Nová rezervace"</code></h4>
+        <p>
+          To není metoda.
+          To je pojmenovaný argument,
+          který při vytváření objektu nastavuje jeho nadpis.
+        </p>
+
+        <p>
+          Výsledkem je rám,
+          který má nahoře viditelný text <code>Nová rezervace</code>.
+        </p>
+
+        <h4>Co znamená <code>padx=10, pady=10</code> v tomto řádku</h4>
+        <p>
+          Tady jde o <strong>vnitřní odsazení</strong>.
+        </p>
+
+        <p>
+          To znamená,
+          že obsah uvnitř rámu nebude nalepený přímo na jeho okraj.
+        </p>
+
+        <ul class="bullets">
+          <li><code>padx=10</code> = vnitřní vodorovná mezera,</li>
+          <li><code>pady=10</code> = vnitřní svislá mezera.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Tady je důležitý rozdíl:</strong>
+          <br>
+          <code>padx</code> a <code>pady</code> uvnitř <code>LabelFrame(...)</code>
+          nastavují mezeru <strong>uvnitř rámu</strong>.
+        </div>
+
+        <h4>Druhý řádek: umístění rámu do okna</h4>
+
+        <pre><code class="language-python">frame.pack(padx=15, pady=15, fill="x")</code></pre>
+
+        <ul class="bullets">
+          <li><code>frame</code> = objekt, který už byl vytvořen v předchozím řádku.</li>
+          <li><code>.</code> = vezmi něco, co patří objektu <code>frame</code>.</li>
+          <li><code>pack</code> = metoda objektu <code>frame</code>.</li>
+          <li><code>(...)</code> = zavolej tuto metodu s parametry.</li>
+        </ul>
+
+        <p>
+          Tento řádek tedy neznamená vytvoření dalšího rámu.
+          Znamená:
+        </p>
+
+        <div class="note note--info">
+          <strong>Umísti už vytvořený rám do okna a nastav způsob jeho zobrazení.</strong>
+        </div>
+
+        <h4>Co znamená <code>padx=15, pady=15</code> u <code>pack()</code></h4>
+        <p>
+          Tady už nejde o vnitřní odsazení,
+          ale o <strong>vnější mezeru kolem celého rámu</strong>.
+        </p>
+
+        <ul class="bullets">
+          <li><code>padx=15</code> = nech mezeru vlevo a vpravo od rámu,</li>
+          <li><code>pady=15</code> = nech mezeru nahoře a dole od rámu.</li>
+        </ul>
+
+        <p>
+          To znamená,
+          že rám nebude nalepený přímo na kraje okna.
+        </p>
+
+        <h4>Co znamená <code>fill="x"</code></h4>
+        <p>
+          Tento parametr říká,
+          že se rám má roztáhnout vodorovně,
+          tedy ve směru osy <code>x</code>.
+        </p>
+
+        <p>
+          Jinými slovy:
+          rám se přizpůsobí šířce okna,
+          ale jen vodorovně.
+        </p>
+
+        <ul class="bullets">
+          <li><code>x</code> = vodorovný směr,</li>
+          <li><code>y</code> = svislý směr.</li>
+        </ul>
+
+        <div class="note note--info">
+          <strong>Přesně:</strong>
+          <br>
+          <code>fill="x"</code> způsobí,
+          že se rám roztáhne přes dostupnou šířku rodiče.
+        </div>
+
+        <h4>Celý význam obou řádků dohromady</h4>
+        <p>
+          Nejprve vznikne rám s nadpisem <code>Nová rezervace</code>,
+          který patří do hlavního okna.
+          Uvnitř rámu se nastaví vnitřní mezery.
+          Potom se tento rám vloží do okna,
+          dostane vnější odsazení
+          a roztáhne se do šířky.
+        </p>
+
+        <h4>Nejkratší shrnutí</h4>
+        <ul class="bullets">
+          <li><code>LabelFrame</code> = třída pro rám s nadpisem.</li>
+          <li><code>frame</code> = objekt vytvořený podle této třídy.</li>
+          <li><code>text="..."</code> = nadpis rámu.</li>
+          <li><code>padx</code> a <code>pady</code> uvnitř <code>LabelFrame(...)</code> = vnitřní odsazení.</li>
+          <li><code>pack()</code> = metoda pro umístění a zobrazení widgetu.</li>
+          <li><code>padx</code> a <code>pady</code> u <code>pack()</code> = vnější mezera kolem widgetu.</li>
+          <li><code>fill="x"</code> = roztáhni widget do šířky.</li>
+        </ul>
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-treeview-detail" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Jak funguje Treeview a co znamená show="headings"</h3>
+        <button class="btn-close" type="button" data-modal-close aria-label="Zavřít"></button>
+      </div>
+      <div class="modal-body">
+
+        <p>
+          Podívej se na tuto ukázku:
+        </p>
+
+        <pre><code class="language-python">import tkinter
+from tkinter import ttk
+
+root = tkinter.Tk()
+root.title("Rezervační systém")
+root.geometry("760x500")
+
+tree = ttk.Treeview(root, columns=("id", "name"), show="headings")
+tree.heading("id", text="ID")
+tree.heading("name", text="Jméno")
+tree.pack(fill="both", expand=True)
+
+root.mainloop()</code></pre>
+
+        <p>
+          Tato ukázka vytváří jednoduchou tabulku.
+          Na první pohled to vypadá jako jeden blok,
+          ale ve skutečnosti se tu děje několik samostatných kroků.
+        </p>
+
+        <ol class="steps">
+          <li>načte se <code>tkinter</code> a část <code>ttk</code>,</li>
+          <li>vytvoří se hlavní okno,</li>
+          <li>vytvoří se widget <code>Treeview</code>,</li>
+          <li>nastaví se názvy sloupců,</li>
+          <li>tabulka se vloží do okna,</li>
+          <li>spustí se hlavní smyčka aplikace.</li>
+        </ol>
+
+        <h4>Co je vůbec Treeview</h4>
+        <p>
+          <code>Treeview</code> je widget z části <code>ttk</code>.
+        </p>
+
+        <p>
+          Umí zobrazovat data po řádcích a sloupcích,
+          takže se dá použít jako tabulka.
+          Zároveň ale umí i stromovou strukturu,
+          tedy vnořené položky pod sebou.
+        </p>
+
+        <div class="note note--info">
+          <strong>Důležité:</strong>
+          <br>
+          Název <code>Treeview</code> připomíná strom,
+          protože tento widget původně umí zobrazovat i hierarchii.
+          V našem projektu ho ale používáme hlavně jako tabulku.
+        </div>
+
+        <h4>Řádek: vytvoření Treeview</h4>
+
+        <pre><code class="language-python">tree = ttk.Treeview(root, columns=("id", "name"), show="headings")</code></pre>
+
+        <p>
+          Tohle je hlavní řádek celé tabulky.
+        </p>
+
+        <h5>Rozbor slovo od slova</h5>
+        <ul class="bullets">
+          <li><code>tree</code> = proměnná, do které se uloží nový objekt tabulky.</li>
+          <li><code>=</code> = přiřazení.</li>
+          <li><code>ttk</code> = část modulu <code>tkinter</code>.</li>
+          <li><code>.</code> = vezmi něco z <code>ttk</code>.</li>
+          <li><code>Treeview</code> = třída pro widget tabulky nebo stromu.</li>
+          <li><code>(...)</code> = vytvoř nový objekt podle této třídy.</li>
+        </ul>
+
+        <p>
+          Celý řádek tedy znamená:
+        </p>
+
+        <div class="note note--info">
+          <strong>Vytvoř nový objekt typu <code>Treeview</code>, ulož ho do proměnné <code>tree</code> a vlož ho do okna <code>root</code>.</strong>
+        </div>
+
+        <h4>Co znamená první argument <code>root</code></h4>
+        <p>
+          První argument určuje rodiče widgetu.
+        </p>
+
+        <p>
+          Tedy:
+          tahle tabulka bude patřit do hlavního okna <code>root</code>.
+        </p>
+
+        <h4>Co znamená <code>columns=("id", "name")</code></h4>
+        <p>
+          Tím se definují názvy interních sloupců tabulky.
+        </p>
+
+        <p>
+          To znamená:
+        </p>
+
+        <ul class="bullets">
+          <li>tabulka bude mít sloupec <code>id</code>,</li>
+          <li>a sloupec <code>name</code>.</li>
+        </ul>
+
+        <p>
+          Tyto názvy zatím nejsou texty, které se zobrazí nahoře.
+          Jsou to vnitřní identifikátory sloupců,
+          podle kterých se na sloupce později odkazuje.
+        </p>
+
+        <p>
+          Jinými slovy:
+        </p>
+
+        <ul class="bullets">
+          <li><code>"id"</code> = jméno prvního sloupce uvnitř programu,</li>
+          <li><code>"name"</code> = jméno druhého sloupce uvnitř programu.</li>
+        </ul>
+
+        <h4>Co znamená <code>show="headings"</code></h4>
+        <p>
+          To je nejčastější místo, které mate.
+        </p>
+
+        <p>
+          Widget <code>Treeview</code> má ve výchozím stavu speciální první stromový sloupec.
+          Ten slouží pro hierarchii, tedy například pro rozbalovací položky.
+        </p>
+
+        <p>
+          Kdyby se <code>Treeview</code> nechal bez této volby,
+          mohl by zobrazovat:
+        </p>
+
+        <ul class="bullets">
+          <li>stromový sloupec vlevo,</li>
+          <li>a vedle něj další definované sloupce.</li>
+        </ul>
+
+        <p>
+          Jenže v našem rezervačním systému žádný strom nechceme.
+          Chceme obyčejnou tabulku.
+        </p>
+
+        <p>
+          A právě proto se používá:
+        </p>
+
+        <pre><code class="language-python">show="headings"</code></pre>
+
+        <p>
+          To znamená:
+        </p>
+
+        <div class="note note--info">
+          <strong>Skryj stromovou část widgetu a zobraz jen záhlaví běžných sloupců.</strong>
+        </div>
+
+        <h5>Praktický význam</h5>
+        <ul class="bullets">
+          <li>nebude se zobrazovat zvláštní první stromový sloupec,</li>
+          <li>zobrazí se jen záhlaví definovaných sloupců,</li>
+          <li>widget bude vypadat jako normální tabulka.</li>
+        </ul>
+
+        <p>
+          Pro rezervační systém je to přesně to, co chceme.
+        </p>
+
+        <h4>Řádky pro záhlaví sloupců</h4>
+
+        <pre><code class="language-python">tree.heading("id", text="ID")
+tree.heading("name", text="Jméno")</code></pre>
+
+        <p>
+          Tady se nastavují texty, které se zobrazí nahoře v záhlaví tabulky.
+        </p>
+
+        <h5>První řádek</h5>
+        <pre><code class="language-python">tree.heading("id", text="ID")</code></pre>
+
+        <ul class="bullets">
+          <li><code>tree</code> = objekt tabulky.</li>
+          <li><code>.</code> = vezmi něco, co patří objektu <code>tree</code>.</li>
+          <li><code>heading</code> = metoda pro nastavení záhlaví sloupce.</li>
+          <li><code>"id"</code> = vnitřní název sloupce.</li>
+          <li><code>text="ID"</code> = text, který se má zobrazit v záhlaví.</li>
+        </ul>
+
+        <p>
+          Tento řádek tedy znamená:
+          sloupci s interním názvem <code>id</code> nastav záhlaví <code>ID</code>.
+        </p>
+
+        <h5>Druhý řádek</h5>
+        <pre><code class="language-python">tree.heading("name", text="Jméno")</code></pre>
+
+        <p>
+          Úplně stejně:
+          sloupci s interním názvem <code>name</code> nastav zobrazovaný text <code>Jméno</code>.
+        </p>
+
+        <div class="note note--info">
+          <strong>Důležitý rozdíl:</strong>
+          <br>
+          <code>"name"</code> je vnitřní název sloupce.
+          <br>
+          <code>"Jméno"</code> je text, který uvidí uživatel v tabulce.
+        </div>
+
+        <h4>Řádek pro zobrazení tabulky</h4>
+
+        <pre><code class="language-python">tree.pack(fill="both", expand=True)</code></pre>
+
+        <p>
+          Tímto řádkem se tabulka vloží do okna a zároveň se nastaví,
+          jak má vyplňovat prostor.
+        </p>
+
+        <h5>Co znamená <code>fill="both"</code></h5>
+        <p>
+          To znamená:
+          roztáhni widget vodorovně i svisle.
+        </p>
+
+        <ul class="bullets">
+          <li><code>x</code> = vodorovně,</li>
+          <li><code>y</code> = svisle,</li>
+          <li><code>both</code> = v obou směrech.</li>
+        </ul>
+
+        <h5>Co znamená <code>expand=True</code></h5>
+        <p>
+          To znamená:
+          když bude v rodičovském prostoru volné místo,
+          dovol widgetu, aby se do něj roztáhl.
+        </p>
+
+        <p>
+          V praxi to znamená,
+          že tabulka nebude malá a přilepená někde uprostřed,
+          ale využije větší část dostupného prostoru.
+        </p>
+
+        <div class="note note--info">
+          <strong>Prakticky:</strong>
+          <br>
+          <code>fill="both"</code> říká, že se widget má natahovat do šířky i výšky.
+          <br>
+          <code>expand=True</code> říká, že k tomu smí využít volné místo.
+        </div>
+
+        <h4>Co zatím v této ukázce chybí</h4>
+        <p>
+          Tato ukázka vytvoří tabulku a její záhlaví,
+          ale ještě do ní nevloží žádná data.
+        </p>
+
+        <p>
+          To znamená:
+        </p>
+
+        <ul class="bullets">
+          <li>tabulka se zobrazí,</li>
+          <li>budou vidět názvy sloupců,</li>
+          <li>ale řádky budou zatím prázdné.</li>
+        </ul>
+
+        <h4>Celý význam ukázky dohromady</h4>
+        <p>
+          Nejprve se vytvoří hlavní okno aplikace.
+          Potom se v něm vytvoří widget <code>Treeview</code>,
+          který má dva sloupce: <code>id</code> a <code>name</code>.
+          Díky <code>show="headings"</code> se widget používá jako obyčejná tabulka.
+          Následně se oběma sloupcům nastaví viditelná záhlaví
+          a tabulka se roztáhne do prostoru okna.
+        </p>
+
+        <h4>Nejkratší shrnutí</h4>
+        <ul class="bullets">
+          <li><code>Treeview</code> je widget pro strom nebo tabulku.</li>
+          <li><code>columns=(...)</code> definuje interní názvy sloupců.</li>
+          <li><code>heading(...)</code> nastavuje text záhlaví sloupce.</li>
+          <li><code>show="headings"</code> skryje stromovou část a nechá zobrazit jen běžná záhlaví.</li>
+          <li><code>pack(fill="both", expand=True)</code> zajistí, že tabulka vyplní prostor.</li>
+        </ul>
+
       </div>
       <div class="modal-footer">
         <button class="btn btn--ghost" type="button" data-modal-close>Zavřít</button>
